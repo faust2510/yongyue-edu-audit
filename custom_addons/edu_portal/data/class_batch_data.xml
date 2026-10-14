@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 「批次（班级）」菜单对教师可见（需求 7 G2）。
+
+         事实（设计稿 §7-Q1 ④ 真机实测）：基座 ACL 早就允许教师 create/write 班级
+         （openeducat_core/security/ir.model.access.csv:8 = 1,1,1,0），挡住教师的
+         只是**菜单**——openeducat_core.menu_op_batch_sub 的 groups 只挂教务处组。
+
+         为什么用 <function> 而不是声明式 <record>（同 data/menu_reachability.xml 的
+         既有理由）：记录键是**别的模块**的 xmlid，报错面更小；本函数按 xmlid 查、
+         查不到就跳过并记日志，升级永不因此失败；值相同不写（幂等）。
+         ⚠ 只改 ir.ui.menu.group_ids（配置类记录），**不碰任何业务表**
+           （设计稿 §5.2 对 data/ 的硬约束）。 -->
+    <function model="ir.ui.menu" name="edu_apply_class_batch_menu_groups"/>
+</odoo>

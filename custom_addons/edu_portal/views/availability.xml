@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 教师自助：我的不可用时间（/my/availability，§10.2） ============
+         入口：/student/timetable 教师视角页头的「我的不可用时间」按钮
+              （继承模板 edu_timetable_availability_btn 见 views/roles.xml）。
+         实体：resource.calendar.leaves（零新模型）；按周重复 = 保存时展开成多条。 -->
+    <template id="edu_availability" name="Edu Teacher Availability">
+        <t t-call="edu_portal.edu_page">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-1">
+                <h4 class="mb-0">
+                    <i class="fa fa-calendar-times-o me-2"/>我的不可用时间
+                </h4>
+                <span class="small text-muted">教务处排课时会参照这里的登记</span>
+            </div>
+
+            <!-- 文案红线（§10.2）：不承诺「填了就一定避开」 -->
+            <div class="alert alert-info py-2 small">
+                <i class="fa fa-info-circle me-1"/>
+                <b>未登记 = 全程可用</b>：这里登记的是「我不能上课」的时段。
+                系统只保证——教务处排课时会<b>拦下</b>与这些时段冲突的课节，
+                并把冲突<b>告诉排课人</b>；<b>不保证</b>「填了就一定避开」：
+                课表排完之后才登记的时段，不会自动把已经排好的课挪走。
+            </div>
+
+            <t t-if="box_msg">
+                <div t-att-class="'alert py-2 small ' + (box_error and 'alert-danger' or 'alert-success')">
+                    <i t-att-class="'fa me-1 ' + (box_error and 'fa-exclamation-triangle' or 'fa-check')"/>
+                    <span t-out="box_msg"/>
+                    <span t-if="box == 'saved' and request.params.get('n')">
+                        （共 <t t-out="request.params.get('n')"/> 条）</span>
+                </div>
+            </t>
+
+            <!-- 两态说明：未接线（S1 未落盘）/ 资源缺失 —— 都不 500、都能只读。
+                 非教师（无 op.faculty 档案）已在控制器更早处 303 回门户，不走本页。 -->
+            <t t-if="not wired">
+                <div class="alert alert-warning py-2">
+                    <i class="fa fa-plug me-1"/><b>教师资源尚未接线，暂时无法登记。</b>
+                    本校教师档案还没有关联资源（resource_id），所以这里只能说明，
+                    不能写入任何数据；排课系统接线完成后本页即可登记。
+                </div>
+            </t>
+            <t t-elif="resource_missing">
+                <div class="alert alert-warning py-2">
+                    <i class="fa fa-user-plus me-1"/><b>你的教师档案还没有关联资源，暂时无法登记。</b>
+                    请联系教务处补建教师资源后刷新本页（存量教师档案需要补建一次）。
+                </div>
+            </t>
+
+            <t t-if="ready">
+                <div class="row g-3">
+                    <!-- ① 单条：某日某时段 -->
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="fa fa-clock-o me-1"/>
+                                    <t t-if="edit_row">修改这一条不可用</t>
+                                    <t t-else="">登记某日某时段</t>
+                                </h6>
+                                <form method="post" action="/my/availability/save">
+                                    <input type="hidden" name="csrf_token"
+                                           t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="mode" value="single"/>
+                                    <input type="hidden" name="leave_id"
+                                           t-att-value="edit_row and edit_row['id'] or ''"/>
+                                    <div class="mb-2">
+                                        <label class="form-label small mb-1" for="av_date">日期</label>
+                                        <input type="date" class="form-control form-control-sm"
+                                               id="av_date" name="date" required="required"
+                                               t-att-value="edit_row and edit_row['day_iso'] or today"/>
+                                    </div>
+                                    <div class="d-flex gap-2 mb-2">
+                                        <div class="flex-fill">
+                                            <label class="form-label small mb-1" for="av_s1">开始</label>
+                                            <input type="time" class="form-control form-control-sm"
+                                                   id="av_s1" name="start_time" required="required"
+                                                   t-att-value="edit_row and edit_row['start'] or '09:00'"/>
+                                        </div>
+                                        <div class="flex-fill">
+                                            <label class="form-label small mb-1" for="av_e1">结束</label>
+                                            <input type="time" class="form-control form-control-sm"
+                                                   id="av_e1" name="end_time" required="required"
+                                                   t-att-value="edit_row and edit_row['end'] or '11:00'"/>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small mb-1" for="av_r1">原因（可留空）</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                               id="av_r1" name="reason" maxlength="120"
+                                               t-att-value="edit_row and edit_row['reason'] or ''"
+                                               placeholder="例：外出会议 / 个人事务"/>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-plus me-1"/>
+                                        <t t-if="edit_row">保存修改</t>
+                                        <t t-else="">登记这一条</t>
+                                    </button>
+                                    <a t-if="edit_row" href="/my/availability"
+                                       class="btn btn-link btn-sm p-0 ms-2">取消修改</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ② 按周重复：每周几 + 起止时刻 + 截止日期 ⇒ 保存时展开成多条 -->
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="fa fa-repeat me-1"/>按周重复（每周固定时段）
+                                </h6>
+                                <form method="post" action="/my/availability/save">
+                                    <input type="hidden" name="csrf_token"
+                                           t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="mode" value="weekly"/>
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-6">
+                                            <label class="form-label small mb-1" for="av_wd">星期</label>
+                                            <select class="form-select form-select-sm"
+                                                    id="av_wd" name="weekday" required="required">
+                                                <option t-foreach="weekdays" t-as="wd"
+                                                        t-att-value="wd[0]" t-out="wd[1]"/>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small mb-1" for="av_until">重复到（含当天）</label>
+                                            <input type="date" class="form-control form-control-sm"
+                                                   id="av_until" name="until" required="required"
+                                                   t-att-value="today" t-att-min="today"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small mb-1" for="av_s2">开始</label>
+                                            <input type="time" class="form-control form-control-sm"
+                                                   id="av_s2" name="start_time" required="required"
+                                                   value="14:00"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small mb-1" for="av_e2">结束</label>
+                                            <input type="time" class="form-control form-control-sm"
+                                                   id="av_e2" name="end_time" required="required"
+                                                   value="16:00"/>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small mb-1" for="av_r2">原因（可留空）</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                               id="av_r2" name="reason" maxlength="120"
+                                               placeholder="例：固定教研活动"/>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-repeat me-1"/>生成每周登记
+                                    </button>
+                                    <div class="small text-muted mt-1">
+                                        保存后逐条生成（最多 200 条），可以整批撤销。
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ③ 按周批次：整批撤销 -->
+                <t t-if="batches_n">
+                    <h6 class="mt-4 mb-2">
+                        <i class="fa fa-layer-group me-1"/>按周重复的批次（<t t-out="batches_n"/> 批）
+                    </h6>
+                    <div class="row g-2">
+                        <t t-foreach="batches" t-as="b">
+                            <div class="col-md-6">
+                                <div class="border rounded-3 p-2 d-flex justify-content-between align-items-center">
+                                    <div class="small">
+                                        <div class="fw-semibold" t-out="b['reason']"/>
+                                        <div class="text-muted">
+                                            共 <t t-out="b['count']"/> 条 ·
+                                            <t t-out="b['first']"/> 起
+                                            <span class="badge text-bg-secondary ms-1"
+                                                  t-if="b['past']">已过期</span>
+                                        </div>
+                                    </div>
+                                    <form method="post" action="/my/availability/delete">
+                                        <input type="hidden" name="csrf_token"
+                                               t-att-value="request.csrf_token()"/>
+                                        <input type="hidden" name="batch" t-att-value="b['code']"/>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fa fa-trash-o me-1"/>整批撤销
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+
+                <!-- ④ 全部登记（单条可改 / 可删） -->
+                <h6 class="mt-4 mb-2">
+                    <i class="fa fa-list-ul me-1"/>已登记的时段
+                    （<t t-out="rows_n"/> 条，其中未来 <t t-out="upcoming_n"/> 条）
+                </h6>
+                <div class="table-responsive" t-if="rows_n">
+                    <table class="table table-sm align-middle">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>时段</th>
+                                <th>原因</th>
+                                <th>来源</th>
+                                <th class="text-end">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="rows" t-as="r">
+                                <tr t-att-class="r['past'] and 'text-muted' or ''">
+                                    <td t-out="r['day']"/>
+                                    <td t-out="r['span']"/>
+                                    <td t-out="r['reason']"/>
+                                    <td>
+                                        <span class="badge text-bg-light" t-if="r['batch']">按周批次</span>
+                                        <span class="badge text-bg-light" t-else="">单条</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <a class="btn btn-sm btn-link p-0 me-2"
+                                           t-att-href="'/my/availability?edit=%d' % r['id']">修改</a>
+                                        <form method="post" action="/my/availability/delete"
+                                              class="d-inline">
+                                            <input type="hidden" name="csrf_token"
+                                                   t-att-value="request.csrf_token()"/>
+                                            <input type="hidden" name="leave_id"
+                                                   t-att-value="r['id']"/>
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-link text-danger p-0">删除</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="oe-empty" t-else="">
+                    <i class="fa fa-calendar-check-o"/>
+                    <p>还没有登记任何不可用时段；未登记 = 全程可用。</p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

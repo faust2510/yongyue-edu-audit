@@ -1,0 +1,296 @@
+{
+ "when": "2026-09-29T21:22:51.285128",
+ "targets": [
+  "assess"
+ ],
+ "items": [
+  {
+   "name": "基线：取样身份真的被扫到 —— backoffice /assess",
+   "pass": true,
+   "detail": "进入门禁扫描集并成功渲染"
+  },
+  {
+   "name": "基线：取样身份真的被扫到 —— backoffice /assess/review",
+   "pass": true,
+   "detail": "进入门禁扫描集并成功渲染"
+  },
+  {
+   "name": "基线：取样身份真的被扫到 —— faculty /assess",
+   "pass": true,
+   "detail": "进入门禁扫描集并成功渲染"
+  },
+  {
+   "name": "基线：取样身份真的被扫到 —— faculty /assess/review",
+   "pass": true,
+   "detail": "进入门禁扫描集并成功渲染"
+  },
+  {
+   "name": "基线：取样身份真的被扫到 —— student /assess",
+   "pass": true,
+   "detail": "进入门禁扫描集并成功渲染"
+  },
+  {
+   "name": "assess: 注入前所有取样身份都能打开本页（非 303 弹走）",
+   "pass": true,
+   "detail": "{\"backoffice\": {\"statuses\": [200], \"marker_seen\": 0, \"n\": 12}, \"faculty\": {\"statuses\": [200], \"marker_seen\": 0, \"n\": 12}, \"student\": {\"statuses\": [200], \"marker_seen\": 0, \"n\": 12}}"
+  },
+  {
+   "name": "assess: 临时继承视图已建（ir.ui.view id=3746，无 xmlid，测完即删）",
+   "pass": true,
+   "detail": "inherit edu_assess.edu_assess_home / xpath //div[@t-if='can_grade']"
+  },
+  {
+   "name": "assess: 注入的标记元素已稳定落在**预期身份**上（backoffice/faculty）",
+   "pass": true,
+   "detail": "{\"backoffice\": {\"want_marker\": true, \"ok\": true, \"last\": {\"rounds\": 3, \"n\": 12, \"sample\": [[true, 200], [true, 200]]}, \"secs\": 3.8}, \"faculty\": {\"want_marker\": true, \"ok\": true, \"last\": {\"rounds\": 3, \"n\": 12, \"sample\": [[true, 200], [true, 200]]}, \"secs\": 3.2}}"
+  },
+  {
+   "name": "assess: 对照身份（student）页面上**始终没有**该元素 —— 证明它本就只在别的身份上渲染",
+   "pass": true,
+   "detail": "{\"student\": {\"want_marker\": false, \"ok\": true, \"last\": {\"rounds\": 3, \"n\": 12, \"sample\": [[false, 200], [false, 200]]}, \"secs\": 2.9}}"
+  },
+  {
+   "name": "assess: 注入后门禁**变红**（exit 非 0）",
+   "pass": true,
+   "detail": "exit=2；新规则逐页={\"backoffice /assess\": [\"button-name\", \"image-alt\"], \"faculty /assess\": [\"button-name\", \"image-alt\"]}"
+  },
+  {
+   "name": "assess: 变红的原因是**本页出现了注入前没有的 axe 规则**",
+   "pass": true,
+   "detail": "{\"backoffice /assess\": [\"button-name\", \"image-alt\"], \"faculty /assess\": [\"button-name\", \"image-alt\"]}"
+  },
+  {
+   "name": "assess: 变红只发生在预期身份上（backoffice/faculty）",
+   "pass": true,
+   "detail": "实际变红身份=['backoffice', 'faculty']｜预期=['backoffice', 'faculty']"
+  },
+  {
+   "name": "assess: 对照身份（student）**没有**新规则 —— 证明该元素本就只在另外的身份上渲染",
+   "pass": true,
+   "detail": "{\"student\": []}"
+  },
+  {
+   "name": "assess: 临时视图已删且残留 = 0",
+   "pass": true,
+   "detail": "残留=0"
+  },
+  {
+   "name": "assess: 复原后所有取样身份的页面上都不再有过该元素",
+   "pass": true,
+   "detail": "{\"backoffice\": {\"ok\": true, \"last\": {\"rounds\": 3, \"n\": 12, \"sample\": [[false, 200], [false, 200]]}, \"secs\": 3.8}, \"faculty\": {\"ok\": true, \"last\": {\"rounds\": 3, \"n\": 12, \"sample\": [[false, 200], [false, 200]]}, \"secs\": 3.2}, \"student\": {\"ok\": true, \"last\": {\"rounds\": 3, \"n\": 12, \"sample\": [[false, 200], [false, 200]]}, \"secs\": 2.9}}"
+  },
+  {
+   "name": "assess: 复原后门禁**回绿**（exit 0 且逐页规则与基线逐字相同）",
+   "pass": true,
+   "detail": "exit=0｜与基线相同=True"
+  }
+ ],
+ "readings": {
+  "baseline_exit": 0,
+  "baseline_pages": {
+   "student /assess": [],
+   "faculty /assess/review": [],
+   "backoffice /assess": [],
+   "faculty /assess": [],
+   "backoffice /assess/review": []
+  },
+  "assess": {
+   "baseline_rule_sets": {
+    "student /assess": [],
+    "faculty /assess/review": [],
+    "backoffice /assess": [],
+    "faculty /assess": [],
+    "backoffice /assess/review": []
+   },
+   "pre_page_probe": {
+    "backoffice": {
+     "statuses": [
+      200
+     ],
+     "marker_seen": 0,
+     "n": 12
+    },
+    "faculty": {
+     "statuses": [
+      200
+     ],
+     "marker_seen": 0,
+     "n": 12
+    },
+    "student": {
+     "statuses": [
+      200
+     ],
+     "marker_seen": 0,
+     "n": 12
+    }
+   },
+   "settle_after_inject": {
+    "backoffice": {
+     "want_marker": true,
+     "ok": true,
+     "last": {
+      "rounds": 3,
+      "n": 12,
+      "sample": [
+       [
+        true,
+        200
+       ],
+       [
+        true,
+        200
+       ]
+      ]
+     },
+     "secs": 3.8
+    },
+    "faculty": {
+     "want_marker": true,
+     "ok": true,
+     "last": {
+      "rounds": 3,
+      "n": 12,
+      "sample": [
+       [
+        true,
+        200
+       ],
+       [
+        true,
+        200
+       ]
+      ]
+     },
+     "secs": 3.2
+    },
+    "student": {
+     "want_marker": false,
+     "ok": true,
+     "last": {
+      "rounds": 3,
+      "n": 12,
+      "sample": [
+       [
+        false,
+        200
+       ],
+       [
+        false,
+        200
+       ]
+      ]
+     },
+     "secs": 2.9
+    }
+   },
+   "injected_exit": 2,
+   "injected_rule_sets": {
+    "student /assess": [],
+    "faculty /assess/review": [],
+    "backoffice /assess": [
+     "button-name",
+     "image-alt"
+    ],
+    "faculty /assess": [
+     "button-name",
+     "image-alt"
+    ],
+    "backoffice /assess/review": []
+   },
+   "new_rules_per_page": {
+    "student /assess": [],
+    "faculty /assess/review": [],
+    "backoffice /assess": [
+     "button-name",
+     "image-alt"
+    ],
+    "faculty /assess": [
+     "button-name",
+     "image-alt"
+    ],
+    "backoffice /assess/review": []
+   },
+   "injected_rules_hit": [
+    "button-name",
+    "image-alt"
+   ],
+   "red_roles": [
+    "backoffice",
+    "faculty"
+   ],
+   "leftover_after_restore": 0,
+   "restore_raw": [
+    "BEFORE_UNLINK 1",
+    "AFTER_UNLINK 0",
+    "TOTAL_MARK_LEFT 0"
+   ],
+   "settle_after_restore": {
+    "backoffice": {
+     "ok": true,
+     "last": {
+      "rounds": 3,
+      "n": 12,
+      "sample": [
+       [
+        false,
+        200
+       ],
+       [
+        false,
+        200
+       ]
+      ]
+     },
+     "secs": 3.8
+    },
+    "faculty": {
+     "ok": true,
+     "last": {
+      "rounds": 3,
+      "n": 12,
+      "sample": [
+       [
+        false,
+        200
+       ],
+       [
+        false,
+        200
+       ]
+      ]
+     },
+     "secs": 3.2
+    },
+    "student": {
+     "ok": true,
+     "last": {
+      "rounds": 3,
+      "n": 12,
+      "sample": [
+       [
+        false,
+        200
+       ],
+       [
+        false,
+        200
+       ]
+      ]
+     },
+     "secs": 2.9
+    }
+   },
+   "restored_exit": 0,
+   "restored_rule_sets": {
+    "student /assess": [],
+    "faculty /assess/review": [],
+    "backoffice /assess": [],
+    "faculty /assess": [],
+    "backoffice /assess/review": []
+   }
+  }
+ },
+ "pass": 16,
+ "fail": 0
+}

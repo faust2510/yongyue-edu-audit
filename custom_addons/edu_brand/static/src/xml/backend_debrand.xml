@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- 去 Odoo 化（批次1 v3）：后端 OWL 模板里写死的 Odoo 品牌与 odoo.com 外链。
+         上游位置（本机镜像实测）：
+         - web/static/src/webclient/settings_form_view/widgets/res_config_edition.xml:6/14
+         - web/static/src/webclient/settings_form_view/fields/upgrade_dialog.xml:4/15
+         - web/static/src/core/install_scoped_app/install_scoped_app.xml:24 -->
+
+    <!-- 设置页页头「Odoo <版本> (Community Edition)」与「Copyright © 2004 Odoo S.A.」 -->
+    <t t-inherit="res_config_edition" t-inherit-mode="extension">
+        <xpath expr="//h3" position="replace">
+            <h3 class="px-0">永约学坊 · 教务系统</h3>
+        </xpath>
+        <xpath expr="//small" position="replace">
+            <small>© 永约学坊 · Covenant Reformed Seminary</small>
+        </xpath>
+    </t>
+
+    <!-- 企业版升级弹窗（正文与「And more」都指向 odoo.com） -->
+    <t t-inherit="web.UpgradeDialog" t-inherit-mode="extension">
+        <xpath expr="//Dialog" position="replace">
+            <Dialog title.translate="功能扩展">
+                <p class="mb-3">当前版本已包含教务全流程功能。如需新增模块，请联系学坊管理员在本地应用列表中安装。</p>
+                <t t-set-slot="footer">
+                    <button class="btn btn-primary" t-on-click="this.props.close">知道了</button>
+                </t>
+            </Dialog>
+        </xpath>
+    </t>
+
+    <!-- 「安装到桌面」引导弹窗里的 Odoo S.A. 外链 -->
+    <t t-inherit="web.InstallScopedApp" t-inherit-mode="extension">
+        <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace">
+            <span class="text-muted">永约学坊</span>
+        </xpath>
+    </t>
+
+    <!-- ============ 后端无障碍：核心 OWL 模板渲染出的既有缺陷（2026-09-29，队长裁定 P1 批）============
+         只做**属性级**改动（加 aria-hidden / 删一个非法 ARIA 属性 / 给图标按钮补可访问名）：
+         不改结构、不改行为、不动核心源码。判据与读数 =
+         python3 scripts/check_accessibility.py（后台页「核心清单」逐条打印 + 出现**新规则**即判红）。
+         为什么用 Owl 模板继承而不是 DOM 补丁：本文件已有 3 处同型继承（见上），机制现成；
+         Owl 的 XPath 支持 hasclass()，且 position="attributes" 下**空的 attribute 元素 = 删属性**
+         （web/static/src/core/template_inheritance.js 的 modifyAttributes：无 add/remove 且无内容 ⇒ removeAttribute）。
+         ⚠ 每个 xpath 都必须**恰好命中一个**节点 —— 命中不到会抛错、让整个资产包挂掉（同文件 getElement）。 -->
+
+    <!-- 1) role-img-alt（88 条里约 86 条）：装饰性图标不该占一个 role="img" 的名字。实测两处源头：
+          · web/static/src/search/search_bar/search_bar.xml 的 i.o_searchview_icon —— 父 button 已有 aria-label/title；
+          · mail/static/src/core/web/activity_button.xml 的 i.fa-clock-o —— 父 a/button 已有 aria-label="显示活动"。
+          父元素已有可访问名 ⇒ 正确解是**隐藏**装饰图标，而不是给它硬编一个名字（那是语义噪声）。
+          同一块顺手做 2) aria-allowed-attr：role="search" 上不允许 aria-autocomplete（核心写死的），只删这一个属性。
+          （同页 role="searchbox" 输入框上那条 aria-selected 是**运行时**由导航服务
+            web/static/src/core/navigation/navigation.js 写上去的，不在本批范围。） -->
+    <t t-inherit="web.SearchBar" t-inherit-mode="extension">
+        <xpath expr="//i[hasclass('o_searchview_icon')]" position="attributes">
+            <attribute name="aria-hidden">true</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('o_searchview')]" position="attributes">
+            <attribute name="aria-autocomplete"/>
+        </xpath>
+    </t>
+
+    <!-- 1 续）活动时钟图标在**列表行**里走的是另一个模板：mail.ListActivityButton
+          （mail/static/src/views/web/fields/list_activity/list_activity.xml）把 ActivityButton 的
+          a 整块 replace 成了 button、自带一份 i ⇒ 必须单独继承一次，否则列表那 80 条不受影响。 -->
+    <t t-inherit="mail.ActivityButton" t-inherit-mode="extension">
+        <xpath expr="//i" position="attributes">
+            <attribute name="aria-hidden">true</attribute>
+        </xpath>
+    </t>
+    <t t-inherit="mail.ListActivityButton" t-inherit-mode="extension">
+        <xpath expr="//i" position="attributes">
+            <attribute name="aria-hidden">true</attribute>
+        </xpath>
+    </t>
+
+    <!-- 3) button-name：列表右上「可选列」齿轮按钮只画了个图标、没有任何可访问名。
+          源头：web/static/src/views/list/list_renderer.xml 的 .o_optional_columns_dropdown 内的 button
+          （核心只给它补了 aria-expanded）。文案用中文，与后台其余按钮一致（英文会撞 check_english 门禁）。 -->
+    <t t-inherit="web.ListRenderer" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_optional_columns_dropdown')]/Dropdown/button" position="attributes">
+            <attribute name="aria-label">可选列</attribute>
+            <attribute name="title">可选列</attribute>
+        </xpath>
+    </t>
+
+    <!-- ============ 4) label：列表行/表头选择框的**可访问名**（2026-09-29，队长批准）============
+         真实缺陷面 = **81 条/页**（不是 axe 报的 19）。19 是读数口径：axe 只对"首屏可见行"判违规
+         —— 同一页把视口从 900px 放到 2700px，报出条数 19 → 63，命中集合**永远是 DOM 顺序的前缀**；
+         而**浏览器自己的 AX 树**（CDP Accessibility.getFullAXTree，独立于 axe）在同一页数出
+         81 个 checkbox、**81 个可访问名全空**。判据以 AX 树为准：读屏用户在列表页分不出选的是哪一行。
+         源头（读核心模板得到）：web.ListRenderer 的两处 CheckBox 用法**没给 slot 内容**，而
+         web/static/src/core/checkbox/checkbox.xml 把 slot 内容渲染进 label 的 for 目标里，
+         ⇒ 生成的是**空 label**，输入框因此没有名字。
+         处置：只往那两处用法里补一段 .visually-hidden 文字（slot → label → 名字），
+         **不碰 web.CheckBox 本体**（全后端共用组件，爆炸半径 = 所有 checkbox，已论证不可接受）。
+         验证：内存补丁实验 axe 19 → 0、AX 树 81 无名 → 0 无名；落地后按行对拍几何 + PNG byte 对拍。
+         ⚠ **静默不生效的边界（本仓最忌的那类失败，故留痕给下一个人）**：若核心将来整块 replace 掉
+           th/td，或某个模块的列表视图（例如 hr_holidays / account 的 ListRenderer 派生模板）
+           自己 replace 了选择框单元格，本修法对**那一类视图**不生效，而且**不会报错** ——
+           因为 xpath 在基类上命中得到、照常执行。**怎么查**：跑一次
+           python3 tests/smoke/a11y_ax_tree_probe.py（用浏览器 AX 树数"没有可访问名的 checkbox"，
+           不依赖 axe）；或跑 python3 scripts/check_accessibility.py 看后台页核心清单里 label 是否为 0。
+         另注：本节两个 xpath 必须各命中 1 个节点 —— 命中不到会抛错、让整个资产包挂掉
+           （web/static/src/core/template_inheritance.js 的 getElement）。 -->
+    <t t-inherit="web.ListRenderer" t-inherit-mode="extension">
+        <xpath expr="//th[hasclass('o_list_record_selector')]/CheckBox" position="inside">
+            <span class="visually-hidden">全选本页</span>
+        </xpath>
+    </t>
+
+    <!-- ⚠ 行选择框**不在** web.ListRenderer 里，而在 web.ListRenderer.RecordRow：
+         核心把列表拆成了 4 条模板（ListRenderer / Rows / GroupRow / RecordRow，见
+         web/static/src/views/list/list_renderer.xml）。我第一次就是漏了这一点 ⇒
+         xpath 命中不到 ⇒ Owl 抛「cannot be located in element tree」⇒ 整个列表页报错弹窗
+         （实测：/odoo/contacts 白屏 + OwlError，2026-09-29）。**失败是响的**（不是静默失效），
+         这正是本仓要的失败形态 —— 但这提醒下一个人：改核心 Owl 模板前先 grep t-name，
+         确认目标节点落在**哪一条**模板里。 -->
+    <t t-inherit="web.ListRenderer.RecordRow" t-inherit-mode="extension">
+        <xpath expr="//td[hasclass('o_list_record_selector')]/CheckBox" position="inside">
+            <span class="visually-hidden">选择本行</span>
+        </xpath>
+    </t>
+
+    <!-- ============ 5) 扩覆盖扫出来的核心渲染违规（2026-09-29，队长批准；仍是属性级）============
+         背景：无障碍门禁的后台样本从 2 页扩到 7 页（列表 / 看板 / 表单 / 配置四类形态）后，
+         新页面立刻扫出 16 条**从未被人看见过**的违规 —— 全部由 Odoo 核心模板渲染。
+         证据（逐条元素定位与源码依据）见 tests/smoke/UX_V3_GATE.md §12；
+         读数工具 = python3 tests/smoke/a11y_backend_pages_probe.py（逐页、逐条、带元素 HTML）。
+
+         三条纪律同 1)~4)：只做**属性级**改动、不改结构、不改行为、每个 xpath 必须**恰好命中 1 个**节点
+         （命不中会抛错并让整个资产包挂掉，见文件顶部的告诫）。 -->
+
+    <!-- 5.1) 会话消息（chatter）头像：image-alt x5（critical）+ aria-prohibited-attr x5（serious）
+          源码依据：
+            · mail/static/src/core/web/message_patch.xml 给 .o-mail-Message-avatarContainer 加了
+              t-att-aria-label="getAuthorText()"，**但没给 role** ⇒ 普通 div 上挂 aria-label 是禁止的；
+            · mail/static/src/core/common/message.xml 的头像 <img class="o-mail-Message-avatar"> **没有 alt**。
+          处置：容器**本来就是可点的**（同一个 patch 给它挂了 t-on-click），所以给它 role="button"
+          （与真实交互一致，且 aria-label 在 button 上是合法的）⇒ 名字由容器承担；
+          容器里的头像退化为装饰 ⇒ aria-hidden（比给 img 硬编一个和容器重复的名字更干净）。
+          ⚠ 只覆盖 mail.Message 这一条模板：chatter/scheduled_message.xml 的同名容器不在本批。 -->
+    <t t-inherit="mail.Message" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o-mail-Message-avatarContainer')]" position="attributes">
+            <attribute name="role">button</attribute>
+        </xpath>
+        <xpath expr="//img[hasclass('o-mail-Message-avatar')]" position="attributes">
+            <attribute name="aria-hidden">true</attribute>
+        </xpath>
+        <!-- 5.2) list x4（serious）：同一条 patch 把追踪行的 <li> 改成 role="group"，
+             <ul> 的直接子元素就不是 listitem 了 ⇒ axe 报 list。
+             <li> 在 <ul> 里**本来就是** listitem，那个 role 是画蛇添足 ⇒ 删掉它。
+             注：Owl 继承里**空的 attribute 元素 = 删属性**（见文件顶部注释，机制在
+             web/static/src/core/template_inheritance.js 的 modifyAttributes）。 -->
+        <xpath expr="//li[hasclass('o-mail-Message-tracking')]" position="attributes">
+            <attribute name="role"/>
+        </xpath>
+    </t>
+
+    <!-- 5.3) 搜索栏筛选胶囊：aria-roles x1（critical）+ aria-command-name x1（serious）
+          源码依据 web/static/src/search/search_bar/search_bar.xml：
+            · <i t-if="facet.icon" class="small fa-fw" t-att-class="facet.icon" role="image"/>
+              —— role="image" **不是合法 ARIA role**（合法的叫 img）；
+            · 同模板的 .o_searchview_facet_label 是 t-att-role="facet.domain ? 'button' : 'img'"，
+              而 facet.icon 存在时它的**唯一内容**就是那个没有名字的 <i> ⇒ role=button 却没有可访问名。
+          处置：删掉非法的 role（图标本就是装饰）；给胶囊标签挂 aria-label = facet.title，
+          这样 button / img 两种形态都拿得到名字。 -->
+    <!-- 5.4) 列表行内「只有图标、没有文字」的按钮没有任何可访问名（button-name x17/页，2026-09-29）
+          源码依据 web/static/src/views/view_button/view_button.xml（web.views.ViewButton）：
+            · 根节点的 t-att="props.attrs" 只展开**核心解析后保留的** arch 属性 —— 实测在视图 arch 里写
+              aria-label **落不到 DOM 上**（该属性在进 props.attrs 之前就被丢掉了）；
+            · 图标存在时文字槽 t-if="props.string" 不渲染 ⇒ 元素没有文字；
+            · arch 的 title 被 t-att-data-tooltip 送进 data-tooltip（Bootstrap 气泡），**不是可访问名**。
+          ⇒ 读屏只念「按钮」。修法（**一处修一片**，不动具体视图）：**仅在没有任何可见文字时**，
+          用 title 兜一个 aria-label 给按钮。有 string 的按钮**一个都不碰**（避免覆盖可见文字名，
+          撞 WCAG 2.5.3 Label in Name）。
+          ⚠ 这与「不碰 web.CheckBox 本体」的取舍不冲突：那条会改**所有** checkbox 的 label 内容（结构级）；
+          本处只在**可访问名为空**时补一个，属纯增量，且判据是「props.string 为空」。 -->
+    <t t-inherit="web.views.ViewButton" t-inherit-mode="extension">
+        <xpath expr="//t[@t-tag='props.tag']" position="attributes">
+            <attribute name="t-att-aria-label">props.string ? undefined : (props.title || undefined)</attribute>
+        </xpath>
+    </t>
+
+    <t t-inherit="web.SearchBar.Facets" t-inherit-mode="extension">
+        <xpath expr="//i[@role='image']" position="attributes">
+            <attribute name="role"/>
+        </xpath>
+        <xpath expr="//div[hasclass('o_searchview_facet_label')]" position="attributes">
+            <!-- ⚠ 实测（2026-09-29）：这个胶囊的 facet.title 在**带图标的筛选胶囊**上是 undefined，
+                 直接写 t-att-aria-label="facet.title" 会渲染出「没有 aria-label」⇒ 违规照旧。
+                 所以按 role 分岔：只有真给 role=button 时才挂名字（role=img 那一支本来就有 <small> 文本当名字），
+                 名字优先用 facet.title，取不到就退到一个说人话的中文兜底。 -->
+            <attribute name="t-att-aria-label">facet.domain ? (facet.title || '编辑筛选条件') : undefined</attribute>
+        </xpath>
+    </t>
+</templates>

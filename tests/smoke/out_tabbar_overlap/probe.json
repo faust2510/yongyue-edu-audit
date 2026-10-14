@@ -1,0 +1,348 @@
+{
+  "login": "ovl-0924153026@overlap.local",
+  "shots": [
+    "probe_before.png"
+  ],
+  "probe": {
+    "tabbar": {
+      "sel": "nav#b11-tabbar.b11-tabbar.d-lg-none",
+      "chain": [
+        "nav#b11-tabbar.b11-tabbar.d-lg-none",
+        "div#wrap.o_portal_wrap.b11-shell",
+        "main",
+        "div#wrapwrap.o_portal",
+        "body",
+        "html"
+      ],
+      "zIndex": "1040",
+      "position": "fixed",
+      "display": "grid",
+      "visibility": "visible",
+      "pointerEvents": "auto",
+      "rect": {
+        "x": 0,
+        "y": 788,
+        "w": 390,
+        "h": 56,
+        "bottom": 844
+      }
+    },
+    "viewport": {
+      "w": 390,
+      "h": 844
+    },
+    "livechatRoots": [
+      {
+        "sel": "div#o-livechat-root-1790235030064.8252.o-livechat-root.o-livechat-LivechatButton-isVisible",
+        "info": {
+          "sel": "div#o-livechat-root-1790235030064.8252.o-livechat-root.o-livechat-LivechatButton-isVisible",
+          "chain": [
+            "div#o-livechat-root-1790235030064.8252.o-livechat-root.o-livechat-LivechatButton-isVisible",
+            "body",
+            "html"
+          ],
+          "zIndex": "2147483647",
+          "position": "relative",
+          "display": "block",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 0,
+            "y": 5008,
+            "w": 390,
+            "h": 0,
+            "bottom": 5008
+          }
+        }
+      }
+    ],
+    "rows": [
+      {
+        "tab": "/my/home",
+        "label": "首页",
+        "center": {
+          "x": 39,
+          "y": 817
+        },
+        "tabInfo": {
+          "sel": "a.b11-tab.active",
+          "chain": [
+            "a.b11-tab.active",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 0,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "hitSel": "a.b11-tab.active",
+        "hitInfo": {
+          "sel": "a.b11-tab.active",
+          "chain": [
+            "a.b11-tab.active",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 0,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "clickable": true
+      },
+      {
+        "tab": "/my/calendar",
+        "label": "校历",
+        "center": {
+          "x": 117,
+          "y": 817
+        },
+        "tabInfo": {
+          "sel": "a.b11-tab",
+          "chain": [
+            "a.b11-tab",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 78,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "hitSel": "a.b11-tab",
+        "hitInfo": {
+          "sel": "a.b11-tab",
+          "chain": [
+            "a.b11-tab",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 78,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "clickable": true
+      },
+      {
+        "tab": "/my/messages",
+        "label": "消息",
+        "center": {
+          "x": 195,
+          "y": 817
+        },
+        "tabInfo": {
+          "sel": "a.b11-tab",
+          "chain": [
+            "a.b11-tab",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 156,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "hitSel": "a.b11-tab",
+        "hitInfo": {
+          "sel": "a.b11-tab",
+          "chain": [
+            "a.b11-tab",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 156,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "clickable": true
+      },
+      {
+        "tab": "/my/contacts",
+        "label": "通讯录",
+        "center": {
+          "x": 273,
+          "y": 817
+        },
+        "tabInfo": {
+          "sel": "a.b11-tab",
+          "chain": [
+            "a.b11-tab",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 234,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "hitSel": "a.b11-tab",
+        "hitInfo": {
+          "sel": "a.b11-tab",
+          "chain": [
+            "a.b11-tab",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 234,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "clickable": true
+      },
+      {
+        "tab": "/my/password",
+        "label": "修改密码",
+        "center": {
+          "x": 351,
+          "y": 817
+        },
+        "tabInfo": {
+          "sel": "a.b11-tab",
+          "chain": [
+            "a.b11-tab",
+            "nav#b11-tabbar.b11-tabbar.d-lg-none",
+            "div#wrap.o_portal_wrap.b11-shell",
+            "main",
+            "div#wrapwrap.o_portal",
+            "body",
+            "html"
+          ],
+          "zIndex": "auto",
+          "position": "static",
+          "display": "flex",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 312,
+            "y": 789,
+            "w": 78,
+            "h": 55,
+            "bottom": 844
+          }
+        },
+        "hitSel": "div#o-livechat-root-1790235030064.8252.o-livechat-root.o-livechat-LivechatButton-isVisible",
+        "hitInfo": {
+          "sel": "div#o-livechat-root-1790235030064.8252.o-livechat-root.o-livechat-LivechatButton-isVisible",
+          "chain": [
+            "div#o-livechat-root-1790235030064.8252.o-livechat-root.o-livechat-LivechatButton-isVisible",
+            "body",
+            "html"
+          ],
+          "zIndex": "2147483647",
+          "position": "relative",
+          "display": "block",
+          "visibility": "visible",
+          "pointerEvents": "auto",
+          "rect": {
+            "x": 0,
+            "y": 5008,
+            "w": 390,
+            "h": 0,
+            "bottom": 5008
+          }
+        },
+        "clickable": false
+      }
+    ]
+  }
+}

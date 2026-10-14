@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 教师不可用时间（G4 §10.2 教务代填入口）
+         数据实体 = Odoo 原生 resource.calendar.leaves（不新建模型、不新建表）：
+         一行 = 某位教师「这段时间不可用」，按 resource_id 挂到教师资源上。
+         判定侧只用**个人例外**（资源非空的 leave），公共假期走「停课管理」，
+         常规工时（resource.calendar 的上班时段）**不接、不展示、不参与判定**。 -->
+    <record id="view_edu_teacher_leave_list" model="ir.ui.view">
+        <field name="name">resource.calendar.leaves.list.edu_teacher</field>
+        <field name="model">resource.calendar.leaves</field>
+        <field name="arch" type="xml">
+            <list string="教师不可用时间" default_order="date_from desc">
+                <field name="resource_id"/>
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="time_type"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_teacher_leave_form" model="ir.ui.view">
+        <field name="name">resource.calendar.leaves.form.edu_teacher</field>
+        <field name="model">resource.calendar.leaves</field>
+        <field name="arch" type="xml">
+            <form string="教师不可用时间">
+                <sheet>
+                    <group name="leave_form">
+                        <group name="leave_resource">
+                            <field name="resource_id"
+                                   placeholder="选教师（资源）"/>
+                            <field name="name" placeholder="如：出差 / 病假 / 进修"/>
+                        </group>
+                        <group name="leave_window">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="time_type"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <div class="text-muted small">
+                        只登记「这段时间不能上课」的例外；正常上班时间不用登记。
+                        系统排课时会避开这些时段，未登记的教师一律按「可用」处理。
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_teacher_leave_calendar" model="ir.ui.view">
+        <field name="name">resource.calendar.leaves.calendar.edu_teacher</field>
+        <field name="model">resource.calendar.leaves</field>
+        <field name="arch" type="xml">
+            <calendar string="教师不可用时间" date_start="date_from" date_stop="date_to"
+                      mode="month">
+                <field name="name"/>
+                <field name="resource_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_edu_teacher_leave" model="ir.actions.act_window">
+        <field name="name">教师不可用时间</field>
+        <field name="res_model">resource.calendar.leaves</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">登记第一位教师的不可用时间</p>
+            <p>
+                教师说「哪天哪几节不能上」时登记在这里：批量排课预览会把命中的格子标成
+                「教师不可用」并自动排除；落库时默认硬拦，只有教务处勾选「忽略教师不可用」
+                才强排（每次都会写进审计日志）。
+                未登记的教师一律按「可用」处理——所以没登记不等于排得准。
+            </p>
+        </field>
+    </record>
+
+    <!-- 挂既有「排课管理」根（openeducat_timetable.menu_op_timetable_root），
+         不新增菜单根、不动 views/menu.xml（那是 S2 的地盘）。 -->
+    <menuitem id="menu_edu_teacher_leave"
+              name="教师不可用时间"
+              parent="openeducat_timetable.menu_op_timetable_root"
+              action="action_edu_teacher_leave"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"
+              sequence="21"/>
+</odoo>

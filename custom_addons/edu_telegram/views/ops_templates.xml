@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ops_message" name="ops message">
+        <t t-call="web.frontend_layout">
+            <div id="wrap" class="container mt-4" style="max-width:640px">
+                <div class="alert alert-info mt-4" t-out="msg"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="subject_reg_page" name="选课申请">
+        <t t-call="web.frontend_layout">
+            <div id="wrap" class="container mt-4" style="max-width:720px">
+                <h3>📚 选课注册申请 <span t-out="reg.name"/></h3>
+                <p>状态：
+                    <t t-out="dict(reg._fields['state'].selection)[reg.state]"/>
+                </p>
+                <t t-if="saved"><div class="alert alert-success">已保存并提交审批。</div></t>
+                <h5>必修科目</h5>
+                <ul><li t-foreach="compulsory" t-as="s" t-out="s.name"/></ul>
+                <form action="/my/subject-reg/save" method="post">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <h5>选修科目</h5>
+                    <t t-foreach="electives" t-as="s">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox"
+                                   name="elective_ids"
+                                   t-att-value="s.id"
+                                   t-att-id="'el%s' % s.id"
+                                   t-att-checked="s.id in reg.elective_subject_ids.ids"/>
+                            <label class="form-check-label"
+                                   t-att-for="'el%s' % s.id"
+                                   t-out="s.name"/>
+                        </div>
+                    </t>
+                    <t t-if="not electives"><p class="text-muted">本课程无选修科目。</p></t>
+                    <button type="submit" class="btn btn-primary mt-2"
+                            t-if="reg.state in ('draft','rejected','submitted')">
+                        保存并提交审批
+                    </button>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="rollcall_index" name="点名-课次列表">
+        <t t-call="web.frontend_layout">
+            <div id="wrap" class="container mt-4" style="max-width:720px">
+                <h3>✅ 我近 7 天的课</h3>
+                <t t-if="not sessions"><p>近期无排课。</p></t>
+                <ul class="list-group">
+                    <li t-foreach="sessions" t-as="s"
+                        class="list-group-item d-flex justify-content-between">
+                        <span>
+                            <t t-out="s.start_datetime.strftime('%m-%d %H:%M')"/>
+                            <t t-out="s.subject_id.name"/>
+                            @<t t-out="s.classroom_id.name"/>
+                        </span>
+                        <a class="btn btn-sm btn-outline-primary"
+                           t-att-href="'/my/rollcall/%d' % s.id">点名</a>
+                    </li>
+                </ul>
+            </div>
+        </t>
+    </template>
+
+    <template id="rollcall_page" name="点名表单">
+        <t t-call="web.frontend_layout">
+            <div id="wrap" class="container mt-4" style="max-width:720px">
+                <h3>✅ 点名 · <t t-out="ses.subject_id.name"/></h3>
+                <p class="text-muted">
+                    <t t-out="ses.start_datetime.strftime('%m-%d %H:%M')"/>
+                    @<t t-out="ses.classroom_id.name"/>
+                </p>
+                <t t-if="saved"><div class="alert alert-success">考勤已保存。</div></t>
+                <form method="post"
+                      t-att-action="'/my/rollcall/%d/save' % ses.id">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <table class="table">
+                        <tr><th>学生</th><th>状态</th></tr>
+                        <tr t-foreach="rows" t-as="r">
+                            <td t-out="r.stu.name"/>
+                            <td>
+                                <t t-set="n" t-value="'st_%d' % r.stu.id"/>
+                                <select class="form-select" t-att-name="n">
+                                    <option value="present"
+                                            t-att-selected="r.present">出勤</option>
+                                    <option value="late"
+                                            t-att-selected="r.late">迟到</option>
+                                    <option value="absent"
+                                            t-att-selected="r.absent">缺席</option>
+                                    <option value="excused">请假</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="submit" class="btn btn-primary">保存考勤</button>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="marks_index" name="成绩录入-考试列表">
+        <t t-call="web.frontend_layout">
+            <div id="wrap" class="container mt-4" style="max-width:720px">
+                <h3>📝 我负责的考试</h3>
+                <t t-if="not exams"><p>没有已结束的考试。</p></t>
+                <ul class="list-group">
+                    <li t-foreach="exams" t-as="e"
+                        class="list-group-item d-flex justify-content-between">
+                        <span>
+                            <t t-out="e.subject_id.name"/> [<t t-out="e.exam_code"/>]
+                            <t t-if="e.results_entered">
+                                <span class="badge bg-success">已录</span>
+                            </t>
+                        </span>
+                        <a class="btn btn-sm btn-outline-primary"
+                           t-att-href="'/my/marks/%d' % e.id">录成绩</a>
+                    </li>
+                </ul>
+            </div>
+        </t>
+    </template>
+
+    <template id="marks_page" name="成绩录入表单">
+        <t t-call="web.frontend_layout">
+            <div id="wrap" class="container mt-4" style="max-width:720px">
+                <h3>📝 录入成绩 · <t t-out="exam.subject_id.name"/></h3>
+                <p class="text-muted">满分 <t t-out="exam.total_marks"/>，及格 <t t-out="exam.min_marks"/></p>
+                <t t-if="saved"><div class="alert alert-success">成绩已保存。</div></t>
+                <form t-att-action="'/my/marks/%d/save' % exam.id" method="post">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <table class="table">
+                        <tr><th>考生</th><th>成绩</th></tr>
+                        <tr t-foreach="attendees" t-as="a">
+                            <td t-out="a.student_id.name"/>
+                            <td>
+                                <input class="form-control" type="number"
+                                       t-att-name="'mk_%d' % a.id"
+                                       t-att-value="a.marks" min="0"
+                                       t-att-max="exam.total_marks"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="submit" class="btn btn-primary">保存成绩</button>
+                </form>
+            </div>
+        </t>
+    </template>
+</odoo>

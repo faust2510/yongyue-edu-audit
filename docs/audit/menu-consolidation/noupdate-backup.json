@@ -1,0 +1,1433 @@
+{
+ "note": "apply 之前的 noupdate 状态备份（rollback 依此还原）",
+ "xmlids": [
+  {
+   "xmlid": "account.account_account_menu",
+   "res_id": 174
+  },
+  {
+   "xmlid": "account.account_analytic_def_account",
+   "res_id": 191
+  },
+  {
+   "xmlid": "account.account_analytic_plan_menu",
+   "res_id": 192
+  },
+  {
+   "xmlid": "account.account_audit_control_menu",
+   "res_id": 162
+  },
+  {
+   "xmlid": "account.account_audit_menu",
+   "res_id": 161
+  },
+  {
+   "xmlid": "account.account_audit_trail_menu",
+   "res_id": 194
+  },
+  {
+   "xmlid": "account.account_closing_menu",
+   "res_id": 160
+  },
+  {
+   "xmlid": "account.account_invoicing_menu",
+   "res_id": 184
+  },
+  {
+   "xmlid": "account.account_logs_menu",
+   "res_id": 164
+  },
+  {
+   "xmlid": "account.account_report_folder",
+   "res_id": 178
+  },
+  {
+   "xmlid": "account.account_reports_legal_statements_menu",
+   "res_id": 171
+  },
+  {
+   "xmlid": "account.account_reports_management_menu",
+   "res_id": 168
+  },
+  {
+   "xmlid": "account.account_reports_partners_reports_menu",
+   "res_id": 166
+  },
+  {
+   "xmlid": "account.account_reports_taxes_and_fiscal_menu",
+   "res_id": 167
+  },
+  {
+   "xmlid": "account.account_transactions_menu",
+   "res_id": 157
+  },
+  {
+   "xmlid": "account.menu_account_config",
+   "res_id": 173
+  },
+  {
+   "xmlid": "account.menu_account_customer",
+   "res_id": 149
+  },
+  {
+   "xmlid": "account.menu_account_supplier",
+   "res_id": 155
+  },
+  {
+   "xmlid": "account.menu_action_account_fiscal_position_form",
+   "res_id": 180
+  },
+  {
+   "xmlid": "account.menu_action_account_form",
+   "res_id": 175
+  },
+  {
+   "xmlid": "account.menu_action_account_invoice_report_all",
+   "res_id": 169
+  },
+  {
+   "xmlid": "account.menu_action_account_journal_form",
+   "res_id": 177
+  },
+  {
+   "xmlid": "account.menu_action_account_journal_group_list",
+   "res_id": 181
+  },
+  {
+   "xmlid": "account.menu_action_account_moves_all",
+   "res_id": 163
+  },
+  {
+   "xmlid": "account.menu_action_account_payments_payable",
+   "res_id": 153
+  },
+  {
+   "xmlid": "account.menu_action_account_payments_receivable",
+   "res_id": 147
+  },
+  {
+   "xmlid": "account.menu_action_analytic_lines_tree",
+   "res_id": 159
+  },
+  {
+   "xmlid": "account.menu_action_analytic_reporting",
+   "res_id": 170
+  },
+  {
+   "xmlid": "account.menu_action_currency_form",
+   "res_id": 179
+  },
+  {
+   "xmlid": "account.menu_action_incoterm_open",
+   "res_id": 186
+  },
+  {
+   "xmlid": "account.menu_action_move_in_invoice_type",
+   "res_id": 151
+  },
+  {
+   "xmlid": "account.menu_action_move_in_refund_type",
+   "res_id": 152
+  },
+  {
+   "xmlid": "account.menu_action_move_journal_line_form",
+   "res_id": 158
+  },
+  {
+   "xmlid": "account.menu_action_move_out_invoice_type",
+   "res_id": 145
+  },
+  {
+   "xmlid": "account.menu_action_move_out_refund_type",
+   "res_id": 146
+  },
+  {
+   "xmlid": "account.menu_action_payment_term_form",
+   "res_id": 185
+  },
+  {
+   "xmlid": "account.menu_action_rounding_form_view",
+   "res_id": 183
+  },
+  {
+   "xmlid": "account.menu_action_secure_entries",
+   "res_id": 193
+  },
+  {
+   "xmlid": "account.menu_action_tax_form",
+   "res_id": 176
+  },
+  {
+   "xmlid": "account.menu_action_tax_group",
+   "res_id": 182
+  },
+  {
+   "xmlid": "account.menu_analytic__distribution_model",
+   "res_id": 190
+  },
+  {
+   "xmlid": "account.menu_analytic_accounting",
+   "res_id": 189
+  },
+  {
+   "xmlid": "account.menu_board_journal_1",
+   "res_id": 143
+  },
+  {
+   "xmlid": "account.menu_finance",
+   "res_id": 142
+  },
+  {
+   "xmlid": "account.menu_finance_configuration",
+   "res_id": 172
+  },
+  {
+   "xmlid": "account.menu_finance_entries",
+   "res_id": 156
+  },
+  {
+   "xmlid": "account.menu_finance_payables",
+   "res_id": 150
+  },
+  {
+   "xmlid": "account.menu_finance_receivables",
+   "res_id": 144
+  },
+  {
+   "xmlid": "account.menu_finance_reports",
+   "res_id": 165
+  },
+  {
+   "xmlid": "account.menu_product_product_categories",
+   "res_id": 187
+  },
+  {
+   "xmlid": "account.product_product_menu_purchasable",
+   "res_id": 154
+  },
+  {
+   "xmlid": "account.product_product_menu_sellable",
+   "res_id": 148
+  },
+  {
+   "xmlid": "account.root_payment_menu",
+   "res_id": 188
+  },
+  {
+   "xmlid": "account_payment.payment_method_menu",
+   "res_id": 243
+  },
+  {
+   "xmlid": "account_payment.payment_provider_menu",
+   "res_id": 242
+  },
+  {
+   "xmlid": "account_payment.payment_token_menu",
+   "res_id": 244
+  },
+  {
+   "xmlid": "account_payment.payment_transaction_menu",
+   "res_id": 245
+  },
+  {
+   "xmlid": "auth_oauth.menu_oauth_providers",
+   "res_id": 528
+  },
+  {
+   "xmlid": "base.ir_config_menu",
+   "res_id": 27
+  },
+  {
+   "xmlid": "base.ir_cron_trigger_menu",
+   "res_id": 29
+  },
+  {
+   "xmlid": "base.ir_default_menu",
+   "res_id": 46
+  },
+  {
+   "xmlid": "base.ir_logging_all_menu",
+   "res_id": 47
+  },
+  {
+   "xmlid": "base.ir_model_constraint_menu",
+   "res_id": 37
+  },
+  {
+   "xmlid": "base.ir_model_data_menu",
+   "res_id": 36
+  },
+  {
+   "xmlid": "base.ir_model_model_fields",
+   "res_id": 33
+  },
+  {
+   "xmlid": "base.ir_model_model_fields_selection",
+   "res_id": 34
+  },
+  {
+   "xmlid": "base.ir_model_model_menu",
+   "res_id": 32
+  },
+  {
+   "xmlid": "base.ir_model_relation_menu",
+   "res_id": 38
+  },
+  {
+   "xmlid": "base.menu_action_asset",
+   "res_id": 26
+  },
+  {
+   "xmlid": "base.menu_action_attachment",
+   "res_id": 40
+  },
+  {
+   "xmlid": "base.menu_action_res_company_form",
+   "res_id": 58
+  },
+  {
+   "xmlid": "base.menu_action_res_groups",
+   "res_id": 61
+  },
+  {
+   "xmlid": "base.menu_action_res_groups_privilege",
+   "res_id": 60
+  },
+  {
+   "xmlid": "base.menu_action_res_users",
+   "res_id": 62
+  },
+  {
+   "xmlid": "base.menu_action_rule",
+   "res_id": 41
+  },
+  {
+   "xmlid": "base.menu_action_ui_view",
+   "res_id": 44
+  },
+  {
+   "xmlid": "base.menu_action_ui_view_custom",
+   "res_id": 45
+  },
+  {
+   "xmlid": "base.menu_action_user_device",
+   "res_id": 63
+  },
+  {
+   "xmlid": "base.menu_administration",
+   "res_id": 1
+  },
+  {
+   "xmlid": "base.menu_administration_shortcut",
+   "res_id": 2
+  },
+  {
+   "xmlid": "base.menu_apps",
+   "res_id": 48
+  },
+  {
+   "xmlid": "base.menu_automation",
+   "res_id": 12
+  },
+  {
+   "xmlid": "base.menu_config",
+   "res_id": 7
+  },
+  {
+   "xmlid": "base.menu_custom",
+   "res_id": 8
+  },
+  {
+   "xmlid": "base.menu_decimal_precision_form",
+   "res_id": 17
+  },
+  {
+   "xmlid": "base.menu_email",
+   "res_id": 10
+  },
+  {
+   "xmlid": "base.menu_grant_menu_access",
+   "res_id": 43
+  },
+  {
+   "xmlid": "base.menu_ir_access_act",
+   "res_id": 39
+  },
+  {
+   "xmlid": "base.menu_ir_action_report",
+   "res_id": 20
+  },
+  {
+   "xmlid": "base.menu_ir_action_window",
+   "res_id": 21
+  },
+  {
+   "xmlid": "base.menu_ir_actions_todo_form",
+   "res_id": 25
+  },
+  {
+   "xmlid": "base.menu_ir_client_actions_report",
+   "res_id": 22
+  },
+  {
+   "xmlid": "base.menu_ir_cron_act",
+   "res_id": 28
+  },
+  {
+   "xmlid": "base.menu_ir_embedded_action",
+   "res_id": 24
+  },
+  {
+   "xmlid": "base.menu_ir_filters",
+   "res_id": 30
+  },
+  {
+   "xmlid": "base.menu_ir_profile",
+   "res_id": 57
+  },
+  {
+   "xmlid": "base.menu_ir_property",
+   "res_id": 14
+  },
+  {
+   "xmlid": "base.menu_ir_sequence_actions",
+   "res_id": 19
+  },
+  {
+   "xmlid": "base.menu_ir_sequence_form",
+   "res_id": 42
+  },
+  {
+   "xmlid": "base.menu_mail_servers",
+   "res_id": 31
+  },
+  {
+   "xmlid": "base.menu_module_tree",
+   "res_id": 49
+  },
+  {
+   "xmlid": "base.menu_res_lang_act_window",
+   "res_id": 59
+  },
+  {
+   "xmlid": "base.menu_security",
+   "res_id": 13
+  },
+  {
+   "xmlid": "base.menu_server_action",
+   "res_id": 23
+  },
+  {
+   "xmlid": "base.menu_tests",
+   "res_id": 16
+  },
+  {
+   "xmlid": "base.menu_theme_store",
+   "res_id": 52
+  },
+  {
+   "xmlid": "base.menu_third_party",
+   "res_id": 51
+  },
+  {
+   "xmlid": "base.menu_translation",
+   "res_id": 4
+  },
+  {
+   "xmlid": "base.menu_translation_app",
+   "res_id": 5
+  },
+  {
+   "xmlid": "base.menu_translation_export",
+   "res_id": 6
+  },
+  {
+   "xmlid": "base.menu_users",
+   "res_id": 3
+  },
+  {
+   "xmlid": "base.menu_view_base_import_language",
+   "res_id": 54
+  },
+  {
+   "xmlid": "base.menu_view_base_module_update",
+   "res_id": 53
+  },
+  {
+   "xmlid": "base.menu_view_base_module_upgrade",
+   "res_id": 55
+  },
+  {
+   "xmlid": "base.menu_wizard_lang_export",
+   "res_id": 56
+  },
+  {
+   "xmlid": "base.next_id_2",
+   "res_id": 9
+  },
+  {
+   "xmlid": "base.next_id_5",
+   "res_id": 35
+  },
+  {
+   "xmlid": "base.next_id_6",
+   "res_id": 18
+  },
+  {
+   "xmlid": "base.next_id_9",
+   "res_id": 11
+  },
+  {
+   "xmlid": "base.paper_format_menuitem",
+   "res_id": 65
+  },
+  {
+   "xmlid": "base.reporting_menuitem",
+   "res_id": 64
+  },
+  {
+   "xmlid": "base.reports_menuitem",
+   "res_id": 66
+  },
+  {
+   "xmlid": "base.theme_store",
+   "res_id": 50
+  },
+  {
+   "xmlid": "base_automation.menu_base_automation_form",
+   "res_id": 195
+  },
+  {
+   "xmlid": "base_import_module.menu_view_base_module_import",
+   "res_id": 67
+  },
+  {
+   "xmlid": "board.menu_board_my_dash",
+   "res_id": 246
+  },
+  {
+   "xmlid": "calendar.calendar_event_menu",
+   "res_id": 358
+  },
+  {
+   "xmlid": "calendar.calendar_menu_config",
+   "res_id": 359
+  },
+  {
+   "xmlid": "calendar.mail_menu_calendar",
+   "res_id": 357
+  },
+  {
+   "xmlid": "calendar.menu_calendar_alarm",
+   "res_id": 364
+  },
+  {
+   "xmlid": "calendar.menu_calendar_configuration",
+   "res_id": 362
+  },
+  {
+   "xmlid": "calendar.menu_calendar_event_type",
+   "res_id": 363
+  },
+  {
+   "xmlid": "contacts.menu_action_res_bank_form",
+   "res_id": 131
+  },
+  {
+   "xmlid": "contacts.menu_action_res_partner_bank_form",
+   "res_id": 132
+  },
+  {
+   "xmlid": "contacts.menu_config_bank_accounts",
+   "res_id": 130
+  },
+  {
+   "xmlid": "contacts.menu_contacts",
+   "res_id": 121
+  },
+  {
+   "xmlid": "contacts.menu_country_group",
+   "res_id": 128
+  },
+  {
+   "xmlid": "contacts.menu_country_partner",
+   "res_id": 127
+  },
+  {
+   "xmlid": "contacts.menu_country_state_partner",
+   "res_id": 129
+  },
+  {
+   "xmlid": "contacts.menu_localisation",
+   "res_id": 126
+  },
+  {
+   "xmlid": "contacts.menu_partner_category_form",
+   "res_id": 124
+  },
+  {
+   "xmlid": "contacts.res_partner_industry_menu",
+   "res_id": 125
+  },
+  {
+   "xmlid": "contacts.res_partner_menu_config",
+   "res_id": 123
+  },
+  {
+   "xmlid": "contacts.res_partner_menu_contacts",
+   "res_id": 122
+  },
+  {
+   "xmlid": "data_recycle.menu_data_cleaning_config",
+   "res_id": 568
+  },
+  {
+   "xmlid": "data_recycle.menu_data_cleaning_config_rules",
+   "res_id": 569
+  },
+  {
+   "xmlid": "data_recycle.menu_data_cleaning_config_rules_recycle",
+   "res_id": 570
+  },
+  {
+   "xmlid": "data_recycle.menu_data_cleaning_root",
+   "res_id": 566
+  },
+  {
+   "xmlid": "data_recycle.menu_data_recycle_record",
+   "res_id": 567
+  },
+  {
+   "xmlid": "digest.digest_menu",
+   "res_id": 140
+  },
+  {
+   "xmlid": "digest.digest_tip_menu",
+   "res_id": 141
+  },
+  {
+   "xmlid": "edu_apply.menu_edu_application",
+   "res_id": 592
+  },
+  {
+   "xmlid": "edu_apply.menu_edu_apply_root",
+   "res_id": 591
+  },
+  {
+   "xmlid": "edu_apply.menu_edu_apply_settings",
+   "res_id": 601
+  },
+  {
+   "xmlid": "edu_eval.menu_edu_admin_eval_analysis",
+   "res_id": 600
+  },
+  {
+   "xmlid": "edu_eval.menu_edu_admin_eval_root",
+   "res_id": 597
+  },
+  {
+   "xmlid": "edu_eval.menu_edu_admin_eval_score",
+   "res_id": 599
+  },
+  {
+   "xmlid": "edu_eval.menu_edu_admin_eval_template",
+   "res_id": 598
+  },
+  {
+   "xmlid": "edu_portal.edu_deadline_settings_menu",
+   "res_id": 617
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_checkin_mgmt",
+   "res_id": 544
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_invite_code_root",
+   "res_id": 542
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_lms_lesson",
+   "res_id": 577
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_lms_progress",
+   "res_id": 578
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_lms_root",
+   "res_id": 576
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_point_mgmt",
+   "res_id": 545
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_point_rank",
+   "res_id": 546
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_relink_identity",
+   "res_id": 606
+  },
+  {
+   "xmlid": "edu_portal.menu_edu_welfare_root",
+   "res_id": 543
+  },
+  {
+   "xmlid": "edu_quiz.menu_edu_quiz",
+   "res_id": 505
+  },
+  {
+   "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+   "res_id": 506
+  },
+  {
+   "xmlid": "edu_quiz.menu_edu_quiz_root",
+   "res_id": 504
+  },
+  {
+   "xmlid": "event.event_main_menu",
+   "res_id": 372
+  },
+  {
+   "xmlid": "event.menu_event_configuration",
+   "res_id": 375
+  },
+  {
+   "xmlid": "event.menu_event_event",
+   "res_id": 373
+  },
+  {
+   "xmlid": "event.menu_event_registration_desk",
+   "res_id": 382
+  },
+  {
+   "xmlid": "event.menu_reporting_events",
+   "res_id": 374
+  },
+  {
+   "xmlid": "gamification.gamification_badge_menu",
+   "res_id": 369
+  },
+  {
+   "xmlid": "gamification.gamification_challenge_menu",
+   "res_id": 366
+  },
+  {
+   "xmlid": "gamification.gamification_definition_menu",
+   "res_id": 368
+  },
+  {
+   "xmlid": "gamification.gamification_goal_menu",
+   "res_id": 367
+  },
+  {
+   "xmlid": "gamification.gamification_karma_ranks_menu",
+   "res_id": 370
+  },
+  {
+   "xmlid": "gamification.gamification_karma_tracking_menu",
+   "res_id": 371
+  },
+  {
+   "xmlid": "gamification.gamification_menu",
+   "res_id": 365
+  },
+  {
+   "xmlid": "hr.hr_menu_configuration",
+   "res_id": 213
+  },
+  {
+   "xmlid": "hr.hr_menu_hr_reports",
+   "res_id": 200
+  },
+  {
+   "xmlid": "hr.menu_config_employee",
+   "res_id": 203
+  },
+  {
+   "xmlid": "hr.menu_config_plan_plan",
+   "res_id": 204
+  },
+  {
+   "xmlid": "hr.menu_config_recruitment",
+   "res_id": 209
+  },
+  {
+   "xmlid": "hr.menu_hr_department_kanban",
+   "res_id": 201
+  },
+  {
+   "xmlid": "hr.menu_hr_departure_reason_tree",
+   "res_id": 207
+  },
+  {
+   "xmlid": "hr.menu_hr_employee",
+   "res_id": 199
+  },
+  {
+   "xmlid": "hr.menu_hr_employee_contract_templates",
+   "res_id": 211
+  },
+  {
+   "xmlid": "hr.menu_hr_employee_payroll",
+   "res_id": 198
+  },
+  {
+   "xmlid": "hr.menu_hr_main",
+   "res_id": 197
+  },
+  {
+   "xmlid": "hr.menu_hr_root",
+   "res_id": 196
+  },
+  {
+   "xmlid": "hr.menu_hr_work_location_tree",
+   "res_id": 205
+  },
+  {
+   "xmlid": "hr.menu_human_resources_configuration",
+   "res_id": 202
+  },
+  {
+   "xmlid": "hr.menu_resource_calendar_view",
+   "res_id": 206
+  },
+  {
+   "xmlid": "hr.menu_view_employee_category_form",
+   "res_id": 208
+  },
+  {
+   "xmlid": "hr.menu_view_hr_contract_type",
+   "res_id": 212
+  },
+  {
+   "xmlid": "hr.menu_view_hr_job",
+   "res_id": 210
+  },
+  {
+   "xmlid": "hr_attendance.menu_action_open_form",
+   "res_id": 530
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_attendance_reporting",
+   "res_id": 532
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_configuration",
+   "res_id": 537
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_employee",
+   "res_id": 535
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_onboarding",
+   "res_id": 538
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_overtime_rulesets",
+   "res_id": 540
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_overview",
+   "res_id": 533
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_reporting",
+   "res_id": 531
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_root",
+   "res_id": 529
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_settings",
+   "res_id": 539
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_view_attendances_management",
+   "res_id": 536
+  },
+  {
+   "xmlid": "hr_attendance.menu_hr_attendance_view_dashboard",
+   "res_id": 534
+  },
+  {
+   "xmlid": "hr_gamification.gamification_badge_menu_hr",
+   "res_id": 385
+  },
+  {
+   "xmlid": "hr_gamification.gamification_challenge_menu_hr",
+   "res_id": 386
+  },
+  {
+   "xmlid": "hr_gamification.gamification_goal_menu_hr",
+   "res_id": 387
+  },
+  {
+   "xmlid": "hr_gamification.menu_hr_gamification",
+   "res_id": 384
+  },
+  {
+   "xmlid": "hr_recruitment.hr_applicant_category_menu",
+   "res_id": 407
+  },
+  {
+   "xmlid": "hr_recruitment.hr_applicant_report_menu",
+   "res_id": 395
+  },
+  {
+   "xmlid": "hr_recruitment.hr_recruitment_menu_config_activity_plan",
+   "res_id": 412
+  },
+  {
+   "xmlid": "hr_recruitment.hr_recruitment_menu_config_activity_type",
+   "res_id": 411
+  },
+  {
+   "xmlid": "hr_recruitment.menu_crm_case_categ0_act_job",
+   "res_id": 389
+  },
+  {
+   "xmlid": "hr_recruitment.menu_crm_case_categ_all_app",
+   "res_id": 393
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_applicant_refuse_reason",
+   "res_id": 406
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_department",
+   "res_id": 409
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_job_boards",
+   "res_id": 413
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_job_position",
+   "res_id": 390
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_job_position_interviewer",
+   "res_id": 391
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_config_activities",
+   "res_id": 410
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_config_applications",
+   "res_id": 404
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_config_employees",
+   "res_id": 408
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_config_jobs",
+   "res_id": 398
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_configuration",
+   "res_id": 396
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_contract_type",
+   "res_id": 400
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_degree",
+   "res_id": 405
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_emails",
+   "res_id": 414
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_global_settings",
+   "res_id": 397
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_root",
+   "res_id": 388
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_stage",
+   "res_id": 399
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_utm",
+   "res_id": 401
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_utm_mediums",
+   "res_id": 403
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_recruitment_utm_sources",
+   "res_id": 402
+  },
+  {
+   "xmlid": "hr_recruitment.menu_hr_talent_pools",
+   "res_id": 392
+  },
+  {
+   "xmlid": "hr_recruitment.report_hr_recruitment",
+   "res_id": 394
+  },
+  {
+   "xmlid": "hr_recruitment_skills.hr_recruitment_skill_type_menu",
+   "res_id": 415
+  },
+  {
+   "xmlid": "hr_skills.hr_certification_menu",
+   "res_id": 252
+  },
+  {
+   "xmlid": "hr_skills.hr_employee_certification_report_menu",
+   "res_id": 254
+  },
+  {
+   "xmlid": "hr_skills.hr_employee_skill_inventory_report_menu",
+   "res_id": 255
+  },
+  {
+   "xmlid": "hr_skills.hr_employee_skill_report_menu",
+   "res_id": 250
+  },
+  {
+   "xmlid": "hr_skills.hr_resume_line_type_menu",
+   "res_id": 248
+  },
+  {
+   "xmlid": "hr_skills.hr_skill_learning_menu",
+   "res_id": 251
+  },
+  {
+   "xmlid": "hr_skills.hr_skill_type_menu",
+   "res_id": 249
+  },
+  {
+   "xmlid": "hr_skills.menu_human_resources_configuration_resume",
+   "res_id": 247
+  },
+  {
+   "xmlid": "hr_skills.menu_learnings_training_attendances",
+   "res_id": 253
+  },
+  {
+   "xmlid": "hr_skills.menu_learnings_training_attendances_courses",
+   "res_id": 416
+  },
+  {
+   "xmlid": "hr_skills_event.menu_learnings_training_attendances_onsite",
+   "res_id": 417
+  },
+  {
+   "xmlid": "hr_skills_slides.menu_learnings_training_attendances_elearning",
+   "res_id": 562
+  },
+  {
+   "xmlid": "iap.iap_account_menu",
+   "res_id": 82
+  },
+  {
+   "xmlid": "iap.iap_root_menu",
+   "res_id": 81
+  },
+  {
+   "xmlid": "im_livechat.livechat_config",
+   "res_id": 513
+  },
+  {
+   "xmlid": "im_livechat.livechat_technical",
+   "res_id": 514
+  },
+  {
+   "xmlid": "im_livechat.menu_livechat_root",
+   "res_id": 507
+  },
+  {
+   "xmlid": "im_livechat.menu_livechat_sessions",
+   "res_id": 509
+  },
+  {
+   "xmlid": "im_livechat.menu_reporting_livechat",
+   "res_id": 512
+  },
+  {
+   "xmlid": "im_livechat.support_channels",
+   "res_id": 508
+  },
+  {
+   "xmlid": "mail.discuss_channel_integrations_menu",
+   "res_id": 118
+  },
+  {
+   "xmlid": "mail.discuss_channel_member_menu",
+   "res_id": 97
+  },
+  {
+   "xmlid": "mail.discuss_channel_menu_settings",
+   "res_id": 96
+  },
+  {
+   "xmlid": "mail.discuss_channel_rtc_session_menu",
+   "res_id": 109
+  },
+  {
+   "xmlid": "mail.discuss_gif_favorite_menu",
+   "res_id": 113
+  },
+  {
+   "xmlid": "mail.discuss_technical",
+   "res_id": 119
+  },
+  {
+   "xmlid": "mail.ice_servers_menu",
+   "res_id": 110
+  },
+  {
+   "xmlid": "mail.mail_alias_domain_menu",
+   "res_id": 93
+  },
+  {
+   "xmlid": "mail.mail_alias_menu",
+   "res_id": 92
+  },
+  {
+   "xmlid": "mail.mail_blacklist_menu",
+   "res_id": 106
+  },
+  {
+   "xmlid": "mail.mail_gateway_allowed_menu",
+   "res_id": 98
+  },
+  {
+   "xmlid": "mail.mail_guest_menu",
+   "res_id": 108
+  },
+  {
+   "xmlid": "mail.mail_link_preview_menu",
+   "res_id": 112
+  },
+  {
+   "xmlid": "mail.mail_menu_technical",
+   "res_id": 99
+  },
+  {
+   "xmlid": "mail.mail_message_reaction_menu",
+   "res_id": 111
+  },
+  {
+   "xmlid": "mail.mail_message_schedule_menu",
+   "res_id": 101
+  },
+  {
+   "xmlid": "mail.mail_notification_menu",
+   "res_id": 104
+  },
+  {
+   "xmlid": "mail.main_menu_discuss",
+   "res_id": 84
+  },
+  {
+   "xmlid": "mail.menu_action_fetchmail_server_tree",
+   "res_id": 94
+  },
+  {
+   "xmlid": "mail.menu_channel",
+   "res_id": 85
+  },
+  {
+   "xmlid": "mail.menu_configuration",
+   "res_id": 86
+  },
+  {
+   "xmlid": "mail.menu_email_followers",
+   "res_id": 105
+  },
+  {
+   "xmlid": "mail.menu_email_templates",
+   "res_id": 95
+  },
+  {
+   "xmlid": "mail.menu_mail_activities",
+   "res_id": 115
+  },
+  {
+   "xmlid": "mail.menu_mail_activities_section",
+   "res_id": 114
+  },
+  {
+   "xmlid": "mail.menu_mail_activity_plan",
+   "res_id": 117
+  },
+  {
+   "xmlid": "mail.menu_mail_activity_type",
+   "res_id": 116
+  },
+  {
+   "xmlid": "mail.menu_mail_mail",
+   "res_id": 91
+  },
+  {
+   "xmlid": "mail.menu_mail_message",
+   "res_id": 100
+  },
+  {
+   "xmlid": "mail.menu_mail_tracking_value",
+   "res_id": 103
+  },
+  {
+   "xmlid": "mail.menu_message_subtype",
+   "res_id": 102
+  },
+  {
+   "xmlid": "mail.menu_root_discuss",
+   "res_id": 83
+  },
+  {
+   "xmlid": "mail.res_users_settings_menu",
+   "res_id": 107
+  },
+  {
+   "xmlid": "onboarding.menu_onboarding",
+   "res_id": 69
+  },
+  {
+   "xmlid": "onboarding.menu_onboarding_step",
+   "res_id": 70
+  },
+  {
+   "xmlid": "openeducat_admission.menu_op_admission_root",
+   "res_id": 300
+  },
+  {
+   "xmlid": "openeducat_assignment.menu_op_assignment_configuration",
+   "res_id": 292
+  },
+  {
+   "xmlid": "openeducat_assignment.menu_op_assignment_main",
+   "res_id": 289
+  },
+  {
+   "xmlid": "openeducat_assignment.menu_op_assignment_root",
+   "res_id": 288
+  },
+  {
+   "xmlid": "openeducat_attendance.menu_op_attendance",
+   "res_id": 350
+  },
+  {
+   "xmlid": "openeducat_attendance.menu_op_attendance_config",
+   "res_id": 354
+  },
+  {
+   "xmlid": "openeducat_attendance.menu_op_attendance_root",
+   "res_id": 349
+  },
+  {
+   "xmlid": "openeducat_core.menu_op_report_main",
+   "res_id": 271
+  },
+  {
+   "xmlid": "openeducat_core.menu_op_school_config_activity",
+   "res_id": 270
+  },
+  {
+   "xmlid": "openeducat_core.menu_op_student_main_student",
+   "res_id": 279
+  },
+  {
+   "xmlid": "openeducat_core.menu_op_student_root",
+   "res_id": 278
+  },
+  {
+   "xmlid": "openeducat_core.menu_openeducat_student_config",
+   "res_id": 284
+  },
+  {
+   "xmlid": "openeducat_core.menu_partner_title_contact",
+   "res_id": 256
+  },
+  {
+   "xmlid": "openeducat_exam.menu_exam_configuration",
+   "res_id": 334
+  },
+  {
+   "xmlid": "openeducat_exam.menu_op_exam_general",
+   "res_id": 339
+  },
+  {
+   "xmlid": "openeducat_exam.menu_op_exam_root",
+   "res_id": 325
+  },
+  {
+   "xmlid": "openeducat_exam.menu_op_school_exam_result",
+   "res_id": 326
+  },
+  {
+   "xmlid": "phone_validation.phone_blacklist_menu",
+   "res_id": 134
+  },
+  {
+   "xmlid": "phone_validation.phone_menu_main",
+   "res_id": 133
+  },
+  {
+   "xmlid": "privacy_lookup.pricacy_log_menu",
+   "res_id": 136
+  },
+  {
+   "xmlid": "privacy_lookup.privacy_menu",
+   "res_id": 135
+  },
+  {
+   "xmlid": "rating.rating_rating_menu_technical",
+   "res_id": 433
+  },
+  {
+   "xmlid": "resource.menu_resource_calendar",
+   "res_id": 72
+  },
+  {
+   "xmlid": "resource.menu_resource_config",
+   "res_id": 71
+  },
+  {
+   "xmlid": "resource.menu_resource_resource",
+   "res_id": 74
+  },
+  {
+   "xmlid": "resource.menu_view_resource_calendar_leaves_search",
+   "res_id": 73
+  },
+  {
+   "xmlid": "sms.sms_sms_menu",
+   "res_id": 137
+  },
+  {
+   "xmlid": "sms.sms_template_menu",
+   "res_id": 138
+  },
+  {
+   "xmlid": "snailmail.menu_snailmail_letters",
+   "res_id": 139
+  },
+  {
+   "xmlid": "spreadsheet_dashboard.spreadsheet_dashboard_menu_configuration",
+   "res_id": 216
+  },
+  {
+   "xmlid": "spreadsheet_dashboard.spreadsheet_dashboard_menu_configuration_dashboards",
+   "res_id": 217
+  },
+  {
+   "xmlid": "spreadsheet_dashboard.spreadsheet_dashboard_menu_dashboard",
+   "res_id": 215
+  },
+  {
+   "xmlid": "spreadsheet_dashboard.spreadsheet_dashboard_menu_root",
+   "res_id": 214
+  },
+  {
+   "xmlid": "utm.marketing_utm",
+   "res_id": 76
+  },
+  {
+   "xmlid": "utm.menu_link_tracker_root",
+   "res_id": 75
+  },
+  {
+   "xmlid": "utm.menu_utm_campaign_act",
+   "res_id": 77
+  },
+  {
+   "xmlid": "utm.menu_utm_medium",
+   "res_id": 78
+  },
+  {
+   "xmlid": "utm.menu_utm_source",
+   "res_id": 79
+  },
+  {
+   "xmlid": "web_tour.menu_tour_action",
+   "res_id": 80
+  },
+  {
+   "xmlid": "website_livechat.website_livechat_visitor_menu",
+   "res_id": 527
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_config_content_tags",
+   "res_id": 560
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_config_course_groups",
+   "res_id": 559
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_config_settings",
+   "res_id": 558
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_configuration",
+   "res_id": 550
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_courses",
+   "res_id": 548
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_courses_content",
+   "res_id": 552
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_courses_courses",
+   "res_id": 551
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_report",
+   "res_id": 549
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_report_attendees",
+   "res_id": 555
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_report_contents",
+   "res_id": 554
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_report_courses",
+   "res_id": 553
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_report_quizzes",
+   "res_id": 557
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_report_reviews",
+   "res_id": 556
+  },
+  {
+   "xmlid": "website_slides.website_slides_menu_root",
+   "res_id": 547
+  },
+  {
+   "xmlid": "website_slides_forum.website_slides_menu_forum",
+   "res_id": 563
+  },
+  {
+   "xmlid": "website_slides_forum.website_slides_menu_forum_forum",
+   "res_id": 564
+  },
+  {
+   "xmlid": "website_slides_forum.website_slides_menu_forum_post",
+   "res_id": 565
+  }
+ ]
+}

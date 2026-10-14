@@ -1,0 +1,25 @@
+{
+  "base_url": "http://127.0.0.1:8069",
+  "readings": {
+    "/admissions": {
+      "status": 200,
+      "dates": [
+        "2026年10月1日"
+      ],
+      "has_sentence": true
+    },
+    "/subject/enroll": {
+      "status": 200,
+      "dates": [
+        "2026年10月1日"
+      ],
+      "has_sentence": true
+    },
+    "/my/home(控制组)": {
+      "status": 200,
+      "has_student_marker": true,
+      "traceback": false
+    }
+  },
+  "verdict": "PASS"
+}

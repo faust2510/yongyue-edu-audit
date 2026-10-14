@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 灵命生活：顶级菜单（web_icon 见 static/src/img/menu/life.svg） -->
+    <menuitem id="menu_edu_life_root"
+              name="灵命生活"
+              sequence="70"
+              groups="base.group_user"
+              web_icon="edu_life,static/src/img/menu/life.svg"/>
+    <menuitem id="menu_edu_life_checkin_type"
+              name="打卡类型"
+              parent="menu_edu_life_root"
+              action="action_edu_life_checkin_type"
+              sequence="10"/>
+    <menuitem id="menu_edu_life_checkin_record"
+              name="打卡记录"
+              parent="menu_edu_life_root"
+              action="action_edu_life_checkin_record"
+              sequence="20"/>
+    <menuitem id="menu_edu_life_journal_archive"
+              name="周记归档"
+              parent="menu_edu_life_root"
+              action="action_edu_life_journal"
+              sequence="30"/>
+</odoo>

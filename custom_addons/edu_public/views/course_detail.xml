@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- /courses?course=N 公开课程详情（审计缺口 B8）。
+         op.course 无简介/图片字段：简介与图片位用占位区块兜底；
+         所有可空字段（code/department/program/parent/evaluation_type/subjects）
+         均带 t-if 守卫，缺数据不报错。 -->
+    <template id="edu_course_detail" name="Public Course Detail">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <a href="/courses" class="text-decoration-none">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> 返回课程列表
+                    </a>
+
+                    <!-- 课程头：图标占位（无图片字段）+ 名称 + 元信息 -->
+                    <div class="oe-cat-head mt-2">
+                        <span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title" t-out="course.name or '课程详情'"/>
+                    </div>
+                    <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 mt-2 rounded text-bg-light">
+                        <div class="o_portal_icon d-block align-self-start">
+                            <i class="fa fa-graduation-cap fa-lg text-primary" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <div class="fs-5 fw-normal"><span t-out="course.name or ''"/></div>
+                            <div class="opacity-75">
+                                <t t-if="course.code" t-out="'课程代码：' + course.code"/>
+                                <t t-if="eval_label"> · <t t-out="eval_label"/></t>
+                                <t t-if="course.department_id"> · 院系：<t t-out="course.department_id.name"/></t>
+                                <t t-if="course.program_id"> · 项目：<t t-out="course.program_id.name"/></t>
+                                <t t-if="course.parent_id"> · 所属：<t t-out="course.parent_id.name"/></t>
+                                <t t-if="course.max_unit_load or course.min_unit_load">
+                                    · 学分 <t t-out="course.min_unit_load"/>–<t t-out="course.max_unit_load"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程简介（op.course 无该字段，占位兜底） -->
+                    <h4 class="mt-4 mb-2">课程简介</h4>
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"></i>
+                        <p class="oe-norec-txt">该课程的详细简介即将发布，敬请期待。</p>
+                    </div>
+
+                    <!-- 相关科目 -->
+                    <h4 class="mt-4 mb-2">相关科目</h4>
+                    <t t-if="not subjects">
+                        <div class="oe-norec">
+                            <i class="fa fa-book oe-norec-ic" aria-hidden="true"></i>
+                            <p class="oe-norec-txt">暂未配置该课程的科目信息。</p>
+                        </div>
+                    </t>
+                    <div t-else="" class="o_portal_docs row g-2 mt-0">
+                        <t t-foreach="subjects" t-as="s">
+                            <div class="o_portal_index_card col-md-6 col-lg-4">
+                                <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-bg-light position-relative">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i class="fa fa-book fa-lg text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="s.name or ''"/></div>
+                                        <div class="opacity-75">
+                                            <t t-if="s.code" t-out="s.code"/>
+                                            <t t-if="({'theory': '理论', 'practical': '实操', 'both': '理论+实操', 'other': '其他'}.get(s.type, ''))">
+                                                · <t t-out="({'theory': '理论', 'practical': '实操', 'both': '理论+实操', 'other': '其他'}.get(s.type, ''))"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- 课时 / 大纲占位区块 -->
+                    <h4 class="mt-4 mb-2">课时安排</h4>
+                    <div class="oe-norec">
+                        <i class="fa fa-calendar oe-norec-ic" aria-hidden="true"></i>
+                        <p class="oe-norec-txt">课程大纲与课时安排即将发布。</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 群/私聊 -->
+        <record id="view_assist_chat_tree" model="ir.ui.view">
+            <field name="name">edu.tg.assist.chat.tree</field>
+            <field name="model">edu.tg.assist.chat</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="alias"/>
+                    <field name="title"/>
+                    <field name="chat_type"/>
+                    <field name="chat_id"/>
+                    <field name="notice_enabled"/>
+                    <field name="active"/>
+                    <field name="note"/>
+                </list>
+            </field>
+        </record>
+        <record id="view_assist_chat_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.chat.form</field>
+            <field name="model">edu.tg.assist.chat</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="alias"/>
+                                <field name="title"/>
+                                <field name="chat_type"/>
+                            </group>
+                            <group>
+                                <field name="chat_id"/>
+                                <field name="active"/>
+                                <field name="note"/>
+                                <field name="notice_enabled"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- 人员映射 -->
+        <record id="view_assist_person_tree" model="ir.ui.view">
+            <field name="name">edu.tg.assist.person.tree</field>
+            <field name="model">edu.tg.assist.person</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+                    <field name="role"/>
+                    <field name="tg_name"/>
+                    <field name="tg_user_id"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+        <record id="view_assist_person_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.person.form</field>
+            <field name="model">edu.tg.assist.person</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="role"/>
+                                <field name="tg_name"/>
+                            </group>
+                            <group>
+                                <field name="tg_user_id"/>
+                                <field name="chat_id"/>
+                                <field name="user_id"/>
+                                <field name="active"/>
+                                <field name="note"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- C1：人员映射的搜索/筛选 —— 新登记的人角色默认「其他」，
+             管理员打开这一页要一眼看到「还有谁没标角色」 -->
+        <record id="view_assist_person_search" model="ir.ui.view">
+            <field name="name">edu.tg.assist.person.search</field>
+            <field name="model">edu.tg.assist.person</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="tg_name"/>
+                    <field name="tg_user_id"/>
+                    <filter name="filter_role_other" string="待标注角色（其他）"
+                            domain="[('role', '=', 'other'), ('active', '=', True)]"/>
+                    <filter name="filter_staff" string="已标成教职工"
+                            domain="[('role', 'in', ['admin', 'teacher', 'dorm_head']), ('active', '=', True)]"/>
+                    <!-- Odoo 19 的 <search><group> 只收 <field>（RNG 里没有 string/expand），
+                         要「按角色分组」得用带 group_by context 的 filter（SearchModel 会把它
+                         放进 Group By 子菜单）。 -->
+                    <filter name="group_role" string="按角色分组"
+                            context="{'group_by': 'role'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- 发送记录 -->
+        <record id="view_assist_send_log_tree" model="ir.ui.view">
+            <field name="name">edu.tg.assist.send_log.tree</field>
+            <field name="model">edu.tg.assist.send_log</field>
+            <field name="arch" type="xml">
+                <list create="false" edit="false">
+                    <field name="sent_at"/>
+                    <field name="kind"/>
+                    <field name="chat_id"/>
+                    <field name="ok"/>
+                    <field name="text"/>
+                    <field name="error"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ================= 打卡统计（F4 接通 F1） ================= -->
+        <record id="view_assist_poll_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.poll.list</field>
+            <field name="model">edu.tg.assist.poll</field>
+            <field name="arch" type="xml">
+                <list create="false" delete="false">
+                    <field name="name"/>
+                    <field name="chat_id"/>
+                    <field name="state"/>
+                    <field name="sent_at"/>
+                    <field name="expected_count"/>
+                    <field name="replied_count"/>
+                    <field name="missing_count"/>
+                    <field name="missing_names" optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_poll_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.poll.form</field>
+            <field name="model">edu.tg.assist.poll</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <header>
+                        <button name="action_close" type="object" string="关闭这条打卡"
+                                invisible="state != 'sent'"
+                                help="关掉后按钮再点只会收到「这条打卡已经关闭了」，不再落库。"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="这条打卡">
+                                <field name="chat_id" readonly="1"/>
+                                <field name="reminder_id" readonly="1"/>
+                                <field name="template_id" readonly="1"/>
+                                <field name="state"/>
+                                <field name="expected_role" readonly="1"/>
+                                <field name="options" readonly="1"/>
+                            </group>
+                            <group string="发送情况">
+                                <field name="sent_at" readonly="1"/>
+                                <field name="message_id" readonly="1"/>
+                                <field name="deadline"/>
+                            </group>
+                        </group>
+                        <group string="统计（只读）">
+                            <field name="expected_count"/>
+                            <field name="replied_count"/>
+                            <field name="missing_count"/>
+                            <field name="missing_names"/>
+                        </group>
+                        <notebook>
+                            <page string="回填明细" name="replies">
+                                <field name="reply_ids" readonly="1">
+                                    <list>
+                                        <field name="replied_at"/>
+                                        <field name="person_id"/>
+                                        <field name="tg_name"/>
+                                        <field name="choice"/>
+                                        <field name="tg_user_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="正文快照" name="body">
+                                <field name="body" readonly="1" nolabel="1"/>
+                            </page>
+                        </notebook>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ================= D1 自检 / D2 清理（运维入口） ================= -->
+        <record id="view_assist_selfcheck_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.selfcheck.form</field>
+            <field name="model">edu.tg.assist.selfcheck</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_rerun" type="object" string="重新自检"
+                                class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="checked_at"/>
+                        </group>
+                        <field name="report" nolabel="1" readonly="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_assist_selfcheck" model="ir.actions.act_window">
+            <field name="name">班务机器人自检</field>
+            <field name="res_model">edu.tg.assist.selfcheck</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_assist_prune_logs" model="ir.actions.server">
+            <field name="name">清理发送记录</field>
+            <field name="model_id" ref="model_edu_tg_assist_send_log"/>
+            <field name="state">code</field>
+            <field name="code">action = env['edu.tg.assist.send_log'].sudo().action_prune_now()</field>
+        </record>
+
+        <!-- 菜单 -->
+        <!-- 只给「班务机器人管理员」与超管看：其余内部用户本来也打不开（无 ACL），
+             菜单留着只会让人点了报错。子菜单挂在根菜单下，根不可见即整棵不出现。 -->
+        <menuitem id="menu_assist_root" name="班务机器人" sequence="85"
+                  groups="edu_tg_assist.group_assist_manager,base.group_system"
+                  web_icon="edu_tg_assist,static/description/icon.png"/>
+        <menuitem id="menu_assist_chat" name="群与短名" parent="menu_assist_root" sequence="10"/>
+        <menuitem id="menu_assist_person" name="人员映射" parent="menu_assist_root" sequence="20"/>
+        <menuitem id="menu_assist_poll" name="打卡统计" parent="menu_assist_root" sequence="50"/>
+        <menuitem id="menu_assist_send_log" name="发送记录" parent="menu_assist_root" sequence="90"/>
+
+        <record id="action_assist_chat" model="ir.actions.act_window">
+            <field name="name">群与短名</field>
+            <field name="res_model">edu.tg.assist.chat</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_assist_person" model="ir.actions.act_window">
+            <field name="name">人员映射</field>
+            <field name="res_model">edu.tg.assist.person</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_assist_send_log" model="ir.actions.act_window">
+            <field name="name">发送记录</field>
+            <field name="res_model">edu.tg.assist.send_log</field>
+            <field name="view_mode">list</field>
+        </record>
+        <record id="action_assist_poll" model="ir.actions.act_window">
+            <field name="name">打卡统计</field>
+            <field name="res_model">edu.tg.assist.poll</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">还没有打卡。</p>
+                <p>把「定时提醒」里的<strong>带打卡按钮</strong>勾上，发出后这里就会自动出现一条，
+                   并开始统计谁回了、谁没回。</p>
+            </field>
+        </record>
+
+        <menuitem id="menu_assist_chat_action" parent="menu_assist_chat"
+                  action="action_assist_chat" sequence="10"/>
+        <menuitem id="menu_assist_person_action" parent="menu_assist_person"
+                  action="action_assist_person" sequence="10"/>
+        <menuitem id="menu_assist_poll_action" parent="menu_assist_poll"
+                  action="action_assist_poll" sequence="10"/>
+        <menuitem id="menu_assist_send_log_action" parent="menu_assist_send_log"
+                  action="action_assist_send_log" sequence="10"/>
+        <menuitem id="menu_assist_prune" name="清理发送记录" parent="menu_assist_root"
+                  action="action_assist_prune_logs" sequence="92"/>
+        <menuitem id="menu_assist_selfcheck" name="自检" parent="menu_assist_root"
+                  action="action_assist_selfcheck" sequence="95"/>
+    </data>
+</odoo>

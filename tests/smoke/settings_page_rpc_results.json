@@ -1,0 +1,23 @@
+{
+  "mode": "rpc",
+  "base_url": "http://127.0.0.1:8069",
+  "login": "admin",
+  "uid": 2,
+  "default_get": {
+    "ok": true,
+    "error": "{}",
+    "deadline": {
+      "edu_apply_deadline": "2026-09-30 16:00:00",
+      "edu_enroll_deadline": "2026-09-30 16:00:00"
+    }
+  },
+  "onchange": {
+    "ok": true,
+    "error": "{}"
+  },
+  "params": {
+    "edu.apply.deadline": "2026-10-01",
+    "edu.enroll.deadline": "2026-10-01"
+  },
+  "verdict": "PASS"
+}

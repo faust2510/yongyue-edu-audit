@@ -1,0 +1,22 @@
+{
+  "mode": "save-noop",
+  "base_url": "http://127.0.0.1:8069",
+  "login": "admin",
+  "uid": 2,
+  "dialog": "",
+  "before": {
+    "edu.apply.deadline": "2026-10-01",
+    "edu.enroll.deadline": "2026-10-01",
+    "web.base.url": "http://127.0.0.1:8069",
+    "recaptcha_min_score": "0.7",
+    "product.weight_in_lbs": "0"
+  },
+  "after": {
+    "edu.apply.deadline": "2026-10-01",
+    "edu.enroll.deadline": "2026-10-01",
+    "web.base.url": "http://127.0.0.1:8069",
+    "recaptcha_min_score": "0.7",
+    "product.weight_in_lbs": "0"
+  },
+  "verdict": "PASS"
+}

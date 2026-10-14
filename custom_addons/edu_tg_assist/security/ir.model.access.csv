@@ -1,0 +1,38 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_assist_chat_admin,edu.tg.assist.chat admin,model_edu_tg_assist_chat,base.group_system,1,1,1,1
+access_assist_person_admin,edu.tg.assist.person admin,model_edu_tg_assist_person,base.group_system,1,1,1,1
+access_assist_forward_admin,edu.tg.assist.forward admin,model_edu_tg_assist_forward,base.group_system,1,1,1,1
+access_assist_send_log_admin,edu.tg.assist.send_log admin,model_edu_tg_assist_send_log,base.group_system,1,1,1,1
+access_assist_mention_admin,edu.tg.assist.mention admin,model_edu_tg_assist_mention,base.group_system,1,1,1,1
+access_assist_reply_admin,edu.tg.assist.reply admin,model_edu_tg_assist_reply,base.group_system,1,1,1,1
+access_assist_template_admin,edu.tg.assist.template admin,model_edu_tg_assist_template,base.group_system,1,1,1,1
+access_assist_reminder_admin,edu.tg.assist.reminder admin,model_edu_tg_assist_reminder,base.group_system,1,1,1,1
+access_assist_dm_admin,edu.tg.assist.dm admin,model_edu_tg_assist_dm,base.group_system,1,1,1,1
+access_assist_chat_user,edu.tg.assist.chat 只读,model_edu_tg_assist_chat,base.group_user,1,0,0,0
+access_assist_mention_user,edu.tg.assist.mention 只读,model_edu_tg_assist_mention,base.group_user,1,0,0,0
+access_assist_reply_user,edu.tg.assist.reply 只读,model_edu_tg_assist_reply,base.group_user,1,0,0,0
+access_assist_template_user,edu.tg.assist.template 只读,model_edu_tg_assist_template,base.group_user,1,0,0,0
+access_assist_reminder_user,edu.tg.assist.reminder 只读,model_edu_tg_assist_reminder,base.group_user,1,0,0,0
+access_assist_update_log_admin,edu.tg.assist.update_log admin,model_edu_tg_assist_update_log,base.group_system,1,1,1,1
+access_assist_poll_admin,edu.tg.assist.poll admin,model_edu_tg_assist_poll,base.group_system,1,1,1,1
+access_assist_poll_reply_admin,edu.tg.assist.poll.reply admin,model_edu_tg_assist_poll_reply,base.group_system,1,1,1,1
+access_assist_selfcheck_admin,edu.tg.assist.selfcheck admin,model_edu_tg_assist_selfcheck,base.group_system,1,1,1,1
+access_assist_material_admin,edu.tg.assist.material admin,model_edu_tg_assist_material,base.group_system,1,1,1,1
+access_assist_bindcode_admin,edu.tg.assist.bindcode admin,model_edu_tg_assist_bindcode,base.group_system,1,1,1,1
+access_assist_chat_manager,edu.tg.assist.chat manager,model_edu_tg_assist_chat,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_person_manager,edu.tg.assist.person manager,model_edu_tg_assist_person,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_template_manager,edu.tg.assist.template manager,model_edu_tg_assist_template,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_reminder_manager,edu.tg.assist.reminder manager,model_edu_tg_assist_reminder,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_material_manager,edu.tg.assist.material manager,model_edu_tg_assist_material,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_bindcode_manager,edu.tg.assist.bindcode manager,model_edu_tg_assist_bindcode,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_poll_manager,edu.tg.assist.poll manager,model_edu_tg_assist_poll,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_poll_reply_manager,edu.tg.assist.poll.reply manager,model_edu_tg_assist_poll_reply,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_mention_manager,edu.tg.assist.mention manager,model_edu_tg_assist_mention,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_selfcheck_manager,edu.tg.assist.selfcheck manager,model_edu_tg_assist_selfcheck,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_forward_manager,edu.tg.assist.forward manager,model_edu_tg_assist_forward,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_send_log_manager,edu.tg.assist.send_log manager 只读,model_edu_tg_assist_send_log,edu_tg_assist.group_assist_manager,1,0,0,0
+access_assist_update_log_manager,edu.tg.assist.update_log manager 只读,model_edu_tg_assist_update_log,edu_tg_assist.group_assist_manager,1,0,0,0
+access_assist_dm_manager,edu.tg.assist.dm manager 只读,model_edu_tg_assist_dm,edu_tg_assist.group_assist_manager,1,0,0,0
+access_assist_reply_manager,edu.tg.assist.reply manager 只读,model_edu_tg_assist_reply,edu_tg_assist.group_assist_manager,1,0,0,0
+access_assist_bridge_manager,edu.tg.assist.bridge manager,model_edu_tg_assist_bridge,edu_tg_assist.group_assist_manager,1,1,1,1
+access_assist_bridge_log_manager,edu.tg.assist.bridge_log manager 只读,model_edu_tg_assist_bridge_log,edu_tg_assist.group_assist_manager,1,0,0,0

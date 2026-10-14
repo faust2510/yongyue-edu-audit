@@ -1,0 +1,358 @@
+{
+ "suite": "eval_rebuild",
+ "summary": {
+  "total": 58,
+  "pass": 58,
+  "fail": 0
+ },
+ "items": [
+  {
+   "no": "V1-①",
+   "name": "加列前：门户矩阵页没有「课堂笔记」列",
+   "pass": true,
+   "detail": "HTTP 200；含新列=False；评分项行数=2"
+  },
+  {
+   "no": "V1-②",
+   "name": "在线新增评分项（RPC create，无升级/无发版）",
+   "pass": true,
+   "detail": "item_id=18 "
+  },
+  {
+   "no": "V1-③",
+   "name": "库里评分项行数 +1（插一行 = 加一列）",
+   "pass": true,
+   "detail": "before=2 after=3"
+  },
+  {
+   "no": "V1-④",
+   "name": "刷新门户矩阵页：表头出现「课堂笔记」列",
+   "pass": true,
+   "detail": "HTTP 200；含新列=True（前后对照：前=False）"
+  },
+  {
+   "no": "V1-⑤",
+   "name": "学生/教师填入新列并提交 → 库内 1 行 / 值 8",
+   "pass": true,
+   "detail": "POST=303；select count,max(value) → 1 行 / 8"
+  },
+  {
+   "no": "V2-①",
+   "name": "学生提交评教（写路由 303 回填页）",
+   "pass": true,
+   "detail": "POST=303 Location=/assess/fill/2?saved=1"
+  },
+  {
+   "no": "V2-②",
+   "name": "匿名任务的打分记录里 scorer_id 全为空",
+   "pass": true,
+   "detail": "行数=1，其中 scorer_id 非空 = 0"
+  },
+  {
+   "no": "V2-③",
+   "name": "打分人只有 HMAC 指纹（h: + 64 位十六进制）",
+   "pass": true,
+   "detail": "scorer_ref=h:19308bd6de926f9b02…"
+  },
+  {
+   "no": "V2-④",
+   "name": "整行里没有任何\"打分人 = 学生 uid\"的明文（含 create_uid/write_uid）",
+   "pass": true,
+   "detail": "匹配 uid=8 的行数 = 0"
+  },
+  {
+   "no": "V2-④b",
+   "name": "匿名答卷的 create_uid/write_uid 统一为系统用户（1）",
+   "pass": true,
+   "detail": "1 / 1 行落在系统用户下"
+  },
+  {
+   "no": "V2-⑤",
+   "name": "审计留痕里也没有\"谁提交的匿名评教\"",
+   "pass": true,
+   "detail": "audit rows(user_id=学生) = 0"
+  },
+  {
+   "no": "V2-⑥",
+   "name": "同一人重复提交：不翻倍而是覆盖（指纹查重）",
+   "pass": true,
+   "detail": "行数 1 → 1；值 = 22.5"
+  },
+  {
+   "no": "V3-①",
+   "name": "份数(1) < 门槛(3)：结果页不展示明细",
+   "pass": true,
+   "detail": "HTTP 200；门槛提示=True；结果表=False"
+  },
+  {
+   "no": "V3-②",
+   "name": "正对照：门槛降为 1 后同一批数据即可见（不是\"页面坏了\"）",
+   "pass": true,
+   "detail": "write err=—；结果表=True"
+  },
+  {
+   "no": "V3-③",
+   "name": "门槛改回 3 后重新隐藏（读数可复现）",
+   "pass": true,
+   "detail": "已复现隐藏"
+  },
+  {
+   "no": "V4-①",
+   "name": "导出空表：真 xlsx + 表头 = 学号/姓名 + 全部评分项",
+   "pass": true,
+   "detail": "header=['学号', '姓名', '平时表现', '期末考评'] rows=5"
+  },
+  {
+   "no": "V4-②",
+   "name": "导出结果：真 xlsx（HTTP 200 + 可解析）",
+   "pass": true,
+   "detail": "HTTP 200 bytes=5707 magic=b'PK'"
+  },
+  {
+   "no": "V4-③",
+   "name": "导入预览：valid=3 / invalid=0",
+   "pass": true,
+   "detail": "HTTP 200；valid=3 invalid=0"
+  },
+  {
+   "no": "V4-④",
+   "name": "提交后库里 6 条（3 学生 × 2 项）",
+   "pass": true,
+   "detail": "HTTP 303 Location=/assess/task/3/results?imported=6&skipped=0；表内条数=6"
+  },
+  {
+   "no": "V4-⑤",
+   "name": "同一文件再导一次 ⇒ 条数不变（幂等，不翻倍）",
+   "pass": true,
+   "detail": "第一次 6 条 → 第二次 6 条"
+  },
+  {
+   "no": "V4-⑥",
+   "name": "第二次预览显示「旧值 = 新值」",
+   "pass": true,
+   "detail": "old 值抽样 = [12.0, 18.0, 12.0]"
+  },
+  {
+   "no": "V4-⑦",
+   "name": "结果页出现明细表（实名任务无门槛）",
+   "pass": true,
+   "detail": "HTTP 200"
+  },
+  {
+   "no": "V5-①",
+   "name": "预览：超满分那行 invalid=1 且给出原因",
+   "pass": true,
+   "detail": "HTTP 200 invalid=1 含\"超过满分\"=True"
+  },
+  {
+   "no": "V5-②",
+   "name": "整行未写入：超满分那格仍是旧值（999 没进库）",
+   "pass": true,
+   "detail": "平时表现 12 → 12（该行 invalid，整行不落库）"
+  },
+  {
+   "no": "V5-③",
+   "name": "空值 = 跳过：留空不清空库里已有的分",
+   "pass": true,
+   "detail": "期末考评 18 → 18"
+  },
+  {
+   "no": "V6-①",
+   "name": "默认：未知列头整份报错，评分项行数不变",
+   "pass": true,
+   "detail": "HTTP 200；评分项 2 → 2"
+  },
+  {
+   "no": "V6-②",
+   "name": "勾选「按新列创建评分项」：模板新增 1 项（名称 = 列头）",
+   "pass": true,
+   "detail": "评分项 2 → 3"
+  },
+  {
+   "no": "V6-③",
+   "name": "无人打分的评分项可以删除（对照\"有分拒删\"）",
+   "pass": true,
+   "detail": "unlink=True "
+  },
+  {
+   "no": "V2b-①",
+   "name": "有打分的评分项：删除被拒 + 提示改用停用",
+   "pass": true,
+   "detail": "err=odoo.exceptions.UserError: 评分项「课堂笔记」已有 1 条打分记录，不能删除；请改用「停用」——停用后新打分不再出现该列，历史得分仍保留可查。"
+  },
+  {
+   "no": "V7-①",
+   "name": "学生 /assess/my 只见自己（他人姓名不出现）",
+   "pass": true,
+   "detail": "HTTP 200；泄漏姓名=无"
+  },
+  {
+   "no": "V7-②",
+   "name": "教师整班打分页：只出现本人任教班学生",
+   "pass": true,
+   "detail": "矩阵内学生=['王小明']；任教班=['王小明']（表体命中=True）"
+  },
+  {
+   "no": "V7-③",
+   "name": "对照：名单快照在库里存在（页面为空不是\"恰无数据\"）",
+   "pass": true,
+   "detail": "库内 1 行"
+  },
+  {
+   "no": "V8-①",
+   "name": "正对照：教务 RPC search_read 拿得到全部打分记录",
+   "pass": true,
+   "detail": "教务读到 8 行"
+  },
+  {
+   "no": "V8-②",
+   "name": "学生 RPC 直读 edu.assess.score 被拒（门户 ACL = 0）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.AccessError: 不允许访问\"评估打分记录\"（edu.assess.score）记录。\n\n允许对以下组进行此操作：\n\t- rows=0"
+  },
+  {
+   "no": "V8-③",
+   "name": "家长 RPC 直读 edu.assess.score 被拒（门户 ACL = 0）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.AccessError: 不允许访问\"评估打分记录\"（edu.assess.score）记录。\n\n允许对以下组进行此操作：\n\t- rows=0"
+  },
+  {
+   "no": "V8-④",
+   "name": "学生 RPC 直读 edu.assess.roster 被拒",
+   "pass": true,
+   "detail": "err=odoo.exceptions.AccessError: 不允许访问\"评估名单快照\"（edu.assess.roster）记录。\n\n允许对以下组进行此操作：\n\t rows=0"
+  },
+  {
+   "no": "V8-⑤",
+   "name": "学生 RPC 直读 edu.assess.task 被拒",
+   "pass": true,
+   "detail": "err=odoo.exceptions.AccessError: 不允许访问\"评估任务\"（edu.assess.task）记录。\n\n允许对以下组进行此操作：\n\t- Op rows=0"
+  },
+  {
+   "no": "V8-⑥",
+   "name": "教师 RPC 直读被行级规则收敛（拿不到 < 教务）",
+   "pass": true,
+   "detail": "教师 3 行 < 教务 8 行（err=—）"
+  },
+  {
+   "no": "V9",
+   "name": "/my/evaluation → 303 /assess",
+   "pass": true,
+   "detail": "303 /assess"
+  },
+  {
+   "no": "V9",
+   "name": "/my/evaluation/new → 303 /assess",
+   "pass": true,
+   "detail": "303 /assess"
+  },
+  {
+   "no": "V9",
+   "name": "/my/evaluation/results → 303 /assess/my",
+   "pass": true,
+   "detail": "303 /assess/my"
+  },
+  {
+   "no": "V9",
+   "name": "/eval/my → 303 /assess/my",
+   "pass": true,
+   "detail": "303 /assess/my"
+  },
+  {
+   "no": "V9",
+   "name": "/eval/review → 303 /assess/my",
+   "pass": true,
+   "detail": "303 /assess/my"
+  },
+  {
+   "no": "V9",
+   "name": "/eval/fill/9 → 303 /assess",
+   "pass": true,
+   "detail": "303 /assess"
+  },
+  {
+   "no": "V9",
+   "name": "教务访问旧地址同样 303（不是 404/500）",
+   "pass": true,
+   "detail": "303 /assess"
+  },
+  {
+   "no": "V10-①",
+   "name": "教务可见的评估根只有 1 个（588）",
+   "pass": true,
+   "detail": "评估类根 = ['综合评估']（全部根 12 条）"
+  },
+  {
+   "no": "V10-②",
+   "name": "教务可见根 ≤12（不破线）",
+   "pass": true,
+   "detail": "可见根 = 12 条：资料下载、教务审批、财务管理、资产管理、招聘管理、灵命生活、综合评估、网站、学生信息、招生、时间表、图书馆"
+  },
+  {
+   "no": "V10-③",
+   "name": "学生看不到后台评估菜单（走门户）",
+   "pass": true,
+   "detail": "学生可见菜单节点 = 0"
+  },
+  {
+   "no": "V10-④",
+   "name": "新引擎 4 条子菜单挂在同一个评估根下",
+   "pass": true,
+   "detail": "子菜单 = ['打分记录', '打分记录', '模板与评分项', '模板管理', '结果与导出', '结果分析', '评估任务', '评估任务', '评估模板']"
+  },
+  {
+   "no": "V13-①",
+   "name": "后台动作「模板与评分项」可加载",
+   "pass": true,
+   "detail": "res_model=edu.assess.template type=ir.actions.act_window"
+  },
+  {
+   "no": "V13-②",
+   "name": "模板 list/form 视图可取（视图层不挡教务）",
+   "pass": true,
+   "detail": "err=— views=True"
+  },
+  {
+   "no": "V13-③",
+   "name": "教务 search_read 模板（ACL 层）",
+   "pass": true,
+   "detail": "err=— 行数=3"
+  },
+  {
+   "no": "V13-④",
+   "name": "打分记录 list 视图可取（后台可编辑列表）",
+   "pass": true,
+   "detail": "err=—"
+  },
+  {
+   "no": "V13-⑤",
+   "name": "评估任务 form 视图可取（含评分项内联列表入口）",
+   "pass": true,
+   "detail": "err=—"
+  },
+  {
+   "no": "V11-①",
+   "name": "A 套（edu.eval.*）模板与评分项已导出 JSON 留档",
+   "pass": true,
+   "detail": "文件=a-suite-eval-definitions.json；模板=3 评分项=12 任务=1 打分=5"
+  },
+  {
+   "no": "V11-②",
+   "name": "A/B 两套全表行数与开跑基线逐表相等（只冻结、零删除）",
+   "pass": true,
+   "detail": "edu_admin_eval_item=0、edu_admin_eval_score=0、edu_admin_eval_template=0、edu_assess_item=7、edu_assess_roster=7、edu_assess_score=8、edu_assess_task=3、edu_assess_template=3、edu_eval_score=5、edu_eval_task=1、edu_eval_template=3、edu_eval_template_line=12｜基线 edu_admin_eval_item=0、edu_admin_eval_score=0、edu_admin_eval_template=0、edu_assess_item=7、edu_assess_roster=7、edu_assess_score=8、edu_assess_task=3、edu_assess_template=3、edu_eval_score=5、edu_eval_task=1、edu_eval_template=3、edu_eval_template_line=12"
+  },
+  {
+   "no": "V11-③",
+   "name": "B 套（edu_eval 模块）未卸载、表仍在",
+   "pass": true,
+   "detail": "edu_admin_eval_template=0"
+  },
+  {
+   "no": "V12-①",
+   "name": "当前业务表计数基线",
+   "pass": true,
+   "detail": "edu_assess_score=8 edu_assess_item=7"
+  }
+ ]
+}

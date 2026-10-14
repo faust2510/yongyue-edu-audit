@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_assess_template_admin,edu.assess.template 教务,model_edu_assess_template,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_assess_template_system,edu.assess.template 系统,model_edu_assess_template,base.group_system,1,1,1,1
+access_edu_assess_template_faculty,edu.assess.template 教师只读,model_edu_assess_template,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_assess_item_admin,edu.assess.item 教务,model_edu_assess_item,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_assess_item_system,edu.assess.item 系统,model_edu_assess_item,base.group_system,1,1,1,1
+access_edu_assess_item_faculty,edu.assess.item 教师只读,model_edu_assess_item,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_assess_task_admin,edu.assess.task 教务,model_edu_assess_task,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_assess_task_system,edu.assess.task 系统,model_edu_assess_task,base.group_system,1,1,1,1
+access_edu_assess_task_faculty,edu.assess.task 教师只读,model_edu_assess_task,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_assess_roster_admin,edu.assess.roster 教务,model_edu_assess_roster,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_assess_roster_system,edu.assess.roster 系统,model_edu_assess_roster,base.group_system,1,1,1,1
+access_edu_assess_roster_faculty,edu.assess.roster 教师（受行级规则收敛）,model_edu_assess_roster,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_assess_score_admin,edu.assess.score 教务,model_edu_assess_score,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_assess_score_system,edu.assess.score 系统,model_edu_assess_score,base.group_system,1,1,1,1
+access_edu_assess_score_faculty,edu.assess.score 教师（受行级规则收敛）,model_edu_assess_score,openeducat_core.group_op_faculty,1,1,1,0

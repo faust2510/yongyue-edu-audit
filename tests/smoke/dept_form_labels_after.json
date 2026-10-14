@@ -1,0 +1,42 @@
+{
+  "all_labels": [
+    "名称",
+    "上级院系",
+    "代码"
+  ],
+  "base": "http://localhost:8069",
+  "breadcrumb": "院系部门",
+  "buttons": [
+    "新建"
+  ],
+  "db": "edu19",
+  "field_labels": [
+    {
+      "field": "name",
+      "label": "名称",
+      "required": false
+    },
+    {
+      "field": "parent_id",
+      "label": "上级院系",
+      "required": false
+    },
+    {
+      "field": "code",
+      "label": "代码",
+      "required": false
+    }
+  ],
+  "form_open": true,
+  "form_title": "新建",
+  "group_titles": [],
+  "list_headers": [
+    "",
+    "名称",
+    "代码",
+    "上级院系"
+  ],
+  "role": "backoffice@local",
+  "uid": 12,
+  "unlabeled_fields": []
+}

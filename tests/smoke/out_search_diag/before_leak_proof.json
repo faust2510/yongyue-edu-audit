@@ -1,0 +1,94 @@
+{
+ "ZZ越权探针": {
+  "status": 200,
+  "no_result_msg": false,
+  "items": [
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/home",
+   "/my/calendar",
+   "/my/messages",
+   "/my/contacts",
+   "/my/password",
+   "/contactus",
+   "/help",
+   "mailto:scrtsschool@gmail.com"
+  ],
+  "raw_block": "搜索结果</h4> <h5 class=\"mt-3 mb-2 text-primary\"> <i class=\"fa fa-folder-open-o me-1\"></i>申诉单 <span class=\"badge text-bg-light text-muted ms-1\">8</span> </h5> <div class=\"list-group mb-2\"> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>ZZ越权探针-别人的申诉 </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>迟到道歉（回归测试） </a> </div> <script> (function(){ try{ if(localStorage.getItem('yy_ob_done')) return; var el=document.getElementById('yy-onboard'); var internal=document.querySelector('a[href=\"/apps\"]'); // 学生/家长也展示通用清单 if(el){ el.style.display='block'; } }catch(e){} })(); </script> </div> </div> <nav class=\"b11-tabbar d-lg-none\" id=\"b11-tabbar\" aria-label=\"移动端主导航\"> <a class=\"b11-tab\" href=\"/my/home\" data-b11-tab=\"/my/home\"> <i class=\"fa fa-home\" aria-hidden=\"true\"></i><span>首页</span></a> <a class=\"b11-tab\" href=\"/my/calendar\" data-b11-tab=\"/my/calendar\"> <i class=\"fa fa-calendar\" aria-hidden=\"true\"></i><span>校历</span></a> <a class=\"b11-tab\" href=\"/my/messages\" data-b11-tab=\"/my/messages\"> <i class=\"fa fa-comments-o\" aria-hidden=\"true\"></i><span>消息</span></a> <a class=\"b11-tab\" href=\"/my/contacts\" data-b11-tab=\"/my/contacts\"> <i class=\"fa fa-address-book-o\" aria-hidden=\"true\"></i><span>通讯录</span></a> <a class=\"b11-tab\" href=\"/my/password\" data-b11-tab=\"/my/password\"> <i class=\"fa fa-key\" aria-hidden=\"true\"></i><span>修改密码</span></a> <style> @media (max-width: 991.98px){ #wrapwrap.o_portal .o_portal_wrap .b11-tabbar:has(a[href=\"/registrar/curri"
+ },
+ "zzz_no_such_thing": {
+  "status": 200,
+  "no_result_msg": false,
+  "items": [
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/home",
+   "/my/calendar",
+   "/my/messages",
+   "/my/contacts",
+   "/my/password",
+   "/contactus",
+   "/help",
+   "mailto:scrtsschool@gmail.com"
+  ],
+  "raw_block": "搜索结果</h4> <h5 class=\"mt-3 mb-2 text-primary\"> <i class=\"fa fa-folder-open-o me-1\"></i>申诉单 <span class=\"badge text-bg-light text-muted ms-1\">8</span> </h5> <div class=\"list-group mb-2\"> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>迟到道歉（回归测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>冒烟测试申诉（可删） </a> </div> <script> (function(){ try{ if(localStorage.getItem('yy_ob_done')) return; var el=document.getElementById('yy-onboard'); var internal=document.querySelector('a[href=\"/apps\"]'); // 学生/家长也展示通用清单 if(el){ el.style.display='block'; } }catch(e){} })(); </script> </div> </div> <nav class=\"b11-tabbar d-lg-none\" id=\"b11-tabbar\" aria-label=\"移动端主导航\"> <a class=\"b11-tab\" href=\"/my/home\" data-b11-tab=\"/my/home\"> <i class=\"fa fa-home\" aria-hidden=\"true\"></i><span>首页</span></a> <a class=\"b11-tab\" href=\"/my/calendar\" data-b11-tab=\"/my/calendar\"> <i class=\"fa fa-calendar\" aria-hidden=\"true\"></i><span>校历</span></a> <a class=\"b11-tab\" href=\"/my/messages\" data-b11-tab=\"/my/messages\"> <i class=\"fa fa-comments-o\" aria-hidden=\"true\"></i><span>消息</span></a> <a class=\"b11-tab\" href=\"/my/contacts\" data-b11-tab=\"/my/contacts\"> <i class=\"fa fa-address-book-o\" aria-hidden=\"true\"></i><span>通讯录</span></a> <a class=\"b11-tab\" href=\"/my/password\" data-b11-tab=\"/my/password\"> <i class=\"fa fa-key\" aria-hidden=\"true\"></i><span>修改密码</span></a> <style> @media (max-width: 991.98px){ #wrapwrap.o_portal .o_portal_wrap .b11-tabbar:has(a[href=\"/registrar/curricu"
+ },
+ "账单": {
+  "status": 200,
+  "no_result_msg": false,
+  "items": [
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/home",
+   "/my/calendar",
+   "/my/messages",
+   "/my/contacts",
+   "/my/password",
+   "/contactus",
+   "/help",
+   "mailto:scrtsschool@gmail.com"
+  ],
+  "raw_block": "搜索结果</h4> <h5 class=\"mt-3 mb-2 text-primary\"> <i class=\"fa fa-folder-open-o me-1\"></i>申诉单 <span class=\"badge text-bg-light text-muted ms-1\">8</span> </h5> <div class=\"list-group mb-2\"> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>迟到道歉（回归测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>冒烟测试申诉（可删） </a> </div> <script> (function(){ try{ if(localStorage.getItem('yy_ob_done')) return; var el=document.getElementById('yy-onboard'); var internal=document.querySelector('a[href=\"/apps\"]'); // 学生/家长也展示通用清单 if(el){ el.style.display='block'; } }catch(e){} })(); </script> </div> </div> <nav class=\"b11-tabbar d-lg-none\" id=\"b11-tabbar\" aria-label=\"移动端主导航\"> <a class=\"b11-tab\" href=\"/my/home\" data-b11-tab=\"/my/home\"> <i class=\"fa fa-home\" aria-hidden=\"true\"></i><span>首页</span></a> <a class=\"b11-tab\" href=\"/my/calendar\" data-b11-tab=\"/my/calendar\"> <i class=\"fa fa-calendar\" aria-hidden=\"true\"></i><span>校历</span></a> <a class=\"b11-tab\" href=\"/my/messages\" data-b11-tab=\"/my/messages\"> <i class=\"fa fa-comments-o\" aria-hidden=\"true\"></i><span>消息</span></a> <a class=\"b11-tab\" href=\"/my/contacts\" data-b11-tab=\"/my/contacts\"> <i class=\"fa fa-address-book-o\" aria-hidden=\"true\"></i><span>通讯录</span></a> <a class=\"b11-tab\" href=\"/my/password\" data-b11-tab=\"/my/password\"> <i class=\"fa fa-key\" aria-hidden=\"true\"></i><span>修改密码</span></a> <style> @media (max-width: 991.98px){ #wrapwrap.o_portal .o_portal_wrap .b11-tabbar:has(a[href=\"/registrar/curricu"
+ },
+ "成绩": {
+  "status": 200,
+  "no_result_msg": false,
+  "items": [
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/grievances",
+   "/my/home",
+   "/my/calendar",
+   "/my/messages",
+   "/my/contacts",
+   "/my/password",
+   "/contactus",
+   "/help",
+   "mailto:scrtsschool@gmail.com"
+  ],
+  "raw_block": "搜索结果</h4> <h5 class=\"mt-3 mb-2 text-primary\"> <i class=\"fa fa-folder-open-o me-1\"></i>申诉单 <span class=\"badge text-bg-light text-muted ms-1\">8</span> </h5> <div class=\"list-group mb-2\"> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>图书馆座位预约异常（验收测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>迟到道歉（回归测试） </a> <a class=\"list-group-item list-group-item-action py-2\" href=\"/my/grievances\"> <i class=\"fa fa-angle-right me-2 text-muted\"></i>冒烟测试申诉（可删） </a> </div> <script> (function(){ try{ if(localStorage.getItem('yy_ob_done')) return; var el=document.getElementById('yy-onboard'); var internal=document.querySelector('a[href=\"/apps\"]'); // 学生/家长也展示通用清单 if(el){ el.style.display='block'; } }catch(e){} })(); </script> </div> </div> <nav class=\"b11-tabbar d-lg-none\" id=\"b11-tabbar\" aria-label=\"移动端主导航\"> <a class=\"b11-tab\" href=\"/my/home\" data-b11-tab=\"/my/home\"> <i class=\"fa fa-home\" aria-hidden=\"true\"></i><span>首页</span></a> <a class=\"b11-tab\" href=\"/my/calendar\" data-b11-tab=\"/my/calendar\"> <i class=\"fa fa-calendar\" aria-hidden=\"true\"></i><span>校历</span></a> <a class=\"b11-tab\" href=\"/my/messages\" data-b11-tab=\"/my/messages\"> <i class=\"fa fa-comments-o\" aria-hidden=\"true\"></i><span>消息</span></a> <a class=\"b11-tab\" href=\"/my/contacts\" data-b11-tab=\"/my/contacts\"> <i class=\"fa fa-address-book-o\" aria-hidden=\"true\"></i><span>通讯录</span></a> <a class=\"b11-tab\" href=\"/my/password\" data-b11-tab=\"/my/password\"> <i class=\"fa fa-key\" aria-hidden=\"true\"></i><span>修改密码</span></a> <style> @media (max-width: 991.98px){ #wrapwrap.o_portal .o_portal_wrap .b11-tabbar:has(a[href=\"/registrar/curricu"
+ }
+}

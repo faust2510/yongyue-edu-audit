@@ -1,0 +1,141 @@
+// v4 · 后台 Web 客户端主题化（B11 → 全站唯一令牌体系）
+// 依赖：edu_brand/static/src/scss/brand_tokens.scss（唯一令牌源；必须排在本文件之前 ——
+//       见 __manifest__.py 的 web._assets_primary_variables 顺序，反序 = sass 未定义变量，
+//       前后台 CSS 一起挂）。
+// 纪律：本文件不写任何色值字面量，一律引用 $brand-* / $success 等 SCSS 变量（规范 §1.6）。
+//
+// 三条机制（[源] Odoo 核心 /usr/lib/python3/dist-packages/odoo/addons/web/static/src/scss/
+// primary_variables.scss，297 行版）：
+//  ① 基础变量：本文件编译在 primary_variables.scss 之后，普通赋值即压过官方 !default。
+//  ② 定格派生变量：`$x: f($o-gray-*)` / `$x: $o-gray-*` 一类在该文件内**先于本文件**求值
+//     （!default 守的是 $x 自己，不是被引用的 $o-*），改源变量到不了 ⇒ 必须按名重赋。
+//  ③ map 快照：$o-grays / $o-btns-bs-override / $o-btns-bs-outline-override /
+//     $o-theme-text-colors 同样先定格 ⇒ 必须重做条目。
+//  实证（算术级）：$o-component-active-bg 快照 = mix(#71639e, #f8f9fa, 20%) = (221,219,232)
+//        = #DDDBE8，与生产 /odoo/contacts 实测 rgb(221,219,232) 逐通道吻合 ⇒
+//        「只改源变量、不重做 map」在生产上就是看得见的漏网。
+
+// --- ① 基础变量 ---
+$o-community-color: $brand-action;      // 原厂紫 71639E（导航栏底 + .btn-primary 的总源）
+$o-enterprise-color: $brand-action;     // 原厂 714B67
+$o-enterprise-action-color: $teal-600;  // 原厂 017e84（青）
+$o-brand-odoo: $brand-action;
+$o-brand-primary: $brand-action;
+$o-brand-secondary: $text-3;            // 原厂 8f8f8f
+$o-brand-lightsecondary: $bg;
+$o-action: $brand-action;
+
+$o-success: $success;                   // 原厂 28a745
+$o-info: $teal-600;                     // 原厂 17a2b8（保留青色相；作文字 4.99 ✓）
+$o-warning: $warning;                   // 原厂 ffac00
+$o-danger: $danger;                     // 原厂 dc3545
+
+$o-gray-100: $bg;
+$o-gray-200: $fill-hover;
+$o-gray-300: $border;
+$o-gray-400: $border-strong;
+$o-gray-500: $text-disabled;
+$o-gray-600: $text-3;
+$o-gray-700: $text-2;
+$o-gray-800: $text-1;
+$o-gray-900: $text-1;
+
+// --- ② 定格派生变量（按名重赋）---
+$o-main-text-color: $text-1;             // primary_variables.scss:120 快照 = $o-gray-900
+$o-main-color-muted: $text-3;            // :121 原为 rgba($o-gray-700, .76)
+$o-main-headings-color: $text-1;
+$o-main-link-color: $brand-action;       // :123 原为 darken(原厂紫, 5%)
+$o-component-active-color: $black;       // 纯黑：captain 裁定豁免不动
+$o-component-active-bg: $fill-active;    // 关键：不能留 mix()，否则必然渲染出一个令牌外色
+$o-component-active-border: $brand-action;
+$o-navbar-background: $brand-action;     // t1 B 机制：修导航栏下拉的 #71639E
+$o-navbar-border-bottom: 1px solid $brand-action-hover;  // 同机制的另一处定格
+$o-input-border-required: $brand-action; // :171 快照 = 原厂紫（必填字段边框）
+$o-input-invalid-bg: $danger-soft;       // :170 原为 mix(#dc3545, ...)
+$o-list-group-active-bg: $fill-active;   // :200 原为从 $o-info(17a2b8) 派生
+$o-list-group-active-color: $black;
+
+// --- ③ map 快照重做 ---
+// 引用上面已改好的变量 ⇒ 自然取到新值；这才是「快照必须显式重做」的完整形态。
+// 漏掉本区任何一条，对应的旧值就仍然会渲染（例如 #DEE2E6 的主要来源就是下面的 secondary）。
+$o-grays: map-merge($o-grays, (
+    100: $bg,
+    200: $fill-hover,
+    300: $border,
+    400: $border-strong,
+    500: $text-disabled,
+    600: $text-3,
+    700: $text-2,
+    800: $text-1,
+    900: $text-1,
+));
+
+// .text-* 类不走 $o-success/$o-theme 的 theme-colors，而走这张硬编码 map（原值
+// 008818/0180a5/9a6b01/d23f3a）—— 只压源变量治不了，必须重做本表。
+$o-theme-text-colors: map-merge($o-theme-text-colors, (
+    "success": $success,
+    "info": $teal-600,
+    "warning": $warning-ink,
+    "danger": $danger,
+));
+
+$o-text-colors-custom: map-merge($o-text-colors-custom, (
+    "action": $brand-action,
+));
+$o-bg-colors-custom: map-merge($o-bg-colors-custom, (
+    "action": $brand-action,
+));
+
+$o-btns-bs-override: map-merge($o-btns-bs-override, (
+    "primary": (
+        background: $brand-action,
+        border: $brand-action,
+        color: $white,
+        hover-background: $brand-action-hover,
+        hover-border: $brand-action-hover,
+        hover-color: $white,
+        // active：底 $brand-50 + 字 $brand-action-hover = 5.15 ✓
+        // （若字色写 $brand-action 会掉到 4.27 ✗ —— 把一个合格项改坏）
+        active-background: $brand-50,
+        active-border: $brand-action,
+        active-color: $brand-action-hover,
+    ),
+    // secondary / light 的原快照把 $o-gray-300、$o-gray-200、$o-component-active-* 都定格了，
+    // 所以这里必须整条重做，否则改上面那些变量对这两种按钮无效。
+    "secondary": (
+        background: $o-gray-300,
+        border: $o-gray-300,
+        color: $o-gray-900,
+        hover-background: $o-gray-400,
+        hover-border: $o-gray-400,
+        hover-color: $black,
+        active-background: $o-component-active-bg,
+        active-border: $o-component-active-border,
+        active-color: $o-component-active-color,
+    ),
+    "light": (
+        background: $white,
+        border: $white,
+        color: $o-gray-900,
+        hover-background: $o-gray-200,
+        hover-border: $o-gray-200,
+        hover-color: $black,
+        active-background: $o-component-active-bg,
+        active-border: $o-component-active-border,
+        active-color: $o-component-active-color,
+    ),
+));
+
+$o-btns-bs-outline-override: map-merge($o-btns-bs-outline-override, (
+    "secondary": (
+        background: transparent,
+        border: $o-gray-300,
+        color: $o-gray-900,
+        hover-background: $o-gray-200,
+        hover-border: $o-gray-300,
+        hover-color: $black,
+        active-background: $o-component-active-bg,
+        active-border: $o-component-active-border,
+        active-color: $o-component-active-color,
+    ),
+));

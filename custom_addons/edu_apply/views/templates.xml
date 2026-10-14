@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="apply_form" name="在线报名表">
+        <t t-call="website.layout">
+            <div id="wrap" class="yylc-page">
+                <section class="yylc-page-head">
+                    <div class="container">
+                        <div class="yylc-kicker">立即报名</div>
+                        <h1 class="yylc-section-title">报名入学</h1>
+                        <p class="yylc-section-sub">SCRTS人文教育入学申请 · 在线填表（字段口径：2020-1版申请表）</p>
+                    </div>
+                </section>
+                <section class="yylc-section">
+                    <div class="container yylc-article" style="max-width: 880px;">
+                        <!-- 表单导读与进度提示（渐进增强，样式缺失不影响填写） -->
+                        <div class="alert alert-light border mb-4" role="note">
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <b><i class="fa fa-info-circle me-1"/>共 <t t-out="len(meta)"/> 个部分 · 标 <span class="text-danger">*</span> 的 <t t-out="req_count"/> 项为必填</b>
+                                <span class="ms-auto small text-muted" id="yy-progress-txt">必填已完成 0 / <t t-out="req_count"/></span>
+                            </div>
+                            <div class="progress mt-2" style="height:8px">
+                                <div id="yy-progress-bar" class="progress-bar bg-success" role="progressbar"
+                                     aria-label="必填项完成进度" style="width:0%"/>
+                            </div>
+                            <nav class="yy-part-nav d-flex flex-wrap gap-2 mt-3" aria-label="表单分区导航">
+                                <t t-foreach="meta" t-as="grp">
+                                    <a class="badge text-bg-light text-decoration-none py-2 px-2" t-att-href="'#' + grp['anchor']"><t t-out="grp['cn']"/> · <t t-out="grp['title']"/></a>
+                                </t>
+                            </nav>
+                        </div>
+
+                        <t t-if="error">
+                            <div class="alert alert-danger" role="alert">
+                                <b><i class="fa fa-exclamation-triangle me-1"/>提交未成功：</b><t t-out="error"/>。
+                                <div class="small mt-1">缺失项已在下表用红色标注，点击可跳到对应分区；已填内容均已保留。</div>
+                                <div class="mt-1">
+                                    <t t-foreach="miss_map.values()" t-as="m">
+                                        <a t-att-href="'#' + m['anchor']" class="alert-link me-3"><i class="fa fa-arrow-down me-1"/><t t-out="m['label']"/></a>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                        <form action="/apply/submit" method="post" t-att-data-required-names="req_names_json">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="text" name="website_url" class="d-none" tabindex="-1" autocomplete="off"/>
+
+                            <!-- 按 分区→字段 元数据循环渲染 -->
+                            <t t-foreach="meta" t-as="grp">
+                                <fieldset t-att-id="grp['anchor']" class="mb-4 yy-part">
+                                    <legend class="fs-5 fw-bold"><span class="yy-step-num"><t t-out="grp['cn']"/></span><t t-out="grp['title']"/>
+                                        <span class="text-muted small fw-normal ms-2">第 <t t-out="grp['pos']"/> / <t t-out="len(meta)"/> 部分 · <t t-if="grp['has_req']">含必填</t><t t-else="">选填</t></span></legend>
+                                    <div class="row">
+                                        <t t-foreach="grp['fields']" t-as="f">
+                                            <t t-set="miss" t-value="miss_map.get(f.name)"/>
+                                            <div t-att-class="'col-12 col-md-6 mb-2' if f.type not in ('text', 'textarea', 'radio', 'checkbox') else 'col-12 mb-2'">
+                                                <label class="form-label" t-att-class="'text-danger fw-bold' if miss else ''"><t t-out="f.label"/> <t t-if="f.required"><span class="text-danger">*</span></t></label>
+
+                                                <!-- 单行文本 / 日期 -->
+                                                <input t-if="f.type in ('char', 'date')" class="form-control"
+                                                       t-att-type="'date' if f.type == 'date' else 'text'"
+                                                       t-att-name="f.name" t-att-required="'required' if f.required else None"
+                                                       t-att-class="'is-invalid' if miss else None"
+                                                       t-att-value="v.get(f.name) or ''"/>
+
+                                                <!-- 下拉选择 -->
+                                                <select t-elif="f.type == 'select'" class="form-select"
+                                                        t-att-name="f.name" t-att-required="'required' if f.required else None"
+                                                        t-att-class="'is-invalid' if miss else None">
+                                                    <option value="">请选择</option>
+                                                    <t t-foreach="f.option_lines()" t-as="opt">
+                                                        <option t-att-value="opt" t-att-selected="'selected' if v.get(f.name) == opt else None"><t t-out="opt"/></option>
+                                                    </t>
+                                                </select>
+
+                                                <!-- 单选组 -->
+                                                <div t-elif="f.type == 'radio'">
+                                                    <t t-foreach="f.option_lines()" t-as="opt">
+                                                        <label class="me-4">
+                                                            <input type="radio" t-att-name="f.name" t-att-value="opt"
+                                                                   t-att-required="'required' if f.required else None"
+                                                                   t-att-checked="'checked' if v.get(f.name) == opt else None"/> <t t-out="opt"/>
+                                                        </label>
+                                                    </t>
+                                                </div>
+
+                                                <!-- 多行文本 / 段落文本 -->
+                                                <textarea t-elif="f.type in ('text', 'textarea')" class="form-control"
+                                                          t-att-rows="'2' if f.type == 'text' else '5'"
+                                                          t-att-name="f.name" t-att-required="'required' if f.required else None"
+                                                          t-att-class="'is-invalid' if miss else None"><t t-out="v.get(f.name) or ''"/></textarea>
+
+                                                <!-- 勾选框 -->
+                                                <div t-elif="f.type == 'checkbox'" class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="1"
+                                                           t-att-name="f.name" t-att-required="'required' if f.required else None"
+                                                           t-att-checked="'checked' if v.get(f.name) else None"/>
+                                                </div>
+
+                                                <t t-if="miss">
+                                                    <div class="invalid-feedback d-block">此项为必填，请填写。</div>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </fieldset>
+                            </t>
+
+                            <p class="small text-muted">提交后请按招生简章将推荐信、个人见证等材料发送至 scrtsschool@gmail.com，并留意邮箱回复。</p>
+                            <button type="submit" class="btn btn-lg btn-primary mb-1" style="background:#8a6d3b;border-color:#8a6d3b;">
+                                <i class="fa fa-paper-plane me-1"/>提交申请
+                            </button>
+                            <p class="small text-muted mb-5">点击提交即表示所填信息属实；提交过程中请勿关闭或刷新页面。</p>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="apply_thanks" name="报名已提交">
+        <t t-call="website.layout">
+            <div id="wrap" class="yylc-page">
+                <section class="yylc-section py-5">
+                    <div class="container text-center" style="max-width: 640px;">
+                        <i class="fa fa-check-circle fa-3x" style="color:#c8a870;"/>
+                        <h1 class="mt-3">报名已收到</h1>
+                        <p class="mt-3">感谢你的申请！我们已收到你提交的入学申请表。资料审核通过后将以电话或电邮通知考试安排。</p>
+
+                        <!-- 接下来会发生什么：三步说明 -->
+                        <div class="card border-0 shadow-sm rounded-3 text-start mt-4">
+                            <div class="card-body p-4">
+                                <h2 class="h5 mb-3"><i class="fa fa-map-signs me-2 text-muted"/>接下来会发生什么？</h2>
+                                <ol class="yy-next-steps list-unstyled mb-0 ps-0">
+                                    <li>
+                                        <span class="yy-next-num">1</span>
+                                        <div>
+                                            <b>补交申请材料</b>
+                                            <p class="small text-muted mb-0">将推荐信、个人见证、学习之路（蒙召见证）、学历或成绩副本、体检表、身份证复印件发送至
+                                                <a href="mailto:scrtsschool@gmail.com">scrtsschool@gmail.com</a>。</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="yy-next-num">2</span>
+                                        <div>
+                                            <b>审核与考试安排</b>
+                                            <p class="small text-muted mb-0">招生老师核对资料后，将以电话或电邮通知考试与面试时间，请保持联络畅通、留意邮箱。</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="yy-next-num">3</span>
+                                        <div>
+                                            <b>录取与入学报到</b>
+                                            <p class="small text-muted mb-0">考试面试结束后公布录取结果；被录取者将收到缴费与报到说明，按通知日期办理入学。</p>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <a href="/" class="btn btn-outline-secondary mt-4">返回首页</a>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

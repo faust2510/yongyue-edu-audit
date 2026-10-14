@@ -1,0 +1,35 @@
+== backend_probe fp=9b4748be · check_english REVISION=v3.8 指纹=c9b87745 · 运行时刻 2026-10-02T18:34:05+08:00 ==
+== admin       uid=2 菜单 321 条 / 可见根 14 条 ==
+   可见根：资料下载、教务审批、财务管理、资产管理、招聘管理、灵命生活、综合评估、网站、学生信息、招生、时间表、图书馆、应用、设置
+   menu 源命中：must-fix 8 / brand 0 / whitelist 0 / data 0
+     [MUST-FIX] 'Technical Pages'                              depth=3 id=231 website.menu_website_technical_pages
+     [MUST-FIX] 'All Conversations'                            depth=2 id=510 im_livechat.menu_livechat_all_conversations
+     [MUST-FIX] 'Looking for Help'                             depth=2 id=511 im_livechat.menu_livechat_looking_for_help
+     [MUST-FIX] 'Event Questions'                              depth=2 id=380 event.event_question_menu
+     [MUST-FIX] 'Quizzes'                                      depth=1 id=505 edu_quiz.menu_edu_quiz
+     [MUST-FIX] 'Attempts'                                     depth=1 id=506 edu_quiz.menu_edu_quiz_attempts
+     [MUST-FIX] 'EMail'                                        depth=3 id=91 mail.menu_mail_mail
+     [MUST-FIX] 'IAP'                                          depth=2 id=81 iap.iap_root_menu
+== backoffice  uid=12 菜单 143 条 / 可见根 12 条 ==
+   可见根：资料下载、教务审批、财务管理、资产管理、招聘管理、灵命生活、综合评估、网站、学生信息、招生、时间表、图书馆
+   menu 源命中：must-fix 4 / brand 0 / whitelist 0 / data 0
+     [MUST-FIX] 'All Conversations'                            depth=2 id=510 im_livechat.menu_livechat_all_conversations
+     [MUST-FIX] 'Looking for Help'                             depth=2 id=511 im_livechat.menu_livechat_looking_for_help
+     [MUST-FIX] 'Quizzes'                                      depth=1 id=505 edu_quiz.menu_edu_quiz
+     [MUST-FIX] 'Attempts'                                     depth=1 id=506 edu_quiz.menu_edu_quiz_attempts
+== faculty     uid=11 菜单 74 条 / 可见根 9 条 ==
+   可见根：教务审批、资产管理、招聘管理、灵命生活、综合评估、学生信息、招生、时间表、图书馆
+   menu 源命中：must-fix 2 / brand 0 / whitelist 0 / data 0
+     [MUST-FIX] 'Quizzes'                                      depth=1 id=505 edu_quiz.menu_edu_quiz
+     [MUST-FIX] 'Attempts'                                     depth=1 id=506 edu_quiz.menu_edu_quiz_attempts
+== 汇总 ==
+   探测项 14 ｜ must-fix 14 ｜ brand 0
+   [MUST-FIX] 'All Conversations'                            <- menu
+   [MUST-FIX] 'Attempts'                                     <- menu
+   [MUST-FIX] 'EMail'                                        <- menu
+   [MUST-FIX] 'Event Questions'                              <- menu
+   [MUST-FIX] 'IAP'                                          <- menu
+   [MUST-FIX] 'Looking for Help'                             <- menu
+   [MUST-FIX] 'Quizzes'                                      <- menu
+   [MUST-FIX] 'Technical Pages'                              <- menu
+   证据已写 docs/audit/backend-ux/evidence/menus_before.json

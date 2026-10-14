@@ -1,0 +1,1283 @@
+/* 括号感知提取 来源:/tmp/site_frontend.css 规则数:600 */
+
+.o_portal_wrap .o_portal_navbar .breadcrumb, .o_portal .breadcrumb{background-color: inherit;}
+
+.o_portal_wrap .o_portal_my_home > .o_page_header > a:hover{text-decoration: none;}
+
+.o_portal_wrap #portal_alert_category .alert div.mb-1.fw-normal{margin-bottom: 0 !important;}
+
+.o_portal_wrap .o_portal_my_home .o_portal_docs > .o_portal_index_card{padding-right: var(--gutter-x);}
+
+.o_portal_wrap .o_portal_my_home .o_portal_docs > .o_portal_index_card + .o_portal_index_card{padding-left: 0; padding-right: calc(var(--gutter-x) + var(--gutter-x) * .5);}
+
+.o_portal_wrap .o_portal_navbar .breadcrumb{padding-left: 0; padding-right: 0;}
+
+.o_portal_wrap .o_portal_my_doc_table th{padding-top: 0.25rem; padding-bottom: 0.25rem; max-width: 500px;}
+
+.o_portal_wrap .o_portal_my_doc_table td{padding-top: 0.5rem; padding-bottom: 0.5rem; max-width: 10rem;}
+
+.o_portal_wrap .o_portal_my_doc_table td, .o_portal_wrap .o_portal_my_doc_table th{vertical-align: middle; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+
+.o_portal_wrap .o_my_sidebar div[itemprop="address"] > div{margin-top: 0.5em;}
+
+@media (max-width: 991.98px) {
+
+.o_portal_wrap #o_portal_navbar_content{margin: 0.5rem 0 0; padding: 0.5rem 15px; border-top: 1px solid var(--o-border-color); background-color: var(--border);}
+
+}
+.o_portal_wrap table.table tr{word-wrap: break-word;}
+
+.o_portal_address span[itemprop="name"]{display: inline-block; margin-bottom: 0.25rem; font-weight: 600;}
+
+.o_portal_address div[itemprop="address"] > div{position: relative;}
+
+.o_portal_address div[itemprop="address"] > div span[itemprop="streetAddress"]{line-height: 1.2; margin-bottom: 0.3em;}
+
+.o_portal_address div[itemprop="address"] > div .fa{line-height: 1.5; color: var(--text-disabled);}
+
+.o_portal_address div[itemprop="address"] > div .fa + span, .o_portal_address div[itemprop="address"] > div .fa + div{display: block;}
+
+.o_address_card .o_portal_address{display: flex; flex-direction: column; justify-content: space-between; gap: 0.5rem;}
+
+.o_portal .o_portal_addresses{max-width: 700px;}
+
+.o_portal_docs.list-group{flex-direction: row; display: -webkit-box; display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; margin-right: -15px; margin-left: -15px;}
+
+.o_portal_docs .dashboard_element_main_body{height: 100%; position: relative; margin-top: 15px; background-color: var(--brand-500); min-height: 132px; border-radius: 0px; font-size: 16px; font-weight: bold; color: #fff;}
+
+.o_portal_docs .oe_count{margin-right: -0.5em; border: 0; padding: 4px 8px; background-color: var(--brand-action); font-size: 14px; color: #fff; text-shadow: var(--o-navbar-badge-text-shadow, 1px 1px 0 rgba(0, 0, 0, 0.3)); position: absolute; right: 12px; top: 10px;}
+
+.o_portal_docs .dashboard_element_main_body:hover{background-color: var(--brand-action-hover);}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .nav a{background: var(--bg) !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile #personal_info strong.text-secondary{color: var(--text-1) !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .tab-content .table-condensed thead{background: var(--bg) !important; color: var(--text-1) !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #education_info .educational-bg strong{color: var(--text-1) !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_navbar{margin-bottom: 32px !important; align-items: center;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_pager{margin-top: 32px !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table .thead-light th, #wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table .thead-light{color: #222; background-color: var(--bg); border-color: var(--border);}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table .thead-light th em.text-muted, #wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table .thead-light em.text-muted{color: #222 !important; font-style: normal; font-weight: 600 !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table tbody td a button{padding: 5px 10px !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #o_my_sidebar{margin-top: 32px;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_home h3, #wrapwrap.o_portal .o_portal_wrap .o_portal_my_home .h3{font-size: 35px; margin-bottom: 22px; margin-top: 22px; position: relative;}
+
+#wrapwrap.o_portal .o_portal_wrap .portal_buttons a button{padding: 5px 10px !important;}
+
+@media (max-width: 767px) {
+
+#o_portal_navbar_content .btn-group{margin-top: 5px; margin-bottom: 5px;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a, #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a, #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a{position: relative; align-items: flex-start !important; gap: 14px !important; padding: 16px !important; background: #ffffff !important; border: 1px solid var(--border); border-radius: 16px !important; box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.05); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a:hover, #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a:hover, #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a:hover{transform: translateY(-3px); box-shadow: 0 12px 28px rgba(var(--shadow-rgb), 0.1); border-color: rgba(var(--brand-500-rgb), 0.35);}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a .o_portal_icon, #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a .o_portal_icon, #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a .o_portal_icon{width: 50px !important; height: 50px !important; min-width: 50px; flex: none !important; margin: 0 !important; padding: 0 !important; align-self: flex-start; display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 13px; background: rgba(var(--brand-500-rgb), 0.1); overflow: hidden;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a .o_portal_icon img, #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a .o_portal_icon img, #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a .o_portal_icon img{width: 100% !important; height: 100% !important; max-width: none !important; margin: 0 !important; display: block !important; object-fit: contain !important; object-position: center center !important; background: transparent !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a > div:not(.o_portal_icon), #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a > div:not(.o_portal_icon), #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a > div:not(.o_portal_icon){min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a > div:not(.o_portal_icon) > :first-child, #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a > div:not(.o_portal_icon) > :first-child, #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a > div:not(.o_portal_icon) > :first-child{margin: 2px 0 3px !important; font-size: 16px !important; font-weight: 500 !important; line-height: 1.25 !important; letter-spacing: -.01em; color: #000 !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a > div:not(.o_portal_icon) > :first-child span, #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a > div:not(.o_portal_icon) > :first-child span, #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a > div:not(.o_portal_icon) > :first-child span{color: #000 !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a > div:not(.o_portal_icon) > :last-child:not(:first-child), #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a > div:not(.o_portal_icon) > :last-child:not(:first-child), #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a > div:not(.o_portal_icon) > :last-child:not(:first-child){margin: 0 !important; font-size: 13px !important; line-height: 1.45 !important; opacity: 1 !important; color: var(--text-3) !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a .oe_count, #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a .oe_count, #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a .oe_count{position: absolute; top: 12px; right: 12px; min-width: 24px; height: 24px; margin: 0; padding: 0 7px; display: flex; align-items: center; justify-content: center; border-radius: 9px; background-color: var(--brand-action) !important; font-size: 12px; font-weight: 600; line-height: 1; color: #fff !important; text-shadow: none; font-variant-numeric: tabular-nums; box-shadow: 0 3px 8px rgba(var(--brand-500-rgb), 0.35);}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a .oe_count.oe_count_zero, #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a .oe_count.oe_count_zero, #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a .oe_count.oe_count_zero{background-color: var(--fill-active) !important; color: var(--text-3) !important; box-shadow: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a:has(.oe_count), #wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a:has(.oe_count), #wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a:has(.oe_count){padding-right: 46px !important;}
+
+/* W3 角标审计：教师工作台「常用应用」条（ux-fav-grid）的计数角标与宫格同规范
+   （此前不在上方三类容器内，oe_count_zero 有类无样式，0 值显品牌蓝底）。 */
+#wrapwrap.o_portal .o_portal_wrap .ux-fav-grid .o_portal_index_card > a .oe_count{position: absolute; top: 12px; right: 12px; min-width: 24px; height: 24px; margin: 0; padding: 0 7px; display: flex; align-items: center; justify-content: center; border-radius: 9px; background-color: var(--brand-action) !important; font-size: 12px; font-weight: 600; line-height: 1; color: #fff !important; text-shadow: none; font-variant-numeric: tabular-nums; box-shadow: 0 3px 8px rgba(var(--brand-500-rgb), 0.35);}
+#wrapwrap.o_portal .o_portal_wrap .ux-fav-grid .o_portal_index_card > a .oe_count.oe_count_zero{background-color: var(--fill-active) !important; color: var(--text-3) !important; box-shadow: none;}
+#wrapwrap.o_portal .o_portal_wrap .ux-fav-grid .o_portal_index_card > a:has(.oe_count){padding-right: 46px !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero{display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 18px 24px; margin: 4px 0 26px; padding-bottom: 22px; border-bottom: 1px solid var(--border);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-text{min-width: 0; flex: 1 1 auto;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-greeting{margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-greeting .oe-wave{display: inline-block;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-subtitle{margin: 7px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search{position: relative; flex: 0 1 320px; min-width: 210px; margin: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-search-ic{position: absolute; top: 50%; left: 16px; transform: translateY(-50%); color: var(--border-control); font-size: 14px; pointer-events: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-search-input{width: 100%; height: 44px; padding: 0 16px 0 42px; border: 1px solid var(--border); border-radius: 12px; background: #fff; font-size: 14px; color: var(--text-1); box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.04); transition: border-color .15s ease, box-shadow .15s ease;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-search-input::placeholder{color: var(--border-control);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-search-input:focus{outline: 0; border-color: var(--brand-500); box-shadow: 0 0 0 3px rgba(var(--brand-500-rgb), 0.15);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-pop{position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 1030; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 12px 28px rgba(var(--shadow-rgb), 0.14); padding: 6px; max-height: 340px; overflow-y: auto;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-item{display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 9px; font-size: 13.5px; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-item:hover, #wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-item.is-active{background: var(--bg); color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-ic{flex: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 9px; background: rgba(var(--brand-500-rgb), 0.08);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-ic img{width: 17px; height: 17px; object-fit: contain;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-lab{flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-count{flex: none; background: rgba(var(--brand-500-rgb), 0.1); color: var(--brand-500); font-size: 11px; font-weight: 600; line-height: 1; padding: 4px 8px; border-radius: 999px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-search .oe-srch-empty{padding: 16px 10px; text-align: center; font-size: 12.5px; color: var(--text-3);}
+
+@media (max-width: 575px) {
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero{margin-bottom: 20px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-greeting{font-size: 24px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-search{flex: 1 1 100%;}
+
+}
+#wrapwrap.o_portal .o_portal_category > .o_portal_index_card:has(> a.oe-doc-alert){display: none !important;}
+
+#wrapwrap.o_portal #accordionExample:not(:has(#collapseOne .o_portal_index_card:not(.d-none))) .accordion-button{pointer-events: none; cursor: default;}
+
+#wrapwrap.o_portal #accordionExample:not(:has(#collapseOne .o_portal_index_card:not(.d-none))) .accordion-button::after{display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category{margin-top: 0 !important; --bs-gutter-y: 0; --gutter-y: 0; margin-bottom: 8px; scroll-margin-top: 80px;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion{--bs-accordion-border-color: transparent;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-item{border: 1px solid var(--border) !important; border-radius: 16px !important; overflow: hidden; background: rgba(var(--brand-500-rgb), 0.05) !important; box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.05);}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button{padding: 15px 18px; background: transparent !important; color: var(--text-1) !important; box-shadow: none !important; font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button:focus{box-shadow: none !important; border-color: transparent;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button .fa-bell{display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; margin-right: 12px !important; border-radius: 11px; background: rgba(var(--brand-500-rgb), 0.12); color: var(--brand-500); font-size: 17px;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button .fs-5{font-size: 16px !important; font-weight: 500; letter-spacing: -.01em; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button .badge.bg-danger{min-width: 22px; height: 22px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; background-color: var(--danger) !important; font-size: 11.5px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; box-shadow: 0 3px 8px rgba(var(--danger-rgb), 0.3);}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button .me-2.ms-auto{margin-right: 0 !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button::after{margin-left: 12px !important; filter: grayscale(1) opacity(0.5); display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-collapse{border: 1px solid var(--border) !important; border-top: 0 !important; border-radius: 0 0 16px 16px !important; margin-top: -8px; background: #fff !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .notification-accordion-body{padding: 8px;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list{display: flex; flex-direction: column; gap: 6px;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list li{display: contents;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list .o_portal_index_card > a{display: flex !important; align-items: center !important; gap: 12px !important; margin: 0 !important; padding: 12px 14px !important; border: 1px solid var(--fill-active) !important; border-radius: 12px !important; background: var(--bg) !important; color: var(--text-1) !important; text-decoration: none; transition: background-color .15s ease, border-color .15s ease;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list .o_portal_index_card > a::before{content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list .o_portal_index_card > a:hover{background: rgba(var(--brand-500-rgb), 0.06) !important; border-color: rgba(var(--brand-500-rgb), 0.3) !important; transform: none;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list .o_portal_index_card > a > div{flex: 1; min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list .o_portal_index_card > a > div > :first-child{display: flex !important; align-items: center; gap: 10px; width: 100%; margin: 0 !important; font-size: 13.5px !important; font-weight: 600 !important; line-height: 1.3 !important; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list .o_portal_index_card > a > div > :first-child span:not([data-placeholder_count]){order: 1; flex: 1; min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list .o_portal_index_card > a > div > :first-child span[data-placeholder_count]{order: 2; margin-left: auto; min-width: 22px; height: 22px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; background: var(--brand-500); color: #fff !important; font-size: 12px !important; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category #search-notification-list .o_portal_index_card > a > div > :last-child:not(:first-child){display: none !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sidebar{width: 100%; display: flex; flex-direction: column; gap: 18px; margin-top: 0 !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sidebar > *{flex-shrink: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sidebar.offcanvas-body{overflow-y: auto;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sidebar:not(.offcanvas-body){position: sticky; top: 90px; align-self: flex-start;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-side-card{position: relative; background: #fff; border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow-sm, 0 1px 2px rgba(var(--shadow-rgb), 0.05)); overflow: hidden;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-card{padding: 0 22px 22px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card{padding: 20px 22px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-head{position: relative; text-align: center; padding-top: 38px; margin-bottom: 18px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-head .oe-profile-cover{position: absolute; top: 0; left: -22px; right: -22px; height: 78px; overflow: hidden; background: linear-gradient(135deg, var(--brand-500), var(--teal-500));}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-head .oe-profile-cover::before{content: ""; position: absolute; top: 16px; left: 18px; width: 90px; height: 48px; background-image: radial-gradient(rgba(255, 255, 255, 0.38) 1.4px, transparent 1.4px); background-size: 12px 12px; opacity: .55;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-head .oe-profile-cover::after{content: ""; position: absolute; right: -55px; bottom: -60px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255, 255, 255, 0.1);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-head .oe-profile-avatar{position: relative; display: block; width: 84px; height: 84px; margin: 0 auto; border: 4px solid #fff; border-radius: 50%; box-shadow: 0 6px 16px rgba(var(--shadow-rgb), 0.18);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-head .oe-profile-name{margin: 12px 0 2px; font-size: 18px; font-weight: 600; letter-spacing: -.01em; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-head .oe-profile-role{font-size: 12.5px; font-weight: 600; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-head .oe-profile-id{display: inline-block; margin-top: 10px; padding: 4px 12px; border-radius: 999px; background: rgba(var(--brand-500-rgb), 0.14); color: var(--brand-400); font-size: 11.5px; font-weight: 500; letter-spacing: .04em;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_details{padding-top: 16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-3); line-height: 1.7; text-align: left;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_details address, #wrapwrap.o_portal .o_portal_wrap .o_portal_my_details div{margin-bottom: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_details .fa{color: var(--brand-500); width: 16px; text-align: center;}
+
+#wrapwrap.o_portal .o_portal_wrap a.btn-link[href="/my/account"]{display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 16px !important; padding: 10px 16px !important; border: 1px solid var(--border); border-radius: 11px; background: #ffffff; color: var(--text-1) !important; font-size: 13px; font-weight: 500; text-decoration: none !important; transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;}
+
+#wrapwrap.o_portal .o_portal_wrap a.btn-link[href="/my/account"] .fa{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap a.btn-link[href="/my/account"]:hover{border-color: var(--brand-500); background: rgba(var(--brand-500-rgb), 0.06); box-shadow: 0 2px 8px rgba(var(--brand-500-rgb), 0.12);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card:not(:has(.oe-stat)){display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-semester-title{font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .09em; color: var(--text-3); margin-bottom: 14px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-stat{margin-bottom: 14px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-stat:last-child{margin-bottom: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-stat-top{display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-stat-top b{color: var(--text-1); font-variant-numeric: tabular-nums;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-bar{height: 7px; border-radius: 99px; background: var(--neutral-soft); overflow: hidden;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-bar span{display: block; height: 100%; border-radius: 99px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-bar .oe-bar-good{background: var(--success);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-bar .oe-bar-brand{background: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-bar .oe-bar-teal{background: var(--brand-400);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-overview-card .oe-bar .oe-bar-info{background: var(--neutral);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-wrap{display: flex; flex-direction: column; gap: 24px; margin-top: 18px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-section{display: flex; flex-direction: column; gap: 13px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head{display: flex; align-items: center; gap: 10px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-dot{width: 9px; height: 9px; border-radius: 3px; flex: none; background: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-title{margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.01em; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-count{font-size: 12px; font-weight: 600; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-line{flex: 1; height: 1px; background: var(--border);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-stat-row{display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 2px 0 24px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi{position: relative; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; min-height: 94px; padding: 18px 22px; background: #ffffff; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.05);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-body{display: flex; flex-direction: column; gap: 6px; min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-ic{flex: none; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 14px; font-size: 21px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-success{background: rgba(var(--success-rgb), 0.14); color: var(--success);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-primary{background: rgba(var(--brand-500-rgb), 0.12); color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-danger{background: rgba(var(--danger-rgb), 0.12); color: var(--danger);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-warning{background: rgba(var(--warning-rgb), 0.18); color: var(--warning-ink);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-val{font-size: 30px; font-weight: 600; letter-spacing: -.02em; line-height: 1; color: var(--text-1); font-variant-numeric: tabular-nums;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-lab{display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-tag{padding: 1px 7px; border-radius: 5px; font-size: 10px; font-weight: 600; background: rgba(var(--warning-rgb), 0.18); color: var(--warning-ink);}
+
+@media (max-width: 767px) {
+
+#wrapwrap.o_portal .o_portal_wrap .oe-stat-row{grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-charts-row{display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 16px; margin: 2px 0 24px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-charts-row:empty{display: none; margin: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-charts-row:has(> .oe-chart-card:only-child){grid-template-columns: minmax(0, 1fr);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card{display: flex; flex-direction: column; padding: 16px 18px 12px; background: #ffffff; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.05);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-chart-head{display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-chart-title{font-size: 14px; font-weight: 600; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-chart-sub{font-size: 12px; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-trend{margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-trend .fa{font-size: 12px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-trend .oe-trend-sub{color: var(--text-3); font-weight: 500;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-trend-up{color: var(--success);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-trend-down{color: var(--danger);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-chart-svg{width: 100%; height: 180px; display: block; overflow: visible;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-line, #wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-area, #wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-grid, #wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-axis{vector-effect: non-scaling-stroke;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-chart-xlabels{display: flex; justify-content: space-between; padding: 6px 6.25% 0; font-size: 12px; font-weight: 500; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-chart-xlabels span{flex: 0 0 auto;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-grid{stroke: var(--border); stroke-width: 1; stroke-dasharray: 3 4;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-axis{stroke: var(--border); stroke-width: 1;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-area{fill: rgba(var(--brand-500-rgb), 0.12); stroke: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-line{fill: none; stroke: var(--brand-500); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card .oe-dot{fill: #fff; stroke: var(--brand-500); stroke-width: 2.5;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-wrap{display: flex; flex-direction: column; align-items: center; flex: 1 1 auto;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-svg{width: 104px; height: 104px; flex: none; margin: auto 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-track{fill: none; stroke: var(--neutral-soft); stroke-width: 8;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-seg{fill: none; stroke-width: 8; stroke-linecap: butt;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-good{stroke: var(--success);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-absent{stroke: var(--danger);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-leave{stroke: orange;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-late{stroke: var(--neutral);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-num{fill: var(--text-1); font-size: 17px; font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-legend{display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; width: 100%; margin-top: 4px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-leg{display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--text-3); min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-leg b{margin-left: auto; color: var(--text-1); font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-leg-dot{width: 9px; height: 9px; border-radius: 3px; flex: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-leg-good{background: var(--success);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-leg-mut{background: var(--border-strong);}
+
+@media (max-width: 767.98px) {
+
+#wrapwrap.o_portal .o_portal_wrap .oe-charts-row{grid-template-columns: 1fr;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-head{align-items: center;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-sub{display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-trend .oe-trend-sub{display: none;}
+
+}
+@media (min-width: 992px) {
+
+#wrapwrap.o_portal .o_portal_wrap .row.justify-content-between > .col-lg-3.justify-content-end{order: -1; justify-content: flex-start !important;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero{display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead{display: none;}
+
+@media (max-width: 767.98px) {
+
+#wrapwrap.o_portal .o_portal_wrap .wrapper.justify-content-between{display: none !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead{display: flex; align-items: center; gap: 12px; margin: 8px 0 16px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead .oe-mhead-av{flex: none; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 50%; overflow: hidden; background: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead .oe-mhead-av img{width: 100%; height: 100%; border-radius: 50%;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead .oe-mhead-txt{flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead .oe-mhead-hi{font-size: 12px; font-weight: 500; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead .oe-mhead-name{font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead .oe-mhead-bell{position: relative; flex: none; width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--border); background: #fff; display: flex; align-items: center; justify-content: center; color: var(--text-1); text-decoration: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead .oe-mhead-bell .fa{font-size: 16px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead .oe-mhead-bell .oe-mhead-badge{position: absolute; top: -5px; right: -5px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px; background: var(--danger); color: #fff; font-size: 10.5px; font-weight: 600; line-height: 1; display: flex; align-items: center; justify-content: center; border: 2px solid #fff;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero{margin: 0 0 16px; padding-bottom: 0; border-bottom: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-text, #wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-bell{display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-search{flex: 1 1 100%; min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero{display: block; margin-bottom: 16px; padding: 18px 20px; border-radius: 18px; background: linear-gradient(135deg, var(--brand-500), var(--brand-600)); color: #fff; box-shadow: 0 6px 14px rgba(var(--brand-500-rgb), 0.2);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero .oe-mhero-k{font-size: 12.5px; font-weight: 500; opacity: .85;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero .oe-mhero-big{font-size: 34px; font-weight: 600; letter-spacing: -.02em; line-height: 1; margin: 3px 0 13px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero .oe-mhero-chips{display: flex; gap: 8px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero .oe-mhero-chip{flex: 1; min-width: 0; padding: 8px 6px; border-radius: 11px; background: rgba(255, 255, 255, 0.16); text-align: center; font-size: 11.5px; font-weight: 500;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero .oe-mhero-chip b{display: block; font-size: 16px; font-weight: 600; margin-bottom: 1px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi--courses{display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-stat-row{grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi{min-height: 78px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-ic{width: 44px; height: 44px; font-size: 18px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-val{font-size: 24px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi .oe-kpi-lab{font-size: 12px;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button{padding: 13px 15px;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button .fa-bell{width: 38px; height: 38px; font-size: 15px; margin-right: 10px !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category .accordion-button .fs-5{font-size: 15px !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-wrap{gap: 20px; margin-top: 14px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-section{gap: 11px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-title{font-size: 13.5px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-grid{gap: 11px;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_index_card{width: 100%; flex: 0 0 100%; max-width: 100%;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_index_card > a{gap: 14px !important; padding: 15px 16px !important; padding-right: 44px !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_index_card > a .o_portal_icon{width: 46px !important; height: 46px !important; min-width: 46px;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_index_card > a .o_portal_icon img{width: 100% !important; height: 100% !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_index_card > a .oe_count{top: 12px !important; right: 14px !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sidebar{gap: 14px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sidebar:not(.offcanvas-body){position: static; top: auto;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-quick{margin: 2px 0 24px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-quick-title{font-size: 14px; font-weight: 600; color: var(--text-1); margin-bottom: 12px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-quick-row{display: grid; grid-template-columns: repeat(auto-fit, minmax(116px, 1fr)); gap: 12px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-quick-btn{display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 16px 10px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; text-decoration: none !important; color: var(--text-1); text-align: center; box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.05); transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-quick-btn:hover{transform: translateY(-2px); border-color: rgba(var(--brand-500-rgb), 0.4); box-shadow: 0 10px 22px rgba(var(--shadow-rgb), 0.09);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-quick-btn .oe-quick-ic{width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: rgba(var(--brand-500-rgb), 0.1);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-quick-btn .oe-quick-ic img{width: 100%; height: 100%; object-fit: contain; background: transparent;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-quick-btn .oe-quick-lab{font-size: 12.5px; font-weight: 600; line-height: 1.25;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side{margin: 0; padding: 16px 18px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-quick-title{font-size: 13px; margin-bottom: 12px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-quick-row{grid-template-columns: repeat(2, 1fr); gap: 8px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-quick-btn{flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 13px 8px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.05);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-quick-btn:hover{transform: translateY(-2px); background: #ffffff; border-color: rgba(var(--brand-500-rgb), 0.4); box-shadow: 0 8px 18px rgba(var(--shadow-rgb), 0.08);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-quick-btn:last-child:nth-child(odd){grid-column: 1 / -1;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-quick-btn .oe-quick-ic{width: 38px; height: 38px; flex: none; border-radius: 11px; background: rgba(var(--brand-500-rgb), 0.1); box-shadow: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-quick-btn .oe-quick-ic img{width: 100%; height: 100%;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-quick-btn .oe-quick-lab{font-size: 12px; color: var(--text-1);}
+
+@media (min-width: 1200px) {
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card{flex: 0 0 33.333%; max-width: 33.333%;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-bell{position: relative; flex: none; align-self: center; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 1px solid var(--border); background: #ffffff; color: var(--text-1); text-decoration: none !important; box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.04); transition: border-color .15s ease, box-shadow .15s ease;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-bell .fa{font-size: 18px; color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-bell:hover{border-color: rgba(var(--brand-500-rgb), 0.4); box-shadow: 0 4px 12px rgba(var(--brand-500-rgb), 0.12);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-bell .oe-hero-bell-badge{position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--danger); color: #fff; font-size: 11px; font-weight: 600; line-height: 1; display: flex; align-items: center; justify-content: center; border: 2px solid #fff;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-av{flex: none; align-self: center; width: 44px; height: 44px; padding: 0; align-items: center; justify-content: center; border-radius: 12px; border: 1px solid var(--border); background: #ffffff; box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.04); cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-av img{width: 34px; height: 34px; border-radius: 9px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-av:hover{border-color: rgba(var(--brand-500-rgb), 0.4); box-shadow: 0 4px 12px rgba(var(--brand-500-rgb), 0.12);}
+
+#wrapwrap.o_portal .o_portal_wrap #portal_alert_category.oe-notif-flash .accordion-item{animation: oe-notif-pulse 1.6s ease;}
+
+@media (max-width: 767.98px) {
+
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-bell{display: none;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-cal-card{padding: 16px 18px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal-month{font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 10px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal{width: 100%; border-collapse: collapse; table-layout: fixed; text-align: center;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal th{font-size: 10.5px; font-weight: 600; color: var(--text-3); padding: 4px 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal td{padding: 3px 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal-day{display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; font-size: 11.5px; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal td.oe-cal-today .oe-cal-day{background: var(--brand-action); color: #fff; font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal td{position: relative;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal-dot{position: absolute; left: 50%; bottom: 1px; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-cal td.oe-cal-today .oe-cal-dot{background: #fff;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-upcoming-card{padding: 16px 18px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-list{display: flex; flex-direction: column; gap: 2px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-item{display: flex; align-items: center; gap: 10px; padding: 8px 6px; border-radius: 10px; text-decoration: none !important; transition: background .15s ease;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-item:hover{background: rgba(var(--brand-500-rgb), 0.05);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-ic{flex: none; width: 30px; height: 30px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-ic--primary{background: rgba(var(--brand-500-rgb), 0.12); color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-ic--warn{background: rgba(var(--warning-rgb), 0.16); color: var(--warning-soft);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-ic--info{background: rgba(var(--neutral-rgb), 0.12); color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-ic--danger{background: rgba(var(--danger-rgb), 0.1); color: var(--danger);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-b{min-width: 0; flex: 1; display: flex; flex-direction: column;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-label{font-size: 12.5px; font-weight: 600; color: var(--text-1); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-sub{font-size: 11px; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-up-when{flex: none; font-size: 11px; font-weight: 600; color: var(--brand-500); text-align: right; white-space: nowrap;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-card{padding: 16px 18px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-title{font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 12px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-list{display: flex; flex-direction: column; gap: 11px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-item{display: flex; gap: 10px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-bar{flex: none; width: 3px; border-radius: 3px; background: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-body{min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-subj{font-size: 13px; font-weight: 600; color: var(--text-1); line-height: 1.3;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-meta{display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: 11.5px; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-sched-room{padding: 1px 7px; border-radius: 5px; background: rgba(var(--brand-500-rgb), 0.1); color: var(--brand-500); font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-profile-chips{display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 12px;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chip{padding: 3px 11px; border-radius: 999px; background: rgba(var(--brand-500-rgb), 0.09); color: var(--brand-500); font-size: 11px; font-weight: 600; line-height: 1.4;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-leg-good{background: var(--success);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-leg-absent{background: var(--danger);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-leg-leave{background: orange;}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-leg-late{background: var(--neutral);}
+
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-donut .oe-donut-legend{gap: 7px;}
+
+#wrapwrap.o_portal .o_portal_navbar .navbar-toggler{margin-left: auto; flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border-radius: 10px; border: 1px solid var(--border) !important; background: #ffffff; color: var(--brand-500); box-shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.04); transition: border-color .15s ease, box-shadow .15s ease;}
+
+#wrapwrap.o_portal .o_portal_navbar .navbar-toggler:hover, #wrapwrap.o_portal .o_portal_navbar .navbar-toggler:focus{border-color: rgba(var(--brand-500-rgb), 0.4) !important; box-shadow: 0 4px 12px rgba(var(--brand-500-rgb), 0.12);}
+
+#wrapwrap.o_portal .o_portal_navbar .navbar-toggler:focus{outline: 0; box-shadow: 0 0 0 3px rgba(var(--brand-500-rgb), 0.15);}
+
+#wrapwrap.o_portal .o_portal_navbar .navbar-toggler .fa{font-size: 15px;}
+
+@media (min-width: 992px) {
+
+#wrapwrap.o_portal .o_portal_navbar .navbar-toggler{display: none !important;}
+
+}
+#wrapwrap.o_portal #o_portal_navbar_content{align-items: center;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .navbar-text{font-size: 13px; font-weight: 500; color: var(--text-3);}
+
+#wrapwrap.o_portal #o_portal_navbar_content .btn-group > .btn, #wrapwrap.o_portal #o_portal_navbar_content .btn.dropdown-toggle{background: #ffffff !important; border: 1px solid var(--border) !important; color: var(--text-1) !important; border-radius: 10px !important; font-weight: 500; box-shadow: none !important; padding: 8px 14px; transition: border-color .15s ease, color .15s ease;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .btn-group > .btn:hover, #wrapwrap.o_portal #o_portal_navbar_content .btn-group > .btn:focus, #wrapwrap.o_portal #o_portal_navbar_content .btn-group > .btn.show, #wrapwrap.o_portal #o_portal_navbar_content .btn.dropdown-toggle:hover, #wrapwrap.o_portal #o_portal_navbar_content .btn.dropdown-toggle:focus, #wrapwrap.o_portal #o_portal_navbar_content .btn.dropdown-toggle.show{background: #ffffff !important; border-color: rgba(var(--brand-500-rgb), 0.45) !important; color: var(--brand-500) !important;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .dropdown-menu, #wrapwrap.o_portal #o_portal_navbar_content .o_dropdown_menu{border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 26px rgba(var(--shadow-rgb), 0.12); padding: 6px;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .dropdown-menu .dropdown-item, #wrapwrap.o_portal #o_portal_navbar_content .o_dropdown_menu .dropdown-item{border-radius: 8px; font-size: 13.5px; padding: 8px 12px;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .dropdown-menu .dropdown-item:hover, #wrapwrap.o_portal #o_portal_navbar_content .o_dropdown_menu .dropdown-item:hover, #wrapwrap.o_portal #o_portal_navbar_content .dropdown-menu .dropdown-item.active, #wrapwrap.o_portal #o_portal_navbar_content .o_dropdown_menu .dropdown-item.active{background: rgba(var(--brand-500-rgb), 0.08); color: var(--brand-500);}
+
+#wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group{border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #ffffff;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group .btn{border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: #ffffff !important; color: var(--text-3) !important; padding: 8px 12px;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group .btn:hover{background: #ffffff !important; color: var(--brand-500) !important;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group .form-control, #wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group input[name="search"]{border: 0 !important; box-shadow: none !important; background: #ffffff !important; color: var(--text-1) !important;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group .form-control::placeholder, #wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group input[name="search"]::placeholder{color: var(--text-3);}
+
+#wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group button[type="submit"]{background: var(--brand-500) !important; color: #fff !important; padding: 8px 16px;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group button[type="submit"]:hover{background: var(--brand-action-hover) !important; color: #fff !important;}
+
+#wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group button[type="submit"] .fa, #wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group button[type="submit"] .oi, #wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group button[type="submit"] i, #wrapwrap.o_portal #o_portal_navbar_content .o_portal_search_panel .input-group button[type="submit"] span{color: #fff !important;}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_pager .pagination{flex-wrap: wrap; justify-content: center; row-gap: 6px; margin-bottom: 0;}
+
+#wrapwrap.o_portal .o_portal_pager .pagination .page-link{padding: 5px 10px; font-size: 13px; min-width: 32px; text-align: center;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .container.pt-3:has(.texr-center.oe-subd-page), #wrapwrap.o_portal .o_portal_wrap .pt-3.o_container_small:has(.texr-center.oe-subd-page){padding-top: 0 !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) thead{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: middle; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:nth-child(2)::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:nth-child(3)::before{display: block; font-family: FontAwesome, var(--bs-body-font-family, sans-serif); font-size: 11.5px !important; line-height: 1.4; color: var(--text-3); margin-bottom: 3px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:nth-child(2)::before{content: "\f016\00A0 Size";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:nth-child(3)::before{content: "\f017\00A0 Last update";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) .o_portal_contact_img{width: 44px; height: 44px; object-fit: contain; border-radius: 12px; background: rgba(var(--brand-500-rgb), 0.1); padding: 10px; margin-right: 14px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) .tr_dms_directory_link, #wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) .tr_dms_file_link{font-size: 14.5px !important; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) .tr_dms_directory_link:hover, #wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) .tr_dms_file_link:hover{color: var(--brand-500);}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody tr{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td{display: block; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:first-child{grid-column: 1 / -1; grid-row: 1; padding-bottom: 12px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:nth-child(2){grid-column: 1; grid-row: 2;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(.tr_dms_directory, .tr_dms_file) tbody td:last-child{grid-column: 2; grid-row: 2;}
+
+}
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) thead{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: middle; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px; text-align: left !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td:first-child::before{content: "\f073"; font-family: FontAwesome; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(var(--brand-500-rgb), 0.1); color: var(--brand-500); font-size: 17px; margin-right: 14px; vertical-align: middle;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td:first-child a{font-size: 14.5px !important; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td:first-child a:hover{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td:last-child::before{content: "\f017\00A0 Date Time"; font-family: FontAwesome, var(--bs-body-font-family, sans-serif); display: block; font-size: 11.5px !important; font-weight: 400; line-height: 1.4; color: var(--text-3); margin-bottom: 3px;}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody tr{display: block; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td{display: block; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/appointment/calendar/details/"]) tbody td:first-child{padding-bottom: 12px !important;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .card.mt-0.rounded:has(.card-header small.text-muted, .card-header .text-muted.small){display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white{background: #ffffff !important; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 2px 10px rgba(var(--shadow-rgb), 0.05); margin-top: 8px; overflow-wrap: anywhere; word-break: break-word;}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white strong span[style*="font-size:24px"]{font-size: 16.5px !important; font-weight: 600; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white strong span[style*="font-size:20px"]{font-size: 14px !important; font-weight: 600; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white .row .col-md-4 strong{font-size: 12px; font-weight: 400; color: var(--text-3);}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white .row .col-md-8{font-size: 14px; font-weight: 600; color: var(--text-1); margin-bottom: 10px;}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white .badge.bg-primary.rounded-pill{background: rgba(var(--brand-500-rgb), 0.08) !important; color: var(--brand-action) !important; border: 1px solid rgba(var(--brand-500-rgb), 0.4); padding: 4px 12px; font-size: 11.5px; font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white a.btn{border-radius: 10px !important; padding: 9px 18px; font-size: 13.5px; font-weight: 500; box-shadow: none !important;}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white a.btn-danger{background: #fff !important; border: 1px solid rgba(var(--danger-rgb), 0.4) !important; color: var(--danger) !important;}
+
+#wrapwrap.o_portal .o_portal_wrap:has(a.btn[href^="/cancel/portal/appointments/"], a.btn[href*="google.com/calendar"]) .p-4.bg-white a.btn-danger:hover{background: rgba(var(--danger-rgb), 0.06) !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) thead{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: top; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:first-child::before{content: "\f1cd"; font-family: FontAwesome; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(var(--brand-500-rgb), 0.1); color: var(--brand-500); font-size: 17px; margin-right: 14px; vertical-align: middle;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:first-child a{font-size: 14.5px !important; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:first-child a:hover{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(2)::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(3)::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(4)::before{display: block; font-family: FontAwesome, var(--bs-body-font-family, sans-serif); font-size: 11.5px !important; font-weight: 400; line-height: 1.4; color: var(--text-3); margin-bottom: 3px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(2)::before{content: "\f0f6\00A0 Name";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(3)::before{content: "\f024\00A0 Status";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(4)::before{content: "\f017\00A0 Last Updated Date";}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody tr{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td{display: block; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:first-child{grid-column: 1 / -1; grid-row: 1; padding-bottom: 12px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(2){grid-column: 1 / -1; grid-row: 2; padding-bottom: 10px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(3){grid-column: 1; grid-row: 3;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/ticket/"]) tbody td:nth-child(4){grid-column: 2; grid-row: 3;}
+
+}
+#wrapwrap.o_portal .table-responsive:has(a[href^="/my/ticket/"]) > .o_portal_pager.text-center{display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap a.btn.btn-primary[href="/helpdesk-form"]{border-radius: 10px; padding: 9px 18px; font-size: 13.5px; font-weight: 500; margin-bottom: 12px; box-shadow: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]), #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) thead tr th, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) thead tr th{background: transparent !important; border: 0 !important; box-shadow: none !important; font-size: 12px; font-weight: 600; color: var(--text-3); padding: 0 18px 2px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) tbody td, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) tbody td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: middle; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) tbody td:first-child, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) tbody td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) tbody td:last-child, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) tbody td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) tbody td a, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) tbody td a{font-size: 14.5px !important; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) tbody td a:hover, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) tbody td a:hover{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) .badge, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) .badge{border-radius: 999px !important; padding: 4px 12px !important; font-size: 11.5px; font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) .badge-success, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) .badge-success{background: rgba(var(--success-rgb), 0.1) !important; color: var(--success) !important; border: 1px solid rgba(var(--success-rgb), 0.45);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/subscription/"]) .badge-danger, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/fsm-task/"]) .badge-danger{background: rgba(var(--danger-rgb), 0.08) !important; color: var(--danger) !important; border: 1px solid rgba(var(--danger-rgb), 0.4);}
+
+#wrapwrap.o_portal .o_portal_wrap a.btn.btn-primary[href="/fsm-tasks-form/"]{border-radius: 10px; padding: 9px 18px; font-size: 13.5px; font-weight: 500; box-shadow: none !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .container > p:only-of-type:last-child, #wrapwrap.o_portal .o_portal_wrap .o_container_small > p:only-of-type:last-child, #wrapwrap.o_portal .o_portal_wrap .alert.alert-warning.mt8[role="alert"]{background: #ffffff; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 2px 10px rgba(var(--shadow-rgb), 0.05); color: var(--text-3); text-align: center; padding: 30px 16px; font-size: 13.5px;}
+
+#wrapwrap.o_portal .o_portal_wrap .container > p:only-of-type:last-child::before, #wrapwrap.o_portal .o_portal_wrap .o_container_small > p:only-of-type:last-child::before, #wrapwrap.o_portal .o_portal_wrap .alert.alert-warning.mt8[role="alert"]::before{content: "\f05a"; font-family: FontAwesome; display: block; font-size: 26px; margin-bottom: 8px;}
+
+#wrapwrap.o_portal .o_portal_wrap .container > p:only-of-type:last-child p:last-child, #wrapwrap.o_portal .o_portal_wrap .o_container_small > p:only-of-type:last-child p:last-child, #wrapwrap.o_portal .o_portal_wrap .alert.alert-warning.mt8[role="alert"] p:last-child{margin-bottom: 0;}
+
+#wrapwrap.o_portal .o_portal_addresses h5, #wrapwrap.o_portal .o_portal_addresses .h5{font-size: 16.5px; font-weight: 600; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_addresses .o_address_card_add_new{display: inline-flex; align-items: center; padding: 8px 16px !important; border-radius: 10px !important; background: var(--brand-500) !important; border: 0 !important; color: #fff !important; font-size: 13px; font-weight: 500;}
+
+#wrapwrap.o_portal .o_portal_addresses .o_address_card_add_new i{color: #fff !important;}
+
+#wrapwrap.o_portal .o_portal_addresses .o_address_card_add_new:hover, #wrapwrap.o_portal .o_portal_addresses .o_address_card_add_new:focus{background: var(--brand-action-hover) !important; color: #fff !important; box-shadow: none !important;}
+
+#wrapwrap.o_portal .o_portal_addresses .o_address_card{border: 1px solid var(--border) !important; border-radius: 14px !important; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); transition: box-shadow .18s ease;}
+
+#wrapwrap.o_portal .o_portal_addresses .o_address_card:hover{box-shadow: 0 8px 20px rgba(var(--shadow-rgb), 0.08);}
+
+#wrapwrap.o_portal .o_portal_addresses .o_address_card .card-body{padding: 16px 18px;}
+
+#wrapwrap.o_portal .o_portal_addresses .badge.text-bg-info{background: rgba(var(--brand-500-rgb), 0.08) !important; color: var(--brand-action) !important; border: 1px solid rgba(var(--brand-500-rgb), 0.4); border-radius: 999px; padding: 4px 12px; font-size: 11.5px; font-weight: 600;}
+
+#wrapwrap.o_portal .o_portal_addresses .js_edit_address{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_addresses .form-check-input:checked{background-color: var(--brand-500); border-color: var(--brand-500);}
+
+@media (max-width: 991.98px) {
+
+#wrapwrap.o_portal .o_portal_wrap:has(#student-profile){overflow-x: hidden;}
+
+}
+/* /openeducat_web/static/src/scss/default_portal.scss */
+ #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]), #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) thead, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) thead{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody tr.table-light > th, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody tr.table-light > th{background: transparent !important; border: 0 !important; box-shadow: none !important; font-size: 12.5px !important; font-weight: 600; color: var(--brand-500); padding: 6px 12px 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: middle; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:first-child, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:last-child, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td a, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td a{font-size: 14.5px !important; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td a:hover, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td a:hover{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:has(> a[href*="/tasks/"]), #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:has(> a[href*="/tasks/"]){min-width: 220px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:has(> a[href*="/tasks/"]) > a, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:has(> a[href*="/tasks/"]) > a{display: flex; align-items: center; gap: 10px; font-size: 15px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:has(> a[href*="/tasks/"]) > a > span, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:has(> a[href*="/tasks/"]) > a > span{min-width: 0; white-space: normal; overflow-wrap: anywhere;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:has(> a[href*="/tasks/"]) > a::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:has(> a[href*="/tasks/"]) > a::before{content: "\f0ae"; font-family: "FontAwesome"; font-size: 15px; line-height: 1; color: var(--brand-500); background: rgba(var(--brand-500-rgb), 0.1); width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td .badge.o_tag, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td .badge.o_tag{background: rgba(var(--brand-500-rgb), 0.1) !important; color: var(--brand-500) !important; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td .badge.bg-light, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td .badge.bg-light{background: var(--neutral-soft) !important; color: var(--text-3) !important; font-size: 11px; font-weight: 600; border-radius: 999px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td img.o_avatar, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td img.o_avatar{width: 26px; height: 26px; border-radius: 8px; object-fit: cover; margin-right: 6px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td .flex-nowrap.ps-3, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td .flex-nowrap.ps-3{padding-left: 0 !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:has(img.o_avatar)::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:has(img.o_avatar)::before{content: "\f0c0\00A0 Assignees";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td[name="project_portal_milestones"]:has(span)::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td[name="project_portal_milestones"]:has(span)::before{content: "\f024\00A0 Milestone";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:has(> span[title="Current project of the task"])::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:has(> span[title="Current project of the task"])::before{content: "\f114\00A0 Project";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td.text-end:has(span):not(:has(.o_priority_star)):not(:has(.badge))::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td.text-end:has(span):not(:has(.o_priority_star)):not(:has(.badge))::before{content: "\f017\00A0 Time Spent";}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]), #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody tr.table-light, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody tr.table-light{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody tr.table-light th, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody tr.table-light th{display: block; padding: 4px 2px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody tr:not(.table-light), #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody tr:not(.table-light){display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody tr:not(.table-light) td, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody tr:not(.table-light) td{display: inline-flex; align-items: center; width: auto; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; min-width: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:empty, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:empty{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]) tbody td:has(a), #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:has(a){order: -1; flex: 1 1 100%;}
+
+}
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]):not(:has(a[href*="/task/"])) tbody td:first-child::before{content: "\f07b"; font-family: FontAwesome; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(var(--brand-500-rgb), 0.1); color: var(--brand-500); font-size: 17px; margin-right: 14px; vertical-align: middle;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]):not(:has(a[href*="/task/"])) tbody td:last-child{white-space: nowrap; color: var(--text-3);}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/projects/"]):not(:has(a[href*="/task/"])) tbody td:first-child::before{width: 38px; height: 38px; font-size: 15px; margin-right: 12px;}
+
+}
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td:first-child, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href*="/my/projects/"][href*="/task/"]) tbody td:first-child{font-size: 12px !important; font-weight: 400; color: var(--text-3); white-space: nowrap;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td .o_priority_star, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href*="/my/projects/"][href*="/task/"]) tbody td .o_priority_star{font-size: 12.5px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/tasks/"]) tbody td .o_status, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href*="/my/projects/"][href*="/task/"]) tbody td .o_status{display: inline-block; width: 11px; height: 11px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) thead{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: middle; text-align: left !important; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1); white-space: nowrap;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td:first-child::before{content: "\f07a"; font-family: FontAwesome; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(var(--brand-500-rgb), 0.1); color: var(--brand-500); font-size: 17px; margin-right: 14px; vertical-align: middle;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td:first-child a{font-size: 14.5px !important; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td:first-child a:hover{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td:not(:first-child)::before{display: block; font-family: FontAwesome, var(--bs-body-font-family, sans-serif); font-size: 11.5px !important; font-weight: 400; line-height: 1.4; color: var(--text-3); margin-bottom: 3px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td .badge{font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td .badge.text-bg-danger{background: rgba(var(--danger-rgb), 0.12) !important; color: var(--danger) !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td .badge.text-bg-warning{background: rgba(var(--warning-rgb), 0.15) !important; color: var(--warning-ink) !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td .badge.text-bg-success{background: rgba(var(--success-rgb), 0.12) !important; color: var(--success) !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td .badge.text-bg-info{background: rgba(var(--neutral-rgb), 0.12) !important; color: var(--neutral) !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]) tbody td .badge.text-bg-primary{background: rgba(var(--brand-500-rgb), 0.1) !important; color: var(--brand-500) !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td:nth-child(2)::before{content: "\f133\00A0 Order Date";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td[name="order_delivery_status"]::before{content: "\f0d1\00A0 Shipping Status";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td[name="order_amount_total"]::before{content: "\f0d6\00A0 Total";}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody tr{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td{display: block; width: auto; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; min-width: 0; white-space: normal;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td:first-child{grid-column: 1 / -1; grid-row: 1; padding-bottom: 12px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td:nth-child(2){grid-column: 1; grid-row: 2;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td[name="order_amount_total"]{grid-column: 2; grid-row: 2;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td[name="order_delivery_status"]{grid-column: 1 / -1; grid-row: 3; padding-top: 10px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(td[name="order_amount_total"]) tbody td:first-child::before{width: 38px; height: 38px; font-size: 15px; margin-right: 12px;}
+
+}
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:first-child::before{content: "\f0f6";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(2)::before{content: "\f133\00A0 Quotation Date";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(3)::before{content: "\f017\00A0 Valid Until";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(5)::before{content: "\f0d6\00A0 Total";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(4){text-align: center !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(4):not(:has(.badge))::before{content: "Open"; display: inline-block; background: rgba(var(--brand-500-rgb), 0.1); color: var(--brand-500); font-size: 12px; font-weight: 600; line-height: 1.45; padding: 5px 12px; border-radius: 999px; margin-bottom: 0;}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody tr{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td{display: block; width: auto; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; min-width: 0; white-space: normal;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:first-child{grid-column: 1 / -1; grid-row: 1; padding-bottom: 12px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(2){grid-column: 1; grid-row: 2; padding-bottom: 10px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(3){grid-column: 2; grid-row: 2; padding-bottom: 10px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(4){grid-column: 1; grid-row: 3; text-align: left !important; align-self: end;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:nth-child(5){grid-column: 2; grid-row: 3;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/orders/"]):not(:has(td[name="order_amount_total"])) tbody td:first-child::before{width: 38px; height: 38px; font-size: 15px; margin-right: 12px;}
+
+}
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) thead{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: middle; text-align: left !important; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1); white-space: nowrap;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px; width: 100%;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td:first-child::before{content: "\f290"; font-family: FontAwesome; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(var(--brand-500-rgb), 0.1); color: var(--brand-500); font-size: 17px; margin-right: 14px; vertical-align: middle;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td:first-child a{font-size: 14.5px !important; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td:first-child a:hover{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td:not(:first-child)::before{display: block; font-family: FontAwesome, var(--bs-body-font-family, sans-serif); font-size: 11.5px !important; font-weight: 400; line-height: 1.4; color: var(--text-3); margin-bottom: 3px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td .badge{font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td .badge.text-bg-info{background: rgba(var(--neutral-rgb), 0.12) !important; color: var(--neutral) !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]) tbody td .badge.text-bg-secondary{background: var(--neutral-soft) !important; color: var(--text-3) !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):not(:has(td#order_name)) tbody td:first-child::before{content: "\f0f6";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):not(:has(td#order_name)) tbody td:nth-child(2)::before{content: "\f133\00A0 Order Deadline";}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):not(:has(td#order_name)){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):not(:has(td#order_name)) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):not(:has(td#order_name)) tbody tr{display: grid; grid-template-columns: minmax(0, 1fr); background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):not(:has(td#order_name)) tbody td{display: block; width: auto; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; min-width: 0; white-space: normal;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):not(:has(td#order_name)) tbody td:first-child{padding-bottom: 12px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):not(:has(td#order_name)) tbody td:first-child::before{width: 38px; height: 38px; font-size: 15px; margin-right: 12px;}
+
+}
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_confirmation::before{content: "\f133\00A0 Confirmation Date";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_total::before{content: "\f0d6\00A0 Total";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_badge{text-align: center !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_badge::before{display: none;}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody tr{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td{display: block; width: auto; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; min-width: 0; white-space: normal;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_name{grid-column: 1 / -1; grid-row: 1; padding-bottom: 12px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_confirmation{grid-column: 1; grid-row: 2;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_total{grid-column: 2; grid-row: 2;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_badge{grid-column: 1 / -1; grid-row: 3; text-align: left !important; padding-top: 10px !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_badge:not(:has(.badge)){display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/purchase/"]):has(td#order_name) tbody td#order_name::before{width: 38px; height: 38px; font-size: 15px; margin-right: 12px;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .wrapper > h3.my-3, #wrapwrap.o_portal .o_portal_wrap .wrapper > .my-3.h3{display: none;}
+
+#wrapwrap.o_portal .o_portal_wrap .wrapper > button[data-bs-target="#accountOffCanvas"]{display: none !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .container:has(.oe-portal-hero), #wrapwrap.o_portal .o_portal_wrap .o_container_small:has(.oe-portal-hero){padding-top: 3rem !important; padding-bottom: 3rem !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .container > .alert.alert-warning, #wrapwrap.o_portal .o_portal_wrap .o_container_small > .alert.alert-warning, #wrapwrap.o_portal .o_portal_wrap .container > div:not(.table-responsive) > .alert.alert-warning[role="alert"], #wrapwrap.o_portal .o_portal_wrap .o_container_small > div:not(.table-responsive) > .alert.alert-warning[role="alert"]{background: #ffffff; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 2px 10px rgba(var(--shadow-rgb), 0.05); color: var(--text-3); text-align: center; padding: 30px 16px; font-size: 13.5px;}
+
+#wrapwrap.o_portal .o_portal_wrap .container > .alert.alert-warning::before, #wrapwrap.o_portal .o_portal_wrap .o_container_small > .alert.alert-warning::before, #wrapwrap.o_portal .o_portal_wrap .container > div:not(.table-responsive) > .alert.alert-warning[role="alert"]::before, #wrapwrap.o_portal .o_portal_wrap .o_container_small > div:not(.table-responsive) > .alert.alert-warning[role="alert"]::before{content: "\f05a"; font-family: FontAwesome; display: block; font-size: 26px; margin-bottom: 8px;}
+
+#wrapwrap.o_portal .o_portal_wrap .container > .alert.alert-warning p:last-child, #wrapwrap.o_portal .o_portal_wrap .o_container_small > .alert.alert-warning p:last-child, #wrapwrap.o_portal .o_portal_wrap .container > div:not(.table-responsive) > .alert.alert-warning[role="alert"] p:last-child{margin-bottom: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) thead{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr.table-light > th{background: transparent !important; border: 0 !important; box-shadow: none !important; font-size: 12.5px !important; font-weight: 600; color: var(--brand-500); padding: 6px 12px 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: top; text-align: left !important; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td::before{display: block; font-family: FontAwesome, var(--bs-body-font-family, sans-serif); font-size: 11.5px; font-weight: 400; line-height: 1.4; color: var(--text-3); margin-bottom: 4px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:nth-child(1)::before{content: "\f133\00A0 Date";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:nth-child(2)::before{content: "\f007\00A0 Employee";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:nth-child(3)::before{content: "\f114\00A0 Project";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:nth-child(4)::before{content: "\f0ae\00A0 Task";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:nth-child(5)::before{content: "\f036\00A0 Description";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:nth-child(6)::before{content: "\f0f6\00A0 Invoice";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td:last-child::before{content: "\f017\00A0 Time Spent";}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr.table-light{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr.table-light th{display: block; padding: 4px 2px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light){display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody tr:not(.table-light) td{display: block; width: auto; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(th[name="t_label"]) tbody td:empty{display: none;}
+
+}
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]){border-collapse: separate; border-spacing: 0 12px; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-accent-bg: transparent;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) thead{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody tr.table-light > th{background: transparent !important; border: 0 !important; box-shadow: none !important; font-size: 12.5px !important; font-weight: 600; color: var(--brand-500); padding: 6px 12px 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody tr:not(.table-light) td{background: #ffffff !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: none !important; vertical-align: top; text-align: left !important; padding: 14px 12px; font-size: 13.5px !important; font-weight: 600; line-height: 1.45; color: var(--text-1);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody tr:not(.table-light) td:first-child{border-left: 1px solid var(--border); border-radius: 14px 0 0 14px; padding-left: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody tr:not(.table-light) td:last-child{border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding-right: 18px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:empty{display: none;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td.d-none.d-lg-table-cell{display: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:has(> a[href*="/my/invoices/"]){min-width: 200px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:has(> a[href*="/my/invoices/"]) > a{display: flex; align-items: center; gap: 10px; font-size: 15px !important; font-weight: 600; color: var(--text-1); text-decoration: none !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:has(> a[href*="/my/invoices/"]) > a:hover{color: var(--brand-500);}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:has(> a[href*="/my/invoices/"]) > a > span{min-width: 0; white-space: normal; overflow-wrap: anywhere;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:has(> a[href*="/my/invoices/"]) > a::before{content: "\f0f6"; font-family: "FontAwesome"; font-size: 15px; line-height: 1; color: var(--brand-500); background: rgba(var(--brand-500-rgb), 0.1); width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:nth-child(2)::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:nth-child(3)::before, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td[name="invoice_amount"]::before{display: block; font-family: FontAwesome, var(--bs-body-font-family, sans-serif); font-size: 11.5px; font-weight: 400; line-height: 1.4; color: var(--text-3); margin-bottom: 4px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:nth-child(2)::before{content: "\f133\00A0 Invoice Date";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:nth-child(3)::before{content: "\f017\00A0 Due Date";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td[name="invoice_amount"]{text-align: left !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td[name="invoice_amount"]::before{content: "\f0d6\00A0 Amount Due";}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td[name="invoice_status"]{text-align: left !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td[name="invoice_status"] .badge{font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:last-child{text-align: right !important; width: 1%; white-space: nowrap;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td .btn{display: inline-flex; align-items: center; justify-content: center; width: auto; padding: 8px 18px; border-radius: 10px; font-size: 13.5px; font-weight: 500; line-height: 1;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td .btn i{font-size: 13px; line-height: 1;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td .btn.btn-primary, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td .btn.btn-primary:hover, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td .btn.btn-primary:focus, #wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td .btn.btn-primary:active{color: #fff !important;}
+
+@media (max-width: 575.98px) {
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]){display: block; border-spacing: 0;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody{display: block;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody tr:not(.table-light){display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04); margin-bottom: 12px; padding: 14px 16px;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody tr:not(.table-light) td{display: block; width: auto; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:has(> a[href*="/my/invoices/"]){grid-column: 1 / -1;}
+
+#wrapwrap.o_portal .o_portal_my_doc_table:has(a[href^="/my/invoices/"]) tbody td:last-child{grid-column: 1 / -1; text-align: left !important;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap #student-profile .card{background-color: #FFF; border-radius: 5px; border: 1px solid var(--fill-active); box-shadow: 0px 4.4px 12px -1px rgba(222, 222, 222, 0.360784); color: inherit;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .card .card-header{border-color: var(--fill-active); position: relative; background: transparent; padding: 1rem 1.25rem 1rem;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .card .card-body{background: transparent;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .card .tab-content .table-condensed td, #wrapwrap.o_portal .o_portal_wrap #student-profile .card .tab-content .table-condensed th{border-bottom: 1px solid var(--fill-active); padding: 0.75rem 1.25rem;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .nav a{background: transparent !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .student-card.personal-info{position: sticky; top: 45px; padding: 16px;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .wrapper .tabs-box{scroll-behavior: smooth;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .tabs-box.dragging{scroll-behavior: auto; cursor: grab;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .tabs-box .tab{white-space: nowrap;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .tabs-box.dragging .tab{user-select: none; pointer-events: none;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .accordion-toggle .toggle-icon{content: url("/openeducat_core_enterprise/static/img/fi_1266673.svg");}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .accordion-toggle.collapsed .toggle-icon{content: url("/openeducat_core_enterprise/static/img/fi_1266677.svg");}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .drop-down:hover{border-bottom: 0px solid !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .drop-down:focus{border-bottom: 0px solid !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .drop-down:focus-within{border: 0px solid !important;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .table-left{text-align: left;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .portal-card{background: var(--bg); padding: 8px 16px !important; border-radius: 5px; font-size: 18px; color: inherit;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .download:hover{border-bottom: 0px solid var(--text-1) !important; text-decoration: none;}
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile .form-control{border-radius: 5px !important;}
+
+@media screen and (min-width: 768px) {
+
+#wrapwrap.o_portal .o_portal_wrap #student-profile #wrapwrap.o_portal .o_portal_wrap #student-profile .card .custom-body-space{padding: 14px !important;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap #student-profile .icon_size{width: 18px;}
+
+.o_portal_my_home .top-header{border-bottom: 1px solid var(--border);}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table .thead-light th em.text-muted, #wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table .thead-light em.fw-500{font-weight: 500 !important;}
+
+.o_portal_my_doc_table tr.active th[name="invoice_number"] ~ th:nth-child(5), .o_portal_my_doc_table tr.active th[name="invoice_number"] ~ th:nth-child(6){display: none !important;}
+
+@media (max-width: 767px) {
+
+.o_portal_navbar:has(+ .oe_student_time_off_submit) .o_portal_submenu, .o_portal_navbar:has(+ .oe_student_time_off_req) .o_portal_submenu{flex-wrap: nowrap !important;}
+
+}
+#wrapwrap.o_portal .o_portal_wrap .o_portal_navbar{margin-bottom: 32px !important;}
+
+#wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table .thead-light th, #wrapwrap.o_portal .o_portal_wrap .o_portal_my_doc_table .thead-light{color: #222; background-color: var(--bg); border-color: var(--border); border-top: 1px solid var(--border);}

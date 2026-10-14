@@ -1,0 +1,1370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ /grade-book 成绩簿（对齐 oe-gb-page DOM） ============ -->
+    <template id="edu_gradebook" name="Edu Student Grade Book">
+        <t t-call="edu_portal.edu_page">
+            <div class="grade_book_view_main oe-gb-page">
+                <div class="oe-gb-head d-flex align-items-center gap-3">
+                    <span class="oe-gb-hic"><i class="fa fa-book" aria-hidden="true"/></span>
+                    <div class="oe-gb-htitle">
+                        <span class="oe-gb-t">成绩簿</span>
+                        <span class="oe-gb-s">你的学期成绩和等级</span>
+                    </div>
+                    <!-- B9：成绩报告 CSV 下载 -->
+                    <a t-if="has_records" class="btn btn-primary btn-sm ms-auto"
+                       href="/grade-book/report/download">
+                        <i class="fa fa-download me-1" aria-hidden="true"/>下载报告
+                    </a>
+                </div>
+
+                <div class="oe-statrow">
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--info"><i class="fa fa-bullseye" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">总评百分比</span><span class="oe-statbox-val" t-out="stats['overall']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-trophy" aria-hidden="true"/></span>
+                        <!-- 2026-10-03（口径复核）：这块的「等级」取自**最近一张成绩单**
+                             （控制器 `lines[0].grade`，lines 按 generated_date desc 排），
+                             而左边的「总评百分比」是**各成绩单百分比的平均** ⇒ 两个数说的不是同一件事。
+                             实测：79.75%（=(92.0+67.5)/2）配「C」（=67.5 那档），
+                             而下方表格里 74 分明明是 B —— 读的人会以为「79.75 只有 C」。
+                             ⚠ 不能简单改成「按总评百分比查等级表」：基座等级表是**整数区间**
+                               （70-79→B、80-89→A），79.75 正好落在两档之间的缝里、**查不到任何等级**。
+                             ⇒ 本轮只把标签说准；「总评该不该是等权平均 / 总体等级怎么定义」
+                               属产品口径，未擅自决定。 -->
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">最近一次等级</span><span class="oe-statbox-val" t-out="stats['grade']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-book" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">学科</span><span class="oe-statbox-val" t-out="stats['subjects']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-graduation-cap" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">课程</span><span class="oe-statbox-val oe-statbox-val--text" t-out="stats['course']"/></div>
+                    </div>
+                </div>
+
+                <t t-if="not student">
+                    <div class="alert alert-warning d-flex flex-wrap align-items-center gap-2">
+                        <span>该页面仅面向学生账号。您当前登录的不是学生身份，请返回门户首页使用与您身份对应的功能；如需代学生操作，请联系管理员。</span>
+                        <a href="/my/home" class="btn btn-primary btn-sm flex-shrink-0"><i class="fa fa-home me-1"/>返回门户首页</a>
+                    </div>
+                </t>
+                <t t-elif="not has_records">
+                    <div class="oe-empty"><i class="fa fa-book" aria-hidden="true"/><p>暂无成绩记录。成绩发布后将在此处按学期展示你的分数与等级。</p></div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="cards" t-as="term">
+                        <div class="oe-gb-term card mb-3">
+                            <div class="oe-gb-term-head">
+                                <span class="oe-gb-term-ic"><i class="fa fa-book" aria-hidden="true"/></span>
+                                <div class="oe-gb-term-meta">
+                                    <div class="oe-gb-term-name" t-out="term['register']"/>
+                                    <div class="oe-gb-term-sub">
+                                        <t t-if="term['session']"><t t-out="term['session']"/><t t-if="term['generated']"> · <t t-out="term['generated']"/></t></t>
+                                        <t t-elif="term['generated']"><t t-out="term['generated']"/></t>
+                                    </div>
+                                </div>
+                                <span t-att-class="'oe-gb-term-pct ' + (term['passed'] and 'oe-gb-term-pct--pass' or 'oe-gb-term-pct--fail')" t-out="term['pct_str']"/>
+                                <span t-if="term['grade']" class="oe-gb-term-grade badge text-bg-secondary" t-out="term['grade']"/>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>科目</th>
+                                            <th>考试</th>
+                                            <th class="text-center">分数</th>
+                                            <th class="text-center">总分</th>
+                                            <th class="text-center">百分比</th>
+                                            <th class="text-center">等级</th>
+                                            <th class="text-center">状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="term['results']" t-as="r">
+                                            <tr>
+                                                <td class="fw-medium" t-out="r['subject']"/>
+                                                <td class="text-muted" t-out="r['exam']"/>
+                                                <td class="text-center" t-out="r['marks']"/>
+                                                <td class="text-center" t-out="r['total']"/>
+                                                <td class="text-center" t-out="r['pct_str']"/>
+                                                <td class="text-center" t-out="r['grade'] or '—'"/>
+                                                <td class="text-center">
+                                                    <span t-att-class="'oe-asg-pill ' + (r['passed'] and 'oe-asg-pill--success' or 'oe-asg-pill--danger')" t-out="r['status'] or '—'"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /student/progression 学业进展（统计条 + 各科出勤进度条） ============ -->
+    <template id="edu_progression" name="Edu Student Progression">
+        <t t-call="edu_portal.edu_page">
+            <div class="grade_book_view_main oe-gb-page">
+                <div class="oe-gb-head">
+                    <span class="oe-gb-hic"><i class="fa fa-line-chart" aria-hidden="true"/></span>
+                    <div class="oe-gb-htitle">
+                        <span class="oe-gb-t">学业进展</span>
+                        <span class="oe-gb-s">监控和评估你的学业进步</span>
+                    </div>
+                </div>
+
+                <div class="oe-statrow">
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-check-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">总出勤率</span><span class="oe-statbox-val" t-out="stats['att_pct']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-pencil-square-o" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">作业提交</span><span class="oe-statbox-val" t-out="stats['assign']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--info"><i class="fa fa-line-chart" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">测验均分</span><span class="oe-statbox-val" t-out="stats['quiz']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-plane" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">请假次数</span><span class="oe-statbox-val" t-out="stats['leaves']"/></div>
+                    </div>
+                </div>
+
+                <t t-if="not student">
+                    <div class="alert alert-warning d-flex flex-wrap align-items-center gap-2">
+                        <span>该页面仅面向学生账号。您当前登录的不是学生身份，请返回门户首页使用与您身份对应的功能；如需代学生操作，请联系管理员。</span>
+                        <a href="/my/home" class="btn btn-primary btn-sm flex-shrink-0"><i class="fa fa-home me-1"/>返回门户首页</a>
+                    </div>
+                </t>
+                <t t-elif="not has_records">
+                    <div class="oe-empty"><i class="fa fa-line-chart" aria-hidden="true"/><p>暂无学业数据。出勤、作业、测验或请假记录产生后，将在此处汇总展示。</p></div>
+                </t>
+                <t t-else="">
+                    <t t-if="rows">
+                        <h5 class="oe-group-title"><i class="fa fa-check-circle" aria-hidden="true"/>各科出勤率</h5>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <t t-foreach="rows" t-as="r">
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-baseline mb-1">
+                                            <span class="fw-medium" t-out="r['name']"/>
+                                            <span class="small text-muted">
+                                                出勤 <t t-out="r['pres']"/> · 迟到 <t t-out="r['late']"/> · 缺席 <t t-out="r['absent']"/> · 请假 <t t-out="r['exc']"/> · 共 <t t-out="r['n']"/> 次
+                                                <b class="ms-2 text-body"><t t-out="r['pct']"/>%</b>
+                                            </span>
+                                        </div>
+                                        <div class="progress" style="height:12px">
+                                            <div role="progressbar"
+                                                 t-att-class="'progress-bar ' + (r['pct'] >= 75 and 'bg-success' or (r['pct'] >= 50 and 'bg-warning' or 'bg-danger'))"
+                                                 t-attf-style="width:{{ r['pct'] }}%"
+                                                 t-attf-aria-valuenow="{{ r['pct'] }}"
+                                                 aria-valuemin="0" aria-valuemax="100"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="stats['assign'] != '—'">
+                        <h5 class="oe-group-title"><i class="fa fa-pencil-square-o" aria-hidden="true"/>作业提交率</h5>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-baseline mb-1">
+                                    <span class="fw-medium">已提交 <t t-out="stats['assign']"/></span>
+                                    <b><t t-out="stats['assign_pct']"/>%</b>
+                                </div>
+                                <div class="progress" style="height:12px">
+                                    <div class="progress-bar bg-primary" role="progressbar"
+                                         t-attf-style="width:{{ stats['assign_pct'] }}%"
+                                         t-attf-aria-valuenow="{{ stats['assign_pct'] }}"
+                                         aria-valuemin="0" aria-valuemax="100"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="stats['quiz_n']">
+                        <h5 class="oe-group-title"><i class="fa fa-line-chart" aria-hidden="true"/>近期测验</h5>
+                        <div class="card mb-3">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <span class="fw-medium">已完成 <t t-out="stats['quiz_n']"/> 次测验</span>
+                                <b>平均得分 <t t-out="stats['quiz']"/></b>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /library/media 图书馆（对齐 oe-asg-page + 媒体卡 DOM） ============ -->
+    <template id="edu_library" name="Edu Library Media">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'name': '标题', 'edition': '版', 'internal_code': '内码', 'isbn': '国际标准书号'}.get(sortby, '标题')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/library/media?sortby=name' + (filterby != 'all' and ('&amp;filterby=' + filterby) or '')" t-att-class="'dropdown-item' + (sortby == 'name' and ' active' or '')"><span>标题</span></a>
+                                    <a t-att-href="'/library/media?sortby=edition' + (filterby != 'all' and ('&amp;filterby=' + filterby) or '')" t-att-class="'dropdown-item' + (sortby == 'edition' and ' active' or '')"><span>版</span></a>
+                                    <a t-att-href="'/library/media?sortby=internal_code' + (filterby != 'all' and ('&amp;filterby=' + filterby) or '')" t-att-class="'dropdown-item' + (sortby == 'internal_code' and ' active' or '')"><span>内码</span></a>
+                                    <a t-att-href="'/library/media?sortby=isbn' + (filterby != 'all' and ('&amp;filterby=' + filterby) or '')" t-att-class="'dropdown-item' + (sortby == 'isbn' and ' active' or '')"><span>国际标准书号</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="filterby == 'all' and '全部' or (filter_opts.filtered(lambda t: str(t.id) == filterby).name or '全部')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/library/media?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                    <t t-foreach="filter_opts" t-as="ft">
+                                        <a t-att-href="'/library/media?filterby=' + str(ft.id)" t-att-class="'dropdown-item' + (filterby == str(ft.id) and ' active' or '')"><span t-out="ft.name"/></a>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="groupby == 'media_type_id' and '媒体类型' or '不分组'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/library/media?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                    <a t-att-href="'/library/media?groupby=media_type_id'" t-att-class="'dropdown-item' + (groupby == 'media_type_id' and ' active' or '')"><span>媒体类型</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/library/media?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-asg-page">
+                <div class="oe-asg-group portal_buttons">
+                    <a class="oe-asg-btn" href="/requested/queue/list"><i class="fa fa-list-ol" aria-hidden="true"/> 媒体队列</a>
+                </div>
+
+                <div class="oe-statrow">
+                    <a href="/library/media" class="oe-statbox oe-statbox--active">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-book" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">总标题</span><span class="oe-statbox-val" t-out="stats['titles']"/></div>
+                    </a>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--info"><i class="fa fa-tags" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">媒体类型</span><span class="oe-statbox-val" t-out="stats['types']"/></div>
+                    </div>
+                    <a href="?box=issued" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-bookmark" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">发给我的</span><span class="oe-statbox-val" t-out="stats['issued']"/></div>
+                    </a>
+                    <a href="?box=returned" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-check-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已返回</span><span class="oe-statbox-val" t-out="stats['returned']"/></div>
+                    </a>
+                </div>
+
+                <t t-if="not has_records">
+                    <div class="oe-empty"><i class="fa fa-book" aria-hidden="true"/><p>暂无馆藏媒体。图书上架后将在此处展示书名、作者与版本信息。</p></div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="groups" t-as="group">
+                        <h5 t-if="group['name']" class="oe-group-title"><i class="fa fa-book" aria-hidden="true"/><t t-out="group['name']"/></h5>
+                        <t t-foreach="group['items']" t-as="card">
+                            <div class="oe-asg-card">
+                                <div class="oe-asg-top">
+                                    <div class="oe-asg-co">
+                                        <span class="oe-asg-ic"><i class="fa fa-book" aria-hidden="true"/></span>
+                                        <div>
+                                            <a class="oe-asg-name" t-att-href="'/library/media/info/' + str(card['media'].id)" t-out="card['name']"/>
+                                            <div class="oe-asg-lab" t-out="card['type']"/>
+                                            <div class="oe-asg-lab text-muted" t-if="card['authors']"><i class="fa fa-user-o" aria-hidden="true"/> <t t-out="card['authors']"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe-asg-fields">
+                                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-barcode" aria-hidden="true"/> ISBN 代码</span><span class="oe-asg-val" t-out="card['isbn'] or '—'"/></div>
+                                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-hashtag" aria-hidden="true"/> 内部代码</span><span class="oe-asg-val" t-out="card['internal_code'] or '—'"/></div>
+                                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-bookmark-o" aria-hidden="true"/> 版本</span><span class="oe-asg-val" t-out="card['edition'] or '—'"/></div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+                <div class="o_portal_pager d-flex justify-content-center my-3" t-if="pager and pager['page_count'] > 1">
+                    <t t-call="portal.pager"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /subject/details 学习材料（对齐 oe-att-card DOM） ============ -->
+    <template id="edu_subject_details" name="Edu Subject Details">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="sortby == 'course_id' and '课程' or '主题'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/subject/details?sortby=name'" t-att-class="'dropdown-item' + (sortby == 'name' and ' active' or '')"><span>主题</span></a>
+                                    <a t-att-href="'/subject/details?sortby=course_id'" t-att-class="'dropdown-item' + (sortby == 'course_id' and ' active' or '')"><span>课程</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="filterby == 'all' and '全部' or '课程'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/subject/details?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                    <t t-foreach="course_opts" t-as="co">
+                                        <a t-att-href="'/subject/details?filterby=' + str(co['id'])" t-att-class="'dropdown-item' + (filterby == str(co['id']) and ' active' or '')"><span t-out="co['name']"/></a>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="groupby == 'course_id' and '课程' or '不分组'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/subject/details?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                    <a t-att-href="'/subject/details?groupby=course_id'" t-att-class="'dropdown-item' + (groupby == 'course_id' and ' active' or '')"><span>课程</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/subject/details?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-asg-page oe-att-page">
+                <div class="oe-statrow">
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-book" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">学科</span><span class="oe-statbox-val" t-out="stats['subjects']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--info"><i class="fa fa-file-o" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">材料</span><span class="oe-statbox-val" t-out="stats['materials']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-graduation-cap" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">课程</span><span class="oe-statbox-val" t-out="stats['courses']"/></div>
+                    </div>
+                </div>
+
+                <t t-if="not student">
+                    <div class="alert alert-warning d-flex flex-wrap align-items-center gap-2">
+                        <span>该页面仅面向学生账号。您当前登录的不是学生身份，请返回门户首页使用与您身份对应的功能；如需代学生操作，请联系管理员。</span>
+                        <a href="/my/home" class="btn btn-primary btn-sm flex-shrink-0"><i class="fa fa-home me-1"/>返回门户首页</a>
+                    </div>
+                </t>
+                <t t-elif="not has_records">
+                    <div class="oe-empty"><i class="fa fa-folder-open-o" aria-hidden="true"/><p>暂无学习科目。报名课程并分配科目后，这里将展示每门科目的学习材料。</p></div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="groups" t-as="group">
+                        <h5 t-if="group['name']" class="oe-group-title"><i class="fa fa-graduation-cap" aria-hidden="true"/><t t-out="group['name']"/></h5>
+                        <t t-foreach="group['items']" t-as="card">
+                            <div class="oe-att-card oe-att-card--pill-end oe-att-card--end-fixed">
+                                <div class="oe-att-left">
+                                    <span class="oe-att-ic"><i class="fa fa-folder-open-o" aria-hidden="true"/></span>
+                                    <div>
+                                        <a class="oe-att-name" t-att-href="'/subject/material/detail/' + str(card['subject'].id)" t-out="card['name']"/>
+                                        <div class="oe-att-sheet" t-out="card['code']"/>
+                                    </div>
+                                </div>
+                                <div class="oe-att-end">
+                                    <span class="oe-att-pill oe-att-pill--primary">
+                                        <i class="fa fa-file-o" aria-hidden="true"/> <t t-out="card['files']"/> 文件
+                                    </span>
+                                </div>
+                                <div class="oe-att-field oe-att-col-date oe-att-col-wide">
+                                    <div class="oe-att-fbody">
+                                        <span class="oe-att-flab"><i class="fa fa-graduation-cap" aria-hidden="true"/> 课程</span>
+                                        <span class="oe-att-fval" t-out="card['course'] or '—'"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+                <div class="o_portal_pager d-flex justify-content-center my-3"></div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /library/media/info/<id> 馆藏详情（对齐原站） ============ -->
+    <template id="edu_media_info" name="Edu Media Info">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-cat-head mb-3">
+                <span class="oe-cat-dot"/>
+                <h2 class="oe-cat-title"><i class="fa fa-book me-2"/><t t-out="m.name"/></h2>
+                <span class="oe-cat-count" t-if="m.media_type_id" t-out="m.media_type_id.name"/>
+            </div>
+
+            <div class="oe-asg-card mb-3">
+                <div class="oe-asg-fields">
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-user-o"/> 作者</span><span class="oe-asg-val" t-out="', '.join(m.author_ids.mapped('name')) or '—'"/></div>
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-building-o"/> 出版社</span><span class="oe-asg-val" t-out="', '.join(m.publisher_ids.mapped('name')) or '—'"/></div>
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-tags"/> 关联科目</span><span class="oe-asg-val" t-out="', '.join(m.subject_ids.mapped('name')) or '—'"/></div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a class="btn btn-light" href="/library/media"><i class="fa fa-arrow-left me-1"/>返回图书馆</a>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /subject/material/detail/<id> 科目材料详情（对齐原站） ============ -->
+    <template id="edu_subject_material_detail" name="Edu Subject Material Detail">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-cat-head mb-3">
+                <span class="oe-cat-dot"/>
+                <h2 class="oe-cat-title"><i class="fa fa-folder-open-o me-2"/><t t-out="sub.name"/></h2>
+                <span class="oe-cat-count" t-out="course_name or '—'"/>
+            </div>
+
+            <div class="oe-asg-card mb-3">
+                <div class="oe-asg-fields">
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-hashtag"/> 科目代码</span><span class="oe-asg-val" t-out="sub.code or '—'"/></div>
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-graduation-cap"/> 课程</span><span class="oe-asg-val" t-out="course_name or '—'"/></div>
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-file-o"/> 材料数</span><span class="oe-asg-val" t-out="len(materials)"/></div>
+                </div>
+            </div>
+
+            <t t-if="not materials">
+                <!-- D 组第一批（P2）：原来是「一句陈述」，页内唯一出口是返回科目列表。
+                     补「何时会填满」的解释 + 一个真实可达的下一步入口（图书馆馆藏）。 -->
+                <div class="oe-empty">
+                    <i class="fa fa-folder-open-o" aria-hidden="true"/>
+                    <div>
+                        <p>该科目暂无学习材料。任课教师上传课件后会在此处展示；也可以先到图书馆检索相关馆藏。</p>
+                        <a class="btn btn-sm btn-light border mt-2" href="/library/media">
+                            <i class="fa fa-book me-1" aria-hidden="true"/>去图书馆找相关馆藏
+                        </a>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <t t-foreach="materials" t-as="m">
+                    <div class="oe-att-card">
+                        <div class="oe-att-left">
+                            <span class="oe-att-ic"><i class="fa fa-file-text-o"/></span>
+                            <div>
+                                <span class="oe-att-name" t-out="m.name"/>
+                                <div class="oe-att-sheet">
+                                    <t t-if="m.author_ids"><t t-out="', '.join(m.author_ids.mapped('name'))"/></t>
+                                    <t t-if="m.publisher_ids"> · <t t-out="', '.join(m.publisher_ids.mapped('name'))"/></t>
+                                    <t t-if="m.media_type_id"> · <t t-out="m.media_type_id.name"/></t>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="oe-att-end">
+                            <span class="oe-att-pill oe-att-pill--primary"><i class="fa fa-book"/> 图书馆馆藏</span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+
+            <div class="text-center mt-4">
+                <a class="btn btn-light" href="/subject/details"><i class="fa fa-arrow-left me-1"/>返回科目列表</a>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my/notice_board/notice 布告栏（对齐 oe-att-card DOM） ============ -->
+    <template id="edu_notice" name="Edu Notice Board">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'high_priority': '优先事项', 'date': '日期', 'name': '标题'}.get(sortby, '优先事项')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/notice_board/notice?sortby=high_priority' + (box == 'circular' and '&amp;box=circular' or '')" t-att-class="'dropdown-item' + (sortby == 'high_priority' and ' active' or '')"><span>优先事项</span></a>
+                                    <a t-att-href="'/my/notice_board/notice?sortby=date' + (box == 'circular' and '&amp;box=circular' or '')" t-att-class="'dropdown-item' + (sortby == 'date' and ' active' or '')"><span>日期</span></a>
+                                    <a t-att-href="'/my/notice_board/notice?sortby=name' + (box == 'circular' and '&amp;box=circular' or '')" t-att-class="'dropdown-item' + (sortby == 'name' and ' active' or '')"><span>标题</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">全部</button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/notice_board/notice?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/my/notice_board/notice?filterby=all'">
+                        <input type="hidden" name="box" t-att-value="box == 'circular' and 'circular' or 'notice'"/>
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+            <div class="mb-2 d-flex gap-2">
+                <a t-if="is_publisher" href="/notice/publish" class="btn btn-primary btn-sm"><i class="fa fa-plus me-1"/>发布公告</a>
+                <form method="post" action="/my/notice_board/all_read" class="d-inline">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <button class="btn btn-outline-secondary btn-sm"
+                            t-att-disabled="stats.get('unread', 0) == 0 or None">
+                        <i class="fa fa-check-double me-1"/>全部已读
+                    </button>
+                </form>
+            </div>
+
+            <div class="oe-asg-page oe-att-page">
+                <div class="oe-asg-group portal_buttons">
+                    <!-- B4：通知 / Circular 公告两个切换 tab -->
+                    <a t-att-class="'oe-asg-btn ' + (box != 'circular' and 'oe-asg-btn--active' or 'oe-asg-btn--ghost')"
+                       t-att-href="'/my/notice_board/notice?box=notice'">
+                        <i class="fa fa-bullhorn" aria-hidden="true"/> 通知
+                    </a>
+                    <a t-att-class="'oe-asg-btn ' + (box == 'circular' and 'oe-asg-btn--active' or 'oe-asg-btn--ghost')"
+                       t-att-href="'/my/notice_board/notice?box=circular'">
+                        <i class="fa fa-file-text-o" aria-hidden="true"/> Circular 公告
+                    </a>
+                </div>
+
+                <div class="oe-statrow">
+                    <a href="/my/notice_board/notice" class="oe-statbox oe-statbox--active">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-bullhorn" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">通知总数</span><span class="oe-statbox-val" t-out="stats['total']"/></div>
+                    </a>
+                    <a href="/my/notice_board/notice" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--danger"><i class="fa fa-envelope" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">我的未读</span><span class="oe-statbox-val" t-out="stats.get('unread', 0)"/></div>
+                    </a>
+                    <a href="?box=high" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--danger"><i class="fa fa-exclamation-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">高优先级</span><span class="oe-statbox-val" t-out="stats['high']"/></div>
+                    </a>
+                    <a href="?box=active" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-check-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">活跃</span><span class="oe-statbox-val" t-out="stats['active']"/></div>
+                    </a>
+                    <a href="?box=this_month" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--info"><i class="fa fa-calendar" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">本月</span><span class="oe-statbox-val" t-out="stats['this_month']"/></div>
+                    </a>
+                </div>
+
+                <t t-if="not has_records">
+                    <div class="oe-empty"><i class="fa fa-bullhorn" aria-hidden="true"/><p t-out="empty_msg"/></div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="items" t-as="card">
+                        <a t-att-href="'/my/notice/%d' % card['notice'].id"
+                           t-att-class="'oe-att-card oe-att-card--pill-end text-decoration-none text-reset' + (card['unread'] and ' fw-semibold' or '')">
+                            <div class="oe-att-left">
+                                <span class="oe-att-ic"><i class="fa fa-bullhorn" aria-hidden="true"/></span>
+                                <div>
+                                    <span class="oe-att-name">
+                                        <t t-if="card['unread']"><span class="badge text-bg-primary me-1">未读</span></t>
+                                        <t t-out="card['name']"/>
+                                    </span>
+                                    <div class="oe-att-sheet"><span id="notice_name" t-out="card['content']"/></div>
+                                </div>
+                            </div>
+                            <div class="oe-att-field oe-att-col-date">
+                                <div class="oe-att-fbody">
+                                    <span class="oe-att-flab"><i class="fa fa-calendar-o" aria-hidden="true"/> 日期</span>
+                                    <span class="oe-att-fval"><span t-out="card['date']"/></span>
+                                </div>
+                            </div>
+                            <div class="oe-att-field oe-att-col-batch">
+                                <div class="oe-att-fbody">
+                                    <span class="oe-att-flab"><i class="fa fa-user-o" aria-hidden="true"/> 发件人</span>
+                                    <span class="oe-att-fval" t-out="card['sender'] or '—'"/>
+                                </div>
+                            </div>
+                        </a>
+                    </t>
+                </t>
+                <div class="o_portal_pager d-flex justify-content-center my-3"></div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 布告详情（打开即已读，v2-B5） ============ -->
+    <template id="edu_notice_detail" name="Edu Notice Detail">
+        <t t-call="edu_portal.edu_page">
+            <a href="/my/notice_board/notice" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回布告栏
+            </a>
+            <div class="card shadow-sm border-0 rounded-3 mt-2">
+                <div class="card-body p-4">
+                    <h4 class="mb-2"><t t-out="notice.name"/></h4>
+                    <p class="text-muted small mb-3">
+                        <i class="fa fa-user-o me-1"/><t t-out="notice.sender or '—'"/>
+                        <i class="fa fa-calendar-o ms-3 me-1"/><span t-out="date_str"/>
+                    </p>
+                    <hr/>
+                    <div class="lh-lg" style="white-space: pre-line;" t-out="notice.content or '（无正文）'"/>
+                </div>
+            <t t-if="attachments">
+                <div class="mt-3 pt-3 border-top">
+                    <h6 class="mb-2"><i class="fa fa-paperclip me-1"/>附件（<t t-out="len(attachments)"/>）</h6>
+                    <t t-foreach="attachments" t-as="att">
+                        <a class="btn btn-sm btn-outline-primary me-2 mb-1"
+                           t-attf-href="/web/content/#{att.id}?download=true">
+                            <i class="fa fa-download me-1"/><t t-out="att.name"/>
+                        </a>
+                    </t>
+                </div>
+            </t>
+
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 「我的主页」五分类折叠宫格（对齐原站 accordion + o_portal_category）
+         H-1（校长拍板 2026-09-18）：学生/家长的 /my/home 就是本模板（原 /my/apps
+         全量宫格）；内部用户（教师/教务/管理员）的 /my/apps 仍渲染本模板。
+         见 docs/plans/student-portal-home-profile-design.md §8.1/§8.2。 ============ -->
+    <template id="edu_dashboard_v2" name="Edu Portal Dashboard v2">
+        <t t-call="edu_portal.edu_page">
+            <div class="row b11-home"
+                 t-att-data-home-role="home_role"
+                 t-att-data-csrf="request.csrf_token()"
+                 t-att-data-fav-server="'1' if fav_has_server else '0'">
+                <div class="col-12 col-lg-9">
+                    <!-- ① 迷你头部 -->
+                    <div class="oe-mhead">
+                        <button type="button" class="oe-mhead-av" data-bs-toggle="offcanvas"
+                                data-bs-target="#accountOffCanvas" aria-label="打开个人资料">
+                            <!-- H-1：头像取图 + partner 源统一到**账号 partner**
+                                 （student.partner_id 在分裂档案下与账号不同源；
+                                 教师/教务无学生档案时原写法取到 partner 0）。 -->
+                            <img t-att-src="'/web/image/res.partner/%s/avatar_256' % (request.env.user.partner_id.id or 0)"
+                                 alt="" loading="lazy"/>
+                        </button>
+                        <div class="oe-mhead-txt">
+                            <span class="oe-mhead-hi">欢迎</span>
+                            <b class="oe-mhead-name" t-out="(student and student.name) or username"/>
+                        </div>
+                        <a class="oe-mhead-bell" href="#portal_alert_category" aria-label="通知">
+                            <i class="fa fa-bell" aria-hidden="true"></i>
+                            <!-- W3：0 值不渲染（与 msg_poll.js 轮询后隐藏语义一致，避免红底「0」闪现）
+                                 V6 修复（2026-10-02 视觉复核）：同屏「通知 104」出现两次 ——
+                                 一次在本铃铛上，一次在下方「通知」卡片的行头（badge bg-danger）。
+                                 同一个数字说两遍是弱化不是强化 ⇒ 去掉本处角标，铃铛（跳通知分区的功能）保留。
+                                 实测：手机 390 与桌面 1440 两档下，可见的「104」都从 2 个变 1 个。 -->
+                        </a>
+                        <form method="post" action="/alerts/mark_read" class="d-inline ms-2"
+                              t-if="bell">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <button class="btn btn-sm btn-light">全部标为已读</button>
+                        </form>
+                    </div>
+                    <!-- ③-0 教师工作台（2026-10-03 用户要求合并）：教师角色的 /my/home
+                         = 工作台（待办提醒 / 常用应用 / 今日我教的课 / 教师快捷卡 / 本周我教的课）
+                         + 应用宫格（下方五分类）。位置紧跟迷你头部：教师开首页第一眼要看到
+                         「现在该干什么」，而不是先浏览宫格。
+                         教务 / 管理员不走本页（他们的 /my/home 仍是 edu_dashboard_teacher）。
+                         判据：home_role == 'faculty' 且 cards 存在（只有工作台上下文才有 cards）。 -->
+                    <t t-if="home_role == 'faculty' and cards"
+                       t-call="edu_portal.edu_teacher_workbench"/>
+                    <!-- ② 待办窄条（H-1：旧 /my/home Timeline 的唯一独有内容，
+                         校长拍板保留在合并页顶部；三桶全空则不渲染 → 不占高度）。
+                         每条仍是原 Timeline 的「标签 + 可点标题 + 时间」，零功能丢失；
+                         数据源 = 控制器 _timeline_buckets（走 /my/home 时才传）。 -->
+                    <div class="ux3-section ux3-home-todo mb-3"
+                         t-if="timeline and (timeline['overdue'] or timeline['next7'] or timeline['next30'])">
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <span class="fw-semibold text-nowrap">
+                                <i class="fa fa-bell-o me-1" aria-hidden="true"/>待办
+                            </span>
+                            <t t-foreach="[('overdue', '已逾期'), ('next7', '未来 7 天'), ('next30', '未来 30 天')]"
+                               t-as="bucket">
+                                <t t-if="timeline[bucket[0]]">
+                                    <span t-attf-class="badge {{ 'text-bg-danger' if bucket[0] == 'overdue' else 'text-bg-light border text-secondary' }}"
+                                          t-out="'%s %d' % (bucket[1], len(timeline[bucket[0]]))"/>
+                                    <a class="badge text-bg-light border text-decoration-none"
+                                       t-foreach="timeline[bucket[0]]" t-as="it"
+                                       t-att-href="it['href']"
+                                       t-att-title="'%s · %s' % (it['kind'], it['when'])">
+                                        <span class="text-secondary" t-out="it['kind']"/>
+                                        <t t-out="it['title']"/>
+                                        <span class="ux3-dim ms-1" t-out="it['when']"/>
+                                    </a>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                    <!-- S4/W1：今日课表预览卡（学生/家长；空态引导进日视图；无课不渲染） -->
+                    <t t-if="home_role in ('student', 'parent')">
+                        <div class="card shadow-sm border-0 rounded-3 mb-3 ux-today-card">
+                            <div class="card-body py-2 px-3 d-flex align-items-center gap-3 flex-wrap">
+                                <span class="fw-semibold flex-grow-1">
+                                    <i class="fa fa-calendar-check-o me-2 text-primary"/>今日课表
+                                    <span t-if="today_classes['items']" class="badge text-bg-primary-subtle text-primary ms-1"
+                                          t-out="'共 ' + str(today_classes['total']) + ' 节'"/>
+                                </span>
+                                <t t-if="today_classes['items']">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <t t-foreach="today_classes['items']" t-as="tc">
+                                            <a href="/student/timetable?view=day" class="text-decoration-none">
+                                                <span class="badge text-bg-light border ux-today-chip">
+                                                    <b class="text-primary" t-out="tc['time']"/>
+                                                    <t t-out="tc['title']"/>
+                                                    <t t-if="tc['room']"><i class="fa fa-map-marker ms-1"/><t t-out="tc['room']"/></t>
+                                                </span>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </t>
+                                <a t-else="" href="/student/timetable?view=day"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    今日无课，查看本周课表
+                                </a>
+                                <a href="/student/timetable?view=day"
+                                   class="btn btn-sm btn-light btn-sm-ux" title="日视图">
+                                    <i class="fa fa-list fa-fw"/>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                    <!-- ② 提醒折叠区 -->
+                    <div class="o_portal_docs row g-2">
+                        <t t-foreach="categories" t-as="cat">
+                            <t t-if="cat['key'] == 'portal_alert_category'">
+                                <t t-call="edu_portal.edu_one_cat"/>
+                            </t>
+                        </t>
+                    </div>
+                    <!-- ③ Hero 横幅 + 全局搜索 -->
+                    <div class="oe-portal-hero">
+                        <div class="oe-hero-text">
+                            <h2 class="oe-greeting"><span class="oe-greet-emoji" aria-hidden="true">👋</span> 欢迎回来，<t t-out="(student and student.name) or username"/></h2>
+                            <p class="oe-subtitle">所有学习所需尽在一处——快速访问您的记录、课程与服务。</p>
+                        </div>
+                        <!-- V5/V6 修复（2026-10-02 视觉复核）：
+                             · V5 同屏两个搜索框：顶栏那个是真搜索（GET /my/search，覆盖 11 组内容），
+                               本横幅里这个是**另一套**交互（static/src/js/home_search.js：只在前端过滤卡片、
+                               回车跳第一张）—— 两个长得一样、行为不同，用户不知道用哪个。
+                               ⇒ 去掉横幅这个（顶栏保留，功能不丢）。
+                               ⚠ 2026-10-02 收尾（队长裁定）：home_search.js **已删除**（连带 manifest 条目）。
+                               本仓纪律：不为「万一以后要用」保留死代码 —— 脚本唯一服务的元素没了，
+                               留着它就是空转的冗余。要恢复「首页卡片即时过滤」用 git 历史取回即可。
+                             · V6 同屏两个「通知 104」角标：通知卡（上方）已经有一个，
+                               横幅铃铛上再来一个是同一个数字说两遍 ⇒ 去掉铃铛上的角标，
+                               铃铛本身保留（它跳「通知」分区的功能不动）。 -->
+                        <a class="oe-hero-bell" href="#portal_alert_category" title="通知" aria-label="通知">
+                            <i class="fa fa-bell" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <!-- ④ 统计区：迷你英雄卡 + 三 KPI -->
+                    <div id="oe_home_blocks" class="oe-home-blocks">
+                        <div id="oe_stats_slot">
+                            <div class="oe-mhero">
+                                <div class="oe-mhero-k">考勤</div>
+                                <!-- 2026-10-03：原先写成「值 + 硬编码 %」⇒ 无数据时会显示「0%」，
+                                     而家长首页正是无数据的路径（读起来像「你孩子考勤 0%」）。
+                                     改为直接输出控制器给的文本（有数据=%d%，无数据=—）。 -->
+                                <div class="oe-mhero-big" t-out="top['att_pct_txt']"/>
+                                <div class="oe-mhero-chips">
+                                    <t t-foreach="top['chips']" t-as="ch">
+                                        <div class="oe-mhero-chip"><b t-out="ch['val']"/><t t-out="ch['lab']"/></div>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="oe-stat-row">
+                                <t t-foreach="top['kpis']" t-as="k">
+                                    <div t-att-class="'oe-kpi ' + k['cls']">
+                                        <div class="oe-kpi-body">
+                                            <span class="oe-kpi-val" t-out="k['val']"/>
+                                            <span class="oe-kpi-lab" t-out="k['lab']"/>
+                                        </div>
+                                        <span t-att-class="'oe-kpi-ic ' + k['ic']">
+                                            <i t-attf-class="fa {{ k['icon'] }}" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <!-- ⑤ 图表行：趋势折线 + 出勤环形 -->
+                        <div class="oe-charts-row" id="oe_charts_row">
+                            <div class="oe-chart-card oe-chart-line">
+                                <div class="oe-chart-head">
+                                    <span class="oe-chart-title">出勤趋势</span>
+                                    <span class="oe-chart-sub">过去6个月</span>
+                                    <!-- 2026-10-04（第 73 轮）：无数据时**不要**显示「0%」。
+                                         本控制器早有一条明确口径（`_top_stats` 的注释）：
+                                         「把『有没有数据』和『数值』分开，无数据时给 '—' 而不是 0」——
+                                         那条修的是 mhero 的「考勤 0%」，但**同一个卡片里的趋势标签漏了**：
+                                         家长（无学生档案 ⇒ `months` 为空）打开首页会看到
+                                         「出勤趋势 · 过去6个月 · 0% · 与上个月相比」，读起来像「出勤零增长」。
+                                         `months` 为空即无数据 ⇒ 整块趋势标签不渲染。 -->
+                                    <span t-if="top['months']"
+                                          t-att-class="'oe-trend oe-trend-' + top['trend_dir']">
+                                        <i t-attf-class="fa fa-caret-{{ top['trend_dir'] }}" aria-hidden="true"></i>
+                                        <t t-out="top['trend_pp']"/>%
+                                        <span class="oe-trend-sub">与上个月相比</span>
+                                    </span>
+                                </div>
+                                <svg class="oe-chart-svg" viewBox="0 0 320 78" preserveAspectRatio="none">
+                                    <line x1="20" y1="8" x2="300" y2="8" class="oe-grid"></line>
+                                    <line x1="20" y1="41" x2="300" y2="41" class="oe-grid"></line>
+                                    <line x1="20" y1="74" x2="300" y2="74" class="oe-axis"></line>
+                                    <path class="oe-area" t-att-d="top['area_path']"></path>
+                                    <path class="oe-line" t-att-d="top['line_path']"></path>
+                                </svg>
+                                <div class="oe-chart-xlabels">
+                                    <t t-foreach="top['months']" t-as="mo"><span t-out="mo"/></t>
+                                </div>
+                            </div>
+                            <div class="oe-chart-card oe-chart-donut">
+                                <div class="oe-chart-head"><span class="oe-chart-title">考勤</span></div>
+                                <div class="oe-donut-wrap">
+                                    <svg class="oe-donut-svg" viewBox="0 0 84 84">
+                                        <circle class="oe-donut-track" cx="42" cy="42" r="34"></circle>
+                                        <t t-foreach="top['donut']" t-as="seg">
+                                            <circle cx="42" cy="42" r="34" transform="rotate(-90 42 42)"
+                                                    t-att-class="'oe-donut-seg ' + seg['cls']"
+                                                    t-att-stroke-dasharray="seg['dasharray']"
+                                                    t-att-stroke-dashoffset="seg['dashoffset']"></circle>
+                                        </t>
+                                    </svg>
+                                    <div class="oe-donut-legend">
+                                        <t t-foreach="top['donut']" t-as="seg">
+                                            <div class="oe-leg">
+                                                <span t-att-class="'oe-leg-dot oe-leg-' + seg['leg']"></span>
+                                                <t t-out="seg['lab']"/> <b t-out="seg['count']"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ⑥ 其余分类折叠区 -->
+                    <div class="o_portal_docs row g-2">
+                        <t t-foreach="categories" t-as="cat">
+                            <t t-if="cat['key'] != 'portal_alert_category'">
+                                <t t-call="edu_portal.edu_one_cat"/>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+                <div class="d-none d-lg-flex justify-content-end col-lg-3">
+                    <div class="mt-3 oe-sidebar">
+                        <t t-call="edu_portal.edu_sidebar"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 教师工作台首页：教师（非学生）登录替代 v2 首页 ============ -->
+    <!-- ============ 教师工作台 body（2026-10-03 抽成 partial） ============
+         为什么抽：用户要求「老师的我的主页和应用面板合并」⇒ /my/home 渲染的是
+         edu_dashboard_v2（应用宫格）+ 本 partial（工作台），而教务/管理员的教师工作台页
+         （edu_dashboard_teacher）也需要同一份 markup。抽一处，两页共用，避免两处漂移。
+         ⚠ 本 partial 依赖 _teacher_dashboard() 的上下文（cards/days/approval_alerts/
+         fav_cards/today_classes/journal_pending/eval_open/faculty_name/today_str）。
+         merged_apps 为真时（合并到宫格首页）不重复渲染问候区 —— 宫格的迷你头部已经问候过一次。 -->
+    <template id="edu_teacher_workbench" name="Edu Teacher Workbench (partial)">
+            <t t-if="not merged_apps">
+            <!-- 顶部问候 + 今日日期 -->
+            <div class="d-flex align-items-baseline flex-wrap gap-2 mb-1">
+                <h3 class="mb-0"><t t-out="faculty_name"/>老师您好</h3>
+                <span class="text-muted small"><i class="fa fa-calendar-o me-1"/><t t-out="today_str"/></span>
+            </div>
+            <div class="mb-4 small">
+                <!-- W3：待办型徽标 0 值不渲染（对齐既有 to-do 角标 t-if 隐藏写法） -->
+                <span t-if="journal_pending" class="badge text-bg-warning">待批周记 <t t-out="journal_pending"/></span>
+                <span t-if="eval_open" class="badge text-bg-info ms-1">进行中评估 <t t-out="eval_open"/></span>
+                <a href="/my/password" class="ms-2 text-muted text-decoration-none"><i class="fa fa-key me-1"/>修改密码</a>
+            </div>
+            </t>
+            <!-- A1：待办提醒聚合（待批请假/待处理申诉/评估待打分）——
+                 每张卡 t-if 计数>0 才渲染，整块空则不渲染（沿用 W3 的 0 值不占位语义） -->
+            <t t-if="approval_alerts">
+                <div class="card shadow-sm border-0 rounded-3 mb-4 ux-approval-alerts">
+                    <div class="card-header bg-white d-flex align-items-center gap-2 py-2">
+                        <span class="fw-semibold"><i class="fa fa-bell me-2 text-danger"/>待办提醒</span>
+                        <span class="badge text-bg-danger rounded-pill ms-auto" t-out="len(approval_alerts)"/>
+                    </div>
+                    <div class="card-body py-2">
+                        <div class="row g-2">
+                            <t t-foreach="approval_alerts" t-as="al">
+                                <div class="col-12 col-md-4">
+                                    <a t-att-href="al['href']" t-att-title="al['desc']"
+                                       class="d-flex align-items-center gap-2 py-2 px-3 h-100 rounded border text-decoration-none text-reset text-bg-light position-relative">
+                                        <i t-attf-class="fa fa-lg {{ al['icon'] }}" t-att-style="'color:' + al['color']" aria-hidden="true"/>
+                                        <span class="flex-grow-1 lh-sm">
+                                            <span class="fw-semibold small d-block" t-out="al['title']"/>
+                                            <span class="opacity-75 small d-none d-md-block" t-out="al['desc']"/>
+                                        </span>
+                                        <span t-att-class="'badge rounded-pill ' + al['cls']" t-out="al['count']"/>
+                                    </a>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <!-- W1：常用应用置顶条（角色化 4 件套 + 编辑排序）
+                 ⚠ 合并页（merged_apps）里**不渲染**：宫格自身就有一条「常用应用」分类
+                 （edu_one_cat，同样带 [data-fav-grid]），两条并存会让 home_favs.js 的
+                 querySelector("[data-fav-grid]") 抓到第一条、宫格那条的「编辑」变成死按钮。
+                 同一份收藏数据只留一个可编辑容器。 -->
+            <t t-if="fav_cards and not merged_apps">
+                <div class="card shadow-sm border-0 rounded-3 mb-4">
+                    <div class="card-header bg-white d-flex align-items-center gap-2 py-2">
+                        <span class="fw-semibold"><i class="fa fa-star-o me-2 text-warning"/>常用应用</span>
+                        <button type="button" class="btn btn-sm btn-light ms-auto ux-fav-edit-toggle">
+                            <i class="fa fa-pencil me-1"/>编辑
+                        </button>
+                    </div>
+                    <div class="card-body py-2 ux-fav-grid">
+                        <div class="row g-2" id="fav-grid" data-fav-grid="1">
+                            <t t-foreach="fav_cards" t-as="card">
+                                <div class="o_portal_index_card col-6 col-md-3">
+                                    <a t-att-href="card['href']" t-att-title="card['title']"
+                                       t-att-data-app-href="card['app_href']"
+                                       class="d-flex justify-content-start gap-2 align-items-center py-2 px-2 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                                        <div class="o_portal_icon d-block align-self-start">
+                                            <i t-attf-class="fa fa-lg {{ card['icon'] }}"
+                                               t-att-style="('color:' + card['color']) if card.get('color') else None"
+                                               aria-hidden="true"/>
+                                        </div>
+                                        <div class="lh-sm">
+                                            <div class="fw-semibold small"><t t-out="card['title']"/></div>
+                                            <div class="opacity-75 small d-none d-md-block" t-out="card['desc']"/>
+                                        </div>
+                                        <span t-if="card['count'] is not None"
+                                              t-att-class="'oe_count badge rounded-pill' + (' oe_count_zero' if not card['count'] else '')"
+                                              t-out="card['count']"/>
+                                    </a>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <!-- S4：今日我教的课预览卡 -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4 ux-today-card"
+                 t-if="today_classes['items']">
+                <div class="card-body py-2 px-3 d-flex align-items-center gap-3 flex-wrap">
+                    <span class="fw-semibold flex-grow-1">
+                        <i class="fa fa-calendar-check-o me-2 text-primary"/>今日我教的课
+                        <span class="badge text-bg-primary-subtle text-primary ms-1"
+                              t-out="'共 ' + str(today_classes['total']) + ' 节'"/>
+                    </span>
+                    <div class="d-flex flex-wrap gap-2">
+                        <t t-foreach="today_classes['items']" t-as="tc">
+                            <a href="/student/timetable?view=day" class="text-decoration-none">
+                                <span class="badge text-bg-light border ux-today-chip">
+                                    <b class="text-primary" t-out="tc['time']"/>
+                                    <t t-out="tc['title']"/>
+                                    <t t-if="tc['room']"><i class="fa fa-map-marker ms-1"/><t t-out="tc['room']"/></t>
+                                </span>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </div>
+            <!-- 快捷大卡组 -->
+            <div class="row g-3 mb-4">
+                <t t-foreach="cards" t-as="c">
+                    <div class="col-12 col-md-6">
+                        <a t-att-href="c['href']"
+                           class="card h-100 shadow-sm border-0 text-decoration-none text-body">
+                            <div class="card-body d-flex align-items-center gap-3 py-3">
+                                <img t-if="c.get('svg')" t-att-src="c['svg']"
+                                     class="flex-shrink-0" width="48" height="48"
+                                     style="border-radius:12px" alt=""/>
+                                <span t-else="" class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                                      t-att-style="'width:48px;height:48px;background:#fff;border:1px solid #E7E9F2;color:' + c['color'] + ';'">
+                                    <i t-attf-class="fa {{ c['icon'] }} fa-lg"/>
+                                </span>
+                                <span class="flex-grow-1">
+                                    <b><t t-out="c['title']"/></b>
+                                    <span class="d-block small text-muted"><t t-out="c['desc']"/></span>
+                                </span>
+                                <span t-if="c.get('badge')" class="badge text-bg-danger rounded-pill"
+                                      t-att-data-msg-badge="c.get('badge_hook') and c['badge'] or None"
+                                      t-out="c['badge']"/>
+                            </div>
+                        </a>
+                    </div>
+                </t>
+            </div>
+            <!-- 本周我教的课：按天分组 -->
+            <h5 class="mb-2"><i class="fa fa-calendar me-1"/>本周我教的课</h5>
+            <t t-if="days">
+                <div class="row g-3 mb-4">
+                    <t t-foreach="days" t-as="d">
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm border-0 h-100">
+                                <div class="card-header bg-light fw-bold"><t t-out="d['label']"/></div>
+                                <ul class="list-group list-group-flush">
+                                    <t t-foreach="d['sessions']" t-as="s">
+                                        <li class="list-group-item d-flex gap-2 align-items-baseline flex-wrap">
+                                            <span class="badge text-bg-secondary" t-out="s['time']"/>
+                                            <span class="flex-grow-1"><t t-out="s['subject']"/></span>
+                                            <span class="small text-muted">
+                                                <t t-if="s['batch']"><i class="fa fa-users me-1"/><t t-out="s['batch']"/> </t>
+                                                <t t-if="s['room']"><i class="fa fa-map-marker ms-2 me-1"/><t t-out="s['room']"/></t>
+                                            </span>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="alert alert-light border">
+                    本周暂无排课，<a href="/timetable/bulk" class="alert-link">去周期排课生成</a>。
+                </div>
+            </t>
+    </template>
+
+    <template id="edu_dashboard_teacher" name="Edu Portal Teacher Dashboard">
+        <t t-call="edu_portal.edu_page">
+            <div class="b11-home" data-home-role="faculty"
+                 t-att-data-csrf="request.csrf_token()"
+                 t-att-data-fav-server="'1' if fav_has_server else '0'">
+                <t t-call="edu_portal.edu_teacher_workbench"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 单个分类：提醒=折叠区，其余=平铺网格（对齐原站） ============ -->
+    <template id="edu_one_cat" name="Edu Portal One Category">
+        <t t-if="cat['alert']">
+            <div t-att-id="cat['id']" class="o_portal_category row g-2 mt-3 portal_alert_category">
+                <!-- alerts_read.js 的 csrf 兜底来源（meta 缺失时用） -->
+                <input type="hidden" class="oe-alert-csrftoken" t-att-value="request.csrf_token()"/>
+                <div class="accordion">
+                    <div class="accordion-item text-bg-light rounded">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button o_portal_index_card collapsed" type="button"
+                                    data-bs-toggle="collapse"
+                                    t-att-data-bs-target="'#collapse-' + cat['key']"
+                                    t-att-aria-controls="'collapse-' + cat['key']"
+                                    aria-expanded="false">
+                                <div class="align-items-center d-flex w-100">
+                                    <i t-attf-class="fa {{ cat['icon'] }} me-2" aria-hidden="true"/>
+                                    <span class="fs-5" t-out="cat['title']"/>
+                                    <!-- v2.1-B9：私信轮询差量刷新折叠头总数的锚点 -->
+                                    <div class="me-2 ms-auto text-end" id="portal-alert-total-slot">
+                                        <span t-if="cat['total']" class="badge bg-danger" t-out="cat['total']"/>
+                                    </div>
+                                </div>
+                            </button>
+                        </h2>
+                    </div>
+                    <div t-att-id="'collapse-' + cat['key']"
+                         class="accordion-collapse border text-bg-light collapse rounded">
+                        <div class="accordion-body">
+                            <ul class="list-unstyled mb-0 w-100" id="search-notification-list">
+                                <t t-foreach="cat['cards']" t-as="card">
+                                    <li class="dropdown-item-text p-0">
+                                        <div class="o_portal_index_card col-12">
+                                            <a t-att-href="card['href']" t-att-title="card['title']"
+                                               t-att-data-alert-key="card['key']"
+                                               t-att-data-msg-unread="card['unread']"
+                                               class="d-flex justify-content-start gap-2 gap-md-3 align-items-center py-3 pe-2 px-md-3 h-100 rounded text-decoration-none text-reset alert alert-primary align-items-center position-relative oe-doc-alert">
+                                                <div class="alert-link">
+                                                    <div class="mt-0 mb-1 fs-5 fw-normal lh-1 d-flex gap-2">
+                                                        <span class="fw-bold" t-out="card['title']"/>
+                                                    </div>
+                                                    <div class="opacity-75"></div>
+                                                </div>
+                                                <!-- 徽标显示该类未读数（点击跳转后由 JS 上报清零） -->
+                                                <span t-if="card['unread']" class="oe_count badge rounded-pill text-bg-primary" t-out="card['unread']"/>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <t t-if="cat['cards']">
+            <div t-att-id="cat['id']"
+                 t-att-class="'o_portal_category mt-3' + (cat.get('fav') and ' ux-fav-category' or '')">
+                <div class="oe-cat-head">
+                    <span class="oe-cat-dot"></span>
+                    <h3 class="oe-cat-title" t-out="cat['title']"/>
+                    <span class="oe-cat-count" t-out="cat['count_label']"/>
+                    <!-- W2：编辑态开关（移动端也可见；JS 渐进增强） -->
+                    <button type="button" class="btn btn-sm btn-light ms-auto ux-fav-edit-toggle"
+                            t-if="cat.get('fav')" aria-label="编辑常用应用">
+                        <i class="fa fa-pencil me-1"/>编辑
+                    </button>
+                </div>
+                <div t-att-data-fav-grid="cat.get('fav') and '1' or None"
+                     t-att-id="cat.get('fav') and 'fav-grid' or None"
+                     class="row g-2 w-100">
+                <t t-foreach="cat['cards']" t-as="card">
+                    <div class="o_portal_index_card col-md-6">
+                        <a t-att-href="card['href']" t-att-title="card['title']"
+                           t-att-aria-label="card['title'] or '应用入口'"
+                           t-att-data-app-href="card.get('app_href')"
+                           class="d-flex justify-content-start gap-2 gap-md-3 align-items-center py-3 pe-2 px-md-3 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                            <div class="o_portal_icon d-block align-self-start">
+                                <!-- 彩色扁平 SVG 插画优先；缺失回退 FA 瓦片 / 原灰阶 img -->
+                                <img t-if="card.get('svg')" t-att-src="card['svg']"
+                                     t-att-alt="card['title']" loading="lazy"/>
+                                <t t-elif="card['icon'].startswith('fa-')">
+                                    <i t-attf-class="fa fa-lg {{ card['icon'] }}"
+                                       t-att-style="('color:' + card['color']) if card.get('color') else None"
+                                       aria-hidden="true"/>
+                                </t>
+                                <t t-else="">
+                                    <img t-att-src="'/edu_portal/static/src/img/' + card['icon']" loading="lazy"/>
+                                </t>
+                            </div>
+                            <div>
+                                <div class="mt-0 mb-1 fs-5 fw-normal lh-1">
+                                    <span t-out="card['title']"/>
+                                </div>
+                                <div class="opacity-75" t-out="card['desc']"/>
+                            </div>
+                            <span t-if="card['count'] is not None"
+                                  t-att-class="'oe_count badge rounded-pill' + (' oe_count_zero' if not card['count'] else '')"
+                                  t-out="card['count']"/>
+                        </a>
+                    </div>
+                </t>
+                </div>
+            </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ 首页右侧栏（资料卡 / Overview / 月历，对齐原站 oe-sidebar） ============ -->
+    <template id="edu_sidebar" name="Edu Portal Sidebar">
+        <!-- H-1（校长拍板 2026-09-18）：资料卡的 partner 源 = **账号 partner**
+             （sidebar['partner']，控制器 _sidebar_values 已改为
+             request.env.user.partner_id）——与头像上传写入口（avatar.py:22）
+             是同一条记录。原写法用裸变量 partner（模板上下文里从未定义 ⇒ 恒 0）
+             ⇒ 头像取到 /web/image/res.partner/0/image_256 = 灰底相机占位图。
+             依据 docs/plans/student-portal-home-profile-design.md §5.2 / §9.2。 -->
+        <t t-set="card_partner" t-value="sidebar['partner']"/>
+        <div class="oe-side-card oe-profile-card">
+            <div class="oe-profile-head">
+                <div class="oe-profile-cover"></div>
+                <!-- H-1：点资料卡头像 = 打开**同页已在**的 #b11-avatar-modal
+                     （edu_page 外壳自带），提交仍走既有 POST /my/avatar/upload
+                     ⇒ 零新路由、零新 JS。取图改 avatar_256：无照片时 Odoo 自动
+                     生成姓名首字彩色头像（≈424B），不再是灰相机（6078B）。 -->
+                <button type="button" class="p-0 border-0 bg-transparent lh-1"
+                        data-bs-toggle="modal" data-bs-target="#b11-avatar-modal"
+                        aria-label="修改头像" title="修改头像">
+                    <img class="oe-profile-avatar rounded-circle o_object_fit_cover" alt="头像"
+                         t-att-src="'/web/image/res.partner/%s/avatar_256' % (card_partner and card_partner.id or 0)"
+                         loading="lazy"/>
+                </button>
+                <h5 class="oe-profile-name" t-out="(student and student.name) or username"/>
+                <div class="oe-profile-chips">
+                    <span class="oe-chip" t-if="chip_term" t-out="chip_term"/>
+                    <span class="oe-chip" t-if="chip_batch and chip_batch != chip_term" t-out="chip_batch"/>
+                    <span class="oe-chip" t-if="chip_course" t-out="chip_course"/>
+                </div>
+            </div>
+            <!-- H-1：地址块同样改读 card_partner（账号 partner）——原先裸 partner
+                 未定义 ⇒ 这个块从来不渲染；现在显示的就是「编辑资料」(/my/account)
+                 能改的那条记录的联系方式。 -->
+            <div class="o_portal_my_details" t-if="card_partner">
+                <address class="o_portal_address mb-0">
+                    <div class="gap-2" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
+                        <div class="d-flex align-items-baseline gap-1" t-if="card_partner.street or card_partner.city">
+                            <i class="fa fa-map-marker fa-fw" role="img" aria-label="地址" title="地址"></i>
+                            <span class="w-100 lh-sm text-break d-block" itemprop="streetAddress">
+                                <t t-out="card_partner.street"/><t t-if="card_partner.city">，<t t-out="card_partner.city"/></t>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center gap-1" t-if="card_partner.phone">
+                            <i class="fa fa-phone fa-fw" role="img" aria-label="电话" title="电话"></i>
+                            <span class="o_force_ltr" itemprop="telephone" t-out="card_partner.phone"/>
+                        </div>
+                        <div class="d-flex align-items-baseline gap-1" t-if="card_partner.email">
+                            <i class="fa fa-envelope fa-fw" role="img" aria-label="邮箱" title="邮箱"></i>
+                            <span class="text-break w-100" itemprop="email" t-out="card_partner.email"/>
+                        </div>
+                    </div>
+                </address>
+            </div>
+            <a role="button" href="/my/account" class="btn btn-link p-0 oe-edit-btn">
+                <i class="fa fa-pencil"></i> 编辑资料
+            </a>
+            <a role="button" href="/my/password" class="btn btn-link p-0 oe-edit-btn ms-3">
+                <i class="fa fa-key"></i> 修改密码
+            </a>
+        </div>
+
+        <!-- Quick actions（对齐原站侧栏快捷入口）
+             ⚠ 2026-10-03（task-19，独立复核报的缺口）：这 7 项原先**不分身份**硬编码 ——
+             考勤 / 作业 / 考试 / 成绩簿 是对**学生账号**才开放的路由（控制器 pages 会回
+             「仅面向学生账号」的拒止页，HTTP 仍是 200 ⇒ 肉眼像能点、点进去是墙）。
+             教师（本轮起接入这一页）与家长都会中招，家长那 4 条是**既有缺陷**，一并修掉。
+             判据用 `student`（= current_student()，只有学生账号非空）——与控制器里
+             _STUDENT_ONLY_CARDS 的过滤口径同源，不另立一套规则。
+             失效保护：t-if 写错的症状是「学生也看不到这 4 项」，probe_home_cards / 截图可查。 -->
+        <div class="oe-side-card oe-qa-side">
+            <div class="oe-semester-title">快速操作</div>
+            <div class="oe-qa-grid row g-2">
+                <!-- 2026-10-03（task-19，缺口 3 去重）：合并页（merged_apps）下方就是应用宫格，
+                     而宫格的「学业」分类里已有「课程中心 / 校历」两张卡 ⇒ 侧栏快捷条不再重复摆
+                     （同一屏把同一功能说多遍 = 弱化，本仓 V6 先例）。「证书」宫格里没有 ⇒ 保留，
+                     否则教师就少了它唯一的入口。宫格若哪天加了「证书」，这里要同步删。 -->
+                <a href="/my/study" class="oe-quick-btn col-4" t-if="not merged_apps">
+                    <span class="oe-quick-ic"><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
+                    <span class="oe-quick-lab">课程中心</span>
+                </a>
+                <a href="/my/calendar" class="oe-quick-btn col-4" t-if="not merged_apps">
+                    <span class="oe-quick-ic"><img src="/edu_portal/static/src/img/icons/student/timetable.svg" alt="" loading="lazy"/></span>
+                    <span class="oe-quick-lab">校历</span>
+                </a>
+                <a href="/student/attendance" class="oe-quick-btn col-4" t-if="student">
+                    <span class="oe-quick-ic"><img src="/edu_portal/static/src/img/icons/student/attendance.svg" alt="" loading="lazy"/></span>
+                    <span class="oe-quick-lab">考勤</span>
+                </a>
+                <a href="/student/assignment/details" class="oe-quick-btn col-4" t-if="student">
+                    <span class="oe-quick-ic"><img src="/edu_portal/static/src/img/icons/student/assignment/details.svg" alt="" loading="lazy"/></span>
+                    <span class="oe-quick-lab">作业</span>
+                </a>
+                <a href="/student/exam" class="oe-quick-btn col-4" t-if="student">
+                    <span class="oe-quick-ic"><img src="/edu_portal/static/src/img/icons/student/exam.svg" alt="" loading="lazy"/></span>
+                    <span class="oe-quick-lab">考试</span>
+                </a>
+                <a href="/grade-book" class="oe-quick-btn col-4" t-if="student">
+                    <span class="oe-quick-ic"><img src="/edu_portal/static/src/img/icons/grade-book.svg" alt="" loading="lazy"/></span>
+                    <span class="oe-quick-lab">成绩簿</span>
+                </a>
+                <a href="/certificate" class="oe-quick-btn col-4">
+                    <span class="oe-quick-ic"><img src="/edu_portal/static/src/img/icons/certificate.svg" alt="" loading="lazy"/></span>
+                    <span class="oe-quick-lab">证书</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="oe-side-card oe-overview-card" t-if="sidebar['stats']">
+            <div class="oe-semester-title">概览</div>
+            <div id="oe_overview_bars">
+                <t t-foreach="sidebar['stats']" t-as="st">
+                    <div class="oe-stat">
+                        <div class="oe-stat-top"><span t-out="st['label']"/><b t-out="st['value']"/></div>
+                        <div class="oe-bar"><span t-att-class="st['cls']" t-attf-style="width:{{ st['width'] }}%"></span></div>
+                    </div>
+                </t>
+            </div>
+        </div>
+
+        <div class="oe-side-card oe-cal-card">
+            <!-- v2.1-B10：侧栏月历标题即校历页入口 -->
+            <a class="oe-cal-month text-decoration-none d-block" href="/my/calendar"
+               title="查看一体化校历（课程/考试/停课/活动）">
+                <t t-out="sidebar['cal_title']"/>
+            </a>
+            <table class="oe-cal">
+                <thead>
+                    <tr><t t-foreach="sidebar['cal_head']" t-as="d"><th t-out="d"/></t></tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="sidebar['cal_weeks']" t-as="wk">
+                        <tr>
+                            <t t-foreach="wk" t-as="day">
+                                <td t-att-class="day['today'] and 'oe-cal-today' or ''">
+                                    <span class="oe-cal-day" t-out="day['day']"/>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="oe_upcoming_slot">
+            <t t-if="sidebar['next']">
+                <div class="oe-side-card oe-upcoming-card">
+                    <div class="oe-semester-title">下一节课</div>
+                    <div class="fw-bold mb-1" t-out="sidebar['next']['subject']"/>
+                    <div class="small opacity-75"><i class="fa fa-clock-o me-1"/><t t-out="sidebar['next']['when']"/></div>
+                    <div class="small opacity-75" t-if="sidebar['next']['room']"><i class="fa fa-map-marker me-1"/><t t-out="sidebar['next']['room']"/></div>
+                    <div class="small opacity-75" t-if="sidebar['next']['faculty']"><i class="fa fa-user me-1"/><t t-out="sidebar['next']['faculty']"/></div>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <!-- 2026-10-03（task-19）：教师「我的主页 + 应用面板」合并的导航收口**不放这里**。
+         一度用本文件的继承视图（edu_page_faculty_single_entry + 三条 xpath）实现，
+         但那属于「隔着模板改别人的文件」：落地难核对、还会在 -u 日志里刷 @class 警告。
+         队长放开写作用域后已改为**直接改源模板**（views/edu_portal_templates.xml）：
+           ① 面包屑「应用面板」  ② 用户菜单「应用面板」  ③ 侧栏「应用面板」
+           ④ 侧栏「全部应用」    ⑤ 上手清单第 1 条
+         五处都只是追加 `and not b11_fac`（教师收口）——学生/家长/教务/管理员一字不变。
+         本文件的职责只剩：合并页 markup（edu_teacher_workbench）、合并分支、收口路由。 -->
+</odoo>
+                

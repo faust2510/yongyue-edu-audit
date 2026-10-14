@@ -1,0 +1,42 @@
+/* edu_apply 报名表 UX 增强（渐进增强：缺样式不影响填写与提交） */
+
+/* 分区步骤编号圆片 */
+.yy-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7em;
+    height: 1.7em;
+    margin-right: .45em;
+    border-radius: 50%;
+    background: #8a6d3b;
+    color: #fff;
+    font-size: .72em;
+    vertical-align: middle;
+}
+
+/* 锚点跳转预留顶部空间 */
+.yy-part { scroll-margin-top: 72px; }
+
+/* 顶部分区导航徽标 */
+.yy-part-nav .badge { font-weight: 400; }
+
+/* 成功页「接下来会发生什么」三步说明 */
+.yy-next-steps li {
+    display: flex;
+    gap: .75rem;
+    margin-bottom: 1rem;
+}
+.yy-next-steps li:last-child { margin-bottom: 0; }
+.yy-next-num {
+    flex: 0 0 auto;
+    width: 1.8em;
+    height: 1.8em;
+    border-radius: 50%;
+    background: #c8a870;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}

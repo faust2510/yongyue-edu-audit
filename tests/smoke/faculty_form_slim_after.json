@@ -1,0 +1,288 @@
+{
+ "phase": "after",
+ "generated_at": "2026-09-24T11:24:29",
+ "form_url": "http://127.0.0.1:8069/odoo/faculty/new",
+ "actor": "backoffice@local",
+ "checks": [
+  {
+   "name": "A1 首屏保留字段齐全",
+   "ok": true,
+   "detail": "缺: []"
+  },
+  {
+   "name": "A2 首屏无清单外字段",
+   "ok": true,
+   "detail": "多: []"
+  },
+  {
+   "name": "B1 收起字段不在首屏 DOM",
+   "ok": true,
+   "detail": "漏: []"
+  },
+  {
+   "name": "B2 「更多信息」页签里都在",
+   "ok": true,
+   "detail": "缺: []"
+  },
+  {
+   "name": "B3 联系人看板/图书卡已移除",
+   "ok": true,
+   "detail": "仍在: []"
+  },
+  {
+   "name": "C1 图书馆页签消失",
+   "ok": true,
+   "detail": "仍有: []"
+  },
+  {
+   "name": "C2 科目页签仍在",
+   "ok": true,
+   "detail": "页签: ['科目', '更多信息']"
+  },
+  {
+   "name": "C3 科目字段可见(页签内)",
+   "ok": true,
+   "detail": "visible=['birth_date', 'email', 'faculty_subject_ids', 'first_name', 'gender', 'last_name', 'main_department_id', 'middle_name', 'phone'] first=['birth_date', 'email', 'faculty_subject_ids', 'first_name', 'gender', 'last_name', 'main_department_id', 'middle_name', 'phone']"
+  },
+  {
+   "name": "C4 「更多信息」页签存在",
+   "ok": true,
+   "detail": "页签: ['科目', '更多信息']"
+  },
+  {
+   "name": "B4 首屏正文无噪音词",
+   "ok": true,
+   "detail": "命中: []"
+  },
+  {
+   "name": "D1 只填可见字段能保存",
+   "ok": true,
+   "detail": "记录未落库: [{'id': 213, 'name': '【演示】李慧 老师', 'first_name': '【演示】李慧', 'last_name': '老师', 'gender': 'female', 'birth_date': '1990-01-01', 'email': 'demo.faculty@example.invalid', 'phone': '000 0000', 'main_department_id': [12, '【演示】中文部'], 'faculty_subject_ids': [35]}]"
+  },
+  {
+   "name": "D2 保存无缺字段报错",
+   "ok": true,
+   "detail": "命中: []"
+  },
+  {
+   "name": "D3 first_name 落库",
+   "ok": true,
+   "detail": "first_name='【演示】李慧'"
+  },
+  {
+   "name": "D3 last_name 落库",
+   "ok": true,
+   "detail": "last_name='老师'"
+  },
+  {
+   "name": "D3 gender 落库",
+   "ok": true,
+   "detail": "gender='female'"
+  },
+  {
+   "name": "D3 email 落库",
+   "ok": true,
+   "detail": "email='demo.faculty@example.invalid'"
+  },
+  {
+   "name": "D4 所属院系落库",
+   "ok": true,
+   "detail": "[12, '【演示】中文部']"
+  },
+  {
+   "name": "D5 科目落库",
+   "ok": true,
+   "detail": "[35]"
+  },
+  {
+   "name": "E1 隐藏字段可写可读",
+   "ok": true,
+   "detail": "[{'id': 213, 'blood_group': 'A+', 'id_number': '【演示】ID-0001', 'nationality': False, 'visa_info': False, 'emp_id': False, 'user_id': False, 'partner_id': [905, '【演示】李慧 老师'], 'allowed_department_ids': [], 'emergency_contact': False, 'street': False, 'city': False, 'country_id': False, 'lang': 'zh_CN'}]"
+  },
+  {
+   "name": "E2 隐藏字段元数据仍在",
+   "ok": true,
+   "detail": "keys=['allowed_department_ids', 'blood_group', 'city', 'country_id', 'emergency_contact', 'emp_id', 'id', 'id_number', 'lang', 'nationality', 'partner_id', 'street', 'user_id', 'visa_info']"
+  }
+ ],
+ "notes": [],
+ "first_screen": {
+  "visible_fields": [
+   "birth_date",
+   "email",
+   "faculty_subject_ids",
+   "first_name",
+   "gender",
+   "last_name",
+   "main_department_id",
+   "middle_name",
+   "phone"
+  ],
+  "dom_fields": [
+   "birth_date",
+   "email",
+   "faculty_subject_ids",
+   "first_name",
+   "gender",
+   "last_name",
+   "main_department_id",
+   "middle_name",
+   "phone"
+  ],
+  "labels": {
+   "first_name": "",
+   "middle_name": "",
+   "last_name": "",
+   "email": "",
+   "phone": "",
+   "gender": "性别",
+   "birth_date": "出生日期",
+   "main_department_id": "所属院系",
+   "faculty_subject_ids": ""
+  },
+  "tabs": [
+   "科目",
+   "更多信息"
+  ],
+  "buttons": [],
+  "date_input": {
+   "placeholder": "",
+   "value": ""
+  }
+ },
+ "more_tab": {
+  "opened": true,
+  "dom_fields": [
+   "allowed_department_ids",
+   "birth_date",
+   "blood_group",
+   "city",
+   "country_id",
+   "email",
+   "emergency_contact",
+   "emp_id",
+   "first_name",
+   "gender",
+   "id_number",
+   "image_1920",
+   "lang",
+   "last_name",
+   "main_department_id",
+   "middle_name",
+   "nationality",
+   "partner_id",
+   "phone",
+   "state_id",
+   "street",
+   "street2",
+   "title",
+   "user_id",
+   "visa_info",
+   "zip"
+  ],
+  "visible_fields": [
+   "allowed_department_ids",
+   "birth_date",
+   "blood_group",
+   "city",
+   "country_id",
+   "email",
+   "emergency_contact",
+   "emp_id",
+   "first_name",
+   "gender",
+   "id_number",
+   "image_1920",
+   "lang",
+   "last_name",
+   "main_department_id",
+   "middle_name",
+   "nationality",
+   "partner_id",
+   "phone",
+   "state_id",
+   "street",
+   "street2",
+   "title",
+   "user_id",
+   "visa_info",
+   "zip"
+  ]
+ },
+ "subjects_tab": {
+  "opened": true,
+  "visible_fields": [
+   "birth_date",
+   "email",
+   "faculty_subject_ids",
+   "first_name",
+   "gender",
+   "last_name",
+   "main_department_id",
+   "middle_name",
+   "phone"
+  ]
+ },
+ "note_text_probe": {
+  "血型": false,
+  "紧急联系方式": false,
+  "签证": false,
+  "身份证": false,
+  "图书馆": false,
+  "Library": false
+ },
+ "demo_department_id": 12,
+ "filled_fields": [
+  "gender",
+  "first_name",
+  "last_name",
+  "email",
+  "phone",
+  "birth_date",
+  "main_department_id",
+  "faculty_subject_ids"
+ ],
+ "created": [
+  {
+   "id": 213,
+   "name": "【演示】李慧 老师",
+   "first_name": "【演示】李慧",
+   "last_name": "老师",
+   "gender": "female",
+   "birth_date": "1990-01-01",
+   "email": "demo.faculty@example.invalid",
+   "phone": "000 0000",
+   "main_department_id": [
+    12,
+    "【演示】中文部"
+   ],
+   "faculty_subject_ids": [
+    35
+   ]
+  }
+ ],
+ "save_url": "http://127.0.0.1:8069/odoo/faculty/213",
+ "save_body_tail": "学生信息\n学生\n教职员工\n配置\n2\n永约学坊\n应用面板\n新建\n教职员工\n【演示】李慧 老师\n0\n会议\n1 / 1\n\n\n性别\n出生日期\n1990年1月1日\n所属院系\n科目\n更多信息\n姓名\n\t\n代码\n\t\n类型\n\t\n科目类型\n\t\n等级权重\n\t\n小要理问答\tPRP-C01\t理论\t选修课\t0.00\t\n添加行\n​\n​\n\t\n发送消息\n备注\n活动\n1\n今天\n教务专员\n11:24\n\nOpenEduCat 教师 创建\n\n按 esc 离开全屏幕",
+ "hidden_readback": [
+  {
+   "id": 213,
+   "blood_group": "A+",
+   "id_number": "【演示】ID-0001",
+   "nationality": false,
+   "visa_info": false,
+   "emp_id": false,
+   "user_id": false,
+   "partner_id": [
+    905,
+    "【演示】李慧 老师"
+   ],
+   "allowed_department_ids": [],
+   "emergency_contact": false,
+   "street": false,
+   "city": false,
+   "country_id": false,
+   "lang": "zh_CN"
+  }
+ ],
+ "fails": []
+}

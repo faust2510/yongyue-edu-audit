@@ -1,0 +1,26 @@
+{
+ "/odoo/apps": {
+  "status": 200,
+  "bytes": 6890,
+  "finds": 0,
+  "buckets": {}
+ },
+ "/odoo/action-649": {
+  "status": 200,
+  "bytes": 6890,
+  "finds": 0,
+  "buckets": {}
+ },
+ "/odoo/action-650": {
+  "status": 200,
+  "bytes": 6890,
+  "finds": 0,
+  "buckets": {}
+ },
+ "/odoo/students": {
+  "status": 200,
+  "bytes": 6890,
+  "finds": 0,
+  "buckets": {}
+ }
+}

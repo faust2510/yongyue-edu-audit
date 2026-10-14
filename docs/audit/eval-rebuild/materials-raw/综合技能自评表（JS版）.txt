@@ -1,0 +1,43 @@
+====================================================================================================
+FILE: 综合技能自评表（JS版）.docx
+SIZE: 18392 bytes
+====================================================================================================
+ELEMENTS: 9 paragraphs, 1 tables
+
+[P003] <B> 《综合技能与灵命成长评估表》
+[P007] 员工：____________          导师：_____________                日期：_____________
+[P008] <B> 评分说明：
+[P009] <[numbered]> 10分：完全不符合要求，表现很差
+[P010] <[numbered]> 40分：基本符合要求，但需要较大提升
+[P011] <[numbered]> 60分：符合要求，能独立完成相关任务
+[P012] <[numbered]> 80分：表现优秀，具备较强的能力
+[P013] <[numbered]> 100分：表现卓越，能够在复杂环境中表现出色
+[P014] <B> 综合技能与灵命成长评估共包括四大类：技能、社群协作、灵命与学业。请根据实际情况对员工的各项表现进行评分。（可以填写以上分数的中间值20、30、40、50、70、90，尽量写整数，方便计算）
+
+----- TABLE 1 : 25 rows -----
+  R01 | c1=类别 || c2=子类目 || c3=权重 || c4=评分说明 || c5=子评分（0-100） || c6=案例分析
+  R02 | c1(vmerge-start)=技能评估 || c2(vmerge-start)=生活技能 || c3(vmerge-start)=10 || c4=时间管理（能合理安排个人生活、学习及休闲时间，做到高效利用） || c5=客观评分： / 主观评分： || c6(vmerge-start)=
+  R03 | c1(vmerge-cont)= || c2(vmerge-cont)= || c3(vmerge-cont)= || c4=理财习惯（合理管理个人财务，避免过度消费，能为未来做规划。） || c5=客观评分： / 主观评分： || c6(vmerge-cont)=
+  R04 | c1(vmerge-cont)= || c2(vmerge-cont)= || c3(vmerge-cont)= || c4=生活整洁（能自主完成日常生活任务，如：保持个人物品和环境整洁、做饭、洗衣等。） || c5=客观评分： / 主观评分： || c6(vmerge-cont)=
+  R05 | c1(vmerge-cont)= || c2(vmerge-start)=与人交往（人际技巧与情感智慧） || c3(vmerge-start)=10 || c4=沟通力 （能表达自己的想法、感受，能恰当地处理误会与冲突） || c5=客观评分： / 主观评分： || c6(vmerge-start)=
+  R06 | c1(vmerge-cont)= || c2(vmerge-cont)= || c3(vmerge-cont)= || c4=合作 （在一对一关系中，是否建立信任） || c5=客观评分： / 主观评分： || c6(vmerge-cont)=
+  R07 | c1(vmerge-cont)= || c2(vmerge-cont)= || c3(vmerge-cont)= || c4=同理心 （尊重并理解与自己不同的人） || c5=客观评分： / 主观评分： || c6(vmerge-cont)=
+  R08 | c1(vmerge-cont)= || c2(vmerge-start)=工作能力 || c3(vmerge-start)=10 || c4=责任感（对自己的工作任务有高度的责任感，能够提前规划任务，制定有效的行动计划，不推卸责任。） || c5=客观评分： / 主观评分： || c6(vmerge-start)=
+  R09 | c1(vmerge-cont)= || c2(vmerge-cont)= || c3(vmerge-cont)= || c4=执行力（能够按照计划执行，快速解决任务中的障碍） || c5=客观评分： / 主观评分： || c6(vmerge-cont)=
+  R10 | c1(vmerge-cont)= || c2(vmerge-cont)= || c3(vmerge-cont)= || c4=应变抗压能力（在压力大的情况下，能保持稳定，完成任务。） || c5=客观评分： / 主观评分： || c6(vmerge-cont)=
+  R11 | c1(vmerge-cont)= || c2(vmerge-start)=应用能力 || c3(vmerge-start)=10 || c4=学以致用（能够将理论知识运用到实际问题中，解决具体问题。） || c5=客观评分： / 主观评分： || c6(vmerge-start)=
+  R12 | c1(vmerge-cont)= || c2(vmerge-cont)= || c3(vmerge-cont)= || c4=问题解决（在遇到问题时，能迅速找出原因并提供解决方案。） || c5=客观评分： / 主观评分： || c6(vmerge-cont)=
+  R13 | c1(vmerge-cont)= || c2(vmerge-cont)= || c3(vmerge-cont)= || c4=实际应用的创造性（能够提出创新性的方法，改善现有的做事方式。） || c5=客观评分： / 主观评分： || c6(vmerge-cont)=
+  R14 | c1(vmerge-start)=社群协作 || c2=团队精神 || c3=5 || c4=在团队中乐于配搭，主动承担角色，顾全大局，优先考虑群体目标而非个人偏好 || c5=导师评分： || c6(vmerge-start)=小组观察+项目协作记录
+  R15 | c1(vmerge-cont)= || c2=沟通能力 || c3=5 || c4=清晰表达意图、倾听他人意见 || c5=导师评分： || c6(vmerge-cont)=
+  R16 | c1(vmerge-cont)= || c2=情绪管理 || c3=5 || c4=在属灵服事遭遇压力时维持信任、稳定、不情绪化回应 || c5=导师评分： || c6(vmerge-cont)=
+  R17 | c1(vmerge-start)=灵命表现 || c2=灵修生活 || c3=6 || c4=持续读经祷告，渴慕神话语 || c5=导师评分： || c6(vmerge-start)=
+  R18 | c1(vmerge-cont)= || c2=敬拜参与 || c3=6 || c4=真诚投入团契、主日敬拜 || c5=导师评分： || c6(vmerge-cont)=
+  R19 | c1(vmerge-cont)= || c2=属灵关系 || c3=6 || c4=积极参与群体、顺服带领 || c5=导师评分： || c6(vmerge-cont)=
+  R20 | c1(vmerge-cont)= || c2=谦卑与悔改 || c3=6 || c4=乐意承认软弱，接受提醒或引导 || c5=导师评分： || c6(vmerge-cont)=
+  R21 | c1(vmerge-cont)= || c2=福音本能反应 || c3=6 || c4=在冲突/失败/批评/诱惑中，以恩典与信心回应，转向神，不凭血气 || c5=导师评分： || c6(vmerge-cont)=
+  R22 | c1(vmerge-start)=学业表现 || c2=学术成果 || c3=7.5 || c4=成绩、作品、课堂表现 || c5=导师评分： || c6(vmerge-start)=
+  R23 | c1(vmerge-cont)= || c2=学习态度 || c3=7.5 || c4=虚心受教、积极准备、勇于修正 || c5=导师评分： || c6(vmerge-cont)=
+  R24 | c1=总分 || c2(span5)=
+  R25 | c1=导师评语与建议 || c2(span5)=
+----- END TABLE 1 -----

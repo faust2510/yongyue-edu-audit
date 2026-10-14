@@ -1,0 +1,1843 @@
+{
+ "stamp": "2026-09-28T18:01:28+08:00",
+ "revision": "a3",
+ "fingerprint": "1874bd08",
+ "impact": {
+  "critical": 0,
+  "serious": 0,
+  "moderate": 0,
+  "minor": 0,
+  "total": 0,
+  "pages": 55
+ },
+ "baseline": {
+  "critical": 0,
+  "serious": 0,
+  "moderate": 0,
+  "minor": 0,
+  "total": 0,
+  "pages": 55
+ },
+ "by_rule": {},
+ "pages": [
+  {
+   "role": "guest",
+   "path": "/",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/programs",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/admissions",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/help",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/login",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/register",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/my/home",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/my/apps",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/my/study",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/my/fees",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/my/time_off",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/student/timetable",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/my/messages",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/downloads",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/my/home",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/attendance/take",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/grading/entry",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/assignment/manage",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/leave/approvals",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/notice/publish",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "parent",
+   "path": "/my/home",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "parent",
+   "path": "/my/child",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "parent",
+   "path": "/my/fees",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "parent",
+   "path": "/my/messages",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/my/home",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/ledger",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/edu/audit",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/downloads",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/odoo/contacts",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": true,
+   "backend_detail": {
+    "shell_missing": false,
+    "shell_violations": [
+     {
+      "id": "aria-required-children",
+      "impact": "critical",
+      "nodes": 1,
+      "targets": [
+       ".o_menu_systray"
+      ]
+     }
+    ],
+    "page_core": {
+     "aria-required-children": {
+      "impact": "critical",
+      "nodes": 1,
+      "where": "外壳(核心结构)",
+      "pages": [
+       "backoffice /odoo/contacts"
+      ]
+     },
+     "aria-allowed-attr": {
+      "impact": "critical",
+      "nodes": 2,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/contacts"
+      ]
+     },
+     "button-name": {
+      "impact": "critical",
+      "nodes": 1,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/contacts"
+      ]
+     },
+     "html-has-lang": {
+      "impact": "serious",
+      "nodes": 1,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/contacts"
+      ]
+     },
+     "label": {
+      "impact": "critical",
+      "nodes": 19,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/contacts"
+      ]
+     },
+     "meta-viewport": {
+      "impact": "critical",
+      "nodes": 1,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/contacts"
+      ]
+     },
+     "role-img-alt": {
+      "impact": "serious",
+      "nodes": 81,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/contacts"
+      ]
+     }
+    },
+    "local_contrast": {
+     "violations": [],
+     "skipped": {
+      "invisible": 2,
+      "complex_bg": 0,
+      "no_color": 0
+     }
+    },
+    "notes": [],
+    "text_rows": [
+     {
+      "sel": "span.o-mail-MessagingMenu-counter badge rounded-pill",
+      "text": "2",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       18,
+       122,
+       80
+      ],
+      "bg_complex": false,
+      "size": 11,
+      "weight": 500,
+      "rect": [
+       21.375,
+       16.09375
+      ],
+      "visible": true,
+      "disabled_control": false
+     },
+     {
+      "sel": "span.oe_topbar_name d-none d-lg-block text-truncate",
+      "text": "永约学坊",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 14,
+      "weight": 400,
+      "rect": [
+       56,
+       46
+      ],
+      "visible": true,
+      "disabled_control": true
+     },
+     {
+      "sel": "small.oe_topbar_name d-none ms-2 text-start smaller lh-1 text-truncate",
+      "text": "教务专员",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 12,
+      "weight": 400,
+      "rect": [
+       0,
+       0
+      ],
+      "visible": false,
+      "disabled_control": false
+     },
+     {
+      "sel": "mark.d-block font-monospace text-truncate",
+      "text": "edu19",
+      "color": [
+       26,
+       34,
+       51,
+       1
+      ],
+      "bg": [
+       255,
+       243,
+       205
+      ],
+      "bg_complex": false,
+      "size": 12,
+      "weight": 400,
+      "rect": [
+       0,
+       0
+      ],
+      "visible": false,
+      "disabled_control": false
+     },
+     {
+      "sel": "span",
+      "text": "应用面板",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 14,
+      "weight": 400,
+      "rect": [
+       56,
+       46
+      ],
+      "visible": true,
+      "disabled_control": false
+     }
+    ],
+    "shell_rect": [
+     1280,
+     46
+    ],
+    "gated": []
+   }
+  },
+  {
+   "role": "backoffice",
+   "path": "/odoo/students",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": true,
+   "backend_detail": {
+    "shell_missing": false,
+    "shell_violations": [
+     {
+      "id": "aria-required-children",
+      "impact": "critical",
+      "nodes": 2,
+      "targets": [
+       ".o_menu_sections",
+       ".o_menu_systray"
+      ]
+     },
+     {
+      "id": "aria-required-parent",
+      "impact": "critical",
+      "nodes": 1,
+      "targets": [
+       ".o_menu_brand"
+      ]
+     }
+    ],
+    "page_core": {
+     "aria-required-children": {
+      "impact": "critical",
+      "nodes": 2,
+      "where": "外壳(核心结构)",
+      "pages": [
+       "backoffice /odoo/students"
+      ]
+     },
+     "aria-required-parent": {
+      "impact": "critical",
+      "nodes": 1,
+      "where": "外壳(核心结构)",
+      "pages": [
+       "backoffice /odoo/students"
+      ]
+     },
+     "aria-allowed-attr": {
+      "impact": "critical",
+      "nodes": 2,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/students"
+      ]
+     },
+     "html-has-lang": {
+      "impact": "serious",
+      "nodes": 1,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/students"
+      ]
+     },
+     "meta-viewport": {
+      "impact": "critical",
+      "nodes": 1,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/students"
+      ]
+     },
+     "role-img-alt": {
+      "impact": "serious",
+      "nodes": 7,
+      "where": "页面主体(核心渲染)",
+      "pages": [
+       "backoffice /odoo/students"
+      ]
+     }
+    },
+    "local_contrast": {
+     "violations": [],
+     "skipped": {
+      "invisible": 2,
+      "complex_bg": 0,
+      "no_color": 0
+     }
+    },
+    "notes": [],
+    "text_rows": [
+     {
+      "sel": "a.o-dropdown-item dropdown-item o-navigable o_menu_brand d-flex",
+      "text": "学生信息",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 16.8,
+      "weight": 400,
+      "rect": [
+       77.75,
+       46
+      ],
+      "visible": true,
+      "disabled_control": false
+     },
+     {
+      "sel": "a.o-dropdown-item dropdown-item o-navigable o_nav_entry",
+      "text": "学生",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 14,
+      "weight": 400,
+      "rect": [
+       47.625,
+       46
+      ],
+      "visible": true,
+      "disabled_control": false
+     },
+     {
+      "sel": "a.o-dropdown-item dropdown-item o-navigable o_nav_entry",
+      "text": "教职员工",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 14,
+      "weight": 400,
+      "rect": [
+       75.625,
+       46
+      ],
+      "visible": true,
+      "disabled_control": false
+     },
+     {
+      "sel": "span",
+      "text": "配置",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 14,
+      "weight": 400,
+      "rect": [
+       28,
+       46
+      ],
+      "visible": true,
+      "disabled_control": false
+     },
+     {
+      "sel": "span.o-mail-MessagingMenu-counter badge rounded-pill",
+      "text": "2",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       18,
+       122,
+       80
+      ],
+      "bg_complex": false,
+      "size": 11,
+      "weight": 500,
+      "rect": [
+       21.375,
+       16.09375
+      ],
+      "visible": true,
+      "disabled_control": false
+     },
+     {
+      "sel": "span.oe_topbar_name d-none d-lg-block text-truncate",
+      "text": "永约学坊",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 14,
+      "weight": 400,
+      "rect": [
+       56,
+       46
+      ],
+      "visible": true,
+      "disabled_control": true
+     },
+     {
+      "sel": "small.oe_topbar_name d-none ms-2 text-start smaller lh-1 text-truncate",
+      "text": "教务专员",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 12,
+      "weight": 400,
+      "rect": [
+       0,
+       0
+      ],
+      "visible": false,
+      "disabled_control": false
+     },
+     {
+      "sel": "mark.d-block font-monospace text-truncate",
+      "text": "edu19",
+      "color": [
+       26,
+       34,
+       51,
+       1
+      ],
+      "bg": [
+       255,
+       243,
+       205
+      ],
+      "bg_complex": false,
+      "size": 12,
+      "weight": 400,
+      "rect": [
+       0,
+       0
+      ],
+      "visible": false,
+      "disabled_control": false
+     },
+     {
+      "sel": "span",
+      "text": "应用面板",
+      "color": [
+       255,
+       255,
+       255,
+       1
+      ],
+      "bg": [
+       12,
+       109,
+       215
+      ],
+      "bg_complex": false,
+      "size": 14,
+      "weight": 400,
+      "rect": [
+       56,
+       46
+      ],
+      "visible": true,
+      "disabled_control": false
+     }
+    ],
+    "shell_rect": [
+     1280,
+     46
+    ],
+    "gated": []
+   }
+  },
+  {
+   "role": "student",
+   "path": "/assess/my/history",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/assess/tasks",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/assess/tasks/new",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/assess/templates",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/assess/templates/new",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/help/faculty",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/help/faculty",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/help/faculty",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "parent",
+   "path": "/help/faculty",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/help/faculty",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/help/parent",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/help/parent",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/help/parent",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "parent",
+   "path": "/help/parent",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/help/parent",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/help/registrar",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/help/registrar",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/help/registrar",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "parent",
+   "path": "/help/registrar",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/help/registrar",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "backoffice",
+   "path": "/help/student",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "faculty",
+   "path": "/help/student",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "guest",
+   "path": "/help/student",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "parent",
+   "path": "/help/student",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  },
+  {
+   "role": "student",
+   "path": "/help/student",
+   "status": 200,
+   "impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "rules": [],
+   "backend": false,
+   "backend_detail": null
+  }
+ ],
+ "failed": [],
+ "concurrency": "quiet",
+ "backend_core_inventory": {
+  "aria-required-children": {
+   "impact": "critical",
+   "nodes": 3,
+   "where": "外壳(核心结构)"
+  },
+  "aria-allowed-attr": {
+   "impact": "critical",
+   "nodes": 4,
+   "where": "页面主体(核心渲染)"
+  },
+  "button-name": {
+   "impact": "critical",
+   "nodes": 1,
+   "where": "页面主体(核心渲染)"
+  },
+  "html-has-lang": {
+   "impact": "serious",
+   "nodes": 2,
+   "where": "页面主体(核心渲染)"
+  },
+  "label": {
+   "impact": "critical",
+   "nodes": 19,
+   "where": "页面主体(核心渲染)"
+  },
+  "meta-viewport": {
+   "impact": "critical",
+   "nodes": 2,
+   "where": "页面主体(核心渲染)"
+  },
+  "role-img-alt": {
+   "impact": "serious",
+   "nodes": 88,
+   "where": "页面主体(核心渲染)"
+  },
+  "aria-required-parent": {
+   "impact": "critical",
+   "nodes": 1,
+   "where": "外壳(核心结构)"
+  }
+ },
+ "backend_samples": [
+  {
+   "role": "backoffice",
+   "path": "/odoo/contacts",
+   "gated_impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "gated_rules": [],
+   "core": {
+    "aria-required-children": {
+     "impact": "critical",
+     "nodes": 1,
+     "where": "外壳(核心结构)",
+     "pages": [
+      "backoffice /odoo/contacts"
+     ]
+    },
+    "aria-allowed-attr": {
+     "impact": "critical",
+     "nodes": 2,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/contacts"
+     ]
+    },
+    "button-name": {
+     "impact": "critical",
+     "nodes": 1,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/contacts"
+     ]
+    },
+    "html-has-lang": {
+     "impact": "serious",
+     "nodes": 1,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/contacts"
+     ]
+    },
+    "label": {
+     "impact": "critical",
+     "nodes": 19,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/contacts"
+     ]
+    },
+    "meta-viewport": {
+     "impact": "critical",
+     "nodes": 1,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/contacts"
+     ]
+    },
+    "role-img-alt": {
+     "impact": "serious",
+     "nodes": 81,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/contacts"
+     ]
+    }
+   },
+   "local_contrast": [],
+   "local_skipped": {
+    "invisible": 2,
+    "complex_bg": 0,
+    "no_color": 0
+   },
+   "shell_missing": false,
+   "shell_rect": [
+    1280,
+    46
+   ],
+   "text_rows": [
+    {
+     "sel": "span.o-mail-MessagingMenu-counter badge rounded-pill",
+     "text": "2",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      18,
+      122,
+      80
+     ],
+     "bg_complex": false,
+     "size": 11,
+     "weight": 500,
+     "rect": [
+      21.375,
+      16.09375
+     ],
+     "visible": true,
+     "disabled_control": false
+    },
+    {
+     "sel": "span.oe_topbar_name d-none d-lg-block text-truncate",
+     "text": "永约学坊",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 14,
+     "weight": 400,
+     "rect": [
+      56,
+      46
+     ],
+     "visible": true,
+     "disabled_control": true
+    },
+    {
+     "sel": "small.oe_topbar_name d-none ms-2 text-start smaller lh-1 text-truncate",
+     "text": "教务专员",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 12,
+     "weight": 400,
+     "rect": [
+      0,
+      0
+     ],
+     "visible": false,
+     "disabled_control": false
+    },
+    {
+     "sel": "mark.d-block font-monospace text-truncate",
+     "text": "edu19",
+     "color": [
+      26,
+      34,
+      51,
+      1
+     ],
+     "bg": [
+      255,
+      243,
+      205
+     ],
+     "bg_complex": false,
+     "size": 12,
+     "weight": 400,
+     "rect": [
+      0,
+      0
+     ],
+     "visible": false,
+     "disabled_control": false
+    },
+    {
+     "sel": "span",
+     "text": "应用面板",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 14,
+     "weight": 400,
+     "rect": [
+      56,
+      46
+     ],
+     "visible": true,
+     "disabled_control": false
+    }
+   ],
+   "notes": []
+  },
+  {
+   "role": "backoffice",
+   "path": "/odoo/students",
+   "gated_impact": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 0,
+    "minor": 0
+   },
+   "gated_rules": [],
+   "core": {
+    "aria-required-children": {
+     "impact": "critical",
+     "nodes": 2,
+     "where": "外壳(核心结构)",
+     "pages": [
+      "backoffice /odoo/students"
+     ]
+    },
+    "aria-required-parent": {
+     "impact": "critical",
+     "nodes": 1,
+     "where": "外壳(核心结构)",
+     "pages": [
+      "backoffice /odoo/students"
+     ]
+    },
+    "aria-allowed-attr": {
+     "impact": "critical",
+     "nodes": 2,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/students"
+     ]
+    },
+    "html-has-lang": {
+     "impact": "serious",
+     "nodes": 1,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/students"
+     ]
+    },
+    "meta-viewport": {
+     "impact": "critical",
+     "nodes": 1,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/students"
+     ]
+    },
+    "role-img-alt": {
+     "impact": "serious",
+     "nodes": 7,
+     "where": "页面主体(核心渲染)",
+     "pages": [
+      "backoffice /odoo/students"
+     ]
+    }
+   },
+   "local_contrast": [],
+   "local_skipped": {
+    "invisible": 2,
+    "complex_bg": 0,
+    "no_color": 0
+   },
+   "shell_missing": false,
+   "shell_rect": [
+    1280,
+    46
+   ],
+   "text_rows": [
+    {
+     "sel": "a.o-dropdown-item dropdown-item o-navigable o_menu_brand d-flex",
+     "text": "学生信息",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 16.8,
+     "weight": 400,
+     "rect": [
+      77.75,
+      46
+     ],
+     "visible": true,
+     "disabled_control": false
+    },
+    {
+     "sel": "a.o-dropdown-item dropdown-item o-navigable o_nav_entry",
+     "text": "学生",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 14,
+     "weight": 400,
+     "rect": [
+      47.625,
+      46
+     ],
+     "visible": true,
+     "disabled_control": false
+    },
+    {
+     "sel": "a.o-dropdown-item dropdown-item o-navigable o_nav_entry",
+     "text": "教职员工",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 14,
+     "weight": 400,
+     "rect": [
+      75.625,
+      46
+     ],
+     "visible": true,
+     "disabled_control": false
+    },
+    {
+     "sel": "span",
+     "text": "配置",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 14,
+     "weight": 400,
+     "rect": [
+      28,
+      46
+     ],
+     "visible": true,
+     "disabled_control": false
+    },
+    {
+     "sel": "span.o-mail-MessagingMenu-counter badge rounded-pill",
+     "text": "2",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      18,
+      122,
+      80
+     ],
+     "bg_complex": false,
+     "size": 11,
+     "weight": 500,
+     "rect": [
+      21.375,
+      16.09375
+     ],
+     "visible": true,
+     "disabled_control": false
+    },
+    {
+     "sel": "span.oe_topbar_name d-none d-lg-block text-truncate",
+     "text": "永约学坊",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 14,
+     "weight": 400,
+     "rect": [
+      56,
+      46
+     ],
+     "visible": true,
+     "disabled_control": true
+    },
+    {
+     "sel": "small.oe_topbar_name d-none ms-2 text-start smaller lh-1 text-truncate",
+     "text": "教务专员",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 12,
+     "weight": 400,
+     "rect": [
+      0,
+      0
+     ],
+     "visible": false,
+     "disabled_control": false
+    },
+    {
+     "sel": "mark.d-block font-monospace text-truncate",
+     "text": "edu19",
+     "color": [
+      26,
+      34,
+      51,
+      1
+     ],
+     "bg": [
+      255,
+      243,
+      205
+     ],
+     "bg_complex": false,
+     "size": 12,
+     "weight": 400,
+     "rect": [
+      0,
+      0
+     ],
+     "visible": false,
+     "disabled_control": false
+    },
+    {
+     "sel": "span",
+     "text": "应用面板",
+     "color": [
+      255,
+      255,
+      255,
+      1
+     ],
+     "bg": [
+      12,
+      109,
+      215
+     ],
+     "bg_complex": false,
+     "size": 14,
+     "weight": 400,
+     "rect": [
+      56,
+      46
+     ],
+     "visible": true,
+     "disabled_control": false
+    }
+   ],
+   "notes": []
+  }
+ ]
+}

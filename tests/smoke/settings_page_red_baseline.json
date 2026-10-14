@@ -1,0 +1,94 @@
+{
+  "note": "修复前（源码仍为 fields.Date）的三层红读数原始转录；浏览器态来自 tests/smoke/settings_page_open_red_baseline.json。",
+  "repo": "/Users/qwe/Documents/文件大总管/10-项目/教务系统网站新架构",
+  "branch": "main-real",
+  "captured_at": "2026-09-29 06:20-06:22 (+08:00)",
+  "shell_default_get_all_fields": {
+    "ok": false,
+    "exc_type": "Exception",
+    "msg": "Field res.config.settings.edu_apply_deadline must have type 'boolean', 'integer', 'float', 'char', 'selection', 'many2one' or 'datetime'",
+    "field_count": 328,
+    "deadline_fields": {
+      "edu_apply_deadline": "date",
+      "edu_enroll_deadline": "date"
+    },
+    "orig_field": {
+      "type": "date",
+      "config_parameter": "edu.apply.deadline"
+    },
+    "params": {
+      "edu.apply.deadline": "2026-10-01",
+      "edu.enroll.deadline": "2026-10-01"
+    },
+    "consumer_get_raw": {
+      "edu.apply.deadline": "2026-10-01",
+      "edu.enroll.deadline": "2026-10-01"
+    },
+    "consumer_get_cn": {
+      "edu.apply.deadline": "2026年10月1日",
+      "edu.enroll.deadline": "2026年10月1日"
+    }
+  },
+  "http_call_kw_default_get": {
+    "url": "POST /web/dataset/call_kw  model=res.config.settings method=default_get args=[328 fields]",
+    "result": "JSON-RPC error envelope, code 0, \"Odoo Server Error\"",
+    "exception": "builtins.Exception: Field res.config.settings.edu_apply_deadline must have type 'boolean', 'integer', 'float', 'char', 'selection', 'many2one' or 'datetime'",
+    "traceback_tail": [
+      "odoo/http.py:2329 _serve_db",
+      "odoo/service/model.py:188 retrying",
+      "odoo/addons/web/controllers/dataset.py:32 call_kw",
+      "odoo/service/model.py:97 call_kw",
+      "odoo/addons/base/models/res_config.py:245 default_get  ->  classified = self._get_classified_fields(fields)",
+      "odoo/addons/base/models/res_config.py:223 _get_classified_fields -> raise Exception(...)"
+    ],
+    "note": "HTTP 传输层仍是 200：JSON-RPC 把异常包在 result.error 里 ⇒ 只看状态码会漏判"
+  },
+  "http_onchange": {
+    "url": "POST /web/dataset/call_kw  method=onchange args=[[], {}, [], {edu_apply_deadline:{},edu_enroll_deadline:{},display_name:{}}]",
+    "ok": false,
+    "error": "Odoo Server Error",
+    "note": "与 default_get 同源（onchange 首调内部走 default_get）"
+  },
+  "browser_open": {
+    "url": "http://127.0.0.1:8069/odoo/settings",
+    "uid": 2,
+    "login": "admin",
+    "http_status": 200,
+    "settings_dom": false,
+    "error_dialog": "哎呀！ | 出了点问题......如果您遇到困难，请提供这些错误报告给您合作的支持服务商 | 查看技术细节 | 关闭",
+    "rendered_markers": [
+      "设置",
+      "用户",
+      "公司"
+    ],
+    "artifact": "tests/smoke/settings_page_open_red_baseline.json"
+  },
+  "before_fix_consumer_readings": {
+    "/admissions": {
+      "status": 200,
+      "dates": [
+        "2026年10月1日"
+      ],
+      "has_sentence": true
+    },
+    "/subject/enroll": {
+      "status": 200,
+      "dates": [
+        "2026年10月1日"
+      ],
+      "has_sentence": true
+    },
+    "/my/home(控制组)": {
+      "status": 200,
+      "has_student_marker": true,
+      "traceback": false
+    },
+    "artifact": "tests/smoke/settings_deadline_consumer_before.json",
+    "note": "消费方页面在故障态本来就正常 ⇒ 可直接做修前/修后逐字对照"
+  },
+  "non_admin": {
+    "login": "backoffice@local",
+    "default_get": "odoo.exceptions.AccessError（不允许访问 auth.oauth.provider；不允许创建 res.config.settings）",
+    "note": "设置页/模型只放行管理员 —— 修复前后一致，未被本改动触碰"
+  }
+}

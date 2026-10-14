@@ -1,0 +1,58 @@
+[
+ {
+  "suite": "student",
+  "no": 8,
+  "name": "登录后落 /my/home；功能卡网格≥10张（现行落点 /my/apps）",
+  "pass": true,
+  "detail": "url=http://localhost:8069/my/home, home_landed=True, apps_cards=46"
+ },
+ {
+  "suite": "student",
+  "no": 9,
+  "name": "/student/timetable 标题「我的课表」；?w=-1 渲染自洽（空态或表格恰其一）且日期范围早7天",
+  "pass": true,
+  "detail": "title_ok=True, w0=9月14日 – 9月20日, w-1=9月7日 – 9月13日, empty=False, table=True, coherent=True, diff7=True"
+ },
+ {
+  "suite": "student",
+  "no": 10,
+  "name": "/my/courses：该生当前**无任何可学课程**（数据条件，空态「暂无可学课程」）→ 退化为断言空态渲染自洽 + 系统侧课次仍在",
+  "pass": true,
+  "detail": "空态自洽=True, 系统课次数=8, course_links=0；完整链路（→课次→done 幂等）**因该生未选课无法构造**（非缺陷）"
+ },
+ {
+  "suite": "student",
+  "no": 11,
+  "name": "/my/fees 含「2026 春季统筹费」「部分缴纳」徽标与「待缴合计」",
+  "pass": true,
+  "detail": "春季统筹费=True, 部分缴纳=True, 待缴合计=True"
+ },
+ {
+  "suite": "student",
+  "no": 12,
+  "name": "对已申请过的资产重复提交申请 → 跳转含 error=dup",
+  "pass": true,
+  "detail": "asset=【演示】便携音响 ZY-02（ZC-002）(已有在途申请，直接dup), first_applied=True, dup=True, final_url=http://localhost:8069/my/assets?error=dup"
+ },
+ {
+  "suite": "student",
+  "no": 13,
+  "name": "打卡：旧入口 303 且只读（旧表零增长、新表不动）；新入口 /my/checkins/check 论证性地新增恰好 1 行（crash-safe 自清理）",
+  "pass": true,
+  "detail": "old_page=303//my/checkins, old_post_nocsrf=400, old_post_csrf=303//my/checkins, daily:1->1/1, rec@oldpost:2->2, fixture=类型 2 本就是 daily，无需临时改频率, csrf=True, tid=2, new=303//my/checkins?saved=1, rec_delta=1 (before=2, after=3), cleanup_ok=True, dup_groups=0, freq_restored=True"
+ },
+ {
+  "suite": "student",
+  "no": 14,
+  "name": "/my/points/me 有积分流水展示",
+  "pass": true,
+  "detail": "has_section=True, rows_marker=3"
+ },
+ {
+  "suite": "student",
+  "no": 15,
+  "name": "渲染巡检9页均HTTP200且无Traceback/Internal Error",
+  "pass": true,
+  "detail": "all 9 pages clean"
+ }
+]

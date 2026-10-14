@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================================================================
+         教职员工（op.faculty）表单瘦身 —— 只做视图继承：不删模型字段、不动基座
+         ==================================================================
+         背景（2026-09，校长原话）：「我不知道后面搞那么多无关的信息干嘛」——
+         他把菜单 259「教职员工」（已由 menu_labels.xml 改名）点开后，看到的是
+         OpenEduCat 的**人事档案**表单：血型 / 紧急联系人 / 签证 / 身份证 /
+         HR 员工 / 用户 / 伙伴 / 国籍 / 完整地址 / 联系人看板 / 图书馆页签。
+         一个语言学校的职员要建的只是「这位老师是谁、教什么、怎么联系」。
+
+         本文件只做四件事（**全部可逆**：整段注释掉 / 从 manifest 去掉本文件，
+         表单立刻回到基座原样——因为一个模型字段、一条数据都没有动）：
+           1) 首屏只留：姓名（first/middle/last）、性别、出生日期、所属院系、
+              邮箱、电话；科目单独一个页签（科目本来就是页签，见第 4 条）。
+           2) 其余字段全部移入「更多信息」页签（人事 / 关联 / 地址 / 头像）——
+              字段仍在模型上、数据仍在表里（验收见 tests/smoke/faculty_form_slim.py）。
+           3) 移除图书馆（openeducat_library）加进来的「Library」页签与
+              「媒体」统计按钮 —— 教职员工档案与图书卡无关。
+           4) 移除基座「Other Information」页签（伙伴联系人看板 = 地址簿噪音）。
+
+         三条硬知识（都踩过或差点踩到，改本文件前先读）：
+           · notebook 默认展开**第一个**页签（web/core/notebook/notebook.xml
+             只渲染 state.currentPage）⇒ 噪音页签放第一位 = 首屏还是噪音。
+             故本文件把噪音页放到「科目」之后，并删掉排在前面的 Other Information。
+           · partner_id 在模型上是 required=True，视图里必须保留 required="0"
+             覆盖（基座 faculty_view.xml:155 同款），否则一点开「更多信息」页签
+             该字段立刻变红、保存被拦。
+           · main_department_id / allowed_department_ids 在基座里挂
+             groups="openeducat_core.group_multi_department"（faculty_view.xml:66/68）⇒
+             教务组不在该组时**所属院系根本看不见**。本文件重写字段节点、去掉该
+             groups 限制（保留清单要求教务看得见所属院系）。
+         ================================================================== -->
+    <record id="edu_view_op_faculty_form_slim" model="ir.ui.view">
+        <field name="name">op.faculty.form.edu.slim</field>
+        <field name="model">op.faculty</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_faculty_form"/>
+        <!-- priority 90 > openeducat_timetable(12) / openeducat_library(16)：
+             保证本视图最后叠加，xpath 能命中它们加进来的页签与按钮 -->
+        <field name="priority" eval="90"/>
+        <field name="arch" type="xml">
+            <!-- 1) 头像：从首屏收进「更多信息」页签 -->
+            <xpath expr="//div[field[@name='image_1920']]" position="replace"/>
+
+            <!-- 2) 称谓（Mr./Ms.）：同样收进「更多信息」页签 -->
+            <xpath expr="//field[@name='title']/.." position="replace"/>
+
+            <!-- 3) 首屏主字段区：只留 性别 / 出生日期 / 所属院系
+                 （原左侧：性别/出生日期/地址/紧急联系人；右侧：国籍/语言/HR 员工/
+                 所属院系/血型/用户/伙伴/允许的院系 —— 其余全部下移） -->
+            <xpath expr="//sheet/group" position="replace">
+                <group name="edu_slim_main">
+                    <group>
+                        <field name="gender"/>
+                        <field name="birth_date"/>
+                    </group>
+                    <group>
+                        <!-- 标签口径随菜单改名一并统一：基座/PO 渲染成「主要部门」，
+                             校长与教务嘴里的词是「所属院系」（菜单 265 = 院系部门） -->
+                        <field name="main_department_id" string="所属院系"/>
+                    </group>
+                </group>
+            </xpath>
+
+            <!-- 4) 图书馆页签（openeducat_library 加进来的）整页移除 -->
+            <xpath expr="//page[@name='library']" position="replace"/>
+
+            <!-- 4b) 「媒体」统计按钮（同一模块加的）：本表单不显示 -->
+            <xpath expr="//div[@name='button_box']/button[field[@name='media_movement_lines_count']]"
+                   position="replace"/>
+
+            <!-- 5) 基座「Other Information」页签（伙伴联系人看板）：整页移除。
+                 字段 child_ids 仍在 res.partner 上，联系人应用/伙伴表单照常维护 -->
+            <xpath expr="//page[@name='other_information']" position="replace"/>
+
+            <!-- 6) 「更多信息」页签：插在「科目」之后（notebook 默认展开第一个页签） -->
+            <xpath expr="//page[@name='subjects']" position="after">
+                <page name="more_info" string="更多信息">
+                    <group name="edu_slim_more_personal">
+                        <group string="人事信息（可留空）">
+                            <field name="blood_group"/>
+                            <field name="emergency_contact"
+                                   context="{'show_address': 1}"
+                                   options="{'always_reload': True}"/>
+                            <field name="id_number"/>
+                            <!-- 模型串 "Visa Info" 的 zh_CN 词条是「查看信息」（错译）：
+                                 这里直接写中文串，避免教务在表里看到「查看信息」 -->
+                            <field name="visa_info" string="签证信息"/>
+                            <field name="nationality"/>
+                            <field name="emp_id"/>
+                        </group>
+                        <group string="账号与关联">
+                            <field name="user_id" string="用户" readonly="1"/>
+                            <!-- required="0"：模型上是 required=True，见文件头第 2 条硬知识 -->
+                            <field name="partner_id" string="伙伴" placeholder="伙伴" required="0"/>
+                            <field name="allowed_department_ids" widget="many2many_tags"
+                                   string="允许的院系"/>
+                            <field name="lang"/>
+                            <field name="title" string="称谓" options="{'no_create': True}"
+                                   placeholder="Mr./Ms."/>
+                        </group>
+                    </group>
+                    <group string="地址">
+                        <field name="street" placeholder="街道"/>
+                        <field name="street2" placeholder="街道第二行"/>
+                        <field name="city" placeholder="城市"/>
+                        <field name="state_id" options="{'no_open': True}"/>
+                        <field name="zip" placeholder="邮编"/>
+                        <field name="country_id" options="{'no_open': True}"/>
+                    </group>
+                    <group string="头像">
+                        <field name="image_1920" widget="image"
+                               options="{'size': [128,158], 'zoom': True, 'preview_image': 'avatar_128'}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

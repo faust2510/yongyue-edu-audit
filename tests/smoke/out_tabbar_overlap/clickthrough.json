@@ -1,0 +1,112 @@
+{
+  "tabs": [
+    {
+      "cx": 39,
+      "cy": 817,
+      "hitIsTab": true,
+      "hitSel": "a",
+      "tabColor": "rgb(14, 123, 242)",
+      "tabFontSize": "12px",
+      "barCols": "78px 78px 78px 78px 78px",
+      "barZ": "1040",
+      "barTop": 788,
+      "bubble": {
+        "bottom": 778,
+        "right": 16,
+        "pos": "fixed"
+      },
+      "landed": "http://localhost:8069/my/home"
+    },
+    {
+      "cx": 117,
+      "cy": 817,
+      "hitIsTab": true,
+      "hitSel": "a",
+      "tabColor": "rgb(94, 103, 121)",
+      "tabFontSize": "12px",
+      "barCols": "78px 78px 78px 78px 78px",
+      "barZ": "1040",
+      "barTop": 788,
+      "bubble": {
+        "bottom": 778,
+        "right": 16,
+        "pos": "fixed"
+      },
+      "landed": "http://localhost:8069/my/calendar"
+    },
+    {
+      "cx": 195,
+      "cy": 817,
+      "hitIsTab": true,
+      "hitSel": "a",
+      "tabColor": "rgb(94, 103, 121)",
+      "tabFontSize": "12px",
+      "barCols": "78px 78px 78px 78px 78px",
+      "barZ": "1040",
+      "barTop": 788,
+      "bubble": {
+        "bottom": 778,
+        "right": 16,
+        "pos": "fixed"
+      },
+      "landed": "http://localhost:8069/my/messages"
+    },
+    {
+      "cx": 273,
+      "cy": 817,
+      "hitIsTab": true,
+      "hitSel": "a",
+      "tabColor": "rgb(94, 103, 121)",
+      "tabFontSize": "12px",
+      "barCols": "78px 78px 78px 78px 78px",
+      "barZ": "1040",
+      "barTop": 788,
+      "bubble": {
+        "bottom": 778,
+        "right": 16,
+        "pos": "fixed"
+      },
+      "landed": "http://localhost:8069/my/contacts"
+    },
+    {
+      "cx": 351,
+      "cy": 817,
+      "hitIsTab": true,
+      "hitSel": "a",
+      "tabColor": "rgb(94, 103, 121)",
+      "tabFontSize": "12px",
+      "barCols": "78px 78px 78px 78px 78px",
+      "barZ": "1040",
+      "barTop": 788,
+      "bubble": {
+        "bottom": 778,
+        "right": 16,
+        "pos": "fixed"
+      },
+      "landed": "http://localhost:8069/my/password"
+    }
+  ],
+  "desktop": {
+    "barExists": true,
+    "barDisplay": "none",
+    "sidebar": {
+      "w": 232,
+      "x": 0,
+      "display": "block"
+    },
+    "bubble": {
+      "pos": "static",
+      "bottom": 10,
+      "right": 28,
+      "w": 50,
+      "h": 50
+    }
+  },
+  "shots": [
+    "verify_mobile_password_tab.png",
+    "verify_mobile_bubble_open.png",
+    "verify_desktop_regression.png"
+  ],
+  "bubble_click": "{\"window\":true,\"thread\":true,\"composer\":false,\"btnHidden\":true}",
+  "failed": []
+}

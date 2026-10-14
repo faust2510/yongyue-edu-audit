@@ -1,0 +1,114 @@
+{
+ "/ledger": {
+  "tables": [
+   {
+    "cols": 10,
+    "rows": 2,
+    "tableW": 345,
+    "containerW": 345,
+    "thead_display": "none",
+    "card_cls": true,
+    "labels": 20
+   }
+  ],
+  "overflow": 0
+ },
+ "/ledger#desk": {
+  "tables": [
+   {
+    "cols": 10,
+    "rows": 2,
+    "tableW": 1178,
+    "containerW": 1178,
+    "thead_display": "table-header-group",
+    "card_cls": true,
+    "labels": 20
+   }
+  ],
+  "overflow": 0
+ },
+ "/registrar/curriculum": {
+  "tables": [
+   {
+    "cols": 6,
+    "rows": 72,
+    "tableW": 345,
+    "containerW": 345,
+    "thead_display": "none",
+    "card_cls": true,
+    "labels": 432
+   }
+  ],
+  "overflow": 0
+ },
+ "/registrar/curriculum#desk": {
+  "tables": [
+   {
+    "cols": 6,
+    "rows": 72,
+    "tableW": 1178,
+    "containerW": 1178,
+    "thead_display": "table-header-group",
+    "card_cls": true,
+    "labels": 432
+   }
+  ],
+  "overflow": 0
+ },
+ "/my/fees": {
+  "tables": [
+   {
+    "cols": 6,
+    "rows": 2,
+    "tableW": 371,
+    "containerW": 345,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ },
+ "/my/fees#desk": {
+  "tables": [
+   {
+    "cols": 6,
+    "rows": 2,
+    "tableW": 1178,
+    "containerW": 1178,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ },
+ "/timetable/bulk": {
+  "tables": [
+   {
+    "cols": 6,
+    "rows": 17,
+    "tableW": 421,
+    "containerW": 313,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ },
+ "/timetable/bulk#desk": {
+  "tables": [
+   {
+    "cols": 6,
+    "rows": 17,
+    "tableW": 1258,
+    "containerW": 1258,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ }
+}

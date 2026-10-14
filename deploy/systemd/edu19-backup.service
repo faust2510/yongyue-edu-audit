@@ -1,0 +1,24 @@
+[Unit]
+Description=edu19 生产库异地备份（pg_dump + filestore + 本机还原彩排 + 推异地）
+Documentation=file:/opt/edu-app/docs/ops/backup-offsite-daily.md
+After=docker.service network-online.target
+Wants=network-online.target docker.service
+
+[Service]
+Type=oneshot
+User=root
+# 配置：PROJECT_DIR / STAGE_DIR / OFFSITE_KIND / OFFSITE_TARGET …（见 deploy/systemd/edu19-backup.env.example）
+EnvironmentFile=-/etc/edu19-backup.env
+ExecStart=/opt/edu-app/scripts/backup_daily.sh
+# 备份不许拖垮站点：CPU/IO 让路，但给足 1 小时（10MB 级库 + 彩排约 1 分钟）
+TimeoutStartSec=3600
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=6
+StandardOutput=append:/var/log/edu19-backup.log
+StandardError=append:/var/log/edu19-backup.log
+# 失败要吵：接上通知单元（Telegram/邮件）后打开这两行
+#OnFailure=edu19-backup-alert.service
+
+[Install]
+WantedBy=multi-user.target

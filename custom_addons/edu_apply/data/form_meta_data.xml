@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 报名表元数据预置：口径 = SCRTS人文教育入学申请表(2020-1版)，升级不覆盖（noupdate）。 -->
+    <data noupdate="1">
+    <record id="sec_apply_track" model="edu.apply.section">
+        <field name="name">报考科别</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="sec_apply_basic" model="edu.apply.section">
+        <field name="name">基本信息</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="sec_apply_faith" model="edu.apply.section">
+        <field name="name">信仰信息</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="sec_apply_contact" model="edu.apply.section">
+        <field name="name">联系方式</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="sec_apply_edu" model="edu.apply.section">
+        <field name="name">学历</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="sec_apply_work" model="edu.apply.section">
+        <field name="name">工作经历</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="sec_apply_ministry" model="edu.apply.section">
+        <field name="name">教会事奉经历</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="sec_apply_family" model="edu.apply.section">
+        <field name="name">家庭状况</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="sec_apply_remark" model="edu.apply.section">
+        <field name="name">其它备注</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="fld_track" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_track"/>
+        <field name="name">track</field>
+        <field name="label">报考科别</field>
+        <field name="type">radio</field>
+        <field name="required" eval="True"/>
+        <field name="locked" eval="True"/>
+        <field name="options">3+1制本科班
+家教学院
+3+2制本硕连读</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="fld_name" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_basic"/>
+        <field name="name">name</field>
+        <field name="label">姓名</field>
+        <field name="type">char</field>
+        <field name="required" eval="True"/>
+        <field name="locked" eval="True"/>
+        <field name="sequence">5</field>
+    </record>
+    <record id="fld_gender" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_basic"/>
+        <field name="name">gender</field>
+        <field name="label">性别</field>
+        <field name="type">select</field>
+        <field name="required" eval="True"/>
+        <field name="locked" eval="True"/>
+        <field name="options">男
+女</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="fld_id_no" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_basic"/>
+        <field name="name">id_no</field>
+        <field name="label">身份证号/护照号</field>
+        <field name="type">char</field>
+        <field name="required" eval="True"/>
+        <field name="locked" eval="True"/>
+        <field name="sequence">20</field>
+    </record>
+    <record id="fld_birth" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_basic"/>
+        <field name="name">birth</field>
+        <field name="label">出生年月</field>
+        <field name="type">char</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="fld_native_place" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_basic"/>
+        <field name="name">native_place</field>
+        <field name="label">籍贯</field>
+        <field name="type">char</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="fld_marital" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_basic"/>
+        <field name="name">marital</field>
+        <field name="label">婚姻状况</field>
+        <field name="type">select</field>
+        <field name="options">已婚
+离异
+单身</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="fld_baptism_date" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_faith"/>
+        <field name="name">baptism_date</field>
+        <field name="label">受洗时间</field>
+        <field name="type">char</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="fld_baptism_church" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_faith"/>
+        <field name="name">baptism_church</field>
+        <field name="label">施洗教会</field>
+        <field name="type">char</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="fld_church" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_faith"/>
+        <field name="name">church</field>
+        <field name="label">现委身的教会</field>
+        <field name="type">char</field>
+        <field name="required" eval="True"/>
+        <field name="locked" eval="True"/>
+        <field name="sequence">30</field>
+    </record>
+    <record id="fld_phone" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_contact"/>
+        <field name="name">phone</field>
+        <field name="label">电话/手机</field>
+        <field name="type">char</field>
+        <field name="required" eval="True"/>
+        <field name="locked" eval="True"/>
+        <field name="sequence">10</field>
+    </record>
+    <record id="fld_email" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_contact"/>
+        <field name="name">email</field>
+        <field name="label">电子邮箱</field>
+        <field name="type">char</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="fld_address" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_contact"/>
+        <field name="name">address</field>
+        <field name="label">通讯地址</field>
+        <field name="type">text</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="fld_emergency_name" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_contact"/>
+        <field name="name">emergency_name</field>
+        <field name="label">紧急联络人姓名</field>
+        <field name="type">char</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="fld_emergency_phone" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_contact"/>
+        <field name="name">emergency_phone</field>
+        <field name="label">紧急联络人电话</field>
+        <field name="type">char</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="fld_edu_school" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_edu"/>
+        <field name="name">edu_school</field>
+        <field name="label">校名</field>
+        <field name="type">char</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="fld_edu_years" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_edu"/>
+        <field name="name">edu_years</field>
+        <field name="label">起止年份</field>
+        <field name="type">char</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="fld_edu_major" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_edu"/>
+        <field name="name">edu_major</field>
+        <field name="label">科系主修</field>
+        <field name="type">char</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="fld_edu_degree" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_edu"/>
+        <field name="name">edu_degree</field>
+        <field name="label">学位</field>
+        <field name="type">char</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="fld_work_company" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_work"/>
+        <field name="name">work_company</field>
+        <field name="label">单位名称</field>
+        <field name="type">char</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="fld_work_title" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_work"/>
+        <field name="name">work_title</field>
+        <field name="label">职称</field>
+        <field name="type">char</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="fld_work_period" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_work"/>
+        <field name="name">work_period</field>
+        <field name="label">起止日期</field>
+        <field name="type">char</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="fld_work_role" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_work"/>
+        <field name="name">work_role</field>
+        <field name="label">职务</field>
+        <field name="type">char</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="fld_min_church" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_ministry"/>
+        <field name="name">min_church</field>
+        <field name="label">教会</field>
+        <field name="type">char</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="fld_min_role" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_ministry"/>
+        <field name="name">min_role</field>
+        <field name="label">职分</field>
+        <field name="type">char</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="fld_min_period" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_ministry"/>
+        <field name="name">min_period</field>
+        <field name="label">起止日期</field>
+        <field name="type">char</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="fld_family_relation" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_family"/>
+        <field name="name">family_relation</field>
+        <field name="label">称谓</field>
+        <field name="type">char</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="fld_family_name" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_family"/>
+        <field name="name">family_name</field>
+        <field name="label">姓名</field>
+        <field name="type">char</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="fld_family_age" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_family"/>
+        <field name="name">family_age</field>
+        <field name="label">年龄</field>
+        <field name="type">char</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="fld_family_education" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_family"/>
+        <field name="name">family_education</field>
+        <field name="label">教育程度</field>
+        <field name="type">char</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="fld_family_faith" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_family"/>
+        <field name="name">family_faith</field>
+        <field name="label">宗教信仰</field>
+        <field name="type">char</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="fld_remark" model="edu.apply.field">
+        <field name="section_id" ref="sec_apply_remark"/>
+        <field name="name">remark</field>
+        <field name="label">其它备注（例如著作）</field>
+        <field name="type">textarea</field>
+        <field name="sequence">10</field>
+    </record>
+    </data>
+</odoo>

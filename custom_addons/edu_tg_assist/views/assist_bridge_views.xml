@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 站内通知桥（对接选项 b）：edu.message → Telegram 的转发规则。
+             只读别人的表、只发文字；禁读清单见 models/bridge.py 的 DENY_MODELS。 -->
+
+        <record id="view_assist_bridge_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.bridge.list</field>
+            <field name="model">edu.tg.assist.bridge</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="event_key"/>
+                    <field name="target"/>
+                    <field name="person_id"/>
+                    <field name="chat_id"/>
+                    <field name="sent_count"/>
+                    <field name="skip_count"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_bridge_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.bridge.form</field>
+            <field name="model">edu.tg.assist.bridge</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_test_send" type="object" string="✉️ 发一条测试"
+                                class="btn-primary"/>
+                        <button name="action_adopt_watermark" type="object"
+                                string="⏭ 跳过现有消息" help="把水位推到现在：只有之后新来的站内信才会转发。"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="什么消息">
+                                <field name="name"/>
+                                <field name="event_key" placeholder="留空 = 全部事件"/>
+                                <field name="prefix"/>
+                                <field name="include_body"/>
+                            </group>
+                            <group string="发给谁">
+                                <field name="target"/>
+                                <field name="person_id"
+                                       invisible="target != 'person'"
+                                       required="target == 'person'"/>
+                                <field name="chat_id"
+                                       invisible="target != 'group'"
+                                       required="target == 'group'"/>
+                            </group>
+                        </group>
+                        <group string="进度">
+                            <field name="last_message_id"/>
+                            <field name="sent_count"/>
+                            <field name="skip_count"/>
+                        </group>
+                        <div class="text-muted" colspan="2">
+                            说明：网站上的站内信（报名/请假/报销/课前提醒…）会经 edu_portal 的通知引擎入库，
+                            这条规则把它们转到 Telegram。规则默认从「现在」开始看，不回放历史；
+                            只想重看历史消息时，把「已处理到的站内信 id」改成更小的数字即可。
+                            「发给谁」选「站内信的收件人本人」时，要先去
+                            「班务机器人 → 人员映射」把那个人的「网站账号」填上。
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_assist_bridge_log_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.bridge_log.list</field>
+            <field name="model">edu.tg.assist.bridge_log</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="sent_at"/>
+                    <field name="rule_id"/>
+                    <field name="message_id"/>
+                    <field name="event_key"/>
+                    <field name="ok" widget="boolean_toggle"/>
+                    <field name="error"/>
+                    <field name="excerpt"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_assist_bridge" model="ir.actions.act_window">
+            <field name="name">站内通知桥</field>
+            <field name="res_model">edu.tg.assist.bridge</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">还没有规则</p>
+                <p>新建一条规则：选「什么事件」，选「发给谁」，保存后每 2 分钟自动转发新站内信。</p>
+            </field>
+        </record>
+
+        <record id="action_assist_bridge_log" model="ir.actions.act_window">
+            <field name="name">桥接记录</field>
+            <field name="res_model">edu.tg.assist.bridge_log</field>
+            <field name="view_mode">list</field>
+        </record>
+
+        <menuitem id="menu_assist_bridge" name="站内通知桥" parent="menu_assist_root"
+                  action="action_assist_bridge" sequence="62"/>
+        <menuitem id="menu_assist_bridge_log" name="桥接记录" parent="menu_assist_root"
+                  action="action_assist_bridge_log" sequence="63"/>
+    </data>
+</odoo>

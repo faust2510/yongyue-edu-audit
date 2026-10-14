@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================================================================
+         专业编排（学制 + 必修/选修）—— 视图层 + 菜单改名
+         设计：docs/plans/major-track-elective-design.md §5.3 / §6.6 / §6.8
+
+         本文件只做四件事，**不新建页面、不新建菜单**：
+           1) 专业表单（263）Subjects 标签页：把原来的纯 M2M 控件换成
+              subject_line_ids 可编辑清单，多一列「必修/选修」；
+              选择器分组里加「学制」；列表加学制列；搜索加「按学制分组」。
+           2) 学制（op.program.level）列表与表单暴露 active / sequence
+              —— Odoo 19 的归档动作**只在视图含 active 字段时**才出现，
+              两处缺一即「表单可停用、列表不能停用」的半成品。
+           3) 菜单/动作改名（见下方逐条注释）。
+           4) 菜单 275「项目管理」整棵停用 + 277「学制」挪到 262 下（校长拍板）。
+
+         ⚠ 改名机制：只改菜单名不改动作名 ⇒ 面包屑/页面标题仍是旧词
+           （t117 的教训：菜单 276=专业 vs 动作 395=节目）。
+         ⚠ 不得用 edu_zh 的 PO 直接覆盖共享 msgid —— `Courses` 同时挂在
+           生产仍启用的 561（slide.channel 在线课程）上，全局覆盖会把在线课程
+           也改掉。故 263/385 走「改 en_US source 成新串 Majors + 新串词条」，
+           277/396/262 的 source（Program Level / Course Management）**不被任何
+           其它记录共用**，直接按 xmlid 出词条即可（词条只按 `#:` 里点名的
+           记录生效，不做全局替换）。
+         ================================================================== -->
+
+    <!-- ============ 一、专业（op.course）表单 ============ -->
+    <record id="edu_view_op_course_form_major_track" model="ir.ui.view">
+        <field name="name">op.course.form.edu.major_track</field>
+        <field name="model">op.course</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_course_form"/>
+        <field name="arch" type="xml">
+            <!-- 学制：与基座 program_id 并列（教务一眼看到「这个专业是什么学制」） -->
+            <field name="program_id" position="after">
+                <field name="edu_level_id"
+                       options="{'no_create': True}"
+                       placeholder="例：本科 / 专科 / 硕士"/>
+            </field>
+            <!-- Subjects 标签页：M2M 控件 → 可编辑清单（多一列「必修/选修」）。
+                 用 xpath 而不是 field 定位，避免与其它模块（openeducat_fees 也继承
+                 本表单）的 field 位置改动互相干扰。 -->
+            <xpath expr="//page[@name='subject']/field[@name='subject_ids']" position="replace">
+                <field name="subject_line_ids" nolabel="1"
+                       context="{'default_course_id': id, 'default_department_id': department_id}">
+                    <list string="科目清单" editable="bottom">
+                        <field name="sequence" widget="handle"/>
+                        <field name="subject_id" options="{'no_create': True}"/>
+                        <field name="subject_code" optional="hide"/>
+                        <field name="subject_type" string="必修/选修"
+                               placeholder="留空 = 继承科目默认值"/>
+                        <field name="global_subject_type" string="科目默认值"
+                               readonly="1" optional="show"/>
+                        <field name="effective_type_label" string="实际生效"
+                               readonly="1" optional="hide"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ 二、专业列表：加「学制」列 ============ -->
+    <record id="edu_view_op_course_tree_major_track" model="ir.ui.view">
+        <field name="name">op.course.list.edu.major_track</field>
+        <field name="model">op.course</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_course_tree"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="edu_level_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- ============ 三、专业搜索：按学制分组 ============ -->
+    <record id="edu_view_op_course_search_major_track" model="ir.ui.view">
+        <field name="name">op.course.search.edu.major_track</field>
+        <field name="model">op.course</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_course_search"/>
+        <field name="arch" type="xml">
+            <field name="evaluation_type" position="after">
+                <field name="edu_level_id"/>
+            </field>
+            <filter name="group_by_evaluation_type" position="after">
+                <filter name="group_by_edu_level" string="学制" domain="[]"
+                        context="{'group_by': 'edu_level_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- ============ 四、学制（op.program.level）列表/表单：暴露 active + sequence ============ -->
+    <record id="edu_view_op_program_level_tree" model="ir.ui.view">
+        <field name="name">op.program.level.list.edu.major_track</field>
+        <field name="model">op.program.level</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_program_level_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sequence" widget="handle"/>
+                <field name="course_count"/>
+                <!-- 归档动作只在视图含 active 时出现（Odoo 19 硬条件） -->
+                <field name="active" string="启用" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="edu_view_op_program_level_form" model="ir.ui.view">
+        <field name="name">op.program.level.form.edu.major_track</field>
+        <field name="model">op.program.level</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_program_level_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <group>
+                        <field name="sequence"/>
+                        <field name="active" string="启用"/>
+                    </group>
+                    <group>
+                        <field name="course_count"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ 五、菜单 / 动作改名 ============ -->
+    <!-- 1) 菜单 263「课程」（配置 → 课程管理 → 课程）→ 专业；动作 385 一并改。
+            source 用全新唯一串 Majors：`Courses` 是共享 msgid（561 在线课程
+            生产仍启用），直接覆盖会连带改错。词条见 edu_zh/i18n_extra/*.po。 -->
+    <record id="openeducat_core.menu_op_course_sub" model="ir.ui.menu" forcecreate="0">
+        <field name="name">Majors</field>
+    </record>
+    <record id="openeducat_core.act_open_op_course_view" model="ir.actions.act_window" forcecreate="0">
+        <field name="name">Majors</field>
+    </record>
+
+    <!-- 2) 菜单 277「专业层次」→ 学制；动作 396「程序级别」（机翻遗留）→ 学制。
+            source（Program Level）保持不动，由 edu_zh 按 xmlid 出词条 —— 这样
+            `Program Level` 这个词条不会全局波及别的记录。 -->
+    <record id="openeducat_core.menu_op_program_level_sub" model="ir.ui.menu" forcecreate="0">
+        <field name="name">Program Levels</field>
+        <field name="parent_id" ref="openeducat_core.menu_op_school_config_course"/>
+    </record>
+    <record id="openeducat_core.act_open_op_program_level_view" model="ir.actions.act_window" forcecreate="0">
+        <field name="name">Program Levels</field>
+    </record>
+
+    <!-- 3) 菜单 262「课程管理」（容器：下面挂着 专业 / 批次 / 部门 / 已停用班级）
+            → 教学管理。校长拍板用词。 -->
+    <record id="openeducat_core.menu_op_school_config_course" model="ir.ui.menu" forcecreate="0">
+        <field name="name">Teaching Management</field>
+    </record>
+
+    <!-- 4) 校长拍板：停用 275「项目管理」整棵（含 276「专业」= op.program 空壳，
+            生产 0 条数据、op.course.program_id 6/6 全 NULL）。
+            红线：**只停用不删除**（记录保留，台账登记）。 -->
+    <record id="openeducat_core.menu_op_school_config_program" model="ir.ui.menu" forcecreate="0">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="openeducat_core.menu_op_program_sub" model="ir.ui.menu" forcecreate="0">
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,738 @@
+{
+ "stamp": "2026-10-02T18:47:20+08:00",
+ "attest": "backend_probe fp=f1956530 · check_english REVISION=v3.8 指纹=c9b87745 · 运行时刻 2026-10-02T18:47:20+08:00",
+ "roles": {
+  "admin": {
+   "uid": 2,
+   "menus": 321,
+   "roots": 14,
+   "root_names": [
+    "资料下载",
+    "教务审批",
+    "财务管理",
+    "资产管理",
+    "招聘管理",
+    "灵命生活",
+    "综合评估",
+    "网站",
+    "学生信息",
+    "招生",
+    "时间表",
+    "图书馆",
+    "应用",
+    "设置"
+   ],
+   "pages": [
+    {
+     "label": "应用",
+     "path": "/odoo/apps",
+     "role": "admin",
+     "status": 200,
+     "url": "http://127.0.0.1:8069/odoo/apps",
+     "title": "永约学坊",
+     "has_form": false,
+     "has_list": false,
+     "has_kanban": false,
+     "rows": 0,
+     "navbar": "",
+     "text": "",
+     "english": [],
+     "shot": "docs/audit/backend-ux/shots/admin_.png"
+    },
+    {
+     "label": "在线测验列表",
+     "path": "/odoo/action-649",
+     "role": "admin",
+     "status": 200,
+     "url": "http://127.0.0.1:8069/odoo/action-649",
+     "title": "Quiz",
+     "has_form": false,
+     "has_list": true,
+     "has_kanban": false,
+     "rows": 1,
+     "navbar": "时间表\n作业\n考试\n时间表\n考勤\nQuizzes\nAttempts\n课次管理\n周期排课（批量）\n停课管理\n校历活动\n配置\n报告\n学习进度\n配置\n报告\n配置\n配置\n1\n永约学坊\n应用面板",
+     "text": "时间表\n作业\n考试\n时间表\n考勤\nQuizzes\nAttempts\n课次管理\n周期排课（批量）\n停课管理\n校历活动\n配置\n报告\n学习进度\n配置\n报告\n配置\n配置\n1\n永约学坊\n应用面板\n新建\nQuiz\n1-1 / 1\n全选本页\n\t\nQuiz Name\n\t\nCategory\n\t\nCourse\n\t\nTotal Points\n\t\nDuration (min)\n\t\nState\n\n\n选择本行\n\t计算机基础入门测验\t计算机\t基督教研究硕士科\t6.00\t\t\nPublished\n\n\t6.00\n\n按 esc 离开全屏幕",
+     "english": [
+      {
+       "value": "Quizzes",
+       "bucket": "must-fix",
+       "source": "dom:navbar",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Attempts",
+       "bucket": "must-fix",
+       "source": "dom:navbar",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Quiz",
+       "bucket": "must-fix",
+       "source": "dom:breadcrumb",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Quiz Name",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Category",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Course",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Total Points",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Duration (min)",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "State",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Published",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-649"
+      },
+      {
+       "value": "Quiz",
+       "bucket": "must-fix",
+       "source": "dom:title",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "attr",
+       "path": "/odoo/action-649"
+      }
+     ],
+     "shot": "docs/audit/backend-ux/shots/admin_.png"
+    },
+    {
+     "label": "作答记录",
+     "path": "/odoo/action-650",
+     "role": "admin",
+     "status": 200,
+     "url": "http://127.0.0.1:8069/odoo/action-650",
+     "title": "Quiz Attempts",
+     "has_form": false,
+     "has_list": true,
+     "has_kanban": false,
+     "rows": 7,
+     "navbar": "时间表\n作业\n考试\n时间表\n考勤\nQuizzes\nAttempts\n课次管理\n周期排课（批量）\n停课管理\n校历活动\n配置\n报告\n学习进度\n配置\n报告\n配置\n配置\n1\n永约学坊\n应用面板",
+     "text": "时间表\n作业\n考试\n时间表\n考勤\nQuizzes\nAttempts\n课次管理\n周期排课（批量）\n停课管理\n校历活动\n配置\n报告\n学习进度\n配置\n报告\n配置\n配置\n1\n永约学坊\n应用面板\n新建\nQuiz Attempts\n1-7 / 7\n全选本页\n\t\nQuiz\n\t\nStudent\n\t\nScore\n\t\nTotal Points\n\t\nPercentage\n\t\nState\n\n\n选择本行\n\t计算机基础入门测验\t王小明\t6.00\t6.00\t100%\tSubmitted\n\n选择本行\n\t计算机基础入门测验\t王小明\t6.00\t6.00\t100%\tSubmitted\n\n选择本行\n\t计算机基础入门测验\t王小明\t6.00\t6.00\t100%\tSubmitted\n\n选择本行\n\t计算机基础入门测验\t王小明\t6.00\t6.00\t100%\tSubmitted\n\n选择本行\n\t计算机基础入门测验\t王小明\t6.00\t6.00\t100%\tSubmitted\n\n选择本行\n\t计算机基础入门测验\t王小明\t6.00\t6.00\t100%\tSubmitted\n\n选择本行\n\t计算机基础入门测验\t王小明\t6.00\t6.00\t100%\tSubmitted\n\n\n按 esc 离开全屏幕",
+     "english": [
+      {
+       "value": "Quizzes",
+       "bucket": "must-fix",
+       "source": "dom:navbar",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "Attempts",
+       "bucket": "must-fix",
+       "source": "dom:navbar",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "Quiz Attempts",
+       "bucket": "must-fix",
+       "source": "dom:breadcrumb",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "Quiz",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "Student",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "Score",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "Total Points",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "Percentage",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "State",
+       "bucket": "must-fix",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/action-650"
+      },
+      {
+       "value": "Quiz Attempts",
+       "bucket": "must-fix",
+       "source": "dom:title",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "attr",
+       "path": "/odoo/action-650"
+      }
+     ],
+     "shot": "docs/audit/backend-ux/shots/admin_.png"
+    },
+    {
+     "label": "学生",
+     "path": "/odoo/students",
+     "role": "admin",
+     "status": 200,
+     "url": "http://127.0.0.1:8069/odoo/students",
+     "title": "学生",
+     "has_form": false,
+     "has_list": false,
+     "has_kanban": true,
+     "rows": 0,
+     "navbar": "学生信息\n学生\n教职员工\n家长\n通用\n配置\n1\n永约学坊\n应用面板",
+     "text": "学生信息\n学生\n教职员工\n家长\n通用\n配置\n1\n永约学坊\n应用面板\n新建\n学生\n1-7 / 7\n王小明\nstu@local\n13800001234\n#TEST-2026-001\n张同学【演示】\n#DUP-001\n李同学【演示】\n陈同学【演示】\n【待分配】DSH测试\ndsh_a@example.com\n【待分配】DSH测试\ndsh_b@example.com\n【演示】空态测试学生\n#EMPTY-DEMO-001\n\n按 esc 离开全屏幕",
+     "english": [
+      {
+       "value": "stu@local",
+       "bucket": "data",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/students"
+      },
+      {
+       "value": "dsh_a@example.com",
+       "bucket": "data",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/students"
+      },
+      {
+       "value": "dsh_b@example.com",
+       "bucket": "data",
+       "source": "dom:content",
+       "role": "admin",
+       "xmlid": "",
+       "kind": "text",
+       "path": "/odoo/students"
+      }
+     ],
+     "shot": "docs/audit/backend-ux/shots/admin_.png"
+    },
+    {
+     "label": "班级",
+     "path": "/odoo/batches",
+     "role": "admin",
+     "status": 200,
+     "url": "http://127.0.0.1:8069/odoo/batches",
+     "title": "班级",
+     "has_form": false,
+     "has_list": true,
+     "has_kanban": false,
+     "rows": 17,
+     "navbar": "学生信息\n学生\n教职员工\n家长\n通用\n配置\n1\n永约学坊\n应用面板",
+     "text": "学生信息\n学生\n教职员工\n家长\n通用\n配置\n1\n永约学坊\n应用面板\n新建\n班级\n1-17 / 17\n全选本页\n\t\n姓名\n\t\n代码\n\t\n开始日期\n\t\n结束日期\n\t\n班主任\n\t\n课程\n\t\n状态\n\t\t\n\n\n选择本行\n\t预备科 · 2026级【演示】\tPRP-2026\t8月22日\t2028年7月22日\t\t预备科\t \t\n\t\n\n选择本行\n\tB1-B4全体\tB1234\t6月23日\t2027年6月18日\t\t教育学士\t \t\n\t\n\n选择本行\n\t神学一年级\tA1\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\tB3+B4合班\tB34\t6月23日\t2027年6月18日\t\t教育学士\t \t\n\t\n\n选择本行\n\tB2+B3+B4合班\tB234\t6月23日\t2027年6月18日\t\t教育学士\t \t\n\t\n\n选择本行\n\t人文一年级\tB1\t6月23日\t2027年6月18日\t\t教育学士\t \t\n\t\n\n选择本行\n\tA1+A2+A3合班\tA123\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\t人文三年级\tB3\t6月23日\t2027年6月18日\t\t教育学士\t \t\n\t\n\n选择本行\n\tA123+B34合班\tA123B34\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\tA123+B234合班\tA123B234\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\tA123+B1合班\tA123B1\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\tA23+B34合班\tA23B34\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\t人文四年级\tB4\t6月23日\t2027年6月18日\t\t教育学士\t \t\n\t\n\n选择本行\n\tA2+A3合班\tA23\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\t神学二年级\tA2\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\t神学三年级\tA3\t6月23日\t2027年6月18日\t\t神学学士科\t \t\n\t\n\n选择本行\n\t人文二年级\tB2\t6月23日\t2027年6月18日\t\t教育学士\t \t\n\t\n\t\n\n按 esc 离开全屏幕",
+     "english": [],
+     "shot": "docs/audit/backend-ux/shots/admin_.png"
+    }
+   ]
+  }
+ },
+ "must_fix": [
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "dom:navbar",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "dom:navbar",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Quiz",
+   "bucket": "must-fix",
+   "source": "dom:breadcrumb",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Quiz Name",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Category",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Course",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Total Points",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Duration (min)",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "State",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Published",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Quiz",
+   "bucket": "must-fix",
+   "source": "dom:title",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "attr",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "dom:navbar",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "dom:navbar",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Quiz Attempts",
+   "bucket": "must-fix",
+   "source": "dom:breadcrumb",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Quiz",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Student",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Score",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Total Points",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Percentage",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "State",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Quiz Attempts",
+   "bucket": "must-fix",
+   "source": "dom:title",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "attr",
+   "path": "/odoo/action-650"
+  }
+ ],
+ "brand": [],
+ "all_hits": [
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "dom:navbar",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "dom:navbar",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Quiz",
+   "bucket": "must-fix",
+   "source": "dom:breadcrumb",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Quiz Name",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Category",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Course",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Total Points",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Duration (min)",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "State",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Published",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Quiz",
+   "bucket": "must-fix",
+   "source": "dom:title",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "attr",
+   "path": "/odoo/action-649"
+  },
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "dom:navbar",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "dom:navbar",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Quiz Attempts",
+   "bucket": "must-fix",
+   "source": "dom:breadcrumb",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Quiz",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Student",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Score",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Total Points",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Percentage",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "State",
+   "bucket": "must-fix",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "Quiz Attempts",
+   "bucket": "must-fix",
+   "source": "dom:title",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "attr",
+   "path": "/odoo/action-650"
+  },
+  {
+   "value": "stu@local",
+   "bucket": "data",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/students"
+  },
+  {
+   "value": "dsh_a@example.com",
+   "bucket": "data",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/students"
+  },
+  {
+   "value": "dsh_b@example.com",
+   "bucket": "data",
+   "source": "dom:content",
+   "role": "admin",
+   "xmlid": "",
+   "kind": "text",
+   "path": "/odoo/students"
+  }
+ ]
+}

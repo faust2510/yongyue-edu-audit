@@ -1,0 +1,17 @@
+== backend_probe fp=f1956530 · check_english REVISION=v3.8 指纹=c9b87745 · 运行时刻 2026-10-02T19:04:41+08:00 ==
+== admin       uid=2 菜单 321 条 / 可见根 14 条 ==
+   可见根：资料下载、教务审批、财务管理、资产管理、招聘管理、灵命生活、综合评估、网站、学生信息、招生、时间表、图书馆、应用、设置
+   menu 源命中：must-fix 2 / brand 0 / whitelist 0 / data 0
+     [MUST-FIX] 'EMail'                                        depth=3 id=91 mail.menu_mail_mail
+     [MUST-FIX] 'IAP'                                          depth=2 id=81 iap.iap_root_menu
+== backoffice  uid=12 菜单 143 条 / 可见根 12 条 ==
+   可见根：资料下载、教务审批、财务管理、资产管理、招聘管理、灵命生活、综合评估、网站、学生信息、招生、时间表、图书馆
+   menu 源命中：must-fix 0 / brand 0 / whitelist 0 / data 0
+== faculty     uid=11 菜单 74 条 / 可见根 9 条 ==
+   可见根：教务审批、资产管理、招聘管理、灵命生活、综合评估、学生信息、招生、时间表、图书馆
+   menu 源命中：must-fix 0 / brand 0 / whitelist 0 / data 0
+== 汇总 ==
+   探测项 2 ｜ must-fix 2 ｜ brand 0
+   [MUST-FIX] 'EMail'                                        <- menu
+   [MUST-FIX] 'IAP'                                          <- menu
+   证据已写 docs/audit/backend-ux/evidence/menus_after.json

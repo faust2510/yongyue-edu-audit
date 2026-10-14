@@ -1,0 +1,1261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ 门户页骨架（沿用 edu_life/edu_portal 风格） ============ -->
+    <template id="edu_schedule_page" name="Edu Schedule Page">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                        <ol class="o_portal_submenu breadcrumb mb-0 flex-grow-1 px-0">
+                            <li class="breadcrumb-item ms-1">
+                                <a href="/my/home" aria-label="家" title="家">
+                                    <i class="fa fa-home"/>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" t-out="title"/>
+                        </ol>
+                    </nav>
+                    <!-- 单节改删提示（C 项要求：两个工具页顶部均有说明；
+                         改课影响面页与此提示无关，用 hide_bulk_hint 隐藏） -->
+                    <div t-if="not hide_bulk_hint"
+                         class="alert alert-light border py-2 small text-muted">
+                        <i class="fa fa-info-circle me-1"/>
+                        单节课的修改与删除无需使用本工具：每节课都是独立的课节记录，
+                        可在后台「时间表」列表中直接改删；本工具只负责批量生成。
+                    </div>
+                    <t t-out="0"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ A. /timetable/bulk 周期排课表单 ============ -->
+    <template id="edu_schedule_bulk" name="Edu Schedule Bulk Form">
+        <t t-call="edu_schedule.edu_schedule_page">
+            <h4 class="mb-1"><i class="fa fa-calendar-plus-o me-2"/>周期排课</h4>
+            <p class="text-muted mb-3">
+                选定课程要素后按星期几重复，一次性生成一个时间段内的全部课节；
+                提交后先预览、确认后才写入。
+            </p>
+
+            <t t-if="multi_created and multi_created != '0'">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-check-circle me-1" aria-hidden="true"/>
+                    已按 <b t-out="multi_created"/> 个班级各生成一组课时，共 <b t-out="created"/> 节
+                    <t t-if="failed and failed != '0'">，<t t-out="failed"/> 节被系统拦下</t>。
+                </div>
+            </t>
+            <t t-if="created and created != '0'">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-check-circle me-1"/>
+                    成功生成 <b t-out="created"/> 节课
+                    <t t-if="failed and failed != '0'">，<t t-out="failed"/> 节因冲突跳过</t>。
+                </div>
+            </t>
+            <t t-elif="failed and failed != '0'">
+                <div class="alert alert-warning py-2" role="alert">
+                    <i class="fa fa-exclamation-triangle me-1"/>
+                    没有新课节写入，<t t-out="failed"/> 节因冲突被拒绝。
+                </div>
+            </t>
+            <t t-if="error">
+                <div class="alert alert-danger py-2" role="alert">
+                    <i class="fa fa-exclamation-triangle me-1"/><t t-out="error"/>
+                </div>
+            </t>
+            <t t-if="notice">
+                <div class="alert alert-warning py-2" role="alert">
+                    <i class="fa fa-info-circle me-1" aria-hidden="true"/><t t-out="notice"/>
+                </div>
+            </t>
+
+            <t t-if="holidays">
+                <div class="alert alert-warning border py-2 small">
+                    <i class="fa fa-flag me-1"/>
+                    已登记的停课日（生成时自动排除）：
+                    <t t-foreach="holidays" t-as="h">
+                        <span class="me-3">
+                            <b t-out="h.name"/>
+                            <t t-out="h.date_start"/> ~ <t t-out="h.date_end"/>
+                            <t t-if="h.batch_id" t-out="'（仅 ' + h.batch_id.name + '）'"/>
+                        </span>
+                    </t>
+                    在后台「时间表 → 停课管理」维护。
+                </div>
+            </t>
+
+            <form method="post" action="/timetable/bulk/preview"
+                  class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="bk_course">课程 *</label>
+                            <select class="form-select" id="bk_course" name="course_id">
+                                <option value="">— 请选择 —</option>
+                                <t t-foreach="courses" t-as="c">
+                                    <option t-att-value="c.id" t-att-selected="str(c.id) == form['course_id']" t-out="c.name"/>
+                                </t>
+                            </select>
+                            <input type="text" class="form-control form-control-sm mt-1"
+                                   name="new_course_name" t-att-value="form['new_course_name']" placeholder="没有要选的？在此输入新课程名，直接建档"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="bk_batch">班级（单班）</label>
+                            <select class="form-select" id="bk_batch" name="batch_id">
+                                <option value="">— 请选择 —</option>
+                                <t t-foreach="batches" t-as="b">
+                                    <option t-att-value="b.id" t-att-selected="str(b.id) == form['batch_id']" t-out="b.name"/>
+                                </t>
+                            </select>
+                            <!-- 2026-10-05：说明删掉（A §2「能删的说明全删」）——「要多个班一起排」改由下方折叠摘要承担 -->
+                        </div>
+                        <!-- §18 各年级分开排：多班批量排课（时间自动错开） -->
+                        <!-- 2026-10-05：改 details 折叠（A §2/§3.2）——原来那段 7 行说明压成摘要一句。
+                             零新增 CSS/JS；提交目标与字段名（batch_ids / stagger_minutes）逐字不变。 -->
+                        <div class="col-12">
+                            <details class="border rounded-3 p-3">
+                                <summary class="fw-semibold">
+                                    <i class="fa fa-layer-group me-1" aria-hidden="true"/>
+                                    还要给别的班一起排（时间自动错开）
+                                </summary>
+                                <div class="small text-muted mt-2 mb-2">
+                                    勾选两个及以上 ⇒ 每班各生成一组、时间依次顺延（顺延多少在右边改）；
+                                    勾了就以这里为准，上面「班级（单班）」本次不排。
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-md-8">
+                                        <div class="d-flex flex-wrap gap-3">
+                                            <t t-foreach="batches" t-as="b">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           name="batch_ids"
+                                                           t-attf-value="#{ b.id }"
+                                                           t-attf-id="mb_{{ b.id }}"
+                                                           t-att-checked="b.id in (selected_batch_ids or [])"/>
+                                                    <label class="form-check-label"
+                                                           t-attf-for="mb_{{ b.id }}">
+                                                        <t t-out="b.name"/>
+                                                        <span class="text-muted small"
+                                                              t-out="'（' + (b.code or '—') + '）'"/>
+                                                    </label>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-semibold" for="bk_stagger">
+                                            每班顺延（分钟）
+                                        </label>
+                                        <input type="number" class="form-control" id="bk_stagger"
+                                               name="stagger_minutes" t-att-value="form['stagger_minutes']" min="0" step="5"
+                                               placeholder="留空 = 一个课时长度"/>
+                                        <div class="form-text small text-muted">
+                                            留空 = 首班时段长；填 0 = 所有班同一时间（冲突预检会挡下）。
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="bk_subject">科目 *</label>
+                            <select class="form-select" id="bk_subject" name="subject_id">
+                                <option value="">— 请选择 —</option>
+                                <t t-foreach="subjects" t-as="s">
+                                    <option t-att-value="s.id" t-att-selected="str(s.id) == form['subject_id']" t-out="s.name"/>
+                                </t>
+                            </select>
+                            <input type="text" class="form-control form-control-sm mt-1"
+                                   name="new_subject_name" t-att-value="form['new_subject_name']" placeholder="或输入新科目名，直接建档"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="bk_faculty">教师 *</label>
+                            <select class="form-select" id="bk_faculty" name="faculty_id" required="required">
+                                <option value="">— 请选择 —</option>
+                                <t t-foreach="faculties" t-as="f">
+                                    <option t-att-value="f.id" t-att-selected="str(f.id) == form['faculty_id']" t-out="f.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">上课时间 *</label>
+                            <select class="form-select" name="timing_id">
+                                <option value="">— 选已有节次 —</option>
+                                <t t-foreach="timings" t-as="t">
+                                    <option t-att-value="t.id" t-att-selected="str(t.id) == form['timing_id']"
+                                            t-out="t.name + ' ' + str(t.hour) + ':' + (t.minute or '00') + (' PM' if t.am_pm == 'pm' else ' AM')"/>
+                                </t>
+                            </select>
+                            <!-- 2026-10-05：第二形态收进折叠（A §2「一字段一控件」）—— 字段名 custom_begin/custom_end 不变 -->
+                            <details class="mt-1">
+                                <summary class="small text-muted">没有合适的节次？自己填时间</summary>
+                                <div class="input-group input-group-sm mt-2">
+                                    <input type="time" class="form-control" name="custom_begin" t-att-value="form['custom_begin']" step="300"/>
+                                    <span class="input-group-text">~</span>
+                                    <input type="time" class="form-control" name="custom_end" t-att-value="form['custom_end']" step="300"/>
+                                </div>
+                                <div class="form-text small text-muted">按 15 分钟对齐，相同时间会自动复用同一个节次。</div>
+                            </details>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="bk_room">教室（可选）</label>
+                            <select class="form-select" id="bk_room" name="classroom_id">
+                                <option value="">— 不指定 —</option>
+                                <t t-foreach="classrooms" t-as="r">
+                                    <option t-att-value="r.id" t-att-selected="str(r.id) == form['classroom_id']" t-out="r.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <!-- 2026-10-05：复选框 → chip（Bootstrap 5 .btn-check，零新增 CSS/JS；
+                             A 的设计原型已实测勾选底色与焦点环）。字段名仍是 weekday，值仍是 0-6，逐字不变。 -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold d-block">星期几 *（可多选）</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                <t t-foreach="weekdays" t-as="wn">
+                                    <input class="btn-check" type="checkbox" autocomplete="off"
+                                           name="weekday" t-attf-value="#{ wn_index }"
+                                           t-att-checked="str(wn_index) in form['weekdays']"
+                                           t-attf-id="wd_{{ wn_index }}"/>
+                                    <label class="btn btn-outline-primary btn-sm"
+                                           t-attf-for="wd_{{ wn_index }}" t-out="wn"/>
+                                </t>
+                            </div>
+                        </div>
+                        <!-- S2：周次范围 + 单双周（留空=全部周，行为与旧版一致）
+                             2026-10-05：整块收进折叠（A §3.2「少数情况」）—— 字段名 week_ranges / parity 不变。 -->
+                        <div class="col-12">
+                        <details class="border rounded-3 p-3">
+                            <summary class="fw-semibold">少数情况：只排部分周 / 单周或双周</summary>
+                            <div class="row g-3 mt-1">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="bk_weeks">周次范围（可选）</label>
+                            <input type="text" class="form-control" id="bk_weeks"
+                                   name="week_ranges" t-att-value="form['week_ranges']" placeholder="如：1,3-5,8-12（留空=全部周）"/>
+                            <div class="form-text small text-muted">
+                                逗号分隔，<code>1,3-5,8-12</code> = 第 1、3-5、8-12 周（第 1 周 = 学期起始周）。
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold d-block">循环方式 *</label>
+                            <div class="d-flex flex-column gap-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="parity"
+                                           id="cy_weekly" value="weekly"
+                                           t-att-checked="form['parity'] in ('', 'weekly')"/>
+                                    <label class="form-check-label" for="cy_weekly">每周</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="parity"
+                                           id="cy_odd" value="odd" t-att-checked="form['parity'] == 'odd'"/>
+                                    <label class="form-check-label" for="cy_odd">单周</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="parity"
+                                           id="cy_even" value="even" t-att-checked="form['parity'] == 'even'"/>
+                                    <label class="form-check-label" for="cy_even">双周</label>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </details>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="bk_start">开始日期 *</label>
+                            <input type="date" class="form-control" id="bk_start"
+                                   name="start_date" t-att-value="form['start_date']" required="required"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="bk_end">结束日期 *</label>
+                            <input type="date" class="form-control" id="bk_end"
+                                   name="end_date" t-att-value="form['end_date']" required="required"/>
+                        </div>
+                    </div>
+                    <!-- ======== C 的「还没查」诚实块（2026-10-05） ========
+                         三份独立设计里**唯一**防止用户误以为「已经检查过」的机制。
+                         本页**不允许**出现「无冲突」：冲突与停课日依赖服务端全表扫描，
+                         客户端拿不到也不该拿到；状态机只有两态：**还没查 → 已查**。
+                         理由一句话：画个绿色对勾，用户就会跳过预览页 —— 而预览页是唯一一次真检查。 -->
+                    <div class="alert alert-secondary d-flex align-items-start gap-2 mt-3 mb-0 py-2"
+                         role="status">
+                        <i class="fa fa-hourglass-half mt-1" aria-hidden="true"/>
+                        <div class="small">
+                            <b>冲突与停课日：还没查。</b>
+                            点下面的按钮，系统会逐条检查并告诉你会撞上什么；
+                            <b>有冲突就一节都不会写入</b>。
+                        </div>
+                    </div>
+                    <!-- sticky 动作条：把主操作钉在视口底部，折叠全开时也不用回滚找按钮 -->
+                    <div class="d-flex justify-content-end mt-2"
+                         style="position: sticky; bottom: 0; background: var(--bs-body-bg); padding: .5rem 0;">
+                        <button class="btn btn-primary px-4" type="submit">
+                            <i class="fa fa-calendar-plus-o me-1"/>预览将生成的课节
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- ======== §18-B 旧合班课时批量停用（不是删） ========
+                 2026-10-05：**服务端分流** —— 只有 ?tool=deactivate 才渲染本卡。
+                 依据 docs/design/timetable-bulk-SYNTHESIS.md：三份独立设计都要求
+                 「停用必须离开默认视图」；本卡占 55/75 处小灰字、763px 高。
+                 用服务端分流而非客户端 Tab：客户端 Tab 仍把 17 行表留在 DOM 里，
+                 窄屏那 4113px 照样要滚。默认视图的入口见本模板末尾的次级链接。 -->
+            <t t-if="tool == 'deactivate'">
+            <div class="card shadow-sm border-0 rounded-3 mt-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-ban me-1" aria-hidden="true"/>
+                    批量停用某班 / 某个合班批的全部课时
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-2">
+                        停用 = 把课时状态置为「停课」，<b>记录不删</b>（随时可在后台改回）；
+                        停用后学生课表与教师课表立刻不再显示这些课时。
+                        点「停用…」先看影响面（会影响到谁），<b>勾选二次确认</b>后才执行，
+                        执行结果写进审计日志。
+                    </p>
+                    <!-- 窄屏卡片化（task-12，2026-10-02）：本表 6 列，375 视口实测
+                         表宽 421px > 容器 313px（「推导组成」「停用…」被推到屏外）。
+                         复用共用模板 edu_brand.edu_narrow_table_cards：
+                         <768px 隐藏 thead、每行折成卡片、由每个 td 的 data-label 顶出列名；桌面一字不变。
+                         ✅ 2026-10-03 收口：原先这里引用的是 edu_portal.edu_narrow_table_cards，
+                         而本模块**不能**依赖 edu_portal（edu_portal 依赖 edu_schedule ⇒ 成环），
+                         那条引用遂成「未声明的依赖」（靠渲染期 xmlid 解析才侥幸能用）。
+                         该共用样式已下沉到 edu_brand，且本模块的 depends 已**如实**声明 edu_brand。
+                         背景与验收见 docs/plans/2026-10-02-shared-ui-primitives.md。
+                         工具判据：scripts/find_squeezed_tables.py（path=/timetable/bulk、role=backoffice）。 -->
+                    <div class="table-responsive">
+                        <t t-call="edu_brand.edu_narrow_table_cards"/>
+                        <table class="table table-sm align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>班级 / 合班批</th>
+                                    <th>代号</th>
+                                    <th class="text-end">在用课时</th>
+                                    <th class="text-end">已停用</th>
+                                    <th>推导组成（需人工确认）</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="batch_rows" t-as="br">
+                                    <tr>
+                                        <td data-label="班级 / 合班批" t-out="br['batch'].name"/>
+                                        <td data-label="代号" class="text-muted small"
+                                            t-out="br['batch'].code or '—'"/>
+                                        <td data-label="在用课时" class="text-end" t-out="br['live_count']"/>
+                                        <td data-label="已停用" class="text-end text-muted"
+                                            t-out="br['cancel_count']"/>
+                                        <td data-label="推导组成（需人工确认）" class="small">
+                                            <t t-if="br['is_combined']">
+                                                <span class="badge text-bg-warning border"
+                                                      t-out="br['parts_label']"/>
+                                                <span class="text-muted">
+                                                    （推导，需人工确认<t t-if="br['unknown_label']">；
+                                                    库中缺：<t t-out="br['unknown_label']"/></t>）
+                                                </span>
+                                            </t>
+                                            <span t-else="" class="text-muted">—</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a t-if="br['live_count']"
+                                               class="btn btn-sm btn-outline-danger"
+                                               t-attf-href="#{ br['href'] }"
+                                               t-attf-aria-label="停用 #{ br['batch'].name } 的全部课时">
+                                                停用…
+                                            </a>
+                                            <span t-else="" class="text-muted small">无在用课时</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </t>
+            <t t-else="">
+                <p class="small text-muted mt-4 mb-0">
+                    要停用旧合班课时（不删记录、可改回）？
+                    <a href="/timetable/bulk?tool=deactivate">打开「批量停用课时」工具</a>。
+                </p>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ A2. 预览页（不落库） ============ -->
+    <template id="edu_schedule_preview" name="Edu Schedule Preview">
+        <t t-call="edu_schedule.edu_schedule_page">
+
+            <!-- ======== §18 多班批量排课预览（各年级分开排） ======== -->
+            <t t-if="multi">
+                <h4 class="mb-1">
+                    <i class="fa fa-layer-group me-2" aria-hidden="true"/>多班批量排课预览
+                </h4>
+                <p class="text-muted mb-3">
+                    以下课节尚未写入。每个班各一组、时间已按「每班顺延」错开；
+                    点底部「确认生成」后一次性创建（先整批预检，有一条冲突就一节都不写）。
+                </p>
+
+                <t t-if="error">
+                    <div class="alert alert-danger py-2" role="alert">
+                        <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/>
+                        <t t-out="error"/>
+                    </div>
+                </t>
+            <t t-if="notice">
+                <div class="alert alert-warning py-2" role="alert">
+                    <i class="fa fa-info-circle me-1" aria-hidden="true"/><t t-out="notice"/>
+                </div>
+            </t>
+
+                <div class="card shadow-sm border-0 rounded-3 mb-4">
+                    <div class="card-header bg-white fw-semibold">
+                        <i class="fa fa-list me-1" aria-hidden="true"/>各班的时段
+                        <span class="badge rounded-pill text-bg-primary ms-2"
+                              t-out="str(multi['batch_count']) + ' 个班 · ' + str(multi['total']) + ' 节'"/>
+                    </div>
+                    <div class="card-body py-2">
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>班级</th>
+                                        <th>时段</th>
+                                        <th>错开</th>
+                                        <th class="text-end">将生成</th>
+                                        <th class="text-end">冲突</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="multi['plans']" t-as="p">
+                                        <tr t-attf-class="#{ 'table-danger' if p['conflict_count'] else '' }">
+                                            <td class="text-muted" t-out="p_index + 1"/>
+                                            <td t-out="p['batch'].name"/>
+                                            <td class="text-nowrap fw-semibold"
+                                                t-out="p['time_label']"/>
+                                            <td class="small text-muted"
+                                                t-out="p['offset_label']"/>
+                                            <td class="text-end" t-out="p['ok_count']"/>
+                                            <td class="text-end">
+                                                <span t-if="p['conflict_count']"
+                                                      class="badge text-bg-danger"
+                                                      t-out="p['conflict_count']"/>
+                                                <span t-else="" class="text-muted">0</span>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="small text-muted mt-2">
+                            共 <t t-out="multi['total']"/> 节 ·
+                            首班时段长 <t t-out="multi['span']"/> 分钟 ·
+                            每班顺延 <t t-out="multi['step']"/> 分钟。
+                            停用旧合班课时的入口在「周期排课」页底部。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 冲突明细：与 C-1 影响面同形的表格与判词（不另造提示体系） -->
+                <div t-if="multi['conflict_total']"
+                     class="card border-danger shadow-sm rounded-3 mb-4">
+                    <div class="card-header bg-white fw-semibold text-danger">
+                        <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/>
+                        冲突明细（保存会被系统拦下）
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>班级</th>
+                                    <th>时间</th>
+                                    <th>科目</th>
+                                    <th>教师</th>
+                                    <th>重叠维度</th>
+                                    <th>保存结果</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="multi['plans']" t-as="p">
+                                    <t t-foreach="p['conflict_rows']" t-as="cr">
+                                        <tr>
+                                            <td t-out="p['batch'].name"/>
+                                            <td class="text-nowrap small">
+                                                <t t-out="cr['date']"/> <t t-out="cr['weekday']"/>
+                                                <t t-out="cr['time_text']"/>
+                                            </td>
+                                            <td t-out="p['meta']['subject_name']"/>
+                                            <td t-out="p['meta']['faculty_name']"/>
+                                            <td t-out="cr['dims_text']"/>
+                                            <td>
+                                                <span class="badge text-bg-danger">保存会被系统拦下</span>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- G3 §8.1 数据异常两类：致命（红·阻止提交）/ 待补（黄·允许继续） -->
+                <div t-if="multi.get('fatal_total')" class="alert alert-danger border shadow-sm" role="alert">
+                    <div class="fw-semibold mb-1">
+                        <i class="fa fa-ban me-1" aria-hidden="true"/>有 <t t-out="multi['fatal_total']"/> 项数据异常必须先修好（修好前不能生成）：
+                    </div>
+                    <ul class="mb-0 small">
+                        <t t-foreach="multi['plans']" t-as="p">
+                            <li t-foreach="p['meta']['precheck']['fatal']" t-as="ft">
+                                <b t-out="p['batch'].name"/>：<t t-out="ft['text']"/>
+                            </li>
+                        </t>
+                    </ul>
+                </div>
+                <t t-foreach="multi['plans']" t-as="p">
+                    <div t-if="p['meta']['precheck']['todo']" class="alert alert-warning border py-2 px-3" role="alert">
+                        <div class="fw-semibold mb-1">
+                            <i class="fa fa-info-circle me-1" aria-hidden="true"/>可以先排、之后补齐（黄字不拦）：
+                        </div>
+                        <ul class="mb-0 small">
+                            <li t-foreach="p['meta']['precheck']['todo']" t-as="td">
+                                <b t-out="p['batch'].name"/>：<t t-out="td['text']"/>
+                            </li>
+                        </ul>
+                    </div>
+                </t>
+
+                <t t-foreach="multi['plans']" t-as="p">
+                    <div class="card shadow-sm border-0 rounded-3 mb-3">
+                        <div class="card-header bg-white fw-semibold d-flex flex-wrap gap-2">
+                            <span t-out="p['batch'].name"/>
+                            <span class="badge text-bg-light border"
+                                  t-out="p['time_label']"/>
+                            <span class="badge text-bg-light border"
+                                  t-out="p['offset_label']"/>
+                            <span class="badge rounded-pill text-bg-primary ms-auto"
+                                  t-out="str(len(p['rows'])) + ' 节'"/>
+                        </div>
+                        <div class="card-body py-2">
+                            <div class="d-flex flex-wrap gap-3 small mb-2">
+                                <span><i class="d-inline-block me-1 ux-dot ux-dot-ok"/>将生成</span>
+                                <span><i class="d-inline-block me-1 ux-dot ux-dot-conflict"/>与既有课时冲突</span>
+                                <span><i class="d-inline-block me-1 ux-dot ux-dot-holiday"/>停课日（自动排除）</span>
+                                <span><i class="d-inline-block me-1 ux-dot ux-dot-miss"/>周次/单双周不命中</span>
+                                <span><i class="d-inline-block me-1 ux-dot ux-dot-holiday"/>教师不可用（自动排除）</span>
+                            </div>
+                            <details>
+                                <summary class="small text-primary cursor-pointer">
+                                    展开/收起本班的周矩阵与逐日期明细
+                                </summary>
+                                <div class="table-responsive mt-2">
+                                    <table class="table table-bordered align-middle text-center ux-week-matrix mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="text-start">星期</th>
+                                                <t t-foreach="p['grid']['weeks']" t-as="wn">
+                                                    <th t-out="'第' + str(wn) + '周'"/>
+                                                </t>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="p['grid']['rows']" t-as="gr">
+                                                <tr>
+                                                    <td class="text-nowrap small fw-semibold text-start"
+                                                        t-out="gr['name']"/>
+                                                    <t t-foreach="gr['cells']" t-as="cell">
+                                                        <td t-att-class="'ux-mcell ' + ('ux-mcell-holiday' if cell['status'] == 'unavailable' else ('ux-mcell-' + cell['status']))"
+                                                            t-att-title="(cell['date'] or '') + '：' + (
+                                                                ('将生成、' if cell['status'] == 'ok' else '') +
+                                                                ('与既有课时冲突、' if cell['status'] == 'conflict' else '') +
+                                                                ('停课日·自动排除、' if cell['status'] == 'holiday' else '') +
+                                                                ('教师不可用·自动排除、' if cell['status'] == 'unavailable' else '') +
+                                                                ('不命中周次/单双周、' if cell['status'] == 'miss' else '')
+                                                            )[:-1]">
+                                                            <t t-if="cell['status'] == 'ok'"><i class="fa fa-check"/></t>
+                                                            <t t-elif="cell['status'] == 'conflict'"><i class="fa fa-exclamation-triangle"/></t>
+                                                            <t t-elif="cell['status'] == 'holiday'"><i class="fa fa-flag"/></t>
+                                                            <t t-elif="cell['status'] == 'unavailable'"><i class="fa fa-user-times"/></t>
+                                                            <t t-else=""><span class="text-muted">—</span></t>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table-responsive mt-2">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>#</th><th>日期</th><th>星期</th>
+                                                <th>时刻</th><th>科目</th><th>冲突</th>
+                                                <th>教师不可用</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="p['rows']" t-as="row">
+                                                <tr t-attf-class="#{ 'table-danger' if row['dims'] else '' }">
+                                                    <td class="text-muted" t-out="row_index + 1"/>
+                                                    <td t-out="row['date']"/>
+                                                    <td t-out="row['weekday']"/>
+                                                    <td class="text-nowrap" t-out="row['time_text']"/>
+                                                    <td t-out="p['meta']['subject_name']"/>
+                                                    <td class="small" t-out="row['dims_text']"/>
+                                                    <td class="small text-muted" t-out="row['leave_text'] or '—'"/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </t>
+
+                <form method="post" action="/timetable/bulk/create" class="d-print-none">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <t t-foreach="selected_batch_ids" t-as="bid">
+                        <input type="hidden" name="batch_ids" t-att-value="bid"/>
+                    </t>
+                    <input type="hidden" name="stagger_minutes"
+                           t-att-value="params.get('stagger_minutes') or ''"/>
+                    <input type="hidden" name="course_id" t-att-value="params.get('course_id')"/>
+                    <input type="hidden" name="subject_id" t-att-value="params.get('subject_id')"/>
+                    <input type="hidden" name="faculty_id" t-att-value="params.get('faculty_id')"/>
+                    <input type="hidden" name="timing_id" t-att-value="params.get('timing_id')"/>
+                    <input type="hidden" name="classroom_id" t-att-value="params.get('classroom_id')"/>
+                    <input type="hidden" name="new_course_name" t-att-value="params.get('new_course_name')"/>
+                    <input type="hidden" name="new_subject_name" t-att-value="params.get('new_subject_name')"/>
+                    <input type="hidden" name="custom_begin" t-att-value="params.get('custom_begin')"/>
+                    <input type="hidden" name="custom_end" t-att-value="params.get('custom_end')"/>
+                    <input type="hidden" name="start_date" t-att-value="params.get('start_date')"/>
+                    <input type="hidden" name="end_date" t-att-value="params.get('end_date')"/>
+                    <input type="hidden" name="weekdays_csv"
+                           t-att-value="params.get('weekdays_csv')"/>
+                    <input type="hidden" name="week_ranges"
+                           t-att-value="params.get('week_ranges') or ''"/>
+                    <input type="hidden" name="parity"
+                           t-att-value="params.get('parity') or 'weekly'"/>
+                    <!-- G4 §10.3 逃逸口：勾选后才绕过教师不可用；每次使用模型层写 edu.audit.log -->
+                    <div class="form-check mb-2" t-if="can_ignore">
+                        <input class="form-check-input" type="checkbox" value="1"
+                               name="ignore_teacher_leave" id="mb_ignore_leave"
+                               t-att-checked="ignore_checked"/>
+                        <label class="form-check-label small" for="mb_ignore_leave">
+                            忽略教师不可用：教务强行排课用，每次都会写入审计留痕
+                        </label>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a t-att-href="back_url" class="btn btn-outline-secondary px-3">
+                            <i class="fa fa-arrow-left me-1"/>返回修改
+                        </a>
+                        <button class="btn btn-success px-4" type="submit"
+                                t-att-disabled="'disabled' if multi.get('fatal_total') else None">
+                            <i class="fa fa-check me-1"/>
+                            确认生成（<t t-out="multi['batch_count']"/> 个班 · 共
+                            <t t-out="multi['total']"/> 节）
+                        </button>
+                    </div>
+                </form>
+            </t>
+
+            <t t-else="">
+            <h4 class="mb-1"><i class="fa fa-calendar-plus-o me-2"/>排课预览</h4>
+            <p class="text-muted mb-3">
+                以下课节尚未写入，点击底部「确认生成」后才会创建。
+            </p>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-list me-1"/>排课要素
+                    <span class="badge rounded-pill text-bg-primary ms-2"
+                          t-out="'共 ' + str(total) + ' 节'"/>
+                </div>
+                <div class="card-body py-2">
+                    <div class="row small">
+                        <div class="col-md-4"><b>课程：</b><t t-out="meta['course_name']"/></div>
+                        <div class="col-md-4"><b>班级：</b><t t-out="meta['batch_name']"/></div>
+                        <div class="col-md-4"><b>科目：</b><t t-out="meta['subject_name']"/></div>
+                        <div class="col-md-4"><b>教师：</b><t t-out="meta['faculty_name']"/></div>
+                        <div class="col-md-4"><b>节次：</b><t t-out="meta['timing_label']"/></div>
+                        <div class="col-md-4"><b>教室：</b><t t-out="meta['classroom_name']"/></div>
+                        <div class="col-md-4"><b>日期范围：</b><t t-out="meta['range_label']"/></div>
+                        <div class="col-md-8"><b>重复星期：</b><t t-out="meta['days_label']"/></div>
+                        <div class="col-md-4"><b>周次范围：</b>
+                            <t t-if="meta.get('week_ranges_spec')" t-out="meta['week_ranges_spec'] + ' 周'"/>
+                            <t t-else="">全部周</t>
+                        </div>
+                        <div class="col-md-4"><b>循环方式：</b><t t-out="meta.get('parity_label') or '每周'"/></div>
+                        <div class="col-md-4"><b>周次锚点：</b>
+                            <t t-if="meta.get('anchor_label')" t-out="meta['anchor_label']"/>
+                            <t t-else="">起始日所在周</t>
+                        </div>
+                    </div>
+                    <div t-if="meta.get('holidays_label')" class="alert alert-warning border py-1 px-2 mt-2 mb-0 small">
+                        <i class="fa fa-flag me-1"/>以下停课日已自动排除，不生成课节：<t t-out="meta['holidays_label']"/>
+                    </div>
+                    <!-- G4 §10.4 兜底：未登记 = 可用，但**不得静默** -->
+                    <div t-if="not meta.get('faculty_leave_registered')" class="small text-muted mt-2">
+                        <i class="fa fa-info-circle me-1" aria-hidden="true"/>该教师未登记不可用时间：系统按「可用」处理，排课前请与教师确认。
+                    </div>
+                </div>
+            </div>
+
+            <!-- G3 §8.1 数据异常两类：致命（红·阻止提交）/ 待补（黄·允许继续） -->
+            <div t-if="meta.get('precheck') and meta['precheck']['fatal']"
+                 class="alert alert-danger border shadow-sm" role="alert">
+                <div class="fw-semibold mb-1">
+                    <i class="fa fa-ban me-1" aria-hidden="true"/>有 <t t-out="len(meta['precheck']['fatal'])"/> 项数据异常必须先修好（修好前不能生成）：
+                </div>
+                <ul class="mb-0 small">
+                    <li t-foreach="meta['precheck']['fatal']" t-as="ft" t-out="ft['text']"/>
+                </ul>
+            </div>
+            <div t-if="meta.get('precheck') and meta['precheck']['todo']"
+                 class="alert alert-warning border shadow-sm" role="alert">
+                <div class="fw-semibold mb-1">
+                    <i class="fa fa-info-circle me-1" aria-hidden="true"/>可以先排、之后补齐（黄字不拦）：
+                </div>
+                <ul class="mb-0 small">
+                    <li t-foreach="meta['precheck']['todo']" t-as="td" t-out="td['text']"/>
+                </ul>
+            </div>
+
+            <!-- S2：周矩阵预览（行=星期几，列=周次；绿=生成/红=冲突/灰=停课/空=未排） -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-th me-1"/>周矩阵预览
+                    <span class="badge rounded-pill text-bg-primary ms-2"
+                          t-out="'共 ' + str(total) + ' 节'"/>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-3 small mb-3">
+                        <span><i class="d-inline-block me-1 ux-dot ux-dot-ok"/>将生成</span>
+                        <span><i class="d-inline-block me-1 ux-dot ux-dot-conflict"/>与既有课时冲突</span>
+                        <span><i class="d-inline-block me-1 ux-dot ux-dot-holiday"/>停课日（自动排除）</span>
+                        <span><i class="d-inline-block me-1 ux-dot ux-dot-miss"/>周次/单双周不命中</span>
+                        <span><i class="d-inline-block me-1 ux-dot ux-dot-holiday"/>教师不可用（自动排除）</span>
+                        <span class="text-muted ms-auto">红色仅为预览提示，确认后创建仍按冲突四查逐条拦截</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle text-center ux-week-matrix mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-start">星期</th>
+                                    <t t-foreach="grid['weeks']" t-as="wn">
+                                        <th t-out="'第' + str(wn) + '周'"/>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="grid['rows']" t-as="gr">
+                                    <tr>
+                                        <td class="text-nowrap small fw-semibold text-start" t-out="gr['name']"/>
+                                        <t t-foreach="gr['cells']" t-as="cell">
+                                            <td t-att-class="'ux-mcell ' + ('ux-mcell-holiday' if cell['status'] == 'unavailable' else ('ux-mcell-' + cell['status']))"
+                                                t-att-title="(cell['date'] or '') + '：' + (
+                                                    ('将生成、' if cell['status'] == 'ok' else '') +
+                                                    ('与既有课时冲突、' if cell['status'] == 'conflict' else '') +
+                                                    ('停课日·自动排除、' if cell['status'] == 'holiday' else '') +
+                                                    ('教师不可用·自动排除、' if cell['status'] == 'unavailable' else '') +
+                                                    ('不命中周次/单双周、' if cell['status'] == 'miss' else '')
+                                                )[:-1]">
+                                                <t t-if="cell['status'] == 'ok'"><i class="fa fa-check"/></t>
+                                                <t t-elif="cell['status'] == 'conflict'"><i class="fa fa-exclamation-triangle"/></t>
+                                                <t t-elif="cell['status'] == 'holiday'"><i class="fa fa-flag"/></t>
+                                                <t t-elif="cell['status'] == 'unavailable'"><i class="fa fa-user-times"/></t>
+                                                <t t-else=""><span class="text-muted">—</span></t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold d-flex align-items-center">
+                    <span class="flex-grow-1"><i class="fa fa-calendar me-1"/>将生成的课节明细</span>
+                    <span class="small text-muted">（<t t-out="total"/> 条，可展开核对）</span>
+                </div>
+                <details class="card-body p-0 table-responsive">
+                    <summary class="px-3 py-2 small text-primary cursor-pointer">展开/收起逐日期明细</summary>
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>日期</th>
+                                <th>星期</th>
+                                <th>时刻</th>
+                                <th>科目</th>
+                                <th>教师</th>
+                                <th>教师不可用</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="rows" t-as="row">
+                                <tr>
+                                    <td class="text-muted" t-out="row_index + 1"/>
+                                    <td t-out="row['date']"/>
+                                    <td t-out="row['weekday']"/>
+                                    <td class="text-nowrap" t-out="row['time_text']"/>
+                                    <td t-out="meta['subject_name']"/>
+                                    <td t-out="meta['faculty_name']"/>
+                                    <td class="small text-muted" t-out="row['leave_text'] or '—'"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </details>
+            </div>
+
+            <form method="post" action="/timetable/bulk/create" class="d-print-none">
+                <input type="hidden" name="csrf_token"
+                       t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="course_id" t-att-value="params.get('course_id')"/>
+                <input type="hidden" name="batch_id" t-att-value="params.get('batch_id')"/>
+                <input type="hidden" name="subject_id" t-att-value="params.get('subject_id')"/>
+                <input type="hidden" name="faculty_id" t-att-value="params.get('faculty_id')"/>
+                <input type="hidden" name="timing_id" t-att-value="params.get('timing_id')"/>
+                <input type="hidden" name="classroom_id" t-att-value="params.get('classroom_id')"/>
+                <input type="hidden" name="new_course_name" t-att-value="params.get('new_course_name')"/>
+                <input type="hidden" name="new_subject_name" t-att-value="params.get('new_subject_name')"/>
+                <input type="hidden" name="custom_begin" t-att-value="params.get('custom_begin')"/>
+                <input type="hidden" name="custom_end" t-att-value="params.get('custom_end')"/>
+                <input type="hidden" name="start_date" t-att-value="params.get('start_date')"/>
+                <input type="hidden" name="end_date" t-att-value="params.get('end_date')"/>
+                <input type="hidden" name="weekdays_csv" t-att-value="meta['weekdays_csv']"/>
+                <input type="hidden" name="week_ranges" t-att-value="meta.get('week_ranges_spec') or ''"/>
+                <input type="hidden" name="parity" t-att-value="meta.get('parity') or 'weekly'"/>
+                <!-- G4 §10.3 逃逸口：勾选后才绕过教师不可用；每次使用模型层写 edu.audit.log -->
+                <div class="form-check mb-2" t-if="can_ignore">
+                    <input class="form-check-input" type="checkbox" value="1"
+                           name="ignore_teacher_leave" id="bl_ignore_leave"
+                           t-att-checked="ignore_checked"/>
+                    <label class="form-check-label small" for="bl_ignore_leave">
+                        忽略教师不可用：教务强行排课用，每次都会写入审计留痕
+                    </label>
+                </div>
+                <div class="d-flex gap-2">
+                    <a t-att-href="back_url" class="btn btn-outline-secondary px-3">
+                        <i class="fa fa-arrow-left me-1"/>返回修改
+                    </a>
+                    <button class="btn btn-success px-4" type="submit"
+                            t-att-disabled="'disabled' if (meta.get('precheck') or {}).get('fatal') else None">
+                        <i class="fa fa-check me-1"/>确认生成（共 <t t-out="total"/> 节）
+                    </button>
+                </div>
+            </form>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ C-1 改课影响面（/timetable/session/<id>/impact） ============
+         设计稿 docs/plans/session-change-impact-design.md §7.2／§7.3。
+         只读页：人数／课节数／变更摘要全部运行时算，不落库；唯一的写操作是
+         底部「通知相关师生」（POST + csrf）。留痕可见范围 = 仅教务（P3），
+         本页不展示审计明细，只回显「最近一次通知」。 -->
+    <template id="edu_session_impact" name="Edu Session Change Impact">
+        <t t-call="edu_schedule.edu_schedule_page">
+            <section class="mb-3">
+                <h4 class="mb-1">
+                    <i class="fa fa-exchange me-2" aria-hidden="true"/>改课影响面
+                </h4>
+                <!-- D 组第一批（P1）：原文案对**所有能打开本页的角色**都写「点页面底部
+                     的『通知相关师生』」，而那颗按钮的 t-if=can_notify=privileged_staff()
+                     只对教务处/系统组呈现 ⇒ 教师读到的是一句指向不存在按钮的指令，
+                     且内容区没有任何出口。这里按 can_notify 分流：教务处看到动作指引，
+                     教师看到如实说明（谁能发）+ 真实可达的下一步。 -->
+                <p class="text-muted mb-0" t-if="can_notify">
+                    改动这一节课之前，先看清它会惊动谁；确认无误后点页面底部的
+                    「通知相关师生」，把变更发到相关师生的站内信。
+                </p>
+                <p class="text-muted mb-0" t-else="">
+                    改动这一节课之前，先看清它会惊动谁。本节通知由<b>教务处</b>统一发出
+                    （教师只能查看影响面、不能发起通知）；确需通知时请联系教务处。
+                </p>
+            </section>
+
+            <t t-if="notified">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-check-circle me-1" aria-hidden="true"/>
+                    本次已通知 <b t-out="sent"/> 人
+                    <t t-if="muted">，<t t-out="muted"/> 人已静音跳过</t>
+                    <t t-if="failed">，<b t-out="failed"/> 人发送失败</t>。
+                </div>
+            </t>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body d-flex flex-wrap gap-2 align-items-center">
+                    <span class="badge text-bg-light border">
+                        课节 #<t t-out="session.id"/>
+                    </span>
+                    <span class="badge text-bg-light border"
+                          t-out="session.subject_id.name or session.name or '课节'"/>
+                    <span class="badge text-bg-light border" t-if="session.batch_id"
+                          t-out="'班级：' + (session.batch_id.name or '')"/>
+                    <span class="badge text-bg-light border" t-if="session.faculty_id"
+                          t-out="'任课教师：' + (session.faculty_id.name or '')"/>
+                    <span class="badge text-bg-light border"
+                          t-out="'时间：' + (when_text or '未设置')"/>
+                    <span class="badge text-bg-light border"
+                          t-out="'状态：' + (state_label or '')"/>
+                </div>
+            </div>
+
+            <!-- G3 §8.1「被规则限制」档：不是与别的课节冲突，而是规则不让排
+                 （本期唯一可判定项 = 教师例外不可用）；未登记时按 §10.4 如实灰字提示，不静默 -->
+            <t t-foreach="rule_notes" t-as="nt">
+                <div t-if="nt['level'] == 'rule'" class="alert alert-danger border" role="alert">
+                    <i class="fa fa-ban me-1" aria-hidden="true"/><t t-out="nt['text']"/>
+                </div>
+                <div t-if="nt['level'] == 'notice'" class="alert alert-secondary border py-2 small" role="status">
+                    <i class="fa fa-info-circle me-1" aria-hidden="true"/><t t-out="nt['text']"/>
+                </div>
+            </t>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-3">
+                        <div class="card-body">
+                            <div class="text-muted small">受影响人数</div>
+                            <div class="fs-4 fw-semibold"><t t-out="recipient_count"/> 人</div>
+                            <div class="small text-muted">
+                                任课教师 <t t-out="faculty_count"/> 人 ·
+                                在读学生 <t t-out="student_count"/> 人
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-3">
+                        <div class="card-body">
+                            <div class="text-muted small">受牵连的其他课节</div>
+                            <div class="fs-4 fw-semibold"><t t-out="related_count"/> 节</div>
+                            <div class="small text-muted">
+                                其中 <t t-out="blocked_count"/> 节在保存时会被系统拦下
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-3">
+                        <div class="card-body">
+                            <div class="text-muted small">最近一次通知</div>
+                            <t t-if="last_notify">
+                                <div class="fw-semibold">
+                                    最近一次通知：<t t-out="last_notify['when']"/>
+                                    · <t t-out="last_notify['count']"/> 人
+                                </div>
+                                <div class="small text-muted" t-out="last_notify['detail']"/>
+                            </t>
+                            <div t-else="" class="fw-semibold">本节尚未通知过</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white fw-semibold">本次变更（旧值 → 新值）</div>
+                <div class="card-body">
+                    <t t-if="changes">
+                        <ul class="list-unstyled mb-0">
+                            <t t-foreach="changes" t-as="ch">
+                                <li>
+                                    <span class="fw-semibold" t-out="ch['label']"/>：
+                                    <span class="text-muted" t-out="ch['old']"/>
+                                    <i class="fa fa-long-arrow-right mx-1"
+                                       aria-hidden="true"/>
+                                    <span t-out="ch['new']"/>
+                                </li>
+                            </t>
+                        </ul>
+                    </t>
+                    <p t-else="" class="text-muted mb-0">
+                        本节暂无字段级变更留痕（改课保存后这里会出现旧值 → 新值）。
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white fw-semibold">受影响的人</div>
+                <div class="card-body">
+                    <t t-if="recipients">
+                        <ul class="list-unstyled mb-0">
+                            <t t-foreach="recipients" t-as="p">
+                                <li class="mb-1">
+                                    <i class="fa fa-user me-1" aria-hidden="true"/>
+                                    <t t-out="p['name']"/>
+                                    <span class="badge text-bg-light border ms-1"
+                                          t-out="p['role']"/>
+                                </li>
+                            </t>
+                        </ul>
+                    </t>
+                    <p t-else="" class="text-muted mb-0">
+                        本节暂无可通知的账号（该班无在读学生账号，任课教师也未绑定账号）。
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white fw-semibold">受牵连的其他课节</div>
+                <div class="card-body p-0 table-responsive">
+                    <t t-if="related">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>时间</th>
+                                    <th>科目</th>
+                                    <th>班级</th>
+                                    <th>教师</th>
+                                    <th>重叠维度</th>
+                                    <th>保存结果</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="related" t-as="r">
+                                    <tr>
+                                        <td class="text-nowrap small" t-out="r['when']"/>
+                                        <td t-out="r['subject'] or '—'"/>
+                                        <td t-out="r['batch'] or '—'"/>
+                                        <td t-out="r['faculty'] or '—'"/>
+                                        <td t-out="r['dims_text']"/>
+                                        <td>
+                                            <span t-att-class="'badge ' + ('text-bg-danger' if r['blocked'] else 'text-bg-secondary')"
+                                                  t-out="r['verdict']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                    <p t-else="" class="text-muted mb-0 p-3">
+                        相邻时段没有时间重叠的其他课节（不会连带影响别的课节）。
+                    </p>
+                </div>
+            </div>
+
+            <form method="post" t-attf-action="/timetable/session/#{session.id}/notify"
+                  class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body d-flex flex-wrap gap-2 align-items-center">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <t t-if="can_notify">
+                        <button type="submit" class="btn btn-primary px-4"
+                                aria-label="通知相关师生">
+                            <i class="fa fa-bullhorn me-1" aria-hidden="true"/>通知相关师生
+                        </button>
+                    </t>
+                    <span class="text-muted small">
+                        只发站内信（不发邮件）；收件人 = 任课教师 + 该班全部在读学生，
+                        家长不发。可重复发送（补发），每次都会留痕。
+                    </span>
+                </div>
+            </form>
+
+            <!-- D 组第一批（P1）：内容区原来没有出口（只能靠顶栏/面包屑）⇒ 补一条
+                 真实可达的下一步。教师与教务处都能打开 /my/calendar（校历）与
+                 /student/timetable（课表），两条已真机确认 200（fac/bo/stu 三角色）。 -->
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/my/calendar" class="btn btn-light btn-sm">
+                    <i class="fa fa-calendar me-1" aria-hidden="true"/>返回校历
+                </a>
+                <a href="/student/timetable" class="btn btn-light btn-sm">
+                    <i class="fa fa-list-alt me-1" aria-hidden="true"/>查看课表
+                </a>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ §18-B 批量停用课时（二次确认页） ============
+         门禁：内部用户 + 教务组/管理员；影响面复用 C-1 口径（请求时算，不落库）。
+         二次确认是**服务端**判据（未勾选直接 303 回本页并带中文原因），
+         不靠前端 disabled。停用只改 state，行数不变。 -->
+    <template id="edu_schedule_batch_deactivate" name="Edu Schedule Batch Deactivate">
+        <t t-call="edu_schedule.edu_schedule_page">
+            <section class="mb-3">
+                <h4 class="mb-1">
+                    <i class="fa fa-ban me-2" aria-hidden="true"/>批量停用课时
+                </h4>
+                <p class="text-muted mb-0">
+                    停用 = 把课时状态置为「停课」，<b>记录不删</b>（随时可在后台改回）；
+                    停用后学生课表与教师课表立刻不再显示这些课时。
+                    请先核对下面的影响面，再勾选确认并提交。
+                </p>
+            </section>
+
+            <t t-if="done">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-check-circle me-1" aria-hidden="true"/>
+                    已停用 <b t-out="done"/> 节
+                    <t t-if="skipped">（另有 <t t-out="skipped"/> 节此前已停用，已跳过）</t>。
+                    记录仍在，只是状态变成「停课」。
+                </div>
+            </t>
+            <t t-if="error">
+                <div class="alert alert-danger py-2" role="alert">
+                    <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/>
+                    <t t-out="error"/>
+                </div>
+            </t>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body d-flex flex-wrap gap-2 align-items-center">
+                    <span class="badge text-bg-light border">
+                        班级 #<t t-out="batch.id"/>
+                    </span>
+                    <span class="badge text-bg-light border" t-out="batch.name or ''"/>
+                    <span class="badge text-bg-light border"
+                          t-out="'代号：' + (batch.code or '—')"/>
+                    <span class="badge text-bg-light border"
+                          t-out="'在用课时：' + str(session_count)"/>
+                    <span t-if="already_count" class="badge text-bg-light border"
+                          t-out="'此前已停用：' + str(already_count)"/>
+                </div>
+            </div>
+
+            <!-- 推导组成：批名自编码，但不静默套用 -->
+            <div t-if="composition['is_combined']"
+                 class="alert alert-warning border py-2 small">
+                <i class="fa fa-info-circle me-1" aria-hidden="true"/>
+                本批代号 <b t-out="composition['code']"/> 推导出的组成：
+                <t t-foreach="composition['parts']" t-as="pt">
+                    <span class="badge text-bg-light border ms-1"
+                          t-out="pt['code'] + ('（' + pt['name'] + '）' if pt['exists'] else '（库中无此班）')"/>
+                </t>
+                —— <b>这是从代号推导的，需人工确认</b>，不是系统已知事实。
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-3">
+                        <div class="card-body">
+                            <div class="text-muted small">本次将停用的课时</div>
+                            <div class="fs-4 fw-semibold"><t t-out="session_count"/> 节</div>
+                            <div class="small text-muted">
+                                涉及 <t t-out="subject_count"/> 个科目 ·
+                                <t t-if="first_text">首节 <t t-out="first_text"/></t>
+                                <t t-if="last_text"> · 末节 <t t-out="last_text"/></t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-3">
+                        <div class="card-body">
+                            <div class="text-muted small">会影响到的人</div>
+                            <div class="fs-4 fw-semibold"><t t-out="recipient_count"/> 人</div>
+                            <div class="small text-muted">
+                                任课教师 <t t-out="faculty_count"/> 人 ·
+                                在读学生 <t t-out="student_count"/> 人（家长不发）
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-3">
+                        <div class="card-body">
+                            <div class="text-muted small">停用后</div>
+                            <div class="fw-semibold">课表立刻不再显示</div>
+                            <div class="small text-muted">
+                                记录保留（只改状态），可在后台改回；执行结果写进审计日志
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white fw-semibold">按科目的课时分布</div>
+                <div class="card-body p-0 table-responsive">
+                    <t t-if="subjects">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>科目</th>
+                                    <th class="text-end">课时数</th>
+                                    <th>首节</th>
+                                    <th>末节</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="subjects" t-as="sj">
+                                    <tr>
+                                        <td t-out="sj['subject']"/>
+                                        <td class="text-end" t-out="sj['count']"/>
+                                        <td class="text-nowrap small" t-out="sj['first_text']"/>
+                                        <td class="text-nowrap small" t-out="sj['last_text']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                    <p t-else="" class="text-muted mb-0 p-3">
+                        该班当前没有「在用」的课时（可能已经全部停用，或还没排课）。
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white fw-semibold">受影响的人</div>
+                <div class="card-body">
+                    <t t-if="recipients">
+                        <ul class="list-unstyled mb-0">
+                            <t t-foreach="recipients" t-as="p">
+                                <li class="mb-1">
+                                    <i class="fa fa-user me-1" aria-hidden="true"/>
+                                    <t t-out="p['name']"/>
+                                    <span class="badge text-bg-light border ms-1"
+                                          t-out="p['role']"/>
+                                </li>
+                            </t>
+                        </ul>
+                    </t>
+                    <p t-else="" class="text-muted mb-0">
+                        这批课时暂无可通知的账号（该班无在读学生账号，任课教师也未绑定账号）。
+                    </p>
+                </div>
+            </div>
+
+            <form method="post" t-attf-action="/timetable/batch/#{batch.id}/deactivate/confirm"
+                  class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <t t-if="can_deactivate">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="yes"
+                                   name="confirm" id="bd_confirm"/>
+                            <label class="form-check-label" for="bd_confirm">
+                                我已确认：把「<b t-out="batch.name"/>」当前在用的
+                                <b t-out="session_count"/> 节全部置为「停课」。
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-danger px-4"
+                                aria-label="确认批量停用">
+                            <i class="fa fa-ban me-1" aria-hidden="true"/>确认批量停用
+                        </button>
+                    </t>
+                    <p t-else="" class="text-muted mb-0">
+                        该班没有可停用的课时。
+                    </p>
+                    <span class="text-muted small ms-2">
+                        只改状态、不删记录；执行后写一条审计（动作「课节批量停用」）。
+                    </span>
+                </div>
+            </form>
+
+            <a href="/timetable/bulk" class="btn btn-outline-secondary px-3">
+                <i class="fa fa-arrow-left me-1" aria-hidden="true"/>返回排课工具
+            </a>
+        </t>
+    </template>
+
+</odoo>

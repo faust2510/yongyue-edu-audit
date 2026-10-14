@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================================================================
+         /my/study 课程中心 + 单科目一页 + 课节入会（t6 一条龙）
+         设计：docs/plans/study-hub-v3-design.md
+         调研：docs/research/onestop-learning-and-repetitive-work.md
+           §1 Canvas Modules 顺序解锁 / Moodle Timeline 分桶
+           §2 课节级会议链接 + firstjoin 时间窗
+           §3 成绩三层（grade_items / grade_grades / grade_letters）
+         约定：模板只做纯输出，一切文案与数字在控制器侧算好。
+         ================================================================== -->
+
+    <!-- ============ /my/study 课程中心 ============ -->
+    <template id="edu_study_home" name="Edu Study Home">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-study-page ux3-page">
+                <div class="ux3-hero">
+                    <h1 class="ux3-hero-title">课程中心</h1>
+                    <p class="ux3-hero-sub">报课 → 上课 → 资料 → 下载 → 成绩，一门课一页看完。</p>
+                </div>
+
+                <div class="ux3-stats" t-if="attendance">
+                    <span class="ux3-stat"><b t-out="subject_n"/> 门在修科目</span>
+                    <span class="ux3-stat">出勤率 <b t-out="attendance['rate_txt']"/></span>
+                    <!-- 2026-10-03：「到堂」含迟到（迟到那条 present 也是 True），
+                         故标「其中迟到」—— 否则「到堂 23 + 迟到 1 + 缺勤 25 = 49」与合计 48 打架。 -->
+                    <span class="ux3-stat">到堂 <b t-out="attendance['present']"/></span>
+                    <span class="ux3-stat">其中迟到 <b t-out="attendance['late']"/></span>
+                    <span class="ux3-stat">缺勤 <b t-out="attendance['absent']"/></span>
+                </div>
+
+                <!-- P0（2026-09-28，docs/plans/study-scheduling-design.md §7.2）：
+                     本周课表 · 只读。口径与 /student/timetable 同源（控制器侧装配，
+                     本区块零逻辑、零写路径）；完整课表与订阅**只链接既有页**，
+                     不在这里长第二个课表渲染器（§7.6 S6/S7）。
+                     data-* 是给 tests/smoke/study_week_schedule.py 的机读契约，
+                     与可见文本同源（该门禁会同时断言两者一致）。 -->
+                <div class="ux3-section" id="ux3-week" data-ux3-week="1">
+                    <h2 class="ux3-section-title">
+                        <i class="fa fa-calendar-o" aria-hidden="true"/>
+                        <span>本周课表</span>
+                        <span class="ux3-tag" t-out="week['title']"/>
+                        <span class="ux3-dim" t-out="week['week_label']"/>
+                        <span class="ux3-tag" t-if="week['week_no_label']"
+                              t-out="week['week_no_label']"/>
+                    </h2>
+                    <p class="ux3-hint" id="ux3-week-scope" t-out="week['scope_note']"/>
+
+                    <div class="ux3-list" t-if="week['total']">
+                        <t t-foreach="week['days']" t-as="wd">
+                            <div class="ux3-row ux3-week-day"
+                                 t-att-data-day="wd['iso']">
+                                <span class="ux3-row-name" t-out="wd['label']"/>
+                                <span class="ux3-tag" t-if="wd['today']">今天</span>
+                                <span class="ux3-tag warn" t-if="wd['holiday']"
+                                      t-att-title="'停课：' + wd['holiday']">停课</span>
+                                <span class="ux3-dim" t-if="not wd['sessions']">无课</span>
+                                <t t-foreach="wd['sessions']" t-as="ws">
+                                    <span class="ux3-week-ses"
+                                          t-att-data-subject="ws['subject']"
+                                          t-att-data-start="ws['start']"
+                                          t-att-data-end="ws['end']">
+                                        <a class="ux3-link" t-if="ws['href']"
+                                           t-att-href="ws['href']"
+                                           t-out="ws['subject']"/>
+                                        <span t-else="" t-out="ws['subject']"/>
+                                        <span class="ux3-dim"><t t-out="ws['start']"/>–<t t-out="ws['end']"/></span>
+                                        <span class="ux3-dim" t-if="ws['meta']"
+                                              t-out="ws['meta']"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                    <p class="ux3-hint" id="ux3-week-empty" t-if="not week['total']"
+                       t-out="week['empty_hint']"/>
+
+                    <div class="ux3-chips">
+                        <a class="ux3-chip ux3-chip-more"
+                           t-att-href="week['timetable_href']">完整课表 →</a>
+                        <a class="ux3-chip ux3-chip-more"
+                           t-att-href="week['calendar_href']">订阅到手机（iCal）→</a>
+                    </div>
+                </div>
+
+                <div class="ux3-empty" t-if="not cards">
+                    <i class="fa fa-graduation-cap" aria-hidden="true"/>
+                    <p>暂无在修科目。完成报课后，这里会逐门展示教师、课节、资料与成绩。</p>
+                    <a class="btn ux3-btn" href="/subject/enroll">去报课选科</a>
+                </div>
+
+                <div class="row g-3">
+                    <t t-foreach="cards" t-as="c">
+                        <div class="col-12 col-md-6">
+                            <div class="ux3-card">
+                                <div class="ux3-card-head">
+                                    <a class="ux3-card-title"
+                                       t-att-href="'/my/study/' + str(c['id'])"
+                                       t-out="c['name']"/>
+                                    <span class="ux3-code" t-if="c['code']" t-out="c['code']"/>
+                                </div>
+                                <div class="ux3-meta">
+                                    <span class="ux3-meta-item">
+                                        <i class="fa fa-user-o" aria-hidden="true"/>
+                                        <t t-if="c['teachers']">
+                                            <t t-foreach="c['teachers']" t-as="tch">
+                                                <span t-out="tch['name']"/>
+                                            </t>
+                                        </t>
+                                        <t t-else="">待安排</t>
+                                    </span>
+                                    <span class="ux3-meta-item">
+                                        <i class="fa fa-calendar" aria-hidden="true"/>
+                                        下次：<span t-out="c['next_when'] or '暂无排课'"/>
+                                    </span>
+                                    <span class="ux3-meta-item">
+                                        <i class="fa fa-folder-open-o" aria-hidden="true"/>
+                                        资料 <span t-out="c['material_n']"/> 份
+                                    </span>
+                                    <span class="ux3-meta-item" t-if="c['has_grade']">
+                                        <i class="fa fa-bar-chart" aria-hidden="true"/>
+                                        成绩 <span t-out="c['pct']"/>%
+                                        <span t-attf-class="ux3-tag {{ 'ok' if c['passed'] else 'warn' }}"
+                                              t-out="'及格' if c['passed'] else '未及格'"/>
+                                    </span>
+                                </div>
+                                <div class="ux3-card-foot">
+                                    <span t-attf-class="ux3-join {{ 'ready' if c['next_ready'] else '' }}"
+                                          t-out="c['next_label']"/>
+                                    <a class="ux3-link" t-att-href="'/my/study/' + str(c['id'])">进入本科目 →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="ux3-section" t-if="tables">
+                    <h2 class="ux3-section-title">常用表格</h2>
+                    <div class="ux3-chips">
+                        <t t-foreach="tables" t-as="tb">
+                            <a class="ux3-chip"
+                               t-att-href="'/downloads/file/' + str(tb['id'])"
+                               t-out="tb['name']"/>
+                        </t>
+                        <a class="ux3-chip ux3-chip-more" href="/downloads">全部资料下载 →</a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my/study/<id> 单科目一页 ============ -->
+    <template id="edu_study_subject" name="Edu Study Subject">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-study-page ux3-page">
+                <div class="ux3-hero">
+                    <h1 class="ux3-hero-title" t-out="subject.name"/>
+                    <p class="ux3-hero-sub">
+                        <span t-if="subject.code" t-out="subject.code"/>
+                        <span>任课教师：</span>
+                        <t t-if="teachers">
+                            <t t-foreach="teachers" t-as="tch">
+                                <span t-out="tch['name']"/>
+                            </t>
+                        </t>
+                        <t t-else="">待安排</t>
+                    </p>
+                    <a class="ux3-link" href="/my/study">← 返回课程中心</a>
+                </div>
+
+                <!-- ① 课节与入会 -->
+                <div class="ux3-section">
+                    <h2 class="ux3-section-title">课节与入会</h2>
+                    <p class="ux3-hint" t-if="not has_session">暂无排课记录。</p>
+                    <div class="ux3-session" t-foreach="upcoming" t-as="ses">
+                        <div class="ux3-session-when">
+                            <b t-out="ses['when']"/>
+                            <span class="ux3-dim" t-out="ses['classroom']"/>
+                        </div>
+                        <div class="ux3-session-act">
+                            <span t-attf-class="ux3-join {{ 'ready' if ses['ready'] else '' }}"
+                                  t-out="ses['label']"/>
+                            <a t-if="ses['ready']"
+                               class="btn ux3-btn"
+                               t-att-href="'/my/study/session/' + str(ses['id']) + '/join'">进入会议</a>
+                        </div>
+                    </div>
+                    <div class="ux3-collapse" t-if="recent">
+                        <button class="ux3-collapse-btn" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#ux3-recent">最近课节</button>
+                        <div class="collapse" id="ux3-recent">
+                            <div class="ux3-session" t-foreach="recent" t-as="ses">
+                                <div class="ux3-session-when">
+                                    <b t-out="ses['when']"/>
+                                    <span class="ux3-dim" t-out="ses['classroom']"/>
+                                </div>
+                                <span class="ux3-dim" t-out="ses['label']"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 教师/教务：批量粘贴入会链接（写操作走兄弟路由 /save + csrf） -->
+                    <form t-if="can_edit_link and upcoming" class="ux3-form"
+                          t-att-action="'/my/study/session/' + str(upcoming[0]['id']) + '/link/save'"
+                          method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <label class="ux3-label">为「<span t-out="upcoming[0]['when']"/>」这节课设置 Zoom 链接</label>
+                        <input class="ux3-input" type="url" name="meeting_url"
+                               placeholder="https://zoom.us/j/..." />
+                        <button class="btn ux3-btn" type="submit">保存链接</button>
+                        <p class="ux3-hint">保存后学生可在课节卡片上一键入会；入会窗口课前开放，未到时间时卡片会显示「还有 N 分钟可入会」。留空保存可撤销。</p>
+                    </form>
+                </div>
+
+                <!-- ② 课程资料 + 相关表格 -->
+                <div class="ux3-section">
+                    <h2 class="ux3-section-title">课程资料 <span class="ux3-dim" t-out="material_n"/></h2>
+                    <div class="ux3-list" t-if="materials">
+                        <div class="ux3-row" t-foreach="materials" t-as="m">
+                            <a class="ux3-row-name" t-att-href="'/downloads/file/' + str(m['id'])"
+                               t-out="m['name']"/>
+                            <span class="ux3-dim">下载 <span t-out="m['downloads']"/> 次</span>
+                            <span class="ux3-dim" t-out="m['updated']"/>
+                        </div>
+                    </div>
+                    <p class="ux3-hint" t-else="">本科目暂无课程资料。教师上传后会出现在这里。</p>
+                    <div class="ux3-chips" t-if="tables">
+                        <t t-foreach="tables" t-as="tb">
+                            <a class="ux3-chip" t-att-href="'/downloads/file/' + str(tb['id'])"
+                               t-out="tb['name']"/>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- ③ 档案成绩三层 -->
+                <div class="ux3-section">
+                    <h2 class="ux3-section-title">我的成绩</h2>
+                    <p class="ux3-hint" t-if="not grades['has_any']">暂无成绩记录。任课教师录入并发布成绩后会显示在这里。</p>
+                    <t t-foreach="grades['current']" t-as="g">
+                        <div class="ux3-grade">
+                            <div class="ux3-grade-head">
+                                <b t-out="g['subject']"/>
+                                <span class="ux3-dim">得分 <span t-out="g['got']"/> / <span t-out="g['total']"/></span>
+                                <span class="ux3-dim">及格线 <span t-out="g['pass_line']"/></span>
+                                <span t-attf-class="ux3-tag {{ 'ok' if g['passed'] else 'warn' }}"
+                                      t-out="'及格' if g['passed'] else '未及格'"/>
+                            </div>
+                            <details class="ux3-details">
+                                <summary>科目条目 <span t-out="g['item_n']"/> 项</summary>
+                                <div class="ux3-row" t-foreach="g['items']" t-as="it">
+                                    <span class="ux3-row-name" t-out="it['name']"/>
+                                    <span class="ux3-dim">权重 <span t-out="it['weight']"/>%</span>
+                                    <span class="ux3-dim">得分 <span t-out="it['marks']"/> / <span t-out="it['total_marks']"/></span>
+                                    <span class="ux3-dim">及格线 <span t-out="it['min_marks']"/></span>
+                                    <span class="ux3-dim" t-if="it['range']">班级区间 <span t-out="it['range']['min']"/>-<span t-out="it['range']['max']"/>（均 <span t-out="it['range']['avg']"/>）</span>
+                                    <span t-attf-class="ux3-tag {{ 'ok' if it['passed'] else 'warn' }}"
+                                          t-out="'及格' if it['passed'] else '未及格'"/>
+                                    <div class="ux3-feedback" t-if="it['feedback']">
+                                        教师反馈：<span t-out="it['feedback']"/>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                    </t>
+                    <!-- 历史学期默认折叠（接受标准：历史学期默认折叠） -->
+                    <details class="ux3-details ux3-history" t-if="grades['history']">
+                        <summary>历史学期（<span t-out="grades['history_n']"/> 门）</summary>
+                        <div class="ux3-grade" t-foreach="grades['history']" t-as="g">
+                            <div class="ux3-grade-head">
+                                <b t-out="g['subject']"/>
+                                <span class="ux3-dim">得分 <span t-out="g['got']"/> / <span t-out="g['total']"/></span>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- ④ 出勤 -->
+                <div class="ux3-section" t-if="attendance">
+                    <h2 class="ux3-section-title">出勤概况</h2>
+                    <div class="ux3-stats">
+                        <span class="ux3-stat">出勤率 <b t-out="attendance['rate_txt']"/></span>
+                        <!-- 2026-10-03：同上一处 —— 到堂含迟到，标清楚才不会与「合计」打架。 -->
+                        <span class="ux3-stat">到堂 <b t-out="attendance['present']"/></span>
+                        <span class="ux3-stat">其中迟到 <b t-out="attendance['late']"/></span>
+                        <span class="ux3-stat">缺勤 <b t-out="attendance['absent']"/></span>
+                        <span class="ux3-stat">合计 <b t-out="attendance['total']"/></span>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 未到入会时间 ============ -->
+    <template id="edu_study_join_wait" name="Edu Study Join Wait">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-study-page ux3-page">
+                <div class="ux3-empty">
+                    <i class="fa fa-video-camera" aria-hidden="true"/>
+                    <p t-out="label"/>
+                    <a class="btn ux3-btn" t-att-href="'/my/study/' + str(subject_id)">返回科目</a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ==================================================================
+         v3 首页 Timeline 工作台（替换原 35 瓦片索引）
+         四块：今日课节 / 待办三桶 / 我的课程≤3 / 快捷入口≤8
+         空桶不渲染 → 不占高度。全量卡片在 /my/apps。
+         H-1（2026-09-18）：/my/home 已改渲染 edu_dashboard_v2（宫格），
+         待办三桶以顶部窄条保留在宫格里；本模板**当前无路由引用**，
+         按零删除红线留在册（不删模板/不改记录）。
+         ================================================================== -->
+    <template id="edu_home_timeline" name="Edu Portal Home Timeline">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-study-page ux3-page ux3-home">
+                <div class="ux3-hero ux3-hero-compact">
+                    <h1 class="ux3-hero-title">工作台</h1>
+                    <p class="ux3-hero-sub">今天要做什么，一眼看完。</p>
+                </div>
+
+                <!-- ① 今日课节 -->
+                <div class="ux3-section" t-if="today_classes and today_classes['total']">
+                    <h2 class="ux3-section-title">今日课节 <span class="ux3-dim" t-out="today_classes['total']"/></h2>
+                    <div class="ux3-row" t-foreach="today_classes['items']" t-as="tc">
+                        <span class="ux3-row-name" t-out="tc['title']"/>
+                        <span class="ux3-dim" t-out="tc['time']"/>
+                        <span class="ux3-dim" t-out="tc['room']"/>
+                    </div>
+                </div>
+
+                <!-- ② 待办三桶（Moodle Timeline 语义） -->
+                <div class="ux3-section" t-if="timeline['overdue']">
+                    <h2 class="ux3-section-title ux3-overdue">已逾期 <span class="ux3-dim" t-out="len(timeline['overdue'])"/></h2>
+                    <div class="ux3-row" t-foreach="timeline['overdue']" t-as="it">
+                        <span class="ux3-tag warn" t-out="it['kind']"/>
+                        <a class="ux3-row-name" t-att-href="it['href']" t-out="it['title']"/>
+                        <span class="ux3-dim" t-out="it['when']"/>
+                    </div>
+                </div>
+                <div class="ux3-section" t-if="timeline['next7']">
+                    <h2 class="ux3-section-title">未来 7 天 <span class="ux3-dim" t-out="len(timeline['next7'])"/></h2>
+                    <div class="ux3-row" t-foreach="timeline['next7']" t-as="it">
+                        <span class="ux3-tag" t-out="it['kind']"/>
+                        <a class="ux3-row-name" t-att-href="it['href']" t-out="it['title']"/>
+                        <span class="ux3-dim" t-out="it['when']"/>
+                    </div>
+                </div>
+                <div class="ux3-section" t-if="timeline['next30']">
+                    <h2 class="ux3-section-title">未来 30 天 <span class="ux3-dim" t-out="len(timeline['next30'])"/></h2>
+                    <div class="ux3-row" t-foreach="timeline['next30']" t-as="it">
+                        <span class="ux3-tag" t-out="it['kind']"/>
+                        <a class="ux3-row-name" t-att-href="it['href']" t-out="it['title']"/>
+                        <span class="ux3-dim" t-out="it['when']"/>
+                    </div>
+                </div>
+                <div class="ux3-section" t-if="student and not (timeline['overdue'] or timeline['next7'] or timeline['next30'])">
+                    <h2 class="ux3-section-title">待办</h2>
+                    <p class="ux3-hint">近 30 天没有待办事项。</p>
+                </div>
+
+                <!-- ③ 我的课程（≤3） -->
+                <div class="ux3-section" t-if="course_cards">
+                    <h2 class="ux3-section-title">我的课程</h2>
+                    <div class="ux3-row" t-foreach="course_cards" t-as="c">
+                        <a class="ux3-row-name" t-att-href="'/my/study/' + str(c['id'])" t-out="c['name']"/>
+                        <span class="ux3-dim">进度 <span t-out="c['pct']"/>%</span>
+                        <span class="ux3-dim" t-out="c['done']"/> / <span class="ux3-dim" t-out="c['total']"/>
+                    </div>
+                    <a class="ux3-link" href="/my/study">全部课程 →</a>
+                </div>
+
+                <!-- ④ 快捷入口（≤8） -->
+                <div class="ux3-section">
+                    <h2 class="ux3-section-title">快捷入口</h2>
+                    <div class="ux3-quick">
+                        <a class="ux3-quick-item" t-foreach="quick_cards" t-as="q"
+                           t-att-href="q['href']">
+                            <i t-attf-class="fa {{ q['icon'] }}" aria-hidden="true"/>
+                            <span t-out="q['title']"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ==================================================================
+         E4 报课确认页「下一步四件事」
+         以 t-inherit 追加到既有 /student/subjects（views/enroll.xml 的
+         edu_student_subjects），不改动 enroll.py 与 views/enroll.xml。
+         ================================================================== -->
+    <template id="edu_student_subjects_next_steps"
+              inherit_id="edu_portal.edu_student_subjects"
+              name="Edu Student Subjects Next Steps">
+        <xpath expr="//div[contains(@class,'oe-asg-page')]" position="inside">
+            <div class="ux3-section ux3-next-steps" t-if="has_records">
+                <h2 class="ux3-section-title">下一步四件事</h2>
+                <div class="ux3-quick ux3-quick-steps">
+                    <a class="ux3-quick-item" href="/student/timetable">
+                        <i class="fa fa-calendar-check-o" aria-hidden="true"/>
+                        <span>① 看课表已更新</span>
+                    </a>
+                    <a class="ux3-quick-item" href="/my/calendar">
+                        <i class="fa fa-calendar-plus-o" aria-hidden="true"/>
+                        <span>② 订阅日历</span>
+                    </a>
+                    <a class="ux3-quick-item" href="/my/study">
+                        <i class="fa fa-video-camera" aria-hidden="true"/>
+                        <span>③ 加入 Zoom 课堂</span>
+                    </a>
+                    <a class="ux3-quick-item" href="/my/study">
+                        <i class="fa fa-download" aria-hidden="true"/>
+                        <span>④ 下载课程资料</span>
+                    </a>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

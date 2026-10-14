@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         /subject/enroll 报课选科（学生自主报课 + 教务审批 · 第 2 期）
+         模板：
+         - edu_enroll_catalog              报课目录页
+         - edu_student_subjects            我的已选科目（嵌段/独立页）
+         - edu_registrar_subject_approvals 教务审批聚合列表
+         - edu_registrar_subject_approval_detail 审批详情
+         全部 t-call edu_portal.edu_page；时间/百分比由控制器预格式化。
+         ============================================================ -->
+
+    <!-- ============ /subject/enroll 报课选科目录页 ============ -->
+    <template id="edu_enroll_catalog" name="Edu Subject Enroll Catalog">
+        <t t-call="edu_portal.edu_page">
+            <!-- V8 修复（2026-10-02 视觉复核）：过了报课截止日必须显式说「已截止」。
+                 原先页面只写「本轮报课截止：2026年10月1日」，10-02 打开仍照常展示可选班级/科目，
+                 用户会以为还能报名（复核截图 desk_subject_enroll.png 就是这个状态）。
+                 截止日语义 = 「截止日当天仍在窗口内」（models/registration.py 的 EduDeadline 注释），
+                 所以判据是「今天 > 截止日」而不是 ≥。
+                 日期取 get_raw（返回 YYYY-MM-DD，同格式字符串可直接比大小，无需解析）；
+                 今天用 QWeb 环境自带的 datetime（ir_qweb._prepare_environment 注入，控制器一字未动）。
+                 ⚠ 用的是**服务器本地日期**：本仓部署在马来西亚机、用户在中国，跨零点的半小时窗口里
+                 可能与用户当天差一天；对「截止日提示」这个粒度可接受，且偏向「不算已截止」= 不会误挡。 -->
+            <t t-set="enroll_deadline_raw"
+               t-value="request.env['edu.deadline'].sudo().get_raw('edu.enroll.deadline')"/>
+            <t t-set="enroll_overdue"
+               t-value="bool(enroll_deadline_raw) and datetime.date.today().isoformat() &gt; enroll_deadline_raw"/>
+            <section class="mb-3 d-flex align-items-center flex-wrap gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1"><i class="fa fa-pencil-square-o me-2 text-primary"/>
+                        报课选科</h2>
+                    <p class="text-muted mb-0">选择专业 / 班级与科目，提交选课注册单，
+                        由教务处审批后生效。</p>
+                </div>
+                <a href="/subject/registration" class="btn btn-light btn-sm">
+                    <i class="fa fa-list-ul me-1"/>我的申请</a>
+            </section>
+
+            <!-- V8：已截止态（放在页首最显眼处，而不是只在班级卡片里显示一个已经过去的日期） -->
+            <div class="alert alert-warning py-2 mb-3" t-if="enroll_overdue"
+                 id="enroll-overdue-notice" role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/>
+                <b>本轮报课已于 <t t-out="enroll_deadline_cn"/> 截止。</b>
+                下方专业 / 班级 / 科目仅供查看；如需补报，请联系教务处。
+            </div>
+
+            <!-- 在读档案摘要 -->
+            <div t-if="summary" class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-2 px-3 d-flex flex-wrap align-items-center gap-3">
+                    <span class="fw-semibold"><i class="fa fa-graduation-cap me-2 text-primary"/>在读档案</span>
+                    <span class="badge text-bg-primary-subtle text-primary"
+                          t-out="summary['course']"/>
+                    <span t-if="summary['level']" class="badge text-bg-secondary"
+                          t-att-title="'学制：' + summary['level']">学制 <t t-out="summary['level']"/></span>
+                    <span class="badge text-bg-light border" t-out="summary['batch']"/>
+                    <span t-if="summary['term']" class="badge text-bg-light border"
+                          t-out="summary['term']"/>
+                    <span class="small text-muted ms-auto">已生效科目
+                        <t t-out="summary['subjects']"/> 门</span>
+                </div>
+            </div>
+
+            <!-- 提示横幅 -->
+            <t t-if="box == 'error'">
+                <div class="alert alert-danger py-2">提交失败：请选择有效的专业与班级后重试。</div>
+            </t>
+            <t t-if="box == 'no_subject'">
+                <div class="alert alert-warning py-2"><i class="fa fa-info-circle me-1"/>
+                    请至少勾选 1 门科目后再提交（该专业暂无必修科目，全部科目均为选修可多选）。</div>
+            </t>
+            <t t-if="box == 'duplicated'">
+                <div class="alert alert-warning py-2">该专业与班级的选课申请已通过，
+                    无需重复申请。如需调整科目请联系教务处。</div>
+            </t>
+            <t t-if="box == 'unit_over'">
+                <div class="alert alert-danger py-2">所选科目学分超过该专业上限，请减少选修科目。</div>
+            </t>
+            <!-- G1 服务端闸门回传（§7.4）：绕过前端 disabled 也会在这里被拦下 -->
+            <t t-if="box == 'overdue'">
+                <div class="alert alert-danger py-2"><i class="fa fa-ban me-1"/>
+                    <b>本轮报课已于 <t t-out="enroll_deadline_cn"/> 截止，提交未生效。</b>
+                    如需补报，请联系教务处。</div>
+            </t>
+            <t t-if="box == 'compulsory_no_session'">
+                <div class="alert alert-danger py-2"><i class="fa fa-ban me-1"/>
+                    本课程有 <b t-out="comp_block_n"/> 门必修本学期尚未排课，暂不能提交报课。
+                    请联系教务处确认开课安排。</div>
+            </t>
+            <t t-if="box == 'all_no_session'">
+                <div class="alert alert-danger py-2"><i class="fa fa-ban me-1"/>
+                    所选科目本学期均未排课，暂不能提交报课。
+                    请先在课表中排出课节，或联系教务处确认本学期开课安排。</div>
+            </t>
+            <t t-if="already_approved">
+                <div class="alert alert-warning py-2"><i class="fa fa-info-circle me-1"/>
+                    该专业与班级已有一份通过的选课申请。下方仍可提交新申请
+                    （教务审批时以最新一份为准）。</div>
+            </t>
+
+            <form method="post" action="/subject/enroll/save" id="enroll-form">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <!-- ① 专业目录 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-header bg-white fw-semibold">
+                        <i class="fa fa-book me-2 text-primary"/>专业目录
+                        <span class="small text-muted fw-normal ms-2">选择要报读的专业（含学制）</span>
+                    </div>
+                    <div class="card-body">
+                        <t t-if="not courses">
+                            <div class="oe-empty"><i class="fa fa-book"/><p>暂无可报专业。</p></div>
+                        </t>
+                        <div t-else="" class="row g-2">
+                            <t t-foreach="courses" t-as="c">
+                                <div class="col-6 col-md-4 col-xl-3">
+                                    <label t-att-class="'enroll-opt w-100 m-0 ' + ('enroll-opt--on' if c['id'] == sel_course_id else '')">
+                                        <input type="radio" name="course_id" class="d-none"
+                                               t-att-value="c['id']"
+                                               t-att-checked="c['id'] == sel_course_id and 'checked' or None"/>
+                                        <span class="d-block border rounded-3 p-2 enroll-opt-box">
+                                            <span class="fw-semibold small d-block text-truncate" t-out="c['name']"/>
+                                            <span class="text-muted small d-block">
+                                                <t t-out="c['code'] or ''"/>
+                                                <t t-if="c['level']"><span class="ms-1">· 学制 <t t-out="c['level']"/></span></t>
+                                                <t t-if="c['current']"><span class="text-primary ms-1">（在读）</span></t>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ② 班级目录 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-header bg-white fw-semibold">
+                        <i class="fa fa-users me-2 text-primary"/>班级目录
+                        <span class="small text-muted fw-normal ms-2">选择报读班级（未结业班级）</span>
+                    </div>
+                    <div class="card-body pt-1">
+                            <div class="alert alert-light border py-2 small mb-2">
+                                本轮报课截止：<span class="fw-semibold" t-out="enroll_deadline_cn"/>
+                                <span t-if="enroll_overdue" class="badge text-bg-warning ms-1">已截止</span>
+                                <span class="text-muted">（下方班级的「至 …」是班级结束日，不是报课截止）</span>
+                            </div>
+                        </div>
+                        <div class="card-body" t-att-data-course="sel_course_id">
+                        <t t-if="sel_course_id not in batch_map">
+                            <div class="oe-empty"><i class="fa fa-users"/><p>请先在上方选择专业。</p></div>
+                        </t>
+                        <div t-else="" class="row g-2">
+                            <t t-foreach="batch_map[sel_course_id]" t-as="b">
+                                <div class="col-6 col-md-4 col-xl-3">
+                                    <label t-att-class="'enroll-opt w-100 m-0 ' + ('enroll-opt--on' if b['id'] == sel_batch_id else '')">
+                                        <input type="radio" name="batch_id" class="d-none"
+                                               t-att-value="b['id']"
+                                               t-att-checked="b['id'] == sel_batch_id and 'checked' or None"/>
+                                        <span class="d-block border rounded-3 p-2 enroll-opt-box">
+                                            <span class="fw-semibold small d-block text-truncate" t-out="b['name']"/>
+                                            <span class="text-muted small d-block">
+                                                <t t-out="b['code'] or ''"/> · 至 <t t-out="b['end_date'] or '—'"/>
+                                                <t t-if="b['session_n']"> · <t t-out="b['session_n']"/> 节排课</t>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ③ 科目池 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-header bg-white fw-semibold">
+                        <i class="fa fa-list-ul me-2 text-primary"/>科目选择
+                        <span class="badge text-bg-warning ms-2">必修 <t t-out="compulsory_n"/></span>
+                        <span class="badge text-bg-info ms-1">选修 <t t-out="elective_n"/></span>
+                        <span class="small text-muted fw-normal ms-2">必修自动全选，选修可多选</span>
+                    </div>
+                    <div class="card-body">
+                        <t t-if="not subjects">
+                            <!-- G1（§7.2-③）：strict 档的空目录必须说「没排课」而不是「没配课」
+                                 —— 现行这句会把责任推给专业配置，与排课无关。 -->
+                            <div class="oe-empty" t-if="pool_mode == 'strict'">
+                                <i class="fa fa-calendar-times-o"/>
+                                <p>本学期课表尚未发布，报课暂未开放；请联系教务处。</p>
+                            </div>
+                            <div class="oe-empty" t-else="">
+                                <i class="fa fa-list-ul"/>
+                                <p>该专业暂未配置科目目录。</p></div>
+                        </t>
+                        <t t-else="">
+                            <div class="mb-2 small text-muted" t-if="compulsory_n">
+                                <i class="fa fa-lock me-1"/>必修科目随专业自动生效，无需也不能取消。</div>
+                            <div class="mb-2 small text-muted" t-if="not compulsory_n">
+                                <i class="fa fa-hand-pointer-o me-1"/>该专业无必修科目，请从下方勾选至少 1 门选修科目。</div>
+                            <div class="row g-2">
+                                <t t-foreach="subjects" t-as="s">
+                                    <div class="col-6 col-md-4 col-xl-3">
+                                        <label t-att-class="'enroll-opt w-100 m-0 ' + ('enroll-opt--on' if s['compulsory'] else '')">
+                                            <t t-if="s['compulsory']">
+                                                <input type="checkbox" class="d-none" checked="checked" disabled="disabled"/>
+                                            </t>
+                                            <t t-else="">
+                                                <input type="checkbox" class="d-none" name="elective_subject_ids"
+                                                       t-att-value="s['id']"/>
+                                            </t>
+                                            <span class="d-block border rounded-3 p-2 enroll-opt-box">
+                                                <span class="fw-semibold small d-block text-truncate" t-out="s['name']"/>
+                                                <span class="text-muted small d-block">
+                                                    <t t-out="s['code'] or ''"/>
+                                                    <t t-if="s['compulsory']"><i class="fa fa-lock ms-1" title="必修"/></t>
+                                                </span>
+                                                <!-- G1（§7.2-①）：已排课一栏（本班 + 本学期），
+                                                     数据来自控制器的一次 _read_group，模板零查询 -->
+                                                <span class="small d-block text-success" t-if="s['session_n']">
+                                                    <i class="fa fa-calendar-check-o me-1"/>已排课 <t t-out="s['session_n']"/> 节<t t-if="s['first_label']"> · 首节 <t t-out="s['first_label']"/></t>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- ④ 备注 + 提交 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-body">
+                        <label class="form-label small text-muted">申请备注（可选）</label>
+                        <input type="text" name="applicant_note" maxlength="500"
+                               class="form-control mb-3" placeholder="补充说明，如转班原因、选课说明等"/>
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <button type="submit" class="btn btn-primary px-4"
+                                    t-att-disabled="(already_approved or submit_blocked) and 'disabled' or None">
+                                <i class="fa fa-paper-plane me-1"/>提交选课注册单
+                            </button>
+                            <!-- G1（§7.2）：服务端闸门的前端同口径提示（不是唯一的闸门） -->
+                            <span class="small text-danger fw-semibold" t-if="submit_blocked">
+                                <i class="fa fa-ban me-1"/>本学期课表尚未发布或所选科目尚未排课，暂不能提交报课；请联系教务处。
+                            </span>
+                            <span class="small text-muted" t-if="not already_approved and not submit_blocked">
+                                提交后由教务处审批，结果将以站内通知告知。
+                            </span>
+                            <span class="small text-warning" t-elif="already_approved">
+                                已通过的 (专业, 班级) 不允许再次提交。
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <!-- ============ /student/subjects 我的已选科目（横卡） ============ -->
+    <template id="edu_student_subjects" name="Edu Student Subjects">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-asg-page oe-att-page">
+                <div class="oe-asg-group">
+                    <i class="fa fa-graduation-cap" aria-hidden="true"/><em>我的已选科目</em>
+                </div>
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <p class="oe-norec-txt">暂无在读课程档案。完成报课后，生效科目将在此处展示。</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="cards" t-as="cd">
+                        <div class="oe-asg-card mb-3">
+                            <div class="oe-asg-top">
+                                <div class="oe-asg-co">
+                                    <span class="oe-asg-ic"><i class="fa fa-graduation-cap" aria-hidden="true"/></span>
+                                    <span class="oe-asg-name" t-out="cd['course']"/>
+                                    <span class="badge text-bg-light border ms-2" t-out="cd['batch']"/>
+                                    <span t-att-class="'badge ms-1 ' + ('text-bg-success' if cd['state_raw'] == 'running' else 'text-bg-secondary')"
+                                          t-out="cd['state']"/>
+                                </div>
+                                <span class="small text-muted"><t t-out="cd['subject_n']"/> 门</span>
+                            </div>
+                            <div class="oe-adm-chips mt-2">
+                                <t t-foreach="cd['subjects']" t-as="s">
+                                    <a class="oe-adm-chip"
+                                       t-att-href="'/my/courses/' + str(s.id)" t-out="s.name"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /registrar/subject/approvals 教务审批聚合 ============ -->
+    <template id="edu_registrar_subject_approvals" name="Edu Registrar Subject Approvals">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1"><i class="fa fa-check-square-o me-2 text-primary"/>选课审批</h2>
+                <p class="text-muted mb-0">审批学生提交的选课注册单。
+                    通过后自动建立/更新在读档案与科目。</p>
+            </section>
+
+            <!-- 状态 chips + 搜索 -->
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+                <div class="btn-group btn-group-sm" role="group">
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'pending' else 'btn-outline-secondary')"
+                       t-att-href="'/registrar/subject/approvals?filterby=pending' + (search and ('&amp;search=' + search) or '')">
+                        待审批 <span class="badge text-bg-warning ms-1" t-out="stats['pending']"/>
+                    </a>
+                    <t t-if="can_approve_change">
+                        <a t-att-class="'btn ' + ('btn-primary' if filterby == 'change' else 'btn-outline-secondary')"
+                           t-att-href="'/registrar/subject/approvals?filterby=change' + (search and ('&amp;search=' + search) or '')">
+                            变更审批 <span class="badge text-bg-warning ms-1" t-out="stats['change']"/>
+                        </a>
+                    </t>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'approved' else 'btn-outline-secondary')"
+                       t-att-href="'/registrar/subject/approvals?filterby=approved' + (search and ('&amp;search=' + search) or '')">
+                        已通过 <span class="badge text-bg-light ms-1" t-out="stats['approved']"/>
+                    </a>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'rejected' else 'btn-outline-secondary')"
+                       t-att-href="'/registrar/subject/approvals?filterby=rejected' + (search and ('&amp;search=' + search) or '')">
+                        已驳回 <span class="badge text-bg-light ms-1" t-out="stats['rejected']"/>
+                    </a>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'all' else 'btn-outline-secondary')"
+                       t-att-href="'/registrar/subject/approvals?filterby=all' + (search and ('&amp;search=' + search) or '')">
+                        全部 <span class="badge text-bg-light ms-1" t-out="stats['all']"/>
+                    </a>
+                </div>
+                <form class="d-flex gap-1 ms-auto" method="get"
+                      action="/registrar/subject/approvals">
+                    <input type="hidden" name="filterby" t-att-value="filterby"/>
+                    <input type="search" class="form-control form-control-sm" name="search"
+                           placeholder="搜单号 / 学生 / 课程" t-att-value="search"/>
+                    <button class="btn btn-sm btn-light" type="submit" aria-label="搜索"><span class="oi oi-search"/></button>
+                </form>
+            </div>
+
+            <t t-if="not items">
+                <div class="oe-norec"><i class="fa fa-check-circle oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">没有符合条件的选课申请。换一个筛选条件可看其他状态的申请；学生提交选课申请后会进入这里。</p></div>
+            </t>
+            <t t-else="">
+                <!-- 窄屏宽表 → 卡片：本表 9 列，2026-09-28 实测 375 视口下表格宽 611px
+                     ⇒ 文档横向溢出 267px（backoffice），「详情」按钮 rect(left 588, right 614)
+                     整块落在屏外（手机上审批要横滑 267px）。
+                     复用第一批共用模板 edu_portal.edu_narrow_table_cards（views/roles.xml:546）：
+                     只在 <768px 把每行折成卡片、由 <td data-label> 顶出列名；
+                     桌面端 DOM 与观感一字不变。 -->
+                <t t-call="edu_portal.edu_narrow_table_cards"/>
+                <table class="table table-light align-middle edu-card-table">
+                    <thead><tr><th>单号</th><th>类型</th><th>学生</th><th>课程</th><th>班级</th>
+                        <th>申请时间</th><th>科目</th><th>状态</th><th class="text-end">操作</th></tr></thead>
+                    <tbody>
+                        <t t-foreach="items" t-as="it">
+                            <tr>
+                                <td data-label="单号"><a t-attf-href="/registrar/subject/approvals/#{it['reg'].id}"
+                                       class="text-decoration-none"
+                                       t-out="it['reg'].name or ('#' + str(it['reg'].id))"/></td>
+                                <td data-label="类型"><span t-att-class="'badge ' + ('text-bg-info' if it['is_change'] else 'text-bg-light border')" t-out="it['kind_label']"/></td>
+                                <td data-label="学生" t-out="it['reg'].student_id.name or '—'"/>
+                                <td data-label="课程" t-out="it['reg'].course_id.name or '—'"/>
+                                <td data-label="班级">
+                                    <t t-if="it['is_change']">
+                                        <span t-esc="it['old_label'] or '—'"/>
+                                        <span class="text-success" aria-hidden="true">→</span>
+                                        <span t-esc="it['target_label']"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-esc="it['reg'].batch_id.name or '—'"/>
+                                    </t>
+                                </td>
+                                <td class="small text-muted" data-label="申请时间" t-out="it['submitted_at']"/>
+                                <td data-label="科目">
+                                    <t t-if="it['is_change']"><span class="text-muted">—</span></t>
+                                    <t t-else=""><span class="badge text-bg-light border" t-out="it['subjects_n']"/> 门</t>
+                                </td>
+                                <td data-label="状态"><span t-att-class="'badge ' + {
+                                        'submitted': 'text-bg-warning',
+                                        'approved': 'text-bg-success',
+                                        'rejected': 'text-bg-danger',
+                                    }.get(it['reg'].state, 'text-bg-secondary')"
+                                          t-out="it['state_label']"/></td>
+                                <td class="text-end" data-label="操作">
+                                    <a t-attf-href="/registrar/subject/approvals/#{it['reg'].id}"
+                                       class="btn btn-sm btn-light ms-1">详情</a>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+            <t t-call="portal.pager"/>
+        </t>
+    </template>
+
+    <!-- ============ /registrar/subject/approvals/<rid> 审批详情 ============ -->
+    <template id="edu_registrar_subject_approval_detail" name="Edu Registrar Subject Approval Detail">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex align-items-center flex-wrap gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1"><i class="fa fa-check-square-o me-2 text-primary"/><t t-out="is_change and '变更审批详情' or '选课审批详情'"/></h2>
+                    <p class="text-muted mb-0"><t t-out="rec.name or '—'"/> ·
+                        <t t-out="rec.student_id.name or '—'"/></p>
+                </div>
+                <a href="/registrar/subject/approvals" class="btn btn-light btn-sm">返回列表</a>
+            </section>
+
+            <t t-if="box == 'error_reason'">
+                <div class="alert alert-danger py-2">驳回必须填写驳回原因。</div>
+            </t>
+            <t t-if="box == 'error'">
+                <div class="alert alert-danger py-2"><i class="fa fa-exclamation-triangle me-1"/>
+                    无法完成本次审批：<t t-out="msg or '请检查目标课程与班级后重试。'"/></div>
+            </t>
+            <t t-if="box == 'done'">
+                <div class="alert alert-success py-2"><i class="fa fa-check-circle me-1"/>
+                    审批已完成，学生档案归属已即时生效。</div>
+            </t>
+
+            <!-- 申请信息 -->
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-3">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3 text-muted small fw-normal">申请编号</dt>
+                        <dd class="col-sm-9" t-out="rec.name or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">学生</dt>
+                        <dd class="col-sm-9" t-out="rec.student_id.name or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">课程</dt>
+                        <dd class="col-sm-9" t-out="rec.course_id.name or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">班级</dt>
+                        <dd class="col-sm-9" t-out="rec.batch_id.name or '—'"/>
+                        <!-- G1（§7.5）：本单科目在（本班 + 本学期）的排课聚合 —— 只读、不新增字段。
+                             M=0 时红字提醒：通过后学生课表不会有任何课。 -->
+                        <t t-if="sched_info and sched_info['n']">
+                            <dt class="col-sm-3 text-muted small fw-normal">本学期排课</dt>
+                            <dd class="col-sm-9" t-att-class="sched_info['m'] and '' or 'text-danger fw-semibold'">
+                                本单科目在本学期已排课 <b t-out="sched_info['m']"/> / 共 <b t-out="sched_info['n']"/>
+                                <t t-if="sched_info['term']">（<t t-out="sched_info['term']"/>）</t>
+                                <span class="d-block small" t-if="not sched_info['m']">
+                                    通过后学生课表不会有任何课，请先排课。</span>
+                            </dd>
+                        </t>
+                        <dt class="col-sm-3 text-muted small fw-normal">申请时间</dt>
+                        <dd class="col-sm-9" t-out="submitted_at"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">申请备注</dt>
+                        <dd class="col-sm-9" t-out="rec.applicant_note or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">当前状态</dt>
+                        <dd class="col-sm-9"><span class="badge text-bg-light border" t-out="state_label"/></dd>
+                        <t t-if="rec.state == 'approved'">
+                            <dt class="col-sm-3 text-muted small fw-normal">审批时间</dt>
+                            <dd class="col-sm-9"><t t-out="approved_at"/> · <t t-out="approver or '—'"/></dd>
+                        </t>
+                        <t t-if="rec.state == 'rejected'">
+                            <dt class="col-sm-3 text-muted small fw-normal">驳回原因</dt>
+                            <dd class="col-sm-9 text-danger" t-out="rec.reject_reason or '—'"/>
+                        </t>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- 换班/换课：原 → 新 对照 + 影响面（设计 §19；R1 影响明示） -->
+            <t t-if="is_change">
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-header bg-white fw-semibold">
+                        <i class="fa fa-exchange me-2 text-primary"/>变更对比（原 → 新）</div>
+                    <div class="card-body py-3">
+                        <dl class="row mb-2">
+                            <dt class="col-sm-3 text-muted small fw-normal">原（当前在读档案）</dt>
+                            <dd class="col-sm-9" t-esc="change['old_label'] or '（无法定位唯一在读档案，审批会被拒绝）'"/>
+                            <dt class="col-sm-3 text-muted small fw-normal">新（申请目标）</dt>
+                            <dd class="col-sm-9"><strong t-esc="change['new_label']"/></dd>
+                            <dt class="col-sm-3 text-muted small fw-normal">目标班规模</dt>
+                            <dd class="col-sm-9">在读 <t t-out="change['student_n']"/> 人 · 课节 <t t-out="change['session_n']"/> 节</dd>
+                            <dt class="col-sm-3 text-muted small fw-normal">本次变更</dt>
+                            <dd class="col-sm-9">
+                                <t t-if="change['same_course']">只换班级（同课程，档案科目不变）</t>
+                                <t t-else="">同时换课程：档案科目将按目标课程重算为 <t t-out="change['new_subject_n']"/> 门</t>
+                            </dd>
+                        </dl>
+                        <div class="alert alert-warning py-2 mb-0">
+                            <i class="fa fa-exclamation-triangle me-1"/>
+                            通过后该生将从<b>原班</b>的点名表与评教名单中移除（新班名单同时多出该生）；
+                            已录的考勤与成绩仍留在原考试/点名表上，不随档案漂移。
+                        </div>
+                        <t t-if="change['multi_archive']">
+                            <div class="alert alert-danger py-2 mt-2 mb-0">该生有多条在读档案，
+                                审批动作会拒绝（不允许猜要改哪一行），请先处理档案。</div>
+                        </t>
+                        <t t-if="change['clash']">
+                            <div class="alert alert-danger py-2 mt-2 mb-0">该生已存在同一
+                                (学生 · 课程 · 目标班) 的档案行：直接改写会撞唯一约束，本单将被拒绝。</div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+
+            <!-- 在读档案摘要（差异提示；仅选课单 —— 变更单走上面那张对照卡） -->
+            <div t-if="not is_change" class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-graduation-cap me-2 text-primary"/>当前在读档案</div>
+                <div class="card-body py-3">
+                    <t t-if="not sc_summary">
+                        <div class="text-muted small mb-2"><i class="fa fa-info-circle me-1"/>
+                            该学生尚无此课程的档案——通过后将自动创建在读档案。</div>
+                    </t>
+                    <t t-else="">
+                        <dl class="row mb-2">
+                            <dt class="col-sm-3 text-muted small fw-normal">档案课程</dt>
+                            <dd class="col-sm-9" t-out="sc_summary['course']"/>
+                            <dt class="col-sm-3 text-muted small fw-normal">班级 / 状态</dt>
+                            <dd class="col-sm-9"><t t-out="sc_summary['batch']"/> ·
+                                <t t-out="sc_summary['state']"/></dd>
+                            <dt class="col-sm-3 text-muted small fw-normal">当前科目数</dt>
+                            <dd class="col-sm-9" t-out="sc_summary['subjects']"/>
+                        </dl>
+                        <t t-if="empty_warn">
+                            <div class="alert alert-danger py-2 mb-0">
+                                <i class="fa fa-exclamation-circle me-1"/>
+                                该报课单未包含任何科目（历史/空科目单据）。直接通过将
+                                清空该学生档案的全部 <t t-out="sc_summary['subjects']"/>
+                                门科目。请先在后台补充科目，或驳回让学生重新选课。
+                            </div>
+                        </t>
+                        <t t-elif="not diff_same">
+                            <div class="alert alert-warning py-2 mb-0">
+                                <i class="fa fa-exclamation-triangle me-1"/>
+                                通过后将把该学生档案科目整体覆盖为本次申请的
+                                <t t-out="len(rec._subject_payload())"/> 门
+                                （原 <t t-out="sc_summary['subjects']"/> 门，
+                                其中 <t t-out="diff_n"/> 门将被替换）。
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="small text-muted mb-0"><i class="fa fa-check-circle text-success me-1"/>
+                                本次科目与档案一致，通过后无变化。</div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+
+            <!-- 申请科目（仅选课单；变更单不携带科目集 —— 这是硬约束 §5.3） -->
+            <div t-if="not is_change" class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-list-ul me-2 text-primary"/>申请科目</div>
+                <div class="card-body py-3">
+                    <div class="mb-2 small text-muted"><i class="fa fa-lock me-1 text-warning"/>必修科目（自动全选）</div>
+                    <div class="oe-adm-chips mb-3">
+                        <t t-foreach="rec.compulsory_subject_ids" t-as="s">
+                            <a class="oe-adm-chip" t-out="s.name"/>
+                        </t>
+                    </div>
+                    <div class="mb-2 small text-muted"><i class="fa fa-plus-circle me-1 text-info"/>选修科目（学生勾选）</div>
+                    <div class="oe-adm-chips">
+                        <t t-foreach="rec.elective_subject_ids" t-as="s">
+                            <a class="oe-adm-chip" t-out="s.name"/>
+                        </t>
+                    </div>
+                    <t t-if="not rec.compulsory_subject_ids and not rec.elective_subject_ids">
+                        <div class="oe-empty"><i class="fa fa-list-ul"/><p>该注册单暂无科目。</p></div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- 审批主行动（仅 submitted 显示） -->
+            <t t-if="rec.state == 'submitted'">
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-body py-3 d-flex flex-wrap gap-2 align-items-center">
+                        <form method="post"
+                              t-att-action="'/registrar/subject/approvals/' + str(rec.id) + '/set_state'"
+                              class="d-inline">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="state" value="approved"/>
+                            <t t-if="is_change and not change['same_course']">
+                                <input type="text" name="new_roll_number"
+                                       class="form-control d-inline-block align-middle me-2 mb-2"
+                                       style="max-width:14rem" maxlength="64"
+                                       aria-label="新学号（留空则保留原学号）"
+                                       placeholder="新学号（留空=保留原号）"/>
+                            </t>
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="fa fa-check me-1"/><t t-out="is_change and '通过（换班/换课）' or '通过并建立档案'"/></button>
+                        </form>
+                        <form method="post"
+                              t-att-action="'/registrar/subject/approvals/' + str(rec.id) + '/set_state'"
+                              class="d-flex flex-wrap gap-2 align-items-center flex-grow-1">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="state" value="rejected"/>
+                            <input type="text" name="reject_reason"
+                                   class="form-control flex-grow-1" style="max-width:22rem"
+                                   placeholder="驳回原因（必填，将通知学生）" required="required"/>
+                            <button type="submit" class="btn btn-danger px-4">
+                                <i class="fa fa-times me-1"/>驳回</button>
+                        </form>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- t88：报名 / 报课截止 的后台自助修改入口
+         （设置 → 报名与报课截止；用独立表单，避免依赖 base 设置页结构） -->
+    <record id="edu_deadline_settings_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form.edu.deadline</field>
+        <field name="model">res.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="报名与报课截止" class="oe_form_configuration"
+                  js_class="base_settings">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>报名与报课截止</h2>
+                        <div class="text-muted">学校可自行修改；保存后公开页与报课页立即显示新日期。</div>
+                        <!-- G1（§7.2-①）：报课池三档开关的**设置入口**（先排课后报课）。
+                             三档值存在 ir.config_parameter（edu.enroll.pool_mode，默认 annotate）；
+                             这里给一个独立设置页的链接：页面自带表单 + 保存按钮，
+                             不依赖设置页的保存动作（res.config.settings 的 config_parameter
+                             字段必须在 Python 模型里声明，本轮边界不含 models/）。 -->
+                        <div class="mt-2">
+                            <a href="/edu/enroll/pool_mode" class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-cog me-1" aria-hidden="true"/>报课池模式（先排课后报课）
+                            </a>
+                            <span class="text-muted small ms-2">
+                                未排课的科目如何处理：默认「标注」，可切「关闭 / 严格」。</span>
+                        </div>
+                    </div>
+                    <group>
+                        <field name="edu_apply_deadline" options="{'show_time': False}"/>
+                        <field name="edu_enroll_deadline" options="{'show_time': False}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="execute" type="object" string="保存"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="取消" class="btn-secondary" special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="edu_deadline_settings_action" model="ir.actions.act_window">
+        <field name="name">报名与报课截止</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="edu_deadline_settings_form"/>
+        <field name="target">current</field>
+    </record>
+    <menuitem id="edu_deadline_settings_menu" name="报名与报课截止"
+              parent="base.menu_administration" sequence="99"
+              action="edu_deadline_settings_action"/>
+
+    <!-- ==================================================================
+         报课池模式设置页（G1 / §7.2）
+         控制器：controllers/enroll_settings.py（GET /edu/enroll/pool_mode ·
+         POST /edu/enroll/pool_mode/save，门禁 privileged_staff()）。
+         入口：上面「报名与报课截止」表单 oe_title 里那条链接（前端页，
+         不走后台 res.config.settings —— 三档开关是 Selection，而
+         config_parameter 字段必须声明在 models/ 里，本轮边界不含模型文件）。
+         可见文案**一律中文**：档位原文（关闭 / 全列并标注 / 只列已排课 对应的
+         键值）只出现在单选框 value 属性里，不进可见文本（check_english 扫英文串）。
+         ================================================================== -->
+    <template id="edu_pool_mode_settings" name="报课池模式">
+        <t t-call="edu_portal.edu_page">
+            <section class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <h4 class="mb-0"><i class="fa fa-toggle-on me-2 text-primary"/>报课池模式</h4>
+                <span class="small text-muted">先排课后报课：报课页按「本学期课表」决定哪些科目可报</span>
+                <a href="/my/home" class="btn btn-sm btn-light ms-auto">
+                    <i class="fa fa-home me-1"/>返回首页</a>
+            </section>
+
+            <div t-if="box_msg" role="status"
+                 t-attf-class="alert #{box_ok and 'alert-success' or 'alert-danger'} py-2">
+                <i t-attf-class="fa #{box_ok and 'fa-check-circle' or 'fa-exclamation-triangle'} me-1"/>
+                <t t-out="box_msg"/>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-3">
+                    <div class="small text-muted">当前档位</div>
+                    <div class="fs-5 fw-semibold">
+                        <t t-out="current_label"/>
+                        <span class="badge rounded-pill text-bg-light ms-1"
+                              t-if="is_default">系统默认</span>
+                    </div>
+                    <div class="small text-muted mt-1">
+                        保存后全站即刻生效，不需要重启；系统参数未设置时按
+                        「<t t-out="default_label"/>」运行。
+                    </div>
+                </div>
+            </div>
+
+            <form method="post" action="/edu/enroll/pool_mode/save"
+                  class="card shadow-sm border-0 rounded-3">
+                <div class="card-body pt-3">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <div class="fw-semibold mb-2">三档语义（选一档后保存）</div>
+                    <t t-foreach="modes" t-as="m">
+                        <label t-attf-class="d-block border rounded-3 p-3 mb-2 #{m['current'] and 'border-primary' or ''}">
+                            <input type="radio" name="mode" class="form-check-input me-2"
+                                   t-att-value="m['key']"
+                                   t-att-checked="m['current'] and 'checked' or None"/>
+                            <span class="fw-semibold"><t t-out="m['label']"/></span>
+                            <span class="badge text-bg-light ms-1" t-if="m['current']">当前</span>
+                            <span class="d-block small text-muted mt-1"><t t-out="m['desc']"/></span>
+                        </label>
+                    </t>
+                    <button type="submit" class="btn btn-primary px-4 mt-1">保存档位</button>
+                    <span class="small text-muted ms-2">保存会写一条审计台账（动作名：报课池档位）。</span>
+                </div>
+            </form>
+        </t>
+    </template>
+</odoo>

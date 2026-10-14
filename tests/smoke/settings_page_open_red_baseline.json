@@ -1,0 +1,17 @@
+{
+  "uid": 2,
+  "url": "http://127.0.0.1:8069/odoo/settings",
+  "http_status": 200,
+  "error_dialog": "哎呀！\n\n 出了点问题......如果您遇到困难，请提供这些错误报告给您合作的支持服务商 \n\n查看技术细节\n关闭",
+  "rendered_markers": [
+    "设置",
+    "用户",
+    "公司"
+  ],
+  "settings_dom": false,
+  "text_head": "设置\n一般设置\n用户和公司\n翻译\n游戏化工具\n报名与报课截止\n技术\n1\n永约学坊\n应用面板\n哎呀！\n\n 出了点问题......如果您遇到困难，请提供这些错误报告给您合作的支持服务商 \n\n查看技术细节\n关闭\n\n按 esc 离开全屏幕",
+  "text_len": 115,
+  "verdict": "FAIL",
+  "mode": "open",
+  "base_url": "http://127.0.0.1:8069"
+}

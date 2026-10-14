@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ LMS 后台管理（自研，中文视图 priority=1） ============ -->
+
+    <record id="view_edu_lesson_list" model="ir.ui.view">
+        <field name="name">edu.lesson.list.cn</field>
+        <field name="model">edu.lesson</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="课次">
+                <field name="sequence" widget="handle"/>
+                <field name="subject_id"/>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'published'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_lesson_form" model="ir.ui.view">
+        <field name="name">edu.lesson.form.cn</field>
+        <field name="model">edu.lesson</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="课次">
+                <sheet>
+                    <group>
+                        <group string="归属与标题">
+                            <field name="subject_id" required="1"/>
+                            <field name="name" required="1"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group string="内容与发布">
+                            <field name="type"/>
+                            <field name="video_url"
+                                   invisible="type != 'video'"
+                                   placeholder="https://…"/>
+                            <field name="content_html"
+                                   invisible="type != 'article'"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_progress_list" model="ir.ui.view">
+        <field name="name">edu.lesson.progress.list.cn</field>
+        <field name="model">edu.lesson.progress</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="学习进度">
+                <field name="student_id"/>
+                <field name="lesson_id"/>
+                <field name="subject_id" readonly="1"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"/>
+                <field name="completed_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_lms_lesson" model="ir.actions.act_window">
+        <field name="name">课次管理</field>
+        <field name="res_model">edu.lesson</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">还没有课次</p>
+            <p>为课程添加视频或图文课次，发布后学生即可在 /my/courses 学习。</p>
+        </field>
+    </record>
+
+    <record id="action_edu_lms_progress" model="ir.actions.act_window">
+        <field name="name">学习进度</field>
+        <field name="res_model">edu.lesson.progress</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <menuitem id="menu_edu_lms_root" name="在线课程"
+              sequence="67" groups="base.group_user"/>
+    <menuitem id="menu_edu_lms_lesson" name="课次管理"
+              parent="menu_edu_lms_root"
+              action="action_edu_lms_lesson" sequence="10"/>
+    <menuitem id="menu_edu_lms_progress" name="学习进度"
+              parent="menu_edu_lms_root"
+              action="action_edu_lms_progress"
+              sequence="20" groups="base.group_user"/>
+
+    <!-- ============ 门户：/my/courses 课程列表 ============ -->
+    <template id="edu_lms_courses" name="Edu LMS Courses">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1"><i class="fa fa-graduation-cap me-2"/><t t-out="title"/></h4>
+            <p class="text-muted mb-3">按课程学习课次，完成情况自动记录。</p>
+
+            <t t-if="not cards">
+                <!-- 空态审计（2026-10-02）：按角色说清「为什么空」并给一个真入口。
+                     学生侧数据源 = 在读档案 op.student.course.subject_ids（lms.py 的 _subjects_for），
+                     所以「报课通过 ⇒ 科目生效 ⇒ 卡片出现」是真实链路，不是安慰话。 -->
+                <div class="alert alert-info">
+                    <t t-if="role == 'student'">
+                        暂无可学课程。这里按你的在修科目展示课次：报课通过、科目生效后会自动出现。
+                        <a class="alert-link ms-1" href="/subject/enroll">去报课选科</a>
+                    </t>
+                    <t t-elif="role == 'parent'">
+                        孩子暂无可学课程。孩子在读科目生效后会自动出现在这里；
+                        可先到孩子的仪表盘确认选课与分班情况。
+                        <a class="alert-link ms-1" href="/my/child">查看我的孩子</a>
+                    </t>
+                    <t t-else="">
+                        暂无课程。课程与科目由教务在后台建立、并给学生完成报课后，才会出现在这里。
+                    </t>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="row g-3">
+                    <t t-foreach="cards" t-as="c">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <a t-att-href="c['href']"
+                               class="d-block text-decoration-none text-reset h-100">
+                                <div class="card shadow-sm border-0 rounded-3 h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-2">
+                                            <i class="fa fa-book me-2 text-primary"/><t t-out="c['subject'].name"/>
+                                            <!-- 课代表徽标：只在**本人**在任时渲染（判定含期限实时重算） -->
+                                            <span t-if="c['is_rep']" class="badge bg-primary ms-2"
+                                                  title="你是本课程的课代表">课代表</span>
+                                        </h5>
+                                        <p class="text-muted small mb-2">
+                                            已发布 <t t-out="c['total']"/> 个课次
+                                        </p>
+                                        <div class="progress" style="height:8px;">
+                                            <div class="progress-bar bg-success"
+                                                 role="progressbar"
+                                                 t-att-style="'width:' + str(c['pct']) + '%;'"
+                                                 t-att-aria-valuenow="c['pct']"
+                                                 aria-valuemin="0" aria-valuemax="100"/>
+                                        </div>
+                                        <div class="small text-muted mt-1">
+                                            完成 <t t-out="c['done']"/>/<t t-out="c['total']"/>（<t t-out="c['pct']"/>%）
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ 门户：课次列表 ============ -->
+    <template id="edu_lms_lessons" name="Edu LMS Lessons">
+        <t t-call="edu_portal.edu_page">
+            <a href="/my/courses" class="small text-muted">
+                <i class="fa fa-chevron-left me-1"/>返回课程列表
+            </a>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-2 mb-1">
+                <h4 class="mb-0"><i class="fa fa-book me-2 text-primary"/><t t-out="subject.name"/></h4>
+                <span class="badge bg-success-subtle text-success fs-6">
+                    完成 <t t-out="done_n"/>/<t t-out="total"/>
+                </span>
+            </div>
+            <!-- 课代表面板入口：仅该课在任课代表可见（服务端已按角色判定） -->
+            <div class="alert alert-primary d-flex flex-wrap align-items-center gap-2"
+                 t-if="is_rep">
+                <i class="fa fa-star"/>
+                <span>你是本课程的<b>课代表</b>。</span>
+                <a t-att-href="'/my/courses/%d/rep' % subject.id"
+                   class="btn btn-sm btn-primary">进入课代表面板</a>
+            </div>
+
+            <div class="progress mb-3" style="height:8px;">
+                <div class="progress-bar bg-success" role="progressbar"
+                     t-att-style="'width:' + str(pct) + '%;'"/>
+            </div>
+
+            <!-- D 组第一批（P2）：空态原来是「一句陈述 + 唯一出口是返回课程列表」——
+                 死胡同。补一句「何时会填满」的解释 + 一个真实可达的下一步入口
+                 （课程中心 = /my/study/<科目>，同一科目的资料/最近安排都在那里）。 -->
+            <t t-if="not items">
+                <div class="alert alert-info d-flex flex-wrap align-items-center gap-2 mb-0">
+                    <span class="flex-grow-1">
+                        本课程暂无已发布课次。任课教师发布课次后会出现在这里；
+                        在此之前，可以先到课程中心看课程资料与最近安排。
+                    </span>
+                    <a t-att-href="'/my/study/%d' % subject.id"
+                       class="btn btn-sm btn-primary flex-shrink-0">
+                        <i class="fa fa-book me-1"/>去课程中心
+                    </a>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="list-group shadow-sm rounded-3 overflow-hidden">
+                    <t t-foreach="items" t-as="it">
+                        <a t-att-href="'/my/courses/lesson/%d' % it['lesson'].id"
+                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <span>
+                                <i t-if="it['lesson'].type == 'video'"
+                                   class="fa fa-play-circle me-2 text-primary"/>
+                                <i t-else="" class="fa fa-file-text-o me-2 text-secondary"/>
+                                <t t-out="it['lesson'].name"/>
+                            </span>
+                            <i t-if="it['done']" class="fa fa-check-circle text-success"/>
+                        </a>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ 门户：课次详情 ============ -->
+    <template id="edu_lms_lesson" name="Edu LMS Lesson">
+        <t t-call="edu_portal.edu_page">
+            <a t-att-href="'/my/courses/%d' % subject.id" class="small text-muted">
+                <i class="fa fa-chevron-left me-1"/>返回课次列表
+            </a>
+            <h4 class="mt-2 mb-1"><t t-out="lesson.name"/></h4>
+            <p class="text-muted small">
+                <t t-out="subject.name"/>
+                <span t-if="my_state == 'done'" class="text-success ms-2">
+                    <i class="fa fa-check-circle me-1"/>已完成
+                </span>
+            </p>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body p-0">
+                    <t t-if="lesson.type == 'video' and safe_video">
+                        <div class="ratio ratio-16x9 rounded-top overflow-hidden">
+                            <iframe t-att-src="safe_video"
+                                    title="课程视频" allowfullscreen=""/>
+                        </div>
+                    </t>
+                    <t t-elif="lesson.type == 'video'">
+                        <div class="alert alert-warning m-3 mb-0">
+                            该课次尚未配置有效的视频地址（仅支持 https）。
+                        </div>
+                    </t>
+                    <div t-if="lesson.type == 'article' and lesson.content_html"
+                         class="p-3 lh-lg" t-out="lesson.content_html"/>
+                    <div t-if="lesson.type == 'article' and not lesson.content_html"
+                         class="alert alert-warning m-3 mb-0">
+                        该课次正文暂空。
+                    </div>
+                </div>
+            </div>
+
+            <!-- D 组第一批（P2）：本块原本无条件渲染 ⇒ 教师/教务的只读视角里也出现
+                 「标记完成」（那是学生本人的动作，写路由只认学生档案，点了不生效）。
+                 现在按 can_mark（= 控制器里与写路由同一判据「有学生档案」）分流：
+                 学生看到动作，其余身份看到一句如实说明 + 回课次列表的出口。 -->
+            <t t-if="can_mark">
+                <form t-att-action="'/my/courses/lesson/%d/done' % lesson.id"
+                      method="post">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <button t-if="my_state != 'done'" type="submit"
+                            class="btn btn-success">
+                        <i class="fa fa-check me-1"/>标记完成
+                    </button>
+                    <button t-else="" type="button" class="btn btn-outline-success"
+                            disabled="disabled">
+                        <i class="fa fa-check-circle me-1"/>已完成
+                    </button>
+                </form>
+            </t>
+            <t t-else="">
+                <div class="alert alert-light border small mb-0">
+                    <i class="fa fa-info-circle me-1" aria-hidden="true"/>
+                    <t t-if="role == 'parent'">
+                        本课次的学习进度由学生本人在自己的账号下标记，家长账号只能查看
+                        （当前状态：<b t-out="my_state == 'done' and '已完成' or '未标记'"/>）。
+                    </t>
+                    <t t-else="">
+                        当前为只读视角（教师 / 教务）。学习进度由学生本人在自己的账号下标记。
+                    </t>
+                    <a t-att-href="'/my/courses/%d' % subject.id"
+                       class="ms-1">返回课次列表</a>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ 门户：课代表面板（docs/plans/course-representative-design.md §5.1） ============
+         ⚠ 本页只在服务端判定「我是该课在任课代表（含期限实时重算）」时才渲染；
+         「不能批自己」在前端体现为**自己的单据根本不出现**（不是禁用按钮）。 -->
+    <template id="edu_lms_rep_panel" name="Edu LMS Course Rep Panel">
+        <t t-call="edu_portal.edu_page">
+            <a t-att-href="'/my/courses/%d' % subject.id" class="small text-muted">
+                <i class="fa fa-chevron-left me-1"/>返回课程
+            </a>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-2 mb-1">
+                <h4 class="mb-0">
+                    <i class="fa fa-star me-2 text-primary"/><t t-out="subject.name"/> · 课代表
+                </h4>
+                <span class="badge bg-primary fs-6">任期至 <t t-out="deadline"/></span>
+            </div>
+            <p class="text-muted small">
+                你的课代表权限只覆盖本课程：看本课程同学名单、给本课程同学发通知、
+                审批本课程出勤类请假、提交本课程点名（待老师确认）。
+                <span t-out="{'batch': '期限按班级结课日+宽限期', 'term': '期限按学期结束日', 'cap': '期限按任命日+硬上限'}.get(deadline_source, '')"/>
+            </p>
+
+            <div class="alert alert-success" t-if="box.startswith('notified_')">
+                已给本课程同学发送通知（成功 <t t-out="box.replace('notified_', '')"/> 人）。
+            </div>
+            <div class="alert alert-danger" t-if="box == 'denied'">
+                该申请不在你可处置的范围内（只能批本课程、出勤类、且不能批自己的）。
+            </div>
+            <div class="alert alert-success" t-if="box == 'att_submitted'">
+                考勤已提交，<b>等待任课老师确认</b>后才计入考勤统计。
+            </div>
+            <div class="alert alert-warning" t-if="box == 'att_locked'">
+                该班当天已有已确认的点名记录，未覆盖。
+            </div>
+
+            <!-- ===== 本课程请假待批 ===== -->
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body">
+                    <h6 class="mb-3"><i class="fa fa-calendar-check-o me-1"/>本课程请假待批（<t t-out="leave_n"/>）</h6>
+                    <t t-if="not leaves">
+                        <p class="text-muted small mb-0">暂无待批申请。</p>
+                    </t>
+                    <t t-else="">
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead><tr>
+                                    <th>学生</th><th>类型</th><th>起止</th><th>事由</th><th class="text-end">操作</th>
+                                </tr></thead>
+                                <tbody>
+                                    <t t-foreach="leaves" t-as="lv">
+                                        <tr>
+                                            <td t-out="lv.student_id.name or '—'"/>
+                                            <td t-out="leave_type_labels.get(lv.leave_type, lv.leave_type or '—')"/>
+                                            <td><t t-out="lv.date_from or '—'"/> ~ <t t-out="lv.date_to or '—'"/></td>
+                                            <td class="small text-muted" t-out="(lv.reason or '')[:60]"/>
+                                            <td class="text-end text-nowrap">
+                                                <form method="post" class="d-inline"
+                                                      t-attf-action="/my/courses/#{subject.id}/rep/leave/set_state">
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    <input type="hidden" name="leave_id" t-att-value="lv.id"/>
+                                                    <input type="hidden" name="state" value="approved"/>
+                                                    <button class="btn btn-sm btn-success" type="submit">通过</button>
+                                                </form>
+                                                <form method="post" class="d-inline"
+                                                      t-attf-action="/my/courses/#{subject.id}/rep/leave/set_state">
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    <input type="hidden" name="leave_id" t-att-value="lv.id"/>
+                                                    <input type="hidden" name="state" value="refused"/>
+                                                    <input type="hidden" name="reject_reason" value="课代表驳回"/>
+                                                    <button class="btn btn-sm btn-outline-danger" type="submit">驳回</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- ===== 本课程点名（提交待老师确认） ===== -->
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body">
+                    <h6 class="mb-2"><i class="fa fa-check-square-o me-1"/>本课程点名（提交待老师确认）</h6>
+                    <p class="text-muted small">
+                        提交后停在「待确认」，<b>任课老师确认后才计入考勤统计</b>（老师不确认则统计不变）。
+                    </p>
+                    <form method="post" t-attf-action="/my/courses/#{subject.id}/rep/attendance">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="row g-2 align-items-end mb-2">
+                            <div class="col-auto">
+                                <label class="form-label small mb-0" for="rep-att-date">日期</label>
+                                <input type="date" class="form-control" id="rep-att-date"
+                                       name="date" t-att-value="today"/>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead><tr>
+                                    <th>学生</th><th>班级</th>
+                                    <th class="text-center">出勤</th><th class="text-center">迟到</th><th class="text-center">缺勤</th>
+                                </tr></thead>
+                                <tbody>
+                                    <t t-foreach="roster" t-as="row">
+                                        <tr>
+                                            <td t-out="row['name']"/>
+                                            <td class="small text-muted" t-out="row['class_name'] or '—'"/>
+                                            <td class="text-center">
+                                                <input type="radio" t-att-name="'status_' + str(row['student'].id)" value="present" checked="checked"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="radio" t-att-name="'status_' + str(row['student'].id)" value="late"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="radio" t-att-name="'status_' + str(row['student'].id)" value="absent"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-primary btn-sm" type="submit">提交点名（待老师确认）</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== 本课程同学（只有姓名 + 班级） ===== -->
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body">
+                    <h6 class="mb-1"><i class="fa fa-users me-1"/>本课程同学（<t t-out="roster_n"/>）</h6>
+                    <p class="text-muted small mb-2">只显示姓名与班级；成绩、联系方式、财务信息不对课代表开放。</p>
+                    <div class="row g-2">
+                        <t t-foreach="roster" t-as="row">
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="cr-roster-row border rounded-3 px-2 py-1 small">
+                                    <t t-out="row['name']"/>
+                                    <span class="text-muted ms-1" t-out="row['class_name'] and '· ' + row['class_name'] or ''"/>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== 本课程作业：只给「还有几人没交」的统计，不给名单 ===== -->
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body">
+                    <h6 class="mb-1"><i class="fa fa-tasks me-1"/>本课程作业提交情况（仅统计）</h6>
+                    <p class="text-muted small mb-2">按需求只提供「还有几人没交」的人数统计，不提供未交名单。</p>
+                    <t t-if="not assignment_stats">
+                        <p class="cr-assign-stat text-muted small mb-0">本课程暂无已发布作业。</p>
+                    </t>
+                    <t t-else="">
+                        <ul class="mb-0 small">
+                            <t t-foreach="assignment_stats" t-as="st">
+                                <li class="cr-assign-stat">
+                                    <t t-out="st['name'] or '（未命名作业）'"/>：
+                                    应交 <t t-out="st['due']"/> 人 · 已交 <t t-out="st['submitted']"/> 人 ·
+                                    <b>还有 <t t-out="st['missing']"/> 人没交</b>
+                                </li>
+                            </t>
+                        </ul>
+                    </t>
+                </div>
+            </div>
+
+            <!-- ===== 给本课程同学发通知 ===== -->
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body">
+                    <h6 class="mb-2"><i class="fa fa-bullhorn me-1"/>给本课程同学发通知</h6>
+                    <form method="post" t-attf-action="/my/courses/#{subject.id}/rep/notify">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <textarea class="form-control" name="body" rows="3"
+                                  t-att-maxlength="notice_max"
+                                  placeholder="只发给本课程同学（不含你自己）"/>
+                        <div class="form-text">最多 <t t-out="notice_max"/> 字。</div>
+                        <button class="btn btn-primary btn-sm mt-2" type="submit">发送通知</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== 辞去课代表（唯一自主动作） ===== -->
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body">
+                    <h6 class="mb-2"><i class="fa fa-sign-out me-1"/>辞去课代表</h6>
+                    <form method="post" t-attf-action="/my/courses/#{subject.id}/rep/release"
+                          onsubmit="return confirm('辞去后你将立即失去本课程的课代表权限，且不能指定接任的人（需由教务重新任命）。确定吗？')">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <button class="btn btn-outline-danger btn-sm" type="submit">辞去课代表</button>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

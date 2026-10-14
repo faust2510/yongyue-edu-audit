@@ -1,0 +1,343 @@
+{
+ "acceptance": {
+  "admin_roots_limit": 20,
+  "backoffice_roots_limit": 12,
+  "measure_lens": "前端 /web/webclient/load_menus 的 appID 根菜单（验证方 tests/audit/verify_consolidation.py 口径）"
+ },
+ "captain_rulings": [
+  "档1：16 测试 active=False（谁都不需要，含超管）",
+  "档2：121/142/196/15/1/566 → groups=[base.group_system]",
+  "档3：12 个容器保留，**各自现有 groups 不动**（不新建组、不动 87）",
+  "被合并的 15 个根：先迁子树，再整根 active=False",
+  "验收线：backoffice=12 ✓、admin=12+6=18 ✓；faculty 不设硬线，只要求功能零缺失且逐条可达",
+  "(b′)：容器组不动，唯一例外 300 += 87；预期 backoffice 12 / admin 18 / faculty 9"
+ ],
+ "child_rename": {
+  "candidates": [
+   "278→257 后：学生/教师/课程/班级/科目/课程详情 等 6 组同义子项会与 257 系列同父重名"
+  ],
+  "note": "默认不改名；合并后同父重名子项登记在此"
+ },
+ "container_group_exceptions": [
+  {
+   "add_groups": [
+    87
+   ],
+   "id": 300,
+   "name": "招生",
+   "reason": "队长裁定 (b′)：300 现在挂 [51,52]（admission 用户/经理），backoffice **看不到**；而 591 招生报名（含教务要用的 入学申请 592 / 报名表设置 601）要并进它 ⇒ 否则教务丢功能。给 300 增加组 87（后台·完整视图，成员 admin+backoffice）⇒ admin ✓ / backoffice ✓ / faculty ✓（原本就有）。全计划仅此一条容器组改动；不新增组、不动 87 的成员。",
+   "remove_groups": []
+  }
+ ],
+ "containers": [
+  {
+   "audit": "档3①：§3 #27 容器（+278/542/606）",
+   "children": [
+    591
+   ],
+   "id": 257,
+   "name": "学生"
+  },
+  {
+   "audit": "档3②：§3 #33 容器",
+   "children": [
+    504,
+    576,
+    349,
+    288,
+    325
+   ],
+   "id": 341,
+   "name": "教学"
+  },
+  {
+   "audit": "档3③：§3 #10 保留",
+   "children": [],
+   "id": 497,
+   "name": "教务审批"
+  },
+  {
+   "audit": "档3④：§3 #16 容器（+543）",
+   "children": [
+    543
+   ],
+   "id": 593,
+   "name": "学生生活"
+  },
+  {
+   "audit": "档3⑤：§3 #17 容器（+597）",
+   "children": [
+    597
+   ],
+   "id": 588,
+   "name": "评估"
+  },
+  {
+   "audit": "档3⑥：§3 #13 保留",
+   "children": [],
+   "id": 579,
+   "name": "财务"
+  },
+  {
+   "audit": "档3⑦：§3 #14 保留",
+   "children": [],
+   "id": 582,
+   "name": "资产"
+  },
+  {
+   "audit": "档3⑧：§3 #15 保留（并校友岗位）",
+   "children": [],
+   "id": 585,
+   "name": "招聘管理"
+  },
+  {
+   "audit": "档3⑨：§3 #6 保留（注意 0 条资料）",
+   "children": [],
+   "id": 608,
+   "name": "资料下载"
+  },
+  {
+   "audit": "档3⑩：§3 #32 容器（+591）",
+   "children": [
+    591
+   ],
+   "id": 300,
+   "name": "招生"
+  },
+  {
+   "audit": "档3⑪：§3 #37 保留",
+   "children": [],
+   "id": 310,
+   "name": "图书馆"
+  },
+  {
+   "audit": "档3⑫：§3 #21 容器",
+   "children": [
+    357,
+    83,
+    372,
+    507
+   ],
+   "id": 218,
+   "name": "网站与沟通"
+  }
+ ],
+ "duplicate_children": [
+  {
+   "drop": 279,
+   "keep": 258,
+   "model": "op.student",
+   "reason": "◀ 等价（实测 action 不同但 domain/context/view_mode 完全一致）→ 保留 258「学生」（在容器 257 下、名称更规范），279「档案」停用",
+   "signature": "res_model=op.student, domain=[], context={}, view_mode=kanban,list,form,activity"
+  },
+  {
+   "drop": 284,
+   "keep": 272,
+   "model": "res.config.settings",
+   "reason": "◀ 等价（**同一个 action**）→ 保留 272「设置」（groups=[base.group_system]，与档2 口径一致），284 停用",
+   "signature": "action=openeducat_core.action_openeducat_configuration, domain=, context={'module':'openeducat_core'}"
+  }
+ ],
+ "duplicate_rulings_note": "队长裁定②的落地：本机实测 257/278 两棵树 36 个节点里，真正\"同一 action\"只有 2 组（258/279、272/284），其余 15 个模型各只有 1 个菜单 —— 因此不存在\"6 组同义子项\"。另有 2 个空容器（270 活动管理 / 271 报告）。全部裁定与依据写入对照表。",
+ "empty_containers": [
+  {
+   "id": 270,
+   "name": "活动管理",
+   "reason": "无 action 且无子项的空容器（合并后是空壳）→ 停用"
+  },
+  {
+   "id": 271,
+   "name": "报告",
+   "reason": "无 action 且无子项的空容器（合并后是空壳）→ 停用"
+  }
+ ],
+ "group_policy": {
+  "handling": "containers_keep_own_groups_except_300",
+  "handling_note": "12 个容器 groups_id 一律不动，**唯一例外 300 += 87**（队长 (b′) 裁定）；不新增组、不动 87 的成员（faculty 不入 87）。",
+  "hidden_mode": "deactivate_tree",
+  "hidden_mode_note": "档1 整棵 active=False（含超管）。dry-run 实测依据：只把隐藏 root 收窄到 [4] 时，其内部原本被权限挡住的子项会改由 group_system 放行 → admin 反而多解锁（B(admin) 12→23、C 400→409）。整棵停用才是真「彻底隐藏」，且不动 admin 原有可见面。",
+  "hidden_set": [
+   4
+  ],
+  "hidden_set_note": "档2 用 base.group_system(4)：这是队长裁定的字面口径（仅超管可见）。",
+  "known_side_effect_tier2": "档2 按裁定②只写 group_ids=[4]；实测副作用：那些原生树的子项里原本被权限挡住的，会改由 group_system 放行，导致这些子项在**非超管**（如 backoffice）侧重新可见（backoffice 可见总数 391→464）。根数不超标，但总数会涨。如需避免，可把档2 也改成整棵 active=False（admin 根数不变，仍 17）。",
+  "merged_mode": "reparent_then_deactivate",
+  "merged_mode_note": "队长裁定：被合并的根先把子树迁到容器，**再整根 active=False** —— 合并后它们已是空壳，这样 admin 也不会多算。",
+  "tier2_mode": "mixed",
+  "tier2_note": "队长最终口径（2026-09-17）：**混档** —— 121/142/196/566 整棵 active=False；1 设置 / 15 应用 根+全部子树挂 base.group_system（仅超管）。预期 admin 根 = 12 + 2 = 14；backoffice 12；faculty 9。",
+  "visible_set": []
+ },
+ "kept_deactivated": [
+  {
+   "id": 434,
+   "name": "销售",
+   "note": "已停用，保持停用（记录保留）"
+  }
+ ],
+ "leaf_vs_total_note": "**叶子数与总数不可混用**（队长 2026-09-17 澄清）：叶子基线 = admin 400 / backoffice 279 / faculty 115；总数基线 = 551 / 391 / 164。此前引用的\"backoffice 391\"是总数口径，与叶子 279 不是同一量。",
+ "merged": [
+  {
+   "id": 591,
+   "into": 300,
+   "name": "招生报名"
+  },
+  {
+   "id": 504,
+   "into": 341,
+   "name": "测验"
+  },
+  {
+   "id": 543,
+   "into": 593,
+   "name": "日常管理"
+  },
+  {
+   "id": 576,
+   "into": 341,
+   "name": "在线课程"
+  },
+  {
+   "id": 542,
+   "into": 257,
+   "name": "邀请码",
+   "note": "队长：移入 257 后其自带组限制（经理+管理员）保持不变，backoffice 仍可见"
+  },
+  {
+   "id": 606,
+   "into": 257,
+   "name": "老账号补挂身份",
+   "note": "队长：同上（经理+管理员组限制保持）"
+  },
+  {
+   "id": 83,
+   "into": 218,
+   "name": "讨论"
+  },
+  {
+   "id": 357,
+   "into": 218,
+   "name": "日历"
+  },
+  {
+   "id": 372,
+   "into": 218,
+   "name": "活动"
+  },
+  {
+   "id": 507,
+   "into": 218,
+   "name": "在线聊天"
+  },
+  {
+   "id": 278,
+   "into": 257,
+   "name": "学生信息"
+  },
+  {
+   "id": 349,
+   "into": 341,
+   "name": "课堂考勤"
+  },
+  {
+   "id": 288,
+   "into": 341,
+   "name": "作业"
+  },
+  {
+   "id": 325,
+   "into": 341,
+   "name": "考试"
+  }
+ ],
+ "meta": {
+  "generated_by": "menu-eng",
+  "name": "menu consolidation plan (t2)",
+  "note": "唯一声明源：档位、子树迁移、组策略都在这里写死；edu_nav 的 data 由它生成。",
+  "redlines": [
+   "禁止 delete ir.ui.menu",
+   "只改 active / group_ids / parent_id / sequence",
+   "改动必须由模块 data <record> 在 -u 时重放"
+  ],
+  "source": "docs/audit/feature-overlap-audit.md §3 施工图 + 队长分档裁定（2026-09-17，修正 admin ≤20 的达成路径）"
+ },
+ "tier1_hidden_trees": [
+  {
+   "id": 16,
+   "name": "测试"
+  },
+  {
+   "id": 75,
+   "name": "链接追踪器"
+  },
+  {
+   "id": 214,
+   "name": "仪表板"
+  },
+  {
+   "id": 529,
+   "name": "出勤"
+  },
+  {
+   "id": 547,
+   "name": "在线学习"
+  },
+  {
+   "id": 388,
+   "name": "招聘"
+  }
+ ],
+ "tier2_admin_only": [
+  {
+   "id": 1,
+   "mode": "restrict_tree",
+   "mode_note": "**仅超管**：根 + 全部子树挂 base.group_system（系统级入口不能停）",
+   "name": "设置"
+  },
+  {
+   "id": 15,
+   "mode": "restrict_tree",
+   "mode_note": "**仅超管**：根 + 全部子树挂 base.group_system（系统级入口不能停）",
+   "name": "应用"
+  },
+  {
+   "id": 121,
+   "mode": "deactivate_tree",
+   "mode_note": "整棵 active=False（本校本就不用；且只收窄会让子树被 group_system 放行）",
+   "name": "联系人"
+  },
+  {
+   "id": 142,
+   "mode": "deactivate_tree",
+   "mode_note": "整棵 active=False（account_move=0）",
+   "name": "发票"
+  },
+  {
+   "id": 196,
+   "mode": "deactivate_tree",
+   "mode_note": "整棵 active=False（教务/教师都用不到；校长若要教务可见再放宽到 87）",
+   "name": "员工"
+  },
+  {
+   "id": 566,
+   "mode": "deactivate_tree",
+   "mode_note": "整棵 active=False（破坏性维护工具）",
+   "name": "数据清除"
+  }
+ ],
+ "website_menu_exceptions": [
+  {
+   "id": 206,
+   "name": "工作机会",
+   "orphan_ids": [
+    205
+   ],
+   "orphan_reason": "无任何 xmlid 归属的重复入口（并发/试错产生），直接删除",
+   "parent_ref": null,
+   "reason": "F7（t15）：/jobs 是原生空壳页（hr.job=0），而该菜单的记录键就是原生 xmlid website_hr_recruitment.website_menu_jobs ⇒ 全库只会有一条。改指有效页 /campus/jobs 后，再对该 xmlid 置 noupdate=1，原生模块升级就不会写回（与 t11 同套机制）。",
+   "sequence": null,
+   "url": "/campus/jobs",
+   "xmlid": "website_hr_recruitment.website_menu_jobs"
+  }
+ ],
+ "website_menu_exceptions_note": "方案一（推荐）：改指 + 保护；方案二（备选）：edu_nav 幂等 <function> 按 url 清理。两者都已装配就绪，见 docs/audit/t15-jobs-entry-design.md 与 edu_nav 的守卫。"
+}

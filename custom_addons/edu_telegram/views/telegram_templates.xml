@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="telegram_binding_page" name="Telegram 绑定">
+        <t t-call="web.frontend_layout">
+            <t t-set="title">Telegram 绑定</t>
+            <div id="wrap" class="container mt-4" style="max-width:720px">
+                <h3>📱 Telegram 绑定</h3>
+                <p class="text-muted">
+                    生成一次性绑定码后，在 Telegram 里对机器人发送：
+                    <code>/start 绑定码</code>
+                </p>
+                <form action="/my/telegram/new_code" method="post"
+                      style="display:inline">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <button type="submit" class="btn btn-primary">
+                        生成新绑定码
+                    </button>
+                </form>
+                <t t-if="new_code">
+                    <div class="alert alert-success mt-3">
+                        新码（10 分钟内有效，仅可用一次）：
+                        <strong><span t-out="new_code"/></strong>
+                    </div>
+                </t>
+                <h5 class="mt-4">我的绑定码</h5>
+                <table class="table table-sm">
+                    <tr><th>码</th><th>过期时间</th><th>状态</th></tr>
+                    <tr t-foreach="codes" t-as="c">
+                        <td><code t-out="c.code"/></td>
+                        <td t-out="c.expire_on"/>
+                        <td t-out="'已用' if c.used else '未用'"/>
+                    </tr>
+                </table>
+                <h5 class="mt-4">已绑定的会话</h5>
+                <ul>
+                    <li t-foreach="chats" t-as="ch">
+                        <t t-out="dict(ch._fields['role'].selection)[ch.role]"/>
+                        — chat <t t-out="ch.chat_id"/>，
+                        绑定于 <t t-out="ch.bound_on"/>
+                    </li>
+                </ul>
+            </div>
+        </t>
+    </template>
+</odoo>

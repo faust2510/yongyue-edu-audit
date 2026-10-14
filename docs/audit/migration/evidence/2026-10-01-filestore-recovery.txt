@@ -1,0 +1,143 @@
+# 附件字节抢救（B15）—— 方法、实测与独立复现（2026-10-01）
+
+> 记录人：loss-ledger（task-3 续作）｜执行：队长（2026-10-01，新机 /opt/edu-app）｜**独立复现：loss-ledger**
+> 目的：把「8/30 快照里有多少附件字节还在本机」这件事做成可复跑的账，而不是一句印象。
+
+## 1. 结论（一句话）
+
+**8/30 快照有 710 条 `ir_attachment` 带实体（`store_fname` 非空，540 个唯一 blob）；本机 Mac filestore 命中 157 条（91 个唯一文件）。**
+**这 157 条全是平台资源与头像，没有一件是校方上传的业务资料** —— 因为 8/30 快照里 `edu*`/`op.*` 的附件本来就是 **0 行**。
+
+## 2. 三个口径，别混
+
+| 口径 | 数字 | 分母 |
+|---|---|---|
+| 快照里有实体的附件**行** | **710** | 8/30 dump 的 `ir_attachment` |
+| 其中唯一 blob 数 | **540** | 同上（`store_fname` 去重） |
+| **本机命中（行口径）** | **157** | 710 |
+| **本机命中（唯一文件口径）** | **91** | 540 |
+| 新机上现在「能找到字节」的行 | **186**（唯一 98） | 新机 709 行 |
+
+> `store_fname` = 内容的 sha1（**路径自带 `xx/` 两级前缀**），所以**多行可以指向同一个 blob**：
+> 「157 行」= 有多少条挂接的字节还在；「91」= 实际搬了几个文件。**两个数都对，口径不同。**
+> 新机 186 > 157：升级/启动时 Odoo **又生成了新附件**（编译资产、视图图片）并写入 filestore ⇒「现在存在」≠「抢救来的」。
+
+## 3. 可复跑方法（逐字）
+
+### 3.1 从 dump 抽 `store_fname` 列表（不还原库）
+
+```bash
+env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY scp ~/Documents/edu19-backups/edu19_post_cleanup_0830.dump prod-host:/tmp/snap0830.dump
+env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY ssh prod-host \
+  'docker cp /tmp/snap0830.dump edu19-prod-db-1:/tmp/snap0830.dump && \
+   docker exec edu19-prod-db-1 pg_restore -a -t ir_attachment -f - /tmp/snap0830.dump > /tmp/att.tsv'
+# /tmp/att.tsv -> 1006 行（971 条数据行 + COPY 头 + \.）
+```
+
+解析器（本机 `python3 /tmp/parse_att2.py`，逐字逻辑）：找 `COPY public.ir_attachment (` 行 → 取列名定位 `store_fname` 的下标 → 逐行 `split('\t')` → 跳过空值与 `\N`。
+
+```text
+all= 710  unique= 540
+```
+
+### 3.2 与本机 filestore 对拍（本机 Mac）
+
+```bash
+FS=data/web/filestore/edu19          # 本机克隆的 filestore，192 个文件
+while IFS= read -r f; do [ -n "$f" ] && [ -f "$FS/$f" ] && echo "$f"; done < /tmp/sf_dump_all.txt > /tmp/hits_from_dump.txt
+wc -l < /tmp/hits_from_dump.txt           # 157  ← 行口径
+sort -u /tmp/hits_from_dump.txt | wc -l   # 91   ← 唯一文件口径
+```
+
+### 3.3 结果与交叉核对
+
+```text
+rows_present=157
+unique_present=91
+leader_hits_rows=157   leader_hits_unique=91      # 队长留的 /tmp/hits.txt
+set_diff_vs_leader=0                              # 与队长那份集合逐条相同
+local_filestore_files=192
+```
+
+### 3.4 上传到新机并修属主
+
+```bash
+env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY ssh prod-host 'chown -R 100:101 /opt/edu-app/data/web/filestore/edu19'
+# 新机 filestore 文件数 91 -> 265（含 Odoo 运行时生成的资产）
+```
+
+## 4. 新机实测（2026-10-01T13:50:50Z，可复跑）
+
+```text
+measured_at_utc=2026-10-01T13:50:50Z
+filestore_files=265
+att_rows_with_store=709
+unique_store_fname=539
+unique_files_present=98
+rows_whose_file_present=186
+--- per-res_model  hit  total ---
+payment.method	0	462
+gamification.badge	45	45
+ir.ui.menu	38	38
+ir.ui.view	17	37
+res.partner	15	25
+payment.provider	0	25
+gamification.karma.rank	25	25
+ir.attachment	10	10
+hr.employee	10	10
+spreadsheet.dashboard	6	6
+website	5	5
+onboarding.onboarding.step	5	5
+forum.forum	0	5
+chatbot.script	4	4
+res.lang	3	3
+(none)	2	3
+discuss.channel	1	1
+--- business models edu*/op.* rows ---
+0
+```
+
+复跑脚本（服务器上跑，注意 **`docker exec` 不要 `-i`** —— 否则它会吃掉 `bash -s` 的剩余脚本行）：
+
+```bash
+cd /opt/edu-app/data/web/filestore/edu19
+find . -type f | sed 's|^\./||' | sort > /tmp/fs_now.txt
+docker exec edu19-prod-db-1 psql -U odoo -d edu19 -Atc "select store_fname from ir_attachment where store_fname is not null" </dev/null > /tmp/sf_now_all.txt
+sort -u /tmp/sf_now_all.txt > /tmp/sf_now_u.txt
+echo "filestore_files=$(wc -l < /tmp/fs_now.txt)"
+echo "rows=$(wc -l < /tmp/sf_now_all.txt) unique_blobs=$(wc -l < /tmp/sf_now_u.txt)"
+echo "unique_present=$(comm -12 /tmp/fs_now.txt /tmp/sf_now_u.txt | wc -l)"
+echo "rows_present=$(awk 'NR==FNR{a[$0];next} ($0 in a){c++} END{print c+0}' /tmp/fs_now.txt /tmp/sf_now_all.txt)"
+```
+
+## 5. 抢救到的到底是什么（逐项点名）
+
+| 类别 | 证据（`ir_attachment.name`） |
+|---|---|
+| 校徽 logo | `校徽logo.png` / `校徽logo.webp` / `校徽logo.jpg`（id 971/974/975/976/977…985；`website` 与 `ir.attachment` 两处 res_model） |
+| 公司 logo | `logo`（id 725，`website`） |
+| 聊天频道图 | `乌鸦.jpeg`（id 1011，`discuss.channel`） |
+| 学生/伙伴头像 | `res.partner` 头像变体 15/25（`image_128/256/512/1024/1920`） |
+| 模块图标 | `ir.ui.menu` 38/38 + `web_icon_data`（旧机审计记 37 个 svg 仅存于生产） |
+| 游戏化/其他平台资源 | `gamification.badge` 45/45、`gamification.karma.rank` 25/25、`hr.employee` 10/10、`spreadsheet.dashboard` 6/6、`website` 5/5、`onboarding` 5/5、`chatbot.script` 4/4、`res.lang` 3/3 |
+
+## 6. 明确没救回来的（553 行 / 449 个 blob）
+
+| 类别 | 行数 | 是不是校方资料 |
+|---|---|---|
+| `payment.method` | 462 | ❌ 平台图标（payment 模块自带） |
+| `payment.provider` | 25 | ❌ 同上 |
+| `forum.forum` | 5 | ❌ 平台资源 |
+| `ir.ui.view` 缺 20 / `res.partner` 缺 10 / `(none)` 缺 1 | 31 | ⚠ 部分是运行期重建的资产/占位图 |
+| **`edu*` / `op.*` 业务附件** | **0**（在快照里就一行都没有） | — |
+
+⇒ **对校方最直白的结论**：**「8/30 之前上传的资料文件」数量 = 0**；09 月上传的业务件（若有）随旧机永久丢失，且**没有口径能算出数量** ⇒ 只能教务处盘点。
+
+## 7. 未验证 / 已知边界
+
+| # | 未验证项 | 说明 |
+|---|---|---|
+| 1 | 本机 filestore（192 文件）里**未被这 710 行引用**的剩余文件是什么 | 可能是本地克隆自己的历史附件；未逐条定性 |
+| 2 | 新机上「186 行命中」里有多少是**升级期新生成**、多少是抢救来的 | 需要快照时刻的基线才能拆；本文只给了两个口径的数 |
+| 3 | 校方 09 月到底上传过多少件 | 旧机没了 ⇒ **永远算不出来**，只能盘点 |
+| 4 | `payment.method` 的 462 行在**新机重装 payment 模块**后是否会自动重建 | 未测（那些是模块自带 data，重装/重放通常会回来） |

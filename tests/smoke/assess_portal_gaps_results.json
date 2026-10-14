@@ -1,0 +1,319 @@
+{
+ "base": "http://localhost:8069",
+ "items": [
+  {
+   "no": "M1a",
+   "name": "整班打分页 200 且拿到矩阵表（不是被弹走）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 表片段 6626 字"
+  },
+  {
+   "no": "M1b",
+   "name": "反向基线：裸 <th> 里「窗户有灰尘/污渍」出现多次，只看 <th> 文本分不出是哪一列",
+   "pass": true,
+   "detail": "同名 <th> 次数 = 3 ｜ 重复文本 = ['垃圾', '垃圾未倒', '清洁', '窗户有灰尘/污渍']"
+  },
+  {
+   "no": "M2a",
+   "name": "表头列数 == 库里的叶子数（7）",
+   "pass": true,
+   "detail": "页面列 7 ｜ 库叶子 7 ｜ 期望列 7"
+  },
+  {
+   "no": "M2b",
+   "name": "逐列比对：每列的分组链 == 库里祖先链（区 → 分类）",
+   "pass": true,
+   "detail": "页面链 [['厨房', '清洁'], ['厨房', '清洁'], ['厨房', '垃圾'], ['卧室', '清洁'], ['卧室', '垃圾'], ['卧室', '垃圾'], ['阳台', '清洁']] ｜ 库里链 [['厨房', '清洁'], ['厨房', '清洁'], ['厨房', '垃圾'], ['卧室', '清洁'], ['卧室', '垃圾'], ['卧室', '垃圾'], ['阳台', '清洁']]"
+  },
+  {
+   "no": "M2c",
+   "name": "逐列比对：项名与列序 == 库 order by sequence, id",
+   "pass": true,
+   "detail": "页面项名 ['窗户有灰尘/污渍', '灶台油渍', '垃圾未倒', '窗户有灰尘/污渍', '垃圾未倒', '床铺不整', '窗户有灰尘/污渍'] ｜ 库里项名 ['窗户有灰尘/污渍', '灶台油渍', '垃圾未倒', '窗户有灰尘/污渍', '垃圾未倒', '床铺不整', '窗户有灰尘/污渍']"
+  },
+  {
+   "no": "M2d",
+   "name": "同名项可分：3 个「窗户有灰尘/污渍」的分组链两两不同",
+   "pass": true,
+   "detail": "列→链 = [(2, ['厨房', '清洁']), (5, ['卧室', '清洁']), (8, ['阳台', '清洁'])]"
+  },
+  {
+   "no": "M2e",
+   "name": "分组格是 <th scope=\"colgroup\" colspan>（读屏用户靠它拿分组语义）",
+   "pass": true,
+   "detail": "分组格 = [('th', 'scope=\"colgroup\" class=\"text-center small text-muted\" colspan=\"3\"', '厨房'), ('th', 'scope=\"colgroup\" class=\"text-center small text-muted\" colspan=\"3\"', '卧室'), ('th', 'scope=\"colgroup\" class=\"text-center small text-muted\"', '阳台'), ('th', 'scope=\"colgroup\" class=\"text-center small text-muted\" colspan=\"2\"', '清洁')]"
+  },
+  {
+   "no": "M4a",
+   "name": "既有契约（H1.1 改口径后逐字同源）：**评分列**数 == 叶子数",
+   "pass": true,
+   "detail": "评分列 7 个 / 叶子 7 个 ｜ 原始 <th> 16 个（= 评分列 + 分组格）"
+  },
+  {
+   "no": "M4b",
+   "name": "既有契约：表头里非 colgroup 的格全是叶子项名（分组节点没变成列）",
+   "pass": true,
+   "detail": "混入的分组名 = [] ｜ 非叶子的表头格 = 无"
+  },
+  {
+   "no": "M4c",
+   "name": "形态记录：原始 <th> 数 = 1（thead 前缀并掉行标签）+ 评分列 + 分组格",
+   "pass": true,
+   "detail": "原始 <th> 16 = 1 + 评分列 7 + 分组格 8"
+  },
+  {
+   "no": "M5a",
+   "name": "结果页同样带分组行（同一子模板，逐列链与库一致）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 表头 3 行 ｜ 前 3 列链 [['厨房', '清洁'], ['厨房', '清洁'], ['厨房', '垃圾']]"
+  },
+  {
+   "no": "M3a",
+   "name": "控制组：扁平模板表头只有一行（不加分组行）",
+   "pass": true,
+   "detail": "表头 1 行"
+  },
+  {
+   "no": "M3b",
+   "name": "控制组：扁平表头逐格逐属性 == 改动前的标记（名称 + title 空串）",
+   "pass": true,
+   "detail": "实际 [('th', 'style=\"min-width:120px\"', '学生'), ('th', 'title=\"\"', '平铺项甲'), ('th', 'title=\"\"', '平铺项乙')] ｜ 期望 [('th', 'style=\"min-width:120px\"', '学生'), ('th', 'title=\"\"', '平铺项甲'), ('th', 'title=\"\"', '平铺项乙')]"
+  },
+  {
+   "no": "M3c",
+   "name": "控制组：扁平 <thead> 里一个 <td> 都没有",
+   "pass": true,
+   "detail": "thead 长度 237"
+  },
+  {
+   "no": "T1a",
+   "name": "教师本人 /assess/faculty/history → 200 且是本页",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/assess/faculty/history"
+  },
+  {
+   "no": "T1b",
+   "name": "同一个人的历次评估连在一页：库里有 3 条已结束名单行，页面逐行对齐",
+   "pass": true,
+   "detail": "SQL 名单行 = 3 ｜ 三个任务名都在页面 = True"
+  },
+  {
+   "no": "T2a",
+   "name": "可见任务的分数在页面上（37 分 / 满分 100；与库读数一致）",
+   "pass": true,
+   "detail": "表内数字 [37.0, 100.0] ｜ SQL 该任务的分 = 37"
+  },
+  {
+   "no": "T2b",
+   "name": "score_visible=False 的任务：不下发数字（66 不在页面）",
+   "pass": true,
+   "detail": "表内数字 [37.0, 100.0]"
+  },
+  {
+   "no": "T2c",
+   "name": "且该行仍在、并给出理由（不是静默消失）",
+   "pass": true,
+   "detail": "理由文字在：True"
+  },
+  {
+   "no": "T2d",
+   "name": "匿名样本不足（1 份 < 门槛 3）：不下发数字（88 不在页面）",
+   "pass": true,
+   "detail": "表内数字 [37.0, 100.0]"
+  },
+  {
+   "no": "T2e",
+   "name": "控制组：66 / 88 确实在库里（不是没数据才看不到）",
+   "pass": true,
+   "detail": "打分记录 = 2 条（各 1）"
+  },
+  {
+   "no": "T3a",
+   "name": "空态：零名单行的教师 → 200 + 空态节点，且与库读数同时成立",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 空态 True ｜ SQL 行 = 0"
+  },
+  {
+   "no": "T4a",
+   "name": "A 的页面上没有 B 的分数（41）",
+   "pass": true,
+   "detail": "A 页面数字 [37.0, 100.0]"
+  },
+  {
+   "no": "T4b",
+   "name": "A 的页面上没有 B 的任务名",
+   "pass": true,
+   "detail": "含 B 任务名：False"
+  },
+  {
+   "no": "T4c",
+   "name": "控制组：B 自己的页面看得到 41（不是对谁都不显示）",
+   "pass": true,
+   "detail": "B 页面数字 [41.0, 100.0]"
+  },
+  {
+   "no": "T4d",
+   "name": "数据层：A 用 JSON-RPC 直读 B 的名单行 → 0 行（行级规则收敛）",
+   "pass": true,
+   "detail": "rows=0 err=None"
+  },
+  {
+   "no": "T4e",
+   "name": "数据层正对照：B 直读自己的名单行 → ≥1 行（被评者本人可读）",
+   "pass": true,
+   "detail": "rows=1 err=None"
+  },
+  {
+   "no": "T5a",
+   "name": "既有契约（H5f）：教师请求 /assess/my/history → 仍弹回门户",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/my/home"
+  },
+  {
+   "no": "T5b",
+   "name": "学生与家长访问 /assess/faculty/history → 弹回门户（fail-closed）",
+   "pass": true,
+   "detail": "stu → http://localhost:8069/my/home ｜ par → http://localhost:8069/my/home"
+  },
+  {
+   "no": "T6a",
+   "name": "学生填评教页：同一份分组表头，逐列链与库一致",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 表头 3 行 ｜ 前 3 列链 [['厨房', '清洁'], ['厨房', '清洁'], ['厨房', '垃圾']]"
+  },
+  {
+   "no": "P0a",
+   "name": "绑定唯一且可判定：家长 A 恰有 1 个孩子（op_parent_op_student_rel）",
+   "pass": true,
+   "detail": "op_parent 2 的孩子 = ['5']"
+  },
+  {
+   "no": "P1a",
+   "name": "家长 A /my/child → 200 且出现「评估历程」块（1 个孩子 = 1 块）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 块数 1 ｜ SQL 该生已结束名单行 = 2"
+  },
+  {
+   "no": "P1b",
+   "name": "可见任务的分发数字在页面上（71 分 / 满分 100）",
+   "pass": true,
+   "detail": "页面数字 [71.0]"
+  },
+  {
+   "no": "P1c",
+   "name": "不公开的任务：不下发数字，但给出理由（66 不在页面）",
+   "pass": true,
+   "detail": "数字 [71.0] ｜ 理由在：True"
+  },
+  {
+   "no": "P1d",
+   "name": "控制组：66 确实在库里（不是没数据才看不到）",
+   "pass": true,
+   "detail": "不公开任务的打分 = 1 条"
+  },
+  {
+   "no": "P1e",
+   "name": "孩子仪表盘 /my/child/<id> 也挂上「评估历程」块（仪表盘主体一行未改）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 块在 True ｜ 数字 [1.0, 3.0, 4.0, 12.0, 27.0, 71.0]"
+  },
+  {
+   "no": "P2a",
+   "name": "家长 A 看自己孩子的完整历程 → 200 且是本页",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/assess/child/5/history"
+  },
+  {
+   "no": "P2b",
+   "name": "页内数字与库读数一致（71 在，66 不在）",
+   "pass": true,
+   "detail": "页面数字 [71.0, 100.0]"
+  },
+  {
+   "no": "P3a",
+   "name": "家长 A 请求家长 B 的孩子历程 → 303 回 /my/child（不渲染该生）",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/my/child"
+  },
+  {
+   "no": "P3b",
+   "name": "弹回后的响应里没有 B 的孩子的分数（41）与姓名",
+   "pass": true,
+   "detail": "数字 [71.0] ｜ 含 B 孩子姓名：False"
+  },
+  {
+   "no": "P3c",
+   "name": "同上：家长 A → 家长 B 的第二个孩子，也弹回（不是漏判一个）",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/my/child ｜ 含 C 姓名=False"
+  },
+  {
+   "no": "P3d",
+   "name": "家长 A 的 /my/child 里没有 B 的孩子姓名，也没有 B 的分数",
+   "pass": true,
+   "detail": "含 B 孩子姓名=False ｜ 含 41=False"
+  },
+  {
+   "no": "P3e",
+   "name": "家长 A → 家长 B 的孩子的**仪表盘**同样弹回（越权判据仍是父类那一份）",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/my/child ｜ 含 41=False ｜ 含 B 孩子姓名=False"
+  },
+  {
+   "no": "P4a",
+   "name": "数据层：家长 A 用 JSON-RPC 直读 edu.assess.roster → 被拒（门户 ACL = 0）",
+   "pass": true,
+   "detail": "rows=0 err=odoo.exceptions.AccessError: 不允许访问\"评估名单快照\"（edu.assess.roster）记录。\n\n允许对以"
+  },
+  {
+   "no": "P4b",
+   "name": "数据层：家长 B 直读 edu.assess.score 同样被拒（门户整体闭）",
+   "pass": true,
+   "detail": "rows=0 err=odoo.exceptions.AccessError: 不允许访问\"评估打分记录\"（edu.assess.score）记录。\n\n允许对以下"
+  },
+  {
+   "no": "P4c",
+   "name": "控制组（数据在，不是空库）：教务直读 B 的孩子的名单行 → 1 行",
+   "pass": true,
+   "detail": "rows=1 err=None"
+  },
+  {
+   "no": "P5a",
+   "name": "控制组：家长 B 的 /my/child 看得到自己孩子（41）与另一个孩子的空态",
+   "pass": true,
+   "detail": "B 页面数字 [41.0] ｜ 空态文字在：True"
+  },
+  {
+   "no": "P5b",
+   "name": "空态诚实：孩子 C 的名单行 = 0，页面写的是「暂无」而不是编造",
+   "pass": true,
+   "detail": "SQL 名单行 = 0"
+  },
+  {
+   "no": "P5d",
+   "name": "孩子 C 的**仪表盘**也是诚实空态（不编造，且与 SQL=0 同时成立）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 空态文字 True ｜ SQL 名单行 0"
+  },
+  {
+   "no": "P5c",
+   "name": "孩子 C 的完整历程页 = 诚实空态（无数据表）",
+   "pass": true,
+   "detail": "空态 True ｜ 表 False"
+  },
+  {
+   "no": "P6a",
+   "name": "口径收口：孩子 A 的行数 < 全夹具行数（家长 A 只看得到自己那一个孩子）",
+   "pass": true,
+   "detail": "孩子 A 的已结束行 = 2 ｜ 全夹具已结束行 = 3"
+  },
+  {
+   "no": "Z9a",
+   "name": "清场后夹具任务为 0（幂等可复跑）",
+   "pass": true,
+   "detail": "fixture tasks = 0"
+  }
+ ],
+ "passed": 52,
+ "failed": 0
+}

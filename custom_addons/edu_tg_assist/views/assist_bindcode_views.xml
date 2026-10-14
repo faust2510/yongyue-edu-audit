@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 身份绑定码（2026-10-12 用户裁定）：管理员发一张码，老师点一次就绑定姓名+角色。
+             ⚠ 与本仓的学生邀请码（edu.invite.code / TGB-STU-*）**完全无关**：
+             那套码管「谁能注册网站账号」，这套码只管「这个 Telegram 号是谁」。 -->
+
+        <record id="view_assist_bindcode_tree" model="ir.ui.view">
+            <field name="name">edu.tg.assist.bindcode.list</field>
+            <field name="model">edu.tg.assist.bindcode</field>
+            <field name="arch" type="xml">
+                <list string="绑定码" create="true" edit="true">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="role"/>
+                    <field name="state" widget="badge"
+                           decoration-success="state == 'new'"
+                           decoration-muted="state == 'used'"
+                           decoration-danger="state == 'void'"/>
+                    <field name="person_id"/>
+                    <field name="expire_at"/>
+                    <field name="used_at"/>
+                    <field name="create_date" string="签发时间"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_bindcode_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.bindcode.form</field>
+            <field name="model">edu.tg.assist.bindcode</field>
+            <field name="arch" type="xml">
+                <form string="绑定码">
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="new,used"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="发给谁">
+                                <field name="name"/>
+                                <field name="role"/>
+                            </group>
+                            <group string="码">
+                                <field name="code"/>
+                                <field name="expire_at"/>
+                                <field name="used_at"/>
+                            </group>
+                        </group>
+                        <group string="发给对方的话（点开即绑定）">
+                            <field name="link" widget="CopyClipboardChar" readonly="1"/>
+                        </group>
+                        <group string="手工告诉他（打不开链接时）">
+                            <field name="code" readonly="1"
+                                   help="让对方私聊机器人发：/bind 这串码"/>
+                        </group>
+                        <group string="结果">
+                            <field name="person_id"/>
+                            <field name="active"/>
+                            <field name="note"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_assist_bindcode_search" model="ir.ui.view">
+            <field name="name">edu.tg.assist.bindcode.search</field>
+            <field name="model">edu.tg.assist.bindcode</field>
+            <field name="arch" type="xml">
+                <search string="绑定码">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="person_id"/>
+                    <filter name="f_unused" string="未使用" domain="[('state', '=', 'new')]"/>
+                    <filter name="f_used" string="已使用" domain="[('state', '=', 'used')]"/>
+                    <separator/>
+                    <filter name="f_dated" string="有有效期（仍未使用）"
+                            domain="[('state', '=', 'new'), ('expire_at', '!=', False)]"/>
+                    <group>
+                        <filter name="g_role" string="按角色分组" context="{'group_by': 'role'}"/>
+                        <filter name="g_state" string="按状态分组" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_assist_bindcode" model="ir.actions.act_window">
+            <field name="name">绑定码</field>
+            <field name="res_model">edu.tg.assist.bindcode</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">还没有绑定码</p>
+                <p>新建一张：填姓名与角色，系统自动生成码与有效期。
+                   把「绑定链接」发给本人（点开即自动绑定），或让他私聊机器人发
+                   <code>/bind 码</code>。</p>
+            </field>
+        </record>
+
+        <menuitem id="menu_assist_bindcode" name="绑定码" parent="menu_assist_root"
+                  sequence="25"/>
+        <menuitem id="menu_assist_bindcode_action" parent="menu_assist_bindcode"
+                  action="action_assist_bindcode" sequence="10"/>
+    </data>
+</odoo>

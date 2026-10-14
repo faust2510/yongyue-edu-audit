@@ -1,0 +1,474 @@
+{
+  "candidates": {
+    "baseline": {
+      "css": "",
+      "m": {
+        "hasShadow": true,
+        "hasBtn": true,
+        "hostRect": {
+          "x": 0,
+          "y": 5008,
+          "w": 390,
+          "h": 0,
+          "right": 390,
+          "bottom": 5008
+        },
+        "hostCS": {
+          "zIndex": "2147483647",
+          "position": "relative",
+          "bottom": "0px",
+          "right": "0px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "block"
+        },
+        "btnRect": {
+          "x": 312,
+          "y": 784,
+          "w": 50,
+          "h": 50,
+          "right": 362,
+          "bottom": 834
+        },
+        "btnCS": {
+          "zIndex": "5",
+          "position": "static",
+          "bottom": "auto",
+          "right": "auto",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "bubblesRect": {
+          "x": 309,
+          "y": 784,
+          "w": 56,
+          "h": 50,
+          "right": 365,
+          "bottom": 834
+        },
+        "bubblesCS": {
+          "zIndex": "20",
+          "position": "fixed",
+          "bottom": "10px",
+          "right": "25px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "tabbarRect": {
+          "x": 0,
+          "y": 788,
+          "w": 390,
+          "h": 56,
+          "right": 390,
+          "bottom": 844
+        },
+        "liftVar": "56px",
+        "tabs": [
+          {
+            "tab": "/my/home",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/calendar",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/messages",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/contacts",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/password",
+            "clickable": false,
+            "hit": "div#o-livechat-root-1790235096480.1826.o-livechat-root"
+          }
+        ]
+      }
+    },
+    "A-zindex-lower": {
+      "css": ".o-livechat-root{z-index:1030 !important}",
+      "m": {
+        "hasShadow": true,
+        "hasBtn": true,
+        "hostRect": {
+          "x": 0,
+          "y": 5008,
+          "w": 390,
+          "h": 0,
+          "right": 390,
+          "bottom": 5008
+        },
+        "hostCS": {
+          "zIndex": "1030",
+          "position": "relative",
+          "bottom": "0px",
+          "right": "0px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "block"
+        },
+        "btnRect": {
+          "x": 312,
+          "y": 784,
+          "w": 50,
+          "h": 50,
+          "right": 362,
+          "bottom": 834
+        },
+        "btnCS": {
+          "zIndex": "5",
+          "position": "static",
+          "bottom": "auto",
+          "right": "auto",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "bubblesRect": {
+          "x": 309,
+          "y": 784,
+          "w": 56,
+          "h": 50,
+          "right": 365,
+          "bottom": 834
+        },
+        "bubblesCS": {
+          "zIndex": "20",
+          "position": "fixed",
+          "bottom": "10px",
+          "right": "25px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "tabbarRect": {
+          "x": 0,
+          "y": 788,
+          "w": 390,
+          "h": 56,
+          "right": 390,
+          "bottom": 844
+        },
+        "liftVar": "56px",
+        "tabs": [
+          {
+            "tab": "/my/home",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/calendar",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/messages",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/contacts",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/password",
+            "clickable": false,
+            "hit": "div#o-livechat-root-1790235096480.1826.o-livechat-root"
+          }
+        ]
+      }
+    },
+    "B-part-margin": {
+      "css": ".o-livechat-root::part(openChatButton){margin-bottom:64px !important}",
+      "m": {
+        "hasShadow": true,
+        "hasBtn": true,
+        "hostRect": {
+          "x": 0,
+          "y": 5008,
+          "w": 390,
+          "h": 0,
+          "right": 390,
+          "bottom": 5008
+        },
+        "hostCS": {
+          "zIndex": "2147483647",
+          "position": "relative",
+          "bottom": "0px",
+          "right": "0px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "block"
+        },
+        "btnRect": {
+          "x": 312,
+          "y": 720,
+          "w": 50,
+          "h": 50,
+          "right": 362,
+          "bottom": 770
+        },
+        "btnCS": {
+          "zIndex": "5",
+          "position": "static",
+          "bottom": "auto",
+          "right": "auto",
+          "marginBottom": "64px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "bubblesRect": {
+          "x": 309,
+          "y": 720,
+          "w": 56,
+          "h": 114,
+          "right": 365,
+          "bottom": 834
+        },
+        "bubblesCS": {
+          "zIndex": "20",
+          "position": "fixed",
+          "bottom": "10px",
+          "right": "25px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "tabbarRect": {
+          "x": 0,
+          "y": 788,
+          "w": 390,
+          "h": 56,
+          "right": 390,
+          "bottom": 844
+        },
+        "liftVar": "56px",
+        "tabs": [
+          {
+            "tab": "/my/home",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/calendar",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/messages",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/contacts",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/password",
+            "clickable": false,
+            "hit": "div#o-livechat-root-1790235096480.1826.o-livechat-root"
+          }
+        ]
+      }
+    },
+    "C-part-bottom-fixed": {
+      "css": ".o-livechat-root::part(openChatButton){position:fixed !important;bottom:76px !important;right:16px !important}",
+      "m": {
+        "hasShadow": true,
+        "hasBtn": true,
+        "hostRect": {
+          "x": 0,
+          "y": 5008,
+          "w": 390,
+          "h": 0,
+          "right": 390,
+          "bottom": 5008
+        },
+        "hostCS": {
+          "zIndex": "2147483647",
+          "position": "relative",
+          "bottom": "0px",
+          "right": "0px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "block"
+        },
+        "btnRect": {
+          "x": 324,
+          "y": 718,
+          "w": 50,
+          "h": 50,
+          "right": 374,
+          "bottom": 768
+        },
+        "btnCS": {
+          "zIndex": "5",
+          "position": "fixed",
+          "bottom": "76px",
+          "right": "16px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "bubblesRect": {
+          "x": 309,
+          "y": 834,
+          "w": 56,
+          "h": 0,
+          "right": 365,
+          "bottom": 834
+        },
+        "bubblesCS": {
+          "zIndex": "20",
+          "position": "fixed",
+          "bottom": "10px",
+          "right": "25px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "tabbarRect": {
+          "x": 0,
+          "y": 788,
+          "w": 390,
+          "h": 56,
+          "right": 390,
+          "bottom": 844
+        },
+        "liftVar": "56px",
+        "tabs": [
+          {
+            "tab": "/my/home",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/calendar",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/messages",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/contacts",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/password",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          }
+        ]
+      }
+    },
+    "D-liftvar": {
+      "css": ".o-livechat-root{--mail-ChatHub-bubbles-bottomLift:64px !important}",
+      "m": {
+        "hasShadow": true,
+        "hasBtn": true,
+        "hostRect": {
+          "x": 0,
+          "y": 5008,
+          "w": 390,
+          "h": 0,
+          "right": 390,
+          "bottom": 5008
+        },
+        "hostCS": {
+          "zIndex": "2147483647",
+          "position": "relative",
+          "bottom": "0px",
+          "right": "0px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "block"
+        },
+        "btnRect": {
+          "x": 312,
+          "y": 720,
+          "w": 50,
+          "h": 50,
+          "right": 362,
+          "bottom": 770
+        },
+        "btnCS": {
+          "zIndex": "5",
+          "position": "static",
+          "bottom": "auto",
+          "right": "auto",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "bubblesRect": {
+          "x": 309,
+          "y": 720,
+          "w": 56,
+          "h": 50,
+          "right": 365,
+          "bottom": 770
+        },
+        "bubblesCS": {
+          "zIndex": "20",
+          "position": "fixed",
+          "bottom": "74px",
+          "right": "25px",
+          "marginBottom": "0px",
+          "pointerEvents": "auto",
+          "display": "flex"
+        },
+        "tabbarRect": {
+          "x": 0,
+          "y": 788,
+          "w": 390,
+          "h": 56,
+          "right": 390,
+          "bottom": 844
+        },
+        "liftVar": "56px",
+        "tabs": [
+          {
+            "tab": "/my/home",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/calendar",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/messages",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/contacts",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          },
+          {
+            "tab": "/my/password",
+            "clickable": true,
+            "hit": "a.b11-tab"
+          }
+        ]
+      }
+    }
+  }
+}

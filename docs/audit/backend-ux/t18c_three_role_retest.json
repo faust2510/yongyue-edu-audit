@@ -1,0 +1,30 @@
+{
+ "faculty": {
+  "title": "成绩录入",
+  "cols": 4,
+  "matrix": true,
+  "inputs": 16,
+  "refusal": false
+ },
+ "backoffice": {
+  "title": "成绩录入",
+  "cols": 14,
+  "matrix": true,
+  "inputs": 56,
+  "refusal": false
+ },
+ "student": {
+  "title": "成绩簿",
+  "cols": 0,
+  "matrix": false,
+  "inputs": 0,
+  "refusal": false
+ },
+ "parent": {
+  "title": "成绩簿",
+  "cols": 0,
+  "matrix": false,
+  "inputs": 0,
+  "refusal": true
+ }
+}

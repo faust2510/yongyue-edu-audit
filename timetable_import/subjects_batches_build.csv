@@ -1,0 +1,39 @@
+建档对象类型,code,名称(name),归属course_code,说明,来源sheet,依赖裁决
+op.subject,BTH-GEN01,英语,CRS-BTH,"B1234 每周一 14-16；B 部周课(跨A/B 英语归 B 部全体)","文26下;家教",
+op.subject,BLA-PRA01,课程设计实务,CRS-BLA,"B34 周一/周三双周? 见课次表；每课 10-12","文26下;家教",
+op.subject,BLA-LIT02,基督教与文学经典选读（二）,CRS-BLA,"B234 周二 14-16","文26下;家教",
+op.subject,BTH-THE01,神论,CRS-BTH,"A123 密集(L1-L6 9月) + B1 周课(L1-L9)","A;文26下;家教",
+op.subject,BLA-CLA01,课堂管理,CRS-BLA,"B3 周二 19-21","文26下",
+op.subject,GEN-LOG01,逻辑一,CRS-BTH,"A123B1 跨部合班 周五 14-16","A;文26下;家教",
+op.subject,BLA-HEB02,希伯来语二,CRS-BLA,"B4 周六 7:45-9:45","文26下;家教",
+op.subject,BLA-HEB04,希伯来语四,CRS-BLA,"B3 周六 10-12","文26下;家教",
+op.subject,BTH-SPI01,圣灵论,CRS-BTH,"A123 密集(12月 L1-L5) + B3 周课(L1-L10)","A;文26下;家教",
+op.subject,BTH-ACT01,师生互动,CRS-BTH,"A123 周三 14-17 活动；默认不进 op.session(§7 I)","A",待决I
+op.subject,BTH-LAW01,基督教与法律导论,CRS-BTH,"A123B234 周四 19:15-21:15","A;文26下;家教",
+op.subject,GEN-APO01,护教学基础,CRS-BTH,"A23B34 周五 19:30-21:30","A;文26下;家教",
+op.subject,GEN-ACT01,使徒行传,CRS-BTH,"A123B34(+CB34 待决) 周四 8:30-11:30","A;文26下",待决C
+op.subject,BTH-SAL01,救恩论,CRS-BTH,"B1 周课 L1-L9 + A123 密集(12/28 五天)","A;文26下;家教",待决J
+op.subject,BLA-COV01,圣约神学,CRS-BLA,"B34 周三 9-11","文26下;家教",
+op.subject,BTH-HOM01,讲道法,CRS-BTH,"A23 密集 L1-L6(9/21-9/30)","A",
+op.subject,BTH-PEN01,摩西五经,CRS-BTH,"A123 密集 L1-L5(11/9-11/17)","A",
+op.subject,BTH-FOU01,基础信仰,CRS-BTH,"A1 新生 L1-L4(9/1-9/4) 9:00-11:30；勿复用预备科同名科目","A",
+op.subject,BTH-REF01,改革宗初始讲座,CRS-BTH,"A123 讲座 11/23,24","A",
+op.batch,A1,神学一年级,CRS-BTH,年级档案+基础信仰班,"A",待决F
+op.batch,A2,神学二年级,CRS-BTH,年级档案,"A",待决F
+op.batch,A3,神学三年级,CRS-BTH,年级档案,"A",待决F
+op.batch,A23,A2+A3合班,CRS-BTH,讲道法受众,"A",
+op.batch,A123,A1+A2+A3合班,CRS-BTH,神论/圣灵论/摩西五经/救恩论密集/改革宗讲座,"A",
+op.batch,B1,人文一年级,CRS-BLA,神论/救恩论/逻辑一,"文26下",待决E
+op.batch,B2,人文二年级,CRS-BLA,年级档案(文学选读 B234 成员),"文26下",待决E
+op.batch,B3,人文三年级,CRS-BLA,圣灵论/希伯来语四/课堂管理,"文26下",待决E
+op.batch,B4,人文四年级,CRS-BLA,希伯来语二,"文26下",待决E
+op.batch,B34,B3+B4合班,CRS-BLA,圣约神学/课程设计实务,"文26下",
+op.batch,B234,B2+B3+B4合班,CRS-BLA,文学经典选读,"文26下",
+op.batch,B1234,B1-B4全体,CRS-BLA,英语,"文26下",
+op.batch,A123B1,A123+B1合班,CRS-BTH,逻辑一(跨部),"A;文26下",
+op.batch,A123B234,A123+B234合班,CRS-BTH,法律导论(跨部),"A;文26下",
+op.batch,A123B34,A123+B34合班,CRS-BTH,使徒行传(跨部),"A;文26下",
+op.batch,A23B34,A23+B34合班,CRS-BTH,护教学基础(跨部),"A;文26下",
+op.batch,CB34,B?+B34(?),CRS-BLA,文26下使徒行传 L1/L4/L8 标注,"文26下",待决C
+op.faculty,TBD-TEACHER,待定,CRS-BLA,占位教师(全课挂靠),全部,待决G
+op.classroom,(留空),不指定,,"教室默认不指定",全部,待决H

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 费用分类初始清单（15 条）
+         来源：校长 2026-09-16 口述清单 12 条 + 保留的 3 条旧项（教材/打印/其他）。
+         校长明确「罚款应该是不存在的」⇒ 未收录（旧值 fine 迁移时归入「其他」）。
+         方向倾向按常识预填，校方可在后台一个字改掉（留空=两边都能用）。
+         code 是 CSV/脚本引用键，建后不建议改。 -->
+    <record id="fee_cat_tongchou" model="edu.fee.category">
+        <field name="name">统筹</field><field name="code">tongchou</field>
+        <field name="sequence">10</field><field name="direction_hint">receivable</field>
+        <field name="note">原「统筹费」，2026-09-16 改名</field>
+    </record>
+    <record id="fee_cat_fangzu" model="edu.fee.category">
+        <field name="name">房租</field><field name="code">fangzu</field>
+        <field name="sequence">20</field><field name="direction_hint">payable</field>
+    </record>
+    <record id="fee_cat_jiaotong" model="edu.fee.category">
+        <field name="name">交通</field><field name="code">jiaotong</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="fee_cat_huodong" model="edu.fee.category">
+        <field name="name">活动</field><field name="code">huodong</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="fee_cat_jiedai" model="edu.fee.category">
+        <field name="name">接待</field><field name="code">jiedai</field>
+        <field name="sequence">50</field><field name="direction_hint">payable</field>
+    </record>
+    <record id="fee_cat_buzhu" model="edu.fee.category">
+        <field name="name">补助</field><field name="code">buzhu</field>
+        <field name="sequence">60</field><field name="direction_hint">payable</field>
+    </record>
+    <record id="fee_cat_butie" model="edu.fee.category">
+        <field name="name">补贴</field><field name="code">butie</field>
+        <field name="sequence">70</field><field name="direction_hint">payable</field>
+    </record>
+    <record id="fee_cat_keshifei" model="edu.fee.category">
+        <field name="name">课时费</field><field name="code">keshifei</field>
+        <field name="sequence">80</field><field name="direction_hint">payable</field>
+    </record>
+    <record id="fee_cat_liangcao" model="edu.fee.category">
+        <field name="name">粮草</field><field name="code">liangcao</field>
+        <field name="sequence">90</field><field name="direction_hint">payable</field>
+    </record>
+    <record id="fee_cat_richang" model="edu.fee.category">
+        <field name="name">日常物品</field><field name="code">richang</field>
+        <field name="sequence">100</field><field name="direction_hint">payable</field>
+    </record>
+    <record id="fee_cat_fengxian" model="edu.fee.category">
+        <field name="name">奉献</field><field name="code">fengxian</field>
+        <field name="sequence">110</field><field name="direction_hint">receivable</field>
+    </record>
+    <record id="fee_cat_liwu" model="edu.fee.category">
+        <field name="name">礼物</field><field name="code">liwu</field>
+        <field name="sequence">120</field>
+    </record>
+    <record id="fee_cat_jiaocai" model="edu.fee.category">
+        <field name="name">教材</field><field name="code">jiaocai</field>
+        <field name="sequence">130</field>
+        <field name="note">保留旧项</field>
+    </record>
+    <record id="fee_cat_dayin" model="edu.fee.category">
+        <field name="name">打印</field><field name="code">dayin</field>
+        <field name="sequence">140</field>
+        <field name="note">保留旧项（可并入「日常物品」，校方自行决定）</field>
+    </record>
+    <record id="fee_cat_qita" model="edu.fee.category">
+        <field name="name">其他</field><field name="code">qita</field>
+        <field name="sequence">999</field>
+        <field name="note">兜底分类（迁移时的默认落点）</field>
+    </record>
+</odoo>

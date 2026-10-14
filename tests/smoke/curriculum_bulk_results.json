@@ -1,0 +1,189 @@
+{
+ "at": "2026-09-29T15:08:02.639181",
+ "base": "http://127.0.0.1:8069",
+ "course": 18,
+ "results": [
+  {
+   "name": "E0 环境：专业 18 有 >=4 行科目（夹具前提）",
+   "pass": true,
+   "detail": "实测 14 行"
+  },
+  {
+   "name": "A1 页面 200 且无 Traceback",
+   "pass": true,
+   "detail": "code=200 len=61433"
+  },
+  {
+   "name": "A2 每行一个勾选框（行数 = 勾选框数）",
+   "pass": true,
+   "detail": "勾选框 14 / 行 14"
+  },
+  {
+   "name": "A3 表头「全选 / 全不选」+「反选」都在",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "A4 批量动作三个：设为必修 / 设为选修 / 清空",
+   "pass": true,
+   "detail": "实测 ['clear', 'compulsory', 'elective']"
+  },
+  {
+   "name": "A5 逐行 select 原路径仍在（line_<id> 逐行控件齐全）",
+   "pass": true,
+   "detail": "逐行 select 14"
+  },
+  {
+   "name": "A6 逐行「保存课程编排」按钮仍在（无 name ⇒ 不带 bulk_action）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "A7 每个行勾选框都有可访问名（aria-label）",
+   "pass": true,
+   "detail": "样例 ['勾选科目 圣经概论（新旧约概论）', '勾选科目 圣经救赎历史']"
+  },
+  {
+   "name": "A8 全选框用 <label for=> 命名、反选是 type=button（不会误提交）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "B0 前置：批量清空把 3 行打回「留空（继承）」",
+   "pass": true,
+   "detail": "{12: None, 35: None, 38: None}"
+  },
+  {
+   "name": "B1 批量设为必修：303 回执 bulk_saved/picked=3/changed=3",
+   "pass": true,
+   "detail": "code=200 url=box=bulk_saved&course_id=18&bulk_action=compulsory&bulk_changed=3&bulk_ignored=0&bulk_pick"
+  },
+  {
+   "name": "B1b 数据库读回：3 行 = compulsory（进程外 psql）",
+   "pass": true,
+   "detail": "{12: 'compulsory', 35: 'compulsory', 38: 'compulsory'}"
+  },
+  {
+   "name": "B2 批量设为选修：3 行 = elective（psql）",
+   "pass": true,
+   "detail": "box=bulk_saved {12: 'elective', 35: 'elective', 38: 'elective'}"
+  },
+  {
+   "name": "B3 批量清空：3 行回到 NULL（= 继承科目默认值，psql）",
+   "pass": true,
+   "detail": "box=bulk_saved {12: None, 35: None, 38: None}"
+  },
+  {
+   "name": "B4 幂等：同值再来一次 → bulk_none 且 changed=0，一行未动",
+   "pass": true,
+   "detail": "box=bulk_none changed=0"
+  },
+  {
+   "name": "B5 批量写进了审计台账（action=课程编排，detail 带「批量·」）",
+   "pass": true,
+   "detail": "最近一条：批量·批量设为必修 / 专业 预备科：显式 必修 3 / 选修 0 / 留空 11 —— 本次改动 3 行：圣经救赎历史→必修；圣经概论（新旧约概论）→必修；意志和技能课程→必修"
+  },
+  {
+   "name": "B6 行级留痕（mail.thread tracking）也有：95 条",
+   "pass": true,
+   "detail": "命中 95 条"
+  },
+  {
+   "name": "C1 逐行（不带 bulk_action）仍走原路径：box=saved，只有该行变",
+   "pass": true,
+   "detail": "box=saved 行 12=compulsory"
+  },
+  {
+   "name": "C2 逐行与批量**同一本审计台账**（同一 action，来源前缀不同）",
+   "pass": true,
+   "detail": "最近一条：逐行 / 专业 预备科：显式 必修 1 / 选修 0 / 留空 13 —— 本次改动 1 行：圣经概论（新旧约概论）→必"
+  },
+  {
+   "name": "C3 一次提交里「逐行改 A + 批量清空 B」都生效（逐行改动不被静默丢掉）",
+   "pass": true,
+   "detail": "A(12)=elective B(35)=None"
+  },
+  {
+   "name": "D1 注入非法值 ⇒ box=bad_value，且**全表一行未改**（psql 快照相等）",
+   "pass": true,
+   "detail": "box=bad_value 快照相等=True"
+  },
+  {
+   "name": "D2 半途失败 ⇒ 整批回滚：box=bulk_error + 一行都没改（psql）",
+   "pass": true,
+   "detail": "box=bulk_error status=200 前={272: 'elective', 277: 'elective', 292: 'elective'} 后={272: 'elective', 277: 'elective', 292: 'elective'}"
+  },
+  {
+   "name": "D2b 失败提示是人话（页面渲染出原因，不是 500/Traceback）",
+   "pass": true,
+   "detail": "code=200 含原因=True"
+  },
+  {
+   "name": "D2c 非空转：注入点之前**确实已经写了 2 行**，失败后与其它行一起被撤",
+   "pass": true,
+   "detail": "触发器读数=2（期望 2）"
+  },
+  {
+   "name": "D3 越权（教师）批量写入被拒：回 /my/home 且**数据层**一行未改",
+   "pass": true,
+   "detail": "url=http://127.0.0.1:8069/my/home 数据层相等=True"
+  },
+  {
+   "name": "D4 越权（学生）批量写入被拒：回 /my/home 且**数据层**一行未改",
+   "pass": true,
+   "detail": "url=http://127.0.0.1:8069/my/home 数据层相等=True"
+  },
+  {
+   "name": "D5 未登录 POST 不落库（数据层一行未改）",
+   "pass": true,
+   "detail": "code=303 数据层相等=True"
+  },
+  {
+   "name": "D6 只勾别专业的行 ⇒ bulk_empty + ignored=1，且**别专业数据层一行未改**",
+   "pass": true,
+   "detail": "box=bulk_empty ignored=1"
+  },
+  {
+   "name": "D7 混发（本专业 + 别专业）⇒ 只改本专业那行，ignored=1，别专业未改",
+   "pass": true,
+   "detail": "ignored=1 本专业=compulsory"
+  },
+  {
+   "name": "E1 控制组：同一请求换教务身份 ⇒ 值确实变了（排除「请求本身坏」）",
+   "pass": true,
+   "detail": "行 35 = compulsory"
+  },
+  {
+   "name": "E2 空勾选 ⇒ bulk_empty、不写库、**不留审计**（不为空操作记一笔）",
+   "pass": true,
+   "detail": "box=bulk_empty 审计 127→127"
+  },
+  {
+   "name": "E3 非法动作值 ⇒ bulk_bad_action，一行未改",
+   "pass": true,
+   "detail": "box=bulk_bad_action"
+  },
+  {
+   "name": "E4 非法专业 ⇒ bad_course，一行未改",
+   "pass": true,
+   "detail": "box=bad_course"
+  },
+  {
+   "name": "F1 还原：专业 18 全部行回到起始值（psql 比对）",
+   "pass": true,
+   "detail": "现在={12: None, 35: None, 38: None, 50: None, 59: None, 93: None, 179: None, 188: None, 216: None, 221: None, 240: None, 272: None, 277: None, 292: None}"
+  },
+  {
+   "name": "F2 还原：别专业未被本次冒烟改动",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "F3 清场 leftover=0（注入用的触发器/函数已删干净）",
+   "pass": true,
+   "detail": "trigger=0 function=0"
+  }
+ ],
+ "pass": 36,
+ "fail": 0
+}

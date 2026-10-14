@@ -1,0 +1,600 @@
+{
+  "actions": {
+    "380": {
+      "en_US": {
+        "name": "Academic Departments",
+        "res_model": "op.department",
+        "why": "回归：院系部门动作",
+        "xmlid": "openeducat_core.act_open_op_department_view"
+      },
+      "zh_CN": {
+        "name": "院系部门",
+        "res_model": "op.department",
+        "why": "回归：院系部门动作",
+        "xmlid": "openeducat_core.act_open_op_department_view"
+      }
+    },
+    "385": {
+      "en_US": {
+        "name": "Majors",
+        "res_model": "op.course",
+        "why": "回归：专业动作",
+        "xmlid": "openeducat_core.act_open_op_course_view"
+      },
+      "zh_CN": {
+        "name": "专业",
+        "res_model": "op.course",
+        "why": "回归：专业动作",
+        "xmlid": "openeducat_core.act_open_op_course_view"
+      }
+    },
+    "386": {
+      "en_US": {
+        "name": "Batches",
+        "res_model": "op.batch",
+        "why": "P2 op.batch 动作",
+        "xmlid": "openeducat_core.act_open_op_batch_view"
+      },
+      "zh_CN": {
+        "name": "批次",
+        "res_model": "op.batch",
+        "why": "P2 op.batch 动作",
+        "xmlid": "openeducat_core.act_open_op_batch_view"
+      }
+    },
+    "388": {
+      "en_US": {
+        "name": "Teaching Staff",
+        "res_model": "op.faculty",
+        "why": "回归：教职员工动作",
+        "xmlid": "openeducat_core.act_open_op_faculty_view"
+      },
+      "zh_CN": {
+        "name": "教职员工",
+        "res_model": "op.faculty",
+        "why": "回归：教职员工动作",
+        "xmlid": "openeducat_core.act_open_op_faculty_view"
+      }
+    },
+    "393": {
+      "en_US": {
+        "name": "Academic Year",
+        "res_model": "op.academic.year",
+        "why": "回归：学年动作",
+        "xmlid": "openeducat_core.act_open_op_academic_year_view"
+      },
+      "zh_CN": {
+        "name": "学年",
+        "res_model": "op.academic.year",
+        "why": "回归：学年动作",
+        "xmlid": "openeducat_core.act_open_op_academic_year_view"
+      }
+    },
+    "395": {
+      "en_US": {
+        "name": "Programs",
+        "res_model": "op.program",
+        "why": "P1 op.program 动作",
+        "xmlid": "openeducat_core.act_open_op_program_view"
+      },
+      "zh_CN": {
+        "name": "节目",
+        "res_model": "op.program",
+        "why": "P1 op.program 动作",
+        "xmlid": "openeducat_core.act_open_op_program_view"
+      }
+    },
+    "396": {
+      "en_US": {
+        "name": "Program Levels",
+        "res_model": "op.program.level",
+        "why": "回归：学制动作",
+        "xmlid": "openeducat_core.act_open_op_program_level_view"
+      },
+      "zh_CN": {
+        "name": "学制",
+        "res_model": "op.program.level",
+        "why": "回归：学制动作",
+        "xmlid": "openeducat_core.act_open_op_program_level_view"
+      }
+    },
+    "414": {
+      "en_US": {
+        "name": "Parents",
+        "res_model": "op.parent",
+        "why": "P2 op.parent 动作（原「父母」，与菜单 297「家长」不一致）",
+        "xmlid": "openeducat_parent.act_open_op_parent_view"
+      },
+      "zh_CN": {
+        "name": "父母",
+        "res_model": "op.parent",
+        "why": "P2 op.parent 动作（原「父母」，与菜单 297「家长」不一致）",
+        "xmlid": "openeducat_parent.act_open_op_parent_view"
+      }
+    },
+    "415": {
+      "en_US": {
+        "name": "Relationships",
+        "res_model": "op.parent.relationship",
+        "why": "P2 op.parent.relationship 动作",
+        "xmlid": "openeducat_parent.act_open_op_parent_relationship_view"
+      },
+      "zh_CN": {
+        "name": "人际关系",
+        "res_model": "op.parent.relationship",
+        "why": "P2 op.parent.relationship 动作",
+        "xmlid": "openeducat_parent.act_open_op_parent_relationship_view"
+      }
+    },
+    "705": {
+      "en_US": {
+        "name": "Course Pages",
+        "res_model": "slide.channel",
+        "why": "回归：在线课程动作（共享 Courses msgid 的旁证）",
+        "xmlid": "openeducat_slide.act_open_slide_channel_view"
+      },
+      "zh_CN": {
+        "name": "课程网页",
+        "res_model": "slide.channel",
+        "why": "回归：在线课程动作（共享 Courses msgid 的旁证）",
+        "xmlid": "openeducat_slide.act_open_slide_channel_view"
+      }
+    },
+    "815": {
+      "en_US": {
+        "name": "已停用班级",
+        "res_model": "op.batch",
+        "why": "回归：已停用班级动作",
+        "xmlid": null
+      },
+      "zh_CN": {
+        "name": "已停用班级",
+        "res_model": "op.batch",
+        "why": "回归：已停用班级动作",
+        "xmlid": null
+      }
+    }
+  },
+  "base": "http://localhost:8069",
+  "db": "edu19",
+  "fields": {
+    "op.course.department_id": {
+      "en_US": {
+        "label": "Department",
+        "why": "旁证：仍应是「部门」（非新串可波及处）"
+      },
+      "zh_CN": {
+        "label": "部门",
+        "why": "旁证：仍应是「部门」（非新串可波及处）"
+      }
+    },
+    "op.department.code": {
+      "en_US": {
+        "label": "Code",
+        "why": "旁证：代码"
+      },
+      "zh_CN": {
+        "label": "代码",
+        "why": "旁证：代码"
+      }
+    },
+    "op.department.name": {
+      "en_US": {
+        "label": "Name",
+        "why": "旁证：院系字段名"
+      },
+      "zh_CN": {
+        "label": "姓名",
+        "why": "旁证：院系字段名"
+      }
+    },
+    "op.department.parent_id": {
+      "en_US": {
+        "label": "Parent Department",
+        "why": "P0 目标字段（原「家长部」）"
+      },
+      "zh_CN": {
+        "label": "家长部",
+        "why": "P0 目标字段（原「家长部」）"
+      }
+    },
+    "op.program.department_id": {
+      "en_US": {
+        "label": "Department",
+        "why": "旁证：仍应是「部门」"
+      },
+      "zh_CN": {
+        "label": "部门",
+        "why": "旁证：仍应是「部门」"
+      }
+    },
+    "op.subject.department_id": {
+      "en_US": {
+        "label": "Department",
+        "why": "旁证：仍应是「部门」"
+      },
+      "zh_CN": {
+        "label": "部门",
+        "why": "旁证：仍应是「部门」"
+      }
+    }
+  },
+  "menus": {
+    "257": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS",
+        "name": "SIS",
+        "why": "回归：学生信息",
+        "xmlid": "openeducat_core.menu_op_school_root"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息",
+        "name": "学生信息",
+        "why": "回归：学生信息",
+        "xmlid": "openeducat_core.menu_op_school_root"
+      }
+    },
+    "259": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Teaching Staff",
+        "name": "Teaching Staff",
+        "why": "回归：教职员工（上一轮刚改）",
+        "xmlid": "openeducat_core.menu_op_faculty_main"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/教职员工",
+        "name": "教职员工",
+        "why": "回归：教职员工（上一轮刚改）",
+        "xmlid": "openeducat_core.menu_op_faculty_main"
+      }
+    },
+    "261": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration",
+        "name": "Configuration",
+        "why": "回归：配置",
+        "xmlid": "openeducat_core.menu_op_school_config"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置",
+        "name": "配置",
+        "why": "回归：配置",
+        "xmlid": "openeducat_core.menu_op_school_config"
+      }
+    },
+    "262": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Teaching Management",
+        "name": "Teaching Management",
+        "why": "回归：教学管理",
+        "xmlid": "openeducat_core.menu_op_school_config_course"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/教学管理",
+        "name": "教学管理",
+        "why": "回归：教学管理",
+        "xmlid": "openeducat_core.menu_op_school_config_course"
+      }
+    },
+    "263": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Teaching Management/Majors",
+        "name": "Majors",
+        "why": "回归：专业（op.course，唯一）",
+        "xmlid": "openeducat_core.menu_op_course_sub"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/教学管理/专业",
+        "name": "专业",
+        "why": "回归：专业（op.course，唯一）",
+        "xmlid": "openeducat_core.menu_op_course_sub"
+      }
+    },
+    "264": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Teaching Management/Batches",
+        "name": "Batches",
+        "why": "P2 op.batch 菜单（原「批次」）",
+        "xmlid": "openeducat_core.menu_op_batch_sub"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/教学管理/批次",
+        "name": "批次",
+        "why": "P2 op.batch 菜单（原「批次」）",
+        "xmlid": "openeducat_core.menu_op_batch_sub"
+      }
+    },
+    "265": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Teaching Management/Academic Departments",
+        "name": "Academic Departments",
+        "why": "回归：院系部门（上一轮刚改）",
+        "xmlid": "openeducat_core.menu_op_department_sub"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/教学管理/院系部门",
+        "name": "院系部门",
+        "why": "回归：院系部门（上一轮刚改）",
+        "xmlid": "openeducat_core.menu_op_department_sub"
+      }
+    },
+    "266": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Subject Management",
+        "name": "Subject Management",
+        "why": "回归：学科管理",
+        "xmlid": "openeducat_core.menu_op_subject_root"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/学科管理",
+        "name": "学科管理",
+        "why": "回归：学科管理",
+        "xmlid": "openeducat_core.menu_op_subject_root"
+      }
+    },
+    "267": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Subject Management/Subjects",
+        "name": "Subjects",
+        "why": "回归：科目",
+        "xmlid": "openeducat_core.menu_op_subject_sub"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/学科管理/科目",
+        "name": "科目",
+        "why": "回归：科目",
+        "xmlid": "openeducat_core.menu_op_subject_sub"
+      }
+    },
+    "273": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Academic Year",
+        "name": "Academic Year",
+        "why": "回归：学年",
+        "xmlid": "openeducat_core.menu_op_academic_year_sub"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/学年",
+        "name": "学年",
+        "why": "回归：学年",
+        "xmlid": "openeducat_core.menu_op_academic_year_sub"
+      }
+    },
+    "274": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Academic Term",
+        "name": "Academic Term",
+        "why": "回归：学期",
+        "xmlid": "openeducat_core.menu_op_academic_term_sub"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/学期",
+        "name": "学期",
+        "why": "回归：学期",
+        "xmlid": "openeducat_core.menu_op_academic_term_sub"
+      }
+    },
+    "276": {
+      "en_US": {
+        "active": false,
+        "complete_name": "SIS/Configuration/Program Management/Programs",
+        "name": "Programs",
+        "why": "P1 op.program 菜单（原「专业」，与 263 撞名）",
+        "xmlid": "openeducat_core.menu_op_program_sub"
+      },
+      "zh_CN": {
+        "active": false,
+        "complete_name": "学生信息/配置/项目管理/专业",
+        "name": "专业",
+        "why": "P1 op.program 菜单（原「专业」，与 263 撞名）",
+        "xmlid": "openeducat_core.menu_op_program_sub"
+      }
+    },
+    "277": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Teaching Management/Program Levels",
+        "name": "Program Levels",
+        "why": "回归：学制",
+        "xmlid": "openeducat_core.menu_op_program_level_sub"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/教学管理/学制",
+        "name": "学制",
+        "why": "回归：学制",
+        "xmlid": "openeducat_core.menu_op_program_level_sub"
+      }
+    },
+    "279": {
+      "en_US": {
+        "active": false,
+        "complete_name": "学生/档案",
+        "name": "档案",
+        "why": "回归：档案",
+        "xmlid": "openeducat_core.menu_op_student_main_student"
+      },
+      "zh_CN": {
+        "active": false,
+        "complete_name": "学生/档案",
+        "name": "档案",
+        "why": "回归：档案",
+        "xmlid": "openeducat_core.menu_op_student_main_student"
+      }
+    },
+    "280": {
+      "en_US": {
+        "active": true,
+        "complete_name": "学生/General",
+        "name": "General",
+        "why": "回归：通用",
+        "xmlid": "openeducat_core.menu_op_general_student"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生/通用",
+        "name": "通用",
+        "why": "回归：通用",
+        "xmlid": "openeducat_core.menu_op_general_student"
+      }
+    },
+    "287": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/General/Student Migration",
+        "name": "Student Migration",
+        "why": "回归：学生转班",
+        "xmlid": "openeducat_activity.menu_student_migrate"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/通用/学生转班",
+        "name": "学生转班",
+        "why": "回归：学生转班",
+        "xmlid": "openeducat_activity.menu_student_migrate"
+      }
+    },
+    "291": {
+      "en_US": {
+        "active": true,
+        "complete_name": "Time Table/作业/Submissions",
+        "name": "Submissions",
+        "why": "回归：作业提交",
+        "xmlid": "openeducat_assignment.menu_op_assignment_sub_line_sub"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "时间表/作业/作业提交",
+        "name": "作业提交",
+        "why": "回归：作业提交",
+        "xmlid": "openeducat_assignment.menu_op_assignment_sub_line_sub"
+      }
+    },
+    "297": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Parents",
+        "name": "Parents",
+        "why": "P2 op.parent 菜单（应为「家长」，noupdate=t）",
+        "xmlid": "openeducat_parent.menu_op_parent_root"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/家长",
+        "name": "家长",
+        "why": "P2 op.parent 菜单（应为「家长」，noupdate=t）",
+        "xmlid": "openeducat_parent.menu_op_parent_root"
+      }
+    },
+    "298": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Parents",
+        "name": "Parents",
+        "why": "P2 家长配置容器（原「父母」）",
+        "xmlid": "openeducat_parent.menu_op_school_config_parent"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/父母",
+        "name": "父母",
+        "why": "P2 家长配置容器（原「父母」）",
+        "xmlid": "openeducat_parent.menu_op_school_config_parent"
+      }
+    },
+    "299": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Parents/Relationships",
+        "name": "Relationships",
+        "why": "P2 op.parent.relationship 菜单（原「人际关系」）",
+        "xmlid": "openeducat_parent.menu_op_parent_relationship_sub_parent"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/父母/人际关系",
+        "name": "人际关系",
+        "why": "P2 op.parent.relationship 菜单（原「人际关系」）",
+        "xmlid": "openeducat_parent.menu_op_parent_relationship_sub_parent"
+      }
+    },
+    "343": {
+      "en_US": {
+        "active": true,
+        "complete_name": "Time Table/Timetable/Sessions",
+        "name": "Sessions",
+        "why": "回归：会议",
+        "xmlid": "openeducat_timetable.menu_student_session_main"
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "时间表/时间表/会议",
+        "name": "会议",
+        "why": "回归：会议",
+        "xmlid": "openeducat_timetable.menu_student_session_main"
+      }
+    },
+    "612": {
+      "en_US": {
+        "active": true,
+        "complete_name": "教务审批/选课审批",
+        "name": "选课审批",
+        "why": "回归：选课审批（无 zh 槽位，靠回退）",
+        "xmlid": null
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "教务审批/选课审批",
+        "name": "选课审批",
+        "why": "回归：选课审批（无 zh 槽位，靠回退）",
+        "xmlid": null
+      }
+    },
+    "797": {
+      "en_US": {
+        "active": true,
+        "complete_name": "SIS/Configuration/Teaching Management/已停用班级",
+        "name": "已停用班级",
+        "why": "回归：已停用班级",
+        "xmlid": null
+      },
+      "zh_CN": {
+        "active": true,
+        "complete_name": "学生信息/配置/教学管理/已停用班级",
+        "name": "已停用班级",
+        "why": "回归：已停用班级",
+        "xmlid": null
+      }
+    }
+  },
+  "named_专业": [
+    {
+      "active": true,
+      "complete_name": "学生信息/配置/教学管理/专业",
+      "id": 263
+    }
+  ],
+  "notes": []
+}

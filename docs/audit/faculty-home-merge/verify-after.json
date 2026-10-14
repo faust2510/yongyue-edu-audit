@@ -1,0 +1,1852 @@
+{
+ "faculty": {
+  "/my/home": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "教学安排",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "作业管理",
+     "h": "/assignment/manage"
+    },
+    {
+     "t": "成绩录入",
+     "h": "/grade-entry"
+    },
+    {
+     "t": "打卡统计",
+     "h": "/checkins/stats"
+    },
+    {
+     "t": "选课审批",
+     "h": "/registrar/subject/approvals"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "永约学坊 我的主页 帮助 预备科导师【演示】 首页 我的主页 学习 教学安排 作业管理 成绩录入 打卡统计 选课审批 校园生活 课程中心 校历 图书馆 沟通 通讯录 消息 布告栏 个人 费用账单 请假 通知偏好 帮助中心 新手上手清单 我知道了 点击左侧导航或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 待办提醒 3 待批请假 学生/家长请假申请等待审批 63 待处理申诉 学生申诉等待处理 75 待批选课 学生选课注册单与换班申请等待审批 11 周记批阅 批改学生提交的周记 报销申请 垫付的书费/车费/活动费申请报销 应用面板（后台） 后台各应用入口（排课、学籍、成绩、费用等） 本周我教的课 本周暂无排课，去周期排课生成。 通知 38 👋 欢迎回来，预备科导师【演示】 所有学习所需尽在一处——快速访问您的记录、课程与服务。 出勤趋势 过去6个月 考勤 常用应用 3 项 编辑 打卡统计 学生每日打卡情况统计 校历 课程、考试、停课与活动总览 0 消息 与学生、家长即时沟通 34 学业 Academics 7 项 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 测验结果 访问和审查测验结果以进行绩效分析 课程 提供多样化的课程，满足不同的学习需求 校历 一体化校历：课程、考试、停课与活动一页总览 0 科目注册 选课注册单：课程/班级/科目选报与申请进度 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 资源与学习 Resources 6 项 数字图书馆 访问广泛的数字资源进行学习 图书馆 丰富的研究资源 0 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 财务 Finance 1 项 费用账单 学杂费账单与缴纳状态查询 社区 Community 4 项 布告栏 集中分享重要公告和信息 4 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 34 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 预备科导师【演示】 faculty@local 编辑资料 修改密码 快速操作 证书 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/apps",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/calendar",
+    "/assignment/manage",
+    "/grade-entry",
+    "/checkins/stats",
+    "/registrar/subject/approvals",
+    "/my/study",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/fees",
+    "/my/time_off",
+    "/my/notify",
+    "/leave/approvals",
+    "/grievances/approvals",
+    "/journals/review",
+    "/my/reimburse/apply",
+    "/timetable/bulk",
+    "/users/result-overview",
+    "/subject/registration",
+    "/my/thesis",
+    "/quiz",
+    "/my-library",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/downloads",
+    "/my/grievances",
+    "/my/addresses",
+    "/my/account",
+    "/certificate",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  },
+  "/my/apps": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "教学安排",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "作业管理",
+     "h": "/assignment/manage"
+    },
+    {
+     "t": "成绩录入",
+     "h": "/grade-entry"
+    },
+    {
+     "t": "打卡统计",
+     "h": "/checkins/stats"
+    },
+    {
+     "t": "选课审批",
+     "h": "/registrar/subject/approvals"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "永约学坊 我的主页 帮助 预备科导师【演示】 首页 我的主页 学习 教学安排 作业管理 成绩录入 打卡统计 选课审批 校园生活 课程中心 校历 图书馆 沟通 通讯录 消息 布告栏 个人 费用账单 请假 通知偏好 帮助中心 新手上手清单 我知道了 点击左侧导航或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 待办提醒 3 待批请假 学生/家长请假申请等待审批 63 待处理申诉 学生申诉等待处理 75 待批选课 学生选课注册单与换班申请等待审批 11 周记批阅 批改学生提交的周记 报销申请 垫付的书费/车费/活动费申请报销 应用面板（后台） 后台各应用入口（排课、学籍、成绩、费用等） 本周我教的课 本周暂无排课，去周期排课生成。 通知 38 👋 欢迎回来，预备科导师【演示】 所有学习所需尽在一处——快速访问您的记录、课程与服务。 出勤趋势 过去6个月 考勤 常用应用 3 项 编辑 打卡统计 学生每日打卡情况统计 校历 课程、考试、停课与活动总览 0 消息 与学生、家长即时沟通 34 学业 Academics 7 项 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 测验结果 访问和审查测验结果以进行绩效分析 课程 提供多样化的课程，满足不同的学习需求 校历 一体化校历：课程、考试、停课与活动一页总览 0 科目注册 选课注册单：课程/班级/科目选报与申请进度 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 资源与学习 Resources 6 项 数字图书馆 访问广泛的数字资源进行学习 图书馆 丰富的研究资源 0 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 财务 Finance 1 项 费用账单 学杂费账单与缴纳状态查询 社区 Community 4 项 布告栏 集中分享重要公告和信息 4 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 34 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 预备科导师【演示】 faculty@local 编辑资料 修改密码 快速操作 证书 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/apps",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/calendar",
+    "/assignment/manage",
+    "/grade-entry",
+    "/checkins/stats",
+    "/registrar/subject/approvals",
+    "/my/study",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/fees",
+    "/my/time_off",
+    "/my/notify",
+    "/leave/approvals",
+    "/grievances/approvals",
+    "/journals/review",
+    "/my/reimburse/apply",
+    "/timetable/bulk",
+    "/users/result-overview",
+    "/subject/registration",
+    "/my/thesis",
+    "/quiz",
+    "/my-library",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/downloads",
+    "/my/grievances",
+    "/my/addresses",
+    "/my/account",
+    "/certificate",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  },
+  "/apps": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "教学安排",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "作业管理",
+     "h": "/assignment/manage"
+    },
+    {
+     "t": "成绩录入",
+     "h": "/grade-entry"
+    },
+    {
+     "t": "打卡统计",
+     "h": "/checkins/stats"
+    },
+    {
+     "t": "选课审批",
+     "h": "/registrar/subject/approvals"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "永约学坊 应用面板 帮助 预备科导师【演示】 首页 我的主页 学习 教学安排 作业管理 成绩录入 打卡统计 选课审批 校园生活 课程中心 校历 图书馆 沟通 通讯录 消息 布告栏 个人 费用账单 请假 通知偏好 帮助中心 教务审批 资产管理 灵命生活 招聘管理 学生信息 招生 时间表 图书馆",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/apps",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/calendar",
+    "/assignment/manage",
+    "/grade-entry",
+    "/checkins/stats",
+    "/registrar/subject/approvals",
+    "/my/study",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/fees",
+    "/my/time_off",
+    "/my/notify",
+    "/odoo/action-644",
+    "/odoo/action-722",
+    "/odoo/action-729",
+    "/odoo/action-724",
+    "/odoo/action-382",
+    "/odoo/action-728",
+    "/odoo/action-456",
+    "/odoo/action-429",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/apps"
+  }
+ },
+ "student": {
+  "/my/home": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "课表",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "作业",
+     "h": "/student/assignment/details"
+    },
+    {
+     "t": "考试",
+     "h": "/student/exam"
+    },
+    {
+     "t": "成绩册",
+     "h": "/grade-book"
+    },
+    {
+     "t": "报课选科",
+     "h": "/subject/enroll"
+    },
+    {
+     "t": "我的申请",
+     "h": "/subject/registration"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "每日打卡",
+     "h": "/my/checkins"
+    },
+    {
+     "t": "我的周记",
+     "h": "/my/journals"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "个人资料",
+     "h": "/student/profile"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "申诉",
+     "h": "/my/grievances"
+    },
+    {
+     "t": "证书",
+     "h": "/certificate"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "跳至内容 永约学坊 我的主页 帮助 王小明 首页 我的主页 学习 课表 作业 考试 成绩册 报课选科 我的申请 校园生活 课程中心 校历 图书馆 每日打卡 我的周记 沟通 通讯录 消息 布告栏 个人 个人资料 费用账单 请假 申诉 证书 通知偏好 帮助中心 新手上手清单 我知道了 点击左侧导航或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 待办 已逾期 8 考试 小要理问答 · 第一学期 总评 06月23日 08:00 考试 基础信仰 · 第一学期 总评 06月23日 08:00 作业 小要理问答背诵检查【演示】 08月29日 21:16 考试 阶段考一 · 小要理问答【演示】 08月30日 17:00 作业 《天路历程》阅读报告【演示】 09月05日 21:16 作业 冒烟测试作业（可删） 09月16日 07:59 作业 冒烟测试作业（可删） 09月16日 07:59 作业 冒烟测试作业（可删） 09月16日 07:59 今日课表 今日无课，查看本周课表 通知 72 👋 欢迎回来，王小明 所有学习所需尽在一处——快速访问您的记录、课程与服务。 1 在读课程 2 待完成作业 0 即将到来的考试 出勤趋势 过去6个月 11% 与上个月相比 5月 6月 7月 8月 9月 10月 考勤 准时 22 缺席 25 请假 0 迟到 1 常用应用 3 项 编辑 每日打卡 打卡足迹与连续记录 校历 课程、考试、停课与活动总览 0 作业 待完成与已提交的作业 5 学业 Academics 15 项 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 学生档案 个人信息与学籍数据 测验结果 访问和审查测验结果以进行绩效分析 进展 监控和评估学生的学业进步 作业 高效地跟踪、收集和管理课程作业 5 考试 参加并管理各种考试 3 课程 提供多样化的课程，满足不同的学习需求 报课选科 课程/班级/科目目录自主选报，提交教务审批 出席率 准确管理学生考勤记录 48 校历 一体化校历：课程、考试、停课与活动一页总览 0 成绩簿 分析学生的成绩和表现 2 换班申请 申请换班或换课程，提交后由教务审批 10 科目注册 选课注册单：课程/班级/科目选报与申请进度 11 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 资源与学习 Resources 7 项 数字图书馆 访问广泛的数字资源进行学习 0 图书馆 丰富的研究资源 0 学习材料 课程配套学习资料 1 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 成长 Growth 3 项 每日打卡 读经、灵修等每日打卡记录 我的周记 每周周记提交与教师批阅 我的评估 待填评教与历次评估结果 财务 Finance 2 项 费用账单 学杂费账单与缴纳状态查询 2 发起报销 垫付的书费/车费/活动费申请报销 0 社区 Community 4 项 布告栏 集中分享重要公告和信息 0 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 59 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 王小明 预备科 · 2026级【演示】 预备科 stu@local 编辑资料 修改密码 快速操作 课程中心 校历 考勤 作业 考试 成绩簿 证书 概览 出勤率 48% 学期进度 57% 作业 1 / 5 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/calendar",
+    "/student/assignment/details",
+    "/student/exam",
+    "/grade-book",
+    "/subject/enroll",
+    "/subject/registration",
+    "/my/study",
+    "/library/media",
+    "/my/checkins",
+    "/my/journals",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/student/profile",
+    "/my/fees",
+    "/my/time_off",
+    "/my/grievances",
+    "/certificate",
+    "/my/notify",
+    "/student/timetable?view=day",
+    "/users/result-overview",
+    "/student/progression",
+    "/student/attendance",
+    "/course/change/request",
+    "/my/thesis",
+    "/quiz",
+    "/my-library",
+    "/subject/details",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/downloads",
+    "/assess/my",
+    "/my/reimburse/apply",
+    "/my/addresses",
+    "/my/account",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  },
+  "/my/apps": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "课表",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "作业",
+     "h": "/student/assignment/details"
+    },
+    {
+     "t": "考试",
+     "h": "/student/exam"
+    },
+    {
+     "t": "成绩册",
+     "h": "/grade-book"
+    },
+    {
+     "t": "报课选科",
+     "h": "/subject/enroll"
+    },
+    {
+     "t": "我的申请",
+     "h": "/subject/registration"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "每日打卡",
+     "h": "/my/checkins"
+    },
+    {
+     "t": "我的周记",
+     "h": "/my/journals"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "个人资料",
+     "h": "/student/profile"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "申诉",
+     "h": "/my/grievances"
+    },
+    {
+     "t": "证书",
+     "h": "/certificate"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "跳至内容 永约学坊 我的主页 帮助 王小明 首页 我的主页 学习 课表 作业 考试 成绩册 报课选科 我的申请 校园生活 课程中心 校历 图书馆 每日打卡 我的周记 沟通 通讯录 消息 布告栏 个人 个人资料 费用账单 请假 申诉 证书 通知偏好 帮助中心 新手上手清单 我知道了 点击左侧导航或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 待办 已逾期 8 考试 小要理问答 · 第一学期 总评 06月23日 08:00 考试 基础信仰 · 第一学期 总评 06月23日 08:00 作业 小要理问答背诵检查【演示】 08月29日 21:16 考试 阶段考一 · 小要理问答【演示】 08月30日 17:00 作业 《天路历程》阅读报告【演示】 09月05日 21:16 作业 冒烟测试作业（可删） 09月16日 07:59 作业 冒烟测试作业（可删） 09月16日 07:59 作业 冒烟测试作业（可删） 09月16日 07:59 今日课表 今日无课，查看本周课表 通知 72 👋 欢迎回来，王小明 所有学习所需尽在一处——快速访问您的记录、课程与服务。 1 在读课程 2 待完成作业 0 即将到来的考试 出勤趋势 过去6个月 11% 与上个月相比 5月 6月 7月 8月 9月 10月 考勤 准时 22 缺席 25 请假 0 迟到 1 常用应用 3 项 编辑 每日打卡 打卡足迹与连续记录 校历 课程、考试、停课与活动总览 0 作业 待完成与已提交的作业 5 学业 Academics 15 项 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 学生档案 个人信息与学籍数据 测验结果 访问和审查测验结果以进行绩效分析 进展 监控和评估学生的学业进步 作业 高效地跟踪、收集和管理课程作业 5 考试 参加并管理各种考试 3 课程 提供多样化的课程，满足不同的学习需求 报课选科 课程/班级/科目目录自主选报，提交教务审批 出席率 准确管理学生考勤记录 48 校历 一体化校历：课程、考试、停课与活动一页总览 0 成绩簿 分析学生的成绩和表现 2 换班申请 申请换班或换课程，提交后由教务审批 10 科目注册 选课注册单：课程/班级/科目选报与申请进度 11 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 资源与学习 Resources 7 项 数字图书馆 访问广泛的数字资源进行学习 0 图书馆 丰富的研究资源 0 学习材料 课程配套学习资料 1 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 成长 Growth 3 项 每日打卡 读经、灵修等每日打卡记录 我的周记 每周周记提交与教师批阅 我的评估 待填评教与历次评估结果 财务 Finance 2 项 费用账单 学杂费账单与缴纳状态查询 2 发起报销 垫付的书费/车费/活动费申请报销 0 社区 Community 4 项 布告栏 集中分享重要公告和信息 0 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 59 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 王小明 预备科 · 2026级【演示】 预备科 stu@local 编辑资料 修改密码 快速操作 课程中心 校历 考勤 作业 考试 成绩簿 证书 概览 出勤率 48% 学期进度 57% 作业 1 / 5 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/calendar",
+    "/student/assignment/details",
+    "/student/exam",
+    "/grade-book",
+    "/subject/enroll",
+    "/subject/registration",
+    "/my/study",
+    "/library/media",
+    "/my/checkins",
+    "/my/journals",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/student/profile",
+    "/my/fees",
+    "/my/time_off",
+    "/my/grievances",
+    "/certificate",
+    "/my/notify",
+    "/student/timetable?view=day",
+    "/users/result-overview",
+    "/student/progression",
+    "/student/attendance",
+    "/course/change/request",
+    "/my/thesis",
+    "/quiz",
+    "/my-library",
+    "/subject/details",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/downloads",
+    "/assess/my",
+    "/my/reimburse/apply",
+    "/my/addresses",
+    "/my/account",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  },
+  "/apps": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "课表",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "作业",
+     "h": "/student/assignment/details"
+    },
+    {
+     "t": "考试",
+     "h": "/student/exam"
+    },
+    {
+     "t": "成绩册",
+     "h": "/grade-book"
+    },
+    {
+     "t": "报课选科",
+     "h": "/subject/enroll"
+    },
+    {
+     "t": "我的申请",
+     "h": "/subject/registration"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "每日打卡",
+     "h": "/my/checkins"
+    },
+    {
+     "t": "我的周记",
+     "h": "/my/journals"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "个人资料",
+     "h": "/student/profile"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "申诉",
+     "h": "/my/grievances"
+    },
+    {
+     "t": "证书",
+     "h": "/certificate"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "跳至内容 永约学坊 我的主页 帮助 王小明 首页 我的主页 学习 课表 作业 考试 成绩册 报课选科 我的申请 校园生活 课程中心 校历 图书馆 每日打卡 我的周记 沟通 通讯录 消息 布告栏 个人 个人资料 费用账单 请假 申诉 证书 通知偏好 帮助中心 新手上手清单 我知道了 点击左侧导航或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 待办 已逾期 8 考试 小要理问答 · 第一学期 总评 06月23日 08:00 考试 基础信仰 · 第一学期 总评 06月23日 08:00 作业 小要理问答背诵检查【演示】 08月29日 21:16 考试 阶段考一 · 小要理问答【演示】 08月30日 17:00 作业 《天路历程》阅读报告【演示】 09月05日 21:16 作业 冒烟测试作业（可删） 09月16日 07:59 作业 冒烟测试作业（可删） 09月16日 07:59 作业 冒烟测试作业（可删） 09月16日 07:59 今日课表 今日无课，查看本周课表 通知 72 👋 欢迎回来，王小明 所有学习所需尽在一处——快速访问您的记录、课程与服务。 1 在读课程 2 待完成作业 0 即将到来的考试 出勤趋势 过去6个月 11% 与上个月相比 5月 6月 7月 8月 9月 10月 考勤 准时 22 缺席 25 请假 0 迟到 1 常用应用 3 项 编辑 每日打卡 打卡足迹与连续记录 校历 课程、考试、停课与活动总览 0 作业 待完成与已提交的作业 5 学业 Academics 15 项 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 学生档案 个人信息与学籍数据 测验结果 访问和审查测验结果以进行绩效分析 进展 监控和评估学生的学业进步 作业 高效地跟踪、收集和管理课程作业 5 考试 参加并管理各种考试 3 课程 提供多样化的课程，满足不同的学习需求 报课选科 课程/班级/科目目录自主选报，提交教务审批 出席率 准确管理学生考勤记录 48 校历 一体化校历：课程、考试、停课与活动一页总览 0 成绩簿 分析学生的成绩和表现 2 换班申请 申请换班或换课程，提交后由教务审批 10 科目注册 选课注册单：课程/班级/科目选报与申请进度 11 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 资源与学习 Resources 7 项 数字图书馆 访问广泛的数字资源进行学习 0 图书馆 丰富的研究资源 0 学习材料 课程配套学习资料 1 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 成长 Growth 3 项 每日打卡 读经、灵修等每日打卡记录 我的周记 每周周记提交与教师批阅 我的评估 待填评教与历次评估结果 财务 Finance 2 项 费用账单 学杂费账单与缴纳状态查询 2 发起报销 垫付的书费/车费/活动费申请报销 0 社区 Community 4 项 布告栏 集中分享重要公告和信息 0 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 59 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 王小明 预备科 · 2026级【演示】 预备科 stu@local 编辑资料 修改密码 快速操作 课程中心 校历 考勤 作业 考试 成绩簿 证书 概览 出勤率 48% 学期进度 57% 作业 1 / 5 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/calendar",
+    "/student/assignment/details",
+    "/student/exam",
+    "/grade-book",
+    "/subject/enroll",
+    "/subject/registration",
+    "/my/study",
+    "/library/media",
+    "/my/checkins",
+    "/my/journals",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/student/profile",
+    "/my/fees",
+    "/my/time_off",
+    "/my/grievances",
+    "/certificate",
+    "/my/notify",
+    "/student/timetable?view=day",
+    "/users/result-overview",
+    "/student/progression",
+    "/student/attendance",
+    "/course/change/request",
+    "/my/thesis",
+    "/quiz",
+    "/my-library",
+    "/subject/details",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/downloads",
+    "/assess/my",
+    "/my/reimburse/apply",
+    "/my/addresses",
+    "/my/account",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  }
+ },
+ "parent": {
+  "/my/home": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "我的孩子",
+     "h": "/my/child"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "跳至内容 永约学坊 我的主页 帮助 家长【演示】 首页 我的主页 学习 我的孩子 校园生活 课程中心 校历 图书馆 沟通 通讯录 消息 布告栏 个人 费用账单 请假 通知偏好 帮助中心 新手上手清单 我知道了 点击左侧导航或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 今日课表 今日无课，查看本周课表 通知 1 👋 欢迎回来，家长【演示】 所有学习所需尽在一处——快速访问您的记录、课程与服务。 出勤趋势 过去6个月 考勤 常用应用 3 项 编辑 校历 课程、考试、停课与活动总览 0 消息 与老师、学校即时沟通 1 通讯录 老师、家长与学校联系人 学业 Academics 8 项 我的孩子 查看孩子的仪表盘、成绩与档案 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 测验结果 访问和审查测验结果以进行绩效分析 课程 提供多样化的课程，满足不同的学习需求 校历 一体化校历：课程、考试、停课与活动一页总览 0 科目注册 选课注册单：课程/班级/科目选报与申请进度 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 资源与学习 Resources 6 项 数字图书馆 访问广泛的数字资源进行学习 图书馆 丰富的研究资源 0 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 财务 Finance 1 项 费用账单 学杂费账单与缴纳状态查询 社区 Community 4 项 布告栏 集中分享重要公告和信息 4 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 1 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 家长【演示】 parent@local 编辑资料 修改密码 快速操作 课程中心 校历 证书 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/child",
+    "/my/study",
+    "/my/calendar",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/fees",
+    "/my/time_off",
+    "/my/notify",
+    "/student/timetable?view=day",
+    "/users/result-overview",
+    "/subject/registration",
+    "/my/thesis",
+    "/quiz",
+    "/my-library",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/downloads",
+    "/my/grievances",
+    "/my/addresses",
+    "/my/account",
+    "/certificate",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  },
+  "/my/apps": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "我的孩子",
+     "h": "/my/child"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "跳至内容 永约学坊 我的主页 帮助 家长【演示】 首页 我的主页 学习 我的孩子 校园生活 课程中心 校历 图书馆 沟通 通讯录 消息 布告栏 个人 费用账单 请假 通知偏好 帮助中心 新手上手清单 我知道了 点击左侧导航或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 今日课表 今日无课，查看本周课表 通知 1 👋 欢迎回来，家长【演示】 所有学习所需尽在一处——快速访问您的记录、课程与服务。 出勤趋势 过去6个月 考勤 常用应用 3 项 编辑 校历 课程、考试、停课与活动总览 0 消息 与老师、学校即时沟通 1 通讯录 老师、家长与学校联系人 学业 Academics 8 项 我的孩子 查看孩子的仪表盘、成绩与档案 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 测验结果 访问和审查测验结果以进行绩效分析 课程 提供多样化的课程，满足不同的学习需求 校历 一体化校历：课程、考试、停课与活动一页总览 0 科目注册 选课注册单：课程/班级/科目选报与申请进度 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 资源与学习 Resources 6 项 数字图书馆 访问广泛的数字资源进行学习 图书馆 丰富的研究资源 0 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 财务 Finance 1 项 费用账单 学杂费账单与缴纳状态查询 社区 Community 4 项 布告栏 集中分享重要公告和信息 4 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 1 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 家长【演示】 parent@local 编辑资料 修改密码 快速操作 课程中心 校历 证书 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/child",
+    "/my/study",
+    "/my/calendar",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/fees",
+    "/my/time_off",
+    "/my/notify",
+    "/student/timetable?view=day",
+    "/users/result-overview",
+    "/subject/registration",
+    "/my/thesis",
+    "/quiz",
+    "/my-library",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/downloads",
+    "/my/grievances",
+    "/my/addresses",
+    "/my/account",
+    "/certificate",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  },
+  "/apps": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "我的孩子",
+     "h": "/my/child"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "费用账单",
+     "h": "/my/fees"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "跳至内容 永约学坊 我的主页 帮助 家长【演示】 首页 我的主页 学习 我的孩子 校园生活 课程中心 校历 图书馆 沟通 通讯录 消息 布告栏 个人 费用账单 请假 通知偏好 帮助中心 新手上手清单 我知道了 点击左侧导航或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 今日课表 今日无课，查看本周课表 通知 1 👋 欢迎回来，家长【演示】 所有学习所需尽在一处——快速访问您的记录、课程与服务。 出勤趋势 过去6个月 考勤 常用应用 3 项 编辑 校历 课程、考试、停课与活动总览 0 消息 与老师、学校即时沟通 1 通讯录 老师、家长与学校联系人 学业 Academics 8 项 我的孩子 查看孩子的仪表盘、成绩与档案 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 测验结果 访问和审查测验结果以进行绩效分析 课程 提供多样化的课程，满足不同的学习需求 校历 一体化校历：课程、考试、停课与活动一页总览 0 科目注册 选课注册单：课程/班级/科目选报与申请进度 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 资源与学习 Resources 6 项 数字图书馆 访问广泛的数字资源进行学习 图书馆 丰富的研究资源 0 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 财务 Finance 1 项 费用账单 学杂费账单与缴纳状态查询 社区 Community 4 项 布告栏 集中分享重要公告和信息 4 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 1 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 家长【演示】 parent@local 编辑资料 修改密码 快速操作 课程中心 校历 证书 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/my/child",
+    "/my/study",
+    "/my/calendar",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/fees",
+    "/my/time_off",
+    "/my/notify",
+    "/student/timetable?view=day",
+    "/users/result-overview",
+    "/subject/registration",
+    "/my/thesis",
+    "/quiz",
+    "/my-library",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/downloads",
+    "/my/grievances",
+    "/my/addresses",
+    "/my/account",
+    "/certificate",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  }
+ },
+ "backoffice": {
+  "/my/home": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "应用面板",
+     "h": "/apps"
+    },
+    {
+     "t": "成绩录入",
+     "h": "/grade-entry"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "全部应用",
+     "h": "/my/apps"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "财务管理",
+     "h": "/odoo/action-720"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    },
+    {
+     "t": "课程编排",
+     "h": "/registrar/curriculum"
+    },
+    {
+     "t": "管理后台",
+     "h": "/web"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "课程编排",
+     "h": "/registrar/curriculum"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "永约学坊 应用面板 教师工作台 帮助 教务专员 首页 我的主页 应用面板 学习 成绩录入 校园生活 课程中心 全部应用 校历 图书馆 沟通 通讯录 消息 布告栏 个人 财务管理 请假 通知偏好 帮助中心 课程编排 管理后台 新手上手清单 我知道了 点击左侧导航「应用面板」或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 教务专员老师您好 2026年10月03日 周六 修改密码 待办提醒 3 待批请假 学生/家长请假申请等待审批 63 待处理申诉 学生申诉等待处理 75 待批选课 学生选课注册单与换班申请等待审批 11 常用应用 编辑 打卡统计 学生每日打卡情况统计 校历 课程、考试、停课与活动总览 0 消息 与学生、家长即时沟通 50 周期排课【教务处】 按周期批量生成课表 周记批阅 批改学生提交的周记 打卡统计 查看学生每日打卡情况 资料下载 常用表格下载与资料管理 报销申请 垫付的书费/车费/活动费申请报销 财务总台账 应收/应付双向台账与记账 报销审批 报销申请审核与付款登记 通讯录 本班学生与家长、管理员 校历 课程、考试、停课与活动总览 私信 与本班学生、家长即时沟通 50 应用面板（后台） 后台各应用入口（排课、学籍、成绩、费用等） 本周我教的课 本周暂无排课，去周期排课生成。 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/downloads",
+    "/odoo/action-644",
+    "/odoo/action-720",
+    "/odoo/action-722",
+    "/odoo/action-724",
+    "/odoo/action-729",
+    "/odoo/action-811",
+    "/odoo/action-124",
+    "/odoo/action-382",
+    "/odoo/action-728",
+    "/odoo/action-456",
+    "/odoo/action-429",
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/apps",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/grade-entry",
+    "/my/study",
+    "/my/apps",
+    "/my/calendar",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/time_off",
+    "/my/notify",
+    "/registrar/curriculum",
+    "/web",
+    "/leave/approvals",
+    "/grievances/approvals",
+    "/registrar/subject/approvals",
+    "/checkins/stats",
+    "/timetable/bulk",
+    "/journals/review",
+    "/my/reimburse/apply",
+    "/ledger",
+    "/ledger/reimburse",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/home"
+  },
+  "/my/apps": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "应用面板",
+     "h": "/apps"
+    },
+    {
+     "t": "成绩录入",
+     "h": "/grade-entry"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "全部应用",
+     "h": "/my/apps"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "财务管理",
+     "h": "/odoo/action-720"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    },
+    {
+     "t": "课程编排",
+     "h": "/registrar/curriculum"
+    },
+    {
+     "t": "管理后台",
+     "h": "/web"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "课程编排",
+     "h": "/registrar/curriculum"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "永约学坊 应用面板 全部应用 帮助 教务专员 首页 我的主页 应用面板 学习 成绩录入 校园生活 课程中心 全部应用 校历 图书馆 沟通 通讯录 消息 布告栏 个人 财务管理 请假 通知偏好 帮助中心 课程编排 管理后台 通知 54 👋 欢迎回来，教务专员 所有学习所需尽在一处——快速访问您的记录、课程与服务。 出勤趋势 过去6个月 考勤 常用应用 3 项 编辑 校历 课程、考试、停课与活动总览 0 消息 与师生即时沟通 50 应用面板 全部应用入口 学业 Academics 8 项 课程中心 每门在修科目：课节、一键入会、课程资料与成绩 测验结果 访问和审查测验结果以进行绩效分析 课程 提供多样化的课程，满足不同的学习需求 校历 一体化校历：课程、考试、停课与活动一页总览 0 科目注册 选课注册单：课程/班级/科目选报与申请进度 论文 管理您的论文注册和提交流程 在线测验 参加在线测验并查看成绩 周期排课 勾选星期与起止周，批量生成整学期课表 资源与学习 Resources 6 项 数字图书馆 访问广泛的数字资源进行学习 图书馆 丰富的研究资源 0 线上会议 一键进入 Zoom 课堂 Zoom 会议 点击跳转 Zoom 链接 资产请求 处理教育材料和资源请求 资料下载 请假表、阅读报告格式等常用表格下载 0 社区 Community 5 项 布告栏 集中分享重要公告和信息 4 发布公告 发布全校公告/通知（支持门户横幅） 通讯录 校园通讯录：老师、学生、家长（按熟人圈可见） 私信 轻量私信：与老师、学生、家长即时沟通（熟人圈） 50 申诉 及时处理和解决机构关注的问题 个人与设置 3 项 请假 处理休假请求和缺勤 地址 添加、删除或修改您的地址 修改密码 修改你的登录密码 更多 1 项 校友工作 校友发布的工作岗位管理 教务专员 backoffice@local 编辑资料 修改密码 快速操作 课程中心 校历 证书 2026年10月 日 一 二 三 四 五 六 27 28 29 30 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 永约学坊 COVENANT REFORMED SEMINARY 联系我们 · 使用指南 scrtsschool@gmail.com © 2026 永约学坊 / Soli Deo Gloria",
+   "links": [
+    "/downloads",
+    "/odoo/action-644",
+    "/odoo/action-720",
+    "/odoo/action-722",
+    "/odoo/action-724",
+    "/odoo/action-729",
+    "/odoo/action-811",
+    "/odoo/action-124",
+    "/odoo/action-382",
+    "/odoo/action-728",
+    "/odoo/action-456",
+    "/odoo/action-429",
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/apps",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/grade-entry",
+    "/my/study",
+    "/my/apps",
+    "/my/calendar",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/time_off",
+    "/my/notify",
+    "/registrar/curriculum",
+    "/web",
+    "/openeducat/apps_menu",
+    "/users/result-overview",
+    "/subject/registration",
+    "/my/thesis",
+    "/quiz",
+    "/timetable/bulk",
+    "/my-library",
+    "/meeting/information",
+    "/online/meeting",
+    "/my/asset-request",
+    "/notice/publish",
+    "/my/grievances",
+    "/my/addresses",
+    "/alumni/job/list",
+    "/my/account",
+    "/certificate",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/my/apps"
+  },
+  "/apps": {
+   "nav": [
+    {
+     "t": "我的主页",
+     "h": "/my/home"
+    },
+    {
+     "t": "应用面板",
+     "h": "/apps"
+    },
+    {
+     "t": "成绩录入",
+     "h": "/grade-entry"
+    },
+    {
+     "t": "课程中心",
+     "h": "/my/study"
+    },
+    {
+     "t": "全部应用",
+     "h": "/my/apps"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "图书馆",
+     "h": "/library/media"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "布告栏",
+     "h": "/my/notice_board/notice"
+    },
+    {
+     "t": "财务管理",
+     "h": "/odoo/action-720"
+    },
+    {
+     "t": "请假",
+     "h": "/my/time_off"
+    },
+    {
+     "t": "通知偏好",
+     "h": "/my/notify"
+    },
+    {
+     "t": "帮助中心",
+     "h": "/my/help"
+    },
+    {
+     "t": "课程编排",
+     "h": "/registrar/curriculum"
+    },
+    {
+     "t": "管理后台",
+     "h": "/web"
+    }
+   ],
+   "tabs": [
+    {
+     "t": "首页",
+     "h": "/my/home"
+    },
+    {
+     "t": "校历",
+     "h": "/my/calendar"
+    },
+    {
+     "t": "消息",
+     "h": "/my/messages"
+    },
+    {
+     "t": "通讯录",
+     "h": "/my/contacts"
+    },
+    {
+     "t": "课程编排",
+     "h": "/registrar/curriculum"
+    },
+    {
+     "t": "修改密码",
+     "h": "/my/password"
+    }
+   ],
+   "text": "永约学坊 应用面板 应用面板 帮助 教务专员 首页 我的主页 应用面板 学习 成绩录入 校园生活 课程中心 全部应用 校历 图书馆 沟通 通讯录 消息 布告栏 个人 财务管理 请假 通知偏好 帮助中心 课程编排 管理后台 资料下载 教务审批 财务管理 资产管理 灵命生活 招聘管理 综合评估 网站 学生信息 招生 时间表 图书馆",
+   "links": [
+    "/downloads",
+    "/odoo/action-644",
+    "/odoo/action-720",
+    "/odoo/action-722",
+    "/odoo/action-724",
+    "/odoo/action-729",
+    "/odoo/action-811",
+    "/odoo/action-124",
+    "/odoo/action-382",
+    "/odoo/action-728",
+    "/odoo/action-456",
+    "/odoo/action-429",
+    "/",
+    "/about",
+    "/programs",
+    "/admissions",
+    "/journal",
+    "/login",
+    "/booking",
+    "/digital-library",
+    "/online-exams",
+    "/jobs",
+    "/courses-offered",
+    "/program-offered",
+    "/alumni/job/card",
+    "/campus/jobs",
+    "/#contact",
+    "/alumni",
+    "/courses",
+    "/my-courses",
+    "/alumni/jobs",
+    "/apps",
+    "/my/home",
+    "/logout",
+    "/contactus",
+    "/my/help",
+    "/my/password",
+    "/grade-entry",
+    "/my/study",
+    "/my/apps",
+    "/my/calendar",
+    "/library/media",
+    "/my/contacts",
+    "/my/messages",
+    "/my/notice_board/notice",
+    "/my/time_off",
+    "/my/notify",
+    "/registrar/curriculum",
+    "/web",
+    "/help"
+   ],
+   "status": 200,
+   "final": "/apps"
+  }
+ }
+}

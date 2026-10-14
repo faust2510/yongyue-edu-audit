@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 「我的账户」/my/account：学籍区（只读学籍卡 + 学号自助填写）。
+
+    === 一、删掉「院系 / 年级 / 学制」三条假标签（2026-09-25）===
+    本文件原先有三条 xpath，把门户地址表单改成了学籍表单：
+        company_name（公司名称）→「院系」、vat（税号）→「年级」、
+        street2（地址第二行）→「学制」+ 小字「即本科、硕士等」
+    后果（校长 2026-09-25 截图）：地址第二行被当成学制填，学生的城市「台州市」
+    就落在 street2 里（生产库 res_partner 41 行，street2 唯一非空值正是「台州市」）。
+    真模型已有（院系 = op.department、学制 = op.program.level、年级/学年 = 学籍记录），
+    三条假标签属于「同名词、不同物」的重复 owner
+    （docs/plans/major-track-elective-design.md:152；配套的字段改名删除见
+    models/partner_edu.py 文件头）。⇒ 整块删除，地址表单回到 Odoo 原生语义：
+    街道 / 第二行 / 城市，各自还是原来的地址含义。
+
+    === 二、学号（唯一真身 op.student.gr_no）===
+    可编辑规则（队长裁定）：**只在为空时填一次**；填过即只读，改动走后台。
+    理由：gr_no 是评估名册 / Telegram 绑定 / 班级变更预检共用的唯一身份键，
+    放开自由编辑等于允许学生互相顶替学号。非学生账号（教师/家长/教务）
+    **整块不渲染**（下面 t-if="edu_student"；值由 controllers/main.py 的
+    _prepare_my_account_rendering_values 注入）。
+
+    为什么学号是**独立表单**（POST /my/account/gr-no），而不挂进上面的地址表单：
+    本页地址表单在 use_delivery_as_billing 下要求**整份地址**
+    （core portal/controllers/portal.py:761-769）—— 生产 24 名学生伙伴里只有 2 名
+    有电话/街道/城市/国家，挂上去等于 22/24 名学生存不了学号。学号在 op.student 上，
+    与地址无关，故独立成表单（详见 controllers/main.py 的 edu_account_gr_no_submit）。
+    xml_id 沿用 partner_labels_address_form：改名会让升级留下孤儿 ir.ui.view。 -->
+    <template id="partner_labels_address_form" inherit_id="portal.portal_my_details">
+        <xpath expr="//div[@name='address_div']" position="after">
+            <div class="col-12 col-lg-8" t-if="edu_student" id="edu_study_card">
+                <form action="/my/account/gr-no" method="post"
+                      name="edu_gr_no_form" class="mt-32">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <div class="border rounded bg-light p-3">
+                        <div class="fw-bold mb-2">
+                            <i class="fa fa-id-card-o me-1"/>学籍信息
+                            <span class="text-muted fw-normal small ms-1">（由教务处维护，此处只读）</span>
+                        </div>
+                        <div class="row g-2 mb-2" id="edu_study_block">
+                            <t t-foreach="edu_study_rows" t-as="edu_row">
+                                <div class="col-md-6">
+                                    <span class="text-muted small" t-out="edu_row[0]"/>：
+                                    <span t-attf-class="fw-semibold {{'text-muted fw-normal' if not edu_row[1] else ''}}"
+                                          t-out="edu_row[1] or '未设置'"/>
+                                </div>
+                            </t>
+                        </div>
+                        <div class="text-muted small mb-2" t-if="edu_study_hint" t-out="edu_study_hint"/>
+                        <label class="col-form-label" for="o_edu_gr_no">学号</label>
+                        <input id="o_edu_gr_no"
+                               name="edu_gr_no"
+                               type="text"
+                               class="form-control"
+                               t-att-readonly="'1' if edu_gr_no else None"
+                               t-att-value="edu_gr_no"/>
+                        <div class="text-muted small" t-if="edu_gr_no">
+                            学号已设置，学生端只读；如需修改请联系教务处。
+                        </div>
+                        <div class="text-muted small" t-else="">
+                            请填写你的学号（评估名册与成绩录入按学号匹配）；保存后不能自行修改。
+                        </div>
+                        <div class="alert alert-danger py-2 small mt-2" id="edu_gr_no_error"
+                             t-if="edu_gr_no_error" t-out="edu_gr_no_error"/>
+                        <div class="alert alert-success py-2 small mt-2" id="edu_gr_no_ok"
+                             t-if="edu_gr_no_ok">学号已保存。</div>
+                        <button type="submit"
+                                class="btn btn-primary w-100 w-md-auto mt-2"
+                                t-if="not edu_gr_no">保存学号</button>
+                    </div>
+                </form>
+            </div>
+        </xpath>
+    </template>
+</odoo>

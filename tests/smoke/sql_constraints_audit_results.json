@@ -1,0 +1,259 @@
+{
+ "suite": "sql_constraints_audit",
+ "generated_at": "2026-09-21T11:14:56",
+ "target": {
+  "table": "edu_alert_read",
+  "model": "edu.alert.read",
+  "constraint": "edu_alert_read_user_uniq",
+  "file": "custom_addons/edu_portal/models/alert_read.py"
+ },
+ "summary": {
+  "total": 30,
+  "pass": 30,
+  "fail": 0
+ },
+ "checks": [
+  {
+   "no": "A1",
+   "name": "根因守卫：_sql_constraints 在 Odoo 19 只触发 WARNING（不再被消费）",
+   "pass": true,
+   "detail": "model_classes.py:155-170 未出现任何消费逻辑"
+  },
+  {
+   "no": "A2",
+   "name": "根因守卫：registry._sql_constraints 是空 set（约束无从建库）",
+   "pass": true,
+   "detail": "self.last_used = time.monotonic() |  |         self.models: dict[str, type[BaseModel]] = {}    # model name/model instance mapping |         self._sql_constraints = set()  # type: ignore |         sel"
+  },
+  {
+   "no": "A2b",
+   "name": "根因守卫：建约束只遍历 _table_objects（新 API 才是唯一落库路径）",
+   "pass": true,
+   "detail": "models.py:3262-3273 + table_objects.py Constraint.apply_to_database"
+  },
+  {
+   "no": "B1a",
+   "name": "静态：alert_read.py 已无 _sql_constraints 赋值",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "B1b",
+   "name": "静态：alert_read.py 改用 models.Constraint（且声明了 user_id 唯一）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "B2a",
+   "name": "静态：全仓 _sql_constraints 赋值只剩 3 处，且全部在 edu_telegram",
+   "pass": true,
+   "detail": "edu_telegram=['custom_addons/edu_telegram/models/binding_code.py', 'custom_addons/edu_telegram/models/flow.py', 'custom_addons/edu_telegram/models/telegram_chat.py']；其他=[]"
+  },
+  {
+   "no": "B2b",
+   "name": "静态：修好的 alert_read.py 不在存量清单里",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "C1a",
+   "name": "库级核心判据：pg_indexes 存在唯一索引 edu_alert_read_user_uniq",
+   "pass": true,
+   "detail": "命中='edu_alert_read_user_uniq'"
+  },
+  {
+   "no": "C1b",
+   "name": "库级核心判据：pg_constraint 存在 UNIQUE 约束 edu_alert_read_user_uniq",
+   "pass": true,
+   "detail": "命中='edu_alert_read_user_uniq'"
+  },
+  {
+   "no": "C1c",
+   "name": "库级核心判据：UNIQUE 定义确为 (user_id)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "C2a",
+   "name": "负向用例：同一 user_id 的第一行可插入（正对照成立）",
+   "pass": true,
+   "detail": "stdout marker=True"
+  },
+  {
+   "no": "C2b",
+   "name": "负向用例：第二行被**数据库**拒绝（SQLSTATE 23505 + 约束名，不是 Python 异常）",
+   "pass": true,
+   "detail": "psql:<stdin>:6: ERROR:  23505: duplicate key value violates unique constraint \"edu_alert_read_user_uniq\"\nDETAIL:  Key (user_id)=(1) already exists.\nSCHEMA NAME:  public\nTABLE NAME:  edu_alert_read\nCONSTRAINT NAME:  edu_alert_read_user_uniq\nLOCATION:  _bt_check_unique, nbtinsert.c:666"
+  },
+  {
+   "no": "C2c",
+   "name": "负向用例：事务回滚，未留下任何残留行",
+   "pass": true,
+   "detail": "残留=0"
+  },
+  {
+   "no": "A3",
+   "name": "注册表级证据：edu.alert.read._table_objects 含 user_uniq 且定义为 unique (user_id)",
+   "pass": true,
+   "detail": "命中=[['edu_alert_read_user_uniq', 'unique (user_id)']]"
+  },
+  {
+   "no": "D1a",
+   "name": "零回归：无已读行的用户走 search->create 仍能建行（调用方口径不变）",
+   "pass": true,
+   "detail": "found_before=False created_id=13"
+  },
+  {
+   "no": "D1b",
+   "name": "零回归：第二次 search 命中同一行、该用户只有 1 行（约束与调用方假设一致）",
+   "pass": true,
+   "detail": "same_row=True rows=1"
+  },
+  {
+   "no": "D2a",
+   "name": "零回归：_raise_watermarks 首次按类别置水位",
+   "pass": true,
+   "detail": "w1={'a': 3}"
+  },
+  {
+   "no": "D2b",
+   "name": "零回归：水位只升不降（给更小的值不改写）",
+   "pass": true,
+   "detail": "w2={'a': 3}"
+  },
+  {
+   "no": "D2c",
+   "name": "零回归：多类别按 key 合并（不是整表覆盖）",
+   "pass": true,
+   "detail": "w3={'a': 3, 'b': 5}"
+  },
+  {
+   "no": "D2d",
+   "name": "零回归：重复同一水位是幂等的",
+   "pass": true,
+   "detail": "w4={'a': 3, 'b': 5}"
+  },
+  {
+   "no": "D2e",
+   "name": "零回归：last_total 旧字段照旧可写（roles.py 旧路由兼容）",
+   "pass": true,
+   "detail": "last_total=9"
+  },
+  {
+   "no": "D3a",
+   "name": "新约束在 Odoo 层同样生效：同一 user_id 再建一行被拒（不再是静默重复行）",
+   "pass": true,
+   "detail": "dup_create=UniqueViolation: duplicate key value violates unique constraint \"edu_alert_read_user_uniq\"\nDETAIL:  Key (user_id)=(2) already exists.\n"
+  },
+  {
+   "no": "D4",
+   "name": "无残留：edu.alert_read 行快照与开工前逐字段一致",
+   "pass": true,
+   "detail": "before=[{\"id\" : 1, \"user_id\" : 8, \"last_total\" : 14, \"seen_map\" : {\"my/fees\": 2, \"my/time_off\": 11, \"student/exam\": 1, \"my/grievances\": 1, \"my/notice_board/notice\": 4, \"student/assignment/details\": 15}, \"last_read\" : \"2026-08-29T05:06:10\"}, {\"id\" : 2, \"user_id\" : 10, \"last_total\" : 0, \"seen_map\" : {\"my/not after=[{\"id\" : 1, \"user_id\" : 8, \"last_total\" : 14, \"seen_map\" : {\"my/fees\": 2, \"my/time_off\": 11, \"student/exam\": 1, \"my/grievances\": 1, \"my/notice_board/notice\": 4, \"student/assignment/details\": 15}, \"last_read\" : \"2026-08-29T05:06:10\"}, {\"id\" : 2, \"user_id\" : 10, \"last_total\" : 0, \"seen_map\" : {\"my/not"
+  },
+  {
+   "no": "E2a",
+   "name": "生产库：ssh 巡检可执行且退出码为 0",
+   "pass": true,
+   "detail": "op_telegram_chat USING btree (chat_id)\n TG_CHAT  | op_telegram_chat_pkey           | CREATE UNIQUE INDEX op_telegram_chat_pkey ON public.op_telegram_chat USING btree (id)\n(2 rows)\n\n ?column? | ?column? | count \n----------+----------+-------\n TG_ROWS  | binding  |     0\n TG_ROWS  | flow     |     0\n TG_ROWS  | chat     |     1\n(3 rows)\n\n ?column?  | count \n-----------+-------\n ALERT_DUP |     0\n(1 row)\n\n\n[ssh-rc=0] Warning: Permanently added '203.0.113.10' (ED25519) to the list of known hosts.\n"
+  },
+  {
+   "no": "E2b",
+   "name": "生产库：edu_alert_read 无 REPEATING user_id（升级前无重复行，新约束可安全建库）",
+   "pass": true,
+   "detail": "     indexdef                                            \n----------+---------------------------------+-----------------------------------------------------------------------------------------------\n TG_CHAT  | op_telegram_chat__chat_id_index | CREATE INDEX op_telegram_chat__chat_id_index ON public.op_telegram_chat USING btree (chat_id)\n TG_CHAT  | op_telegram_chat_pkey           | CREATE UNIQUE INDEX op_telegram_chat_pkey ON public.op_telegram_chat USING btree (id)\n(2 rows)\n\n ?column? | ?column? | count \n----------+----------+-------\n TG_ROWS  | binding  |     0\n TG_ROWS  | flow     |     0\n TG_ROWS  | chat     |     1\n(3 rows)\n\n ?column?  | count \n-----------+-------\n ALERT_DUP |     0\n(1 row)\n\n\n[ssh-rc=0] Warning: Permanently added '203.0.113.10' (ED25519) to the list of known hosts.\n"
+  },
+  {
+   "no": "E2c",
+   "name": "生产库：edu.telegram.binding 有唯一索引（存量旧写法在旧版本期已建库）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "F1",
+   "name": "体检：_constraints（旧版 Python 级约束）在 Odoo 19 同样只告警、静默失效",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "F2",
+   "name": "体检：未知字段参数只告警并被忽略（例如 fields.Char(placeholder=...)）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "F3",
+   "name": "体检：name_get 在 Odoo 19 的 orm/ 里已零引用（覆写它 = 死代码、无任何提示）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "F4",
+   "name": "体检：视图 attrs=/states= 是**响亮**失败（ValidationError），不属静默失效",
+   "pass": true,
+   "detail": ""
+  }
+ ],
+ "readings": [
+  {
+   "name": "A2c 运行时源码原文（model_classes.py:160-166）",
+   "value": "[\"    if hasattr(model_def, '_constraints'):\", '        _logger.warning(\"Model attribute \\'_constraints\\' is no longer supported, \"', \"    if hasattr(model_def, '_sql_constraints'):\", '        _logger.warning(\"Model attribute \\'_sql_constraints\\' is no longer supported, \"']"
+  },
+  {
+   "name": "B2c 存量旧写法（本次只报告、不修改）",
+   "value": "['custom_addons/edu_telegram/models/binding_code.py', 'custom_addons/edu_telegram/models/flow.py', 'custom_addons/edu_telegram/models/telegram_chat.py']"
+  },
+  {
+   "name": "C0 pg_indexes(edu_alert_read)",
+   "value": "edu_alert_read_pkey :: CREATE UNIQUE INDEX edu_alert_read_pkey ON public.edu_alert_read USING btree (id) ;; edu_alert_read__user_id_index :: CREATE INDEX edu_alert_read__user_id_index ON public.edu_alert_read USING btree (user_id) ;; edu_alert_read_user_uniq :: CREATE UNIQUE INDEX edu_alert_read_user_uniq ON public.edu_alert_read USING btree (user_id)"
+  },
+  {
+   "name": "C0b pg_constraint(edu_alert_read)",
+   "value": "edu_alert_read_create_uid_fkey :: f :: FOREIGN KEY (create_uid) REFERENCES res_users(id) ON DELETE SET NULL ;; edu_alert_read_pkey :: p :: PRIMARY KEY (id) ;; edu_alert_read_user_id_fkey :: f :: FOREIGN KEY (user_id) REFERENCES res_users(id) ON DELETE CASCADE ;; edu_alert_read_user_uniq :: u :: UNIQUE (user_id) ;; edu_alert_read_write_uid_fkey :: f :: FOREIGN KEY (write_uid) REFERENCES res_users(id) ON DELETE SET NULL"
+  },
+  {
+   "name": "C2 负向用例 psql 退出码",
+   "value": "3"
+  },
+  {
+   "name": "C2 负向用例 psql stderr 原文",
+   "value": "psql:<stdin>:6: ERROR:  23505: duplicate key value violates unique constraint \"edu_alert_read_user_uniq\" | DETAIL:  Key (user_id)=(1) already exists. | SCHEMA NAME:  public | TABLE NAME:  edu_alert_read | CONSTRAINT NAME:  edu_alert_read_user_uniq | LOCATION:  _bt_check_unique, nbtinsert.c:666"
+  },
+  {
+   "name": "D0 edu.alert.read._table_objects（注册表级证据）",
+   "value": "[['edu_alert_read_user_uniq', 'unique (user_id)']]"
+  },
+  {
+   "name": "D3 新约束在 Odoo 层的行为（同一 uid 再建一行）",
+   "value": "UniqueViolation: duplicate key value violates unique constraint \"edu_alert_read_user_uniq\"\nDETAIL:  Key (user_id)=(2) already exists.\n"
+  },
+  {
+   "name": "D4b 快照对比（开工前 / 收工后）",
+   "value": "{'before': '[{\"id\" : 1, \"user_id\" : 8, \"last_total\" : 14, \"seen_map\" : {\"my/fees\": 2, \"my/time_off\": 11, \"student/exam\": 1, \"my/grievances\": 1, \"my/notice_board/notice\": 4, \"student/assignment/details\": 15}, \"last_read\" : \"2026-08-29T05:06:10\"}, {\"id\" : 2, \"user_id\" : 10, \"last_total\" : 0, \"seen_map\" : {\"my/notice_board/notice\": 8}, \"last_read\" : \"2026-08-24T02:51:31\"}]', 'after': '[{\"id\" : 1, \"user_id\" : 8, \"last_total\" : 14, \"seen_map\" : {\"my/fees\": 2, \"my/time_off\": 11, \"student/exam\": 1, \"my/grievances\": 1, \"my/notice_board/notice\": 4, \"student/assignment/details\": 15}, \"last_read\" : \"2026-08-29T05:06:10\"}, {\"id\" : 2, \"user_id\" : 10, \"last_total\" : 0, \"seen_map\" : {\"my/notice_board/notice\": 8}, \"last_read\" : \"2026-08-24T02:51:31\"}]'}"
+  },
+  {
+   "name": "E2 生产库巡检原文（只读）[0]",
+   "value": "Pager usage is off.\n  ?column?  |           indexname           |                                         indexdef                                          \n------------+-------------------------------+-------------------------------------------------------------------------------------------\n ALERT_READ | edu_alert_read__user_id_index | CREATE INDEX edu_alert_read__user_id_index ON public.edu_alert_read USING btree (user_id)\n ALERT_READ | edu_alert_read_pkey           | CREATE UNIQUE INDEX edu_alert_read_pkey ON public.edu_alert_read USING btree (id)\n(2 rows)\n\n  ?column?  |            indexname             |                                               indexdef                                               \n------------+----------------------------------+------------------------------------------------------------------------------------------------------\n TG_BINDING | edu_telegram_binding__code_index | CREATE INDEX edu_telegram_binding__code_index ON public.edu_telegram_binding USING btree (code)\n TG_BINDING | edu_telegram_binding_code_uniq   | CREATE UNIQUE INDEX edu_telegram_binding_code_uniq ON public.edu_telegram_binding USING btree (code)\n TG_BINDING | edu_telegram_binding_pkey        | CREATE UNIQUE INDEX edu_telegram_binding_pkey ON public.edu_telegram_binding USING btree (id)\n(3 rows)\n\n ?column? |            indexname             |                                            indexdef                                             \n----------+----------------------------------+-------------------------------------------------------------------------------------------------\n TG_FLOW  | edu_telegram_flow__chat_id_index | CREATE INDEX edu_telegram_flow__chat_id_index ON public.edu_telegram_flow USING btree (chat_id)\n TG_FLOW  | edu_telegram_flow_pkey           | CREA"
+  },
+  {
+   "name": "E2 生产库巡检原文（只读）[1]",
+   "value": "TE UNIQUE INDEX edu_telegram_flow_pkey ON public.edu_telegram_flow USING btree (id)\n(2 rows)\n\n ?column? |            indexname            |                                           indexdef                                            \n----------+---------------------------------+-----------------------------------------------------------------------------------------------\n TG_CHAT  | op_telegram_chat__chat_id_index | CREATE INDEX op_telegram_chat__chat_id_index ON public.op_telegram_chat USING btree (chat_id)\n TG_CHAT  | op_telegram_chat_pkey           | CREATE UNIQUE INDEX op_telegram_chat_pkey ON public.op_telegram_chat USING btree (id)\n(2 rows)\n\n ?column? | ?column? | count \n----------+----------+-------\n TG_ROWS  | binding  |     0\n TG_ROWS  | flow     |     0\n TG_ROWS  | chat     |     1\n(3 rows)\n\n ?column?  | count \n-----------+-------\n ALERT_DUP |     0\n(1 row)\n\n\n[ssh-rc=0] Warning: Permanently added '203.0.113.10' (ED25519) to the list of known hosts.\n"
+  },
+  {
+   "name": "E2d 生产库 edu_telegram_flow 是否有 chat_id 唯一约束（体检结论见回报）",
+   "value": "False"
+  },
+  {
+   "name": "E2e 生产库 op_telegram_chat 是否有 chat_id 唯一约束（体检结论见回报）",
+   "value": "False"
+  },
+  {
+   "name": "F5 本仓暴露面（静默失效命中项）",
+   "value": "{'jobs.py:18 fields.Char(placeholder=...)': \"salary_range = fields.Char(string='薪资范围', placeholder='面议')\", 'def name_get 出现次数': 0, 'Python 级 _constraints 赋值': 0}"
+  },
+  {
+   "name": "F6 运行时源码片段（判定依据）",
+   "value": "{'model_classes_155_170': 'for the given model definition. |     \"\"\" |     assert is_model_definition(model_def) |  |     if hasattr(model_def, \\'_constraints\\'): |         _logger.warning(\"Model attribute \\'_constraints\\' is no longer supported, \" |                         \"please use @api.constrains on methods instead.\") |     if hasattr(model_def, \\'_sql_constraints\\'): |         _logger.warning(\"Model attribute \\'_sql_constraints\\' is no longer supported, \" |                         \"please define models.Constraint on the mod', 'fields_525_540': 'def setup(self, model: BaseModel) -> None: |         \"\"\" Perform the complete setup of a field. \"\"\" |         if not self._setup_done: |             # validate field params |             for key in self._extra_keys__: |                 if not model._valid_field_parameter(self, key): |                     _logger.warning( |                         \"Field %s: unknown parameter %r, if this is an actual\" |                         \" parameter you may want to override the method\" |                    ', 'view_488_500': 'try: |                 # verify that all fields used are valid, etc. |                 view._validate_view(combined_arch, view.model) |                 combined_archs = [combined_arch] |  |                 if combined_arch.xpath(\\'//*[@attrs]\\') or combined_arch.xpath(\\'//*[@states]\\'): |                     view_name = f\\'{view.name} ({view.xml_id})\\' if view.xml_id else view.name |                     err = ValidationError(_(\\'Since 17.0, the \"attrs\" and \"states\" attributes are no longer used.\\\\nView:', 'name_get_in_orm': '', 'deprecation_test': \"'view_init', |     '_needaction', |     '_sql', |     '_execute_sql', | ] |  |  | @tagged('-at_install', 'post_install', 'deprecation') | class TestModelDeprecations(TransactionCase): |  |     def test_model_attributes(self): |         for model_name, Model in self.registry.items(): |             for attr in DEPRECATED_MODEL_ATTRIBUTES: |                 with self.s"
+  }
+ ]
+}

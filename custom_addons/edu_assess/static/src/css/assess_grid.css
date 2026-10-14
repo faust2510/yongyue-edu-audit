@@ -1,0 +1,127 @@
+/** 评估矩阵：自己的滚动容器 + 冻结表头 / 首列（E6）。
+ *
+ * 需求出处：docs/plans/eval-unified-design.md §6.6（E6 冻结表头，原文标注「0 实现」）
+ *         搭配 §6.7（E7 整块粘贴，纯前端部分在 static/src/js/assess_grid.js）。
+ *
+ * ---------------------------------------------------------------------------
+ * ① 为什么矩阵必须**自己**当滚动容器（不是指望页面级 sticky）
+ * ---------------------------------------------------------------------------
+ * sticky 的参考系是「最近的滚动盒子」，而滚动盒子由 overflow 的 computed 值决定，
+ * 与它实际上有没有在滚**无关**（MDN position 原句：「sticks to its nearest ancestor
+ * that has a "scrolling mechanism" …, even if that ancestor isn't the nearest actually
+ * scrolling ancestor」）。
+ *
+ * 门户里矩阵的祖先链上恰好有这么一个盒子：它同时背 .table-responsive 与 .card 两个类，
+ * 而 .table-responsive{overflow-x:auto}（源文件偏移 70632）与 .card{overflow:hidden}
+ * （偏移 653374）**同特异性**、后者声明在后 ⇒ computed 变成 hidden ⇒ 参考系被它抢走、
+ * 页面级 sticky 一律不动（实测：docs/research/table-sticky-and-paste.md §7.6.3 的 P0、
+ * §7.6.5 ① 的因果实验）。矩阵自己成为滚动容器后，最近的滚动盒子就是它自己，
+ * 冻结确定生效（同报告 §7.6.3 的 P3′ 与判据 C7）。
+ *
+ * ⇒ 这正是「别把矩阵放进 .card 里再指望它滚动」的落地：外层卡片只负责外观，
+ *   滚动由 .yy-assess-scroll 自己负责，谁都不用去覆盖 .card 的 overflow。
+ *
+ * 高度预算（两层，2026-09-29 起）：脚本可用时 = 「视口高 − 容器**实测**顶边 − 底部留白」，
+ *   由 assess_grid.js 的 fitHeight() 写进 --yy-assess-fit-h；脚本不可用时回到本文件那条
+ *   纯 CSS 兜底 max(18rem, calc(100vh - 24rem))。
+ *   为什么不能只有兜底：24rem 是按「顶边≈311（/assess/grade、结果页，教务）~379
+ *   （/assess/fill，学生）」拍出来的**固定**预留，页面上多出一条提示条就兜不住 ——
+ *   实测 /assess/fill 保存后顶边 378.67→468.05，预算仍 516 ⇒ 底边 984.05 > 视口 900。
+ *   读数、采集时刻与复跑命令见 tests/smoke/assess_grid_sticky_paste_results.json。
+ *
+ * 浏览器边界（如实写明，不假装跨引擎都验过）：冻结用 position: sticky 作用在 THEAD
+ *   元素上 —— **一次冻住全部表头行**（含最近新做的分组行），不是只冻最后一行。
+ *   2026-09-29 两引擎实测（tests/smoke/assess_grid_sticky_paste.py 的 B 段）：
+ *     · Chromium 147.0.7727.15：纵滚 200 后三行表头位移 = [0, 0.0, 0.0]；
+ *     · WebKit 26.4（playwright webkit-2287）：同样 = [0, 0.0, 0.0]；
+ *     · 反向注入（当场 add_style_tag 把 thead 的 sticky 关掉）：两引擎表头都变成跟着
+ *       滚（≈-200），而页面**不坏**（仍可聚焦 / 可输入 / 可滚动）⇒ 这正是"引擎不支持
+ *       thead sticky 时"的降级形态：退化成「不冻」，不是「坏」。
+ *   ⚠ 诚实边界：Playwright 的 WebKit 是一个 WebKit 构建，**不等于**某个具体的 Safari
+ *   版本；比它更老的 Safari（thead/tr 上的 sticky 历史上不生效）会落进上面那条降级形态。
+ *   真要覆盖那一档，替代写法是「逐行 th sticky + JS 算 top 偏移」——设计 §6.6 把纯 CSS
+ *   记为**当时的选择**、不是不可改的约束；今天不为一个**量不到**的档位改写法。
+ *
+ * 小屏（视口 < 矩阵自然宽度）：**不做小屏分叉**（门户矩阵是服务端渲染，没有后台那种
+ *   isSmall 直接不渲染的分支）。实测（S 段）：
+ *     · 390×844：容器 360×494、自然宽 1920 ⇒ 横向行程 1560px、约 2.7 个数字列可见，
+ *       表头/首列的冻结照常生效；整页**没有**被撑出横向滚动条（document.scrollWidth=390）。
+ *     · 768×1024：容器 690×698、横向行程 1230px、纵向行程 1374px。
+ *   ⚠ 测不到的（探针里明确打 N/A、不当通过）：iOS 动态视口（地址栏收起会改 100vh）、
+ *   触摸惯性横滑与 sticky 的交互。
+ * --------------------------------------------------------------------------- */
+
+/* ① 滚动容器：矩阵自己当滚动盒（E6 的地基）
+   高度预算 = 「视口高 − 容器**实测**顶边 − 底部留白」，由 static/src/js/assess_grid.js
+   的 fitHeight() 写进 --yy-assess-fit-h（挂载 / resize / 页面结构变化时重算）。
+
+   ⚠ 下面 max(18rem, calc(100vh - 24rem)) 是**无脚本兜底**，不是判据：
+   24rem 是当时按「顶边≈311~379px」拍出来的固定预留，页面上一旦多出提示条就兜不住
+   —— 实测 /assess/fill（1440×900）保存后多出「已保存」条，顶边 378.67→468.05，
+   预算不动 ⇒ 容器底边 984.05 > 视口 900（读数见
+   tests/smoke/assess_grid_sticky_paste_results.json 的 G_saved_state / G5）。
+   渐进增强口径：脚本不可用时回到这条兜底 —— 与改动前**逐字节等价**，不比原来差。 */
+.yy-assess-scroll {
+    max-height: max(18rem, calc(100vh - 24rem));
+    max-height: var(--yy-assess-fit-h, max(18rem, calc(100vh - 24rem)));
+    overflow: auto;
+    /* 触控板横滑不要连带页面左右晃 */
+    overscroll-behavior-x: contain;
+}
+
+/* ② 表头冻结：整段 THEAD 一起冻（含一级/二级分组行与叶子项名行）。
+   背景色必须显式给：sticky 元素透明会透出下方滚过的内容。 */
+.yy-assess-scroll .yy-assess-matrix thead {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: var(--bg, #f4f7fa);
+}
+
+/* border-collapse: collapse 下，sticky 行的边框会被表层的边框绘制吃掉
+   （滚动中「掉线」）⇒ 用 inset 阴影补一条同样的线（先例：Odoo 核心与 OCA 矩阵同法）。 */
+.yy-assess-scroll .yy-assess-matrix thead th,
+.yy-assess-scroll .yy-assess-matrix thead td {
+    background-color: var(--bg, #f4f7fa);
+    box-shadow: inset 0 -1px 0 #cacdd0;
+}
+
+/* ③ 首列冻结（学号/姓名列；横向滚动 32 列时它必须可读）。
+   背景同样必须不透明：它会盖住从下方滑过的单元格。 */
+.yy-assess-scroll .yy-assess-matrix tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: var(--surface-card, #fff);
+    box-shadow: inset -1px 0 0 #cacdd0;
+}
+
+/* 交叉格（既是表头又落在首列，如 <th rowspan=N>学生</th>）：两轴都冻，层级最高 */
+.yy-assess-scroll .yy-assess-matrix thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+}
+
+/* ④ 粘贴结果提示条（E7 的状态出口；节点由 assess_grid.js 创建，空着时不占位）。
+   role=status + aria-live=polite ⇒ 读屏也会念出来。 */
+.yy-assess-paste-status {
+    margin: 0;
+}
+.yy-assess-paste-status:not(:empty) {
+    margin-top: 0.5rem;
+}
+
+/* ⑤ 打印时关掉冻结：sticky 会让表头叠在内容上（设计 §6.6 ⑤ / §6.9） */
+@media print {
+    .yy-assess-scroll {
+        max-height: none;
+        overflow: visible;
+    }
+    .yy-assess-scroll .yy-assess-matrix thead,
+    .yy-assess-scroll .yy-assess-matrix tbody td:first-child,
+    .yy-assess-scroll .yy-assess-matrix thead th:first-child {
+        position: static;
+        box-shadow: none;
+    }
+}

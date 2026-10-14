@@ -1,0 +1,182 @@
+{
+ "base": "http://localhost:8069",
+ "when_start": "2026-09-29 15:31:43",
+ "when_end": "2026-09-29 15:31:54",
+ "readings": {
+  "fixture": {
+   "template": 343,
+   "task": 496,
+   "rosters": 27,
+   "leaves": 20,
+   "rows": 27,
+   "fill_template": 344,
+   "fill_task": 497
+  },
+  "browser": {
+   "version": "147.0.7727.15",
+   "url": "/assess/grade/496",
+   "viewport": "1440x900"
+  },
+  "G_state": {
+   "found": true,
+   "docTop": 378.67,
+   "boxH": 516,
+   "boxW": 1178,
+   "bottom": 894.67,
+   "vh": 900,
+   "vw": 1440,
+   "maxH": "516px",
+   "fitVar": "",
+   "savedBanner": null,
+   "maxScrollTop": 804,
+   "maxScrollLeft": 742,
+   "rows": 27,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "bodyRow0Top": 115.28,
+   "col0Left": 0,
+   "col2Left": 210,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky"
+  },
+  "G_saved_state": {
+   "found": true,
+   "docTop": 468.05,
+   "boxH": 516,
+   "boxW": 1178,
+   "bottom": 984.05,
+   "vh": 900,
+   "vw": 1440,
+   "maxH": "516px",
+   "fitVar": "",
+   "savedBanner": "已保存。 截止前可以回来修改，重复提交不会重复计数。",
+   "maxScrollTop": 804,
+   "maxScrollLeft": 742,
+   "rows": 27,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "bodyRow0Top": 115.28,
+   "col0Left": 0,
+   "col2Left": 210,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky"
+  },
+  "G_resized_700": {
+   "found": true,
+   "docTop": 468.05,
+   "boxH": 316,
+   "boxW": 1178,
+   "bottom": 784.05,
+   "vh": 700,
+   "vw": 1440,
+   "maxH": "316px",
+   "fitVar": "",
+   "savedBanner": "已保存。 截止前可以回来修改，重复提交不会重复计数。",
+   "maxScrollTop": 1004,
+   "maxScrollLeft": 742,
+   "rows": 27,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "bodyRow0Top": 115.28,
+   "col0Left": 0,
+   "col2Left": 210,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky"
+  },
+  "G_resized_back_900": {
+   "found": true,
+   "docTop": 468.05,
+   "boxH": 516,
+   "boxW": 1178,
+   "bottom": 984.05,
+   "vh": 900,
+   "vw": 1440,
+   "maxH": "516px",
+   "fitVar": "",
+   "savedBanner": "已保存。 截止前可以回来修改，重复提交不会重复计数。",
+   "maxScrollTop": 804,
+   "maxScrollLeft": 742,
+   "rows": 27,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "bodyRow0Top": 115.28,
+   "col0Left": 0,
+   "col2Left": 210,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky"
+  }
+ },
+ "items": [
+  {
+   "no": "G1",
+   "name": "学生填写页也在自有滚动容器里（27 行 × 20 项）",
+   "pass": true,
+   "detail": "docTop=378.67 boxH=516.00 视口=900 行=27"
+  },
+  {
+   "no": "G2",
+   "name": "学生填写页：纵滚 200 表头不动、首行在走",
+   "pass": true,
+   "detail": "表头位移=[0, 0.0, 0.0]｜首行 115.28->-84.72"
+  },
+  {
+   "no": "G3",
+   "name": "学生填写页：横滚 300 首列不动、第 3 列在走",
+   "pass": true,
+   "detail": "首列 0.00->0.00｜第3列 210.00->-90.00"
+  },
+  {
+   "no": "G4",
+   "name": "学生填写页（未提交态）：容器底边在 1440×900 首屏内",
+   "pass": true,
+   "detail": "容器顶边 docTop=378.67 + 高 516.00 = 底边 894.67（视口 900）｜max-height=516px"
+  },
+  {
+   "no": "G5",
+   "name": "保存后（「已保存」提示条可见）：容器底边 <= 视口高（1440×900）",
+   "pass": false,
+   "detail": "提示条='已保存。 截止前可以回来修改，重复提交不会重复计数。'（必须真的在页面上，否则这条是空转）｜顶边 docTop=468.05 + 高 516.00 = 底边 984.05（视口 900）｜max-height=516px"
+  },
+  {
+   "no": "G6",
+   "name": "预算按**实测顶边**算：高 ≈ 视口高 − 顶边 − 24px（不是 CSS 兜底的 516）",
+   "pass": false,
+   "detail": "CSS 兜底 max(18rem,100vh−24rem)=516px｜实高=516.00 期望=407.95（差 108.05）｜--yy-assess-fit-h="
+  },
+  {
+   "no": "G7",
+   "name": "窗口 resize（900→700）后重算：底边仍 <= 视口高，且高 = 契约算式",
+   "pass": false,
+   "detail": "顶边=468.05 高=316.00 底边=784.05 视口=700｜可用=231.95 契约=231.95 分支=下限｜--yy-assess-fit-h="
+  },
+  {
+   "no": "G8",
+   "name": "再 resize 回 900：预算跟着回到 900 的读数（没粘住小屏的值）",
+   "pass": true,
+   "detail": "700 时 316.00 → 900 时 516.00（保存态基准 516.00）"
+  }
+ ],
+ "na": [],
+ "passed": 5,
+ "failed": 3
+}

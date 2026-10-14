@@ -1,0 +1,298 @@
+{
+ "rows": [
+  {
+   "no": "A1",
+   "name": "门户 /assess 已不再出现「跳 Odoo 后台」的卡片",
+   "pass": true,
+   "detail": "残留的后台链接：无"
+  },
+  {
+   "no": "A2",
+   "name": "门户 /assess 已出现门户原生入口 /assess/templates",
+   "pass": true,
+   "detail": "命中：[{'href': '/assess/templates', 'text': '进入管理'}]"
+  },
+  {
+   "no": "A3",
+   "name": "历史落点 /odoo/action-… 仍是 Odoo 官方后台（未删除、可回退）",
+   "pass": true,
+   "detail": "HTTP 200 · 含 o_web_client=True"
+  },
+  {
+   "no": "B2.1",
+   "name": "门户模板集合 == 后台模板集合",
+   "pass": true,
+   "detail": "模板条数 门户3/后台3 ｜ 仅门户有=[] ｜ 仅后台有=[]"
+  },
+  {
+   "no": "B2.2",
+   "name": "每个模板的评分项集合逐条相等",
+   "pass": true,
+   "detail": "不一致：无"
+  },
+  {
+   "no": "B2.3",
+   "name": "门户页确实渲染出模板名（正对照：不是空页）",
+   "pass": true,
+   "detail": "门户读出 3 个模板：['学生评教（验收·匿名）', '教务录入（验收·Excel）', '教师评学生（验收）']"
+  },
+  {
+   "no": "B3.0",
+   "name": "新建页拿到 csrf_token",
+   "pass": true,
+   "detail": "token 存在=True"
+  },
+  {
+   "no": "B3.1",
+   "name": "门户 POST 新建模板 → 303 回编辑页且库里出现该行",
+   "pass": true,
+   "detail": "HTTP 303 Location=/assess/templates/8?saved=1 ｜ 库内 id=8"
+  },
+  {
+   "no": "B3.2",
+   "name": "门户 POST 新增两个评分项 → 两条都落库",
+   "pass": true,
+   "detail": "HTTP 303=[True, True] ｜ 库内=【冒烟】评分项甲|【冒烟】评分项乙"
+  },
+  {
+   "no": "B3.3",
+   "name": "后台能读到刚在门户建的模板与两个评分项（同一份数据）",
+   "pass": true,
+   "detail": "后台读到 模板=True 评分项=['【冒烟】评分项乙', '【冒烟】评分项甲'] ｜ err=None/None"
+  },
+  {
+   "no": "B3.4",
+   "name": "门户列表页也立刻列出这个新模板（含两个评分项）",
+   "pass": true,
+   "detail": "门户读出=['【冒烟】评分项乙', '【冒烟】评分项甲']"
+  },
+  {
+   "no": "B3.5",
+   "name": "非法等级线被模型拒绝（门户没绕过约束），且未写库",
+   "pass": true,
+   "detail": "HTTP 303 Location=/assess/templates/8?error=%E7%AD%89%E7%BA%A7%E7%BA%BF%E9%9C%80%E6%BB%A1%E8%B6%B3%EF%BC%9A0 ｜ 库内 pass_line=60"
+  },
+  {
+   "no": "B3.6",
+   "name": "同模板重名评分项被唯一约束拒绝，且未写库（回门户不甩错误页）",
+   "pass": true,
+   "detail": "HTTP 303 ｜ 库内条数=2 ｜ 回执=/assess/templates/8?error=同一模板内的评分项名称不能重复（xlsx+导入按名称做幂等键）。"
+  },
+  {
+   "no": "B3.7",
+   "name": "停用 → active=false/归档；恢复 → active=true/启用",
+   "pass": true,
+   "detail": "停用后=false/archived（HTTP 303）恢复后=true/active（HTTP 303）"
+  },
+  {
+   "no": "B3.8",
+   "name": "门户逐个删掉两个评分项 → 该模板下剩 0 条",
+   "pass": true,
+   "detail": "删了 2 条 HTTP=[True, True] ｜ 剩余评分项=0"
+  },
+  {
+   "no": "B3.9",
+   "name": "模板本体删除后库里查无此行（走后台同一条 ORM 写路径）",
+   "pass": true,
+   "detail": "unlink err=None ｜ 剩余行=0"
+  },
+  {
+   "no": "B3.10",
+   "name": "清场后行数回到基线（template/item 两个模型都回原值）",
+   "pass": true,
+   "detail": "template 3→3 ｜ item 7→7（基线 3/7）"
+  },
+  {
+   "no": "B3.11",
+   "name": "没有留下任何【冒烟】夹具残留",
+   "pass": true,
+   "detail": "残留 模板=0 评分项=0"
+  },
+  {
+   "no": "B4.0",
+   "name": "正对照：授权账号（教务）拿到 200 且页面含真实模板名",
+   "pass": true,
+   "detail": "教务 /assess/templates 含真实模板名=True"
+  },
+  {
+   "no": "B4.教师",
+   "name": "教师 访问管理页 GET+POST 全部 303 → /my/home 且未落库",
+   "pass": true,
+   "detail": "{\"/assess/templates\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"/assess/templates/new\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"/assess/templates/1\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"POST /assess/templates/save\": {\"status\": 303, \"location\": \"/my/home\"}, \"POST /assess/templates/1/state\": {\"status\": 303, \"location\": \"/my/home\"}, \"POST /asse"
+  },
+  {
+   "no": "B4.学生",
+   "name": "学生 访问管理页 GET+POST 全部 303 → /my/home 且未落库",
+   "pass": true,
+   "detail": "{\"/assess/templates\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"/assess/templates/new\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"/assess/templates/1\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"POST /assess/templates/save\": {\"status\": 303, \"location\": \"/my/home\"}, \"POST /assess/templates/1/state\": {\"status\": 303, \"location\": \"/my/home\"}, \"POST /asse"
+  },
+  {
+   "no": "B4.家长",
+   "name": "家长 访问管理页 GET+POST 全部 303 → /my/home 且未落库",
+   "pass": true,
+   "detail": "{\"/assess/templates\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"/assess/templates/new\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"/assess/templates/1\": {\"status\": 303, \"location\": \"/my/home\", \"landing_status\": 200}, \"POST /assess/templates/save\": {\"status\": 303, \"location\": \"/my/home\"}, \"POST /assess/templates/1/state\": {\"status\": 303, \"location\": \"/my/home\"}, \"POST /asse"
+  }
+ ],
+ "result": {
+  "a_entry": {
+   "assess_admin_links": [
+    {
+     "href": "/assess/templates",
+     "text": "进入管理"
+    }
+   ],
+   "backend_landing": {
+    "status": 200,
+    "url": "http://localhost:8069/odoo/action-edu_assess.action_edu_assess_template",
+    "has_o_web_client": true
+   }
+  },
+  "b2_parity": {
+   "portal": {
+    "学生评教（验收·匿名）": [
+     "备课充分",
+     "课堂表达"
+    ],
+    "教务录入（验收·Excel）": [
+     "平时表现",
+     "期末考评"
+    ],
+    "教师评学生（验收）": [
+     "作业完成",
+     "课堂参与",
+     "课堂笔记"
+    ]
+   },
+   "backend": {
+    "学生评教（验收·匿名）": [
+     "备课充分",
+     "课堂表达"
+    ],
+    "教务录入（验收·Excel）": [
+     "平时表现",
+     "期末考评"
+    ],
+    "教师评学生（验收）": [
+     "作业完成",
+     "课堂参与",
+     "课堂笔记"
+    ]
+   },
+   "html_len": 51137
+  },
+  "b3_crud": {
+   "tid": 8,
+   "n_tpl0": 3,
+   "n_item0": 7,
+   "n_tpl1": 3,
+   "n_item1": 7,
+   "cleaned": true
+  },
+  "b4_denied": {
+   "教师": {
+    "/assess/templates": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "/assess/templates/new": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "/assess/templates/1": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "POST /assess/templates/save": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/state": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/items/save": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/items/1/delete": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "越权写入残留": "0/0"
+   },
+   "学生": {
+    "/assess/templates": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "/assess/templates/new": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "/assess/templates/1": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "POST /assess/templates/save": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/state": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/items/save": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/items/1/delete": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "越权写入残留": "0/0"
+   },
+   "家长": {
+    "/assess/templates": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "/assess/templates/new": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "/assess/templates/1": {
+     "status": 303,
+     "location": "/my/home",
+     "landing_status": 200
+    },
+    "POST /assess/templates/save": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/state": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/items/save": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "POST /assess/templates/1/items/1/delete": {
+     "status": 303,
+     "location": "/my/home"
+    },
+    "越权写入残留": "0/0"
+   }
+  }
+ },
+ "pass": 22,
+ "fail": 0
+}

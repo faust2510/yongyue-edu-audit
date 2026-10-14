@@ -1,0 +1,252 @@
+{
+ "base": "http://localhost:8069",
+ "when": "2026-09-29 14:38:34",
+ "readings": {
+  "tree": {
+   "task": "【我的评分分组】卫生检测表（三层·区名）",
+   "http": 200,
+   "thead": [
+    [
+     "th|scope=\"col\" class=\"small text-muted\"|分组",
+     "th||评分项",
+     "th|class=\"text-end\"|得分"
+    ]
+   ],
+   "tbody_raw": [
+    [
+     "th|scope=\"rowgroup\" class=\"small text-muted fw-normal\" rowspan=\"2\"|厨房 / 清洁",
+     "td||窗户有灰尘/污渍",
+     "td|class=\"text-end\"|1"
+    ],
+    [
+     "td||灶台油渍",
+     "td|class=\"text-end\"|4"
+    ],
+    [
+     "th|scope=\"rowgroup\" class=\"small text-muted fw-normal\"|厨房 / 垃圾",
+     "td||垃圾未倒",
+     "td|class=\"text-end\"|3"
+    ],
+    [
+     "th|scope=\"rowgroup\" class=\"small text-muted fw-normal\"|卧室 / 清洁",
+     "td||窗户有灰尘/污渍",
+     "td|class=\"text-end\"|1"
+    ],
+    [
+     "th|scope=\"rowgroup\" class=\"small text-muted fw-normal\" rowspan=\"2\"|卧室 / 垃圾",
+     "td||垃圾未倒",
+     "td|class=\"text-end\"|3"
+    ],
+    [
+     "td||床铺不整",
+     "td|class=\"text-end\"|2"
+    ],
+    [
+     "th|scope=\"rowgroup\" class=\"small text-muted fw-normal\"|阳台 / 清洁",
+     "td||窗户有灰尘/污渍",
+     "td|class=\"text-end\"|1"
+    ]
+   ],
+   "page_rows": [
+    [
+     "厨房 / 清洁",
+     "窗户有灰尘/污渍",
+     "1"
+    ],
+    [
+     "厨房 / 清洁",
+     "灶台油渍",
+     "4"
+    ],
+    [
+     "厨房 / 垃圾",
+     "垃圾未倒",
+     "3"
+    ],
+    [
+     "卧室 / 清洁",
+     "窗户有灰尘/污渍",
+     "1"
+    ],
+    [
+     "卧室 / 垃圾",
+     "垃圾未倒",
+     "3"
+    ],
+    [
+     "卧室 / 垃圾",
+     "床铺不整",
+     "2"
+    ],
+    [
+     "阳台 / 清洁",
+     "窗户有灰尘/污渍",
+     "1"
+    ]
+   ],
+   "db_rows": [
+    [
+     "厨房 / 清洁",
+     "窗户有灰尘/污渍"
+    ],
+    [
+     "厨房 / 清洁",
+     "灶台油渍"
+    ],
+    [
+     "厨房 / 垃圾",
+     "垃圾未倒"
+    ],
+    [
+     "卧室 / 清洁",
+     "窗户有灰尘/污渍"
+    ],
+    [
+     "卧室 / 垃圾",
+     "垃圾未倒"
+    ],
+    [
+     "卧室 / 垃圾",
+     "床铺不整"
+    ],
+    [
+     "阳台 / 清洁",
+     "窗户有灰尘/污渍"
+    ]
+   ]
+  },
+  "flat": {
+   "thead": [
+    [
+     "th|评分项",
+     "th|得分"
+    ]
+   ],
+   "tbody_raw": [
+    [
+     "td||平铺项甲",
+     "td|class=\"text-end\"|1"
+    ],
+    [
+     "td||平铺项乙",
+     "td|class=\"text-end\"|1"
+    ]
+   ],
+   "page_rows": [
+    [
+     "",
+     "平铺项甲",
+     "1"
+    ],
+    [
+     "",
+     "平铺项乙",
+     "1"
+    ]
+   ]
+  },
+  "axe": {
+   "violations": [
+    {
+     "id": "aria-progressbar-name",
+     "impact": "serious",
+     "nodes": 1,
+     "targets": [
+      ".progress-bar"
+     ]
+    },
+    {
+     "id": "page-has-heading-one",
+     "impact": "moderate",
+     "nodes": 1,
+     "targets": [
+      "html"
+     ]
+    }
+   ],
+   "rules": "aria-progressbar-name(serious x1), page-has-heading-one(moderate x1)"
+  }
+ },
+ "items": [
+  {
+   "no": "V1",
+   "name": "页面拿得到这张表（任务名 + 行数 > 0；防「页面根本没渲染」的假绿）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ tbody 行 7 ｜ 表片段 3550 字"
+  },
+  {
+   "no": "V2",
+   "name": "行数 == 库里的叶子数（7）",
+   "pass": true,
+   "detail": "页面行 7 ｜ 库叶子 7"
+  },
+  {
+   "no": "V3",
+   "name": "既有契约：每行的**项名**仍是裸项名，且与库 order by sequence, id 同序",
+   "pass": true,
+   "detail": "页面 ['窗户有灰尘/污渍', '灶台油渍', '垃圾未倒', '窗户有灰尘/污渍', '垃圾未倒', '床铺不整', '窗户有灰尘/污渍'] ｜ 库 ['窗户有灰尘/污渍', '灶台油渍', '垃圾未倒', '窗户有灰尘/污渍', '垃圾未倒', '床铺不整', '窗户有灰尘/污渍']"
+  },
+  {
+   "no": "V4",
+   "name": "逐行比对：每行的**分组链** == 库祖先链（区 -> 分类）",
+   "pass": true,
+   "detail": "页面链 ['厨房 / 清洁', '厨房 / 清洁', '厨房 / 垃圾', '卧室 / 清洁', '卧室 / 垃圾', '卧室 / 垃圾', '阳台 / 清洁'] ｜ 库链 ['厨房 / 清洁', '厨房 / 清洁', '厨房 / 垃圾', '卧室 / 清洁', '卧室 / 垃圾', '卧室 / 垃圾', '阳台 / 清洁']"
+  },
+  {
+   "no": "V5",
+   "name": "跨区同名项可分：三条「窗户有灰尘/污渍」行的链两两不同",
+   "pass": true,
+   "detail": "行 -> 链 = [(0, '厨房 / 清洁'), (3, '卧室 / 清洁'), (6, '阳台 / 清洁')]"
+  },
+  {
+   "no": "V6",
+   "name": "分组格是 <th scope=\"rowgroup\" rowspan=N>（N = 该连续链组的行数）",
+   "pass": true,
+   "detail": "分组格 = [(0, 'scope=\"rowgroup\" class=\"small text-muted fw-normal\" rowspan=\"2\"'), (2, 'scope=\"rowgroup\" class=\"small text-muted fw-normal\"'), (3, 'scope=\"rowgroup\" class=\"small text-muted fw-normal\"'), (4, 'scope=\"rowgroup\" class=\"small text-muted fw-normal\" rowspan=\"2\"'), (6, 'scope=\"rowgroup\" class=\"small text-muted fw-normal\"')] ｜ 库期望组 = [(0, 2), (2, 1), (3, 1), (4, 2), (6, 1)]"
+  },
+  {
+   "no": "V7",
+   "name": "得分列口径未变：逐行 == max_score - 写入值（扣分制，库读数）",
+   "pass": true,
+   "detail": "页面 = ['1', '4', '3', '1', '3', '2', '1'] ｜ 库 = ['1', '4', '3', '1', '3', '2', '1']"
+  },
+  {
+   "no": "V8",
+   "name": "链文字来自库（不是把项名复制一遍）：链集合 == 库链集合，且链 != 项名",
+   "pass": true,
+   "detail": "链集合 ['卧室 / 垃圾', '卧室 / 清洁', '厨房 / 垃圾', '厨房 / 清洁', '阳台 / 清洁']"
+  },
+  {
+   "no": "C1",
+   "name": "控制组：扁平表仍是 2 列（表头 2 格、tbody 每行 2 格、无 th 格）",
+   "pass": true,
+   "detail": "thead 1 行/2 格 ｜ tbody 行格数 [2, 2]"
+  },
+  {
+   "no": "C2",
+   "name": "控制组：扁平表逐行 == [裸项名, 得分]，顺序与库一致（改动对它零影响）",
+   "pass": true,
+   "detail": "页面 = ['平铺项甲', '平铺项乙'] ｜ 库 = ['平铺项甲', '平铺项乙']"
+  },
+  {
+   "no": "C3",
+   "name": "控制组：表头仍是「评分项 / 得分」两格（行分组不加表头列）",
+   "pass": true,
+   "detail": "thead = [['评分项', '得分']]"
+  },
+  {
+   "no": "A1",
+   "name": "axe：新行组表没有 th/scope/表头类或对比度违规",
+   "pass": true,
+   "detail": "命中 = 无"
+  },
+  {
+   "no": "Z9a",
+   "name": "清场后夹具任务为 0（幂等可复跑）",
+   "pass": true,
+   "detail": "fixture tasks = 0"
+  }
+ ],
+ "passed": 13,
+ "failed": 0
+}

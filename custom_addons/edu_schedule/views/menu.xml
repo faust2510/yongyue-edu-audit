@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 并入官方 Time Table 应用，不再单开一级菜单 -->
+    <record id="action_timetable_bulk_url" model="ir.actions.act_url">
+        <field name="name">周期排课</field>
+        <field name="url">/timetable/bulk</field>
+        <field name="target">self</field>
+    </record>
+
+    <!-- 教务处管理员可能不在 timetable_manager 组：两组并集可见 -->
+    <menuitem id="menu_timetable_bulk"
+              name="周期排课（批量）"
+              parent="openeducat_timetable.menu_op_timetable_root"
+              action="action_timetable_bulk_url"
+              groups="openeducat_timetable.group_op_timetable_manager,openeducat_core.group_op_back_office_admin"
+              sequence="15"/>
+    <menuitem id="menu_edu_schedule_holiday"
+              name="停课管理"
+              parent="openeducat_timetable.menu_op_timetable_root"
+              action="action_edu_schedule_holiday"
+              groups="openeducat_timetable.group_op_timetable_manager,openeducat_core.group_op_back_office_admin"
+              sequence="17"/>
+    <!-- 排课完成度看板（G2，设计稿 §8.3）：挂既有「排课管理」根下，**不新增菜单根**。
+         动作 action_edu_coverage_url 定义在 views/coverage.xml —— 该文件必须排在
+         views/menu.xml **之前**装载（同 holiday_views.xml → menu.xml 的既有顺序）。 -->
+    <menuitem id="menu_edu_timetable_coverage"
+              name="排课完成度"
+              parent="openeducat_timetable.menu_op_timetable_root"
+              action="action_edu_coverage_url"
+              groups="openeducat_timetable.group_op_timetable_manager,openeducat_core.group_op_back_office_admin"
+              sequence="19"/>
+</odoo>

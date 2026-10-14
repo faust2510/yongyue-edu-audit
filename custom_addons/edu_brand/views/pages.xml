@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ /about 学院概况 ============ -->
+    <template id="edu_about" name="永约学坊 · 学院概况">
+        <t t-call="website.layout">
+            <div id="wrap" class="yylc-page">
+                <section class="yylc-page-head">
+                    <div class="container">
+                        <div class="yylc-kicker">关于我们</div>
+                        <h1 class="yylc-section-title">学院概况</h1>
+                        <p class="yylc-section-sub">以圣经权威、改革宗信仰和整全训练服侍基督与教会</p>
+                    </div>
+                </section>
+
+                <section class="yylc-section">
+                    <div class="container yylc-article">
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">学院异象</div>
+                            <h2>从基层教会神学培训到全日制学历教育</h2>
+                            <p>永约学坊始创于2005年，在原为基层教会神学培训班的基础上，开设1-2年的全日制神学课程。</p>
+                            <p>创校初期，学院为当地教会装备具有系统圣经知识和神学基础的平信徒领袖，也训练教牧匮缺地区的传道人，推进牧养和宣教事工。</p>
+                            <p>经过二十余年的发展，学院正在为培养城市宣教、植堂、具有城市牧会理念的传道人以及基督教师资而努力。</p>
+                        </article>
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">教育使命</div>
+                            <h2>真理、灵性与应用并重</h2>
+                            <p>学院致力于服务我主基督，高举圣经的权威，传授以加尔文主义神学为基础的真理知识。</p>
+                            <p>学院重视塑造学生整全的世界观和敬虔的属灵品格，并培养学生宣扬福音、牧养教会和护教的能力。</p>
+                        </article>
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">信仰宣言</div>
+                            <h2>持守四大信经和改革宗教会信条</h2>
+                            <p>本校持守早期教会所接受的四大信经：使徒信经、尼西亚信经、亚他拿修信经及迦克墩信经。</p>
+                            <p>学院也持守改革宗教会信条，包括海德堡要理问答、韦斯敏斯德信条以及韦斯敏斯德大小要理问答。</p>
+                        </article>
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">师资要求</div>
+                            <h2>教义认同、学术训练与信仰实践并重</h2>
+                            <ul class="yylc-list">
+                                <li>认同改革宗教义及精神。</li>
+                                <li>具备相当于道学硕士、文学硕士或相同学位的训练。</li>
+                                <li>展现教学能力和学术水准，并拥有超过五年以上的教导经验。</li>
+                                <li>学有专长并有信仰实践经验，能够彰显基督仆人品格。</li>
+                            </ul>
+                        </article>
+                        <p class="yylc-source">资料来源：永约学坊2026年总招生简章</p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /programs 专业设置 ============ -->
+    <template id="edu_programs" name="永约学坊 · 专业设置">
+        <t t-call="website.layout">
+            <div id="wrap" class="yylc-page">
+                <section class="yylc-page-head">
+                    <div class="container">
+                        <div class="yylc-kicker">开设专业</div>
+                        <h1 class="yylc-section-title">专业设置</h1>
+                        <p class="yylc-section-sub">神学院 · 人文教育学院 · 家教学院 · 预备科 · 圣经高中</p>
+                    </div>
+                </section>
+
+                <section class="yylc-section">
+                    <div class="container yylc-article">
+
+                        <div class="yylc-group-head"><span class="yylc-kicker">神学院</span></div>
+
+                        <details class="yylc-program" open="open">
+                            <summary>基督教研究硕士科<span class="yylc-badge">硕士</span></summary>
+                            <div class="yylc-program-body">
+                                <p>三年全日制神学装备，重视课堂学习、作业阅读、论文答辩和教会实习。</p>
+                                <dl class="yylc-meta">
+                                    <div><dt>招生对象</dt><dd>大学本科或同等学历，身体健康，有明确呼召并愿意服侍神的基督徒。</dd></div>
+                                    <div><dt>学制</dt><dd>3年，6个学期，全日制课程。</dd></div>
+                                    <div><dt>学分</dt><dd>98学分，其中必修90学分，选修8学分。</dd></div>
+                                    <div><dt>费用</dt><dd>不收取统筹费；学员需自行承担伙食、住宿、部分活动费和公共杂费，住宿约380元/月。</dd></div>
+                                </dl>
+                                <ul class="yylc-list">
+                                    <li>课堂与作业阅读比为1:3。</li>
+                                    <li>需完成毕业论文和论文答辩。</li>
+                                    <li>需参加为期一年的教会实习。</li>
+                                </ul>
+                                <p class="yylc-note-h">毕业与学习要求</p>
+                                <ul class="yylc-list">
+                                    <li>平均积点须在3.0（B）以上。</li>
+                                    <li>通过《威斯敏斯特要理问答》毕业测试。</li>
+                                    <li>至少另外通过3门人文基础课程。</li>
+                                </ul>
+                                <p class="yylc-source">资料来源：永约学坊2026年总招生简章 · 神学院 · 基督教研究硕士科</p>
+                            </div>
+                        </details>
+
+                        <details class="yylc-program">
+                            <summary>神学学士科<span class="yylc-badge">学士</span></summary>
+                            <div class="yylc-program-body">
+                                <p>四年训练，前三年在校共同体学习，第四年禾场实习并完成毕业论文。</p>
+                                <dl class="yylc-meta">
+                                    <div><dt>招生对象</dt><dd>高中或中专以上学历，身体健康，有明确呼召并愿意服侍神的基督徒；有服侍经验者优先。</dd></div>
+                                    <div><dt>学制</dt><dd>4年，8个学期；3年在校学习，1年禾场实习。</dd></div>
+                                    <div><dt>学分</dt><dd>128学分，其中必修90学分，选修38学分。</dd></div>
+                                    <div><dt>费用</dt><dd>不收取统筹费；学员需自行承担伙食、住宿、部分活动费和公共杂费，住宿约380元/月。</dd></div>
+                                </dl>
+                                <ul class="yylc-list">
+                                    <li>课堂与作业阅读比为1:2。</li>
+                                    <li>包含人文课程要求。</li>
+                                    <li>强调校园学习与禾场实战结合。</li>
+                                </ul>
+                                <p class="yylc-note-h">毕业与学习要求</p>
+                                <ul class="yylc-list">
+                                    <li>平均积点须在2.3（C+）以上。</li>
+                                    <li>通过《威斯敏斯特要理问答》毕业测试。</li>
+                                    <li>完成外出实习一年和相应实习报告。</li>
+                                </ul>
+                                <p class="yylc-source">资料来源：永约学坊2026年总招生简章 · 神学院 · 神学学士科</p>
+                            </div>
+                        </details>
+
+                        <div class="yylc-group-head"><span class="yylc-kicker">人文教育学院</span></div>
+
+                        <details class="yylc-program">
+                            <summary>文学学士<span class="yylc-badge">学士</span></summary>
+                            <div class="yylc-program-body">
+                                <p>以圣经与神学、人文通识、语言训练和整全教育为核心的四年全日制项目。</p>
+                                <dl class="yylc-meta">
+                                    <div><dt>招生对象</dt><dd>年满18周岁，委身家庭教会、已受洗、有稳定教会生活且不低于高中或同等文化程度的信徒。</dd></div>
+                                    <div><dt>学制</dt><dd>4年，8个学期，全日制在校共同体学习。</dd></div>
+                                    <div><dt>学分</dt><dd>144学分，其中必修100学分，选修44学分。</dd></div>
+                                    <div><dt>费用</dt><dd>不收取统筹费；学员需自行承担伙食，并按AA方式承担住宿、部分活动费和公共杂费，通常约5200元/学期。</dd></div>
+                                </dl>
+                                <ul class="yylc-list">
+                                    <li>圣经根基、人文通识与古典语言结合。</li>
+                                    <li>教育专业课程可作为选修。</li>
+                                    <li>最后一年同步完成指定实习内容。</li>
+                                </ul>
+                                <p class="yylc-note-h">毕业与学习要求</p>
+                                <ul class="yylc-list">
+                                    <li>平均积点须在2.3（C+）以上。</li>
+                                    <li>完成毕业论文和论文答辩。</li>
+                                    <li>通过《威斯敏斯特要理问答》毕业测试。</li>
+                                </ul>
+                                <p class="yylc-source">资料来源：永约学坊2026年总招生简章 · 人文教育学院 · 文学学士科</p>
+                            </div>
+                        </details>
+
+                        <details class="yylc-program">
+                            <summary>教育学士<span class="yylc-badge">学士</span></summary>
+                            <div class="yylc-program-body">
+                                <p>在文学学士基础上增加教育专业课程，装备基督教教育领域的服侍者。</p>
+                                <dl class="yylc-meta">
+                                    <div><dt>招生对象</dt><dd>同文学学士招生对象。</dd></div>
+                                    <div><dt>学制</dt><dd>4年，8个学期，全日制课程。</dd></div>
+                                    <div><dt>学分</dt><dd>144学分，其中必修100学分，选修44学分。</dd></div>
+                                    <div><dt>费用</dt><dd>不收取统筹费；学员需自行承担伙食，并按AA方式承担住宿、部分活动费和公共杂费，通常约5200元/学期。</dd></div>
+                                </dl>
+                                <ul class="yylc-list">
+                                    <li>教育观、课程设计、教学法、课堂管理等教育专业课程。</li>
+                                    <li>在文学学士课程基础上增加教育专业必修课程。</li>
+                                </ul>
+                                <p class="yylc-note-h">毕业与学习要求</p>
+                                <ul class="yylc-list">
+                                    <li>完成毕业论文和论文答辩。</li>
+                                    <li>完成指定实习内容。</li>
+                                    <li>通过《威斯敏斯特要理问答》毕业测试。</li>
+                                </ul>
+                                <p class="yylc-source">资料来源：永约学坊2026年总招生简章 · 人文教育学院 · 教育学士科</p>
+                            </div>
+                        </details>
+
+                        <div class="yylc-group-head"><span class="yylc-kicker">家教学院</span></div>
+
+                        <details class="yylc-program">
+                            <summary>家教学院<span class="yylc-badge">网络课程</span></summary>
+                            <div class="yylc-program-body">
+                                <p>面向家长与教师的网络授课和讨论作业体系，也可按情况插班本科班。</p>
+                                <dl class="yylc-meta">
+                                    <div><dt>招生对象</dt><dd>希望在基督教教育领域装备自己，渴慕真理、委身学习，并具备基本网络操作和打字能力的学员。</dd></div>
+                                    <div><dt>学制</dt><dd>不限时间，鼓励在十年内完成学习。</dd></div>
+                                    <div><dt>费用</dt><dd>报名费10元；统筹费100元/学分；押金100元/学分；平台报名费10元/人。</dd></div>
+                                </dl>
+                                <ul class="yylc-list">
+                                    <li>以网络授课、助教带领讨论和作业为主要形式。</li>
+                                    <li>可按圣经与神学、人文通识、教育专业课程取得结业证书。</li>
+                                </ul>
+                                <p class="yylc-note-h">毕业与学习要求</p>
+                                <ul class="yylc-list">
+                                    <li>达到对应系列学分并成绩合格。</li>
+                                    <li>遵守考勤和考试要求后押金可按规则退还。</li>
+                                </ul>
+                                <p class="yylc-source">资料来源：永约学坊2026年总招生简章 · 家教学院</p>
+                            </div>
+                        </details>
+
+                        <div class="yylc-group-head"><span class="yylc-kicker">预备科 · 大学预备</span></div>
+
+                        <details class="yylc-program" open="open">
+                            <summary>预备科<span class="yylc-badge">全日制 1-2 年</span></summary>
+                            <div class="yylc-program-body">
+                                <p>面向主内家庭青少年的全日制预备训练，强调古典教育、多语种和全人训练，为进入大学部各专业做准备。</p>
+                                <dl class="yylc-meta">
+                                    <div><dt>招生对象</dt><dd>主内家庭，年龄不低于16周岁，不低于初中或同等文化程度，并认同本校训练模式的学员。</dd></div>
+                                    <div><dt>学制</dt><dd>1-2年，全日制课程。</dd></div>
+                                    <div><dt>费用</dt><dd>不收取统筹费；学员需自行承担伙食、住宿、部分游学或退修会活动费、公共杂费等。</dd></div>
+                                </dl>
+                                <ul class="yylc-list">
+                                    <li>整全基督教世界观塑造。</li>
+                                    <li>中英古典多种语言并重。</li>
+                                    <li>传统课堂结合翻转课堂。</li>
+                                </ul>
+                                <p class="yylc-note-h">课程列表（摘自招生简章）</p>
+                                <!-- 2026-10-06：去掉失效类名 yylc-course-list（CSS 里无定义，删除不改任何视觉） -->
+                                <ul class="yylc-list">
+                                    <li><strong>小要理问答</strong> —— 背诵每一问每一答并默写对应经文，设闭卷考试。</li>
+                                    <li><strong>基础信仰</strong> —— 学完青少年圣经要义全部课程与作业，含试讲操练与阶段测验。</li>
+                                    <li><strong>圣经概论（新旧约概论）</strong> —— 熟悉六十六卷书分类、章题概括与主旨陈述。</li>
+                                    <li><strong>圣经救赎历史</strong> —— 掌握救赎历史脉络，研读《认识圣经》《圣经戏剧》。</li>
+                                    <li><strong>阅读课程</strong> —— 每月一本书并撰写阅读报告，书目不少于二十一本。</li>
+                                    <li><strong>古汉语课程</strong> —— 研读《诗经》《离骚》《滕王阁序》等经典篇目。</li>
+                                    <li><strong>写作课程</strong> —— 由写作老师基于学员处境自行设计。</li>
+                                    <li><strong>英语课程</strong> —— 目标达到同等高中英语水平。</li>
+                                    <li><strong>原文基础课程</strong> —— 掌握希伯来文、希腊文字母的发音、默写与电脑输入。</li>
+                                    <li><strong>灵命塑造课程</strong> —— 《八步灵修法》每日灵修与每周周记，共读《人是如何改变的》。</li>
+                                    <li><strong>文史哲综合备考课</strong> —— 研读指定书目，使用往年试卷模拟备考。</li>
+                                    <li><strong>选修课程</strong> —— 如《艺术观念基础》《音乐观念基础》《中国历史》等。</li>
+                                    <li><strong>意志和技能课程</strong> —— 生活技能训练与群体生活原则操练。</li>
+                                    <li><strong>游历课程</strong> —— 因地制宜开展退修会和研学游等活动。</li>
+                                </ul>
+                                <p class="yylc-note-h">毕业要求</p>
+                                <ul class="yylc-list">
+                                    <li>完成全部必修课程并通过考核。</li>
+                                    <li>通过小要理问答闭卷考试。</li>
+                                    <li>完成指定阅读书目及阅读报告。</li>
+                                    <li>完成至少一次试讲操练。</li>
+                                    <li>平均成绩达到合格标准。</li>
+                                </ul>
+                                <p class="yylc-source">资料来源：2026年预备科与圣经高中招生简章 · 预备科</p>
+                            </div>
+                        </details>
+
+                        <div class="yylc-group-head"><span class="yylc-kicker">高中部</span></div>
+
+                        <details class="yylc-program">
+                            <summary>圣经高中<span class="yylc-badge">全日制 3 年</span></summary>
+                            <div class="yylc-program-body">
+                                <p>以神学为根基、古典文科为骨架、现代学科为工具的三年全日制课程。核心教育哲学：圣约下的全面成长。</p>
+                                <dl class="yylc-meta">
+                                    <div><dt>招生对象</dt><dd>有志于以圣经世界观接受全人教育的青少年。</dd></div>
+                                    <div><dt>学制</dt><dd>3年，6个学期，全日制课程。</dd></div>
+                                    <div><dt>费用</dt><dd>费用资料以招生咨询为准；公开资料未列出具体统筹费数字。</dd></div>
+                                </dl>
+                                <ul class="yylc-list">
+                                    <li>古典方向强调文法、逻辑、修辞三联词（Trivium）。</li>
+                                    <li>现代方向确保基本数理逻辑与科学常识。</li>
+                                    <li>阅读、写作、演讲、讲道训练贯穿始终。</li>
+                                </ul>
+                                <p class="yylc-note-h">三年课程方案（摘自招生简章）</p>
+                                <div class="yylc-plan">
+                                    <p><strong>高一 · 文法与奠基年（构建世界观）</strong>：圣经概论（新旧约全书综览）；海德堡要理问答或威斯敏斯特小要理问答；古典文法（写作基础）；世界古代史；逻辑学基础（一）；数学（代数一和二）；基础物理；基于创造论视角的生物学批判；语文或古代汉语（一）（二）；英语；希腊语基础（一）（二）；修辞学基础（一）（二）；圣诗赏析与合唱；体能训练；基础户外生存；祈祷与灵命操练；技能训练。</p>
+                                    <p><strong>高二 · 逻辑与思辨年（深化批判思维）</strong>：青少年圣经要义；教会史（早期至改教运动）；逻辑学基础（二）；西方文学经典选读；世界近代史；写作训练；数学（几何与三角学）；基础化学；现代技术伦理；语文或古代汉语（三）（四）；英语；希伯来语（一）或基础希腊语（三）；修辞学（三）（四）；圣诗赏析与合唱；体能训练；基础户外生存；祈祷与灵命操练；技能训练。</p>
+                                    <p><strong>高三 · 修辞与差传年（综合输出与转型）</strong>：释经学；福音神学；圣经辅导（学习《人是如何改变》）；中国教会史与现状分析（家庭教会历史）；经典阅读；修辞学与演讲（含演讲与说服性写作）；现代政治与社会理论研究（基督教视角）；古典诗学；英语；希伯来语（二）（三）；统计学与基础经济学；高级生物或物理（选修）；法律（选修）；圣诗赏析与合唱；体能训练；基础户外生存；祈祷与灵命操练；技能训练。</p>
+                                </div>
+                                <p class="yylc-note-h">毕业要求</p>
+                                <ul class="yylc-list">
+                                    <li>完成三年全部必修课程并通过考核。</li>
+                                    <li>完成毕业论文或作品，并通过公开答辩。</li>
+                                    <li>平均成绩达到合格标准。</li>
+                                    <li>完成指定实习或实践内容。</li>
+                                </ul>
+                                <p class="yylc-source">资料来源：2026年预备科与圣经高中招生简章 · 圣经高中</p>
+                            </div>
+                        </details>
+
+                        <p class="yylc-source">评分系统采用绩点（GPA）对照表：A=4.0 至 F=0；本科毕业生 GPA 须达到 2.3（C+）以上，硕士 GPA 须达到 3.0（B）以上。（资料来源：招生简章附录）</p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /admissions 招生信息 ============ -->
+    <template id="edu_admissions" name="永约学坊 · 招生信息">
+        <t t-call="website.layout">
+            <div id="wrap" class="yylc-page">
+                <section class="yylc-page-head">
+                    <div class="container">
+                        <div class="yylc-kicker">报名与录取</div>
+                        <h1 class="yylc-section-title">招生信息</h1>
+                        <p class="yylc-section-sub">申请材料、考试录取、费用说明与经济资助</p>
+                    </div>
+                </section>
+
+                <section class="yylc-section">
+                    <div class="container yylc-article">
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">招生对象</div>
+                            <h2>不同项目按年龄、学历、呼召和学习目标区分</h2>
+                            <p>神学院硕士科面向大学本科或同等学历、身体健康、有明确呼召并愿意服侍神的基督徒。</p>
+                            <p>神学学士科面向高中或中专以上学历、有明确呼召并愿意服侍神的基督徒。</p>
+                            <p>人文教育学院面向年满18周岁、委身教会并有稳定教会生活的信徒。</p>
+                            <p>预备科面向主内家庭、年龄不低于16周岁且不低于初中或同等文化程度的学员；圣经高中面向有志于以圣经世界观接受全人教育的青少年。</p>
+                        </article>
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">报名材料</div>
+                            <h2>通过境外邮箱提交申请材料</h2>
+                            <ul class="yylc-list">
+                                <li>申请表，含最近六个月内半身照片。</li>
+                                <li>身份证正反复印件或护照复印件。</li>
+                                <li>最高学历毕业证书影印本。</li>
+                                <li>800-2000字个人见证，建议包括信主经历、所属教会、受洗日期、事奉呼召、属灵恩赐、选择理由和财务说明。</li>
+                                <li>两封推荐信，其中一封必须来自所属教会牧者或同工。</li>
+                                <li>就学期间若需服用相关药物，必须主动提出说明。</li>
+                            </ul>
+                        </article>
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">考试与录取</div>
+                            <h2>资料审核后通知考试安排</h2>
+                            <p>预备科与圣经高中资料说明，报名资料齐全并经学校审查通过后，以电话或电邮通知考试。</p>
+                            <p>考试科目包括笔试、面试及问卷；笔试内容包含圣经和信仰基础、中文。</p>
+                            <p>录取方式为电邮发送录取通知书。各地考试中心和远距考试安排以学校通知为准。</p>
+                        </article>
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">截止日期</div>
+                            <h2>预备科与圣经高中报名截止日期</h2>
+                            <!-- 2026-10-06：加守卫。edu.deadline 由 edu_portal 定义，而 edu_portal **依赖** edu_brand
+     ⇒ 本模板**不能**靠加 depends 解决（会成环），只能在模板侧守卫。
+     这是公开路由 /admissions，模型不在注册表时原先会 500。 -->
+<p>预备科与圣经高中招生简章确认的报名截止日期为<t t-if="'edu.deadline' in request.env"
+   t-out="request.env['edu.deadline'].sudo().get_cn('edu.apply.deadline')"/><t t-else="">以招生简章为准</t>。其他项目的报名时间请以最新招生简章及学院通知为准。</p>
+                        </article>
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">费用说明</div>
+                            <h2>费用与自理费用说明</h2>
+                            <p>神学院硕士科和学士科不收取统筹费；学员需自行承担伙食费用、住宿费用、部分游学或退修会活动费、公共杂费等。</p>
+                            <p>人文教育学院全日制本科班不收取统筹费；学员需自行承担伙食费用，并按AA方式承担住宿、部分活动费和公共杂费，资料中通常为约5200元/学期。</p>
+                            <p>家教学院资料列出报名费、统筹费、押金和平台报名费。</p>
+                        </article>
+                        <article class="yylc-article-block">
+                            <div class="yylc-kicker">经济资助</div>
+                            <h2>困难减免、勤工俭学和奖学金</h2>
+                            <ul class="yylc-list">
+                                <li>家庭经济困难学员，学院酌情给予不同减免。</li>
+                                <li>学习优秀者，学院提供勤工俭学机会和奖学金。</li>
+                                <li>家教学院中，全职牧者或工人与师母可享受大幅减免；家庭经济困难的家长和教师也可申请统筹费减免。</li>
+                            </ul>
+                        </article>
+                        <p class="yylc-source">资料来源：永约学坊2026年总招生简章；2026年预备科与圣经高中招生简章</p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /journal 校刊目录 ============ -->
+    <template id="edu_journal" name="永约学坊 · SCRTS 校刊">
+        <t t-call="website.layout">
+            <div id="wrap" class="yylc-page">
+                <section class="yylc-page-head">
+                    <div class="container">
+                        <div class="yylc-kicker">校刊阅览</div>
+                        <h1 class="yylc-section-title">SCRTS 校刊</h1>
+                        <p class="yylc-section-sub">第一期《蒙主保守的二十年》20周年特刊 · 在线翻阅（共 <t t-out="total"/> 页）</p>
+                    </div>
+                </section>
+                <section class="yylc-section">
+                    <div class="container">
+                        <div class="yylc-journal-grid">
+                            <a t-foreach="pages" t-as="p" t-att-href="'/journal/page/' + str(p['no'])"
+                               class="yylc-journal-thumb" t-att-data-no="p['no']">
+                                <img t-att-src="p['src']" t-att-alt="'校刊第 ' + str(p['no']) + ' 页'" loading="lazy"/>
+                                <span class="yylc-journal-no" t-out="p['no']"/>
+                            </a>
+                        </div>
+                        <p class="yylc-source">资料来源：SCRTS校刊第一期，2025年10月</p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /journal/page/N 单页阅读 ============ -->
+    <template id="edu_journal_reader" name="永约学坊 · 校刊阅读">
+        <t t-call="website.layout">
+            <div id="wrap" class="yylc-page">
+                <section class="yylc-section">
+                    <div class="container">
+                        <nav class="yylc-reader-nav">
+                            <a href="/journal" class="btn yylc-btn-ghost-dark">返回目录</a>
+                            <span class="yylc-reader-pos">
+                                第 <t t-out="page_no"/> 页 / 共 <t t-out="total"/> 页
+                            </span>
+                            <span>
+                                <t t-if="prev_no">
+                                    <a t-att-href="'/journal/page/' + str(prev_no)" class="btn yylc-btn-gold">上一页</a>
+                                </t>
+                                <t t-else="">
+                                    <span class="btn yylc-btn-gold" style="visibility:hidden">上一页</span>
+                                </t>
+                                <t t-if="next_no">
+                                    <a t-att-href="'/journal/page/' + str(next_no)" class="btn yylc-btn-gold">下一页</a>
+                                </t>
+                                <t t-else="">
+                                    <span class="btn yylc-btn-gold" style="visibility:hidden">下一页</span>
+                                </t>
+                            </span>
+                        </nav>
+                        <div class="yylc-reader-stage">
+                            <img t-att-src="src" t-att-alt="'校刊第 ' + str(page_no) + ' 页'"/>
+                        </div>
+                        <nav class="yylc-reader-nav">
+                            <span>
+                                <t t-if="prev_no"><a t-att-href="'/journal/page/' + str(prev_no)" class="btn yylc-btn-ghost-dark">← 上一页</a></t>
+                            </span>
+                            <span>
+                                <t t-if="next_no"><a t-att-href="'/journal/page/' + str(next_no)" class="btn yylc-btn-ghost-dark">下一页 →</a></t>
+                            </span>
+                        </nav>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ 布告栏管理（管理员后台） ============
+         公告横幅：管理员在此开关每条公告的「横幅展示」，
+         多条横幅按 banner_seq 升序轮播在门户页顶部。
+         t7 追加：公告模板（F4）、定向人群与三通道、定时发布 cron。 -->
+
+    <record id="view_edu_notice_list" model="ir.ui.view">
+        <field name="name">edu.notice.list</field>
+        <field name="model">edu.notice</field>
+        <field name="arch" type="xml">
+            <list string="布告栏">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="sender"/>
+                <field name="audience"/>
+                <field name="publish_at"/>
+                <field name="banner_enabled" widget="boolean_toggle"/>
+                <field name="banner_seq"/>
+                <!-- active（启用/归档）：**有意保留 column_invisible**（2026-09-28 逐处复核）。
+                     判定依据（不是"顺手藏"）：
+                     ① 本列表的动作 action_edu_notice_admin 带
+                        domain=[('active','=',True)]（本文件 :74）⇒ 这里出现的每一行
+                        active 恒为 True，该列在当前入口下**是常量，没有信息量**；
+                     ② 它是 Odoo 的归档开关技术字段，值由「归档 / 恢复」动作改写，
+                        不是教务用来做判断的业务列；
+                     ③ 已归档的公告不在本列表（被①的 domain 过滤掉）⇒
+                        "这列藏了什么" 的答案在这条入口上并不存在，没有可丢失的判断。
+                     与 fees.xml 里 currency_id 的区别正在这里：币种是**数据字段**
+                     （将来可能逐行不同），所以那里必须留找回路径。
+                     ⚠ 未做项（记在案，不在本次授权内）：上述 domain 让「已归档公告」
+                     在这条入口上永久不可达 —— 那是另一个 D1（缺"查看已归档"入口），
+                     改它要动列表语义，需单独裁定。 -->
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_notice_form" model="ir.ui.view">
+        <field name="name">edu.notice.form</field>
+        <field name="model">edu.notice</field>
+        <field name="arch" type="xml">
+            <form string="布告">
+                <sheet>
+                    <group>
+                        <group string="公告内容">
+                            <field name="name"/>
+                            <field name="content"/>
+                            <field name="sender"/>
+                            <field name="date"/>
+                            <field name="category"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="门户横幅">
+                            <field name="banner_enabled" widget="boolean_toggle"/>
+                            <field name="banner_badge"
+                                   placeholder="如：截止 8 月 31 日（留空不显示徽标）"/>
+                            <field name="banner_cta" placeholder="查看详情"/>
+                            <field name="banner_url"
+                                   placeholder="留空打开布告详情页"/>
+                            <field name="banner_seq"/>
+                        </group>
+                    </group>
+                    <group string="发布与推送（模板 / 定时 / 定向）">
+                        <group>
+                            <field name="template_id"/>
+                            <field name="publish_at"/>
+                            <field name="date_until"/>
+                        </group>
+                        <group>
+                            <field name="audience"/>
+                            <field name="channel_site"/>
+                            <field name="channel_email"/>
+                            <field name="channel_telegram"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_notice_admin" model="ir.actions.act_window">
+        <field name="name">布告栏管理</field>
+        <field name="res_model">edu.notice</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('active', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">发布一条公告</p>
+            <p>开启「横幅展示」后，公告将以蓝底横幅轮播在门户页顶部；关闭即从横幅撤下，布告栏不受影响。</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_edu_notice_admin" name="布告栏管理"
+              parent="menu_edu_approval_root" action="action_edu_notice_admin"
+              sequence="40" groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+
+    <!-- ============ F4：公告模板（后台维护） ============ -->
+    <record id="view_edu_notice_template_list" model="ir.ui.view">
+        <field name="name">edu.notice.template.list</field>
+        <field name="model">edu.notice.template</field>
+        <field name="arch" type="xml">
+            <list string="公告模板">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="title_prefix"/>
+                <field name="category"/>
+                <field name="audience"/>
+                <field name="channel_site"/>
+                <field name="channel_email"/>
+                <field name="channel_telegram"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_notice_template_form" model="ir.ui.view">
+        <field name="name">edu.notice.template.form</field>
+        <field name="model">edu.notice.template</field>
+        <field name="arch" type="xml">
+            <form string="公告模板">
+                <sheet>
+                    <group>
+                        <group string="模板">
+                            <field name="name"/>
+                            <field name="title_prefix"/>
+                            <field name="category"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="默认推送">
+                            <field name="audience"/>
+                            <field name="channel_site"/>
+                            <field name="channel_email"/>
+                            <field name="channel_telegram"/>
+                        </group>
+                    </group>
+                    <group string="正文模板">
+                        <field name="content" nolabel="1"
+                               placeholder="可用占位符：{日期} {学生} {班级}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_notice_template" model="ir.actions.act_window">
+        <field name="name">公告模板</field>
+        <field name="res_model">edu.notice.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_edu_notice_template" name="公告模板"
+              parent="menu_edu_approval_root" action="action_edu_notice_template"
+              sequence="41" groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+
+    <!-- ============ F4：定时发布 cron（每 10 分钟扫一次到点公告） ============ -->
+    <record id="ir_cron_edu_notice_publish" model="ir.cron">
+        <field name="name">edu_portal: 公告定时发布</field>
+        <field name="model_id" ref="model_edu_notice"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_publish_scheduled()</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- ============ F6：先修科目要求（后台维护） ============ -->
+    <record id="view_edu_subject_prereq_list" model="ir.ui.view">
+        <field name="name">edu.subject.prereq.list</field>
+        <field name="model">edu.subject.prereq</field>
+        <field name="arch" type="xml">
+            <list string="先修要求">
+                <field name="subject_id"/>
+                <field name="prereq_subject_id"/>
+                <field name="min_marks"/>
+                <field name="note"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_subject_prereq_form" model="ir.ui.view">
+        <field name="name">edu.subject.prereq.form</field>
+        <field name="model">edu.subject.prereq</field>
+        <field name="arch" type="xml">
+            <form string="先修要求">
+                <sheet>
+                    <group>
+                        <field name="subject_id"/>
+                        <field name="prereq_subject_id"/>
+                        <field name="min_marks"/>
+                        <field name="note"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_subject_prereq" model="ir.actions.act_window">
+        <field name="name">先修科目要求</field>
+        <field name="res_model">edu.subject.prereq</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">配置先修科目</p>
+            <p>配置后学生报课时会校验：未修完先修科目（或分数不达标）不允许提交注册单。</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_edu_subject_prereq" name="先修科目要求"
+              parent="menu_edu_approval_root" action="action_edu_subject_prereq"
+              sequence="42" groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+
+    <!-- ============ F6：科目学分 / 容量（扩展基座表单） ============ -->
+    <record id="view_op_subject_form_edu_ext" model="ir.ui.view">
+        <field name="name">op.subject.form.edu.ext</field>
+        <field name="model">op.subject</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_subject_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='grade_weightage']" position="after">
+                <field name="credit_points"/>
+                <field name="capacity"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ t7 新增模型的访问权（ACL 走 XML，security/*.csv 不在 t7 inScope） ============ -->
+    <record id="access_edu_notice_template_admin" model="ir.model.access">
+        <field name="name">edu.notice.template 教务处/管理员</field>
+        <field name="model_id" ref="model_edu_notice_template"/>
+        <field name="group_id" ref="openeducat_core.group_op_back_office_admin"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="access_edu_notice_template_system" model="ir.model.access">
+        <field name="name">edu.notice.template 系统管理员</field>
+        <field name="model_id" ref="model_edu_notice_template"/>
+        <field name="group_id" ref="base.group_system"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="access_edu_approval_delegate_admin" model="ir.model.access">
+        <field name="name">edu.approval.delegate 教务处/管理员</field>
+        <field name="model_id" ref="model_edu_approval_delegate"/>
+        <field name="group_id" ref="openeducat_core.group_op_back_office_admin"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="access_edu_approval_delegate_faculty" model="ir.model.access">
+        <field name="name">edu.approval.delegate 教师</field>
+        <field name="model_id" ref="model_edu_approval_delegate"/>
+        <field name="group_id" ref="openeducat_core.group_op_faculty"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="access_edu_approval_delegate_system" model="ir.model.access">
+        <field name="name">edu.approval.delegate 系统管理员</field>
+        <field name="model_id" ref="model_edu_approval_delegate"/>
+        <field name="group_id" ref="base.group_system"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="access_edu_subject_prereq_admin" model="ir.model.access">
+        <field name="name">edu.subject.prereq 教务处/管理员</field>
+        <field name="model_id" ref="model_edu_subject_prereq"/>
+        <field name="group_id" ref="openeducat_core.group_op_back_office_admin"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="access_edu_subject_prereq_system" model="ir.model.access">
+        <field name="name">edu.subject.prereq 系统管理员</field>
+        <field name="model_id" ref="model_edu_subject_prereq"/>
+        <field name="group_id" ref="base.group_system"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="access_edu_grade_history_admin" model="ir.model.access">
+        <field name="name">edu.grade.history 教务处/管理员</field>
+        <field name="model_id" ref="model_edu_grade_history"/>
+        <field name="group_id" ref="openeducat_core.group_op_back_office_admin"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="access_edu_grade_history_faculty" model="ir.model.access">
+        <field name="name">edu.grade.history 教师（只读）</field>
+        <field name="model_id" ref="model_edu_grade_history"/>
+        <field name="group_id" ref="openeducat_core.group_op_faculty"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="access_edu_grade_history_system" model="ir.model.access">
+        <field name="name">edu.grade.history 系统管理员</field>
+        <field name="model_id" ref="model_edu_grade_history"/>
+        <field name="group_id" ref="base.group_system"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>

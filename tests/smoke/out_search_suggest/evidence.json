@@ -1,0 +1,162 @@
+{
+  "base": "http://localhost:8069",
+  "roles": [
+    "stu",
+    "fac",
+    "par",
+    "bo"
+  ],
+  "positive": {
+    "stu": {
+      "suggest_http": 200,
+      "entry": [
+        "应用入口",
+        "资料下载",
+        "/downloads"
+      ],
+      "result_page_http": 200,
+      "result_page_has_entry_group": true,
+      "landing_http": 200
+    },
+    "fac": {
+      "suggest_http": 200,
+      "entry": [
+        "应用入口",
+        "资料下载",
+        "/downloads"
+      ],
+      "result_page_http": 200,
+      "result_page_has_entry_group": true,
+      "landing_http": 200
+    },
+    "par": {
+      "suggest_http": 200,
+      "entry": [
+        "应用入口",
+        "资料下载",
+        "/downloads"
+      ],
+      "result_page_http": 200,
+      "result_page_has_entry_group": true,
+      "landing_http": 200
+    },
+    "bo": {
+      "suggest_http": 200,
+      "entry": [
+        "应用入口",
+        "资料下载",
+        "/downloads"
+      ],
+      "result_page_http": 200,
+      "result_page_has_entry_group": true,
+      "landing_http": 200
+    }
+  },
+  "reverse": {
+    "周期排课": {
+      "denied_role": "stu",
+      "denied_hits": [],
+      "allowed_role": "bo",
+      "allowed_hits": [
+        [
+          "应用入口",
+          "周期排课",
+          "/timetable/bulk"
+        ]
+      ]
+    },
+    "发布公告": {
+      "denied_role": "stu",
+      "denied_hits": [],
+      "allowed_role": "bo",
+      "allowed_hits": [
+        [
+          "应用入口",
+          "发布公告",
+          "/notice/publish"
+        ]
+      ]
+    },
+    "我的孩子": {
+      "denied_role": "stu",
+      "denied_hits": [],
+      "allowed_role": "par",
+      "allowed_hits": [
+        [
+          "应用入口",
+          "我的孩子",
+          "/my/child"
+        ]
+      ]
+    }
+  },
+  "control": {
+    "none_groups": [],
+    "partial_hits": [
+      [
+        "应用入口",
+        "资料下载",
+        "/downloads"
+      ],
+      [
+        "应用入口",
+        "学习材料",
+        "/subject/details"
+      ]
+    ],
+    "empty_q": {
+      "q": "",
+      "groups": [],
+      "throttled": false
+    }
+  },
+  "browser": {
+    "axe_closed": [],
+    "axe_source": "cache:/var/folders/p8/ss303xqd5j97kx5cpqd6x_lc0000gn/T/edu_axe/axe-4.10.2.min.js",
+    "options": [
+      {
+        "role": "option",
+        "sel": "false",
+        "id": "yy-sg-opt-0",
+        "text": "资料下载\n请假表、阅读报告格式等常用表格下载"
+      }
+    ],
+    "attrs_open": {
+      "role": "combobox",
+      "expanded": "true",
+      "controls": "yy-sg-listbox",
+      "active": null,
+      "box": true,
+      "boxRole": "listbox"
+    },
+    "axe_open": [],
+    "active_descendant": {
+      "act": "yy-sg-opt-0",
+      "sel": "true"
+    },
+    "escape": {
+      "hidden": true,
+      "focused": true,
+      "expanded": "false"
+    },
+    "enter_url": "http://localhost:8069/downloads",
+    "axe_result_page": [],
+    "no_js_url": "http://localhost:8069/my/search?q=%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD",
+    "no_js_has_entry": true
+  },
+  "copy": {
+    "empty_state_has_download": true,
+    "onboard_has_entry": true
+  },
+  "throttle_unit": "SELFTEST cap=15.0 rate=6.0 allowed_of_40=15 allowed_after_1s=6",
+  "throttle_http": {
+    "requests": 150,
+    "throttled": 18,
+    "codes": [
+      200
+    ],
+    "connection_errors": 0
+  },
+  "fails": [],
+  "notes": []
+}

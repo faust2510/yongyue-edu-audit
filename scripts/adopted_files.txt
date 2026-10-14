@@ -1,0 +1,7 @@
+# 棘轮清单（§6.3）：各任务收口完**自行追加**自己的文件，一行一个 workspace 相对路径。
+# 只有列在这里的文件才参与「令牌外裸色 ⇒ FAIL」；未列出的只输出债务计数（INFO）。
+# 本文件是追加式共享数据 —— 请勿改 scripts/color_tokens.py 里的常量（避免并发冲突）。
+# t9/t10 用 --strict 把全部目标文件视为已收口复核。
+
+# t3（已完成）：唯一令牌源
+custom_addons/edu_brand/static/src/scss/brand_tokens.scss

@@ -1,0 +1,29 @@
+{
+  "total": 42,
+  "failed": [],
+  "notes": {
+    "target": {
+      "batch": "8",
+      "term": "1",
+      "subject": "35"
+    },
+    "target_names": {
+      "batch": "预备科 · 2026级【演示】",
+      "term": "第一学期",
+      "subject": "小要理问答"
+    },
+    "student": {
+      "gr_no": "DUP-001",
+      "id": "7",
+      "old": 80,
+      "new": 81
+    },
+    "add_student": {
+      "id": "576",
+      "name": "【演示】空态测试学生",
+      "in_roster": false,
+      "course_rows_before": "0"
+    }
+  },
+  "at": "2026-10-13T15:33:50.636691"
+}

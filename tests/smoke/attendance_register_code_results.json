@@ -1,0 +1,123 @@
+{
+ "pass": 14,
+ "fail": 0,
+ "total": 14,
+ "when": "2026-09-22T09:51:38",
+ "base": "http://localhost:8069",
+ "db": "edu19",
+ "fixture": {
+  "faculty": 17,
+  "c1": 317,
+  "b1": 445,
+  "s1": [
+   385,
+   386
+  ],
+  "c2": 318,
+  "b2": 446,
+  "s2": [
+   387
+  ],
+  "c3": 319,
+  "b3": 447,
+  "s3": []
+ },
+ "purged": {
+  "lines": 5,
+  "sheets": 3,
+  "registers": 3,
+  "sessions": 3,
+  "student_course": 3,
+  "students": 3,
+  "audit": 2,
+  "subjects": 1,
+  "batches": 3,
+  "courses": 3
+ },
+ "results": [
+  {
+   "no": "R0a",
+   "name": "前置：全新 (课程,班级) #1 还没有任何考勤登记簿",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "R0b",
+   "name": "前置：#1、#2、#3 三个组合都是全新的（登记簿 0 / 点名表 0）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "R0c",
+   "name": "教师登录（faculty@local）",
+   "pass": true,
+   "detail": "uid=11"
+  },
+  {
+   "no": "R1",
+   "name": "GET /attendance/take 选到全新班 → 200（老师能打开点名页）",
+   "pass": true,
+   "detail": "code=200"
+  },
+  {
+   "no": "R2",
+   "name": "POST /attendance/save（全新 (课程,班级) 第一次点名）→ 303 到 &saved=1 结果页（此前这里是 500）",
+   "pass": true,
+   "detail": "code=303 loc=/attendance/take?batch_id=445&date=2026-09-21&saved=1"
+  },
+  {
+   "no": "R3",
+   "name": "建簿落库：1 本、code = R{course}-{batch}、name 非空（required 字段齐全）",
+   "pass": true,
+   "detail": "rows=1 code=R317-445 want=R317-445 name=考勤登记 【演示】考勤建簿冒烟课"
+  },
+  {
+   "no": "R4",
+   "name": "点名表与考勤行落库（1 张表 / 2 行 = 班里 2 人）",
+   "pass": true,
+   "detail": "sheets=1 lines=2"
+  },
+  {
+   "no": "R5",
+   "name": "同班同课程同日期再提交 → 303 到 dup=1 且带 dup_sheet（不建第二张表）",
+   "pass": true,
+   "detail": "code=303 loc=/attendance/take?batch_id=445&date=2026-09-21&dup=1&dup_sheet=195"
+  },
+  {
+   "no": "R6",
+   "name": "已建簿的 (课程,班级) 第二次点名（另一天）→ 303 saved=1、复用同一本簿、表 +1",
+   "pass": true,
+   "detail": "code=303 loc=/attendance/take?batch_id=445&date=2026-09-14&saved=1"
+  },
+  {
+   "no": "R7",
+   "name": "第二处建簿点：考勤补录（全新 (课程,班级) #2）→ 303 saved=1、建簿带 code、补录行落库",
+   "pass": true,
+   "detail": "code=303 loc=/attendance/take?batch_id=446&date=2026-09-21&saved=1 reg_code=R318-446 want=R318-446"
+  },
+  {
+   "no": "R8",
+   "name": "同 (课程,班级) 第二次建簿被数据库唯一约束拒绝（unique(code)）",
+   "pass": true,
+   "detail": "ERROR:  duplicate key value violates unique constraint \"op_attendance_register_unique_attendance_register_code\"\nDETAIL:  Key (code)=(R317-445) already exists."
+  },
+  {
+   "no": "R9",
+   "name": "并发收敛：快照过期的请求撞 unique(code) 后换快照，复用对手那一本（不新建第二本、不 500）",
+   "pass": true,
+   "detail": "{\"opponent_id\": 38, \"visible_before\": [], \"got_id\": 38, \"got_code\": \"R319-447\", \"code_expected\": \"R319-447\", \"rows_for_pair\": 1, \"total_rows_for_code\": 1}"
+  },
+  {
+   "no": "R10",
+   "name": "R9 前置：并发对手的行在本事务旧快照里确实**不可见**（证明这不是「先查后写」偶然蒙对）",
+   "pass": true,
+   "detail": "visible_before=[]"
+  },
+  {
+   "no": "R11",
+   "name": "夹具自清：leftover 全 0（登记簿/点名表/考勤行/课程/班级/科目/学生/审计）",
+   "pass": true,
+   "detail": "{\"courses\": 0, \"batches\": 0, \"subjects\": 0, \"students\": 0, \"student_course\": 0, \"registers\": 0, \"sheets_by_tag\": 0, \"audit\": 0}"
+  }
+ ]
+}

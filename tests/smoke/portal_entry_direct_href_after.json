@@ -1,0 +1,154 @@
+{
+  "tag": "after",
+  "role": "backoffice",
+  "db": "edu19",
+  "base": "http://127.0.0.1:8069",
+  "collected_at": "2026-09-28 12:16:36",
+  "elapsed_s": 102.7,
+  "results": [
+    {
+      "case": "apps_downloads",
+      "page": "/apps",
+      "note": "menu 608 资料下载 root -> ir.actions.act_url 755 url=/downloads",
+      "expect_kind": "portal",
+      "expect_href": "/downloads",
+      "label": "资料下载",
+      "href": "/downloads",
+      "flash_shot": null,
+      "probe": {
+        "backend": null,
+        "portal": "90"
+      },
+      "t_backend_ms": null,
+      "t_portal_ms": 90,
+      "backend_seen": false,
+      "portal_ok": true,
+      "navs": [
+        "http://127.0.0.1:8069/downloads"
+      ],
+      "nav_count": 1,
+      "docs": [
+        "http://127.0.0.1:8069/downloads"
+      ],
+      "final_url": "http://127.0.0.1:8069/downloads",
+      "pass": true,
+      "verdict": "直达门户，1 次导航，无后台外壳"
+    },
+    {
+      "case": "topnav_downloads",
+      "page": "/my/home",
+      "note": "core website.layout 浮动「转到您的应用」下拉里的同名入口",
+      "expect_kind": "portal",
+      "expect_href": "/downloads",
+      "opener_via": "click",
+      "label": "资料下载",
+      "href": "/downloads",
+      "flash_shot": null,
+      "probe": {
+        "backend": null,
+        "portal": "75"
+      },
+      "t_backend_ms": null,
+      "t_portal_ms": 75,
+      "backend_seen": false,
+      "portal_ok": true,
+      "navs": [
+        "http://127.0.0.1:8069/downloads"
+      ],
+      "nav_count": 1,
+      "docs": [
+        "http://127.0.0.1:8069/downloads"
+      ],
+      "final_url": "http://127.0.0.1:8069/downloads",
+      "pass": true,
+      "verdict": "直达门户，1 次导航，无后台外壳"
+    },
+    {
+      "case": "reg_student_info",
+      "page": "/apps",
+      "note": "menu 257 act_window 382（op.student 列表）——本来就是后台",
+      "expect_kind": "backend",
+      "expect_href": "/odoo/action-382",
+      "label": "学生信息",
+      "href": "/odoo/action-382",
+      "flash_shot": "after-reg_student_info-flash.png",
+      "probe": {
+        "backend": "147",
+        "portal": null
+      },
+      "t_backend_ms": 147,
+      "t_portal_ms": null,
+      "backend_seen": true,
+      "portal_ok": false,
+      "navs": [
+        "http://127.0.0.1:8069/odoo/action-382",
+        "http://127.0.0.1:8069/odoo/students"
+      ],
+      "nav_count": 2,
+      "docs": [
+        "http://127.0.0.1:8069/odoo/action-382"
+      ],
+      "final_url": "http://127.0.0.1:8069/odoo/students",
+      "pass": true,
+      "verdict": "仍进后台 /odoo/action-N，行为未变"
+    },
+    {
+      "case": "reg_timetable",
+      "page": "/apps",
+      "note": "menu 341 act_window 456（op.session）——本来就是后台",
+      "expect_kind": "backend",
+      "expect_href": "/odoo/action-456",
+      "label": "时间表",
+      "href": "/odoo/action-456",
+      "flash_shot": "after-reg_timetable-flash.png",
+      "probe": {
+        "backend": "118",
+        "portal": null
+      },
+      "t_backend_ms": 118,
+      "t_portal_ms": null,
+      "backend_seen": true,
+      "portal_ok": false,
+      "navs": [
+        "http://127.0.0.1:8069/odoo/action-456",
+        "http://127.0.0.1:8069/odoo/session"
+      ],
+      "nav_count": 2,
+      "docs": [
+        "http://127.0.0.1:8069/odoo/action-456"
+      ],
+      "final_url": "http://127.0.0.1:8069/odoo/session",
+      "pass": true,
+      "verdict": "仍进后台 /odoo/action-N，行为未变"
+    },
+    {
+      "case": "reg_finance",
+      "page": "/apps",
+      "note": "menu 579 无动作 -> BFS 首个有动作子孙 580 账单管理 act_window 720",
+      "expect_kind": "backend",
+      "expect_href": "/odoo/action-720",
+      "label": "财务管理",
+      "href": "/odoo/action-720",
+      "flash_shot": "after-reg_finance-flash.png",
+      "probe": {
+        "backend": "95",
+        "portal": null
+      },
+      "t_backend_ms": 95,
+      "t_portal_ms": null,
+      "backend_seen": true,
+      "portal_ok": false,
+      "navs": [
+        "http://127.0.0.1:8069/odoo/action-720",
+        "http://127.0.0.1:8069/odoo/action-720"
+      ],
+      "nav_count": 2,
+      "docs": [
+        "http://127.0.0.1:8069/odoo/action-720"
+      ],
+      "final_url": "http://127.0.0.1:8069/odoo/action-720",
+      "pass": true,
+      "verdict": "仍进后台 /odoo/action-N，行为未变"
+    }
+  ]
+}

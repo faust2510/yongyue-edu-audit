@@ -1,0 +1,163 @@
+# B5 / B6 执行记录（2026-10-01，loss-ledger）
+# 授权：队长 2026-10-01 批准执行 B5 → B6；纪律=每步先备份、dry-run 先跑、逐条对账、幂等复跑、不动 B7/B8。
+# 备份脚本：bash scripts/backup_pull.sh --host prod-host --out ~/Documents/edu19-backups --db edu19 --pgbin /opt/homebrew/opt/postgresql@16/bin --port 55432
+
+##### 备份 1（B5 之前，exit 0，彩排 PASS） #####
+edu19_prod-host_20261001T140947Z.dump  10,663,234 B
+sha256 032863b551cd097c4487d589f017f05ed1fba2dd72f71c722694028037dfc208
+彩排：res_company 1 / res_users 8 / res_partner 18 / ir_ui_menu 610 / ir_attachment 971 / op_session 0 / op_batch 1 / op_subject — ；结论 PASS
+
+##### B5 dry-run（真跑前，离线） #####
+========================================================================
+[dry-run] 契约源 226 行 → 剔除师生互动 14 → 展开后 216 行
+[dry-run] 展开明细: {'救恩论/A123': ['2026-12-28', '2026-12-29', '2026-12-30', '2026-12-31', '2027-01-04']}
+[dry-run] 最终 session 计划（去重后）= 216
+[dry-run] 同 batch 冲突 0（须为 0） · 跨 batch 同教师并行 44 对（占位待定，真实教师替换后消解） · 同教室 0（未指定）
+------------------------------------------------------------------------
+[dry-run] 科目 18：
+   BTH-GEN01 英语             theory/compulsory
+   BTH-FOU01 基础信仰           theory/compulsory
+   BLA-PRA01 课程设计实务         practical/compulsory
+   BLA-LIT02 基督教与文学经典选读（二）  theory/compulsory
+   BTH-THE01 神论             theory/compulsory
+   …（16 批逐条 + 占位教师 + 计划 216 行，全文见 /tmp 原始文件）
+
+##### B5 真跑（第 1 次）输出尾部 #####
+66:[t2] 新建 op.batch A23B34    A23+B34合班        → CRS-BTH
+67:[t2] 新建 op.batch B4        人文四年级            → CRS-BED
+68:[t2] 新建 op.batch A23       A2+A3合班          → CRS-BTH
+69:[t2] 新建 op.batch A2        神学二年级            → CRS-BTH
+70:[t2] 新建 op.batch A3        神学三年级            → CRS-BTH
+71:[t2] 新建 op.batch B2        人文二年级            → CRS-BED
+72:[t2] 新建 op.faculty「待定」 id=20 partner=65
+73:[t2] 新建 op.timing 14:00-16:00 (2:00 pm, 2.0h)
+74:[t2] 新建 op.timing 09:00-11:30 (9:00 am, 2.5h)
+75:[t2] 新建 op.timing 10:00-12:00 (10:00 am, 2.0h)
+76:[t2] 新建 op.timing 19:00-21:00 (7:00 pm, 2.0h)
+77:[t2] 新建 op.timing 09:00-11:00 (9:00 am, 2.0h)
+78:[t2] 新建 op.timing 08:30-11:30 (8:30 am, 3.0h)
+79:[t2] 新建 op.timing 19:15-21:15 (7:15 pm, 2.0h)
+80:[t2] 新建 op.timing 19:30-21:30 (7:30 pm, 2.0h)
+81:[t2] 新建 op.timing 07:45-09:45 (7:45 am, 2.0h)
+82:[t2] 新建 op.timing 09:00-17:00 (9:00 am, 8.0h)
+83:[t2] op.session.create × 216 成功（ids 330..545）
+84:[t2] 审计 edu.audit.log 已写入
+88:[t2] 完成：本次新建 216 · 幂等跳过 0 · 库内总 session 216 · 本批次(待定教师) 216
+89:[t2] 全部建档/导入走 ORM + 审计，无裸 SQL。
+90:[t2] ✓ 已 commit 持久化
+
+##### B5 真跑后对账（库内实测） #####
+Warning: Permanently added '203.0.113.11' (ED25519) to the list of known hosts.
+MARKRECON
+t|n
+op_subject|32
+op_batch|17
+op_session|216
+op_faculty|1
+op_timing|13
+op_student|1
+edu_course_subject|14
+edu_audit_log|1
+(8 rows)
+MARKNEWSUBJ
+code|name|subject_type
+BTH-GEN01|英语|compulsory
+BTH-FOU01|基础信仰|compulsory
+BLA-PRA01|课程设计实务|compulsory
+BLA-LIT02|基督教与文学经典选读（二）|compulsory
+BTH-THE01|神论|compulsory
+BLA-CLA01|课堂管理|compulsory
+BLA-COV01|圣约神学|compulsory
+GEN-ACT01|使徒行传|compulsory
+BTH-LAW01|基督教与法律导论|compulsory
+GEN-LOG01|逻辑一|compulsory
+GEN-APO01|护教学基础|compulsory
+BLA-HEB02|希伯来语二|compulsory
+BLA-HEB04|希伯来语四|compulsory
+BTH-SPI01|圣灵论|compulsory
+BTH-HOM01|讲道法|compulsory
+BTH-PEN01|摩西五经|compulsory
+BTH-SAL01|救恩论|compulsory
+BTH-REF01|改革宗初始讲座|elective
+(18 rows)
+MARKSESS
+min_id|max_id|n|state
+330|545|216|draft
+(1 row)
+MARKEND7
+
+##### B5 幂等复跑（第 2 次） #####
+42:[t2] 完成：本次新建 0 · 幂等跳过 216 · 库内总 session 216 · 本批次(待定教师) 216
+44:[t2] ✓ 已 commit 持久化
+
+##### 备份 2（B6 之前，exit 0，彩排 PASS） #####
+edu19_prod-host_20261001T141110Z.dump
+sha256 de01aa5287f0d6880e8f84645d820b79bf0bd450e3298996769f26588a3a1bb4
+
+##### B6 dry-run（真跑前；**真跑尚未执行，等队长放行**） #####
+32:[import] CSV = /tmp/yongyue-curriculum.csv
+33:[import] 行数 = 124 | DRY_RUN = True | 既有科目 = 31 | 课程 = 6
+34:[import] 新建 = 115 | 已存在 = 9 | 跳过 = 0
+35:[import] 合计 = 124 断言 == CSV 行数: True
+36:[import] 新增挂接 = 0
+37:[import] 目标课程全部命中 ✓
+38:[import] 对拍表已写 /tmp/import_report.csv
+39:[import] 收尾计数：op_subject = 32 | 挂接 = n/a
+# 与 plan 预期的差异：既有科目 实测 31 / 预期 32 —— 根因 = op_subject 有 32 行但仅 31 个唯一名（基础信仰 出现两次：BTH-FOU01 + PRP-C02），
+#   而 scripts/import_curriculum.py:34-35 的 smap 按名字 setdefault ⇒ 打印的是唯一名数。已存在 9 / 新建 115 与预期一致。
+
+##### B6 真跑（2026-10-01，前置守卫通过后） #####
+前置守卫：POS_EXIT=0（4/4 PASS）｜PRECHECK_NEGATIVE=1 -> NEG_EXIT=1（1 FAIL / 3 条控制组 PASS）
+dry-run（真跑前）：行数 124 | 既有科目 31 | 课程 6 | 新建 115 | 已存在 9 | 跳过 0 | 收尾 op_subject 32
+[import] CSV = /tmp/yongyue-curriculum.csv
+[import] 行数 = 124 | DRY_RUN = False | 既有科目 = 31 | 课程 = 6
+[import] 新建 = 115 | 已存在 = 9 | 跳过 = 0
+[import] 合计 = 124 断言 == CSV 行数: True
+[import] 新增挂接 = 306
+[import] 目标课程全部命中 ✓
+[import] 对拍表已写 /tmp/import_report.csv
+[import] 已提交 env.cr.commit()
+[import] 收尾计数：op_subject = 147 | 挂接 = n/a
+对账口径（库内实测，原文见 /tmp/b6_after.out）：op_subject 147 | edu_course_subject 320 | op_course_op_subject_rel 14 | op_session 216 | op_batch 17
+MARKB6RECON
+t|n
+op_subject|147
+op_course_op_subject_rel(old)|14
+edu_course_subject(new)|320
+op_session|216
+op_batch|17
+(5 rows)
+MARKPERCOURSE
+code|links
+CRS-BED|81
+CRS-BLA|81
+CRS-BTH|72
+CRS-HSA|0
+CRS-MCS|72
+CRS-PRP|14
+(6 rows)
+MARKTYPE
+subject_type|count
+|320
+(1 row)
+MARKEND9
+幂等 dry-run（真跑后）：新建 0 | 已存在 124 | 跳过 0 | 收尾 op_subject 147
+[import] CSV = /tmp/yongyue-curriculum.csv
+[import] 行数 = 124 | DRY_RUN = True | 既有科目 = 146 | 课程 = 6
+[import] 新建 = 0 | 已存在 = 124 | 跳过 = 0
+[import] 合计 = 124 断言 == CSV 行数: True
+[import] 新增挂接 = 0
+[import] 目标课程全部命中 ✓
+[import] 对拍表已写 /tmp/import_report.csv
+[import] 收尾计数：op_subject = 147 | 挂接 = n/a
+
+##### 量具订正 import_curriculum.py（先跑完 B6，再改读数） #####
+改前（真跑前那一刻）：
+[import] 行数 = 124 | DRY_RUN = True | 既有科目 = 31 | 课程 = 6
+改前基线直连 SQL：select count(*), count(distinct name) from op_subject -> 32 | 31（见 Q8）
+改后（同一条 dry-run 命令）：
+[import] 行数 = 124 | DRY_RUN = True | 既有科目 = 147 行 / 146 个唯一名 （重名: 基础信仰 x2） | 课程 = 6
+
+##### 重名科目（数据质量发现，待教务确认） #####
+CSV：124 行 / 124 唯一名；基础信仰 只出现 1 次（第 21 行）
+DB ：基础信仰 n=2 codes=BTH-FOU01,PRP-C02（B5 课表导入引入该碰撞）

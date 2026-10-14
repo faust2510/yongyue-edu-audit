@@ -1,0 +1,529 @@
+{
+  "total": 87,
+  "passed": 87,
+  "failed": [],
+  "results": [
+    {
+      "no": "C00a",
+      "name": "无升级锁（串行口径）",
+      "pass": true,
+      "detail": "/var/folders/p8/ss303xqd5j97kx5cpqd6x_lc0000gn/T/edu19_upgrade.lock"
+    },
+    {
+      "no": "C00b",
+      "name": "web 就绪（带库名登录页）",
+      "pass": true,
+      "detail": "code=302"
+    },
+    {
+      "no": "C01",
+      "name": "夹具已建（同课程第二班 + 另一课程班 x3 + 停用班 + 课节）",
+      "pass": true,
+      "detail": "{\"b_same\": 345, \"b_cross\": 346, \"b_cross2\": 347, \"b_cross3\": 348, \"b_off\": 349, \"sessions\": [877, 878, 879], \"user2\": 365, \"student2_name\": \"张同学【演示】\", \"c18_subjects\": [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48], \"c13_subjects\": [36, 38, 58, 60, 61, 67, 70, 468, 469, 470, 471, 473, 476, 477, 478, 479, 480, 481, 483, 484, 485, 490, 494, 501, 502, 505, 511, 515, 527, 531, 532, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575, 576, 577, 578, 579, 580, 581, 582], \"sub_c18_name\": \"小要理问答\", \"grade_subject_name\": \"小要理问答\", \"grade_exam_class\": [18, 8], \"c13_only_subject_name\": \"神论\", \"course19_name\": \"HTTP冒烟课程\", \"notify_events\": [\"leave_result\", \"grade_result\", \"assignment_graded\", \"journal_reviewed\", \"subject_reg_result\", \"reimburse_result\", \"session_change\"], \"notify"
+    },
+    {
+      "no": "V3a",
+      "name": "载体合法：学生 5 恰好 1 条 running 档案",
+      "pass": true,
+      "detail": "running=1（档案 id=9）"
+    },
+    {
+      "no": "V3b",
+      "name": "载体合法：同课程（18）第二班存在",
+      "pass": true,
+      "detail": "demo batch=345"
+    },
+    {
+      "no": "V3c",
+      "name": "载体合法：档案 id=9 与基线一致（course=18 batch=8）",
+      "pass": true,
+      "detail": "{\"course\": 18, \"batch\": 8, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "C02",
+      "name": "四个角色登录（学生/教务/教师/家长 + 学生B）",
+      "pass": true,
+      "detail": "uid=8/12/11/10/365"
+    },
+    {
+      "no": "V4a",
+      "name": "学生 GET /course/change/request = 200",
+      "pass": true,
+      "detail": "code=200 len=52232"
+    },
+    {
+      "no": "V4b",
+      "name": "页面显示「现班 = 预备科 · 2026级【演示】」",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V4c",
+      "name": "目标班下拉含同课程第二班（【演示】换班冒烟 · 换班目标班）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V4d",
+      "name": "页面标题按校长拍板 =「换班申请」",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V19a",
+      "name": "目标课程下拉不含 active=false 的班级所属课程",
+      "pass": true,
+      "detail": "已先停用课程 19（HTTP冒烟课程）"
+    },
+    {
+      "no": "V19b",
+      "name": "已停用班不在下拉里（【演示】换班冒烟） · 已停用班",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V7m-课表-before",
+      "name": "前置对照：换班前同一周 URL 看不到演示课节",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "P5-成绩-before",
+      "name": "前置：成绩簿可见旧班考试成绩「小要理问答」（考试归属 [18, 8]）",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V19c",
+      "name": "下拉项带「在读 N 人 · 课节 N 节」（人话规模）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V5",
+      "name": "非学生（教务账号）GET 学生页 → 303 /my/home",
+      "pass": true,
+      "detail": "code=303 loc=/my/home"
+    },
+    {
+      "no": "P-family",
+      "name": "家长 GET 学生换班页 → 303 /my/home（家长读不到）",
+      "pass": true,
+      "detail": "code=303 loc=/my/home"
+    },
+    {
+      "no": "V22-legacy0",
+      "name": "本地存量 course_change/submitted 夹具数量（生产 0）",
+      "pass": true,
+      "detail": "ids=['10', '11', '12', '13', '14', '15', '16', '17', '18', '19']"
+    },
+    {
+      "no": "V22-legacy1",
+      "name": "★ 存量夹具单进队列（「教务够不着」已修好）",
+      "pass": true,
+      "detail": "names=SR0008|SR0009|SR0010|SR0011|SR0012|SR0013|SR0014|SR0015|SR0016|SR0017"
+    },
+    {
+      "no": "V22-legacy2",
+      "name": "存量不自洽单点通过 → 人话拒绝（不是 ValidationError 冒 500）",
+      "pass": true,
+      "detail": "msg=目标班级「预备科 · 2026级【演示】」属于课程「预备科」，与单据上的目标课程「基督教研究硕士科」不一致，单据不自洽，请驳回让学生重新提交。"
+    },
+    {
+      "no": "V22-legacy3",
+      "name": "被拒的存量单未产生任何档案写入",
+      "pass": true,
+      "detail": "{\"course\": 18, \"batch\": 8, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "V22-legacy4",
+      "name": "存量待批单会挡住新申请（防重复入口生效）",
+      "pass": true,
+      "detail": "msg=您已有一条待审批的换班申请，请等教务处理后再提交。"
+    },
+    {
+      "no": "V22-legacy5",
+      "name": "教务可逐条驳回存量夹具单（10 张，归还阶段写回）",
+      "pass": true,
+      "detail": "rejected=10"
+    },
+    {
+      "no": "V6a",
+      "name": "提交 → 303 回 ?box=submitted",
+      "pass": true,
+      "detail": "code=303 loc=/course/change/request?box=submitted&new_id=565"
+    },
+    {
+      "no": "V6b",
+      "name": "库里新增 1 行：doc_type=course_change / state=submitted / batch=目标班 / student=5",
+      "pass": true,
+      "detail": "{\"student\": 5, \"course\": 18, \"batch\": 345, \"state\": \"submitted\", \"doc_type\": \"course_change\", \"name\": \"SR0542\"}"
+    },
+    {
+      "no": "V6c",
+      "name": "调班单不携带任何科目集（硬约束 §5.3）",
+      "pass": true,
+      "detail": "compulsory=0 elective=0"
+    },
+    {
+      "no": "V6d",
+      "name": "审计 +1 行 action=调班提交",
+      "pass": true,
+      "detail": "before=0 after=1"
+    },
+    {
+      "no": "V6e",
+      "name": "单号由基座序列分配（SR/CR + 序号，与既有变更单同名口径）",
+      "pass": true,
+      "detail": "SR0542"
+    },
+    {
+      "no": "V6f",
+      "name": "同一学生已有待批单时再提交被拒（人话提示）",
+      "pass": true,
+      "detail": "loc=/course/change/request?box=error&msg=%E6%82%A8%E5%B7%B2%E6%9C%89%E4%B8%80%E6%9D%A1%E5%BE%85%E5%AE%A1%E6%89%B9%E7%9A%84%E6%8D%A2%E7%8F%AD%E7%94%B3%E8%AF%B7%EF%BC%8C%E8%AF%B7%E7%AD%89%E6%95%99%E5%8A%A1%E5%A4%84%E7%90%86%E5%90%8E%E5%86%8D%E6%8F%90%E4%BA%A4%E3%80%82 msg=您已有一条待审批的换班申请，请等教务处理后再提交。"
+    },
+    {
+      "no": "V6g",
+      "name": "被拒后单据数未增加",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "P-other",
+      "name": "学生 B 看不到学生 A 的申请（页面不含 SR0542）",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V21a",
+      "name": "教务在「变更审批」页签看到该单",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V21b",
+      "name": "教务「全部」同时看到选课单与变更单",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V21c",
+      "name": "教师看不到变更单（列表不含 SR0542）",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V21d",
+      "name": "教师直接开变更单详情 → 303（服务端二次门禁）",
+      "pass": true,
+      "detail": "code=303 loc=/registrar/subject/approvals"
+    },
+    {
+      "no": "V21e",
+      "name": "教师直接 POST set_state → 303 且状态未变",
+      "pass": true,
+      "detail": "code=303 state=submitted"
+    },
+    {
+      "no": "V7a",
+      "name": "审批详情 200 且含「原 → 新」对照与 R1 影响提示",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V7b",
+      "name": "教务通过 → 303 box=done",
+      "pass": true,
+      "detail": "code=303 loc=/registrar/subject/approvals/565?box=done"
+    },
+    {
+      "no": "V7c",
+      "name": "档案 id=9 原地改写：batch_id 8 → 345（course 不变）",
+      "pass": true,
+      "detail": "{\"course\": 18, \"batch\": 345, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "V7d",
+      "name": "档案仍在读（state=running），科目未被触碰",
+      "pass": true,
+      "detail": "subjects=[46]"
+    },
+    {
+      "no": "V7e",
+      "name": "★ 只原地改写：op_student_course 总行数不变（口径一 vs 口径二）",
+      "pass": true,
+      "detail": "before=4 after=4"
+    },
+    {
+      "no": "V7f",
+      "name": "★ 字段级留痕落地：mail_tracking_value(op.student.course, res_id=9, batch_id) +1",
+      "pass": true,
+      "detail": "before=0 after=1"
+    },
+    {
+      "no": "V7g",
+      "name": "留痕旧值/新值可读（old → new）",
+      "pass": true,
+      "detail": "8->345"
+    },
+    {
+      "no": "V7h",
+      "name": "审计 +1 行 action=调班审批 且带「原 → 新」",
+      "pass": true,
+      "detail": "通过：原 预备科 · 预备科 · 2026级【演示】 → 新 预备科 · 【演示】换班冒烟 · 换班目标班（档案 9，课程 18→18，科目 14 门）"
+    },
+    {
+      "no": "V7i",
+      "name": "单据状态 = approved 且记审批人",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V7j",
+      "name": "学生收到 1 条站内信，正文自证「原 → 新」",
+      "pass": true,
+      "detail": "【换班通知】您的换班/换课申请 SR0542 已通过：预备科 · 预备科 · 2026级【演示】 → 预备科 · 【演示】换班冒烟 · 换班目标班。课表、任课教师与「我的课程」已按新班生效；原班的已录考勤与成绩仍可在门户查看。"
+    },
+    {
+      "no": "V7k",
+      "name": "★ 教师通知：旧班转出 + 新班转入各 1 条（同一 key）",
+      "pass": true,
+      "detail": "【换班通知】学生 王小明 的换班/换课申请已通过：预备科 · 预备科 · 2026级【演示】 → 预备科 · 【演示】换班冒烟 · 换班目标班。班级名单已即时更 | 【换班通知】学生 王小明 的换班/换课申请已通过：预备科 · 预备科 · 2026级【演示】 → 预备科 · 【演示】换班冒烟 · 换班目标班。班级名单已即时更"
+    },
+    {
+      "no": "V7l",
+      "name": "未新增第 8 个通知开关（P4 复用既有 key）",
+      "pass": true,
+      "detail": "NOTIFY_EVENTS=['leave_result', 'grade_result', 'assignment_graded', 'journal_reviewed', 'subject_reg_result', 'reimburse_result', 'session_change']"
+    },
+    {
+      "no": "V7m-首页",
+      "name": "首页跟着变：含新班「【演示】换班冒烟 · 换班目标班」",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V7m-档案页",
+      "name": "档案页跟着变：含新班「【演示】换班冒烟 · 换班目标班」",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V7m-课表",
+      "name": "课表跟着变：同一周 URL 出现新班课节「小要理问答」",
+      "pass": true,
+      "detail": "code=200 url=/student/timetable?view=week&w=232"
+    },
+    {
+      "no": "V7m-课表对照",
+      "name": "对照：不在该班的学生同一 URL 看不到该课节",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "P5-成绩-after",
+      "name": "★ 换班后旧班考试成绩仍对学生可见（「小要理问答」，考试仍属 [18, 8]，而档案已到 345）",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V7n",
+      "name": "学生列表显示「原 → 新」对照（原班名出现在已通过行）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V8a",
+      "name": "第二张单已建（目标 = 原班 8）",
+      "pass": true,
+      "detail": "{\"student\": 5, \"course\": 18, \"batch\": 8, \"state\": \"submitted\", \"doc_type\": \"course_change\", \"name\": \"SR0543\"}"
+    },
+    {
+      "no": "V8b",
+      "name": "★ 可逆：batch_id 改回 8，且无 IntegrityError",
+      "pass": true,
+      "detail": "{\"course\": 18, \"batch\": 8, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "V8c",
+      "name": "★ 档案表行数仍不变（永不新建行）",
+      "pass": true,
+      "detail": "before=4 after=4"
+    },
+    {
+      "no": "V15a",
+      "name": "第三张单已建（跨课程 18 → 13）",
+      "pass": true,
+      "detail": "{\"student\": 5, \"course\": 13, \"batch\": 346, \"state\": \"submitted\", \"doc_type\": \"course_change\", \"name\": \"SR0544\"}"
+    },
+    {
+      "no": "V9a",
+      "name": "★ 目标班审批前被停用 → 被拒 + 人话提示 + 档案未变",
+      "pass": true,
+      "detail": "loc=/registrar/subject/approvals/567?box=error&msg=%E7%9B%AE%E6%A0%87%E7%8F%AD%E7%BA%A7%E3%80%8C%E3%80%90%E6%BC%94%E7%A4%BA%E3%80%91%E6%8D%A2%E7%8F%AD%E5%86%92%E7%83%9F%20%C2%B7%20%E6%8D%A2%E8%AF%BE%E7%9B%AE%E6%A0%87%E7%8F%ADA%E3%80%8D%E5%B7%B2%E5%81%9C%E7%94%A8%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%BD%9C%E4%B8%BA%E6%8D%A2%E7%8F%AD%E7%9B%AE%E6%A0%87%E3%80%82%E8%AF%B7%E9%A9%B3%E5%9B%9E%E8%AE%A9%E5%AD%A6%E7%94%9F%E9%87%8D%E6%96%B0%E9%80%89%E6%8B%A9%E3%80%82 msg=目标班级「【演示】换班冒烟 · 换课目标班A」已停用，不能作为换班目标。请驳回让学生重新选择。"
+    },
+    {
+      "no": "V15b",
+      "name": "★ 换课程：course_id 与 batch_id 同时改写（18/8 → 13/346）",
+      "pass": true,
+      "detail": "{\"course\": 13, \"batch\": 346, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "V15c",
+      "name": "★ subject_ids 已按目标课程重算（= op.course.subject_ids）",
+      "pass": true,
+      "detail": "n=72（目标课程 72 门；原 1 门）"
+    },
+    {
+      "no": "V15d",
+      "name": "档案行数仍不变（没走 create 分支）",
+      "pass": true,
+      "detail": "n=4"
+    },
+    {
+      "no": "V15e",
+      "name": "LMS 事实源跟着换：我的课程页出现目标课程独有科目「神论」",
+      "pass": true,
+      "detail": "code=200"
+    },
+    {
+      "no": "V15f",
+      "name": "换课程通知正文含「原 → 新」（跨课程也自证）",
+      "pass": true,
+      "detail": "【换班通知】您的换班/换课申请 SR0544 已通过：预备科 · 预备科 · 2026级【演示】 → 基督教研究硕士科 · 【演示】换班冒烟 · 换课目标班A。课表、任课教师与「我的课程」已按新班生效；原班的已录考勤与成绩仍可在门户查看。"
+    },
+    {
+      "no": "V18a",
+      "name": "★ 目标 (学生·课程·班) 已有行 → 人话拒绝（不是 IntegrityError）",
+      "pass": true,
+      "detail": "msg=该生已存在一条「基督教研究硕士科 · 【演示】换班冒烟 · 换课目标班B」的课程档案（档案 id 120），与本次变更目标重复。直接改写会撞唯一约束，请先在学生页面处理那条档案，或驳回改为其它班级。"
+    },
+    {
+      "no": "V18b",
+      "name": "被拒后档案未变",
+      "pass": true,
+      "detail": "{\"course\": 13, \"batch\": 346, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "V18c",
+      "name": "★ 目标班内同学号被他人占用 → 人话拒绝",
+      "pass": true,
+      "detail": "msg=学号「PRP26-001」在目标「基督教研究硕士科 · 【演示】换班冒烟 · 换课目标班B」已被学生「张同学【演示】」占用，无法直接使用。请换一个学号，或驳回让学生重新申请。"
+    },
+    {
+      "no": "V18d",
+      "name": "障碍清除后通过（同一张单，无需重提）",
+      "pass": true,
+      "detail": "{\"course\": 13, \"batch\": 347, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "V22a",
+      "name": "驳回：状态置 rejected 且驳回原因入库",
+      "pass": true,
+      "detail": "{\"student\": 5, \"course\": 13, \"batch\": 346, \"state\": \"rejected\", \"doc_type\": \"course_change\", \"name\": \"SR0546\"}"
+    },
+    {
+      "no": "V22b",
+      "name": "驳回通知不再误称「选课申请」（按 doc_type 分支）",
+      "pass": true,
+      "detail": "【换班通知】您的换班/换课申请 SR0546（目标：基督教研究硕士科 · 【演示】换班冒烟 · 换课目标班A）已被驳回。 / 驳回原因：CCR 冒烟：理由不充分"
+    },
+    {
+      "no": "V22c",
+      "name": "驳回也写审计（调班审批 +1）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V22d",
+      "name": "驳回不改档案（档案仍在 13/347）",
+      "pass": true,
+      "detail": "{\"course\": 13, \"batch\": 347, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "V17a",
+      "name": "★ 跨课程可逆：course/batch 回到原值（18/8）",
+      "pass": true,
+      "detail": "{\"course\": 18, \"batch\": 8, \"state\": \"running\", \"roll\": \"PRP26-001\"}"
+    },
+    {
+      "no": "V17b",
+      "name": "★ 全程零 IntegrityError（换出去再换回来）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V17c",
+      "name": "档案表行数自始至终未变",
+      "pass": true,
+      "detail": "before=4 after=4"
+    },
+    {
+      "no": "V17d",
+      "name": "换回后科目 = 目标课程（18）科目集",
+      "pass": true,
+      "detail": "n=14"
+    },
+    {
+      "no": "V16a",
+      "name": "★ 成绩/考勤行数与课程班级归属一字不变（零物理漂移）",
+      "pass": true,
+      "detail": "before={\"op_exam_attendees\": 1, \"op_result_line\": 1, \"op_marksheet_line\": 1, \"op_attendance_line\": 47, \"attendees_marks\": \"11:18:8:20\", \"att_lines\": \"92:18:8|93:18:8|94:18:8|95:18:8|96:18:8|97:18:8|98:18:8|99:18:8|100:18:8|101:18:8|102:18:8|103:18:8|104:18:8|105:18:8|106:18:8|107:18:8|108:18:8|109:18:8|110:18:8|111:18:8|112:18:8|113:18:8|114:18:8|115:18:8|116:18:8|118:18:8|119:18:8|120:18:8|121:18:8|123:18:8|124:18:8|125:18:8|126:18:8|128:18:8|129:18:8|130:18:8|131:18:8|133:18:8|134:18:8|135:18:8|136:18:8|138:18:8|139:18:8|140:18:8|141:18:8|142:18:8|143:18:8\"} after={\"op_exam_attendees\": 1, \"op_result_line\": 1, \"op_marksheet_line\": 1, \"op_attendance_line\": 47, \"attendees_marks\": \"11:18:8:20\", \"att_lines\": \"92:18:8|93:18:8|94:18:8|95:18:8|96:18:8|97:18:8|98:18:8|99:18:8|100:18:8|101:18:8|102:18:8|103:18:8|104:18:8|105:18:8|106:18:8|107:18:8|108:18:8|109:18:8|110:18:8|111:18:8|112:18:8|113"
+    },
+    {
+      "no": "V11a",
+      "name": "V11 写库入口：edu_portal 内零「链式直写」档案表调用点",
+      "pass": true,
+      "detail": "hits=[\"custom_addons/edu_telegram/tests/test_commands.py:31:                self.env['op.student.course'].create({\"]"
+    },
+    {
+      "no": "V11b",
+      "name": "★ 收口条件 C2：审批动作落在 models/registration.py（地址级证据）",
+      "pass": true,
+      "detail": "OpSubjectRegistration.action_course_change_approve · /mnt/custom-addons/edu_portal/models/registration.py"
+    },
+    {
+      "no": "V11c",
+      "name": "V12 教务组 implied 传递闭包不含 base.group_system",
+      "pass": true,
+      "detail": "implied=[1, 6, 7, 9, 19, 22, 24, 39, 40, 55, 56, 57, 58, 59, 60, 61, 62, 69, 82]"
+    },
+    {
+      "no": "V14a",
+      "name": "★ 还原：档案 id=9 回到基线 {'course': 18, 'batch': 8, 'state': 'running', 'roll': 'PRP26-001', 'subjects': [46]}",
+      "pass": true,
+      "detail": "{\"course\": 18, \"batch\": 8, \"state\": \"running\", \"roll\": \"PRP26-001\"} subjects=[46]"
+    },
+    {
+      "no": "V14b",
+      "name": "★ leftover=0：冒烟单据全部删除",
+      "pass": true,
+      "detail": "now=12 expect=12"
+    },
+    {
+      "no": "V14c",
+      "name": "★ leftover=0：档案表行数回到基线",
+      "pass": true,
+      "detail": "now=4"
+    },
+    {
+      "no": "V14d",
+      "name": "★ leftover=0：演示班/课节/临时账号全部清掉",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V14e",
+      "name": "★ leftover=0：课程 19 恢复启用",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "V14f",
+      "name": "★ leftover=0：本次冒烟的通知/审计行已撤回",
+      "pass": true,
+      "detail": "audit(调班审批)=0 msg(换班通知/学生)=0"
+    }
+  ]
+}

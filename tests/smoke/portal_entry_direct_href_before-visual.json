@@ -1,0 +1,71 @@
+{
+  "tag": "before-visual",
+  "role": "backoffice",
+  "db": "edu19",
+  "base": "http://127.0.0.1:8069",
+  "collected_at": "2026-09-28 12:01:16",
+  "elapsed_s": 12.2,
+  "results": [
+    {
+      "case": "apps_downloads",
+      "page": "/apps",
+      "note": "menu 608 资料下载 root -> ir.actions.act_url 755 url=/downloads",
+      "expect_kind": "portal",
+      "expect_href": "/downloads",
+      "label": "资料下载",
+      "href": "/odoo/action-755",
+      "flash_shot": null,
+      "probe": {
+        "backend": "206",
+        "portal": "3371"
+      },
+      "t_backend_ms": 206,
+      "t_portal_ms": 3371,
+      "backend_seen": true,
+      "portal_ok": true,
+      "navs": [
+        "http://127.0.0.1:8069/odoo/action-755",
+        "http://127.0.0.1:8069/downloads"
+      ],
+      "nav_count": 2,
+      "docs": [
+        "http://127.0.0.1:8069/odoo/action-755",
+        "http://127.0.0.1:8069/downloads"
+      ],
+      "final_url": "http://127.0.0.1:8069/downloads",
+      "pass": false,
+      "verdict": "href=/odoo/action-755 != /downloads; 仍出现后台外壳 t=206ms; 主框架导航 2 次（应 1 次）: http://127.0.0.1:8069/odoo/action-755 -> http://127.0.0.1:8069/downloads"
+    },
+    {
+      "case": "topnav_downloads",
+      "page": "/my/home",
+      "note": "core website.layout 浮动「转到您的应用」下拉里的同名入口",
+      "expect_kind": "portal",
+      "expect_href": "/downloads",
+      "opener_via": "click",
+      "label": "资料下载",
+      "href": "/odoo/action-755",
+      "flash_shot": null,
+      "probe": {
+        "backend": "173",
+        "portal": "3320"
+      },
+      "t_backend_ms": 173,
+      "t_portal_ms": 3320,
+      "backend_seen": true,
+      "portal_ok": true,
+      "navs": [
+        "http://127.0.0.1:8069/odoo/action-755",
+        "http://127.0.0.1:8069/downloads"
+      ],
+      "nav_count": 2,
+      "docs": [
+        "http://127.0.0.1:8069/odoo/action-755",
+        "http://127.0.0.1:8069/downloads"
+      ],
+      "final_url": "http://127.0.0.1:8069/downloads",
+      "pass": false,
+      "verdict": "href=/odoo/action-755 != /downloads; 仍出现后台外壳 t=173ms; 主框架导航 2 次（应 1 次）: http://127.0.0.1:8069/odoo/action-755 -> http://127.0.0.1:8069/downloads"
+    }
+  ]
+}

@@ -1,0 +1,1257 @@
+[
+ {
+  "file": "custom_addons/edu_apply/static/src/css/apply.css",
+  "manifest_line": 18,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_apply/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "custom_addons/edu_apply/__manifest__.py",
+    "line": 18,
+    "text": "'edu_apply/static/src/css/apply.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_apply/static/src/js/apply_form.js",
+  "manifest_line": 17,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_apply/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "custom_addons/edu_portal/views/register.xml",
+    "line": 98,
+    "text": "static/src/js/apply_form.js 同源（仅把图标字符串换成"
+   },
+   {
+    "file": "custom_addons/edu_apply/__manifest__.py",
+    "line": 17,
+    "text": "'edu_apply/static/src/js/apply_form.js',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_assess/static/src/css/assess_grid.css",
+  "manifest_line": 50,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_assess/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/smoke/assess_grid_sticky_paste.py",
+    "line": 7,
+    "text": "· static/src/css/assess_grid.css —— 矩阵自己当滚动容器（.yy-assess-scroll）"
+   },
+   {
+    "file": "tests/smoke/GRADE_ENTRY.md",
+    "line": 164,
+    "text": "| （**没有新增 JS 文件**） | 矩阵的键盘整列录入 + 整块粘贴 + 粘性表头**直接复用** `edu_assess` 的 `static/src/js/assess_grid.js` + `css/assess_grid.css`（同在 `web.assets_fr"
+   },
+   {
+    "file": "docs/plans/eval-unified-design.md",
+    "line": 680,
+    "text": "**与 `assess_grid.js` 的关系**：**无关，也不该塞进去**。该文件自陈\"只做三件不改变数据语义的事\"（[assess_grid.js:1-7](../../custom_addons/edu_assess/static/src/js/assess_grid."
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 155,
+    "text": "# （static/src/js/assess_grid.js + css/assess_grid.css，同在 web.assets_frontend）"
+   },
+   {
+    "file": "custom_addons/edu_portal/views/grade_entry.xml",
+    "line": 6,
+    "text": "static/src/js/assess_grid.js + css/assess_grid.css（键盘整列录入 / 整块粘贴 /"
+   },
+   {
+    "file": "custom_addons/edu_assess/__manifest__.py",
+    "line": 50,
+    "text": "'edu_assess/static/src/css/assess_grid.css',"
+   },
+   {
+    "file": "custom_addons/edu_assess/static/src/js/assess_grid.js",
+    "line": 15,
+    "text": "* 见 static/src/css/assess_grid.css。"
+   },
+   {
+    "file": "custom_addons/edu_assess/views/assess_portal.xml",
+    "line": 375,
+    "text": "样式在 static/src/css/assess_grid.css。 -->"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_assess/static/src/js/assess_grid.js",
+  "manifest_line": 51,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_assess/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/smoke/assess_grid_sticky_paste.py",
+    "line": 11,
+    "text": "· static/src/js/assess_grid.js 的 paste 监听：TSV → 按行列铺进**既有的**"
+   },
+   {
+    "file": "tests/smoke/GRADE_ENTRY.md",
+    "line": 164,
+    "text": "| （**没有新增 JS 文件**） | 矩阵的键盘整列录入 + 整块粘贴 + 粘性表头**直接复用** `edu_assess` 的 `static/src/js/assess_grid.js` + `css/assess_grid.css`（同在 `web.assets_fr"
+   },
+   {
+    "file": "docs/research/table-sticky-and-paste.md",
+    "line": 243,
+    "text": "**第 5 条（非技术）**：我们已有 `edu.assess` 五层模型 + `assess_grid.js` + 门户模板，设计文档 §6 的 E6/E7 自评「**纯前端、零字段、零模型**」。改用 spreadsheet 是**换渲染范式**（相当于把「一个引擎一套矩阵」"
+   },
+   {
+    "file": "docs/plans/evaluation-rebuild-design.md",
+    "line": 227,
+    "text": "└── static/src/js/assess_grid.js  # 矩阵录入渐进增强（抄 edu_eval/static/src/js/eval_portal.js 的手感）"
+   },
+   {
+    "file": "docs/plans/eval-unified-design.md",
+    "line": 171,
+    "text": "| 录入界面 | 矩阵 + 回车下移 + 超分标红（`assess_grid.js` 98 行） | + 冻结表头 + 整块粘贴 + 档位下拉 | 中 |"
+   },
+   {
+    "file": "docs/plans/eval-materials-inventory.md",
+    "line": 473,
+    "text": "| 前端 JS | — | `edu_eval/static/src/js/eval_portal.js`（69） | `edu_assess/static/src/js/assess_grid.js`（98） |"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 155,
+    "text": "# （static/src/js/assess_grid.js + css/assess_grid.css，同在 web.assets_frontend）"
+   },
+   {
+    "file": "custom_addons/edu_portal/views/grade_entry.xml",
+    "line": 6,
+    "text": "static/src/js/assess_grid.js + css/assess_grid.css（键盘整列录入 / 整块粘贴 /"
+   },
+   {
+    "file": "custom_addons/edu_assess/__manifest__.py",
+    "line": 51,
+    "text": "'edu_assess/static/src/js/assess_grid.js',"
+   },
+   {
+    "file": "custom_addons/edu_assess/static/src/css/assess_grid.css",
+    "line": 4,
+    "text": "*         搭配 §6.7（E7 整块粘贴，纯前端部分在 static/src/js/assess_grid.js）。"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_brand/static/src/css/backend_b11.css",
+  "manifest_line": 41,
+  "bundle": "web.assets_backend",
+  "manifest": "custom_addons/edu_brand/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/smoke/UX_V3_GATE.md",
+    "line": 800,
+    "text": "#    custom_addons/edu_brand/static/src/css/backend_b11.css 里注释掉"
+   },
+   {
+    "file": "tests/color/color_audit.py",
+    "line": 291,
+    "text": "#   原先按「环形态像 backend_b11.css:58」把 5 组全部归 t5 —— 那是**按形态猜**，忽略了可达性："
+   },
+   {
+    "file": "tests/color/README.md",
+    "line": 179,
+    "text": "这是 Bootstrap 5 / Odoo 以及 **backend_b11.css:58**（box-shadow: 0 0 0 .2rem rgba(14,123,242,.35)）用的形态 ——"
+   },
+   {
+    "file": "tests/color/capture_page.js",
+    "line": 127,
+    "text": "//   (b) box-shadow 形态 —— 这是 Bootstrap 5 / Odoo 以及 backend_b11.css:58"
+   },
+   {
+    "file": "docs/compliance-audit.md",
+    "line": 71,
+    "text": "| batch1/batch3/ux_rework/apply/eval_portal/backend_b11.css | ✅ | **0** | 0 | — | batch1/3 的 `oe-` 前缀为自研新造名（oe-att-stat 等），与原站名不同名 |"
+   },
+   {
+    "file": "docs/research/ui-design.md",
+    "line": 220,
+    "text": "→ **但无论如何，`#71639E`（导航栏下拉按钮）是 Odoo 原厂值，机制见 §3.2；而 `backend_b11.css` 只硬覆盖了「列表主按钮」等局部**，这解释了「一屏之内两种主按钮蓝」。"
+   },
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 224,
+    "text": "| `edu_portal/static/src/js/apps_panel_chip.js:18` | 往 `.o_main_navbar` 注入 `<a>` 内联 `background:#714B67; color:#fff` | **t8** · **✅ 已处置（2026"
+   },
+   {
+    "file": "docs/plans/ux-v3-delivery.md",
+    "line": 505,
+    "text": "> 令牌位置：`edu_brand/static/src/css/brand.css`、`edu_brand/static/src/css/backend_b11.css`。"
+   },
+   {
+    "file": "docs/plans/color-tokens-t3.md",
+    "line": 295,
+    "text": "**全仓实况（2026-09-15 复核）**：`rgb(var(` 只剩 **1 处**，在 `backend_b11.css:6`，且**是注释**（eng-backend 写的规则说明）⇒ 被正确忽略，门禁 `PASS`。令牌源内为 **0 处**。"
+   },
+   {
+    "file": "docs/plans/README.md",
+    "line": 213,
+    "text": "| `ui-reference.md` | 工作台 UI 规范 | 已上线 | — | 工作台 UI 定稿规范，配色/控件先读这份。 | `edu_brand/static/src/css/backend_b11.css` + `ux_v3.css`/`brand_tokens."
+   },
+   {
+    "file": "docs/plans/v2-checklist.md",
+    "line": 127,
+    "text": "2) backend_b11.css 硬覆盖残余（导航栏/次要按钮激活态/状态条/必填框/表格选中/编辑器单元格）；"
+   },
+   {
+    "file": "docs/audit/ui-color-audit-2026-09-15.md",
+    "line": 58,
+    "text": "| 后台 `button.btn-primary.o_list_button_add` | `#0E7BF2` | `backend_b11.css:50` 硬编码 / `--b11-primary` |"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 24,
+    "text": "- **alpha 族差额**：全仓 `rgba(14,123,242,α)` = **111 处** = 本表 **99 处** ＋ `custom_home.css` **10** ＋ `backend_b11.css` **2**。**并非因「.40 那一组」被排除**（巧"
+   },
+   {
+    "file": "custom_addons/edu_brand/__manifest__.py",
+    "line": 41,
+    "text": "'edu_brand/static/src/css/backend_b11.css',"
+   },
+   {
+    "file": "custom_addons/edu_portal/static/src/js/apps_panel_chip.js",
+    "line": 5,
+    "text": "视觉全部交给 custom_addons/edu_brand/static/src/css/backend_b11.css 的"
+   },
+   {
+    "file": "scripts/check_accessibility.py",
+    "line": 226,
+    "text": "#      条目字色 = --NavBar-entry-color/--NavBar-brand-color（backend_b11.css 管这两档）"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 206,
+    "text": "A('- **alpha 族差额**：全仓 ' + q('rgba(14,123,242,α)') + ' = **111 处** = 本表 **99 处** ＋ ' + q('custom_home.css') + ' **10** ＋ ' + q('backend_b11.c"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_brand/static/src/css/brand.css",
+  "manifest_line": 26,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_brand/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/gap/exec_U.md",
+    "line": 47,
+    "text": "| `edu_brand/static/src/css/brand.css` | 新增 `.yylc-footer-contact/-head/-line/-phone` 规则；顺带修正页脚作用域内两处失效的 `var(--…)`（变量定义在 `.yylc-home` 上，页脚取"
+   },
+   {
+    "file": "docs/compliance-audit.md",
+    "line": 70,
+    "text": "| edu_brand/brand.css | ✅ | **0** | 0 | — | 自有 `yylc-` 命名空间（61 类），作用域限定 `.yylc-home/.yylc-footer` |"
+   },
+   {
+    "file": "docs/deploy-malaysia.md",
+    "line": 226,
+    "text": "走 /my/lang 路由（referrer 回跳），edu_brand brand.css 品牌金样式；"
+   },
+   {
+    "file": "docs/dev-workflow.md",
+    "line": 901,
+    "text": "- **「自家样式打架」造成的对比度缺陷，比配色本身更隐蔽**（2026-09-14 t111）：页脚 **69 条**奶油色字压白底（**1.16:1**）的根因不是配色，而是**我们自己**的换肤规则 `custom_home.css` `#wrapwrap.o_portal"
+   },
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 128,
+    "text": "| 3 | `custom_addons/edu_brand/static/src/css/brand.css:3-14` | 整体迁入令牌源并加 `--yylc-` 前缀 | 见 §1.4 |"
+   },
+   {
+    "file": "docs/plans/ux-v3-delivery.md",
+    "line": 111,
+    "text": "| 21 | **产品缺陷 + 队长交办前提错误（同一轮暴露）**：① 全站第二大对比度族是**页脚 69 条**（奶油色字压白底，比值 **1.16**）；② 队长交办时写「按钮底用 3.0 档」 | a11y-eng（t111 实测；②的错在队长） | ① 根因是**我们自己"
+   },
+   {
+    "file": "docs/audit/ui-color-audit-2026-09-15.md",
+    "line": 17,
+    "text": "| **A 旧站金色学院风（暖）** | `#C8A870` 金 · `#FFFDF9` 暖白 · `#171512` 暖黑 | 旧站 `covenant.css`（见 `docs/yongyue-rebrand.md:10`） | **是品牌资产，却没进令牌层** —— 以字面"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 325,
+    "text": "**全局可达标金 = `--gold-ink: #836A42`**（取自 `brand.css:6` 的 `--gold-dark`，t111 已选）：对白 **5.12** / `--bg` **4.76** / 暖纸底 **4.59**，**三底全过**；而 `#8A6D3"
+   },
+   {
+    "file": "custom_addons/edu_brand/__manifest__.py",
+    "line": 26,
+    "text": "'edu_brand/static/src/css/brand.css',"
+   },
+   {
+    "file": "custom_addons/edu_portal/static/src/css/custom_home.css",
+    "line": 517,
+    "text": "品牌页脚 <footer id=\"bottom\" class=\"... o_cc5 yylc-footer\"> 的深底（brand.css .yylc-footer #12100e、"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 603,
+    "text": "A('**全局可达标金 = ' + q('--gold-ink: #836A42') + '**（取自 ' + q('brand.css:6') + ' 的 ' + q('--gold-dark') + '，t111 已选）：对白 **5.12** / ' + q('--bg')"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_brand/static/src/js/backend_doc_link.js",
+  "manifest_line": 43,
+  "bundle": "web.assets_backend",
+  "manifest": "custom_addons/edu_brand/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "custom_addons/edu_brand/__manifest__.py",
+    "line": 43,
+    "text": "'edu_brand/static/src/js/backend_doc_link.js',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_brand/static/src/js/user_menu_debrand.js",
+  "manifest_line": 42,
+  "bundle": "web.assets_backend",
+  "manifest": "custom_addons/edu_brand/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/code-map.md",
+    "line": 99,
+    "text": "去 Odoo 品牌化（2026-08-29）：`odoo_debrand.xml` 全局替换 Powered by 徽标；`data_brand/brand_debrand_data.xml` 设校徽 favicon+公司 logo（注意 website.default_webs"
+   },
+   {
+    "file": "docs/plans/ux-v3-review-t4.md",
+    "line": 70,
+    "text": "- `edu_brand/static/src/js/user_menu_debrand.js` 的 `items.remove(\"support\")` 与"
+   },
+   {
+    "file": "custom_addons/edu_brand/__manifest__.py",
+    "line": 42,
+    "text": "'edu_brand/static/src/js/user_menu_debrand.js',"
+   },
+   {
+    "file": "custom_addons/edu_brand/views/odoo_debrand.xml",
+    "line": 8,
+    "text": "由 static/src/js/user_menu_debrand.js 从注册表移除。 -->"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_brand/static/src/scss/backend_variables.scss",
+  "manifest_line": 48,
+  "bundle": "web._assets_primary_variables",
+  "manifest": "custom_addons/edu_brand/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/research/ui-design.md",
+    "line": 128,
+    "text": "`custom_addons/edu_brand/static/src/scss/backend_variables.scss` 的顶部注释已经写对了一半（map 快照）；本节把它补全成**三个互不相同的机制**，并给出本项目**漏掉的那一环**。"
+   },
+   {
+    "file": "docs/research/backend-navbar-entry.md",
+    "line": 64,
+    "text": "即**\"导航栏底色的加深档\"**。本仓已经有同角色的令牌：`backend_variables.scss:52` 把导航栏下边框设为 `$brand-action-hover`。"
+   },
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 66,
+    "text": "- `backend_variables.scss:20-43` 必须用 `map-merge` 重做 `$o-btns-bs-override` 这类**快照 map**，`var()` 在编译期无效；纯 CSS 版会逼出一张人工同步的**编译期镜像表** = 第二处令牌源，直"
+   },
+   {
+    "file": "docs/plans/color-tokens-t3.md",
+    "line": 27,
+    "text": "| **注册** | `edu_brand/__manifest__.py` 的 `web._assets_primary_variables`，**排在 `backend_variables.scss` 之前** |"
+   },
+   {
+    "file": "docs/plans/v2-checklist.md",
+    "line": 125,
+    "text": "1) backend_variables.scss 用**普通赋值**覆盖官方基础变量（不能用 !default）+ 重做"
+   },
+   {
+    "file": "docs/audit/ui-color-audit-2026-09-15.md",
+    "line": 87,
+    "text": "`backend_variables.scss` 改的是后台，**管不到这里**。"
+   },
+   {
+    "file": "custom_addons/edu_brand/__manifest__.py",
+    "line": 48,
+    "text": "# 必须排在 backend_variables.scss **之前**：后者要用 $brand-* / $teal-*"
+   },
+   {
+    "file": "custom_addons/edu_brand/static/src/css/backend_b11.css",
+    "line": 4,
+    "text": "编译期变量覆盖见同目录 scss/backend_variables.scss。"
+   },
+   {
+    "file": "custom_addons/edu_brand/static/src/scss/brand_tokens.scss",
+    "line": 7,
+    "text": "//           且必须排在本模块的 backend_variables.scss **之前**。"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_brand/static/src/scss/brand_tokens.scss",
+  "manifest_line": 51,
+  "bundle": "web._assets_primary_variables",
+  "manifest": "custom_addons/edu_brand/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/color/README.md",
+    "line": 140,
+    "text": "而 brand_tokens.scss 的 --body-color: var(--text-3) 尚未落到 documentElement ⇒ 退回 core 的 #6b7385"
+   },
+   {
+    "file": "tests/color/baseline-local-before.json",
+    "line": 1951,
+    "text": "\" M custom_addons/edu_brand/static/src/scss/brand_tokens.scss\","
+   },
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 59,
+    "text": "唯一令牌源  =  custom_addons/edu_brand/static/src/scss/brand_tokens.scss"
+   },
+   {
+    "file": "docs/plans/color-tokens-t3.md",
+    "line": 12,
+    "text": "令牌源是**文件**不是记录：`custom_addons/edu_brand/static/src/scss/brand_tokens.scss`。"
+   },
+   {
+    "file": "docs/plans/README.md",
+    "line": 142,
+    "text": "| `color-system-v4.md` | 配色令牌 | 已上线 | — | 三层配色体系 + 唯一颜色令牌源已上线，是配色规范正本之一。 | `edu_brand/static/src/scss/brand_tokens.scss:155` 落地 `--border-co"
+   },
+   {
+    "file": "docs/audit/ui-color-audit-2026-09-15.md",
+    "line": 268,
+    "text": "补充实测（t3 首轮改动等值性）：custom_home.css 迁出根令牌块 + 新增 brand_tokens.scss 后，52 个同名令牌中 45 个值完全相同，其余 7 处仅为别名化或阴影 alpha ⇒ **该轮是纯重构，取色口径下等值**。"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 8,
+    "text": "> **引用纪律（吸取本轮实测教训）**：**行号会漂移** —— 本任务亲历同一文件 `brand_tokens.scss` 的同一批声明从 `:171-173` 移到 `:191-193`（中间插入了别名行）。故本文凡引用源码一律**以令牌名/选择器为锚**，行号仅作辅助定位"
+   },
+   {
+    "file": "docs/audit/security-audit-infra.md",
+    "line": 581,
+    "text": "（仅 brand_tokens.scss / color_tokens.json 等无关文件）"
+   },
+   {
+    "file": "custom_addons/edu_brand/__manifest__.py",
+    "line": 51,
+    "text": "'edu_brand/static/src/scss/brand_tokens.scss',"
+   },
+   {
+    "file": "custom_addons/edu_brand/static/src/css/backend_b11.css",
+    "line": 3,
+    "text": "色值一律引用令牌源（edu_brand/static/src/scss/brand_tokens.scss → :root 的 --brand-* 等），"
+   },
+   {
+    "file": "custom_addons/edu_brand/static/src/scss/backend_variables.scss",
+    "line": 2,
+    "text": "// 依赖：edu_brand/static/src/scss/brand_tokens.scss（唯一令牌源；必须排在本文件之前 ——"
+   },
+   {
+    "file": "custom_addons/edu_portal/static/src/css/custom_home.css",
+    "line": 82,
+    "text": "唯一令牌源 = edu_brand/static/src/scss/brand_tokens.scss（注册于"
+   },
+   {
+    "file": "custom_addons/edu_portal/views/register.xml",
+    "line": 12,
+    "text": "色值一律走令牌（brand_tokens.scss 里那个交互面唯一蓝），"
+   },
+   {
+    "file": "scripts/verify_t3.sh",
+    "line": 6,
+    "text": "F=custom_addons/edu_brand/static/src/scss/brand_tokens.scss"
+   },
+   {
+    "file": "scripts/color_tokens.json",
+    "line": 3,
+    "text": "\"custom_addons/edu_brand/static/src/scss/brand_tokens.scss\""
+   },
+   {
+    "file": "scripts/color_tokens.py",
+    "line": 25,
+    "text": "TOKEN_SRC = os.path.join(ROOT, \"custom_addons/edu_brand/static/src/scss/brand_tokens.scss\")"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 61,
+    "text": "# 次选：t3 已落地的唯一令牌源 brand_tokens.scss（spec §6.2 指定的唯一机读输入）"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/banner.css",
+  "manifest_line": 148,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 746,
+    "text": "> **口径诚实声明（照抄 eng-portal）**：这是「**同规则共现**」的**启发式**，**不等于实测渲染对**（文字可能压在卡片/父层底上）⇒ 它是**候选清单，t4 须逐处核对**；**终判以 t9 的 axe 与渲染取色为准**。**已知误报**：`banner"
+   },
+   {
+    "file": "docs/plans/notice-banner-deploy.md",
+    "line": 9,
+    "text": "- 接口 `/my/notice_banner`（auth=user，最多 5 条，seq 升序）；`edu_page` 外壳挂载点 + `notice_banner.js`/`banner.css`；无数据/失败时静默零变化。"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 33,
+    "text": "- `custom_addons/edu_portal/static/src/css/banner.css`"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 148,
+    "text": "'edu_portal/static/src/css/banner.css',"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 31,
+    "text": "'edu_portal/static/src/css/banner.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/batch1.css",
+  "manifest_line": 132,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/plans/ux-v3-delivery.md",
+    "line": 566,
+    "text": "> **三条新发现（实测，非推断）**：① **修在错的层＝白修** —— `--secondary-color`/`--body-color` 的真身是在 **body 级被继承**的，写在 `#wrapwrap.o_portal` 包裹层会出现「DOM 变量链证明覆盖生效、颜"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 28,
+    "text": "- `custom_addons/edu_portal/static/src/css/batch1.css`"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 132,
+    "text": "'edu_portal/static/src/css/batch1.css',"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 26,
+    "text": "'edu_portal/static/src/css/batch1.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/batch3.css",
+  "manifest_line": 134,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 924,
+    "text": "| `#0E7BF2` 处数 | 我 **111** / eng-portal **99** | **已对平（r8，eng-portal 逐文件对账）**：111 = S1 全仓；**99 = 其 t4 的 8 个 CSS 文件范围** = 111 − `custom_home."
+   },
+   {
+    "file": "docs/plans/color-tokens-t3.md",
+    "line": 385,
+    "text": "| `edu_portal/static/src/css/batch3.css` | 1 | t4 |"
+   },
+   {
+    "file": "docs/plans/v2-checklist.md",
+    "line": 115,
+    "text": "- 全站梅紫清零：enterprise.css/portal.css/custom_home.css/batch3.css 全部 #714B67 色系"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 29,
+    "text": "- `custom_addons/edu_portal/static/src/css/batch3.css`"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 134,
+    "text": "'edu_portal/static/src/css/batch3.css',"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 27,
+    "text": "'edu_portal/static/src/css/batch3.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/custom_home.css",
+  "manifest_line": 136,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/color/color_audit.py",
+    "line": 202,
+    "text": "#    背景：custom_home.css 原有一行"
+   },
+   {
+    "file": "tests/color/README.md",
+    "line": 85,
+    "text": "背景：custom_home.css 原有 :root, [data-bs-theme] body{ --body-color:#5E6779; … }，"
+   },
+   {
+    "file": "tests/color/baseline-local-before.json",
+    "line": 1952,
+    "text": "\" M custom_addons/edu_portal/static/src/css/custom_home.css\","
+   },
+   {
+    "file": "tests/color/probes.py",
+    "line": 53,
+    "text": "# ⚠ 必须同时匹配 .scss **与 .css**：本方门户文件是 .css（如 edu_portal/.../custom_home.css），"
+   },
+   {
+    "file": "docs/compliance-audit.md",
+    "line": 69,
+    "text": "| edu_portal/custom_home.css | ✅ manifest L66 | 20 | 1 | 14（逐字 1） | 唯一逐字残留 `.oe-cat-title`，其字号/颜色已被 B11 变量规则覆盖，仅 margin/letter-spacing 仍生效 |"
+   },
+   {
+    "file": "docs/dev-workflow.md",
+    "line": 901,
+    "text": "- **「自家样式打架」造成的对比度缺陷，比配色本身更隐蔽**（2026-09-14 t111）：页脚 **69 条**奶油色字压白底（**1.16:1**）的根因不是配色，而是**我们自己**的换肤规则 `custom_home.css` `#wrapwrap.o_portal"
+   },
+   {
+    "file": "docs/research/ui-design.md",
+    "line": 247,
+    "text": "2. **Bootstrap 组件并不都读 `var(--primary)`**：5.3 大量组件用的是**编译期** `$primary`（如 `.btn-primary` 的 background 由 `$theme-colors` 生成），CSS 变量主要供「运行时主题切换"
+   },
+   {
+    "file": "docs/plans/batch4-p2-regression.md",
+    "line": 14,
+    "text": "| 80f8601 | 清理包：custom_home.css 清理被品牌变量取代的死代码规则 |"
+   },
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 46,
+    "text": "| **③ 运行期 CSS 令牌** | `--brand-*` 等自定义属性 + 规则级覆盖 | 门户/后台/公开页的**规则级**落点 | 组件文件里的 `var(--x)` 与具体选择器 | `[源]` 本仓 `custom_home.css:626-639`（t112 记"
+   },
+   {
+    "file": "docs/plans/student-portal-home-profile-design.md",
+    "line": 65,
+    "text": "| [`docs/research/ui-design.md`](../research/ui-design.md) §3.3（Odoo 19 的**QWeb 模板字面量** SCSS 够不到）/ §4（`--bs-*` 前缀为空、令牌桥接） | 头像与卡片的样式改动**只在模板"
+   },
+   {
+    "file": "docs/plans/ux-v3-delivery.md",
+    "line": 111,
+    "text": "| 21 | **产品缺陷 + 队长交办前提错误（同一轮暴露）**：① 全站第二大对比度族是**页脚 69 条**（奶油色字压白底，比值 **1.16**）；② 队长交办时写「按钮底用 3.0 档」 | a11y-eng（t111 实测；②的错在队长） | ① 根因是**我们自己"
+   },
+   {
+    "file": "docs/plans/batch4-cleanup-notes.md",
+    "line": 19,
+    "text": "或整文件品牌变量化改写（custom_home.css B11 路径）。**均需专门批次 + 全量截图回归。**"
+   },
+   {
+    "file": "docs/plans/color-tokens-t3.md",
+    "line": 116,
+    "text": "1. **规范原写「`custom_home.css:83-139` 整块删除」**，但该块含 **37 个非颜色令牌**"
+   },
+   {
+    "file": "docs/plans/v2.1-regression.md",
+    "line": 108,
+    "text": "2. custom_home.css 头部旧奶油色/旧品牌色规则为死代码（已被 var(--bg)/var(--brand-500) 覆盖），可清理。"
+   },
+   {
+    "file": "docs/plans/v2-checklist.md",
+    "line": 115,
+    "text": "- 全站梅紫清零：enterprise.css/portal.css/custom_home.css/batch3.css 全部 #714B67 色系"
+   },
+   {
+    "file": "docs/audit/ui-color-audit-2026-09-15.md",
+    "line": 18,
+    "text": "| **B B11 蓝绿工作台（冷）** | `#0E7BF2` · `#0C6DD7` · `#0F9B91` · `#5E6779` | `custom_home.css:83-139` 令牌层（带 t111/t112 对比度修订） | 有令牌、有对比度记录，但**没被执行到"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 6,
+    "text": "> 令牌集来源：**唯一机读输入**（spec §6.2 强制），不再从 `custom_home.css` 抓取。"
+   },
+   {
+    "file": "custom_addons/edu_brand/static/src/scss/brand_tokens.scss",
+    "line": 239,
+    "text": "// 3. 正文/次要文字桥接（自 custom_home.css:654 迁入）"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 136,
+    "text": "'edu_portal/static/src/css/custom_home.css',"
+   },
+   {
+    "file": "custom_addons/edu_portal/views/curriculum.xml",
+    "line": 221,
+    "text": "底栏（d-lg-none；样式 static/src/css/custom_home.css:210-228）。"
+   },
+   {
+    "file": "scripts/verify_t3.sh",
+    "line": 7,
+    "text": "C=custom_addons/edu_portal/static/src/css/custom_home.css"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 6,
+    "text": "该文件未落地时回退到 custom_home.css 的 :root 表，并在台账里标 PROVISIONAL（不得作为验收结论）。"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/enroll.css",
+  "manifest_line": 139,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 34,
+    "text": "- `custom_addons/edu_portal/static/src/css/enroll.css`"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 139,
+    "text": "'edu_portal/static/src/css/enroll.css',"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 32,
+    "text": "'edu_portal/static/src/css/enroll.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/enterprise.css",
+  "manifest_line": 135,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/compliance-audit.md",
+    "line": 68,
+    "text": "| edu_portal/enterprise.css（614 规则） | ✅ manifest L65 | 133 | **119** | 120（逐字 108） | 文件头自述同源「规则数:612」 |"
+   },
+   {
+    "file": "docs/plans/batch4-p2-regression.md",
+    "line": 90,
+    "text": "| 2 | portal.css / enterprise.css 与原站抓取 CSS 同源声明 447 处（去重 201 选择器），重命名 vs 变量化改写需专门批次+全量截图回归 | P2（合规决断） | batch4-cleanup-notes §2 / complianc"
+   },
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 421,
+    "text": "| **`--shadow`** | `#14182D`（`20, 24, 45`） | **✅ 定名（captain r37 终裁，也是落地态）：基色 `--shadow`、通道 `--shadow-rgb`** ⇒ **同名配对成立，满足 §6.3 判据 8（无需白名单）**"
+   },
+   {
+    "file": "docs/plans/batch4-cleanup-notes.md",
+    "line": 14,
+    "text": "## 2. portal.css / enterprise.css 整段同源提取（合规决断项，P2）"
+   },
+   {
+    "file": "docs/plans/color-tokens-t3.md",
+    "line": 383,
+    "text": "| `edu_portal/static/src/css/enterprise.css` | **36** | t4（eng-portal 正在编辑） |"
+   },
+   {
+    "file": "docs/plans/v2-checklist.md",
+    "line": 115,
+    "text": "- 全站梅紫清零：enterprise.css/portal.css/custom_home.css/batch3.css 全部 #714B67 色系"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 30,
+    "text": "- `custom_addons/edu_portal/static/src/css/enterprise.css`"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 135,
+    "text": "'edu_portal/static/src/css/enterprise.css',"
+   },
+   {
+    "file": "scripts/extract_enterprise_css.py",
+    "line": 6,
+    "text": "DST = 'custom_addons/edu_portal/static/src/css/enterprise.css'"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 28,
+    "text": "'edu_portal/static/src/css/enterprise.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/portal.css",
+  "manifest_line": 133,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/compliance-audit.md",
+    "line": 67,
+    "text": "| edu_portal/portal.css（603 规则） | ✅ manifest L63 | 389 | **328** | 201（逐字 172） | 文件头自述「括号感知提取 来源:/tmp/site_frontend.css 规则数:600」 |"
+   },
+   {
+    "file": "docs/plans/evaluation-rebuild-design.md",
+    "line": 91,
+    "text": "| 前端资产 | `eval_portal.js`（矩阵输入框渐进增强：`.eval-score-input`）、`eval_portal.css` | `edu_eval/__manifest__.py:25-29`；`static/src/js/eval_portal.js:"
+   },
+   {
+    "file": "docs/plans/batch4-p2-regression.md",
+    "line": 90,
+    "text": "| 2 | portal.css / enterprise.css 与原站抓取 CSS 同源声明 447 处（去重 201 选择器），重命名 vs 变量化改写需专门批次+全量截图回归 | P2（合规决断） | batch4-cleanup-notes §2 / complianc"
+   },
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 978,
+    "text": "**脏数据（不属例外，属清理）**：`portal.css:1225` 的 `rgba(222,222,222,0.360784)` —— devtools 抄回的浮点，直接改 `--shadow-sm`（`.05`）；见 §4.5 清单。"
+   },
+   {
+    "file": "docs/plans/batch4-p2-w3-badge-audit.md",
+    "line": 28,
+    "text": "| 1 | 教师工作台常用应用条 0 角标（`batch2.xml` edu_dashboard_teacher + `portal.css` 选择器缺口） | 0 值有 `oe_count_zero` 类但无样式，实测算得背景 `rgb(14,123,242)` 品牌蓝「0」 "
+   },
+   {
+    "file": "docs/plans/batch4-cleanup-notes.md",
+    "line": 14,
+    "text": "## 2. portal.css / enterprise.css 整段同源提取（合规决断项，P2）"
+   },
+   {
+    "file": "docs/plans/color-tokens-t3.md",
+    "line": 353,
+    "text": "custom_addons/edu_portal/static/src/css/portal.css"
+   },
+   {
+    "file": "docs/plans/ui-reference.md",
+    "line": 8,
+    "text": "> 依据仓库现状：Odoo 门户（Bootstrap 5 + QWeb，`o_portal_wrap` 骨架），现有视觉为紫色系 `#714B67`（见 `custom_addons/edu_portal/static/src/css/portal.css`、`reference"
+   },
+   {
+    "file": "docs/plans/v2-checklist.md",
+    "line": 115,
+    "text": "- 全站梅紫清零：enterprise.css/portal.css/custom_home.css/batch3.css 全部 #714B67 色系"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 27,
+    "text": "- `custom_addons/edu_portal/static/src/css/portal.css`"
+   },
+   {
+    "file": "docs/audit/edu-eval-removal.md",
+    "line": 405,
+    "text": "| 12 | `scripts/portal_token_map.py` | 删掉死输入 `edu_eval/static/src/css/eval_portal.css`；在生成的审计文档里加一条**dated 补注**（说明该文件已删、§5.2 依赖表是历史读数） | 死输入"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 133,
+    "text": "'edu_portal/static/src/css/portal.css',"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 25,
+    "text": "'edu_portal/static/src/css/portal.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/search_suggest.css",
+  "manifest_line": 152,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 152,
+    "text": "'edu_portal/static/src/css/search_suggest.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/ux_rework.css",
+  "manifest_line": 138,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 792,
+    "text": "2. **白/黑叠加一律不量化** —— 全仓 `rgba(255,255,255,α)` 有 **13 档**（.06/.10/.16/.18/.25/.28/.38/.45/.50/.80/.85/.92/.95），全是真实遮罩/反白层；实测 5 处会被量化砸掉：`ux_re"
+   },
+   {
+    "file": "docs/plans/eval-unified-design.md",
+    "line": 722,
+    "text": "| 浏览器打印 | [edu_portal_templates.xml:328,334](../../custom_addons/edu_portal/views/edu_portal_templates.xml#L328)（`window.print()` + `@media "
+   },
+   {
+    "file": "docs/plans/ux-implement-report.md",
+    "line": 33,
+    "text": "| `custom_addons/edu_portal/static/src/css/ux_rework.css` | 新增：S2 周矩阵/复制芯片/今天列/停课灰显/校历周列表/常用区编辑样式（≥15px 正文、reduced-motion） |"
+   },
+   {
+    "file": "docs/plans/local-regression.md",
+    "line": 133,
+    "text": "- edu_portal：`controllers/scheduling.py`、`controllers/calendar.py`、`controllers/batch2.py`、`views/edu_portal_templates.xml`、`views/calendar."
+   },
+   {
+    "file": "docs/plans/ux-rework-handoff.md",
+    "line": 55,
+    "text": "| `static/src/css/ux_rework.css` | 新增 | S2 周矩阵/复制芯片/今天列/停课灰显/校历/常用区样式（≥15px、reduced-motion） |"
+   },
+   {
+    "file": "docs/plans/batch4-p2-a1-approval-aggregation.md",
+    "line": 82,
+    "text": "| `static/src/css/ux_rework.css` | 步骤条样式 `.ux-steps`（done/current/todo/danger 四态，含 reduced-motion/print 回退） |"
+   },
+   {
+    "file": "docs/plans/ux-improve-proposal.md",
+    "line": 53,
+    "text": "1. **engineer（t4）已提前开工**：`git status` 显示 11 个已跟踪文件被修改（edu_portal/edu_schedule 控制器/视图/manifest，+1548/-106 行）、新增 **9 个本方案相关新文件**（代码 5 个：`sessi"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 31,
+    "text": "- `custom_addons/edu_portal/static/src/css/ux_rework.css`"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 138,
+    "text": "'edu_portal/static/src/css/ux_rework.css',"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 29,
+    "text": "'edu_portal/static/src/css/ux_rework.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/css/ux_v3.css",
+  "manifest_line": 141,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 168,
+    "text": "| **组件局部变量** | `.ux3-page{--ux3-gold:…}`（`ux_v3.css:8`）、`.yylc-home{--gold-light:…}`（`brand.css:5`） | 组件选择器内 | ❌ **不得** —— 必须写成全局令牌的 `var()`"
+   },
+   {
+    "file": "docs/plans/ux-v3-delivery.md",
+    "line": 516,
+    "text": "> （`edu_portal/static/src/css/custom_home.css`、`ux_v3.css`、`edu_brand/static/src/css/brand.css`）共 **10 个令牌**，"
+   },
+   {
+    "file": "docs/plans/README.md",
+    "line": 213,
+    "text": "| `ui-reference.md` | 工作台 UI 规范 | 已上线 | — | 工作台 UI 定稿规范，配色/控件先读这份。 | `edu_brand/static/src/css/backend_b11.css` + `ux_v3.css`/`brand_tokens."
+   },
+   {
+    "file": "docs/plans/t12-review-t6-onestop-service.md",
+    "line": 32,
+    "text": "- **O5（process）提交粒度**：t6 与 t4/t5/t7/t8/t20 揉在同一个聚合提交 `7b43a49` 里，无法按任务归因；本次「超出 inScope 的文件」只能按 t6 声明涉及的路径逐一核对，结论：**t6 涉及的路径全部落在其 inScope 内**"
+   },
+   {
+    "file": "docs/plans/ux-v3-review-t4.md",
+    "line": 186,
+    "text": "属**强推断**而非逐提交证明。批次内另有约 30 个文件（study.py、batch*.xml、ux_v3.css、"
+   },
+   {
+    "file": "docs/audit/portal-color-token-map-t4.md",
+    "line": 32,
+    "text": "- `custom_addons/edu_portal/static/src/css/ux_v3.css`"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 141,
+    "text": "'edu_portal/static/src/css/ux_v3.css',"
+   },
+   {
+    "file": "scripts/portal_token_map.py",
+    "line": 30,
+    "text": "'edu_portal/static/src/css/ux_v3.css',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/alerts_read.js",
+  "manifest_line": 144,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/gap/exec_Y.md",
+    "line": 9,
+    "text": "- `static/src/js/alerts_read.js`（新增）"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 144,
+    "text": "'edu_portal/static/src/js/alerts_read.js',"
+   },
+   {
+    "file": "custom_addons/edu_portal/static/src/js/msg_poll.js",
+    "line": 6,
+    "text": "点击「新私信」卡后由 alerts_read.js 上报 mark_read 提水位）；"
+   },
+   {
+    "file": "custom_addons/edu_portal/views/batch2.xml",
+    "line": 1048,
+    "text": "<!-- alerts_read.js 的 csrf 兜底来源（meta 缺失时用） -->"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/apps_menu_redirect.js",
+  "manifest_line": 160,
+  "bundle": "web.assets_backend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 160,
+    "text": "'edu_portal/static/src/js/apps_menu_redirect.js',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/apps_panel_chip.js",
+  "manifest_line": 161,
+  "bundle": "web.assets_backend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/color/README.md",
+    "line": 713,
+    "text": "| ~~bg #714B67~~ | ×1 | ~~**carve-out → t8**：apps_panel_chip.js:18 往 .o_main_navbar 注入内联 background:#714B67（第 18 行原文已核）~~ ⇒ **2026-09-28 v4-"
+   },
+   {
+    "file": "docs/research/ui-design.md",
+    "line": 213,
+    "text": "| `custom_addons/edu_portal/static/src/js/apps_panel_chip.js:18` | 往 `.o_main_navbar` 里 `appendChild` 一个 `<a id=\"yy-apps-chip\">`，内联样式 `backg"
+   },
+   {
+    "file": "docs/research/backend-navbar-entry.md",
+    "line": 3,
+    "text": "> 起因：v4-t8 要修 `apps_panel_chip.js` 往 `.o_main_navbar` 里注入的「应用面板」入口。"
+   },
+   {
+    "file": "docs/plans/color-system-v4.md",
+    "line": 224,
+    "text": "| `edu_portal/static/src/js/apps_panel_chip.js:18` | 往 `.o_main_navbar` 注入 `<a>` 内联 `background:#714B67; color:#fff` | **t8** · **✅ 已处置（2026"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 161,
+    "text": "'edu_portal/static/src/js/apps_panel_chip.js',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/home_favs.js",
+  "manifest_line": 146,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/plans/student-portal-home-profile-design.md",
+    "line": 141,
+    "text": "| 6 | 两个页面的卡片引擎是不是同一套 | `batch2.py:1949-1951` docstring + 读 `_home_categories`/`_build_favorites` | 作者自述\"刻意复用同一套卡片引擎与模板 ⇒ `o_portal_index_ca"
+   },
+   {
+    "file": "docs/plans/ux-implement-report.md",
+    "line": 32,
+    "text": "| `custom_addons/edu_portal/static/src/js/home_favs.js` | 新增：W2 常用区编辑（固定/取消固定/上移/下移，localStorage） |"
+   },
+   {
+    "file": "docs/plans/local-regression.md",
+    "line": 133,
+    "text": "- edu_portal：`controllers/scheduling.py`、`controllers/calendar.py`、`controllers/batch2.py`、`views/edu_portal_templates.xml`、`views/calendar."
+   },
+   {
+    "file": "docs/plans/ux-rework-handoff.md",
+    "line": 54,
+    "text": "| `static/src/js/home_favs.js` | 新增 | W2 常用区编辑（固定/上移/下移，localStorage） |"
+   },
+   {
+    "file": "docs/plans/ux-improve-proposal.md",
+    "line": 53,
+    "text": "1. **engineer（t4）已提前开工**：`git status` 显示 11 个已跟踪文件被修改（edu_portal/edu_schedule 控制器/视图/manifest，+1548/-106 行）、新增 **9 个本方案相关新文件**（代码 5 个：`sessi"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 146,
+    "text": "'edu_portal/static/src/js/home_favs.js',"
+   },
+   {
+    "file": "custom_addons/edu_portal/controllers/batch2.py",
+    "line": 2007,
+    "text": "home_favs.js 的收藏编辑在 /my/home 上全部照旧可用。"
+   },
+   {
+    "file": "custom_addons/edu_portal/controllers/favorite.py",
+    "line": 5,
+    "text": "前端 home_favs.js 在本地持久化的同时 fire-and-forget 同步到本路由；"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/home_search.js",
+  "manifest_line": 143,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/smoke/E_quiz_cross.py",
+    "line": 323,
+    "text": "js_note = (\"home_search.js 为纯前端实现：input 时按文本过滤 \""
+   },
+   {
+    "file": "tests/smoke/E_quiz_cross.md",
+    "line": 13,
+    "text": "| B7 首页搜索接线 | GET /my/home | searchBox 存在 | searchBox=False, 首卡=None | WARN | home_search.js 为纯前端实现：input 时按文本过滤 .o_portal_docs 内卡片、Enter 跳转"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 143,
+    "text": "'edu_portal/static/src/js/home_search.js',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/msg_poll.js",
+  "manifest_line": 145,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/plans/batch4-p2-regression.md",
+    "line": 56,
+    "text": "0 值不再渲染（与 msg_poll.js 语义一致）。E 脚本的 `zeroed` 判定仍是旧口径"
+   },
+   {
+    "file": "docs/plans/batch4-p2-w3-badge-audit.md",
+    "line": 15,
+    "text": "| `/my/home` 铃铛角标（学生/家长，迷你头 + hero 两处） | 红底 `oe-mhead-badge` / `oe-hero-bell-badge` | `bell` = 提醒分类未读总和（`_alert_counts` − `edu.alert.read` 水"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 145,
+    "text": "'edu_portal/static/src/js/msg_poll.js',"
+   },
+   {
+    "file": "custom_addons/edu_portal/views/batch2.xml",
+    "line": 699,
+    "text": "<!-- W3：0 值不渲染（与 msg_poll.js 轮询后隐藏语义一致，避免红底「0」闪现） -->"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/notice_banner.js",
+  "manifest_line": 149,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "docs/plans/notice-banner-deploy.md",
+    "line": 9,
+    "text": "- 接口 `/my/notice_banner`（auth=user，最多 5 条，seq 升序）；`edu_page` 外壳挂载点 + `notice_banner.js`/`banner.css`；无数据/失败时静默零变化。"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 149,
+    "text": "'edu_portal/static/src/js/notice_banner.js',"
+   },
+   {
+    "file": "custom_addons/edu_portal/controllers/batch2.py",
+    "line": 1589,
+    "text": "前端 notice_banner.js 轮播渲染；无数据返回空列表，页面不渲染横幅。"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/quick_login.js",
+  "manifest_line": 142,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "specs/batch3.md",
+    "line": 29,
+    "text": "本地实现：覆盖 `/web/login` 模板（template inherit web.login，xpath 在表单后插入同构按钮块）；本地对应演示账号 stu@local 等。JS 点击填充提交可用原生小脚本（static/src/js/quick_login.js 注册进"
+   },
+   {
+    "file": "docs/deploy-malaysia.md",
+    "line": 53,
+    "text": "`custom_addons/edu_portal/views/batch3.xml` 与 quick_login.js）。"
+   },
+   {
+    "file": "docs/plans/v2-checklist.md",
+    "line": 26,
+    "text": "| B4 | ✅ 已上线 | 演示登录按钮→身份标签（仅填用户名、密码零暴露、浏览器原生记忆）；生产明文账密事故已清零（batch3.xml+quick_login.js） |"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 142,
+    "text": "'edu_portal/static/src/js/quick_login.js',"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/search_focus.js",
+  "manifest_line": 147,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/smoke/.assertion_history.json",
+    "line": 1750,
+    "text": "\"p5_acd_smoke.py|search_focus.js 已随资源下发\": {"
+   },
+   {
+    "file": "tests/smoke/p5_acd_smoke.py",
+    "line": 205,
+    "text": "check('search_focus.js 已随资源下发', found, len(bundles))"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 147,
+    "text": "'edu_portal/static/src/js/search_focus.js',"
+   },
+   {
+    "file": "custom_addons/edu_portal/static/src/js/search_suggest.js",
+    "line": 15,
+    "text": "*            search_focus.js 的「Esc 失焦」）、Tab 关闭"
+   }
+  ]
+ },
+ {
+  "file": "custom_addons/edu_portal/static/src/js/search_suggest.js",
+  "manifest_line": 153,
+  "bundle": "web.assets_frontend",
+  "manifest": "custom_addons/edu_portal/__manifest__.py",
+  "other_refs": [
+   {
+    "file": "tests/smoke/search_suggest_evidence.py",
+    "line": 30,
+    "text": "· 仅保存文件**不够**：往 search_suggest.js 里插一个探针字符串后，/my/home 引用的"
+   },
+   {
+    "file": "custom_addons/edu_portal/__manifest__.py",
+    "line": 153,
+    "text": "'edu_portal/static/src/js/search_suggest.js',"
+   },
+   {
+    "file": "custom_addons/edu_portal/static/src/css/search_suggest.css",
+    "line": 1,
+    "text": "/* 顶栏站内搜索建议（配合 static/src/js/search_suggest.js）。"
+   },
+   {
+    "file": "custom_addons/edu_portal/controllers/search.py",
+    "line": 15,
+    "text": "建议（static/src/js/search_suggest.js）。**渐进增强**：脚本不可用时下方表单"
+   },
+   {
+    "file": "custom_addons/edu_portal/views/edu_portal_templates.xml",
+    "line": 59,
+    "text": "下拉建议由 static/src/js/search_suggest.js 渐进增强挂载，"
+   }
+  ]
+ }
+]

@@ -1,0 +1,167 @@
+{
+ "suite": "silent_failure_fixes",
+ "generated_at": "2026-09-18T16:45:18",
+ "summary": {
+  "total": 17,
+  "pass": 17,
+  "fail": 0
+ },
+ "checks": [
+  {
+   "no": "A1",
+   "name": "运行时：Datetime.to_date 不存在、Date.to_date 存在（缺陷 A 根因）",
+   "pass": true,
+   "detail": "Datetime.to_date=False Date.to_date=True"
+  },
+  {
+   "no": "A2",
+   "name": "scheduling.py 改用 Date.to_date，兜底可计数且有痕迹（无 Dt.to_date）",
+   "pass": true,
+   "detail": "Dt.to_date=False Date.to_date=True warning+count=True"
+  },
+  {
+   "no": "A8",
+   "name": "解析失败**可计数**：非法值 2 次 ⇒ 计数 +2、均回退今天；合法值不影响计数",
+   "pass": true,
+   "detail": "delta=2 r1=2026-01-02 r2=2026-03-04 r3=2026-01-02"
+  },
+  {
+   "no": "A3",
+   "name": "日视图 d=昨天 ⇒ 页面显示昨天（不再回落成今天）",
+   "pass": true,
+   "detail": "status=200 label=['9月17日 周四']"
+  },
+  {
+   "no": "A4",
+   "name": "日视图 d=明天 ⇒ 页面显示明天",
+   "pass": true,
+   "detail": "status=200 label=['9月19日 周六']"
+  },
+  {
+   "no": "A5",
+   "name": "前后导航链接跟随所显示的那一天（= 该日的 ±1，而非今天的 ±1）",
+   "pass": true,
+   "detail": "links=['/student/timetable?view=day&d=2026-09-16', '/student/timetable?view=day&d=2026-09-18']（期望含 2026-09-16 与 2026-09-18，且不含今天的后一天 2026-09-19）"
+  },
+  {
+   "no": "A6",
+   "name": "非法 d= ⇒ 仍 200、无 Traceback、回退今天（兜底不炸）",
+   "pass": true,
+   "detail": "status=200 label=['9月18日 周五（今天）'] traceback=False"
+  },
+  {
+   "no": "A7",
+   "name": "解析失败在日志里留下 WARNING 且可计数（带「累计 N 次」）",
+   "pass": true,
+   "detail": "命中 5 条；末条=web-1  | 2026-09-18 08:45:08,629 14 WARNING edu19 odoo.addons.edu_portal.controllers.scheduling: 课表日视图 d 参数解析失败（累计 2 次），已回退今天：d='not-a-date'（ValueError: time data 'not-a-date' does not match format '%Y-%m-%d'） "
+  },
+  {
+   "no": "B1",
+   "name": "根因守卫：create res.users 不回填 partner.user_id（savepoint 内实测后回滚）",
+   "pass": true,
+   "detail": "partner.user_id=False partner.user_ids=[417] 残留=[]/[]"
+  },
+  {
+   "no": "B2",
+   "name": "源头修：脚本建账号后回填 partner.user_id（链①能命中）",
+   "pass": true,
+   "detail": "uid=418 回填过=True partner.user_id='418'（脚本报『已回填/已指向』=True）"
+  },
+  {
+   "no": "B2b",
+   "name": "脚本自己挑的目标档案与验收脚本的口径一致（未抢占他人身份）",
+   "pass": true,
+   "detail": "脚本挑了 faculty=43；验收脚本预期 faculty=43"
+  },
+  {
+   "no": "B3a",
+   "name": "新建教师账号可以登录",
+   "pass": true,
+   "detail": "login=smoke_silentfix_teacher@local"
+  },
+  {
+   "no": "B3b",
+   "name": "新教师账号的课表是「我的教学安排」（不再落成访客空表）",
+   "pass": true,
+   "detail": "status=200 title=['我的教学安排']"
+  },
+  {
+   "no": "B3c",
+   "name": "课表内课节数 = 库内该教师该窗口的课节数（逐数对齐）",
+   "pass": true,
+   "detail": "页面 16 条 ['希伯来语二', '使徒行传', '圣约神学', '神论'] ／ 库内 16 条"
+  },
+  {
+   "no": "B4",
+   "name": "不回归：既有非空解析结果一字不变（只加不减）",
+   "pass": true,
+   "detail": "changed=[] added=[]"
+  },
+  {
+   "no": "B5",
+   "name": "清场：临时账号已删、目标 partner 的 user_id 复原（残留 = 0）",
+   "pass": true,
+   "detail": "临时账号残留=0；partner 120.user_id=''（开工前 ''）"
+  },
+  {
+   "no": "B5b",
+   "name": "未动别人的档案：op_faculty / op_student / op_parent 计数不变",
+   "pass": true,
+   "detail": "before={'faculty': 2, 'student': 4, 'parent': 1, 'partner': 82, 'user': 10} after={'faculty': 2, 'student': 4, 'parent': 1, 'partner': 82, 'user': 10}"
+  }
+ ],
+ "readings": [
+  {
+   "name": "A1 容器内 Odoo 19 API 事实",
+   "value": "{'dt_to_date': False, 'date_to_date': True, 'date_to_date_val': '2026-09-17'}"
+  },
+  {
+   "name": "A8 _parse_day_param 直测（合法/非法/空）",
+   "value": "{'delta': 2, 'r1': '2026-01-02', 'r2': '2026-03-04', 'r3': '2026-01-02'}"
+  },
+  {
+   "name": "（今天）",
+   "value": "今天=2026-09-18 昨天=2026-09-17 明天=2026-09-19"
+  },
+  {
+   "name": "A3 教师视角 GET /student/timetable?view=day&d=2026-09-17",
+   "value": "{'title': ['我的教学安排'], 'label': ['9月17日 周四'], 'subjects': ['小要理问答', '圣经概论（新旧约概论）', '古汉语课程'], 'nav': ['/student/timetable?view=day', '/student/timetable?view=day&d=2026-09-16', '/student/timetable?view=day&d=2026-09-18', '/student/timetable?view=week'], 'empty_day': False, 'empty_week': False, 'traceback': False}"
+  },
+  {
+   "name": "A4 教师视角 GET /student/timetable?view=day&d=2026-09-19",
+   "value": "{'title': ['我的教学安排'], 'label': ['9月19日 周六'], 'subjects': [], 'nav': ['/student/timetable?view=day', '/student/timetable?view=day&d=2026-09-18', '/student/timetable?view=day&d=2026-09-20', '/student/timetable?view=week'], 'empty_day': True, 'empty_week': False, 'traceback': False}"
+  },
+  {
+   "name": "A5 d=2026-09-17 那一页渲染出的日视图导航链接",
+   "value": "['/student/timetable?view=day&d=2026-09-16', '/student/timetable?view=day&d=2026-09-18']"
+  },
+  {
+   "name": "A6 GET /student/timetable?view=day&d=not-a-date",
+   "value": "{'title': ['我的教学安排'], 'label': ['9月18日 周五（今天）'], 'subjects': ['小要理问答', '圣经概论（新旧约概论）', '古汉语课程'], 'nav': ['/student/timetable?view=day', '/student/timetable?view=day&d=2026-09-17', '/student/timetable?view=day&d=2026-09-19', '/student/timetable?view=week'], 'empty_day': False, 'empty_week': False, 'traceback': False}"
+  },
+  {
+   "name": "A7 容器日志里的 WARNING（最后一条）",
+   "value": "web-1  | 2026-09-18 08:45:08,629 14 WARNING edu19 odoo.addons.edu_portal.controllers.scheduling: 课表日视图 d 参数解析失败（累计 2 次），已回退今天：d='not-a-date'（ValueError: time data 'not-a-date' does not match format '%Y-%m-%d'） "
+  },
+  {
+   "name": "B1 create res.users 前后的 partner.user_id",
+   "value": "{'partner_user_id': False, 'partner_user_ids': [417], 'uid': 417, 'leftover_partner': [], 'leftover_user': []}"
+  },
+  {
+   "name": "B2 scripts/create_teacher_account.py 输出",
+   "value": "80 INFO edu19 odoo.modules.loading: loading 140 modules... \n2026-09-18 08:45:12,197 280 WARNING edu19 odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. \n2026-09-18 08:45:12,204 280 WARNING edu19 odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. \n2026-09-18 08:45:12,204 280 WARNING edu19 odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. \n2026-09-18 08:45:12,205 280 WARNING edu19 odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. \n2026-09-18 08:45:12,215 280 INFO edu19 odoo.modules.loading: 140 modules loaded in 0.50s, 0 queries (+0 extra) \n2026-09-18 08:45:12,352 280 WARNING edu19 odoo.fields: Field edu.job.posting.salary_range: unknown parameter 'placeholder', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it \n2026-09-18 08:45:12,384 280 INFO edu19 odoo.modules.loading: Modules loaded. \n2026-09-18 08:45:12,388 280 INFO edu19 odoo.addons.edu_nav.models.menu_consolidation: [edu_nav] 菜单收口守卫：声明改写 357 条（参数表记为 357）；根菜单 40 条（停用 26）；全库 613 条（停用 200） \n2026-09-18 08:45:12,442 280 INFO edu19 odoo.registry: Registry loaded in 0.778s \n"
+  },
+  {
+   "name": "B3 GET /student/timetable?view=week&w=0（新教师账号）",
+   "value": "{'title': ['我的教学安排'], 'label': ['9月14日 – 9月20日（本周）'], 'subjects': ['希伯来语二', '使徒行传', '圣约神学', '神论', '圣灵论', '神论', '课程设计实务', '神论', '神论', '希伯来语四', '英语', '基督教与文学经典选读（二）', '逻辑一', '课堂管理', '基督教与法律导论', '护教学基础'], 'nav': ['/student/timetable?view=day', '/student/timetable?view=week', '/student/timetable?w=-1&view=week', '/student/timetable?w=1&view=week'], 'empty_day': False, 'empty_week': False, 'traceback': False}"
+  },
+  {
+   "name": "B4 双向并集相对旧口径的差异（changed / added）",
+   "value": "{'changed': [], 'added': []}"
+  },
+  {
+   "name": "B5 收工计数（对照开工前）",
+   "value": "{'before': {'faculty': 2, 'student': 4, 'parent': 1, 'partner': 82, 'user': 10}, 'after': {'faculty': 2, 'student': 4, 'parent': 1, 'partner': 82, 'user': 10}}"
+  }
+ ]
+}

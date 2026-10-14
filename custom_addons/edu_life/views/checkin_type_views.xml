@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 打卡类型：后台 list+form（中文） -->
+    <record id="view_edu_life_checkin_type_list" model="ir.ui.view">
+        <field name="name">edu.checkin.type.list.life</field>
+        <field name="model">edu.checkin.type</field>
+        <field name="arch" type="xml">
+            <list string="打卡类型">
+                <field name="sequence" widget="handle"/>
+                <field name="label" string="显示标签"/>
+                <field name="name" string="名称" optional="show"/>
+                <field name="frequency" string="频率"/>
+                <field name="weekly_target" string="每周目标次数" optional="hide"/>
+                <field name="deadline_weekday" string="截止星期(0=周日)" optional="hide"/>
+                <field name="icon" string="门户图标" optional="hide"/>
+                <field name="active" string="启用" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_life_checkin_type_form" model="ir.ui.view">
+        <field name="name">edu.checkin.type.form.life</field>
+        <field name="model">edu.checkin.type</field>
+        <field name="arch" type="xml">
+            <form string="打卡类型">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="名称"/>
+                            <field name="label" string="显示标签"/>
+                            <field name="frequency" string="频率"/>
+                            <field name="weekly_target" string="每周目标次数"
+                                   invisible="frequency != 'weekly'"/>
+                            <field name="deadline_weekday" string="截止星期（0=周日）"
+                                   invisible="frequency != 'weekly'"/>
+                        </group>
+                        <group>
+                            <field name="sequence" string="序号"/>
+                            <field name="active" string="启用"/>
+                            <field name="icon" string="门户图标"
+                                   placeholder="fa-book"/>
+                            <field name="description" string="说明"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_life_checkin_type" model="ir.actions.act_window">
+        <field name="name">打卡类型</field>
+        <field name="res_model">edu.checkin.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                <i class="fa fa-tags me-1"/>还没有打卡类型
+            </p>
+            <p>创建读经、灵修、周记等打卡项，学生门户即可按类型一键打卡。</p>
+        </field>
+    </record>
+</odoo>

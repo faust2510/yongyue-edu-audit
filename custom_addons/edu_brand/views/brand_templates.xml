@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 永约学坊中文落地页：整体替换主题英文营销首页（含假教师邮箱与 lorem ipsum） -->
+    <!-- 注意：主题首页已被 COW 为站点专属视图（xmlid 不存在），无法在 XML 里声明 inherit_id。
+         本模板先建为独立视图，由 scripts/setup_brand_yongyue.py 按 key 接线到站点首页视图链。 -->
+    <template id="homepage_yongyue" name="永约学坊首页">
+        <t t-set="title" t-value="'永约学坊 · 报名入学与教务系统'"/>
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure yylc-home">
+
+                    <!-- 首屏 -->
+                    <section class="yylc-hero">
+                        <div class="yylc-hero-bg" aria-hidden="true"/>
+                        <div class="yylc-hero-overlay" aria-hidden="true"/>
+                        <div class="container">
+                            <div class="yylc-hero-badge">
+                                <b>🏆</b> Soli Deo Gloria · 唯独神的荣耀
+                            </div>
+                            <h1 class="yylc-hero-title">永约学坊</h1>
+                            <div class="yylc-hero-sub">COVENANT REFORMED SEMINARY</div>
+                            <div class="yylc-hero-motto">COVENANT · REFORMED · TRUTH</div>
+                            <p class="yylc-hero-desc">
+                                永约学坊始创于2005年，持守改革宗神学立场和四大信经，
+                                并以归正的信仰和实践栽培学员。
+                            </p>
+                            <div class="yylc-hero-actions">
+                                <a href="/admissions" class="btn yylc-btn-gold">招生信息</a>
+                                <a href="/about" class="btn yylc-btn-ghost">了解学院</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 院系设置 -->
+                    <!-- 报名入学横幅 -->
+    <section class="yylc-apply-band" id="apply">
+        <div class="container text-center py-5">
+            <div class="yylc-kicker">立即报名</div>
+            <h2 class="yylc-apply-title mt-2 mb-1">报名入学</h2>
+            <p class="mb-4">2026 年招生报名进行中 · 在线填表，十分钟完成申请</p>
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-4 my-2">
+                    <i class="fa fa-edit fa-2x yylc-step-ic"/>
+                    <div class="fw-bold mt-2">① 在线填表</div>
+                    <p class="small mb-0">按入学申请表口径填写并提交</p>
+                </div>
+                <div class="col-md-4 my-2">
+                    <i class="fa fa-envelope-open-text fa-2x yylc-step-ic"/>
+                    <div class="fw-bold mt-2">② 邮件交材料</div>
+                    <p class="small mb-0">推荐信、个人见证等发送至招生邮箱</p>
+                </div>
+                <div class="col-md-4 my-2">
+                    <i class="fa fa-graduation-cap fa-2x yylc-step-ic"/>
+                    <div class="fw-bold mt-2">③ 考试与录取</div>
+                    <p class="small mb-0">审核通过后通知考试，电邮发录取通知书</p>
+                </div>
+            </div>
+            <a href="/apply" class="btn btn-lg yylc-apply-btn">
+                <i class="fa fa-pencil-square-o me-2"/>立即在线报名
+            </a>
+        </div>
+    </section>
+
+    <section class="yylc-section" id="programs">
+                        <div class="container">
+                            <div class="yylc-kicker">学术项目</div>
+                            <h2 class="yylc-section-title">专业设置</h2>
+                            <p class="yylc-section-sub">神学院、人文教育学院、家教学院、预备科与圣经高中</p>
+                            <div class="row g-4">
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="yylc-card">
+                                        <div class="yylc-card-ic"><i class="fa fa-book"/></div>
+                                        <h3>神学院</h3>
+                                        <p>基督教研究硕士科 · 神学学士科</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="yylc-card">
+                                        <div class="yylc-card-ic"><i class="fa fa-graduation-cap"/></div>
+                                        <h3>人文教育学院</h3>
+                                        <p>文学学士科 · 教育学士科</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="yylc-card">
+                                        <div class="yylc-card-ic"><i class="fa fa-home"/></div>
+                                        <h3>家教学院</h3>
+                                        <p>家庭教育方向学习项目</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="yylc-card">
+                                        <div class="yylc-card-ic"><i class="fa fa-seedling"/></div>
+                                        <h3>预备科</h3>
+                                        <p>升学预备学习项目</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="yylc-card">
+                                        <div class="yylc-card-ic"><i class="fa fa-shield"/></div>
+                                        <h3>圣经高中</h3>
+                                        <p>中等教育阶段圣经课程</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12">
+                                    <a class="yylc-card yylc-card-link" href="/journal">
+                                        <div class="yylc-card-ic"><i class="fa fa-newspaper-o"/></div>
+                                        <h3>SCRTS 校刊</h3>
+                                        <p>第一期《蒙主保守的二十年》20周年特刊 · 在线翻阅</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <p class="yylc-source">资料来源：永约学坊2026年总招生简章 · 摘要版</p>
+                        </div>
+                    </section>
+
+                    <!-- 教务系统入口 -->
+                    <section class="yylc-section yylc-section-alt" id="portal">
+                        <div class="container">
+                            <div class="yylc-kicker">教务系统</div>
+                            <h2 class="yylc-section-title">教务系统</h2>
+                            <p class="yylc-section-sub">学生登录后可使用以下功能</p>
+                            <div class="row g-3">
+                                <div class="col-6 col-md-4 col-lg-3"><a class="yylc-entry" href="/my/calendar"><i class="fa fa-calendar"/><span>校历与课表</span></a></div>
+                                <div class="col-6 col-md-4 col-lg-3"><a class="yylc-entry" href="/student/attendance"><i class="fa fa-check-square-o"/><span>我的考勤</span></a></div>
+                                <div class="col-6 col-md-4 col-lg-3"><a class="yylc-entry" href="/student/assignment/details"><i class="fa fa-pencil-square-o"/><span>我的作业</span></a></div>
+                                <div class="col-6 col-md-4 col-lg-3"><a class="yylc-entry" href="/student/exam"><i class="fa fa-file-text-o"/><span>考试安排</span></a></div>
+                                <div class="col-6 col-md-4 col-lg-3"><a class="yylc-entry" href="/grade-book"><i class="fa fa-line-chart"/><span>成绩簿</span></a></div>
+                                <div class="col-6 col-md-4 col-lg-3"><a class="yylc-entry" href="/library/media"><i class="fa fa-bookmark-o"/><span>图书馆</span></a></div>
+                                <div class="col-6 col-md-4 col-lg-3"><a class="yylc-entry" href="/my/notice_board/notice"><i class="fa fa-bullhorn"/><span>布告栏</span></a></div>
+                                <div class="col-6 col-md-4 col-lg-3"><a class="yylc-entry" href="/student/profile"><i class="fa fa-user-o"/><span>学生档案</span></a></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 公开信息 -->
+                    <section class="yylc-section" id="info">
+                        <div class="container">
+                            <div class="yylc-kicker">公开信息</div>
+                            <h2 class="yylc-section-title">公开信息</h2>
+                            <p class="yylc-section-sub">以下内容依据永约学坊2026年总招生简章与已确认校刊资料整理</p>
+                            <div class="row g-4">
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <a class="yylc-card yylc-card-link" href="/about">
+                                        <div class="yylc-card-ic"><i class="fa fa-university"/></div>
+                                        <h3>学院概况</h3>
+                                        <p>学院异象、信仰宣言、师资要求与历史概述。</p>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <a class="yylc-card yylc-card-link" href="/programs">
+                                        <div class="yylc-card-ic"><i class="fa fa-th-large"/></div>
+                                        <h3>专业设置</h3>
+                                        <p>神学院、人文教育学院、家教学院、预备科与圣经高中。</p>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <a class="yylc-card yylc-card-link" href="/admissions">
+                                        <div class="yylc-card-ic"><i class="fa fa-edit"/></div>
+                                        <h3>招生信息</h3>
+                                        <p>招生对象、申请材料、考试录取、费用与经济资助。</p>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <a class="yylc-card yylc-card-link" href="/journal">
+                                        <div class="yylc-card-ic"><i class="fa fa-book"/></div>
+                                        <h3>SCRTS 校刊</h3>
+                                        <p>第一期《蒙主保守的二十年》20周年特刊在线翻阅。</p>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <a class="yylc-card yylc-card-link" href="#contact">
+                                        <div class="yylc-card-ic"><i class="fa fa-envelope-o"/></div>
+                                        <h3>联系我们</h3>
+                                        <p>通过已确认邮箱咨询、报名和提交文件。</p>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <a class="yylc-card yylc-card-link" href="/login">
+                                        <div class="yylc-card-ic"><i class="fa fa-sign-in"/></div>
+                                        <h3>进入系统</h3>
+                                        <p>学生、老师和管理员可进入教务系统。</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 联系我们 -->
+                    <section class="yylc-contact" id="contact">
+                        <div class="container">
+                            <h2 class="yylc-section-title">以真理为根基，为教会育工人</h2>
+                            <p class="yylc-contact-slogan">2026年招生资料已整理为公开页面，欢迎按需查阅并来信咨询。</p>
+                            <h3 class="yylc-contact-subhead">联系我们</h3>
+                            <p class="yylc-contact-line">
+                                招生咨询、报名与材料提交，请使用已确认邮箱：
+                                <a href="mailto:scrtsschool@gmail.com" class="yylc-mail">scrtsschool@gmail.com</a>
+                            </p>
+                            <p class="yylc-contact-note">
+                                公开资料未列出电话、地址与固定办公时间，联系安排以邮件回复为准。
+                            </p>
+                            <div class="yylc-hero-actions">
+                                <a href="/login" class="btn yylc-btn-gold">进入教务系统</a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </t>
+    </template>
+
+    <!-- 品牌页脚：校徽 + 已确认联系方式，替换默认页脚（清除占位栏目/订阅/Odoo 推广） -->
+    <template id="footer_yongyue" inherit_id="website.layout"
+              name="永约学坊页脚" priority="100">
+        <xpath expr="//footer[@id='bottom']" position="replace">
+            <footer id="bottom" data-anchor="true" data-name="Footer"
+                    class="o_footer o_colored_level o_cc o_cc5 yylc-footer">
+                <div class="container yylc-footer-inner">
+                    <img src="/edu_brand/static/src/img/logo-medallion.png"
+                         alt="永约学坊校徽" class="yylc-footer-logo"/>
+                    <!-- 2026-10-06：去掉失效类名 yylc-footer-body（CSS 里无定义，删除不改任何视觉） -->
+                <div>
+                        <div class="yylc-footer-name">
+                            永约学坊
+                            <span class="yylc-footer-en">COVENANT REFORMED SEMINARY</span>
+                        </div>
+                        <div class="yylc-footer-contact">
+                            <div class="yylc-footer-head">
+                                <a href="/contactus">联系我们</a>
+                            </div>
+                            <div class="yylc-footer-line yylc-footer-mail">
+                                <i class="fa fa-envelope-o" role="img" aria-label="邮箱"/>
+                                <a href="mailto:scrtsschool@gmail.com">scrtsschool@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="yylc-footer-copy">© 2026 永约学坊 / Soli Deo Gloria</div>
+                    </div>
+                </div>
+            </footer>
+        </xpath>
+    </template>
+
+    <!-- ==========================================================================
+         全站语言切换悬浮器：**已撤除**（t40，2026-09-12）
+         ==========================================================================
+         原实现是一个右下角悬浮 pill（简 / 繁 / EN），链接到 /my/lang/<code>。
+         它在**本部署下是装饰品**：点了不改变页面语言。实测与根因：
+
+         1) 站点是**单语言**的：website id=1 的 language_ids 只含 zh_CN
+            （website_lang_rel 仅一行）。http_routing 的语言解析走
+            res.lang._get_frontend()，单语站点下 URL 前缀 / frontend_lang cookie /
+            用户 lang 全部落回网站默认语言。
+
+         2) 我实测把 zh_TW 临时加入 language_ids（用可重复的方式加、验证后已回滚）：
+            · /zh_TW/programs 渲染出 **简体独有字 358 : 繁体独有字 8**，
+              /zh_TW/my/study 159 : 9，/zh_TW/my/home 107 : 9；
+            · 也就是说「URL 说繁体、内容 92-98% 仍是简体」——**比不切换更误导**。
+            根因：本仓自研模板的**源语言就是简体中文**（直接写死在 XML 里），
+            没有 zh_TW 译文；zh_TW 只覆盖到 Odoo core 的少量 UI 串（edu_zh 的 38 条 + core 自带）。
+            en_US 更差：它未启用（/en_US/... 404），且源串是中文 → 会中英混排。
+
+         3) 结论（队长 2026-09-12 裁决：不放任装饰性控件）：
+            **接受单语（简体）站点，撤除该控件**；
+            真正做多语言需要「以英文/简体为源语言 + PO 提供繁英译文」的内容工程，
+            属产品决策，不在本次范围。届时把本模板从 git 恢复即可。
+
+         注：single-language 状态由 data_brand/brand_debrand_data.xml 里的
+         <function model="website" name="write"> 每次 -u 幂等维持，避免被人手工改回而控件又不在。
+         ========================================================================== -->
+</odoo>

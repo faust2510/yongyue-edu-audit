@@ -1,0 +1,40 @@
+/* ============================================================
+   学生自主报课 + 教务审批（第 2 期，enroll-v2）
+   /subject/enroll 目录选择组件：课程/班级/科目单选/复选瓦片。
+   状态完全由 CSS 驱动（input 隐藏 + label 相邻盒高亮），
+   无需 JS：radio 自动互斥，change 事件联动由后端 GET 预载。
+   ============================================================ */
+#wrapwrap.o_portal .enroll-opt .enroll-opt-box {
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease;
+    background: #fff;
+    border-color: var(--bs-border-color, var(--border));
+    min-height: 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#wrapwrap.o_portal .enroll-opt:hover .enroll-opt-box {
+    border-color: var(--teal-600);
+    background: rgba(15, 118, 110, .04);
+}
+#wrapwrap.o_portal .enroll-opt input:checked + .enroll-opt-box {
+    border-color: var(--teal-600);
+    background: rgba(15, 118, 110, .08);
+    box-shadow: 0 0 0 1px var(--teal-600) inset;
+}
+#wrapwrap.o_portal .enroll-opt input:disabled + .enroll-opt-box {
+    cursor: default;
+    border-color: var(--bs-border-color, var(--border));
+    background: rgba(15, 118, 110, .05);
+}
+#wrapwrap.o_portal .enroll-opt input:checked + .enroll-opt-box::before {
+    content: "\f00c";               /* fa-check */
+    font-family: "FontAwesome";
+    position: absolute;
+    top: .35rem;
+    right: .5rem;
+    color: var(--teal-600);
+    font-size: .7rem;
+}
+#wrapwrap.o_portal .enroll-opt { position: relative; }

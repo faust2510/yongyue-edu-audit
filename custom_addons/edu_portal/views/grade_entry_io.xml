@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ /grade-entry/xlsx 批量导入导出（教务 / 任课教师） ============
+         为什么要有这一页：xlsx 是教务的实际工作方式（一张表发给任课老师填分），但表必须
+         **自解释**（首行写明 班 / 学期 / 科目）且导入**逐行回报**，否则导错人谁也发现不了。
+         导出 / 导入本体在 controllers/grade_entry_io.py，本文件只有两张页面。
+         入口：后台「成绩中心 → 批量导入 / 导出（xlsx）」（ir.actions.act_url 指向本页，
+         见 views/grade_admin_views.xml）—— 不带参数进来时本页先让你选目标。 -->
+    <template id="edu_grade_entry_io" name="Edu Grade Entry IO">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">批量导入 / 导出（xlsx）</h2>
+                <p class="text-muted mb-0">
+                    先选好班级、学期、科目，再「导出这张表」：表的第一行写明这三项，第二行是列名
+                    （学号 / 姓名 / 分数 / 等级），填完原样导回来即可。导入逐行回报，
+                    分数与「成绩录入」页保存的是同一份数据，学生录完即见。
+                </p>
+            </section>
+
+            <form class="row g-2 align-items-end mb-3" method="get" action="/grade-entry/xlsx">
+                <div class="col-12 col-md-3">
+                    <label class="form-label" for="io_batch">班级</label>
+                    <select class="form-select" id="io_batch" name="batch_id">
+                        <option value="">请选择班级</option>
+                        <t t-foreach="batches" t-as="b">
+                            <option t-att-value="b.id"
+                                    t-att-selected="batch and b.id == batch.id"
+                                    t-out="b.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label" for="io_term">学期</label>
+                    <select class="form-select" id="io_term" name="term_id">
+                        <t t-foreach="terms" t-as="tm">
+                            <option t-att-value="tm.id"
+                                    t-att-selected="term and tm.id == term.id"
+                                    t-out="tm.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label" for="io_subject">科目</label>
+                    <select class="form-select" id="io_subject" name="subject_id">
+                        <option value="">请选择科目</option>
+                        <t t-foreach="subjects" t-as="s">
+                            <option t-att-value="s.id"
+                                    t-att-selected="subject and s.id == subject.id"
+                                    t-out="s.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <button class="btn btn-outline-secondary w-100" type="submit">查看 / 准备</button>
+                </div>
+            </form>
+
+            <div class="alert alert-warning" t-if="not terms">
+                系统里还没有学期，请先在后台建学期（成绩都按 班 × 学期 × 科目 归档）。
+            </div>
+
+            <div class="card mb-3" t-if="batch and subject and term">
+                <div class="card-body">
+                    <p class="mb-2">
+                        当前目标：<b t-out="batch.name"/> · <b t-out="term.name"/> ·
+                        <b t-out="subject.name"/>
+                    </p>
+                    <a class="btn btn-primary" t-att-href="export_url">导出这张表（xlsx）</a>
+                    <span class="text-muted ms-2">导出的表已经带上现有分数，改完导回来即可。</span>
+                </div>
+            </div>
+
+            <form t-if="batch and subject and term" class="card" method="post"
+                  action="/grade-entry/import" enctype="multipart/form-data">
+                <div class="card-body">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="batch_id" t-att-value="batch.id"/>
+                    <input type="hidden" name="term_id" t-att-value="term.id"/>
+                    <input type="hidden" name="subject_id" t-att-value="subject.id"/>
+                    <label class="form-label" for="io_file">
+                        填写好的文件（导出的表改好分数；也可以另存为 csv 再上传）
+                    </label>
+                    <input class="form-control" type="file" id="io_file" name="file"
+                           accept=".xlsx,.xlsm,.csv" required="required"/>
+                    <button class="btn btn-primary mt-3" type="submit">导入并逐行校验</button>
+                    <p class="text-muted small mb-0 mt-2">
+                        没填分数的行会跳过；学号匹配不上、分数超出 0 至 <t t-out="max_marks"/>、
+                        无权录这门课的行都会逐行说明原因，不会静默丢弃。
+                        写入一律留痕（谁把谁的分从多少改到多少），学生端立即可见。
+                    </p>
+                </div>
+            </form>
+
+            <p class="text-muted" t-if="not (batch and subject and term)">
+                选好班级、学期、科目后，这里会出现导出与导入的操作。
+            </p>
+        </t>
+    </template>
+
+    <!-- ============ 导入结果：逐行回报 ============
+         三件事必须说清：写了多少条、哪一行没写、为什么没写。 -->
+    <template id="edu_grade_entry_io_result" name="Edu Grade Entry IO Result">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">导入结果</h2>
+                <p class="text-muted mb-0" t-if="batch and subject">
+                    文件：<b t-out="filename or '（未命名）'"/> · 目标：<b t-out="batch.name"/> ·
+                    <b t-out="term.name"/> · <b t-out="subject.name"/>
+                </p>
+            </section>
+
+            <div class="alert alert-danger" t-if="file_err" t-out="file_err"/>
+            <div class="alert alert-success" t-if="not file_err">
+                共 <b t-out="total_rows"/> 行，实际写入 <b t-out="saved"/> 条；没写入的行下面逐行写了原因。
+                （已经是最新值的行不会重复留痕，属正常。）
+            </div>
+
+            <table class="table table-sm table-striped" t-if="rows">
+                <thead>
+                    <tr>
+                        <th scope="col">表内行号</th>
+                        <th scope="col">学号</th>
+                        <th scope="col">姓名</th>
+                        <th scope="col">表里填的分数</th>
+                        <th scope="col">结果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="rows" t-as="r">
+                        <td t-out="r['line']"/>
+                        <td t-out="r['gr_no']"/>
+                        <td t-out="r['name']"/>
+                        <td t-out="r['marks_text']"/>
+                        <td>
+                            <span t-out="r['status']"/>
+                            <span class="text-muted" t-if="r['detail']">
+                                （<t t-out="r['detail']"/>）
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a class="btn btn-outline-primary" t-att-href="entry_url">回到成绩录入页</a>
+        </t>
+    </template>
+</odoo>

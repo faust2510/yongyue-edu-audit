@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 演示数据（仅在 demo=1 的库装载；生产不装）。
+         本文件**只建定义**（模板 / 评分项 / 空任务），不含任何写业务表的 <function>：
+         每次 -u 不会往 edu_assess_score 里补数据（对照 docs/dev-workflow.md 陷阱 1）。 -->
+
+    <record id="demo_tpl_student" model="edu.assess.template">
+        <field name="name">学生日常量化评估表【演示】</field>
+        <field name="kind">student</field>
+        <field name="target_kind">student</field>
+        <field name="total">100</field>
+        <field name="pass_line">60</field>
+        <field name="excellent_line">90</field>
+        <field name="score_visible" eval="True"/>
+        <field name="notes">演示模板：给教师按班级给学生打分。</field>
+    </record>
+
+    <record id="demo_item_student_1" model="edu.assess.item">
+        <field name="template_id" ref="demo_tpl_student"/>
+        <field name="name">出勤与纪律</field>
+        <field name="max_score">20</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="demo_item_student_2" model="edu.assess.item">
+        <field name="template_id" ref="demo_tpl_student"/>
+        <field name="name">课堂参与</field>
+        <field name="max_score">20</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="demo_item_student_3" model="edu.assess.item">
+        <field name="template_id" ref="demo_tpl_student"/>
+        <field name="name">学业表现</field>
+        <field name="max_score">30</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="demo_item_student_4" model="edu.assess.item">
+        <field name="template_id" ref="demo_tpl_student"/>
+        <field name="name">服事态度</field>
+        <field name="max_score">30</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="demo_tpl_teaching" model="edu.assess.template">
+        <field name="name">教师评教表【演示】</field>
+        <field name="kind">teaching</field>
+        <field name="target_kind">faculty</field>
+        <field name="total">100</field>
+        <field name="pass_line">60</field>
+        <field name="excellent_line">90</field>
+        <field name="notes">演示模板：学生匿名评教，样本达标后才出结果。</field>
+    </record>
+
+    <record id="demo_item_teaching_1" model="edu.assess.item">
+        <field name="template_id" ref="demo_tpl_teaching"/>
+        <field name="name">备课充分</field>
+        <field name="help">教学内容是否准备充分</field>
+        <field name="max_score">25</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="demo_item_teaching_2" model="edu.assess.item">
+        <field name="template_id" ref="demo_tpl_teaching"/>
+        <field name="name">课堂表达</field>
+        <field name="max_score">25</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="demo_item_teaching_3" model="edu.assess.item">
+        <field name="template_id" ref="demo_tpl_teaching"/>
+        <field name="name">对学生的关怀</field>
+        <field name="max_score">25</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="demo_item_teaching_4" model="edu.assess.item">
+        <field name="template_id" ref="demo_tpl_teaching"/>
+        <field name="name">整体评价</field>
+        <field name="max_score">25</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="demo_task_teaching" model="edu.assess.task">
+        <field name="template_id" ref="demo_tpl_teaching"/>
+        <field name="period">2026秋</field>
+        <field name="state">open</field>
+        <field name="scorer_kind">student</field>
+        <field name="anonymous" eval="True"/>
+        <field name="summary_min">3</field>
+        <field name="notes">演示任务：匿名评教，样本门槛 3 份。</field>
+    </record>
+</odoo>

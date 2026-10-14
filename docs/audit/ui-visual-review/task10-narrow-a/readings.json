@@ -1,0 +1,142 @@
+{
+  "task": "task-10 窄屏卡片化 A：edu_life 周记两页",
+  "file": "custom_addons/edu_life/views/portal_templates.xml",
+  "tool": "scripts/find_squeezed_tables.py（375 视口；判据：thead 可见 + 列数≥4 + 表宽 > 容器+4px）",
+  "upgraded_with": "bash scripts/safe_upgrade.sh edu_life (EXIT=0)",
+  "before": {
+    "/my/journals (student)": {
+      "tool": "SQUEEZED（exit 1）: 5 列 表宽 442 > 容器 345",
+      "v375": {
+        "cols": 5,
+        "theadDisplay": "table-header-group",
+        "tableW": 442,
+        "containerW": 345,
+        "tbodyTrDisplay": "table-row",
+        "pageOverflow": 0
+      },
+      "v1440": {
+        "cols": 5,
+        "theadDisplay": "table-header-group",
+        "tableW": 1290,
+        "containerW": 1290,
+        "tbodyTrDisplay": "table-row",
+        "pageOverflow": 0
+      },
+      "shot375": "docs/audit/ui-visual-review/task10-narrow-a/before_375_my_journals.png",
+      "shot1440_md5": "de78a1a3feaa52fc718bdf5e2a69b70e"
+    },
+    "/journals/review (faculty)": {
+      "tool": "SQUEEZED（exit 1）: 待批阅表 5 列 表宽 354 > 容器 345（最近已批阅表 345 = 345，未超阈值但同为 5 列，一并卡片化）",
+      "v375": [
+        {
+          "name": "待批阅",
+          "cols": 5,
+          "theadDisplay": "table-header-group",
+          "tableW": 354,
+          "containerW": 345,
+          "rows": 1
+        },
+        {
+          "name": "最近已批阅",
+          "cols": 5,
+          "theadDisplay": "table-header-group",
+          "tableW": 345,
+          "containerW": 345,
+          "rows": 4
+        }
+      ],
+      "v1440": [
+        {
+          "name": "待批阅",
+          "cols": 5,
+          "theadDisplay": "table-header-group",
+          "tableW": 1290,
+          "containerW": 1290
+        },
+        {
+          "name": "最近已批阅",
+          "cols": 5,
+          "theadDisplay": "table-header-group",
+          "tableW": 1290,
+          "containerW": 1290
+        }
+      ],
+      "pageOverflow375": 0,
+      "shot375": "docs/audit/ui-visual-review/task10-narrow-a/before_375_journals_review.png",
+      "shot1440_md5": "6f3853770dffae6070adae1ef8548e4c"
+    }
+  },
+  "after": {
+    "/my/journals (student)": {
+      "tool": "RESULT=OK（无挤扁表）（exit 0）",
+      "v375": {
+        "cols": 5,
+        "theadDisplay": "none",
+        "tableW": 345,
+        "containerW": 345,
+        "tbodyTrDisplay": "block",
+        "pageOverflow": 0
+      },
+      "v1440": {
+        "cols": 5,
+        "theadDisplay": "table-header-group",
+        "tableW": 1290,
+        "containerW": 1290,
+        "tbodyTrDisplay": "table-row",
+        "pageOverflow": 0
+      },
+      "shot375": "docs/audit/ui-visual-review/task10-narrow-a/after_375_my_journals.png",
+      "shot1440_md5": "de78a1a3feaa52fc718bdf5e2a69b70e"
+    },
+    "/journals/review (faculty)": {
+      "tool": "RESULT=OK（无挤扁表）（exit 0）",
+      "v375": [
+        {
+          "name": "待批阅",
+          "cols": 5,
+          "theadDisplay": "none",
+          "tableW": 345,
+          "containerW": 345,
+          "tbodyTrDisplay": "block"
+        },
+        {
+          "name": "最近已批阅",
+          "cols": 5,
+          "theadDisplay": "none",
+          "tableW": 345,
+          "containerW": 345,
+          "tbodyTrDisplay": "block"
+        }
+      ],
+      "v1440": [
+        {
+          "name": "待批阅",
+          "cols": 5,
+          "theadDisplay": "table-header-group",
+          "tableW": 1290,
+          "containerW": 1290,
+          "tbodyTrDisplay": "table-row"
+        },
+        {
+          "name": "最近已批阅",
+          "cols": 5,
+          "theadDisplay": "table-header-group",
+          "tableW": 1290,
+          "containerW": 1290,
+          "tbodyTrDisplay": "table-row"
+        }
+      ],
+      "pageOverflow375": 0,
+      "shot375": "docs/audit/ui-visual-review/task10-narrow-a/after_375_journals_review.png",
+      "shot1440_md5": "6f3853770dffae6070adae1ef8548e4c"
+    }
+  },
+  "desktop_unchanged_proof": "1440 全页截图改前/改后 MD5 完全相同（两页各自一致）⇒ 桌面渲染像素级未变",
+  "gates": {
+    "find_squeezed_tables": "OK / OK",
+    "safe_upgrade": "EXIT=0（edu_life，-u）",
+    "check_view_xpath": "RESULT=OK（失败项 0）",
+    "check_md_tables": "OK",
+    "check_docs_index": "OK"
+  }
+}

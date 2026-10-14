@@ -1,0 +1,59 @@
+{
+  "frozen_at": "2026-09-15",
+  "spec": "docs/audit/ui-color-audit-2026-09-15.md §7.3",
+  "note": "页面集合与 §7.3 冻结口径一一对应；capture 时按 auth 决定是否先登录。",
+  "sets": {
+    "frozen6": [
+      "home",
+      "apply",
+      "my_home",
+      "calendar",
+      "apps",
+      "contacts"
+    ],
+    "legacy4": [
+      "home",
+      "apply",
+      "my_home",
+      "contacts"
+    ]
+  },
+  "pages": [
+    {
+      "key": "home",
+      "path": "/",
+      "auth": false,
+      "production_url": "https://edu.example.org/"
+    },
+    {
+      "key": "apply",
+      "path": "/apply",
+      "auth": false,
+      "production_url": "https://edu.example.org/apply"
+    },
+    {
+      "key": "my_home",
+      "path": "/my/home",
+      "auth": true,
+      "production_url": "https://edu.example.org/my/home"
+    },
+    {
+      "key": "calendar",
+      "path": "/my/calendar?view=week",
+      "auth": true,
+      "production_url": "https://edu.example.org/my/calendar?view=week"
+    },
+    {
+      "key": "apps",
+      "path": "/apps",
+      "auth": true,
+      "production_url": "https://edu.example.org/apps"
+    },
+    {
+      "key": "contacts",
+      "path": "/odoo/contacts",
+      "auth": true,
+      "production_url": "https://edu.example.org/odoo/contacts"
+    }
+  ]
+}

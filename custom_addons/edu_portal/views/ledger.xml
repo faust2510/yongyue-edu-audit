@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 后台入口（沿用既有根菜单，不新增顶层大菜单） ============ -->
+    <!-- 总台账 → 财务管理 根菜单下；报销审批 → 教务审批 根菜单下 -->
+    <record id="action_edu_ledger_portal" model="ir.actions.act_url">
+        <field name="name">财务总台账</field>
+        <field name="url">/ledger</field>
+        <field name="target">self</field>
+    </record>
+    <record id="action_edu_ledger_reimburse_portal" model="ir.actions.act_url">
+        <field name="name">报销审批</field>
+        <field name="url">/ledger/reimburse</field>
+        <field name="target">self</field>
+    </record>
+    <menuitem id="menu_edu_ledger" name="财务总台账"
+              parent="menu_edu_fees_root" action="action_edu_ledger_portal"
+              sequence="30" groups="openeducat_core.group_op_back_office_admin"/>
+    <menuitem id="menu_edu_ledger_reimburse" name="报销审批"
+              parent="menu_edu_approval_root"
+              action="action_edu_ledger_reimburse_portal"
+              sequence="35" groups="openeducat_core.group_op_back_office_admin"/>
+
+    <!-- ============================================================
+         财务总账 + 报销（第三期 · docs/plans/ledger-design.md）
+         模板：
+         - edu_ledger            总台账（筛选/统计/CSV）
+         - edu_ledger_new        记总账（@学生/@老师/@班级）
+         - edu_ledger_reimburse  报销审批台（收据预览 + ✓/✗/付款）
+         全部 t-call edu_portal.edu_page。
+         ============================================================ -->
+
+    <!-- ============ 总台账 /ledger ============ -->
+    <template id="edu_ledger" name="Edu Ledger">
+        <t t-call="edu_portal.edu_page">
+            <section class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <h4 class="mb-0"><i class="fa fa-book me-2 text-primary"/>财务总台账</h4>
+                <a href="/ledger/new" class="btn btn-sm btn-primary ms-auto">
+                    <i class="fa fa-plus me-1"/>记总账</a>
+                <a href="/ledger/reimburse" class="btn btn-sm btn-outline-primary">
+                    <i class="fa fa-check-square-o me-1"/>报销审批</a>
+            </section>
+            <p class="text-muted mb-3">应收=学校应收（统筹费/罚款/教材），应付=学校应付/报销；
+                一页查全部，按方向/分类/受理人/状态筛选与导出。</p>
+
+            <!-- 统计卡 -->
+            <div class="row g-2 mb-3">
+                <div class="col-6 col-md-3">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body py-2">
+                            <div class="small text-muted">应收未收（open+partial）</div>
+                            <div class="fw-bold text-primary fs-5"><t t-out="cur_symbol"/><t t-out="'%g' % recv_due"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body py-2">
+                            <div class="small text-muted">应付待付（未付清，含待批报销）</div>
+                            <div class="fw-bold text-warning fs-5"><t t-out="cur_symbol"/><t t-out="'%g' % pay_due"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body py-2">
+                            <div class="small text-muted">当前筛选记录</div>
+                            <div class="fw-bold fs-5"><t t-out="total"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 d-flex align-items-center justify-content-end">
+                    <span class="small text-muted">应收 + 应付 双向台账</span>
+                </div>
+            </div>
+
+            <!-- 筛选 + 导出（同一表单：查询参数一致，按按钮分目标） -->
+            <form method="get" action="/ledger" class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-2 row g-2 align-items-end">
+                    <div class="col-6 col-md-2">
+                        <label class="form-label small mb-1" for="lg-direction">方向</label>
+                        <select name="direction" class="form-select form-select-sm" id="lg-direction">
+                            <option value="">全部</option>
+                            <t t-foreach="direction_label.items()" t-as="d">
+                                <option t-att-value="d[0]"
+                                        t-att-selected="direction == d[0] and 'selected' or None"
+                                        t-out="d[1]"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <label class="form-label small mb-1" for="lg-category">分类</label>
+                        <select name="category" class="form-select form-select-sm" id="lg-category">
+                            <option value="">全部</option>
+                            <t t-foreach="categories" t-as="c">
+                                <option t-att-value="c.id"
+                                        t-att-selected="c.id == category_sel or None"
+                                        t-out="c.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <label class="form-label small mb-1" for="lg-state">账单状态</label>
+                        <select name="state" class="form-select form-select-sm" id="lg-state">
+                            <option value="">全部</option>
+                            <t t-foreach="state_label.items()" t-as="s">
+                                <option t-att-value="s[0]"
+                                        t-att-selected="state == s[0] and 'selected' or None"
+                                        t-out="s[1]"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <label class="form-label small mb-1" for="lg-reimburse">报销状态</label>
+                        <select name="reimburse" class="form-select form-select-sm" id="lg-reimburse">
+                            <option value="">全部</option>
+                            <t t-foreach="reimburse_label.items()" t-as="r">
+                                <option t-att-value="r[0]"
+                                        t-att-selected="reimburse == r[0] and 'selected' or None"
+                                        t-out="r[1]"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <label class="form-label small mb-1">受理人 / 学生 / 教师</label>
+                        <input type="text" name="actor" class="form-control form-control-sm"
+                               t-att-value="actor" placeholder="姓名关键词"/>
+                    </div>
+                    <div class="col-6 col-md-2 d-flex gap-1">
+                        <button type="submit" class="btn btn-sm btn-primary flex-fill">
+                            <i class="fa fa-search me-1"/>筛选</button>
+                        <button type="submit" formaction="/ledger/export"
+                                class="btn btn-sm btn-outline-secondary" title="导出 CSV">
+                            <i class="fa fa-download"/></button>
+                    </div>
+                </div>
+                <div class="card-footer bg-white py-2">
+                    <input type="text" name="search" class="form-control form-control-sm"
+                           t-att-value="search" placeholder="账单名称 / 报销单号 / 来源单号"/>
+                </div>
+            </form>
+
+            <!-- 列表 -->
+            <t t-if="not bills">
+                <div class="alert alert-light border">当前筛选条件下暂无账单记录。</div>
+            </t>
+            <t t-else="">
+                <!-- 窄屏卡片化（task-12，2026-10-02）：本表 **10 列**，375 视口实测
+                     表宽 573px > 容器 345px —— 「状态」「创建时间」被推到屏外，手机上只能横滑。
+                     复用共用模板 edu_portal.edu_narrow_table_cards（roles.xml）：
+                     <768px 隐藏 thead、每行折成卡片、由每个 <td> 的 data-label 顶出列名；
+                     媒体查询之外没有任何规则 ⇒ 桌面 DOM 与观感一字不变。
+                     工具判据：scripts/find_squeezed_tables.py（path=/ledger、role=backoffice）。 -->
+                <div class="table-responsive">
+                    <t t-call="edu_portal.edu_narrow_table_cards"/>
+                    <table class="table table-hover align-middle bg-white rounded-3 shadow-sm edu-card-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>单号</th>
+                                <th>账单名称</th>
+                                <th>方向</th>
+                                <th>分类</th>
+                                <th>受理人</th>
+                                <th class="text-end">金额</th>
+                                <th class="text-end">已收付</th>
+                                <th class="text-end">余额</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="bills" t-as="b">
+                                <tr>
+                                    <td data-label="单号"><span class="font-monospace small" t-out="b['ref'] or '—'"/></td>
+                                    <td data-label="账单名称" t-out="b['name']"/>
+                                    <td data-label="方向">
+                                        <span t-if="b['direction'] == 'payable'"
+                                              class="badge text-bg-warning-subtle text-warning">应付</span>
+                                        <span t-else="" class="badge text-bg-primary-subtle text-primary">应收</span>
+                                    </td>
+                                    <td data-label="分类" t-out="b['category_label']"/>
+                                    <td data-label="受理人">
+                                        <span t-out="b['student'] or (b['faculty'] or b['partner'] or '—')"/>
+                                    </td>
+                                    <td data-label="金额" class="text-end"><t t-out="b['symbol']"/><t t-out="'%g' % b['amount']"/></td>
+                                    <td data-label="已收付" class="text-end text-success"><t t-out="b['symbol']"/><t t-out="'%g' % b['paid']"/></td>
+                                    <td data-label="余额" class="text-end">
+                                        <span t-if="b['due'] > 0" class="text-danger"><t t-out="b['symbol']"/><t t-out="'%g' % b['due']"/></span>
+                                        <span t-else="" class="text-muted">—</span>
+                                    </td>
+                                    <td data-label="状态">
+                                        <span t-if="b['reimburse_state']" t-out="b['reimburse_label']"/>
+                                        <span t-else="" t-out="b['state_label']"/>
+                                    </td>
+                                    <td data-label="创建时间" class="small text-muted" t-out="b['create_date']"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Odoo 19 的 portal.controllers.portal.pager() **返回 dict**（不再是 HTML），
+                     原写法 t-out="pager" 会把 dict 当字符串渲染出来：页面上真出现过
+                     「{'page_count': 1, 'offset': 0, ...}」这串机器文本。
+                     它同时是本页 A 轴横向溢出的真凶（2026-09-28 实测：该行 left 15 -> right 425，
+                     文档溢出 93px/65px）—— 不是宽表。改回仓内既有惯例
+                     （batch1/batch2/downloads/roles 同一写法）：交给 portal.pager 渲染，
+                     且只有多于一页时才出分页条。 -->
+                <t t-if="pager and pager['page_count'] &gt; 1">
+                    <div class="o_portal_pager d-flex justify-content-center my-3">
+                        <t t-call="portal.pager"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ 记总账 /ledger/new ============ -->
+    <template id="edu_ledger_new" name="Edu Ledger New">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h4 class="mb-1"><i class="fa fa-plus-circle me-2 text-primary"/>记总账</h4>
+                <p class="text-muted mb-0">选择方向/分类/金额与对象，生成应收或应付账单；
+                    @班级 将按班级在读学生拆分每人一笔。</p>
+            </section>
+
+            <t t-if="box == 'saved'">
+                <div class="alert alert-success py-2">
+                    <i class="fa fa-check-circle me-1"/>记账成功，共生成
+                    <b t-out="count or 0"/> 笔账单。
+                </div>
+            </t>
+            <t t-if="box == 'bad_amount'">
+                <div class="alert alert-danger py-2">金额必须大于零。</div>
+            </t>
+            <t t-if="box == 'bad_actor'">
+                <div class="alert alert-danger py-2">请选择有效的记账对象。</div>
+            </t>
+            <t t-if="box == 'bad_category'">
+                <div class="alert alert-warning py-2">
+                    没有可用的费用分类。请先到后台「财务管理 → 费用分类」建一个。
+                </div>
+            </t>
+            <t t-if="box == 'no_students'">
+                <div class="alert alert-danger py-2">该班级暂无在读学生，无法按班级拆分。</div>
+            </t>
+
+            <form method="post" action="/ledger/new/save" class="card shadow-sm border-0 rounded-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">方向 <span class="text-danger">*</span></label>
+                            <select name="direction" class="form-select" required="required">
+                                <t t-foreach="direction_label.items()" t-as="d">
+                                    <option t-att-value="d[0]" t-out="d[1]"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">分类 <span class="text-danger">*</span></label>
+                            <select name="category" class="form-select"
+                                    required="required" id="lg-new-category">
+                                <t t-foreach="categories" t-as="c">
+                                    <option t-att-value="c.id"
+                                            t-att-data-hint="c.direction_hint or ''"
+                                            t-out="c.name"/>
+                                </t>
+                            </select>
+                            <div class="form-text">
+                                分类在后台「费用分类」自助维护；选「应付」只显示应付类。
+                            </div>
+                            <script type="text/javascript">
+                                // 方向倾向联动：选了方向就只留该方向能用的分类。
+                                // 注意：本段 JS 不写裸的与号或尖括号（lxml 严格 XML，会炸装载期）。
+                                (function () {
+                                    var dir = document.querySelector('select[name="direction"]');
+                                    var cat = document.getElementById('lg-new-category');
+                                    if (!dir) { return; }
+                                    if (!cat) { return; }
+                                    var all = Array.prototype.slice.call(cat.querySelectorAll('option'));
+                                    function apply() {
+                                        var want = dir.value;
+                                        var first = null;
+                                        all.forEach(function (o) {
+                                            var hint = o.getAttribute('data-hint');
+                                            var show = true;
+                                            if (hint) { show = (hint === want); }
+                                            o.hidden = !show;
+                                            o.disabled = !show;
+                                            if (show) { if (!first) { first = o; } }
+                                        });
+                                        var cur = cat.options[cat.selectedIndex];
+                                        if (cur) {
+                                            if (cur.hidden) {
+                                                if (first) { cat.value = first.value; }
+                                            }
+                                        }
+                                    }
+                                    dir.addEventListener('change', apply);
+                                    apply();
+                                })();
+                            </script>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">金额（元）<span class="text-danger">*</span></label>
+                            <input type="number" name="amount" step="0.01" min="0.01"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">账单名称</label>
+                            <input type="text" name="name" class="form-control"
+                                   placeholder="如：2026 春季统筹费 / 活动物料报销"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">截止日期</label>
+                            <input type="date" name="due_date" class="form-control"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">对象类型 <span class="text-danger">*</span></label>
+                            <select name="actor_type" class="form-select" id="ledger-actor-type">
+                                <option value="student">@ 学生</option>
+                                <option value="faculty">@ 老师</option>
+                                <option value="batch">@ 班级（拆每人一笔）</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8" id="ledger-actor-student">
+                            <label class="form-label">选择学生</label>
+                            <select name="actor_id" class="form-select">
+                                <t t-foreach="students" t-as="s">
+                                    <option t-att-value="s.id" t-out="s.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-md-8 d-none" id="ledger-actor-faculty">
+                            <label class="form-label">选择老师</label>
+                            <select name="actor_id" class="form-select">
+                                <t t-foreach="faculties" t-as="f">
+                                    <option t-att-value="f.id" t-out="f.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-md-8 d-none" id="ledger-actor-batch">
+                            <label class="form-label">选择班级（按在读学生拆分）</label>
+                            <select name="actor_id" class="form-select">
+                                <t t-foreach="batch_opts" t-as="bo">
+                                    <option t-att-value="bo['id']">
+                                        <t t-out="bo['name']"/>（在读
+                                        <t t-out="bo['n']"/> 人）
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">备注</label>
+                            <textarea name="note" class="form-control" rows="2"/>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save me-1"/>保存记账</button>
+                        <a href="/ledger" class="btn btn-light">返回总台账</a>
+                    </div>
+                </div>
+            </form>
+        </t>
+        <script>
+            (function () {
+                var typeSel = document.getElementById('ledger-actor-type');
+                function sync() {
+                    var v = typeSel.value;
+                    ['student', 'faculty', 'batch'].forEach(function (k) {
+                        var el = document.getElementById('ledger-actor-' + k);
+                        if (el) el.classList.toggle('d-none', k !== v);
+                        if (el) el.classList.toggle('d-block', k === v);
+                    });
+                }
+                if (typeSel) { typeSel.addEventListener('change', sync); sync(); }
+            })();
+        </script>
+    </template>
+
+    <!-- ============ 报销审批台 /ledger/reimburse ============ -->
+    <template id="edu_ledger_reimburse" name="Edu Ledger Reimburse">
+        <t t-call="edu_portal.edu_page">
+            <section class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <h4 class="mb-0"><i class="fa fa-check-square-o me-2 text-primary"/>报销审批</h4>
+                <a href="/ledger" class="btn btn-sm btn-outline-secondary ms-auto">总台账</a>
+            </section>
+            <p class="text-muted mb-3">
+                待批列表：<b t-out="stats.get('request', 0)"/> 笔申请中 ·
+                已同意待付 <b t-out="stats.get('approved', 0)"/> ·
+                已付款 <b t-out="stats.get('paid', 0)"/> ·
+                已驳回 <b t-out="stats.get('refused', 0)"/>。
+                审批可修改同意金额（按收据可部分报销）；驳回须填写原因。</p>
+
+            <t t-if="box == 'need_reason'">
+                <div class="alert alert-danger py-2">驳回必须填写原因。</div>
+            </t>
+            <t t-if="box in ('approve','refuse','pay')">
+                <div class="alert alert-danger py-2">操作失败：<t t-out="box"/>，
+                    请重试或联系管理员。</div>
+            </t>
+
+            <!-- 今日待办筛选 -->
+            <div class="btn-group mb-3" role="group" aria-label="报销状态筛选">
+                <a t-att-href="'/ledger/reimburse?filterby=request'"
+                   t-att-class="'btn btn-sm ' + ('btn-primary' if filterby == 'request' else 'btn-outline-secondary')">申请中</a>
+                <a t-att-href="'/ledger/reimburse?filterby=approved'"
+                   t-att-class="'btn btn-sm ' + ('btn-primary' if filterby == 'approved' else 'btn-outline-secondary')">已同意待付</a>
+                <a t-att-href="'/ledger/reimburse?filterby=paid'"
+                   t-att-class="'btn btn-sm ' + ('btn-primary' if filterby == 'paid' else 'btn-outline-secondary')">已付款</a>
+                <a t-att-href="'/ledger/reimburse?filterby=refused'"
+                   t-att-class="'btn btn-sm ' + ('btn-primary' if filterby == 'refused' else 'btn-outline-secondary')">已驳回</a>
+            </div>
+
+            <form method="get" action="/ledger/reimburse" class="row g-2 mb-3">
+                <div class="col-md-4">
+                    <input type="hidden" name="filterby" t-att-value="filterby"/>
+                    <input type="text" name="search" class="form-control form-control-sm"
+                           t-att-value="search" placeholder="单号 / 姓名 / 事由"/>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-search me-1"/>查询</button>
+                </div>
+            </form>
+
+            <t t-if="not bills">
+                <!-- 空态审计（2026-10-02）：补「单据从哪来 + 怎么看到别的阶段」。 -->
+                <div class="alert alert-light border">该状态下暂无报销单。报销单由门户提交后进入本审批台；切换上方状态可看其他阶段的单据。</div>
+            </t>
+            <t t-else="">
+                <t t-foreach="bills" t-as="b">
+                    <div class="card shadow-sm border-0 rounded-3 mb-3">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                                <span class="font-monospace fw-bold" t-out="b['ref'] or ('#' + str(b['id']))"/>
+                                <span class="badge text-bg-primary" t-out="b['category_label']"/>
+                                <span class="badge" t-attf-class="text-bg-{{ 'info' if b['reimburse_state'] == 'request' else 'success' if b['reimburse_state'] == 'paid' else 'danger' if b['reimburse_state'] == 'refused' else 'primary' }}">
+                                    <t t-out="b['reimburse_label']"/>
+                                </span>
+                                <span class="text-muted small ms-auto">申请：
+                                    <t t-out="b['creator'] or b['student'] or b['faculty'] or '—'"/>
+                                    · <t t-out="b['create_date']"/>
+                                </span>
+                            </div>
+
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-3">
+                                    <div class="small text-muted">申请金额</div>
+                                    <div class="fw-bold"><t t-out="b['symbol']"/><t t-out="'%g' % b['amount']"/></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="small text-muted">同意金额</div>
+                                    <div class="fw-bold text-success">
+                                        <span t-if="b['approved_amount'] is not None"
+                                              t-out="'%g' % b['approved_amount']"/><span t-else="">—</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="small text-muted">事由</div>
+                                    <div t-out="b['name']"/>
+                                    <div class="small text-muted" t-if="b.get('note')" t-out="b.get('note')"/>
+                                </div>
+                            </div>
+
+                            <!-- 收据预览（受控路由：教务/申请人身份校验后读附件） -->
+                            <t t-if="b['attachments']">
+                                <div class="mb-2">
+                                    <span class="small text-muted me-2">收据：</span>
+                                    <t t-foreach="b['attachments']" t-as="att">
+                                        <a t-att-href="'/my/reimburse/receipt/%d/%d?inline=1' % (b['id'], att.id)"
+                                           target="_blank"
+                                           class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fa fa-file-image-o me-1"/><t t-out="att.name or '收据'"/>
+                                        </a>
+                                    </t>
+                                </div>
+                            </t>
+                            <div t-if="b['reimburse_state'] == 'refused' and b['reject_reason']"
+                                 class="alert alert-danger py-2 mb-2">
+                                <i class="fa fa-times-circle me-1"/>驳回原因：<t t-out="b['reject_reason']"/>
+                            </div>
+
+                            <!-- 操作区（request → 同意/驳回；approved → 付款） -->
+                            <form t-if="b['reimburse_state'] in ('request', 'approved')"
+                                  method="post" action="/ledger/reimburse/set"
+                                  class="row g-2 align-items-end">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="bill_id" t-att-value="b['id']"/>
+                                <input type="hidden" name="next" t-att-value="'/ledger/reimburse'"/>
+                                <t t-if="b['reimburse_state'] == 'request'">
+                                    <div class="col-md-2">
+                                        <label class="form-label small mb-1">同意金额</label>
+                                        <input type="number" name="approved_amount" step="0.01" min="0.01"
+                                               class="form-control form-control-sm"
+                                               t-att-value="b['approved_amount'] or b['amount']"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" name="action" value="approve"
+                                                class="btn btn-sm btn-success w-100">
+                                            <i class="fa fa-check me-1"/>同意</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" name="reject_reason" class="form-control form-control-sm"
+                                               placeholder="驳回原因（驳回时必填）"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" name="action" value="refuse"
+                                                class="btn btn-sm btn-danger w-100">
+                                            <i class="fa fa-times me-1"/>驳回</button>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="col-md-2">
+                                        <label class="form-label small mb-1">付款方式</label>
+                                        <select name="method" class="form-select form-select-sm">
+                                            <t t-foreach="method_label.items()" t-as="m">
+                                                <option t-att-value="m[0]" t-out="m[1]"/>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" name="note" class="form-control form-control-sm"
+                                               placeholder="付款附言（可空）"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" name="action" value="pay"
+                                                class="btn btn-sm btn-primary w-100">
+                                            <i class="fa fa-money me-1"/>登记付款</button>
+                                    </div>
+                                </t>
+                            </form>
+                        </div>
+                    </div>
+                </t>
+                <!-- 同 /ledger：portal.pager() 返回 dict，t-out 会渲染成 {'page_count': ...} 文本 -->
+                <t t-if="pager and pager['page_count'] &gt; 1">
+                    <div class="o_portal_pager d-flex justify-content-center my-3">
+                        <t t-call="portal.pager"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

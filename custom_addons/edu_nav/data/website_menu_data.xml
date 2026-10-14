@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  导航侧收口（F7 / t15）：把指向空壳页 /jobs 的原生入口改指有效页，并用 noupdate 阻止原生模块写回。
+
+  为什么单独一个文件（不能塞进 menu_consolidation_data.xml）：
+    那个文件是 ir.ui.menu 的数据（记录键=菜单自己的规范 xmlid，field name="id" 即菜单 id）；
+    本文件是 **website.menu**，两者是不同模型。混在一起会把 website.menu 的字段（url/name）
+    发射到 ir.ui.menu 记录上——实测过，属跨模型污染，必须分开。
+
+  事实依据（实测 2026-09-17）
+    · /jobs 的原生定义：odoo/addons/website_hr_recruitment/data/config_data.xml
+      record id="website_menu_jobs" model="website.menu" → url=/jobs, parent=website.main_menu, seq=59
+      —— 记录键就是该 xmlid ⇒ 全库只会有一条；
+    · 该 xmlid 当前挂在 menu id=206 上（198 被删后原生模块用同一 xmlid 重建）；
+    · website.menu 没有 active 字段 ⇒ "不显示"只能 is_visible=False 或删记录；
+    · /jobs 实测 HTTP 200 但内容空壳（hr.job = 0）——可达 ≠ 有内容。
+      本文件选择"改指有效页"而非删除：符合"只减死胡同、不新增入口"，且删除会留下无人引用的 xmlid。
+
+  两步的顺序很关键：
+    ① 先改 url/name（同一 xmlid、普通 record）；
+    ② 再对该 xmlid 记录置 noupdate=1（墓碑保护）——之后任何 -u website_hr_recruitment 都不会写回
+       （源码依据：_load_records 的 if not (update and d_noupdate)；
+        _build_update_xmlids_query 的 ON CONFLICT DO UPDATE 不含 noupdate）。
+-->
+<odoo>
+    <!-- ① 改指有效页 + 名称中文化（记录键=原生 xmlid ⇒ 对已有记录走 write） -->
+    <record id="website_hr_recruitment.website_menu_jobs" model="website.menu">
+        <field name="url">/campus/jobs</field>
+        <field name="name">工作机会</field>
+    </record>
+    <!-- ② 同一个 xmlid 上保护：noupdate=1（墓碑） -->
+    <record id="website_hr_recruitment.website_menu_jobs_NODUP" model="ir.model.data">
+        <field name="noupdate">True</field>
+    </record>
+</odoo>

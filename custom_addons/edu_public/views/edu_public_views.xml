@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 公开页通用头（面包屑 + 标题） -->
+    <template id="edu_public_head" name="Edu Public Page Head">
+        <div class="oe-cat-head">
+            <span class="oe-cat-dot"></span>
+            <h2 class="oe-cat-title" t-out="title"/>
+        </div>
+    </template>
+
+    <!-- /courses 课程列表 -->
+    <template id="edu_courses" name="Public Courses">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <t t-call="edu_public.edu_public_head"/>
+                    <div class="o_portal_docs row g-2 mt-2">
+                        <t t-foreach="courses" t-as="c">
+                            <div class="o_portal_index_card col-md-6 col-lg-4">
+                                <a t-att-href="'/courses?course=' + str(c.id)"
+                                   class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i class="fa fa-graduation-cap fa-lg text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="c.name"/></div>
+                                        <div class="opacity-75" t-out="c.code or ''"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="o_portal_pager d-flex justify-content-center my-3" t-if="pager['page_count'] &gt; 1">
+                        <t t-call="portal.pager"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- /online-exams 在线考试 -->
+    <template id="edu_online_exams" name="Public Online Exams">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <t t-call="edu_public.edu_public_head"/>
+                    <div class="o_portal_docs row g-2 mt-2">
+                        <t t-foreach="exams" t-as="e">
+                            <div class="o_portal_index_card col-md-6 col-lg-4">
+                                <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-bg-light position-relative">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i class="fa fa-file-text-o fa-lg text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="e.name"/></div>
+                                        <div class="opacity-75">
+                                            <t t-if="e.subject_id" t-out="e.subject_id.name"/>
+                                            <t t-if="e.start_time">
+                                                · <t t-out="(e.start_time or '').strftime('%Y/%m/%d')"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="o_portal_pager d-flex justify-content-center my-3" t-if="pager['page_count'] &gt; 1">
+                        <t t-call="portal.pager"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- /digital-library 数字图书馆分类入口（B5：分类过滤留在公开页，
+         不再指向 auth='user' 的 /library/media——那曾导致游客 303 到登录页） -->
+    <template id="edu_digital_library" name="Public Digital Library">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <t t-call="edu_public.edu_public_head"/>
+                    <p class="text-muted">
+                        馆藏共 <b t-out="total_media"/> 件媒体资源，选择分类浏览：
+                    </p>
+                    <div class="o_portal_docs row g-2 mt-2">
+                        <t t-foreach="cards" t-as="card">
+                            <div class="o_portal_index_card col-md-6 col-lg-4">
+                                <a t-att-href="'/digital-library?type=' + str(card['id'])"
+                                   t-att-class="'d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-decoration-none text-reset position-relative' + (current_type.id == card['id'] and ' border border-primary' or ' text-bg-light')">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i class="fa fa-book fa-lg text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="card['name']"/></div>
+                                        <div class="opacity-75"><t t-out="card['count']"/> 件资源</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- ?type=N 分类过滤结果：该类型下的媒体列表（游客可浏览） -->
+                    <t t-if="current_type">
+                        <div class="oe-cat-head mt-4">
+                            <span class="oe-cat-dot"></span>
+                            <h3 class="oe-cat-title h4" t-out="current_type.name or '媒体资源'"/>
+                            <span class="oe-cat-count" t-out="str(len(medias)) + ' 项'"/>
+                        </div>
+                        <a href="/digital-library" class="text-decoration-none small">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> 查看全部分类
+                        </a>
+                        <t t-if="not medias">
+                            <div class="oe-norec mt-2">
+                                <i class="fa fa-book oe-norec-ic" aria-hidden="true"></i>
+                                <p class="oe-norec-txt">该分类下暂无馆藏资源。</p>
+                            </div>
+                        </t>
+                        <div t-else="" class="o_portal_docs row g-2 mt-2">
+                            <t t-foreach="medias" t-as="m">
+                                <div class="o_portal_index_card col-md-6 col-lg-4">
+                                    <a t-att-href="'/digital-library/material/' + str(m.id)"
+                                       class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                                        <div class="o_portal_icon d-block align-self-start">
+                                            <i class="fa fa-file-text-o fa-lg text-primary" aria-hidden="true"></i>
+                                        </div>
+                                        <div>
+                                            <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="m.name or ''"/></div>
+                                            <div class="opacity-75">
+                                                <t t-if="m.author_ids" t-out="', '.join(m.author_ids.mapped('name'))"/>
+                                                <t t-if="m.edition"> · <t t-out="m.edition"/></t>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- /digital-library/material/<id> 公开媒体详情（B5）；无效 id 由控制器回退列表。
+         op.media 无封面/电子书字段：简介与在线阅读用占位区块兜底；
+         可空字段（作者/出版社/类型/科目/ISBN/版次/内码）均带 t-if 守卫。 -->
+    <template id="edu_digital_library_material" name="Public Digital Library Material">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <a href="/digital-library" class="text-decoration-none">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> 返回数字图书馆
+                    </a>
+
+                    <!-- 媒体头：图标占位（无图片字段）+ 书名 + 元信息 -->
+                    <div class="oe-cat-head mt-2">
+                        <span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title" t-out="media.name or '媒体详情'"/>
+                    </div>
+                    <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 mt-2 rounded text-bg-light">
+                        <div class="o_portal_icon d-block align-self-start">
+                            <i class="fa fa-book fa-lg text-primary" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <div class="fs-5 fw-normal"><span t-out="media.name or ''"/></div>
+                            <div class="opacity-75">
+                                <t t-if="media_type">类型：<t t-out="media_type.name"/></t>
+                                <t t-if="authors"> · 作者：<t t-out="', '.join(authors.mapped('name'))"/></t>
+                                <t t-if="publishers"> · 出版社：<t t-out="', '.join(publishers.mapped('name'))"/></t>
+                                <t t-if="media.edition"> · 版次：<t t-out="media.edition"/></t>
+                            </div>
+                            <div class="opacity-75">
+                                <t t-if="media.isbn">ISBN：<t t-out="media.isbn"/></t>
+                                <t t-if="media.internal_code"> · 内码：<t t-out="media.internal_code"/></t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 简介（op.media.description 为空时占位兜底） -->
+                    <h4 class="mt-4 mb-2">简介</h4>
+                    <t t-if="media.description">
+                        <div class="py-3 px-3 rounded text-bg-light"><span t-out="media.description"/></div>
+                    </t>
+                    <t t-else="">
+                        <div class="oe-norec">
+                            <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"></i>
+                            <p class="oe-norec-txt">该资源的详细简介即将发布，敬请期待。</p>
+                        </div>
+                    </t>
+
+                    <!-- 相关科目 -->
+                    <h4 class="mt-4 mb-2">关联科目</h4>
+                    <t t-if="not subjects">
+                        <div class="oe-norec">
+                            <i class="fa fa-graduation-cap oe-norec-ic" aria-hidden="true"></i>
+                            <p class="oe-norec-txt">暂未配置该资源的科目信息。</p>
+                        </div>
+                    </t>
+                    <div t-else="" class="o_portal_docs row g-2 mt-0">
+                        <t t-foreach="subjects" t-as="s">
+                            <div class="o_portal_index_card col-md-6 col-lg-4">
+                                <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-bg-light position-relative">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i class="fa fa-graduation-cap fa-lg text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="s.name or ''"/></div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- 在线阅读（本地无电子书文件，占位空态） -->
+                    <h4 class="mt-4 mb-2">在线阅读</h4>
+                    <div class="oe-norec">
+                        <i class="fa fa-tablet oe-norec-ic" aria-hidden="true"></i>
+                        <p class="oe-norec-txt">电子书文件暂未上传，欢迎到馆借阅纸质版。</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- /booking 预约占位页 -->
+    <template id="edu_booking" name="Public Booking">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="oe-cat-head">
+                        <span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title" t-out="title"/>
+                    </div>
+                    <div class="oe-norec mt-3">
+                        <i class="fa fa-calendar-check-o oe-norec-ic" aria-hidden="true"></i>
+                        <p class="oe-norec-txt">在线预约系统即将开放，敬请期待。如有紧急需求请联系教务处。</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- 校友 / 校园工作 / 校友职位 / 开设课程 / 项目 -->
+    <template id="edu_alumni" name="Public Alumni">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="oe-cat-head"><span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title" t-out="title"/></div>
+                    <div class="o_portal_docs row g-2 mt-2" t-if="students">
+                        <t t-foreach="students" t-as="s">
+                            <div class="o_portal_index_card col-md-4 col-lg-3">
+                                <div class="d-flex flex-column align-items-center py-3 px-2 rounded text-bg-light h-100">
+                                    <img class="rounded-circle mb-2" width="64" height="64"
+                                         t-att-src="'/web/image/res.partner/%s/image_256' % (s.partner_id.id or 0)" loading="lazy"/>
+                                    <div class="fw-bold" t-out="s.name"/>
+                                    <small class="opacity-75" t-if="s.course_detail_ids" t-out="s.course_detail_ids[:1].course_id.name"/>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <!-- 安全审计 F3：匿名访客不渲染任何真实姓名/头像/人员 id -->
+                    <div class="alert alert-light border col-12" t-if="not students">
+                        校友名录仅对已登录用户开放，请
+                        <!-- t79（2026-09-28）：登录入口必须走门户友好别名 /login（t4 交付），
+                             **不得**把 Odoo 后台命名空间推给外部访客。
+                             原写法 href="/web/login?redirect=%2Falumni" 属漏网：同类的
+                             website 顶栏 / 登录表单两处早已由 edu_brand/views/odoo_debrand.xml
+                             第 6/8/9 条统一改指 /login，本页是 F3 收口时新写的链接，没跟上那一轮。
+                             后果：外部访客在 /alumni 点「登录」→ 地址栏进 /web/…，
+                             被 check_odoo_trace.py 的 web-nav-link 规则命中（公开站页面不得出现 /web 链接）。
+                             /login 同样支持 ?redirect=（实测 POST /login →
+                             303/200 → /alumni，登录墙消失），行为等价、命名空间不泄漏。 -->
+                        <a href="/login?redirect=%2Falumni">登录</a>
+                        后查看。
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="edu_jobs_shared" name="Edu Jobs List Shared">
+        <div class="o_portal_docs row g-2 mt-2">
+            <t t-if="not jobs">
+                <div class="alert alert-light border col-12">暂无在招岗位，欢迎随时回访。</div>
+            </t>
+            <t t-foreach="jobs" t-as="j">
+                <div class="o_portal_index_card col-md-6">
+                    <a t-att-href="'/campus/jobs/%d' % j.id" class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                        <div class="o_portal_icon d-block align-self-start">
+                            <i class="fa fa-briefcase fa-lg text-primary" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="j.name"/></div>
+                            <div class="opacity-75 small">
+                                <span t-if="j.department" t-out="j.department"/>
+                                <span t-if="j.location"> · <t t-out="j.location"/></span>
+                                <span t-if="j.salary_range"> · <t t-out="j.salary_range"/></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <template id="edu_campus_jobs" name="Public Campus Jobs">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="oe-cat-head"><span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title" t-out="title"/></div>
+                    <t t-call="edu_public.edu_jobs_shared"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="edu_campus_job_detail" name="Public Campus Job Detail">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5" style="max-width: 860px;">
+                    <a href="/campus/jobs" class="small text-muted text-decoration-none">
+                        ← 返回校园工作
+                    </a>
+                    <h2 class="mt-2 mb-1" t-out="posting.name"/>
+                    <p class="opacity-75 small">
+                        <span t-if="posting.department" t-out="posting.department"/>
+                        <span t-if="posting.location"> · <t t-out="posting.location"/></span>
+                        <span t-if="posting.salary_range"> · 薪资：<t t-out="posting.salary_range"/></span>
+                        <span> · 招 <t t-out="posting.openings"/> 人</span>
+                        <span> · 发布于 <span t-out="posting.publish_date" t-options='{"widget": "date"}'/></span>
+                    </p>
+
+                    <t t-if="sent">
+                        <div class="alert alert-success">
+                            申请已提交！学坊老师会通过电话或邮件与你联系。
+                        </div>
+                    </t>
+
+                    <div class="card bg-light border-0 rounded-3 p-3 mb-4 lh-lg"
+                         t-out="posting.description"/>
+
+                    <h5 class="mb-2">投递申请</h5>
+                    <form t-att-action="'/campus/jobs/%d/apply' % posting.id"
+                          method="post" class="card bg-white border rounded-3 p-3">
+                        <input type="hidden" name="csrf_token"
+                               t-att-value="request.csrf_token()"/>
+                        <input type="text" name="website_url"
+                               class="d-none" tabindex="-1" autocomplete="off"/>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <label class="form-label small mb-1">姓名 *</label>
+                                <input type="text" name="name" class="form-control" required=""/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small mb-1">联系电话 *</label>
+                                <input type="tel" name="phone" class="form-control" required=""/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small mb-1">邮箱</label>
+                                <input type="email" name="email" class="form-control"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small mb-1">学历</label>
+                                <select name="education" class="form-select">
+                                    <option value="other">其他</option>
+                                    <option value="high_school">高中/中专</option>
+                                    <option value="college">大专</option>
+                                    <option value="bachelor">本科</option>
+                                    <option value="master">硕士</option>
+                                    <option value="phd">博士</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small mb-1">个人简介 / 自荐说明</label>
+                                <textarea name="note" class="form-control" rows="4"
+                                          maxlength="1000"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-send-o me-1"/>提交申请
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="edu_alumni_jobs" name="Public Alumni Jobs">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="oe-cat-head"><span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title" t-out="title"/></div>
+                    <t t-call="edu_public.edu_jobs_shared"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /alumni/jobs 校友与就业（v2.1-A9：合并工作机会/工作/校友导航） ============ -->
+    <template id="edu_alumni_jobs_page" name="Public Alumni &amp; Careers">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="oe-cat-head"><span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title">校友与就业</h2>
+                        <span class="oe-cat-count"><i class="fa fa-briefcase me-1"/>校友发布的岗位信息</span>
+                    </div>
+
+                    <!-- 统计 + 状态过滤 -->
+                    <div class="d-flex align-items-center flex-wrap gap-2 my-3">
+                        <span class="badge text-bg-light border">
+                            共 <b t-out="stats['total']"/> 个岗位
+                        </span>
+                        <a t-att-href="'/alumni/jobs'"
+                           t-att-class="'btn btn-sm ' + (not state_filter and 'btn-primary' or 'btn-light border')">全部</a>
+                        <t t-foreach="state_labels" t-as="st">
+                            <a t-att-href="'/alumni/jobs?state=' + st"
+                               t-att-class="'btn btn-sm ' + (state_filter == st and 'btn-primary' or 'btn-light border')"
+                               t-out="state_labels[st]"/>
+                        </t>
+                    </div>
+
+                    <t t-if="not jobs">
+                        <div class="alert alert-light border">
+                            <i class="fa fa-info-circle me-1"/>
+                            暂无校友岗位信息。校友岗位发布后将在此处展示。
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="o_portal_docs row g-2">
+                            <t t-foreach="jobs" t-as="j">
+                                <div class="o_portal_index_card col-md-6">
+                                    <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-bg-light position-relative">
+                                        <div class="o_portal_icon d-block align-self-start">
+                                            <i class="fa fa-briefcase fa-lg text-primary" aria-hidden="true"/>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="mt-0 mb-1 fs-5 fw-normal lh-1 d-flex align-items-center gap-2 flex-wrap">
+                                                <span t-out="j.name"/>
+                                                <t t-if="j.state">
+                                                    <span t-att-class="'badge ' + (j.state == 'recruiting' and 'text-bg-success' or (j.state == 'pending' and 'text-bg-warning' or 'text-bg-secondary'))"
+                                                          t-out="state_labels.get(j.state, j.state)"/>
+                                                </t>
+                                            </div>
+                                            <div class="opacity-75 small">
+                                                <t t-if="j.salary"><i class="fa fa-money me-1"/><t t-out="j.salary"/>
+                                                    <t t-if="j.pay_period">（<t t-out="pay_labels.get(j.pay_period, j.pay_period)"/>）</t>
+                                                </t>
+                                                <t t-if="j.start_date"> · 起 <span t-out="j.start_date" t-options='{"widget": "date"}'/></t>
+                                                <t t-if="j.code"> · <t t-out="j.code"/></t>
+                                            </div>
+                                        </div>
+                                        <i class="fa fa-chevron-right text-muted" aria-hidden="true"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+
+                    <p class="text-muted small mt-4">
+                        <i class="fa fa-envelope-o me-1"/>
+                        校友或合作企业如需发布岗位，请联系学坊办公室。
+                    </p>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="edu_courses_offered" name="Public Courses Offered">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="oe-cat-head"><span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title">开设课程</h2>
+                        <span class="oe-cat-count" t-out="str(len(courses)) + ' 项'"/></div>
+                    <div class="o_portal_docs row g-2 mt-2">
+                        <t t-foreach="courses" t-as="c">
+                            <div class="o_portal_index_card col-md-6 col-lg-4">
+                                <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-bg-light position-relative">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i class="fa fa-graduation-cap fa-lg text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="c.name"/></div>
+                                        <div class="opacity-75" t-out="c.code or ''"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="edu_program_offered" name="Public Programs Offered">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="oe-cat-head"><span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title">培养项目</h2></div>
+                    <t t-if="not programs">
+                        <div class="oe-norec mt-2">
+                            <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"></i>
+                            <p class="oe-norec-txt">培养项目信息即将发布。</p>
+                        </div>
+                    </t>
+                    <div t-else="" class="o_portal_docs row g-2 mt-2">
+                        <t t-foreach="programs" t-as="p">
+                            <div class="o_portal_index_card col-md-6">
+                                <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-bg-light position-relative">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i class="fa fa-university fa-lg text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="fs-5" t-out="p.name"/>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- /my-courses 我的课程 -->
+    <template id="edu_my_courses" name="Edu My Courses">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container pt-3 pb-5">
+                    <div class="oe-cat-head"><span class="oe-cat-dot"></span>
+                        <h2 class="oe-cat-title" t-out="title"/></div>
+                    <t t-if="not courses">
+                        <div class="oe-norec mt-2">
+                            <i class="fa fa-graduation-cap oe-norec-ic" aria-hidden="true"></i>
+                            <p class="oe-norec-txt">暂无在读课程。</p>
+                        </div>
+                    </t>
+                    <div t-else="" class="o_portal_docs row g-2 mt-2">
+                        <t t-foreach="courses" t-as="it">
+                            <div class="o_portal_index_card col-md-6">
+                                <div class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-bg-light position-relative">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i class="fa fa-graduation-cap fa-lg text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="it['course'].name"/></div>
+                                        <div class="opacity-75"><span t-out="it['course'].code or ''"/>
+                                            <!-- 2026-10-03：原先只写专业科目总数，读起来像「我有 14 门」，
+                                                 而「进入学习」的目的地写「1 门在修科目」⇒ 自相矛盾。
+                                                 改为把两个口径都写出来。 -->
+                                            <span t-if="is_student" class="ms-1">（在修 <t t-out="it['enrolled_n']"/> 门 · 本专业共 <t t-out="it['subject_n']"/> 门科目）</span>
+                                        </div>
+                                        <a t-if="is_student" class="btn btn-sm btn-primary mt-2"
+                                           href="/my/courses"><i class="fa fa-play-circle-o me-1"/>进入学习</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

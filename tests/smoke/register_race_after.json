@@ -1,0 +1,191 @@
+{
+ "phase": "after",
+ "stamp": "0924113011",
+ "cases": {
+  "A_连点两次": {
+   "code": "RACE-A-0924113011",
+   "email": "race-a-0924113011@race.local",
+   "resp1": {
+    "status": 303,
+    "location": "/my/home",
+    "len": 203,
+    "session_id": "gi9h_UVA_QbLKN_Zn5wCGn5viFh_SJl8tbRTYwyh5SHLNb_PbcZez1yHCAhOJ2vNgINaQdlPIWeaism5MNZp"
+   },
+   "resp2": {
+    "status": 303,
+    "location": "/register?registered=1&email=race-a-0924113011%40race.local&code=RACE-A-0924113011",
+    "len": 367,
+    "session_id": ""
+   },
+   "loser_landing": {
+    "status": 200,
+    "final": "http://localhost:8069/register?registered=1&email=race-a-0924113011%40race.local&code=RACE-A-0924113011",
+    "len": 27992,
+    "page": {
+     "已被使用": false,
+     "已注册成功": true,
+     "已过期": false,
+     "无效": false,
+     "有注册表单": true,
+     "有登录链接": true,
+     "守卫脚本": true
+    }
+   },
+   "users_before": 51,
+   "users_after": 52,
+   "delta": 1,
+   "accounts_for_email": 1,
+   "winner_session_home": {
+    "status": 200,
+    "location": ""
+   },
+   "authed_open_registered_state": 303
+  },
+  "B_事后重提": {
+   "code": "RACE-B-0924113011",
+   "email": "race-b-0924113011@race.local",
+   "first_submit": {
+    "status": 303,
+    "location": "/my/home",
+    "len": 203,
+    "session_id": "QbPj6a4Zyfb3Y7JNZ8L53SRpYKmVmL4_f48FRVsxUTJ-tfLwKA-hGhp4F2zkC5AXMuhN32dedmVzVlw_EMRR"
+   },
+   "resubmit": {
+    "status": 303,
+    "location": "/register?registered=1&email=race-b-0924113011%40race.local&code=RACE-B-0924113011",
+    "len": 367,
+    "session_id": ""
+   },
+   "landing": {
+    "status": 200,
+    "final": "http://localhost:8069/register?registered=1&email=race-b-0924113011%40race.local&code=RACE-B-0924113011",
+    "len": 27992,
+    "page": {
+     "已被使用": false,
+     "已注册成功": true,
+     "已过期": false,
+     "无效": false,
+     "有注册表单": true,
+     "有登录链接": true,
+     "守卫脚本": true
+    }
+   },
+   "accounts_for_email_before": 1,
+   "accounts_for_email_after": 1,
+   "total_users_before_resubmit": 53,
+   "total_users_after": 53,
+   "delta": 0
+  },
+  "C_他人占用": {
+   "code": "RACE-C-0924113011",
+   "owner_email": "race-c1-0924113011@race.local",
+   "other_email": "race-c2-0924113011@race.local",
+   "owner_submit": {
+    "status": 303,
+    "location": "/my/home",
+    "len": 203,
+    "session_id": "0vZs7HrVmgMf7W24JECJN8Zr41JNpWUmrMfszDHAO3dG4z6_XnDPNr2vvErVLaP-ne3y1AX2FHfZPvhY6aaV"
+   },
+   "other_submit": {
+    "status": 303,
+    "location": "/register?error=%E8%AF%A5%E9%82%80%E8%AF%B7%E7%A0%81%E5%B7%B2%E8%A2%AB%E4%BD%BF%E7%94%A8&email=race-c2-0924113011%40race.local&code=RACE-C-0924113011&name=%E5%86%92%E7%83%9FC2",
+    "len": 561,
+    "session_id": ""
+   },
+   "other_landing": {
+    "status": 200,
+    "final": "http://localhost:8069/register?error=%E8%AF%A5%E9%82%80%E8%AF%B7%E7%A0%81%E5%B7%B2%E8%A2%AB%E4%BD%BF%E7%94%A8&email=race-c2-0924113011%40race.local&code=RACE-C-0924113011&name=%E5%86%92%E7%83%9FC2",
+    "len": 29798,
+    "page": {
+     "已被使用": true,
+     "已注册成功": false,
+     "已过期": false,
+     "无效": false,
+     "有注册表单": true,
+     "有登录链接": true,
+     "守卫脚本": true
+    }
+   },
+   "other_accounts": 0
+  },
+  "D_正常路径": {
+   "code": "RACE-D-0924113011",
+   "email": "race-d-0924113011@race.local",
+   "resp1": {
+    "status": 303,
+    "location": "/my/home",
+    "len": 203,
+    "session_id": "yM-3y54kmfrG2NO3_JCGgD6IxFCI08AiDu12vvI_MSL5W1HLFXCqzJOz70FqlK7T4vLdy9iHnKL3B8gPJCQd"
+   },
+   "resp2": {
+    "status": 303,
+    "location": "/register?registered=1&email=race-d-0924113011%40race.local&code=RACE-D-0924113011",
+    "len": 367,
+    "session_id": ""
+   },
+   "accounts_for_email": 1
+  },
+  "E_常规错误": {
+   "invalid_submit": {
+    "status": 303,
+    "location": "/register?error=%E9%82%80%E8%AF%B7%E7%A0%81%E6%97%A0%E6%95%88&email=race-e1-0924113011%40race.local&code=RACE-NOPE-0924113011&name=%E5%86%92%E7%83%9FE1",
+    "len": 513,
+    "session_id": ""
+   },
+   "invalid_landing": {
+    "status": 200,
+    "final": "http://localhost:8069/register?error=%E9%82%80%E8%AF%B7%E7%A0%81%E6%97%A0%E6%95%88&email=race-e1-0924113011%40race.local&code=RACE-NOPE-0924113011&name=%E5%86%92%E7%83%9FE1",
+    "len": 29798,
+    "page": {
+     "已被使用": false,
+     "已注册成功": false,
+     "已过期": false,
+     "无效": true,
+     "有注册表单": true,
+     "有登录链接": true,
+     "守卫脚本": true
+    }
+   },
+   "expired_submit": {
+    "status": 303,
+    "location": "/register?error=%E8%AF%A5%E9%82%80%E8%AF%B7%E7%A0%81%E5%B7%B2%E8%BF%87%E6%9C%9F&email=race-e2-0924113011%40race.local&code=RACE-E-0924113011&name=%E5%86%92%E7%83%9FE2",
+    "len": 543,
+    "session_id": ""
+   },
+   "expired_landing": {
+    "status": 200,
+    "final": "http://localhost:8069/register?error=%E8%AF%A5%E9%82%80%E8%AF%B7%E7%A0%81%E5%B7%B2%E8%BF%87%E6%9C%9F&email=race-e2-0924113011%40race.local&code=RACE-E-0924113011&name=%E5%86%92%E7%83%9FE2",
+    "len": 29797,
+    "page": {
+     "已被使用": false,
+     "已注册成功": false,
+     "已过期": true,
+     "无效": false,
+     "有注册表单": true,
+     "有登录链接": true,
+     "守卫脚本": true
+    }
+   }
+  },
+  "F_浏览器双击": {
+   "guard_element": 1,
+   "control_no_guard": {
+    "post_count": 2,
+    "final_url": "http://localhost:8069/register?registered=1&email=race-f0-0924113011%40race.local&code=RACE-F0-0924113011",
+    "on_error_page": false,
+    "success_page": false,
+    "on_home": false,
+    "accounts": 1
+   },
+   "guarded_with_guard": {
+    "post_count": 1,
+    "final_url": "http://localhost:8069/my/home",
+    "on_error_page": false,
+    "success_page": false,
+    "on_home": true,
+    "accounts": 1
+   },
+   "verdict": "control: 2 POST（改前=重提交）／guarded: 1 POST（改后=只发一个）"
+  }
+ }
+}

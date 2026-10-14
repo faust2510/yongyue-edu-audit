@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- v2-A6：自研根菜单语义化图标 -->
+    <record id="menu_edu_lms_root" model="ir.ui.menu">
+        <field name="web_icon">edu_portal,static/src/img/menu/lms.svg</field>
+    </record>
+    <record id="menu_edu_welfare_root" model="ir.ui.menu">
+        <field name="web_icon">edu_portal,static/src/img/menu/welfare.svg</field>
+    </record>
+    <record id="menu_edu_fees_root" model="ir.ui.menu">
+        <field name="web_icon">edu_portal,static/src/img/menu/fees.svg</field>
+    </record>
+    <record id="menu_edu_assets_root" model="ir.ui.menu">
+        <field name="web_icon">edu_portal,static/src/img/menu/assets.svg</field>
+    </record>
+    <record id="menu_edu_jobs_root" model="ir.ui.menu">
+        <field name="web_icon">edu_portal,static/src/img/menu/jobs.svg</field>
+    </record>
+    <record id="menu_edu_approval_root" model="ir.ui.menu">
+        <field name="web_icon">edu_portal,static/src/img/menu/approval.svg</field>
+    </record>
+    <record id="menu_edu_invite_code_root" model="ir.ui.menu">
+        <field name="web_icon">edu_portal,static/src/img/menu/invite.svg</field>
+    </record>
+</odoo>

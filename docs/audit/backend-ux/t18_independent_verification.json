@@ -1,0 +1,115 @@
+{
+ "rows": [
+  {
+   "no": "1.1",
+   "name": "教务 /grade-book = 录入形态（有班级下拉，无拒止文案）",
+   "ok": true,
+   "detail": "{'status': 200, 'url': 'http://127.0.0.1:8069/grade-book', 'title': '成绩录入', 'matrix': False, 'batch_sel': True, 'refusal': False}"
+  },
+  {
+   "no": "1.2",
+   "name": "超管 /grade-book = 录入形态",
+   "ok": true,
+   "detail": "{'status': 200, 'url': 'http://127.0.0.1:8069/grade-book', 'title': '成绩录入', 'matrix': False, 'batch_sel': True, 'refusal': False}"
+  },
+  {
+   "no": "1.3",
+   "name": "教师 /grade-book 仍拒止（同一 URL 不同身份 → 不同结果 = 判据有区分力）",
+   "ok": true,
+   "detail": "{'status': 200, 'url': 'http://127.0.0.1:8069/grade-book', 'title': '成绩簿', 'matrix': False, 'batch_sel': False, 'refusal': True}"
+  },
+  {
+   "no": "1.4",
+   "name": "家长 /grade-book 仍拒止",
+   "ok": true,
+   "detail": "{'status': 200, 'url': 'http://127.0.0.1:8069/grade-book', 'title': '成绩簿', 'matrix': False, 'batch_sel': False, 'refusal': True}"
+  },
+  {
+   "no": "1.5",
+   "name": "未登录 /grade-book → 登录页（200 业务页即失败）",
+   "ok": true,
+   "detail": "http://127.0.0.1:8069/login?redirect=%2Fgrade-book%3F"
+  },
+  {
+   "no": "2.1",
+   "name": "能从 /grade-book 同源表单取到 csrf_token",
+   "ok": true,
+   "detail": "token=6dcaa298c912"
+  },
+  {
+   "no": "2.2",
+   "name": "保存后库内两侧都变成新值 91",
+   "ok": true,
+   "detail": "91|91"
+  },
+  {
+   "no": "2.3",
+   "name": "学生端 /grade-book 服务端渲染里出现同一个数字 91",
+   "ok": true,
+   "detail": "学生页数字单元格样例=['91', '100', '61', '100', '92', '100']"
+  },
+  {
+   "no": "2.4",
+   "name": "学生端仍是成绩簿（不是录入页）：无 yy-grade-matrix",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "no": "3.1",
+   "name": "库内两侧回到原值 74",
+   "ok": true,
+   "detail": "74|74"
+  },
+  {
+   "no": "3.2",
+   "name": "学生端页面回到原值",
+   "ok": true,
+   "detail": "样例=['74', '100', '61', '100', '92', '100']"
+  }
+ ],
+ "dispatch": {
+  "backoffice": {
+   "status": 200,
+   "url": "http://127.0.0.1:8069/grade-book",
+   "title": "成绩录入",
+   "matrix": false,
+   "batch_sel": true,
+   "refusal": false
+  },
+  "admin": {
+   "status": 200,
+   "url": "http://127.0.0.1:8069/grade-book",
+   "title": "成绩录入",
+   "matrix": false,
+   "batch_sel": true,
+   "refusal": false
+  },
+  "faculty": {
+   "status": 200,
+   "url": "http://127.0.0.1:8069/grade-book",
+   "title": "成绩簿",
+   "matrix": false,
+   "batch_sel": false,
+   "refusal": true
+  },
+  "parent": {
+   "status": 200,
+   "url": "http://127.0.0.1:8069/grade-book",
+   "title": "成绩簿",
+   "matrix": false,
+   "batch_sel": false,
+   "refusal": true
+  },
+  "anon": {
+   "status": 200,
+   "url": "http://127.0.0.1:8069/login?redirect=%2Fgrade-book%3F",
+   "title": "Login | 永约学坊",
+   "matrix": false,
+   "batch_sel": false,
+   "refusal": false
+  }
+ },
+ "sql_before": "74|74",
+ "sql_after": "91|91",
+ "sql_restored": "74|74"
+}

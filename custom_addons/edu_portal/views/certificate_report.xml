@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- 证书编号序列：EDU-CERT-%04d -->
+        <record id="seq_edu_certificate" model="ir.sequence">
+            <field name="name">课程结业证书编号</field>
+            <field name="code">edu.certificate</field>
+            <field name="prefix">EDU-CERT-</field>
+            <field name="padding">4</field>
+        </record>
+
+        <!-- 报销申请单号序列：REB%06d（第三期 ledger） -->
+        <record id="seq_edu_reimburse" model="ir.sequence">
+            <field name="name">报销申请单号</field>
+            <field name="code">edu.reimburse.seq</field>
+            <field name="prefix">REB</field>
+            <field name="padding">6</field>
+        </record>
+    </data>
+
+    <!-- 门户用户仅可见本人证书（堵住模型级读的越权口子） -->
+    <record id="edu_certificate_rule_portal" model="ir.rule">
+        <field name="name">证书仅本人可见（门户）</field>
+        <field name="model_id" ref="model_edu_certificate"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('student_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- PDF 报表 action（A4） -->
+    <record id="action_report_edu_certificate" model="ir.actions.report">
+        <field name="name">课程结业证书</field>
+        <field name="model">edu.certificate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_portal.report_edu_certificate</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+    <!-- 中文证书版式（工程红线：模板内不用 % 格式化表达式） -->
+    <template id="report_edu_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <div style="max-width: 680px; margin: 30px auto 0 auto; border: 6px double #8a6d3b; padding: 48px 56px; text-align: center;">
+                        <h1 style="font-size: 32px; letter-spacing: 12px; margin: 0;">课程结业证书</h1>
+                        <div style="font-size: 13px; color: #8a6d3b; letter-spacing: 2px; margin-top: 6px;">
+                            CERTIFICATE OF COURSE COMPLETION
+                        </div>
+                        <div style="border-top: 1px solid #d5c5a1; margin: 24px 0;"></div>
+                        <p style="font-size: 18px; line-height: 2.4; text-align: center; margin-top: 24px;">
+                            兹证明 <strong t-field="doc.student_id.name"/> 同学完成<strong>《<span t-out="doc.course_id.name or ''"/>》</strong>课程学习，成绩 <strong t-out="doc.grade or '—'"/>，特发此证。
+                        </p>
+                        <div style="margin-top: 90px; font-size: 15px; line-height: 2.2; text-align: right;">
+                            <div><span t-out="doc.env.company.name"/></div>
+                            <div>发证日期：<span t-field="doc.issue_date"/></div>
+                            <div>证书编号：<span t-out="doc.certificate_no or ''"/></div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

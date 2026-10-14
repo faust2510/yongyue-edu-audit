@@ -1,0 +1,10 @@
+== backend_probe fp=f1956530 · check_english REVISION=v3.8 指纹=c9b87745 · 运行时刻 2026-10-02T19:04:43+08:00 ==
+== admin       uid=2 菜单 321 条 / 可见根 14 条 ==
+   可见根：资料下载、教务审批、财务管理、资产管理、招聘管理、灵命生活、综合评估、网站、学生信息、招生、时间表、图书馆、应用、设置
+   dom 源定点渲染 3 页
+  在线测验列表                     /odoo/action-649                         200 | title='在线测验' | EN=0
+  作答记录                       /odoo/action-650                         200 | title='作答记录' | EN=0
+  在线测验表单                     /odoo/action-649/1                       200 | title='计算机基础入门测验' | EN=0
+== 汇总 ==
+   探测项 0 ｜ must-fix 0 ｜ brand 0
+   证据已写 docs/audit/backend-ux/evidence/pages_after.json

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 排课完成度看板（G2）：只读聚合页，并入既有「排课管理」菜单（menu.xml 单加一项）。
+         注意装载顺序：menu.xml 引用本文件的 action_edu_coverage_url，
+         故 __manifest__.py 的 data 列表里本文件必须排在 views/menu.xml **之前**
+         （与 holiday_views.xml → menu.xml 的既有顺序同构）。 -->
+    <record id="action_edu_coverage_url" model="ir.actions.act_url">
+        <field name="name">排课完成度看板</field>
+        <field name="url">/timetable/coverage</field>
+        <field name="target">self</field>
+    </record>
+
+    <template id="edu_coverage" name="Edu Timetable Coverage">
+        <t t-call="edu_schedule.edu_schedule_page">
+            <h4 class="mb-1"><i class="fa fa-list-ol me-2" aria-hidden="true"/>排课完成度看板</h4>
+            <p class="text-muted mb-2">
+                把「还差哪些没排」变成可数的四个区块：按班覆盖 / 按课程覆盖 / 数据完整度 / 未排课清单。
+                本页<b>只读</b>，只做统计；排课入口仍然只有一个（「周期排课」）。
+            </p>
+            <p class="small text-muted mb-2" t-out="window_text"/>
+
+            <div t-if="no_term" class="alert alert-warning py-2 small mb-3">
+                未识别到当前学期：下面的课时统计已放宽为全库非停课课时，与「本学期」口径会有差异。
+                请先在后台核对学期的起止日期。
+            </div>
+
+            <!-- 区块 1：按班覆盖 -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-users me-1" aria-hidden="true"/>
+                    按班覆盖（启用班级 <t t-out="batch_total"/> 个）
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-2">
+                        在读 = 状态为「在读」的学籍档案行数（一个学生可有多行，故不等于人数）；
+                        课时 = 统计窗口内、状态非「停课」的课节数。
+                    </p>
+                    <div class="table-responsive">
+                        <t t-call="edu_brand.edu_narrow_table_cards"/>
+                        <table class="table table-sm align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>班级</th>
+                                    <th>课程</th>
+                                    <th class="text-end">在读</th>
+                                    <th class="text-end">课时</th>
+                                    <th class="text-end">有课时的科目</th>
+                                    <th>首个课时日期</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="batch_rows" t-as="r">
+                                    <tr>
+                                        <td data-label="班级">
+                                            <span t-out="r['name']"/>
+                                            <span class="text-muted small" t-if="r['code']">
+                                                · <t t-out="r['code']"/>
+                                            </span>
+                                        </td>
+                                        <td data-label="课程" t-out="r['course']"/>
+                                        <td data-label="在读" class="text-end" t-out="r['students']"/>
+                                        <td data-label="课时" class="text-end" t-out="r['sessions']"/>
+                                        <td data-label="有课时的科目" class="text-end" t-out="r['subjects']"/>
+                                        <td data-label="首个课时日期" t-out="r['first'] or '—'"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 区块 2：按课程覆盖 -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-book me-1" aria-hidden="true"/>
+                    按课程覆盖（报课池能不能开放，看这一栏）
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-2">
+                        科目池 = 该课程配置的科目目录；已排课科目 = 统计窗口内至少排过一节课的科目数；
+                        覆盖率 = 已排课科目 ÷ 科目池。
+                    </p>
+                    <p class="small mb-2" t-if="course_hidden">
+                        另有 <b t-out="course_hidden"/> 门课程当前没有启用班级，未列出。
+                        <a href="/timetable/coverage?all=1">查看全部课程</a>
+                    </p>
+                    <p class="small mb-2" t-if="show_all">
+                        已列出全部 <b t-out="course_total"/> 门课程。
+                        <a href="/timetable/coverage">只看有启用班级的课程</a>
+                    </p>
+                    <div class="table-responsive">
+                        <t t-call="edu_brand.edu_narrow_table_cards"/>
+                        <table class="table table-sm align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>课程</th>
+                                    <th class="text-end">科目池</th>
+                                    <th class="text-end">已排课科目</th>
+                                    <th>覆盖率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="course_rows" t-as="r">
+                                    <tr>
+                                        <td data-label="课程">
+                                            <span t-out="r['name']"/>
+                                            <span class="text-muted small" t-if="r['code']">
+                                                · <t t-out="r['code']"/>
+                                            </span>
+                                        </td>
+                                        <td data-label="科目池" class="text-end" t-out="r['pool']"/>
+                                        <td data-label="已排课科目" class="text-end" t-out="r['done']"/>
+                                        <td data-label="覆盖率">
+                                            <span class="text-muted" t-if="r['no_pool']">该课程未配置科目池</span>
+                                            <t t-else="">
+                                                <span t-out="r['rate']"/>%
+                                                <span class="text-danger ms-1" t-if="r['over']">
+                                                    另有 <t t-out="r['over']"/> 个已排科目不在科目池内
+                                                </span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 区块 3：数据完整度 -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-clipboard me-1" aria-hidden="true"/>
+                    数据完整度（决定「能不能发布」）
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-2">
+                        全库课时 <b t-out="total_sessions"/> 节（统计窗口内、状态非「停课」）。
+                        这些「难看」的数字如实显示，不因为不好看而过滤。
+                    </p>
+                    <table class="table table-sm align-middle mb-0">
+                        <tbody>
+                            <t t-foreach="completeness" t-as="row">
+                                <tr>
+                                    <td class="text-muted" t-out="row['label']"/>
+                                    <td class="fw-semibold" t-out="row['text']"/>
+                                    <td class="small text-muted" t-out="row['hint']"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 区块 4：未排课清单 -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-list-ul me-1" aria-hidden="true"/>
+                    未排课清单（班级 × 科目 差集）
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-2">
+                        差集 = 启用班级 × 该班课程的科目池，减去统计窗口内已排课的（班，科目）组合；
+                        共 <b t-out="unfilled_total"/> 条待排。
+                        <a href="/timetable/coverage/unfilled">下载完整清单（表格文件）</a>
+                    </p>
+                    <p class="small text-muted mb-2" t-if="unfilled_more">
+                        下表仅预览前 <t t-out="unfilled_shown"/> 条，另有
+                        <t t-out="unfilled_more"/> 条见导出文件。
+                    </p>
+                    <p class="small text-muted mb-0" t-if="not unfilled_total">
+                        启用班级的科目池已经全部排上，暂无需催排的组合。
+                    </p>
+                    <div class="table-responsive" t-if="unfilled_total">
+                        <t t-call="edu_brand.edu_narrow_table_cards"/>
+                        <table class="table table-sm align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>班级</th>
+                                    <th>课程</th>
+                                    <th>科目</th>
+                                    <th class="text-end">在读</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="unfilled" t-as="r">
+                                    <tr>
+                                        <td data-label="班级" t-out="r['batch']"/>
+                                        <td data-label="课程" t-out="r['course']"/>
+                                        <td data-label="科目" t-out="r['subject']"/>
+                                        <td data-label="在读" class="text-end" t-out="r['students']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

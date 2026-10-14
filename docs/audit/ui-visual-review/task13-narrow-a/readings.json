@@ -1,0 +1,136 @@
+{
+  "task": "task-13 判据C修复 A：/checkins/stats 表头折行（6/7）",
+  "page": "/checkins/stats (faculty) — 模板 edu_life.edu_life_checkin_stats",
+  "file": "custom_addons/edu_life/views/portal_templates.xml",
+  "tool": "scripts/find_squeezed_tables.py（375 视口；判据 A 未卡片化 / B 卡片被撑破 / C 表头折行≥2）",
+  "upgraded_with": "bash scripts/safe_upgrade.sh edu_life (EXIT=0, 21:39:58)",
+  "structure_note": "表在 <t t-foreach=\"groups\"> 循环里（每班一张表）；t-call 放在循环外 ⇒ 渲染出 styleBlocks=1，不是 2",
+  "dynamic_column": {
+    "issue": "打卡类型列数由数据决定，没有静态列名",
+    "fix": "t-att-data-label=\"cell['label']\"，与 <th> 的 th['label'] 同源（controller: t.label or t.name）",
+    "odoo_support": "odoo/addons/base/models/ir_qweb.py:1952 `elif key.startswith('t-att-'): attrs[key[6:]]` ⇒ t-att-data-label → data-label（容器内源码实测）",
+    "repo_precedent": "本仓首次使用 t-att-data-label（grep 计数 0）；渲染后实测 td.dataset.label 全部有值，见下"
+  },
+  "before": {
+    "tool": "SQUEEZED（exit 1）：表头折行×6：7 列 表宽 345/容器 345；表头折行×5：7 列 表宽 345/容器 345",
+    "v375": [
+      {
+        "group": "预备科·2026级【演示】",
+        "cols": 7,
+        "tableW": 345,
+        "containerW": 345,
+        "foldedHeaders_tool口径": 6,
+        "foldedHeaders_纯文本行盒": 6,
+        "pageOverflow": 0
+      },
+      {
+        "group": "未分班",
+        "cols": 7,
+        "tableW": 345,
+        "containerW": 345,
+        "foldedHeaders_tool口径": 5,
+        "foldedHeaders_纯文本行盒": 5,
+        "pageOverflow": 0
+      }
+    ],
+    "genuinely_folded_headers": [
+      "学生",
+      "到堂打卡",
+      "读经打卡【演示】",
+      "灵修打卡【演示】",
+      "周记【演示】",
+      "完成率"
+    ],
+    "shot375": "docs/audit/ui-visual-review/task13-narrow-a/before_375_checkins_stats.png",
+    "md5_1440": "1d07f27103f18b50e5e91ebfc9ff4e65"
+  },
+  "after": {
+    "tool": "RESULT=OK（无挤扁表）（exit 0）",
+    "v375": [
+      {
+        "group": "预备科·2026级【演示】",
+        "cols": 7,
+        "theadDisplay": "none",
+        "tableW": 345,
+        "containerW": 345,
+        "rows": 1,
+        "foldedHeaders": 0,
+        "tbodyTrDisplay": "block",
+        "cardLabels": [
+          "学生",
+          "到堂打卡",
+          "读经打卡【演示】",
+          "灵修打卡【演示】",
+          "周记【演示】",
+          "完成率",
+          "最近一次打卡"
+        ]
+      },
+      {
+        "group": "未分班",
+        "cols": 7,
+        "theadDisplay": "none",
+        "tableW": 345,
+        "containerW": 345,
+        "rows": 6,
+        "foldedHeaders": 0,
+        "tbodyTrDisplay": "block",
+        "cardLabels": [
+          "学生",
+          "到堂打卡",
+          "读经打卡【演示】",
+          "灵修打卡【演示】",
+          "周记【演示】",
+          "完成率",
+          "最近一次打卡"
+        ]
+      }
+    ],
+    "card_label_before_content_measured": [
+      "学生",
+      "到堂打卡",
+      "读经打卡【演示】",
+      "灵修打卡【演示】",
+      "周记【演示】",
+      "完成率",
+      "最近一次打卡"
+    ],
+    "styleBlocks": 1,
+    "pageOverflow": 0,
+    "shot375": "docs/audit/ui-visual-review/task13-narrow-a/after_375_checkins_stats.png",
+    "v1440": [
+      {
+        "cols": 7,
+        "theadDisplay": "table-header-group",
+        "tableW": 1290,
+        "containerW": 1290,
+        "tbodyTrDisplay": "table-row",
+        "pageOverflow": 0
+      },
+      {
+        "cols": 7,
+        "theadDisplay": "table-header-group",
+        "tableW": 1290,
+        "containerW": 1290,
+        "tbodyTrDisplay": "table-row",
+        "pageOverflow": 0
+      }
+    ],
+    "md5_1440": "1d07f27103f18b50e5e91ebfc9ff4e65"
+  },
+  "desktop_unchanged_proof": "1440 全页截图改前/改后 MD5 完全相同（1d07f27103f18b50e5e91ebfc9ff4e65）⇒ 桌面像素级未变；::before 的 content 在 1440 实测为 none",
+  "gates": {
+    "find_squeezed_tables": "OK（exit 0，改前 SQUEEZED exit 1）",
+    "safe_upgrade": "EXIT=0",
+    "check_view_xpath": "RESULT=OK（失败项 0）——首次跑遇他人持锁 exit 2（ENV，非通过），锁释放后重跑 exit 0",
+    "check_md_tables": "OK",
+    "check_docs_index": "OK",
+    "check_po_sanity": "RESULT=OK（0 处重复）"
+  },
+  "tool_observation_criterion_C": {
+    "finding": "判据 C 用 Range.getClientRects() 数行盒，<th> 里的行内图标 <i> 会额外贡献 1 个 rect ⇒ 含图标表头恒被算作「折行」。",
+    "evidence_1440": "同一批 4 个含图标表头：rects=2 / 纯文本行盒=1（1440 下它们明明在同一行）",
+    "evidence_375": "本页 375 下这 4 个表头真的折了（纯文本行盒也 >1），故本例判据 C 的结论正确、不是假阳性；但「窄表格里图标+短标签恰好一行」的页面会被误判。",
+    "suggestion": "判据 C 可改为只数文本节点的行盒（跳过元素节点），或先取 th 的 textContent 再建 Range。"
+  }
+}

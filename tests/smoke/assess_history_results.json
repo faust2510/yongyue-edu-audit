@@ -1,0 +1,199 @@
+{
+ "base": "http://localhost:8069",
+ "items": [
+  {
+   "no": "H0a",
+   "name": "清场后夹具名单行为 0（读数是本次的）",
+   "pass": true,
+   "detail": "fixture roster rows = 0"
+  },
+  {
+   "no": "H0b",
+   "name": "干净态（学生 A 无任何已结束评估）→ 诚实空态",
+   "pass": true,
+   "detail": "空态节点 True ｜ SQL closed 行 = 0"
+  },
+  {
+   "no": "H1a",
+   "name": "学生本人 /assess/my/history → 200 且是本页（不是被弹走）",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/assess/my/history"
+  },
+  {
+   "no": "H1b",
+   "name": "页面**逐行**条数 == 库计数（已结束名单行）",
+   "pass": true,
+   "detail": "页面 4 行（周期 ['HIST-C1', 'HIST-C2', 'HIST-HID', 'HIST-ANON']）｜ SQL 4 行"
+  },
+  {
+   "no": "H1c",
+   "name": "两次可见结果的分数都在页面（77 / 80）",
+   "pass": true,
+   "detail": "表内数字 [77.0, 80.0, 100.0]"
+  },
+  {
+   "no": "H1d",
+   "name": "「与上次相比」算出 +3.0 个百分点（80-77）",
+   "pass": true,
+   "detail": "页面含 +3.0：True"
+  },
+  {
+   "no": "H1e",
+   "name": "趋势条出现（≥2 次可比才出现）",
+   "pass": true,
+   "detail": "trend 节点在：True"
+  },
+  {
+   "no": "H1f",
+   "name": "同任务内的跨学生隔离：A 的页面里没有 B 的分数（41）",
+   "pass": true,
+   "detail": "表内数字 [77.0, 80.0, 100.0]"
+  },
+  {
+   "no": "H2a",
+   "name": "进行中任务名不出现在学生页面",
+   "pass": true,
+   "detail": "页面含 HIST-OPEN：False"
+  },
+  {
+   "no": "H2b",
+   "name": "进行中任务的分数（55）不出现在学生页面",
+   "pass": true,
+   "detail": "表内数字 [77.0, 80.0, 100.0]"
+  },
+  {
+   "no": "H2c",
+   "name": "控制组：该分数的确在库里（不是\"没数据\"才看不到）",
+   "pass": true,
+   "detail": "edu_assess_score 里 HIST-OPEN 的行数=1"
+  },
+  {
+   "no": "H3a",
+   "name": "教务看「零名单行」学生 → 200 + 空态节点",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 空态 True ｜ 表 False"
+  },
+  {
+   "no": "H3b",
+   "name": "空态与库读数一致（该生名单行 = 0）",
+   "pass": true,
+   "detail": "SQL 名单行 = 0"
+  },
+  {
+   "no": "H3c",
+   "name": "空态页面**没有**渲染数据表（不编造行）",
+   "pass": true,
+   "detail": "表节点在：False"
+  },
+  {
+   "no": "H3d",
+   "name": "学生本人页面在「无该生数据」时也是可渲染的 200（无 500）",
+   "pass": true,
+   "detail": "页面长度 40767"
+  },
+  {
+   "no": "H4a",
+   "name": "学生 A 请求 B 的历程 → 被弹回门户首页（不是 200 本页）",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/my/home"
+  },
+  {
+   "no": "H4b",
+   "name": "A 的响应里没有 B 的分数（41）",
+   "pass": true,
+   "detail": "表内数字 []"
+  },
+  {
+   "no": "H4c",
+   "name": "数据层：A 用 JSON-RPC 直读 edu.assess.roster → AccessError",
+   "pass": true,
+   "detail": "rows=[] err=odoo.exceptions.AccessError: 不允许访问\"评估名单快照\"（edu.assess.roster）记录。\n\n允许对以下组进行此操作：\n\t- OpenEduCat/Manager\n\t- OpenEduCat/User\n\t- Role / Administrator\n\n如有必要，请联系您的管理员申请访问权限。"
+  },
+  {
+   "no": "H4d",
+   "name": "数据层：A 用 JSON-RPC 直读 edu.assess.score → AccessError",
+   "pass": true,
+   "detail": "rows=[] err=odoo.exceptions.AccessError: 不允许访问\"评估打分记录\"（edu.assess.score）记录。\n\n允许对以下组进行此操作：\n\t- OpenEduCat/Manager\n\t- OpenEduCat/User\n\t- Role / Administrator\n\n如有必要，请联系您的管理员申请访问权限。"
+  },
+  {
+   "no": "H4e",
+   "name": "A 在自己的历程页上注入 ?student_id=B → 读数一字不变（域来自身份）",
+   "pass": true,
+   "detail": "表内数字 [77.0, 80.0, 100.0]"
+  },
+  {
+   "no": "H4f",
+   "name": "控制组：B 的分数确实在库里（41）",
+   "pass": true,
+   "detail": "roster(student_id=7, task=246) 行数=1"
+  },
+  {
+   "no": "H5a",
+   "name": "教务看 B 的历程 → 200 且看得到 41（同一路由换身份就拿到了）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 表内数字 [41.0, 100.0]"
+  },
+  {
+   "no": "H5b",
+   "name": "教务看 A 的历程 → 看到 A 的 77 / 80",
+   "pass": true,
+   "detail": "表内数字 [66.0, 77.0, 80.0, 100.0]"
+  },
+  {
+   "no": "H5c",
+   "name": "教师看**任教班内**学生 → 200 且非越界页",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 越界页 False"
+  },
+  {
+   "no": "H5d",
+   "name": "教师看**非任教班**学生 → 越界页（fail-closed）",
+   "pass": true,
+   "detail": "越界页 True ｜ 表内数字 []"
+  },
+  {
+   "no": "H5e",
+   "name": "管理员看 B → 200 且有数据（再一重正对照）",
+   "pass": true,
+   "detail": "HTTP 200"
+  },
+  {
+   "no": "H5f",
+   "name": "教师请求学生本人的 /assess/my/history → 弹回门户（不误开学生视角）",
+   "pass": true,
+   "detail": "HTTP 200 → http://localhost:8069/my/home"
+  },
+  {
+   "no": "H6a",
+   "name": "匿名任务只有 1 份 < 门槛 3 → 学生页面不出现该分值（88）",
+   "pass": true,
+   "detail": "表内数字 [77.0, 80.0, 100.0]"
+  },
+  {
+   "no": "H6b",
+   "name": "控制组：该匿名记录确实在库（1 条打分）",
+   "pass": true,
+   "detail": "打分记录=1"
+  },
+  {
+   "no": "H7a",
+   "name": "模板「不向学生公开」→ A 自己看不到 66，但行还在（有解释）",
+   "pass": true,
+   "detail": "表内数字 [77.0, 80.0, 100.0] ｜ 解释文字 True"
+  },
+  {
+   "no": "H7b",
+   "name": "控制组：同一行在教务视角**看得到** 66（数据在，只是对本人不公开）",
+   "pass": true,
+   "detail": "表内数字 [66.0, 77.0, 80.0, 100.0]"
+  },
+  {
+   "no": "H9a",
+   "name": "清场后夹具任务为 0（幂等可复跑）",
+   "pass": true,
+   "detail": "fixture tasks = 0"
+  }
+ ],
+ "passed": 32,
+ "failed": 0
+}

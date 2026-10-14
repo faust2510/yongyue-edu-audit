@@ -1,0 +1,979 @@
+{
+ "meta": {
+  "group": "usability-selftest",
+  "source": "tests/ui/surface.json (scope=portal) + tests/ui/wording.json",
+  "axes": "正样本 /leave/approvals（须报红） vs 负样本 /my/password（须不报红）",
+  "thresholds": {
+   "vpx": 375,
+   "vpy": 812,
+   "overflow_px": 8,
+   "button_bottom_factor": 1.5
+  },
+  "collected_at": {
+   "probe": "2026-09-26T21:34:50+08:00",
+   "finish": "2026-09-26T21:34:53+08:00",
+   "tool": "2026-09-26T21:34:49+08:00"
+  },
+  "tool": {
+   "script": "scripts/check_ui_usability.py",
+   "revision": "v1.0 · 2026-09-26 七轴体检收口：A/B/C/D 四轴门禁（真实页面正负自证 + ratchet 基线）",
+   "fingerprint": "2ec4e2d8"
+  },
+  "counts": {
+   "paths": 2,
+   "probes": 2,
+   "skipped": 0,
+   "failed": 0,
+   "env_failed": 0,
+   "red_probes": 1,
+   "red_paths": 1,
+   "axes": {
+    "A": 0,
+    "B": 37,
+    "C": 0,
+    "D": 0
+   }
+  },
+  "concurrency": "quiet",
+  "container": {
+   "name": "edu19-clone-web-1",
+   "before": "2026-09-26T13:32:43.483292297Z",
+   "after": "2026-09-26T13:32:43.483292297Z",
+   "sample_valid": true
+  }
+ },
+ "readings": [
+  {
+   "path": "/leave/approvals",
+   "path_template": "/leave/approvals",
+   "role": "faculty",
+   "set": "usability-portal",
+   "authorized": "yes",
+   "source": "selftest: 正样本（已知 375 溢出）",
+   "http": {
+    "first": 200,
+    "hist": [],
+    "final": 200,
+    "final_path": "/leave/approvals",
+    "ctype": "text/html; charset=utf-8",
+    "disposition": "",
+    "marks": [],
+    "bytes": 61158,
+    "ms": 676
+   },
+   "viewport": {
+    "viewport_375": {
+     "overflow_px": 0,
+     "scroll_width": 375,
+     "client_width": 375,
+     "buttons": [
+      {
+       "text": "",
+       "left": 267,
+       "right": 293,
+       "top": 8,
+       "bottom": 44,
+       "inX": true
+      },
+      {
+       "text": "预备科导师【演示】",
+       "left": 309,
+       "right": 363,
+       "top": 11,
+       "bottom": 45,
+       "inX": true
+      },
+      {
+       "text": "我知道了",
+       "left": 275,
+       "right": 343,
+       "top": 81,
+       "bottom": 106,
+       "inX": true
+      },
+      {
+       "text": "全部 12",
+       "left": 15,
+       "right": 90,
+       "top": 286,
+       "bottom": 322,
+       "inX": true
+      },
+      {
+       "text": "待审批 11",
+       "left": 89,
+       "right": 176,
+       "top": 286,
+       "bottom": 322,
+       "inX": true
+      },
+      {
+       "text": "已通过 1",
+       "left": 175,
+       "right": 257,
+       "top": 286,
+       "bottom": 322,
+       "inX": true
+      },
+      {
+       "text": "已拒绝 0",
+       "left": 256,
+       "right": 341,
+       "top": 286,
+       "bottom": 322,
+       "inX": true
+      },
+      {
+       "text": "",
+       "left": 334,
+       "right": 360,
+       "top": 330,
+       "bottom": 364,
+       "inX": true
+      },
+      {
+       "text": "批量通过",
+       "left": 15,
+       "right": 101,
+       "top": 454,
+       "bottom": 479,
+       "inX": true
+      },
+      {
+       "text": "批量驳回",
+       "left": 109,
+       "right": 192,
+       "top": 454,
+       "bottom": 479,
+       "inX": true
+      },
+      {
+       "text": "代理审批设置",
+       "left": 248,
+       "right": 360,
+       "top": 454,
+       "bottom": 479,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 691,
+       "bottom": 716,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 178,
+       "right": 218,
+       "top": 691,
+       "bottom": 716,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 232,
+       "right": 272,
+       "top": 691,
+       "bottom": 716,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 727,
+       "bottom": 752,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 978,
+       "bottom": 1003,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 978,
+       "bottom": 1003,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 978,
+       "bottom": 1003,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 1014,
+       "bottom": 1039,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 1265,
+       "bottom": 1290,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 1265,
+       "bottom": 1290,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 1265,
+       "bottom": 1290,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 1301,
+       "bottom": 1326,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 129,
+       "right": 169,
+       "top": 1552,
+       "bottom": 1577,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 1830,
+       "bottom": 1855,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 1830,
+       "bottom": 1855,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 1830,
+       "bottom": 1855,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 1865,
+       "bottom": 1890,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 2117,
+       "bottom": 2142,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 2117,
+       "bottom": 2142,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 2117,
+       "bottom": 2142,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 2152,
+       "bottom": 2177,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 2404,
+       "bottom": 2429,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 2404,
+       "bottom": 2429,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 2404,
+       "bottom": 2429,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 2439,
+       "bottom": 2464,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 2690,
+       "bottom": 2715,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 2690,
+       "bottom": 2715,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 2690,
+       "bottom": 2715,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 2726,
+       "bottom": 2751,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 2977,
+       "bottom": 3002,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 2977,
+       "bottom": 3002,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 2977,
+       "bottom": 3002,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 3013,
+       "bottom": 3038,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 3264,
+       "bottom": 3289,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 3264,
+       "bottom": 3289,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 3264,
+       "bottom": 3289,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 3300,
+       "bottom": 3325,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 3551,
+       "bottom": 3576,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 3551,
+       "bottom": 3576,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 3551,
+       "bottom": 3576,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 3587,
+       "bottom": 3612,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 3838,
+       "bottom": 3863,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 174,
+       "right": 214,
+       "top": 3838,
+       "bottom": 3863,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 227,
+       "right": 267,
+       "top": 3838,
+       "bottom": 3863,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 148,
+       "right": 188,
+       "top": 3873,
+       "bottom": 3898,
+       "inX": true
+      }
+     ]
+    },
+    "collected_at": "2026-09-26T21:34:52+08:00"
+   },
+   "key_elements_found": {
+    "forms": 16,
+    "tables": 1,
+    "inputs": 46,
+    "rows": 12,
+    "cards": 0,
+    "outbound_links": 52,
+    "empty_state": false,
+    "buttons": [
+     "",
+     "预备科导师【演示】",
+     "我知道了",
+     "全部 12",
+     "待审批 11",
+     "已通过 1",
+     "已拒绝 0",
+     "",
+     "批量通过",
+     "批量驳回",
+     "代理审批设置",
+     "批准",
+     "驳回",
+     "详情",
+     "转交",
+     "批准",
+     "驳回",
+     "详情",
+     "转交",
+     "批准"
+    ],
+    "content_links": [
+     "/",
+     "/about",
+     "/admissions",
+     "/alumni",
+     "/alumni/job/card",
+     "/alumni/jobs",
+     "/approvals/delegate",
+     "/apps"
+    ]
+   },
+   "findings": [
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 72,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 1265, bottom 1290)，视口 375x812（右溢 0px / 下溢 72px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 72,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 1265, bottom 1290)，视口 375x812（右溢 0px / 下溢 72px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 72,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 1265, bottom 1290)，视口 375x812（右溢 0px / 下溢 72px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 108,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 1301, bottom 1326)，视口 375x812（右溢 0px / 下溢 108px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 359,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 129, right 169, top 1552, bottom 1577)，视口 375x812（右溢 0px / 下溢 359px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 637,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 1830, bottom 1855)，视口 375x812（右溢 0px / 下溢 637px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 637,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 1830, bottom 1855)，视口 375x812（右溢 0px / 下溢 637px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 637,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 1830, bottom 1855)，视口 375x812（右溢 0px / 下溢 637px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 672,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 1865, bottom 1890)，视口 375x812（右溢 0px / 下溢 672px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 924,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 2117, bottom 2142)，视口 375x812（右溢 0px / 下溢 924px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 924,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 2117, bottom 2142)，视口 375x812（右溢 0px / 下溢 924px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 924,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 2117, bottom 2142)，视口 375x812（右溢 0px / 下溢 924px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 959,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 2152, bottom 2177)，视口 375x812（右溢 0px / 下溢 959px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 1211,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 2404, bottom 2429)，视口 375x812（右溢 0px / 下溢 1211px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 1211,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 2404, bottom 2429)，视口 375x812（右溢 0px / 下溢 1211px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 1211,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 2404, bottom 2429)，视口 375x812（右溢 0px / 下溢 1211px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 1246,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 2439, bottom 2464)，视口 375x812（右溢 0px / 下溢 1246px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 1497,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 2690, bottom 2715)，视口 375x812（右溢 0px / 下溢 1497px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 1497,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 2690, bottom 2715)，视口 375x812（右溢 0px / 下溢 1497px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 1497,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 2690, bottom 2715)，视口 375x812（右溢 0px / 下溢 1497px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 1533,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 2726, bottom 2751)，视口 375x812（右溢 0px / 下溢 1533px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 1784,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 2977, bottom 3002)，视口 375x812（右溢 0px / 下溢 1784px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 1784,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 2977, bottom 3002)，视口 375x812（右溢 0px / 下溢 1784px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 1784,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 2977, bottom 3002)，视口 375x812（右溢 0px / 下溢 1784px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 1820,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 3013, bottom 3038)，视口 375x812（右溢 0px / 下溢 1820px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 2071,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 3264, bottom 3289)，视口 375x812（右溢 0px / 下溢 2071px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 2071,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 3264, bottom 3289)，视口 375x812（右溢 0px / 下溢 2071px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 2071,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 3264, bottom 3289)，视口 375x812（右溢 0px / 下溢 2071px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 2107,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 3300, bottom 3325)，视口 375x812（右溢 0px / 下溢 2107px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 2358,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 3551, bottom 3576)，视口 375x812（右溢 0px / 下溢 2358px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 2358,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 3551, bottom 3576)，视口 375x812（右溢 0px / 下溢 2358px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 2358,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 3551, bottom 3576)，视口 375x812（右溢 0px / 下溢 2358px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 2394,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 3587, bottom 3612)，视口 375x812（右溢 0px / 下溢 2394px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|批准",
+     "metric": 2645,
+     "text": "批准",
+     "detail": "button「批准」超出视口：rect(left 125, right 165, top 3838, bottom 3863)，视口 375x812（右溢 0px / 下溢 2645px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|驳回",
+     "metric": 2645,
+     "text": "驳回",
+     "detail": "button「驳回」超出视口：rect(left 174, right 214, top 3838, bottom 3863)，视口 375x812（右溢 0px / 下溢 2645px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|详情",
+     "metric": 2645,
+     "text": "详情",
+     "detail": "a「详情」超出视口：rect(left 227, right 267, top 3838, bottom 3863)，视口 375x812（右溢 0px / 下溢 2645px）"
+    },
+    {
+     "axis": "B",
+     "key": "B|faculty|/leave/approvals|转交",
+     "metric": 2680,
+     "text": "转交",
+     "detail": "a「转交」超出视口：rect(left 148, right 188, top 3873, bottom 3898)，视口 375x812（右溢 0px / 下溢 2680px）"
+    }
+   ],
+   "verdict": "red",
+   "notes": ""
+  },
+  {
+   "path": "/my/password",
+   "path_template": "/my/password",
+   "role": "student",
+   "set": "usability-portal",
+   "authorized": "yes",
+   "source": "selftest: 负样本（实测干净页）",
+   "http": {
+    "first": 200,
+    "hist": [],
+    "final": 200,
+    "final_path": "/my/password",
+    "ctype": "text/html; charset=utf-8",
+    "disposition": "",
+    "marks": [],
+    "bytes": 36263,
+    "ms": 674
+   },
+   "viewport": {
+    "viewport_375": {
+     "overflow_px": 0,
+     "scroll_width": 375,
+     "client_width": 375,
+     "buttons": [
+      {
+       "text": "跳至内容",
+       "left": -1,
+       "right": 0,
+       "top": -1,
+       "bottom": 35,
+       "inX": true
+      },
+      {
+       "text": "",
+       "left": 267,
+       "right": 293,
+       "top": 8,
+       "bottom": 44,
+       "inX": true
+      },
+      {
+       "text": "王小明",
+       "left": 309,
+       "right": 363,
+       "top": 11,
+       "bottom": 45,
+       "inX": true
+      },
+      {
+       "text": "我知道了",
+       "left": 275,
+       "right": 343,
+       "top": 81,
+       "bottom": 106,
+       "inX": true
+      },
+      {
+       "text": "保存新密码",
+       "left": 39,
+       "right": 187,
+       "top": 568,
+       "bottom": 606,
+       "inX": true
+      }
+     ]
+    },
+    "collected_at": "2026-09-26T21:34:53+08:00"
+   },
+   "key_elements_found": {
+    "forms": 5,
+    "tables": 0,
+    "inputs": 11,
+    "rows": 0,
+    "cards": 1,
+    "outbound_links": 43,
+    "empty_state": false,
+    "buttons": [
+     "跳至内容",
+     "",
+     "王小明",
+     "我知道了",
+     "保存新密码"
+    ],
+    "content_links": [
+     "/",
+     "/about",
+     "/admissions",
+     "/alumni",
+     "/alumni/job/card",
+     "/alumni/jobs",
+     "/booking",
+     "/campus/jobs"
+    ]
+   },
+   "findings": [],
+   "verdict": "green",
+   "notes": ""
+  }
+ ],
+ "axes": {
+  "A": 0,
+  "B": 37,
+  "C": 0,
+  "D": 0
+ },
+ "findings": [
+  {
+   "key": "B|faculty|/leave/approvals|批准",
+   "axis": "B",
+   "path": "/leave/approvals",
+   "path_template": "/leave/approvals",
+   "role": "faculty",
+   "metric": 2645,
+   "text": "批准",
+   "detail": "button「批准」超出视口：rect(left 125, right 165, top 3838, bottom 3863)，视口 375x812（右溢 0px / 下溢 2645px）",
+   "occurrences": 9
+  },
+  {
+   "key": "B|faculty|/leave/approvals|详情",
+   "axis": "B",
+   "path": "/leave/approvals",
+   "path_template": "/leave/approvals",
+   "role": "faculty",
+   "metric": 2645,
+   "text": "详情",
+   "detail": "a「详情」超出视口：rect(left 227, right 267, top 3838, bottom 3863)，视口 375x812（右溢 0px / 下溢 2645px）",
+   "occurrences": 10
+  },
+  {
+   "key": "B|faculty|/leave/approvals|转交",
+   "axis": "B",
+   "path": "/leave/approvals",
+   "path_template": "/leave/approvals",
+   "role": "faculty",
+   "metric": 2680,
+   "text": "转交",
+   "detail": "a「转交」超出视口：rect(left 148, right 188, top 3873, bottom 3898)，视口 375x812（右溢 0px / 下溢 2680px）",
+   "occurrences": 9
+  },
+  {
+   "key": "B|faculty|/leave/approvals|驳回",
+   "axis": "B",
+   "path": "/leave/approvals",
+   "path_template": "/leave/approvals",
+   "role": "faculty",
+   "metric": 2645,
+   "text": "驳回",
+   "detail": "button「驳回」超出视口：rect(left 174, right 214, top 3838, bottom 3863)，视口 375x812（右溢 0px / 下溢 2645px）",
+   "occurrences": 9
+  }
+ ],
+ "fingerprint": "1d1ba391eab92a93"
+}

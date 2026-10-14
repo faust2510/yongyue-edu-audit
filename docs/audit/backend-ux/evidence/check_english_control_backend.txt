@@ -1,0 +1,154 @@
+== 名单来源 ==
+  /tmp/surface_with_backend_english.json（指纹 2b00b5e3）· gates=english 登记 91 条 = 静态 91 + 参数化 0
+  本门禁扫描：91 条路径 × 角色 = guest 21，student 73，faculty 89，parent 73，backoffice 91
+  对账：扫描集 − 表 = （空） ｜ 表 − 扫描集 = （空）
+  ⚠ 口径里有、表里没有且未登记补偿 3 条 ⇒ **不扫**（登记方口径优先，例如 scope=retired 的退役路由）：/my/marks、/my/rollcall、/my/subject-reg
+  ⚠ 表新增登记 8 条（口径未收录，按 scope/roles 默认口径扫描）：/assess/my/history、/assess/tasks、/assess/tasks/new、/assess/templates、/assess/templates/new、/grade-entry、/odoo/action-649、/odoo/action-650
+== 角色 backoffice（教务）登录 OK
+  /                                200 OK            whitelist=3 data=2 theme=2
+  /about                           200 OK            whitelist=1 data=1 theme=2
+  /programs                        200 OK            whitelist=1 data=1 theme=2
+  /admissions                      200 OK            whitelist=1 data=1 theme=2
+  /journal                         200 OK            whitelist=1 data=1 theme=2
+  /alumni                          200 OK            whitelist=1 data=1 theme=2
+  /alumni/jobs                     200 OK            whitelist=1 data=1 theme=2
+  /campus/jobs                     200 OK            whitelist=1 data=1 theme=2
+  /digital-library                 200 OK            whitelist=1 data=1 theme=2
+  /courses-offered                 200 OK            whitelist=1 data=7 theme=2
+  /booking                         200 OK            whitelist=1 data=1 theme=2
+  /online-exams                    200 OK            whitelist=1 data=1 theme=2
+  /apply                           200 OK            whitelist=1 data=1 theme=2
+  /help                            200 OK            whitelist=1 data=1 theme=2
+  /help/student                    200 OK            whitelist=1 data=1 theme=2
+  /help/faculty                    200 OK            whitelist=1 data=1 theme=2
+  /help/parent                     200 OK            whitelist=1 data=1 theme=2
+  /help/registrar                  200 OK            whitelist=1 data=1 theme=2
+  /register                        303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /login                           303 REDIR -> /web                         [登记：匿名 200；已登录 → 303 /my/home；内部用户 ]
+  /apps                            200 OK            whitelist=1 data=1 theme=2
+  /my                              303 REDIR -> /my/home                     [登记：门户入口统一 303 /my/home（重定向壳，不是内容页）]
+  /my/home                         200 OK            whitelist=1 data=1 theme=2
+  /my/apps                         200 OK            whitelist=1 data=2 theme=2
+  /my/study                        200 OK            whitelist=1 data=148 theme=2
+  /student/profile                 200 OK            whitelist=1 data=1 theme=2
+  /student/timetable               200 OK            whitelist=1 data=1 theme=2
+  /student/attendance              200 OK            whitelist=1 data=1 theme=2
+  /student/exam                    200 OK            whitelist=1 data=1 theme=2
+  /student/assignment/details      200 OK            whitelist=1 data=1 theme=2
+  /grade-book                      200 OK            whitelist=1 data=1 theme=2
+  /library/media                   200 OK            whitelist=1 data=1 theme=2
+  /my-library                      200 OK            whitelist=1 data=1 theme=2
+  /subject/details                 200 OK            whitelist=1 data=1 theme=2
+  /subject/registration            200 OK            whitelist=1 data=1 theme=2
+  /course/change/request           303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /my/notice_board/notice          200 OK            whitelist=1 data=1 theme=2
+  /my/time_off                     200 OK            whitelist=1 data=1 theme=2
+  /my/grievances                   200 OK            whitelist=1 data=1 theme=2
+  /certificate                     200 OK            whitelist=1 data=1 theme=2
+  /requested/queue/list            200 OK            whitelist=1 data=1 theme=2
+  /meeting/information             200 OK            whitelist=1 data=1 theme=2
+  /online/meeting                  200 OK            whitelist=1 data=1 theme=2
+  /users/result-overview           200 OK            whitelist=1 data=1 theme=2
+  /my/academic-calendar            200 OK            whitelist=1 data=1 theme=2
+  /my/checkins                     303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /my/journals                     303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /assess                          200 OK            whitelist=1 data=1 theme=2
+  /assess/my                       303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /downloads                       200 OK            whitelist=1 data=1 theme=2
+  /downloads/mine                  200 OK            whitelist=1 data=1 theme=2
+  /downloads/stats                 200 OK            whitelist=1 data=1 theme=2
+  /quiz                            200 OK            whitelist=1 data=1 theme=2
+  /quiz/my                         303 REDIR -> /quiz                        [登记：非学生身份（教师/家长/内部）→ 303 回 /quiz（角色]
+  /my/courses                      200 OK            whitelist=1 data=1 theme=2
+  /my/messages                     200 OK            whitelist=1 data=2 theme=2
+  /my/contacts                     200 OK            whitelist=1 data=6 theme=2
+  /my/calendar                     200 OK            whitelist=1 data=1 theme=2
+  /my/fees                         200 OK            whitelist=1 data=1 theme=2
+  /my/assets                       303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /my/dms                          200 OK            whitelist=1 data=1 theme=2
+  /my/thesis                       200 OK            whitelist=1 data=1 theme=2
+  /my/points                       303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /my/notify                       200 OK            whitelist=1 data=1 theme=2
+  /my/password                     200 OK            whitelist=1 data=1 theme=2
+  /my/help                         200 OK            whitelist=1 data=1 theme=2
+  /my/search                       200 OK            whitelist=1 data=1 theme=2
+  /my/child                        200 OK            whitelist=1 data=1 theme=2
+  /attendance/take                 303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /assignment/manage               303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /assignment/publish              303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /grading/entry                   303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /leave/approvals                 200 OK            whitelist=1 data=13 theme=2
+  /grievances/approvals            200 OK            whitelist=1 data=21 theme=2
+  /notice/publish                  200 OK            whitelist=2 data=1 theme=2
+  /journals/review                 200 OK            whitelist=1 data=1 theme=2
+  /checkins/stats                  303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /registrar/subject/approvals     200 OK            whitelist=1 data=12 theme=2
+  /edu/audit                       200 OK            whitelist=1 data=1 theme=2
+  /ledger                          200 OK            whitelist=1 data=1 theme=2
+  /ledger/reimburse                200 OK            whitelist=1 data=1 theme=2
+  /timetable/bulk                  200 OK            whitelist=1 data=27 theme=2
+  /assess/review                   200 OK            whitelist=1 data=1 theme=2
+  /assess/my/history               303 REDIR -> /my/home                     [角色/匿名门禁 → /my/home]
+  /assess/tasks                    200 OK            whitelist=1 data=1 theme=2
+  /assess/tasks/new                200 OK            whitelist=1 data=1 theme=2
+  /assess/templates                200 OK            whitelist=1 data=1 theme=2
+  /assess/templates/new            200 OK            whitelist=1 data=1 theme=2
+  /grade-entry                     200 OK            whitelist=1 data=1 theme=2
+  /odoo/action-649                 200 OK            
+  /odoo/action-650                 200 OK            
+
+================ 汇总（验收口径：must-fix = 0 且 brand = 0）================
+backoffice  must-fix 0    brand 0    白名单 76   数据 303  主题 146  路由违规 0   夹具残留 0  （路由 91 条）
+TOTAL must-fix = 0 条 / brand = 0 条 / **路由状态违规 = 0 条** / **夹具残留 = 0 条**（其余白名单/数据/主题合计 525 条，不计失败）
+自证：REVISION=v3.8 · 指纹 c9b87745 · 断言 48 条 · 运行时刻 2026-10-02T18:58:01+08:00
+
+-- 覆盖声明（本门禁到底扫哪些位置，可审计）：
+  覆盖位置：
+    1) 文本节点 `>…<`（先剔除 <script>/<style>/注释/<template> 与编辑器 navbar 区块）
+    2) 4 类可见属性：title / placeholder / aria-label / alt（单双引号都认）
+  不覆盖位置（互补 ≠ 并集完备；与 check_odoo_trace 合起来也不等于全位置覆盖）：
+    · 其它属性：value / aria-description / aria-valuetext / data-tooltip / data-* 等
+    · 图片内文字、PDF/Office 附件内容、邮件模板渲染结果、CSS 伪元素生成内容
+    · 纯中文串（按设计跳过；其中含 odoo/openeducat 品牌 token 的由 brand 桶抓出）
+  路由状态（t71）：**被扫路由必须 200**；非 200 只放行两类 ——
+    ① 角色/匿名门禁（302/303 跳 /my/home、/web、/web/login、/login）；
+    ② EXEMPT_ROUTES 里显式登记并写明原因（/apps、/login、/my、/quiz/my×backoffice）。
+    非 200 未登记即判失败并点名 —— 典型根因是**改名后留下的 302 替身**
+    （门禁拿到空壳响应体、整页从未被扫却一直报绿；实例 /web/register → /register）。
+    自证：python3 scripts/check_english.py --prove-invariant（替身必须报红、真身必须放行）。
+  夹具残留（t84）+ 并发守卫（t103）：扫描面出现 【冒烟】 标记即**点名报警**（要报的是"夹具没走"）；
+    但**开跑时若检测到冒烟脚本在跑**（ps -ef 见 tests/smoke/*.py 或 assertion_audit.py），
+    本轮该类**标 ENV/跳过**（"环境正在被夹具使用" ≠ "数据泄漏"），并在输出显式打印 ENV 标注；
+    **【冒烟】标记本身不豁免**（那会掩盖"真实残留夹具"这一整类），换无并发轮次仍会点名。
+    append-only 视图**显式豁免**（SMOKE_EXEMPT_ROUTES 逐条写明理由）：
+    · /edu/audit —— 审计留痕（实测 19 条）；· /my/messages —— 站内信/通知流（实测 1–5 条）。
+    退出码归属：**单列一类（smoke-leftover）**，不是 must-fix（它不是英文问题），但同属"发现问题" → 同落 **exit 2**。
+  名单来源（B 组 2026-09-26 切换）：路由名单来自 **tests/ui/surface.json**（gates 含 english 的
+    登记）—— 本脚本的三张常量（PUBLIC/PORTAL/TEACHER_ROUTES）只回答「哪些角色看哪些页」（口径）。
+    表读不到 ⇒ 退出码 3=INCOMPLETE（不判 FAIL、不崩栈、**不退回写死名单**）；
+    口径里有、表里没有、也不在 SURFACE_MISSING（逐条写明理由的补偿清单）里的路径 ⇒ **不扫并点名**
+    （登记方口径优先：例 scope=retired 的 edu_telegram 退役路由 —— 生产上不存在，扫它=假读数）。
+  判据：新增可见位置（如将来用 aria-description）必须在 docstring 与本声明登记并加扫描，
+        否则会出现「两个门禁都报 0」的假绿（实例见 UX_V3_GATE.md §2.1/§5.2）。
+
+-- 白名单/数据/主题（登记项，不判失败）--
+  x74   [whitelist] COVENANT REFORMED SEMINARY       例: backoffice /
+  x74   [data     ] scrtsschool@gmail.com            例: backoffice /
+  x73   [theme    ] Main                             例: backoffice /
+  x73   [theme    ] Mobile                           例: backoffice /
+  x1    [whitelist] COVENANT · REFORMED · TRUTH      例: backoffice /
+  x1    [data     ] CRS-MCS                          例: backoffice /courses-offered
+  x1    [data     ] CRS-BTH                          例: backoffice /courses-offered
+  x1    [data     ] CRS-BLA                          例: backoffice /courses-offered
+  x1    [data     ] CRS-BED                          例: backoffice /courses-offered
+  x1    [data     ] CRS-HSA                          例: backoffice /courses-offered
+  x1    [data     ] CRS-PRP                          例: backoffice /courses-offered
+  x1    [data     ] backoffice@local                 例: backoffice /my/apps
+  x1    [data     ] PRP-C01                          例: backoffice /my/study
+  x1    [data     ] PRP-C02                          例: backoffice /my/study
+  x1    [data     ] PRP-C03                          例: backoffice /my/study
+  x1    [data     ] PRP-C04                          例: backoffice /my/study
+  x1    [data     ] PRP-C05                          例: backoffice /my/study
+  x1    [data     ] PRP-C06                          例: backoffice /my/study
+  x1    [data     ] PRP-C07                          例: backoffice /my/study
+  x1    [data     ] PRP-C08                          例: backoffice /my/study

@@ -1,0 +1,117 @@
+{
+  "mode": "roundtrip",
+  "base_url": "http://127.0.0.1:8069",
+  "login": "admin",
+  "uid": 2,
+  "before": {
+    "ui": {
+      "edu_apply_deadline": {
+        "tag": "BUTTON",
+        "value": "2026/10/01 00:00:00",
+        "shown": "10月1日",
+        "tooltip": "2026/10/01",
+        "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+      },
+      "edu_enroll_deadline": {
+        "tag": "BUTTON",
+        "value": "2026/10/01 00:00:00",
+        "shown": "10月1日",
+        "tooltip": "2026/10/01",
+        "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+      }
+    },
+    "params": {
+      "edu.apply.deadline": "2026-10-01",
+      "edu.enroll.deadline": "2026-10-01"
+    },
+    "consumers": {
+      "/admissions": {
+        "status": 200,
+        "date": "2026年10月1日"
+      },
+      "/subject/enroll": {
+        "status": 200,
+        "date": "2026年10月1日"
+      }
+    }
+  },
+  "typed": {
+    "edu_apply_deadline": {
+      "tag": "BUTTON",
+      "value": "2026/11/15 00:00:00",
+      "shown": "11月15日",
+      "tooltip": "2026/11/15",
+      "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+    },
+    "edu_enroll_deadline": {
+      "tag": "BUTTON",
+      "value": "2026/11/15 00:00:00",
+      "shown": "11月15日",
+      "tooltip": "2026/11/15",
+      "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+    }
+  },
+  "save_dialog": "",
+  "params_after_save": {
+    "edu.apply.deadline": "2026-11-15",
+    "edu.enroll.deadline": "2026-11-15"
+  },
+  "consumers_after_save": {
+    "/admissions": {
+      "status": 200,
+      "date": "2026年11月15日"
+    },
+    "/subject/enroll": {
+      "status": 200,
+      "date": "2026年11月15日"
+    }
+  },
+  "ui_after_reload": {
+    "edu_apply_deadline": {
+      "tag": "BUTTON",
+      "value": "2026/11/15 00:00:00",
+      "shown": "11月15日",
+      "tooltip": "2026/11/15",
+      "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+    },
+    "edu_enroll_deadline": {
+      "tag": "BUTTON",
+      "value": "2026/11/15 00:00:00",
+      "shown": "11月15日",
+      "tooltip": "2026/11/15",
+      "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+    }
+  },
+  "reload_dialog": "",
+  "params_restored": {
+    "edu.apply.deadline": "2026-10-01",
+    "edu.enroll.deadline": "2026-10-01"
+  },
+  "ui_restored": {
+    "edu_apply_deadline": {
+      "tag": "BUTTON",
+      "value": "2026/10/01 00:00:00",
+      "shown": "10月1日",
+      "tooltip": "2026/10/01",
+      "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+    },
+    "edu_enroll_deadline": {
+      "tag": "BUTTON",
+      "value": "2026/10/01 00:00:00",
+      "shown": "10月1日",
+      "tooltip": "2026/10/01",
+      "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+    }
+  },
+  "consumers_restored": {
+    "/admissions": {
+      "status": 200,
+      "date": "2026年10月1日"
+    },
+    "/subject/enroll": {
+      "status": 200,
+      "date": "2026年10月1日"
+    }
+  },
+  "verdict": "PASS"
+}

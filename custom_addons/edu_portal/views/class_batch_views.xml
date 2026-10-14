@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================================================================
+         班级分配与管理（需求 7）视图层 —— 设计 docs/plans/class-batch-management-design.md
+         零新模型 / 零新字段：班级实体、学生归属、回收站（active）全部复用基座。
+         本文件只补「入口」与「看得见」：
+
+           1) 班级列表加「状态(active)」列 —— 回收站的**必要条件**：
+              Odoo 19 的归档动作只在视图字段里含 active 时才出现
+              （web/…/views/list/list_controller.js:107-112 的硬条件）。
+           2) 班级列表/表单加「停用 / 恢复」按钮 —— 校长拍板用词（P6-(a)），
+              与 Odoo 自带的「存档/取消归档」同一件事，只是名字与审计明确。
+           3) 学生表单加「分配班级」按钮 —— 需求 7 G1：这一环此前**没有任何入口**，
+              基座「学生课程详情」菜单挂在已停用的 278 子树下（设计 §7-Q2）。
+           4) 学生列表加「待分配（未分班）」过滤器 —— 生产上 18 名学生挂在
+              【待分配】前缀上，教务需要一眼筛出他们。
+           5) 「已停用班级」回收站动作 + 菜单 —— 停用的班一眼可见、一键恢复。
+         ================================================================== -->
+
+    <!-- 1) 班级列表：状态列 + 停用/恢复 行内按钮 -->
+    <record id="view_edu_batch_tree_inherit" model="ir.ui.view">
+        <field name="name">op.batch.list.edu.class</field>
+        <field name="model">op.batch</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_batch_tree"/>
+        <field name="arch" type="xml">
+            <field name="course_id" position="after">
+                <field name="active" string="状态" optional="show"/>
+                <button name="action_edu_stop" type="object" icon="fa-pause-circle-o"
+                        title="停用（课表与历史保留，随时可恢复）"
+                        invisible="not active"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"
+                        confirm="确定停用这个班级吗？停用后：该班不再出现在新的分班 / 选课下拉里；学生归属、课表、成绩与历史记录全部保留；随时可以「恢复」。"/>
+                <button name="action_edu_restore" type="object" icon="fa-play-circle-o"
+                        title="恢复（回到分班 / 选课下拉）"
+                        invisible="active"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- 2) 班级表单：表头「停用 / 恢复」（与列表同一对动作、同一权限） -->
+    <record id="view_edu_batch_form_inherit" model="ir.ui.view">
+        <field name="name">op.batch.form.edu.class</field>
+        <field name="model">op.batch</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_batch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_edu_stop" type="object" string="停用"
+                        class="btn-secondary" invisible="not active"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"
+                        confirm="确定停用这个班级吗？停用后：该班不再出现在新的分班 / 选课下拉里；学生归属、课表、成绩与历史记录全部保留；随时可以「恢复」。"/>
+                <button name="action_edu_restore" type="object" string="恢复"
+                        class="btn-primary" invisible="active"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 3) 班级搜索：中文化的「已停用（回收站）」过滤器（基座自带 Archived 过滤器） -->
+    <record id="view_edu_batch_search_inherit" model="ir.ui.view">
+        <field name="name">op.batch.search.edu.class</field>
+        <field name="model">op.batch</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_batch_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <filter name="edu_stopped" string="已停用（回收站）"
+                        domain="[('active', '=', False)]"
+                        help="已停用的班级：不在新的分班 / 选课下拉里，但学生归属与历史全部保留，可一键恢复。"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 3b) 学生**列表**：行内「分班」按钮 —— 生产口径的主入口。
+         为什么不能只放表单按钮（真机实测 2026-09-18，本仓 Playwright）：
+         Odoo 的表单在**执行任何 object 按钮前会先保存记录**
+         （web/…/views/form/form_controller.js:628-641 beforeExecuteActionButton），
+         而层级码注册产出的【待分配】档案**没有 first_name/last_name**
+         （invite_code.create_pending_archive 只写 partner 名），基座学生表单把
+         first_name 标了 required="1" ⇒ 保存先失败（红条 Missing required fields），
+         分班对话框根本不会打开。**列表行内按钮不经过表单保存**，因此在「18 个
+         【待分配】学生等着分班」这个真实场景里是可靠入口（配上面板筛选一起用）。 -->
+    <record id="view_edu_student_tree_class" model="ir.ui.view">
+        <field name="name">op.student.list.edu.class</field>
+        <field name="model">op.student</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_student_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <button name="action_edu_assign_batch" type="object"
+                        icon="fa-users" string="分班"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"
+                        title="为学生分配班级（课程 + 班级）"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- 4) 学生表单：分班入口 + 「班级与课程」只读卡（看得到他现在在哪个班） -->
+    <record id="view_edu_student_form_class" model="ir.ui.view">
+        <field name="name">op.student.form.edu.class</field>
+        <field name="model">op.student</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_edu_assign_batch" type="object"
+                        class="oe_stat_button" icon="fa-users" string="分配班级"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"
+                        help="为学生指定「课程 + 班级」。分班后他的课表、任课教师与同班同学即时生效；若档案还挂着「待分配」前缀，分班时会一并去掉。"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='other_information']" position="before">
+                <page string="班级与课程" name="edu_class_batch">
+                    <field name="course_detail_ids" readonly="1" nolabel="1">
+                        <list string="班级与课程">
+                            <field name="course_id"/>
+                            <field name="batch_id"/>
+                            <field name="roll_number"/>
+                            <field name="academic_term_id"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 5) 学生搜索：「待分配（未分班）」过滤器 —— 教务的日常入口 -->
+    <record id="view_edu_student_search_pending" model="ir.ui.view">
+        <field name="name">op.student.search.edu.pending</field>
+        <field name="model">op.student</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_student_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="edu_pending_setup" string="待分配（未分班）"
+                        domain="[('edu_pending_setup', '=', True)]"
+                        help="由层级码注册自动创建、尚未分班的档案：名字带「【待分配】」前缀。分班后该标记自动清除。"/>
+                <!-- 2026-10-03（第 60 轮，补 `docs/plans/README.md` 待办 ⑥）：
+                     本仓文档里明确标着「待做」：「字段已建（invite_code.py:732，index=True），
+                     学生列表只有 edu_pending_setup 筛选器，edu_dup_suspect 的 filter 缺失（约 4 行 XML）」。
+                     背景（见该字段自己的 help）：层级码注册时若**匹配到同名或同学号的既有档案却未能自动认领**，
+                     系统刻意不认领（怕把课表/成绩挂错人），只把 edu_dup_suspect 置真**留信号请教务核对**；
+                     但全仓除写入处（invite_code.py:449）外**无任何视图引用它**
+                     ⇒ 这个信号**写进去了却没人看得见**。这里补上筛选器，让教务能一键捞出待核对的档案。 -->
+                <filter name="edu_dup_suspect" string="该校对（疑似重复档案）"
+                        domain="[('edu_dup_suspect', '=', True)]"
+                        help="注册时匹配到同名/同学号的既有档案、但未能自动认领（怕挂错课表与成绩），系统只留信号等教务核对。核对完请手工取消该标记。"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 5b) 分班专用表单：只放「学生 / 课程 / 班级 / 学号 / 学年学期 / 科目」。
+         为什么不能直接用基座 view_op_student_course_form（真机实测 2026-09-18）：
+         openeducat_fees 给那个基座表单继承加了**必填**的「课程费用 / 费用期限」，
+         于是教务在学生页点「分班」→ 选好课程与班级 → 保存时被红条
+         「Missing required fields」挡住（学费是另一条业务，不该卡住分班）。
+         本视图是**独立新视图**（不 inherit 基座、priority 最低），只在分班对话框里
+         被显式引用，不影响其它入口打开 op.student.course 的默认表单。 -->
+    <record id="view_edu_assign_batch_form" model="ir.ui.view">
+        <field name="name">edu.student.course.assign.batch.form</field>
+        <field name="model">op.student.course</field>
+        <field name="priority" eval="99"/>
+        <field name="arch" type="xml">
+            <form string="分班">
+                <group>
+                    <group>
+                        <field name="student_id" readonly="1"/>
+                        <field name="course_id" required="1"/>
+                        <field name="batch_id" required="1"
+                               domain="[('course_id', '=', course_id)]"/>
+                        <field name="roll_number"/>
+                    </group>
+                    <group>
+                        <field name="academic_years_id"/>
+                        <field name="academic_term_id"/>
+                        <field name="state" widget="statusbar"/>
+                    </group>
+                </group>
+                <field name="subject_ids" widget="many2many_tags"
+                       options="{'no_create': True}"/>
+            </form>
+        </field>
+    </record>
+
+    <!-- 6) 回收站：已停用班级（教务 + 超管；行内「恢复」按钮一键回滚） -->
+    <record id="act_edu_batch_recycle" model="ir.actions.act_window">
+        <field name="name">已停用班级</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">op.batch</field>
+        <field name="path">batches-stopped</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('active', '=', False)]</field>
+        <field name="context">{'active_test': False, 'search_default_edu_stopped': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">回收站是空的</p>
+            <p>这里存放已停用的班级：它们不再出现在新的分班 / 选课下拉里，
+               但学生归属、课表与历史记录全部保留 —— 点右侧的「恢复」即可回到使用中。</p>
+        </field>
+        <!-- ⚠ Odoo 19 的 ir.actions.act_window **没有** groups_id 字段
+             （实测：ValueError: Invalid field 'groups_id' in
+             'ir.actions.act_window'，本次升级当场红过）。
+             可见性由菜单项的 groups= 控制（见下方 menuitem），
+             与基座「动作不挂组、菜单挂组」的既有分工一致。 -->
+    </record>
+
+    <menuitem id="menu_edu_batch_recycle"
+              name="已停用班级"
+              parent="openeducat_core.menu_op_school_config_course"
+              action="act_edu_batch_recycle"
+              sequence="21"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+</odoo>

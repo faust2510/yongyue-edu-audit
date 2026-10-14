@@ -1,0 +1,5695 @@
+{
+  "surface-version": "v1",
+  "generated": "2026-10-14",
+  "source": "custom_addons/**/*.py :: @http.route",
+  "pages": [
+    {
+      "key": "root",
+      "path": "/",
+      "module": "(odoo-website-core)",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "about",
+      "path": "/about",
+      "module": "edu_brand",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "admissions",
+      "path": "/admissions",
+      "module": "edu_brand",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "alerts_mark_read",
+      "path": "/alerts/mark_read",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "alumni",
+      "path": "/alumni",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "alumni_job_card",
+      "path": "/alumni/job/card",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "alumni_job_list",
+      "path": "/alumni/job/list",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "alumni_jobs",
+      "path": "/alumni/jobs",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "apply",
+      "path": "/apply",
+      "module": "edu_apply",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "apply_submit",
+      "path": "/apply/submit",
+      "module": "edu_apply",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "approvals_delegate",
+      "path": "/approvals/delegate",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "approvals_delegate_cancel",
+      "path": "/approvals/delegate/cancel",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "approvals_delegate_save",
+      "path": "/approvals/delegate/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "apps",
+      "path": "/apps",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess",
+      "path": "/assess",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_child_detail_history",
+      "path": "/assess/child/<int:student_id>/history",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "parent"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "参数页：上级 /assess 已在 route_matrix 扫描集内，本页需补样本 id 才能被真探（口径同 my_child_detail）",
+      "status": "gap",
+      "evidence": "样本：op.student.id 且 ∈ 该家长 op.parent.student_ids（本库存量 = 学生 5 ／ 家长 parent@local）。越权口径由 tests/smoke/assess_portal_gaps.py 断言：家长 A 请求家长 B 的孩子 → 303 /my/child（不渲染该生身份）+ 数据层 RPC 直读被拒（门户 ACL = 0）"
+    },
+    {
+      "key": "assess_faculty_history",
+      "path": "/assess/faculty/history",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "教师被评者本人的历程（无参路由：看别人的教师历程结构上不可达，同 /assess/my/history 的学生写法）。越权/空态/两道闸门口径由 tests/smoke/assess_portal_gaps.py 断言（学生与家长访问 → 303 /my/home）"
+    },
+    {
+      "key": "assess_fill_detail",
+      "path": "/assess/fill/<int:task_id>",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "assess_fill_detail_save",
+      "path": "/assess/fill/<int:task_id>/save",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_grade_detail",
+      "path": "/assess/grade/<int:task_id>",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "assess_grade_detail_save",
+      "path": "/assess/grade/<int:task_id>/save",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_my",
+      "path": "/assess/my",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_my_history",
+      "path": "/assess/my/history",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_review",
+      "path": "/assess/review",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_student_detail_history",
+      "path": "/assess/student/<int:student_id>/history",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "参数页：上级 /assess 已在 route_matrix 扫描集内，本页需补样本 id 才能被真探（口径与 assess_templates_detail 一致）",
+      "status": "gap",
+      "evidence": "样本：op.student id（本地 edu19 现有 5/7/8/9；入口 = /assess/grade/<task> 矩阵里每行学生姓名、以及 /assess/task/<task>/results 的被评对象姓名）。越权口径由 tests/smoke/assess_history.py 的 H4a（学生请求 → 弹回 /my/home）、H5c（教师任教班内 200）、H5d（教师非任教班 → fail-closed 越界页）断言覆盖"
+    },
+    {
+      "key": "assess_task_detail_export_xlsx",
+      "path": "/assess/task/<int:task_id>/export.xlsx",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_task_detail_import",
+      "path": "/assess/task/<int:task_id>/import",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_task_detail_import_commit",
+      "path": "/assess/task/<int:task_id>/import/commit",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_task_detail_results",
+      "path": "/assess/task/<int:task_id>/results",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "assess_tasks",
+      "path": "/assess/tasks",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_tasks_detail",
+      "path": "/assess/tasks/<int:task_id>",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "样本：edu.assess.task id（本地 edu19 现有 1/2/3 + 验收脚本新建的任务；入口 = /assess/tasks 列表每行的「管理」/「名单」）。越权口径由 tests/smoke/assess_task_portal.py 逐身份实测覆盖（学生/教师/家长 → 303 /my/home，写路由另测越权写入残留 0）"
+    },
+    {
+      "key": "assess_tasks_detail_roster",
+      "path": "/assess/tasks/<int:task_id>/roster",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "样本：edu.assess.task id（本地 edu19 现有 1/2/3 + 验收脚本新建的任务；入口 = /assess/tasks 列表每行的「管理」/「名单」）。越权口径由 tests/smoke/assess_task_portal.py 逐身份实测覆盖（学生/教师/家长 → 303 /my/home，写路由另测越权写入残留 0）"
+    },
+    {
+      "key": "assess_tasks_detail_roster_detail_delete",
+      "path": "/assess/tasks/<int:task_id>/roster/<int:roster_id>/delete",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_tasks_detail_roster_add",
+      "path": "/assess/tasks/<int:task_id>/roster/add",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_tasks_detail_roster_build",
+      "path": "/assess/tasks/<int:task_id>/roster/build",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_tasks_detail_state",
+      "path": "/assess/tasks/<int:task_id>/state",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_tasks_new",
+      "path": "/assess/tasks/new",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_tasks_save",
+      "path": "/assess/tasks/save",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_template_detail_blank_xlsx",
+      "path": "/assess/template/<int:template_id>/blank.xlsx",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_templates",
+      "path": "/assess/templates",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_templates_detail",
+      "path": "/assess/templates/<int:template_id>",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "上级 /assess/templates 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：edu.assess.template id（本地 edu19 现有 id 1/2/3；入口 = /assess/templates 列表每张卡的「编辑」）"
+    },
+    {
+      "key": "assess_templates_detail_items_detail_delete",
+      "path": "/assess/templates/<int:template_id>/items/<int:item_id>/delete",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_templates_detail_items_save",
+      "path": "/assess/templates/<int:template_id>/items/save",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_templates_detail_state",
+      "path": "/assess/templates/<int:template_id>/state",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_templates_new",
+      "path": "/assess/templates/new",
+      "module": "edu_assess",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assess_templates_save",
+      "path": "/assess/templates/save",
+      "module": "edu_assess",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_edit_detail",
+      "path": "/assignment/edit/<int:aid>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_edit_detail_save",
+      "path": "/assignment/edit/<int:aid>/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_manage",
+      "path": "/assignment/manage",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_publish",
+      "path": "/assignment/publish",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_publish_save",
+      "path": "/assignment/publish_save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_set_state",
+      "path": "/assignment/set_state",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_submission_file_teacher",
+      "path": "/assignment/submission/<int:sid>/file",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 附件端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用。2026-10-04（第 69 轮）新增，教师侧下载自己作业下的学生提交附件；归属判定复用 _teacher_assignment()（越权按不存在处理），已实测学生/家长取同一链接均 303 被挡",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_submission_grade",
+      "path": "/assignment/submission/<int:sid>/grade",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（POST-only）：不是可渲染页面。2026-10-04（第 70 轮）新增，教师给自己作业下的学生提交打分；归属判定复用 _teacher_assignment()，名单口径与提交名单页一致；已实测学生带**合法 csrf** 打同一路由仍 303 被挡（不是被 CSRF 挡的）",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_submissions_detail",
+      "path": "/assignment/submissions/<int:aid>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "attendance_confirm_rep_sheet",
+      "path": "/attendance/confirm_rep_sheet",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "attendance_import",
+      "path": "/attendance/import",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：写操作面（表单 / 提交 / 回执 / 动作）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "attendance_import_commit",
+      "path": "/attendance/import/commit",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "attendance_save",
+      "path": "/attendance/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "attendance_selfcheck_detail",
+      "path": "/attendance/selfcheck/<token>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "attendance_selfcheck_start",
+      "path": "/attendance/selfcheck/start",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "attendance_selfcheck_stop",
+      "path": "/attendance/selfcheck/stop",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "attendance_take",
+      "path": "/attendance/take",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "booking",
+      "path": "/booking",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "campus_jobs",
+      "path": "/campus/jobs",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "campus_jobs_detail",
+      "path": "/campus/jobs/<int:posting_id>",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "campus_jobs_detail_apply",
+      "path": "/campus/jobs/<int:posting_id>/apply",
+      "module": "edu_public",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "campus_jobs_detail_sent",
+      "path": "/campus/jobs/<int:posting_id>/sent",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "certificate",
+      "path": "/certificate",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "checkins_stats",
+      "path": "/checkins/stats",
+      "module": "edu_life",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "checkins_stats_export",
+      "path": "/checkins/stats/export",
+      "module": "edu_life",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "course_change_request",
+      "path": "/course/change/request",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "course_change_request_save",
+      "path": "/course/change/request/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "courses",
+      "path": "/courses",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "courses_offered",
+      "path": "/courses-offered",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "digital_library",
+      "path": "/digital-library",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "digital_library_material_detail",
+      "path": "/digital-library/material/<int:mid>",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads",
+      "path": "/downloads",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_ack_detail_save",
+      "path": "/downloads/ack/<int:fid>/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_file_detail",
+      "path": "/downloads/file/<int:fid>",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_folder_delete",
+      "path": "/downloads/folder/delete",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_folder_save",
+      "path": "/downloads/folder/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_manage",
+      "path": "/downloads/manage",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_manage_bulk",
+      "path": "/downloads/manage/bulk",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_manage_file_update",
+      "path": "/downloads/manage/file/update",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_mine",
+      "path": "/downloads/mine",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_mine_export",
+      "path": "/downloads/mine/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_need_ack_detail",
+      "path": "/downloads/need-ack/<int:fid>",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_remind_detail_save",
+      "path": "/downloads/remind/<int:fid>/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_stats",
+      "path": "/downloads/stats",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_stats_export",
+      "path": "/downloads/stats/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_unacked_detail",
+      "path": "/downloads/unacked/<int:fid>",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_unacked_detail_export",
+      "path": "/downloads/unacked/<int:fid>/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_upload",
+      "path": "/downloads/upload",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "downloads_upload_save",
+      "path": "/downloads/upload/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "edu_audit",
+      "path": "/edu/audit",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "edu_backend_relink_identity",
+      "path": "/edu/backend/relink_identity",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "edu_backend_relink_identity_save",
+      "path": "/edu/backend/relink_identity/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "edu_enroll_pool_mode",
+      "path": "/edu/enroll/pool_mode",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "edu_enroll_pool_mode_save",
+      "path": "/edu/enroll/pool_mode/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "edu_import_students",
+      "path": "/edu/import/students",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "edu_import_students_commit",
+      "path": "/edu/import/students/commit",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "edu_import_students_preview",
+      "path": "/edu/import/students/preview",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grade_book",
+      "path": "/grade-book",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "backoffice",
+        "admin"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "同一 URL 两种形态（2026-10-03 起）：学生 = 自己的成绩簿（原行为，一字未动）；教务 / 超管 = 成绩录入网格（整班 × 科目），由 custom_addons/edu_portal/controllers/grading.py 覆写 EduStudentBatch2.grade_book 分流，录入逻辑直接复用既有的 /grade-entry 引擎（controllers/grade_entry.py），不新造第二套。教师 / 家长维持原行为（拒止文案）。页面级判据：tests/smoke/gradebook_registrar_entry.py（20 条断言，含真点击录分 → 学生端页面同步 → 还原）。"
+    },
+    {
+      "key": "grade_book_report_download",
+      "path": "/grade-book/report/download",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grade_entry",
+      "path": "/grade-entry",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "成绩录入（2026-09-29 新增，edu_portal/controllers/grade_entry.py）：教务 / 任课教师的整班矩阵录分页；写路由 /grade-entry/save。数据落在基座既有 op.marksheet.* 链上，不新造成绩模型。scope=other + roles 只含内部身份：学生 / 家长访问会被 303 回 /my/home（控制器域收敛），故不登记为他们期望 200 的页面。"
+    },
+    {
+      "key": "grade_entry_add_student",
+      "path": "/grade-entry/add-student",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grade_entry_export_xlsx",
+      "path": "/grade-entry/export.xlsx",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grade_entry_import",
+      "path": "/grade-entry/import",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grade_entry_remove_student",
+      "path": "/grade-entry/remove-student",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grade_entry_save",
+      "path": "/grade-entry/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grade_entry_xlsx",
+      "path": "/grade-entry/xlsx",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grading_copy_prev",
+      "path": "/grading/copy_prev",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grading_entry",
+      "path": "/grading/entry",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grading_export",
+      "path": "/grading/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grading_history",
+      "path": "/grading/history",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "grading_import",
+      "path": "/grading/import",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grading_import_commit",
+      "path": "/grading/import/commit",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grading_save",
+      "path": "/grading/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grievances_approvals",
+      "path": "/grievances/approvals",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grievances_approvals_detail",
+      "path": "/grievances/approvals/<int:gid>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grievances_set_state",
+      "path": "/grievances/set_state",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "grievances_set_state_bulk",
+      "path": "/grievances/set_state_bulk",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "help",
+      "path": "/help",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "help_faculty",
+      "path": "/help/faculty",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "help_parent",
+      "path": "/help/parent",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "help_registrar",
+      "path": "/help/registrar",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "help_student",
+      "path": "/help/student",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "journal",
+      "path": "/journal",
+      "module": "edu_brand",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "journal_page_detail",
+      "path": "/journal/page/<int:page_no>",
+      "module": "edu_brand",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "journals_review",
+      "path": "/journals/review",
+      "module": "edu_life",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "journals_review_detail",
+      "path": "/journals/review/<int:entry_id>",
+      "module": "edu_life",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /journals/review 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：edu.journal.entry 行（且当前账号有教师档案：_require_teacher）"
+    },
+    {
+      "key": "journals_review_detail_grade",
+      "path": "/journals/review/<int:entry_id>/grade",
+      "module": "edu_life",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "leave_detail_return_confirm",
+      "path": "/leave/<int:leave_id>/return_confirm",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "leave_approvals",
+      "path": "/leave/approvals",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "leave_approvals_detail",
+      "path": "/leave/approvals/<int:leave_id>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /leave/approvals 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：edu.leave 行（state 为待批，且当前账号过 leave_portal_approver()）"
+    },
+    {
+      "key": "leave_set_state",
+      "path": "/leave/set_state",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "leave_set_state_bulk",
+      "path": "/leave/set_state_bulk",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "leave_transfer",
+      "path": "/leave/transfer",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：写操作面（表单 / 提交 / 回执 / 动作）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "ledger",
+      "path": "/ledger",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "ledger_export",
+      "path": "/ledger/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "ledger_new",
+      "path": "/ledger/new",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "ledger_new_save",
+      "path": "/ledger/new/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "ledger_reimburse",
+      "path": "/ledger/reimburse",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "ledger_reimburse_set",
+      "path": "/ledger/reimburse/set",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "library_media",
+      "path": "/library/media",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "library_media_info_detail",
+      "path": "/library/media/info/<int:mid>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /library/media 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：op.media.id（batch2.py:1400 browse）"
+    },
+    {
+      "key": "login",
+      "path": "/login",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "logout",
+      "path": "/logout",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "meeting_information",
+      "path": "/meeting/information",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my",
+      "path": "/my",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_courses",
+      "path": "/my-courses",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_library",
+      "path": "/my-library",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_academic_calendar",
+      "path": "/my/academic-calendar",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_account_gr_no",
+      "path": "/my/account/gr-no",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_apology_save",
+      "path": "/my/apology/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_apps",
+      "path": "/my/apps",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_asset_request",
+      "path": "/my/asset-request",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_assets",
+      "path": "/my/assets",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_assets_apply",
+      "path": "/my/assets/apply",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "assignment_sub_file_student",
+      "path": "/my/assignment/sub/<int:sid>/file",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_availability",
+      "path": "/my/availability",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_availability_delete",
+      "path": "/my/availability/delete",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_availability_save",
+      "path": "/my/availability/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_avatar_upload",
+      "path": "/my/avatar/upload",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_calendar",
+      "path": "/my/calendar",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_calendar_create",
+      "path": "/my/calendar/create",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_calendar_ics_detail",
+      "path": "/my/calendar/ics/<token>",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_calendar_new",
+      "path": "/my/calendar/new",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：写操作面（表单 / 提交 / 回执 / 动作）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_certificate_download_detail",
+      "path": "/my/certificate/download/<int:cert_id>",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_checkin",
+      "path": "/my/checkin",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_checkin_board",
+      "path": "/my/checkin/board",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_checkin_export",
+      "path": "/my/checkin/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_checkin_save",
+      "path": "/my/checkin/save",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_checkins",
+      "path": "/my/checkins",
+      "module": "edu_life",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_checkins_check",
+      "path": "/my/checkins/check",
+      "module": "edu_life",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_checkins_export",
+      "path": "/my/checkins/export",
+      "module": "edu_life",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_child",
+      "path": "/my/child",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "parent"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_child_detail",
+      "path": "/my/child/<int:child_id>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "parent"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/child 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：op.student.id 且 ∈ parent.student_ids（roles.py: child_id in parent.student_ids.ids）"
+    },
+    {
+      "key": "my_child_detail_leave",
+      "path": "/my/child/<int:child_id>/leave",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "parent"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/child 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：同上（op.student.id，须为该家长名下的孩子）"
+    },
+    {
+      "key": "my_child_detail_leave_save",
+      "path": "/my/child/<int:child_id>/leave/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "parent"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_child_detail_leave_saved",
+      "path": "/my/child/<int:child_id>/leave/saved",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "parent"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/child 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：同上（回执页；须先 POST /my/child/<id>/leave/save 才可达）"
+    },
+    {
+      "key": "my_contacts",
+      "path": "/my/contacts",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_courses_2",
+      "path": "/my/courses",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_courses_detail",
+      "path": "/my/courses/<int:subject_id>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/courses 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：op.subject.id 且须在 _subjects_for(...) 结果里（lms.py:114）"
+    },
+    {
+      "key": "my_courses_detail_rep",
+      "path": "/my/courses/<int:subject_id>/rep",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/courses 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：edu.course.rep 在任课代表绑定（lms.py active_rep_for(student, subject)）；**需造样本**"
+    },
+    {
+      "key": "my_courses_detail_rep_attendance",
+      "path": "/my/courses/<int:subject_id>/rep/attendance",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_courses_detail_rep_leave_set_state",
+      "path": "/my/courses/<int:subject_id>/rep/leave/set_state",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_courses_detail_rep_notify",
+      "path": "/my/courses/<int:subject_id>/rep/notify",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_courses_detail_rep_release",
+      "path": "/my/courses/<int:subject_id>/rep/release",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_courses_lesson_detail",
+      "path": "/my/courses/lesson/<int:lesson_id>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/courses 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：edu.lesson.id，须 state=published 且 subject_id ∈ _subjects_for(...)（lms.py:164-175）"
+    },
+    {
+      "key": "my_courses_lesson_detail_done",
+      "path": "/my/courses/lesson/<int:lesson_id>/done",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_dms",
+      "path": "/my/dms",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_documents",
+      "path": "/my/documents",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_documents_enrollment_certificate",
+      "path": "/my/documents/enrollment-certificate",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_documents_transcript",
+      "path": "/my/documents/transcript",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_evaluation",
+      "path": "/my/evaluation",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_evaluation_create",
+      "path": "/my/evaluation/create",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_evaluation_new",
+      "path": "/my/evaluation/new",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：写操作面（表单 / 提交 / 回执 / 动作）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_evaluation_results",
+      "path": "/my/evaluation/results",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_evaluation_results_csv",
+      "path": "/my/evaluation/results.csv",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_evaluation_task_detail",
+      "path": "/my/evaluation/task/<int:task_id>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/evaluation 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）；另见 ui-gap-ledger 的 P1：同路径被 shim 遮蔽",
+      "status": "gap",
+      "evidence": "样本：edu.eval.task.id（evaluation.py:112 且当前账号过 _is_staff()）"
+    },
+    {
+      "key": "my_evaluation_task_detail_save",
+      "path": "/my/evaluation/task/<int:task_id>/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_favorites_save",
+      "path": "/my/favorites/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_fees",
+      "path": "/my/fees",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_fees_export",
+      "path": "/my/fees/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_grievances",
+      "path": "/my/grievances",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_grievances_export",
+      "path": "/my/grievances/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_grievances_save",
+      "path": "/my/grievances/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_help",
+      "path": "/my/help",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_home",
+      "path": "/my/home",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_invoice_pdf_detail",
+      "path": "/my/invoice/pdf/<int:move_id>",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_journals",
+      "path": "/my/journals",
+      "module": "edu_life",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_journals_save",
+      "path": "/my/journals/save",
+      "module": "edu_life",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_lang_detail",
+      "path": "/my/lang/<string:code>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_leave_withdraw",
+      "path": "/my/leave/withdraw",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_marks",
+      "path": "/my/marks",
+      "module": "edu_telegram",
+      "kind": "page",
+      "scope": "retired",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_marks_detail",
+      "path": "/my/marks/<int:exam_id>",
+      "module": "edu_telegram",
+      "kind": "page",
+      "scope": "retired",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_marks_detail_save",
+      "path": "/my/marks/<int:exam_id>/save",
+      "module": "edu_telegram",
+      "kind": "endpoint",
+      "scope": "retired",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_messages",
+      "path": "/my/messages",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_messages_detail",
+      "path": "/my/messages/<int:uid>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/messages 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：熟人圈账号的 res.users id（messages.py _identity_user_ids：已挂身份档案的账号）"
+    },
+    {
+      "key": "my_messages_poll",
+      "path": "/my/messages/poll",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：数据 / 轮询面（接口被算成页面）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_messages_send",
+      "path": "/my/messages/send",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_notice_detail",
+      "path": "/my/notice/<int:notice_id>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_notice_banner",
+      "path": "/my/notice_banner",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_notice_board_all_read",
+      "path": "/my/notice_board/all_read",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_notice_board_notice",
+      "path": "/my/notice_board/notice",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_notify",
+      "path": "/my/notify",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_notify_save",
+      "path": "/my/notify/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_offer_set_state",
+      "path": "/my/offer/set_state",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_password",
+      "path": "/my/password",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_password_save",
+      "path": "/my/password/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_points",
+      "path": "/my/points",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_points_give",
+      "path": "/my/points/give",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_points_me",
+      "path": "/my/points/me",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_reimburse_apply",
+      "path": "/my/reimburse/apply",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty",
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：写操作面（表单 / 提交 / 回执 / 动作）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_reimburse_apply_save",
+      "path": "/my/reimburse/apply/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "faculty",
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_reimburse_receipt_detail_detail",
+      "path": "/my/reimburse/receipt/<int:bill_id>/<int:att_id>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_rollcall",
+      "path": "/my/rollcall",
+      "module": "edu_telegram",
+      "kind": "page",
+      "scope": "retired",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_rollcall_detail",
+      "path": "/my/rollcall/<int:session_id>",
+      "module": "edu_telegram",
+      "kind": "page",
+      "scope": "retired",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_rollcall_detail_save",
+      "path": "/my/rollcall/<int:session_id>/save",
+      "module": "edu_telegram",
+      "kind": "endpoint",
+      "scope": "retired",
+      "roles": [
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_search",
+      "path": "/my/search",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_search_suggest",
+      "path": "/my/search/suggest",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_skill_save",
+      "path": "/my/skill/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_study",
+      "path": "/my/study",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_study_detail",
+      "path": "/my/study/<int:subject_id>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /my/study 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：op.subject.id 且须在 _subjects_for(...) 结果里（study.py）"
+    },
+    {
+      "key": "my_study_session_detail_join",
+      "path": "/my/study/session/<int:session_id>/join",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "parent",
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：写操作面（表单 / 提交 / 回执 / 动作）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "my_study_session_detail_link_save",
+      "path": "/my/study/session/<int:session_id>/link/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_subject_reg",
+      "path": "/my/subject-reg",
+      "module": "edu_telegram",
+      "kind": "page",
+      "scope": "retired",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_subject_reg_save",
+      "path": "/my/subject-reg/save",
+      "module": "edu_telegram",
+      "kind": "endpoint",
+      "scope": "retired",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_telegram",
+      "path": "/my/telegram",
+      "module": "edu_telegram",
+      "kind": "page",
+      "scope": "retired",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_telegram_new_code",
+      "path": "/my/telegram/new_code",
+      "module": "edu_telegram",
+      "kind": "endpoint",
+      "scope": "retired",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "my_thesis",
+      "path": "/my/thesis",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_time_off",
+      "path": "/my/time_off",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_time_off_export",
+      "path": "/my/time_off/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "my_time_off_save",
+      "path": "/my/time_off/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "notice_publish",
+      "path": "/notice/publish",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "notice_publish_save",
+      "path": "/notice/publish_save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "notice_template_save",
+      "path": "/notice/template/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "odoo",
+      "path": "/odoo",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "odoo_detail",
+      "path": "/odoo/<path:subpath>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "backend-apps",
+      "path": "/odoo/apps",
+      "module": "(odoo-webclient-core)",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "后台 Web 客户端页（核心 ir.module.module 卡片看板，实测 73 张卡带图标，**无** o_menu_sections）；2026-09-29 扩覆盖补入，扫描身份 backoffice。补它的理由：与 /odoo/students 的看板成对照（一个有区段导航、一个没有），且卡片带 web_icon 图片 —— 图片 alt / 可访问名那条线只在卡片看板上才有样本。表内非仓内路由：同 /odoo/contacts。"
+    },
+    {
+      "key": "backend-batches",
+      "path": "/odoo/batches",
+      "module": "(odoo-webclient-core)",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "后台 Web 客户端页（自研 op.batch 列表视图，实测 17 行 / 35 个选择框）；2026-09-29 扩覆盖补入，扫描身份 backoffice。补它的理由：原样本 /odoo/contacts 是 Odoo 核心模型，自研模块的列表页此前从未逐页验过，且本页导航栏带 o_menu_sections 区段条目（另一类只在后台出现的元素）。表内非仓内路由：Odoo 核心 web 客户端渲染，不在 custom_addons 的 @http.route 里，故同样登记 scripts/check_ui_surface.py 的 ALLOW_NO_ROUTE 与 scripts/ui_surface_report.py 的 EXTRA_ROUTES。"
+    },
+    {
+      "key": "backend-contacts",
+      "path": "/odoo/contacts",
+      "module": "(odoo-webclient-core)",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "后台 Web 客户端代表页（核心 res.partner 列表视图，内部用户可开）；由 scripts/check_accessibility.py 以 backoffice 会话扫描（2026-09-28 补后台覆盖）。表内非仓内路由：Odoo 核心 web 客户端渲染，不在 custom_addons 的 @http.route 里，故同时登记 scripts/check_ui_surface.py 的 ALLOW_NO_ROUTE 与 scripts/ui_surface_report.py 的 EXTRA_ROUTES。"
+    },
+    {
+      "key": "backend-contact-detail",
+      "path": "/odoo/contacts/1",
+      "module": "(odoo-webclient-core)",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "后台 Web 客户端页（核心 res.partner **记录表单**，实测 .o_form_view=1；id=1 是本公司主记录，不会被演示数据清理删掉）；2026-09-29 扩覆盖补入，扫描身份 backoffice。补它的理由：原先 2 页后台样本**没有任何表单形态**，而表单是后台最高频的形态（关系字段 / O2M 列表 / 按钮组都只在表单上出现）。表内非仓内路由：同 /odoo/contacts。"
+    },
+    {
+      "key": "backend-grade-config",
+      "path": "/odoo/grade-configuration",
+      "module": "(odoo-webclient-core)",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "后台 Web 客户端页（另一个应用「时间表/考试」的配置分区，自研 op.grade.configuration 列表，实测 7 行）；2026-09-29 扩覆盖补入，扫描身份 backoffice。补它的理由：**区段形态最复杂**的一页（实测 6 个扁平 menuitem + 8 个下拉按钮），而 aria-required-children 那批读数正是由区段形态决定的 —— 只验 2 页时这条分支没有样本。表内非仓内路由：同 /odoo/contacts。"
+    },
+    {
+      "key": "backend-students",
+      "path": "/odoo/students",
+      "module": "(odoo-webclient-core)",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "后台 Web 客户端代表页（本校「学生信息」应用根）。⚠ 2026-09-29 实测订正：本页渲染的是 **kanban**（{list:0, kanban:1, cards:14}），真正渲染 list 的是 /odoo/contacts（rows:80, checkboxes:81）—— 旧 evidence 写的「op.student 列表」是错的。导航栏含 o_menu_sections 区段条目（同根因字色缺陷的另一批受害者）；backoffice 会话扫描。表内非仓内路由：同 /odoo/contacts。"
+    },
+    {
+      "key": "backend-student-detail",
+      "path": "/odoo/students/5",
+      "module": "(odoo-webclient-core)",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "后台 Web 客户端页（自研 op.student **记录表单**，实测 .o_form_view=1 且导航栏带 o_menu_sections）；2026-09-29 扩覆盖补入，扫描身份 backoffice。补它的理由：自研模块的记录表单（含 edu_* 的视图继承结果）与核心表单是两条不同的渲染路径。⚠ 本页依赖 op_student 里 id=5 存在 —— 记录一旦消失，URL 仍返 200 但会静默回落成看板，届时 scripts/check_accessibility.py 的 BACKEND_EXPECT_VIEW 形态断言会把它判成 INCOMPLETE（不判绿）。表内非仓内路由：同 /odoo/contacts。"
+    },
+    {
+      "key": "online_exams",
+      "path": "/online-exams",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "online_meeting",
+      "path": "/online/meeting",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "openeducat_apps_menu",
+      "path": "/openeducat/apps_menu",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "program_offered",
+      "path": "/program-offered",
+      "module": "edu_public",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "programs",
+      "path": "/programs",
+      "module": "edu_brand",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "admin",
+        "anon",
+        "backoffice",
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "quiz",
+      "path": "/quiz",
+      "module": "edu_quiz",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "quiz_detail_result_detail",
+      "path": "/quiz/<int:qid>/result/<int:aid>",
+      "module": "edu_quiz",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /quiz 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：edu.quiz.attempt.id（须 student_id=本人 且 quiz_id=URL 的 qid，portal.py:160-168）；**需造样本**"
+    },
+    {
+      "key": "quiz_detail_submit",
+      "path": "/quiz/<int:qid>/submit",
+      "module": "edu_quiz",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "quiz_detail_take",
+      "path": "/quiz/<int:qid>/take",
+      "module": "edu_quiz",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /quiz 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：edu.quiz.id 且 state=published"
+    },
+    {
+      "key": "quiz_my",
+      "path": "/quiz/my",
+      "module": "edu_quiz",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "register",
+      "path": "/register",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "register_submit",
+      "path": "/register/submit",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "registrar_curriculum",
+      "path": "/registrar/curriculum",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "accessibility"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": "2026-09-29 补登记：原 gates=[] / status=gap，原 reason = 「三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页」—— 该页是教务天天用的课程编排页（enroll.py 的 registrar_curriculum / registrar_curriculum_save），却没有任何 UI 门禁扫它。本轮只补 accessibility（取样身份 backoffice，见 scripts/check_accessibility.py 的 AUDIT_ROUTES）；route_matrix / english 是否收录由各自脚本判定，未在本轮改动。"
+    },
+    {
+      "key": "registrar_curriculum_save",
+      "path": "/registrar/curriculum/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "registrar_subject_approvals",
+      "path": "/registrar/subject/approvals",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "registrar_subject_approvals_detail",
+      "path": "/registrar/subject/approvals/<int:rid>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "route_matrix",
+      "reason": "上级 /registrar/subject/approvals 已在 route_matrix 扫描集内；本页需补样本 id 才能被真探（见 --coverage 的样本清单）",
+      "status": "gap",
+      "evidence": "样本：op.subject.registration 行（待审选课单）"
+    },
+    {
+      "key": "registrar_subject_approvals_detail_set_state",
+      "path": "/registrar/subject/approvals/<int:rid>/set_state",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "registrar_subject_set_state_bulk",
+      "path": "/registrar/subject/set_state_bulk",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice",
+        "faculty"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "requested_queue_list",
+      "path": "/requested/queue/list",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "reset_password",
+      "path": "/reset_password",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "scoped_app_detail",
+      "path": "/scoped_app/<path:subpath>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_assignment_details",
+      "path": "/student/assignment/details",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_attendance",
+      "path": "/student/attendance",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_attendance_export",
+      "path": "/student/attendance/export",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_exam",
+      "path": "/student/exam",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_exam_data_detail",
+      "path": "/student/exam/data/<int:eid>",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_profile",
+      "path": "/student/profile",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_progression",
+      "path": "/student/progression",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_subjects",
+      "path": "/student/subjects",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "student_timetable",
+      "path": "/student/timetable",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "faculty",
+        "parent",
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "accessibility",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "subject_details",
+      "path": "/subject/details",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "subject_enroll",
+      "path": "/subject/enroll",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：写操作面（表单 / 提交 / 回执 / 动作）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "subject_enroll_save",
+      "path": "/subject/enroll/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "subject_material_detail_detail",
+      "path": "/subject/material/detail/<int:sid>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "subject_registration",
+      "path": "/subject/registration",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "subject_registration_data_detail",
+      "path": "/subject/registration/data/<int:rid>",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "数据 / 导出端点（不是页面）：渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "submited_assignment_list_detail",
+      "path": "/submited/assignment/list/<int:aid>",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "submited_assignment_list_detail_save",
+      "path": "/submited/assignment/list/<int:aid>/save",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "telegram_report_detail",
+      "path": "/telegram/report/<string:token>",
+      "module": "edu_telegram",
+      "kind": "endpoint",
+      "scope": "retired",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "telegram_webhook",
+      "path": "/telegram/webhook",
+      "module": "edu_telegram",
+      "kind": "endpoint",
+      "scope": "retired",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "本仓 edu_telegram v2.2 已退役、从未部署（deploy_myedu.sh 不含）；生产上同名模块是另一个（匿名意见箱）——代码快照同名不同物",
+      "status": "n/a",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_batch_detail_deactivate",
+      "path": "/timetable/batch/<int:bid>/deactivate",
+      "module": "edu_schedule",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：写操作面（表单 / 提交 / 回执 / 动作）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_batch_detail_deactivate_confirm",
+      "path": "/timetable/batch/<int:bid>/deactivate/confirm",
+      "module": "edu_schedule",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_bulk",
+      "path": "/timetable/bulk",
+      "module": "edu_schedule",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_bulk_create",
+      "path": "/timetable/bulk/create",
+      "module": "edu_schedule",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_bulk_preview",
+      "path": "/timetable/bulk/preview",
+      "module": "edu_schedule",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_coverage",
+      "path": "/timetable/coverage",
+      "module": "edu_schedule",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_coverage_unfilled",
+      "path": "/timetable/coverage/unfilled",
+      "module": "edu_schedule",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：自助服务页 / 其它内容页",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_session_detail_impact",
+      "path": "/timetable/session/<int:sid>/impact",
+      "module": "edu_schedule",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "三个门禁均未登记该路由（口径：路径精确匹配）：参数页 / 令牌页（有参数段，上级未登记）",
+      "status": "gap",
+      "evidence": ""
+    },
+    {
+      "key": "timetable_session_detail_notify",
+      "path": "/timetable/session/<int:sid>/notify",
+      "module": "edu_schedule",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "admin",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "users_result_overview",
+      "path": "/users/result-overview",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "portal",
+      "roles": [
+        "student"
+      ],
+      "gates": [
+        "route_matrix",
+        "english"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "web",
+      "path": "/web",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "other",
+      "roles": [
+        "student",
+        "faculty",
+        "parent",
+        "backoffice"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "不在本次门户范围（公开站 / 登录注册 / 后台等）：三张 UI 门禁按设计不含它，如需纳入请单独立项",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "web_register",
+      "path": "/web/register",
+      "module": "edu_portal",
+      "kind": "page",
+      "scope": "public",
+      "roles": [
+        "anon"
+      ],
+      "gates": [
+        "route_matrix"
+      ],
+      "pending_gate": "",
+      "reason": "",
+      "status": "unverified",
+      "evidence": ""
+    },
+    {
+      "key": "web_register_submit",
+      "path": "/web/register/submit",
+      "module": "edu_portal",
+      "kind": "endpoint",
+      "scope": "endpoint",
+      "roles": [
+        "anon"
+      ],
+      "gates": [],
+      "pending_gate": "",
+      "reason": "写路由（methods 不含 GET）：不是可渲染页面，渲染 / 文案 / 无障碍门禁不适用",
+      "status": "unverified",
+      "evidence": ""
+    }
+  ]
+}

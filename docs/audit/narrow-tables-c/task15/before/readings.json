@@ -1,0 +1,58 @@
+{
+ "/my/checkin/board": {
+  "tables": [
+   {
+    "cols": 8,
+    "rows": 7,
+    "tableW": 345,
+    "containerW": 345,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ },
+ "/my/checkin/board#desk": {
+  "tables": [
+   {
+    "cols": 8,
+    "rows": 7,
+    "tableW": 1178,
+    "containerW": 1178,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ },
+ "/my/points/me": {
+  "tables": [
+   {
+    "cols": 5,
+    "rows": 2,
+    "tableW": 345,
+    "containerW": 345,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ },
+ "/my/points/me#desk": {
+  "tables": [
+   {
+    "cols": 5,
+    "rows": 2,
+    "tableW": 1178,
+    "containerW": 1178,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ }
+}

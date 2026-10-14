@@ -1,0 +1,2839 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  菜单收口的声明式数据主体（edu_nav）——**本文件由脚本生成，不要手改**。
+  生成器：scripts/gen_menu_data.py（计划 JSON 为唯一声明源）
+  计划文件：docs/audit/menu-consolidation/menu-consolidation-plan.json
+  生成时间(UTC)：2026-10-02T11:18:58Z
+  受影响菜单 330 条 / 字段改动 336 处
+  发射模式：live（生效）
+  红线：只出现 active / group_ids / parent_id / sequence，绝不出现删除类操作。
+  为什么是普通 <record>：全部 605 条 ir.ui.menu 的 noupdate 都是 0，
+  普通 record 每次升级都会重放 ⇒ 天生满足「升级后仍生效」+「幂等」。
+-->
+<odoo>
+    <!-- 设置 (id=1) -->
+    <record id="base.menu_administration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="1" />
+    <field name="name" eval="&quot;设置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="550" />
+        <!-- 档2 仅超管：groups=[base.group_system] -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 自定快捷方式 (id=2) -->
+    <record id="base.menu_administration_shortcut" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="2" />
+    <field name="name" eval="&quot;自定快捷方式&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="50" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 用户和公司 (id=3) -->
+    <record id="base.menu_users" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="3" />
+    <field name="name" eval="&quot;用户和公司&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 翻译 (id=4) -->
+    <record id="base.menu_translation" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="4" />
+    <field name="name" eval="&quot;翻译&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 申请条款 (id=5) -->
+    <record id="base.menu_translation_app" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="5" />
+    <field name="name" eval="&quot;申请条款&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="4" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 导入/导出 (id=6) -->
+    <record id="base.menu_translation_export" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="6" />
+    <field name="name" eval="&quot;导入/导出&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 常规设置 (id=7) -->
+    <record id="base.menu_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="7" />
+    <field name="name" eval="&quot;常规设置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 技术 (id=8) -->
+    <record id="base.menu_custom" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="8" />
+    <field name="name" eval="&quot;技术&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="110" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 用户界面 (id=9) -->
+    <record id="base.next_id_2" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="9" />
+    <field name="name" eval="&quot;用户界面&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 邮箱 (id=10) -->
+    <record id="base.menu_email" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="10" />
+    <field name="name" eval="&quot;邮箱&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 数据库结构 (id=11) -->
+    <record id="base.next_id_9" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="11" />
+    <field name="name" eval="&quot;数据库结构&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 自动化 (id=12) -->
+    <record id="base.menu_automation" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="12" />
+    <field name="name" eval="&quot;自动化&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 安全 (id=13) -->
+    <record id="base.menu_security" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="13" />
+    <field name="name" eval="&quot;安全&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="25" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 参数 (id=14) -->
+    <record id="base.menu_ir_property" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="14" />
+    <field name="name" eval="&quot;参数&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="24" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 测试 (id=16) -->
+    <record id="base.menu_tests" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="16" />
+    <field name="name" eval="&quot;测试&quot;" />
+    <field name="sequence" eval="1000" />
+        <!-- 档1 彻底隐藏：整棵停用（记录保留，可一键回滚） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 小数精度 (id=17) -->
+    <record id="base.menu_decimal_precision_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="17" />
+    <field name="name" eval="&quot;小数精度&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 操作 (id=18) -->
+    <record id="base.next_id_6" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="18" />
+    <field name="name" eval="&quot;操作&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 操作 (id=19) -->
+    <record id="base.menu_ir_sequence_actions" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="19" />
+    <field name="name" eval="&quot;操作&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 报表 (id=20) -->
+    <record id="base.menu_ir_action_report" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="20" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 窗口动作 (id=21) -->
+    <record id="base.menu_ir_action_window" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="21" />
+    <field name="name" eval="&quot;窗口动作&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 客户端动作 (id=22) -->
+    <record id="base.menu_ir_client_actions_report" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="22" />
+    <field name="name" eval="&quot;客户端动作&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 服务器操作 (id=23) -->
+    <record id="base.menu_server_action" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="23" />
+    <field name="name" eval="&quot;服务器操作&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 嵌入操作 (id=24) -->
+    <record id="base.menu_ir_embedded_action" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="24" />
+    <field name="name" eval="&quot;嵌入操作&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 配置向导 (id=25) -->
+    <record id="base.menu_ir_actions_todo_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="25" />
+    <field name="name" eval="&quot;配置向导&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 资源文件包 (id=26) -->
+    <record id="base.menu_action_asset" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="26" />
+    <field name="name" eval="&quot;资源文件包&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 系统参数 (id=27) -->
+    <record id="base.ir_config_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="27" />
+    <field name="name" eval="&quot;系统参数&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 计划的操作 (id=28) -->
+    <record id="base.menu_ir_cron_act" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="28" />
+    <field name="name" eval="&quot;计划的操作&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 计划行动触发器 (id=29) -->
+    <record id="base.ir_cron_trigger_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="29" />
+    <field name="name" eval="&quot;计划行动触发器&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 筛选条件 (id=30) -->
+    <record id="base.menu_ir_filters" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="30" />
+    <field name="name" eval="&quot;筛选条件&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 发送服务器 (id=31) -->
+    <record id="base.menu_mail_servers" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="31" />
+    <field name="name" eval="&quot;发送服务器&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 模型 (id=32) -->
+    <record id="base.ir_model_model_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="32" />
+    <field name="name" eval="&quot;模型&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 字段 (id=33) -->
+    <record id="base.ir_model_model_fields" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="33" />
+    <field name="name" eval="&quot;字段&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 字段选择 (id=34) -->
+    <record id="base.ir_model_model_fields_selection" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="34" />
+    <field name="name" eval="&quot;字段选择&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 序号与标识 (id=35) -->
+    <record id="base.next_id_5" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="35" />
+    <field name="name" eval="&quot;序号与标识&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="21" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 外部标识符 (id=36) -->
+    <record id="base.ir_model_data_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="36" />
+    <field name="name" eval="&quot;外部标识符&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 模型约束 (id=37) -->
+    <record id="base.ir_model_constraint_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="37" />
+    <field name="name" eval="&quot;模型约束&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 多对多关系 (id=38) -->
+    <record id="base.ir_model_relation_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="38" />
+    <field name="name" eval="&quot;多对多关系&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 访问权限 (id=39) -->
+    <record id="base.menu_ir_access_act" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="39" />
+    <field name="name" eval="&quot;访问权限&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 附件 (id=40) -->
+    <record id="base.menu_action_attachment" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="40" />
+    <field name="name" eval="&quot;附件&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 记录规则 (id=41) -->
+    <record id="base.menu_action_rule" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="41" />
+    <field name="name" eval="&quot;记录规则&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 序列 (id=42) -->
+    <record id="base.menu_ir_sequence_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="42" />
+    <field name="name" eval="&quot;序列&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 菜单项 (id=43) -->
+    <record id="base.menu_grant_menu_access" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="43" />
+    <field name="name" eval="&quot;菜单项&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 视图 (id=44) -->
+    <record id="base.menu_action_ui_view" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="44" />
+    <field name="name" eval="&quot;视图&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 自定义视图 (id=45) -->
+    <record id="base.menu_action_ui_view_custom" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="45" />
+    <field name="name" eval="&quot;自定义视图&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 用户定义的默认值 (id=46) -->
+    <record id="base.ir_default_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="46" />
+    <field name="name" eval="&quot;用户定义的默认值&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 日志 (id=47) -->
+    <record id="base.ir_logging_all_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="47" />
+    <field name="name" eval="&quot;日志&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 应用 (id=48) -->
+    <record id="base.menu_apps" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="48" />
+    <field name="name" eval="&quot;应用&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 应用）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 主要应用 (id=49) -->
+    <record id="base.menu_module_tree" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="49" />
+    <field name="name" eval="&quot;主要应用&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 应用）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 主题商店 (id=50) -->
+    <record id="base.theme_store" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="50" />
+    <field name="name" eval="&quot;主题商店&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="15" />
+        <!-- 档2 子树（来自 应用）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 第三方应用程序 (id=51) -->
+    <record id="base.menu_third_party" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="51" />
+    <field name="name" eval="&quot;第三方应用程序&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 应用）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 主题商店 (id=52) -->
+    <record id="base.menu_theme_store" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="52" />
+    <field name="name" eval="&quot;主题商店&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 应用）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 更新应用程序列表 (id=53) -->
+    <record id="base.menu_view_base_module_update" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="53" />
+    <field name="name" eval="&quot;更新应用程序列表&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="40" />
+        <!-- 档2 子树（来自 应用）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 导入翻译 (id=54) -->
+    <record id="base.menu_view_base_import_language" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="54" />
+    <field name="name" eval="&quot;导入翻译&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 执行已安排升级 (id=55) -->
+    <record id="base.menu_view_base_module_upgrade" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="55" />
+    <field name="name" eval="&quot;执行已安排升级&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="50" />
+        <!-- 档2 子树（来自 应用）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 导出翻译 (id=56) -->
+    <record id="base.menu_wizard_lang_export" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="56" />
+    <field name="name" eval="&quot;导出翻译&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 概要分析 (id=57) -->
+    <record id="base.menu_ir_profile" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="57" />
+    <field name="name" eval="&quot;概要分析&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 公司 (id=58) -->
+    <record id="base.menu_action_res_company_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="58" />
+    <field name="name" eval="&quot;公司&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 语言 (id=59) -->
+    <record id="base.menu_res_lang_act_window" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="59" />
+    <field name="name" eval="&quot;语言&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 权利 (id=60) -->
+    <record id="base.menu_action_res_groups_privilege" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="60" />
+    <field name="name" eval="&quot;权利&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 群组 (id=61) -->
+    <record id="base.menu_action_res_groups" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="61" />
+    <field name="name" eval="&quot;群组&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 用户 (id=62) -->
+    <record id="base.menu_action_res_users" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="62" />
+    <field name="name" eval="&quot;用户&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="0" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 用户设备 (id=63) -->
+    <record id="base.menu_action_user_device" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="63" />
+    <field name="name" eval="&quot;用户设备&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 报表 (id=64) -->
+    <record id="base.reporting_menuitem" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="64" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="15" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 打印纸设置 (id=65) -->
+    <record id="base.paper_format_menuitem" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="65" />
+    <field name="name" eval="&quot;打印纸设置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 报表 (id=66) -->
+    <record id="base.reports_menuitem" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="66" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 导入模块 (id=67) -->
+    <record id="base_import_module.menu_view_base_module_import" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="67" />
+    <field name="name" eval="&quot;导入模块&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="100" />
+        <!-- 档2 子树（来自 应用）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 入职 (id=69) -->
+    <record id="onboarding.menu_onboarding" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="69" />
+    <field name="name" eval="&quot;入职&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 入职步骤 (id=70) -->
+    <record id="onboarding.menu_onboarding_step" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="70" />
+    <field name="name" eval="&quot;入职步骤&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 资源 (id=71) -->
+    <record id="resource.menu_resource_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="71" />
+    <field name="name" eval="&quot;资源&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 工作时间表 (id=72) -->
+    <record id="resource.menu_resource_calendar" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="72" />
+    <field name="name" eval="&quot;工作时间表&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 休息时间 (id=73) -->
+    <record id="resource.menu_view_resource_calendar_leaves_search" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="73" />
+    <field name="name" eval="&quot;休息时间&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 资源 (id=74) -->
+    <record id="resource.menu_resource_resource" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="74" />
+    <field name="name" eval="&quot;资源&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 链接追踪器 (id=75) -->
+    <record id="utm.menu_link_tracker_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="75" />
+    <field name="name" eval="&quot;链接追踪器&quot;" />
+    <field name="sequence" eval="270" />
+        <!-- 档1 彻底隐藏：整棵停用（记录保留，可一键回滚） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- UTMs (id=76) -->
+    <record id="utm.marketing_utm" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="76" />
+    <field name="name" eval="&quot;UTMs&quot;" />
+    <field name="sequence" eval="99" />
+        <!-- 档1 子树（来自 链接追踪器） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 活动 (id=77) -->
+    <record id="utm.menu_utm_campaign_act" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="77" />
+    <field name="name" eval="&quot;活动&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档1 子树（来自 链接追踪器） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 中等 (id=78) -->
+    <record id="utm.menu_utm_medium" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="78" />
+    <field name="name" eval="&quot;中等&quot;" />
+    <field name="sequence" eval="5" />
+        <!-- 档1 子树（来自 链接追踪器） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 来源 (id=79) -->
+    <record id="utm.menu_utm_source" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="79" />
+    <field name="name" eval="&quot;来源&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 链接追踪器） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 游览 (id=80) -->
+    <record id="web_tour.menu_tour_action" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="80" />
+    <field name="name" eval="&quot;游览&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- IAP (id=81) -->
+    <record id="iap.iap_root_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="81" />
+    <field name="name" eval="&quot;IAP&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- IAP 账户 (id=82) -->
+    <record id="iap.iap_account_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="82" />
+    <field name="name" eval="&quot;IAP 账户&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 讨论 (id=83) -->
+    <record id="mail.menu_root_discuss" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="83" />
+    <field name="name" eval="&quot;讨论&quot;" />
+    <field name="sequence" eval="5" />
+        <!-- 合并：本根停用，子树迁往 讨论(218) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 讨论 (id=84) -->
+    <record id="mail.main_menu_discuss" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="84" />
+    <field name="name" eval="&quot;讨论&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 归并：讨论(84) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 频道 (id=85) -->
+    <record id="mail.menu_channel" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="85" />
+    <field name="name" eval="&quot;频道&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 归并：频道(85) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 配置 (id=86) -->
+    <record id="mail.menu_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="86" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 归并：配置(86) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- EMail (id=91) -->
+    <record id="mail.menu_mail_mail" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="91" />
+    <field name="name" eval="&quot;EMail&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 别名 (id=92) -->
+    <record id="mail.mail_alias_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="92" />
+    <field name="name" eval="&quot;别名&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="11" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 别名域 (id=93) -->
+    <record id="mail.mail_alias_domain_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="93" />
+    <field name="name" eval="&quot;别名域&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="12" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 收件服务器 (id=94) -->
+    <record id="mail.menu_action_fetchmail_server_tree" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="94" />
+    <field name="name" eval="&quot;收件服务器&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="6" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- EMail模板 (id=95) -->
+    <record id="mail.menu_email_templates" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="95" />
+    <field name="name" eval="&quot;EMail模板&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 频道 (id=96) -->
+    <record id="mail.discuss_channel_menu_settings" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="96" />
+    <field name="name" eval="&quot;频道&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 频道/成员 (id=97) -->
+    <record id="mail.discuss_channel_member_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="97" />
+    <field name="name" eval="&quot;频道/成员&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="21" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 允许的邮件网关 (id=98) -->
+    <record id="mail.mail_gateway_allowed_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="98" />
+    <field name="name" eval="&quot;允许的邮件网关&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="22" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 讨论 (id=99) -->
+    <record id="mail.mail_menu_technical" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="99" />
+    <field name="name" eval="&quot;讨论&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 消息 (id=100) -->
+    <record id="mail.menu_mail_message" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="100" />
+    <field name="name" eval="&quot;消息&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 安排的消息 (id=101) -->
+    <record id="mail.mail_message_schedule_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="101" />
+    <field name="name" eval="&quot;安排的消息&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 子类型 (id=102) -->
+    <record id="mail.menu_message_subtype" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="102" />
+    <field name="name" eval="&quot;子类型&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="4" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 追踪值 (id=103) -->
+    <record id="mail.menu_mail_tracking_value" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="103" />
+    <field name="name" eval="&quot;追踪值&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 通知 (id=104) -->
+    <record id="mail.mail_notification_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="104" />
+    <field name="name" eval="&quot;通知&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 关注者 (id=105) -->
+    <record id="mail.menu_email_followers" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="105" />
+    <field name="name" eval="&quot;关注者&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="21" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- EMail黑名单 (id=106) -->
+    <record id="mail.mail_blacklist_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="106" />
+    <field name="name" eval="&quot;EMail黑名单&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="22" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 用户设置 (id=107) -->
+    <record id="mail.res_users_settings_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="107" />
+    <field name="name" eval="&quot;用户设置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="50" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 顾客 (id=108) -->
+    <record id="mail.mail_guest_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="108" />
+    <field name="name" eval="&quot;顾客&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="51" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- RTC 会话 (id=109) -->
+    <record id="mail.discuss_channel_rtc_session_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="109" />
+    <field name="name" eval="&quot;RTC 会话&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="52" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- ICE 服务器 (id=110) -->
+    <record id="mail.ice_servers_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="110" />
+    <field name="name" eval="&quot;ICE 服务器&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="53" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 消息反应 (id=111) -->
+    <record id="mail.mail_message_reaction_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="111" />
+    <field name="name" eval="&quot;消息反应&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="54" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 链接预览 (id=112) -->
+    <record id="mail.mail_link_preview_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="112" />
+    <field name="name" eval="&quot;链接预览&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="55" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- GIF 收藏夹 (id=113) -->
+    <record id="mail.discuss_gif_favorite_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="113" />
+    <field name="name" eval="&quot;GIF 收藏夹&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="56" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 活动 (id=114) -->
+    <record id="mail.menu_mail_activities_section" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="114" />
+    <field name="name" eval="&quot;活动&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 活动概览 (id=115) -->
+    <record id="mail.menu_mail_activities" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="115" />
+    <field name="name" eval="&quot;活动概览&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 活动类型 (id=116) -->
+    <record id="mail.menu_mail_activity_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="116" />
+    <field name="name" eval="&quot;活动类型&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 活动计划 (id=117) -->
+    <record id="mail.menu_mail_activity_plan" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="117" />
+    <field name="name" eval="&quot;活动计划&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 集成 (id=118) -->
+    <record id="mail.discuss_channel_integrations_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="118" />
+    <field name="name" eval="&quot;集成&quot;" />
+    <field name="active" eval="False" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：集成(118) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 技术 (id=119) -->
+    <record id="mail.discuss_technical" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="119" />
+    <field name="name" eval="&quot;技术&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：技术(119) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 联系人 (id=121) -->
+    <record id="contacts.menu_contacts" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="121" />
+    <field name="name" eval="&quot;联系人&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 整棵停用：本根停用（联系人） -->
+        <field name="active" eval="False" />
+        <!-- 档2：组锚定为超管 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 联系人 (id=122) -->
+    <record id="contacts.res_partner_menu_contacts" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="122" />
+    <field name="name" eval="&quot;联系人&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 配置 (id=123) -->
+    <record id="contacts.res_partner_menu_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="123" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="sequence" eval="35" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 联系人标签 (id=124) -->
+    <record id="contacts.menu_partner_category_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="124" />
+    <field name="name" eval="&quot;联系人标签&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 行业 (id=125) -->
+    <record id="contacts.res_partner_industry_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="125" />
+    <field name="name" eval="&quot;行业&quot;" />
+    <field name="sequence" eval="4" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 本地化 (id=126) -->
+    <record id="contacts.menu_localisation" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="126" />
+    <field name="name" eval="&quot;本地化&quot;" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 国家/地区 (id=127) -->
+    <record id="contacts.menu_country_partner" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="127" />
+    <field name="name" eval="&quot;国家/地区&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 国家/地区组 (id=128) -->
+    <record id="contacts.menu_country_group" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="128" />
+    <field name="name" eval="&quot;国家/地区组&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 省/州 (id=129) -->
+    <record id="contacts.menu_country_state_partner" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="129" />
+    <field name="name" eval="&quot;省/州&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 银行账户 (id=130) -->
+    <record id="contacts.menu_config_bank_accounts" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="130" />
+    <field name="name" eval="&quot;银行账户&quot;" />
+    <field name="sequence" eval="6" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 银行 (id=131) -->
+    <record id="contacts.menu_action_res_bank_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="131" />
+    <field name="name" eval="&quot;银行&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 银行账户 (id=132) -->
+    <record id="contacts.menu_action_res_partner_bank_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="132" />
+    <field name="name" eval="&quot;银行账户&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 电话/短信息 (id=133) -->
+    <record id="phone_validation.phone_menu_main" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="133" />
+    <field name="name" eval="&quot;电话/短信息&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 电话黑名单 (id=134) -->
+    <record id="phone_validation.phone_blacklist_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="134" />
+    <field name="name" eval="&quot;电话黑名单&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 隐私 (id=135) -->
+    <record id="privacy_lookup.privacy_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="135" />
+    <field name="name" eval="&quot;隐私&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="26" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 隐私日志 (id=136) -->
+    <record id="privacy_lookup.pricacy_log_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="136" />
+    <field name="name" eval="&quot;隐私日志&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 短信息 (id=137) -->
+    <record id="sms.sms_sms_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="137" />
+    <field name="name" eval="&quot;短信息&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 短信息模板 (id=138) -->
+    <record id="sms.sms_template_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="138" />
+    <field name="name" eval="&quot;短信息模板&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 蜗牛邮件 (id=139) -->
+    <record id="snailmail.menu_snailmail_letters" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="139" />
+    <field name="name" eval="&quot;蜗牛邮件&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="50" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 摘要邮件 (id=140) -->
+    <record id="digest.digest_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="140" />
+    <field name="name" eval="&quot;摘要邮件&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="80" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 摘要提示 (id=141) -->
+    <record id="digest.digest_tip_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="141" />
+    <field name="name" eval="&quot;摘要提示&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="81" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 发票 (id=142) -->
+    <record id="account.menu_finance" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="142" />
+    <field name="name" eval="&quot;发票&quot;" />
+    <field name="sequence" eval="55" />
+        <!-- 档2 整棵停用：本根停用（发票） -->
+        <field name="active" eval="False" />
+        <!-- 档2：组锚定为超管 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 仪表板 (id=143) -->
+    <record id="account.menu_board_journal_1" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="143" />
+    <field name="name" eval="&quot;仪表板&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 客户 (id=144) -->
+    <record id="account.menu_finance_receivables" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="144" />
+    <field name="name" eval="&quot;客户&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 发票 (id=145) -->
+    <record id="account.menu_action_move_out_invoice_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="145" />
+    <field name="name" eval="&quot;发票&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 退款 (id=146) -->
+    <record id="account.menu_action_move_out_refund_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="146" />
+    <field name="name" eval="&quot;退款&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 付款 (id=147) -->
+    <record id="account.menu_action_account_payments_receivable" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="147" />
+    <field name="name" eval="&quot;付款&quot;" />
+    <field name="sequence" eval="15" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 产品 (id=148) -->
+    <record id="account.product_product_menu_sellable" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="148" />
+    <field name="name" eval="&quot;产品&quot;" />
+    <field name="sequence" eval="100" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 客户 (id=149) -->
+    <record id="account.menu_account_customer" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="149" />
+    <field name="name" eval="&quot;客户&quot;" />
+    <field name="sequence" eval="110" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 供应商 (id=150) -->
+    <record id="account.menu_finance_payables" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="150" />
+    <field name="name" eval="&quot;供应商&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 账单 (id=151) -->
+    <record id="account.menu_action_move_in_invoice_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="151" />
+    <field name="name" eval="&quot;账单&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 退款 (id=152) -->
+    <record id="account.menu_action_move_in_refund_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="152" />
+    <field name="name" eval="&quot;退款&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 付款 (id=153) -->
+    <record id="account.menu_action_account_payments_payable" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="153" />
+    <field name="name" eval="&quot;付款&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 产品 (id=154) -->
+    <record id="account.product_product_menu_purchasable" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="154" />
+    <field name="name" eval="&quot;产品&quot;" />
+    <field name="sequence" eval="100" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 供应商 (id=155) -->
+    <record id="account.menu_account_supplier" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="155" />
+    <field name="name" eval="&quot;供应商&quot;" />
+    <field name="sequence" eval="200" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 会计 (id=156) -->
+    <record id="account.menu_finance_entries" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="156" />
+    <field name="name" eval="&quot;会计&quot;" />
+    <field name="sequence" eval="4" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 交易 (id=157) -->
+    <record id="account.account_transactions_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="157" />
+    <field name="name" eval="&quot;交易&quot;" />
+    <field name="sequence" eval="0" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 日记账分录 (id=158) -->
+    <record id="account.menu_action_move_journal_line_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="158" />
+    <field name="name" eval="&quot;日记账分录&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 分析项目 (id=159) -->
+    <record id="account.menu_action_analytic_lines_tree" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="159" />
+    <field name="name" eval="&quot;分析项目&quot;" />
+    <field name="sequence" eval="31" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 关闭 (id=160) -->
+    <record id="account.account_closing_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="160" />
+    <field name="name" eval="&quot;关闭&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 审查 (id=161) -->
+    <record id="account.account_audit_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="161" />
+    <field name="name" eval="&quot;审查&quot;" />
+    <field name="sequence" eval="7" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 控制 (id=162) -->
+    <record id="account.account_audit_control_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="162" />
+    <field name="name" eval="&quot;控制&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 日记账项目 (id=163) -->
+    <record id="account.menu_action_account_moves_all" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="163" />
+    <field name="name" eval="&quot;日记账项目&quot;" />
+    <field name="sequence" eval="6" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 日志 (id=164) -->
+    <record id="account.account_logs_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="164" />
+    <field name="name" eval="&quot;日志&quot;" />
+    <field name="sequence" eval="60" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 报表 (id=165) -->
+    <record id="account.menu_finance_reports" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="165" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 合作伙伴报表 (id=166) -->
+    <record id="account.account_reports_partners_reports_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="166" />
+    <field name="name" eval="&quot;合作伙伴报表&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 税收与财政 (id=167) -->
+    <record id="account.account_reports_taxes_and_fiscal_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="167" />
+    <field name="name" eval="&quot;税收与财政&quot;" />
+    <field name="sequence" eval="4" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 管理 (id=168) -->
+    <record id="account.account_reports_management_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="168" />
+    <field name="name" eval="&quot;管理&quot;" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 发票分析 (id=169) -->
+    <record id="account.menu_action_account_invoice_report_all" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="169" />
+    <field name="name" eval="&quot;发票分析&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 分析报表 (id=170) -->
+    <record id="account.menu_action_analytic_reporting" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="170" />
+    <field name="name" eval="&quot;分析报表&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 对账单报表 (id=171) -->
+    <record id="account.account_reports_legal_statements_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="171" />
+    <field name="name" eval="&quot;对账单报表&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 配置 (id=172) -->
+    <record id="account.menu_finance_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="172" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="sequence" eval="35" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 设置 (id=173) -->
+    <record id="account.menu_account_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="173" />
+    <field name="name" eval="&quot;设置&quot;" />
+    <field name="sequence" eval="0" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 会计 (id=174) -->
+    <record id="account.account_account_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="174" />
+    <field name="name" eval="&quot;会计&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 会计科目表 (id=175) -->
+    <record id="account.menu_action_account_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="175" />
+    <field name="name" eval="&quot;会计科目表&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 税项 (id=176) -->
+    <record id="account.menu_action_tax_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="176" />
+    <field name="name" eval="&quot;税项&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 日记账 (id=177) -->
+    <record id="account.menu_action_account_journal_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="177" />
+    <field name="name" eval="&quot;日记账&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 报表 (id=178) -->
+    <record id="account.account_report_folder" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="178" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="sequence" eval="4" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 币别 (id=179) -->
+    <record id="account.menu_action_currency_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="179" />
+    <field name="name" eval="&quot;币别&quot;" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 应税设定 (id=180) -->
+    <record id="account.menu_action_account_fiscal_position_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="180" />
+    <field name="name" eval="&quot;应税设定&quot;" />
+    <field name="sequence" eval="6" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 多个分类账 (id=181) -->
+    <record id="account.menu_action_account_journal_group_list" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="181" />
+    <field name="name" eval="&quot;多个分类账&quot;" />
+    <field name="sequence" eval="7" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 税项组 (id=182) -->
+    <record id="account.menu_action_tax_group" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="182" />
+    <field name="name" eval="&quot;税项组&quot;" />
+    <field name="sequence" eval="8" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 现金舍入 (id=183) -->
+    <record id="account.menu_action_rounding_form_view" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="183" />
+    <field name="name" eval="&quot;现金舍入&quot;" />
+    <field name="sequence" eval="9" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 发票 (id=184) -->
+    <record id="account.account_invoicing_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="184" />
+    <field name="name" eval="&quot;发票&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 付款条款 (id=185) -->
+    <record id="account.menu_action_payment_term_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="185" />
+    <field name="name" eval="&quot;付款条款&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 国际贸易术语 (id=186) -->
+    <record id="account.menu_action_incoterm_open" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="186" />
+    <field name="name" eval="&quot;国际贸易术语&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 产品类别 (id=187) -->
+    <record id="account.menu_product_product_categories" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="187" />
+    <field name="name" eval="&quot;产品类别&quot;" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 线上支付 (id=188) -->
+    <record id="account.root_payment_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="188" />
+    <field name="name" eval="&quot;线上支付&quot;" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 分析会计 (id=189) -->
+    <record id="account.menu_analytic_accounting" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="189" />
+    <field name="name" eval="&quot;分析会计&quot;" />
+    <field name="sequence" eval="40" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 分析分摊模型 (id=190) -->
+    <record id="account.menu_analytic__distribution_model" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="190" />
+    <field name="name" eval="&quot;分析分摊模型&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 分析账户 (id=191) -->
+    <record id="account.account_analytic_def_account" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="191" />
+    <field name="name" eval="&quot;分析账户&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 分析方案 (id=192) -->
+    <record id="account.account_analytic_plan_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="192" />
+    <field name="name" eval="&quot;分析方案&quot;" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 安全分录 (id=193) -->
+    <record id="account.menu_action_secure_entries" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="193" />
+    <field name="name" eval="&quot;安全分录&quot;" />
+    <field name="sequence" eval="80" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 审计跟踪 (id=194) -->
+    <record id="account.account_audit_trail_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="194" />
+    <field name="name" eval="&quot;审计跟踪&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 发票） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 自动化规则 (id=195) -->
+    <record id="base_automation.menu_base_automation_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="195" />
+    <field name="name" eval="&quot;自动化规则&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 员工 (id=196) -->
+    <record id="hr.menu_hr_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="196" />
+    <field name="name" eval="&quot;员工&quot;" />
+    <field name="sequence" eval="110" />
+        <!-- 档2 整棵停用：本根停用（员工） -->
+        <field name="active" eval="False" />
+        <!-- 档2：组锚定为超管 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 人力资源 (id=197) -->
+    <record id="hr.menu_hr_main" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="197" />
+    <field name="name" eval="&quot;人力资源&quot;" />
+    <field name="sequence" eval="0" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 员工 (id=198) -->
+    <record id="hr.menu_hr_employee_payroll" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="198" />
+    <field name="name" eval="&quot;员工&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 目录 (id=199) -->
+    <record id="hr.menu_hr_employee" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="199" />
+    <field name="name" eval="&quot;目录&quot;" />
+    <field name="sequence" eval="4" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 报表 (id=200) -->
+    <record id="hr.hr_menu_hr_reports" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="200" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="sequence" eval="95" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 部门 (id=201) -->
+    <record id="hr.menu_hr_department_kanban" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="201" />
+    <field name="name" eval="&quot;部门&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 配置 (id=202) -->
+    <record id="hr.menu_human_resources_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="202" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="sequence" eval="100" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 员工 (id=203) -->
+    <record id="hr.menu_config_employee" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="203" />
+    <field name="name" eval="&quot;员工&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 入职 / 离职 (id=204) -->
+    <record id="hr.menu_config_plan_plan" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="204" />
+    <field name="name" eval="&quot;入职 / 离职&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 工作地点 (id=205) -->
+    <record id="hr.menu_hr_work_location_tree" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="205" />
+    <field name="name" eval="&quot;工作地点&quot;" />
+    <field name="sequence" eval="5" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 工作时间表 (id=206) -->
+    <record id="hr.menu_resource_calendar_view" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="206" />
+    <field name="name" eval="&quot;工作时间表&quot;" />
+    <field name="sequence" eval="6" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 离职原因 (id=207) -->
+    <record id="hr.menu_hr_departure_reason_tree" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="207" />
+    <field name="name" eval="&quot;离职原因&quot;" />
+    <field name="sequence" eval="7" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 标签 (id=208) -->
+    <record id="hr.menu_view_employee_category_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="208" />
+    <field name="name" eval="&quot;标签&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 招聘 (id=209) -->
+    <record id="hr.menu_config_recruitment" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="209" />
+    <field name="name" eval="&quot;招聘&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 工作岗位 (id=210) -->
+    <record id="hr.menu_view_hr_job" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="210" />
+    <field name="name" eval="&quot;工作岗位&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 合同模板 (id=211) -->
+    <record id="hr.menu_hr_employee_contract_templates" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="211" />
+    <field name="name" eval="&quot;合同模板&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 就业类型 (id=212) -->
+    <record id="hr.menu_view_hr_contract_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="212" />
+    <field name="name" eval="&quot;就业类型&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 设置 (id=213) -->
+    <record id="hr.hr_menu_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="213" />
+    <field name="name" eval="&quot;设置&quot;" />
+    <field name="sequence" eval="0" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 仪表板 (id=214) -->
+    <record id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="214" />
+    <field name="name" eval="&quot;仪表板&quot;" />
+    <field name="sequence" eval="37" />
+        <!-- 档1 彻底隐藏：整棵停用（记录保留，可一键回滚） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 仪表板 (id=215) -->
+    <record id="spreadsheet_dashboard.spreadsheet_dashboard_menu_dashboard" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="215" />
+    <field name="name" eval="&quot;仪表板&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档1 子树（来自 仪表板） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 配置 (id=216) -->
+    <record id="spreadsheet_dashboard.spreadsheet_dashboard_menu_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="216" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="sequence" eval="150" />
+        <!-- 档1 子树（来自 仪表板） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 仪表板 (id=217) -->
+    <record id="spreadsheet_dashboard.spreadsheet_dashboard_menu_configuration_dashboards" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="217" />
+    <field name="name" eval="&quot;仪表板&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 仪表板） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 我的仪表板 (id=246) -->
+    <record id="board.menu_board_my_dash" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="246" />
+    <field name="name" eval="&quot;我的仪表板&quot;" />
+    <field name="sequence" eval="100" />
+        <!-- 档1 子树（来自 仪表板） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 简历 (id=247) -->
+    <record id="hr_skills.menu_human_resources_configuration_resume" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="247" />
+    <field name="name" eval="&quot;简历&quot;" />
+    <field name="sequence" eval="15" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 分节 (id=248) -->
+    <record id="hr_skills.hr_resume_line_type_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="248" />
+    <field name="name" eval="&quot;分节&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 技能类型 (id=249) -->
+    <record id="hr_skills.hr_skill_type_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="249" />
+    <field name="name" eval="&quot;技能类型&quot;" />
+    <field name="sequence" eval="7" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 技能 (id=250) -->
+    <record id="hr_skills.hr_employee_skill_report_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="250" />
+    <field name="name" eval="&quot;技能&quot;" />
+    <field name="sequence" eval="15" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 学习 (id=251) -->
+    <record id="hr_skills.hr_skill_learning_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="251" />
+    <field name="name" eval="&quot;学习&quot;" />
+    <field name="sequence" eval="93" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 认证 (id=252) -->
+    <record id="hr_skills.hr_certification_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="252" />
+    <field name="name" eval="&quot;认证&quot;" />
+    <field name="sequence" eval="94" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 培训出勤 (id=253) -->
+    <record id="hr_skills.menu_learnings_training_attendances" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="253" />
+    <field name="name" eval="&quot;培训出勤&quot;" />
+    <field name="sequence" eval="95" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 认证 (id=254) -->
+    <record id="hr_skills.hr_employee_certification_report_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="254" />
+    <field name="name" eval="&quot;认证&quot;" />
+    <field name="sequence" eval="25" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 技能清单 (id=255) -->
+    <record id="hr_skills.hr_employee_skill_inventory_report_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="255" />
+    <field name="name" eval="&quot;技能清单&quot;" />
+    <field name="sequence" eval="15" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 联系人职务 (id=256) -->
+    <record id="openeducat_core.menu_partner_title_contact" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="256" />
+    <field name="name" eval="&quot;联系人职务&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档2 子树（来自 联系人） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 活动管理 (id=270) -->
+    <record id="openeducat_core.menu_op_school_config_activity" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="270" />
+    <field name="name" eval="&quot;活动管理&quot;" />
+    <field name="sequence" eval="40" />
+        <!-- 空容器（无 action 且无子项）：无 action 且无子项的空容器（合并后是空壳）→ 停用 -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 报告 (id=271) -->
+    <record id="openeducat_core.menu_op_report_main" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="271" />
+    <field name="name" eval="&quot;报告&quot;" />
+    <field name="sequence" eval="40" />
+        <!-- 空容器（无 action 且无子项）：无 action 且无子项的空容器（合并后是空壳）→ 停用 -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 学生 (id=278) -->
+    <record id="openeducat_core.menu_op_student_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="278" />
+    <field name="name" eval="&quot;学生&quot;" />
+    <field name="sequence" eval="260" />
+        <!-- 合并：本根停用，子树迁往 学生信息(257) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 档案 (id=279) -->
+    <record id="openeducat_core.menu_op_student_main_student" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="279" />
+    <field name="name" eval="&quot;档案&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 重复入口合并：保留 258，停用 279（op.student） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 设置 (id=284) -->
+    <record id="openeducat_core.menu_openeducat_student_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="284" />
+    <field name="name" eval="&quot;设置&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 重复入口合并：保留 272，停用 284（res.config.settings） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 作业 (id=288) -->
+    <record id="openeducat_assignment.menu_op_assignment_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="288" />
+    <field name="name" eval="&quot;作业&quot;" />
+    <field name="sequence" eval="300" />
+        <!-- 合并：本根停用，子树迁往 作业(341) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 作业 (id=289) -->
+    <record id="openeducat_assignment.menu_op_assignment_main" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="289" />
+    <field name="name" eval="&quot;作业&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：作业(289) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 配置 (id=292) -->
+    <record id="openeducat_assignment.menu_op_assignment_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="292" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 归并：配置(292) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 招生 (id=300) -->
+    <record id="openeducat_admission.menu_op_admission_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="300" />
+    <field name="name" eval="&quot;招生&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="270" />
+        <!-- 容器例外（全计划唯一一条）：groups += 87 → [51, 52, 87] -->
+        <field name="group_ids" eval="[(6, 0, [51, 52, 87])]" />
+    </record>
+    <!-- 考试 (id=325) -->
+    <record id="openeducat_exam.menu_op_exam_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="325" />
+    <field name="name" eval="&quot;考试&quot;" />
+    <field name="sequence" eval="310" />
+        <!-- 合并：本根停用，子树迁往 考试(341) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 考试 (id=326) -->
+    <record id="openeducat_exam.menu_op_school_exam_result" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="326" />
+    <field name="name" eval="&quot;考试&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：考试(326) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 配置 (id=334) -->
+    <record id="openeducat_exam.menu_exam_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="334" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 归并：配置(334) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 报告 (id=339) -->
+    <record id="openeducat_exam.menu_op_exam_general" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="339" />
+    <field name="name" eval="&quot;报告&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 归并：报告(339) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 课堂考勤 (id=349) -->
+    <record id="openeducat_attendance.menu_op_attendance_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="349" />
+    <field name="name" eval="&quot;课堂考勤&quot;" />
+    <field name="sequence" eval="290" />
+        <!-- 合并：本根停用，子树迁往 课堂考勤(341) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 考勤 (id=350) -->
+    <record id="openeducat_attendance.menu_op_attendance" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="350" />
+    <field name="name" eval="&quot;考勤&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：考勤(350) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 配置 (id=354) -->
+    <record id="openeducat_attendance.menu_op_attendance_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="354" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="40" />
+        <!-- 归并：配置(354) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 日历 (id=357) -->
+    <record id="calendar.mail_menu_calendar" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="357" />
+    <field name="name" eval="&quot;日历&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 合并：本根停用，子树迁往 日历(218) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 日历 (id=358) -->
+    <record id="calendar.calendar_event_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="358" />
+    <field name="name" eval="&quot;日历&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 归并：日历(358) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 配置 (id=359) -->
+    <record id="calendar.calendar_menu_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="359" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="40" />
+        <!-- 归并：配置(359) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 日历 (id=362) -->
+    <record id="calendar.menu_calendar_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="362" />
+    <field name="name" eval="&quot;日历&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 会议类型 (id=363) -->
+    <record id="calendar.menu_calendar_event_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="363" />
+    <field name="name" eval="&quot;会议类型&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 日历警报 (id=364) -->
+    <record id="calendar.menu_calendar_alarm" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="364" />
+    <field name="name" eval="&quot;日历警报&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 游戏化工具 (id=365) -->
+    <record id="gamification.gamification_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="365" />
+    <field name="name" eval="&quot;游戏化工具&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 挑战 (id=366) -->
+    <record id="gamification.gamification_challenge_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="366" />
+    <field name="name" eval="&quot;挑战&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="0" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 目标 (id=367) -->
+    <record id="gamification.gamification_goal_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="367" />
+    <field name="name" eval="&quot;目标&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 目标定义 (id=368) -->
+    <record id="gamification.gamification_definition_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="368" />
+    <field name="name" eval="&quot;目标定义&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 徽标 (id=369) -->
+    <record id="gamification.gamification_badge_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="369" />
+    <field name="name" eval="&quot;徽标&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 等级 (id=370) -->
+    <record id="gamification.gamification_karma_ranks_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="370" />
+    <field name="name" eval="&quot;等级&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="40" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 贡献值跟踪 (id=371) -->
+    <record id="gamification.gamification_karma_tracking_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="371" />
+    <field name="name" eval="&quot;贡献值跟踪&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="50" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 活动 (id=372) -->
+    <record id="event.event_main_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="372" />
+    <field name="name" eval="&quot;活动&quot;" />
+    <field name="sequence" eval="125" />
+        <!-- 合并：本根停用，子树迁往 活动(218) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 活动 (id=373) -->
+    <record id="event.menu_event_event" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="373" />
+    <field name="name" eval="&quot;活动&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="1" />
+        <!-- 归并：活动(373) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 报表 (id=374) -->
+    <record id="event.menu_reporting_events" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="374" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="50" />
+        <!-- 归并：报表(374) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 配置 (id=375) -->
+    <record id="event.menu_event_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="375" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="99" />
+        <!-- 归并：配置(375) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 登记处 (id=382) -->
+    <record id="event.menu_event_registration_desk" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="382" />
+    <field name="name" eval="&quot;登记处&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 归并：登记处(382) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 挑战 (id=384) -->
+    <record id="hr_gamification.menu_hr_gamification" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="384" />
+    <field name="name" eval="&quot;挑战&quot;" />
+    <field name="sequence" eval="100" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 徽章 (id=385) -->
+    <record id="hr_gamification.gamification_badge_menu_hr" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="385" />
+    <field name="name" eval="&quot;徽章&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 挑战 (id=386) -->
+    <record id="hr_gamification.gamification_challenge_menu_hr" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="386" />
+    <field name="name" eval="&quot;挑战&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 历史目标 (id=387) -->
+    <record id="hr_gamification.gamification_goal_menu_hr" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="387" />
+    <field name="name" eval="&quot;历史目标&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 招聘 (id=388) -->
+    <record id="hr_recruitment.menu_hr_recruitment_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="388" />
+    <field name="name" eval="&quot;招聘&quot;" />
+    <field name="sequence" eval="210" />
+        <!-- 档1 彻底隐藏：整棵停用（记录保留，可一键回滚） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 应聘 (id=389) -->
+    <record id="hr_recruitment.menu_crm_case_categ0_act_job" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="389" />
+    <field name="name" eval="&quot;应聘&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 按工作岗位 (id=390) -->
+    <record id="hr_recruitment.menu_hr_job_position" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="390" />
+    <field name="name" eval="&quot;按工作岗位&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 按工作岗位 (id=391) -->
+    <record id="hr_recruitment.menu_hr_job_position_interviewer" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="391" />
+    <field name="name" eval="&quot;按工作岗位&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- By Talent Pools (id=392) -->
+    <record id="hr_recruitment.menu_hr_talent_pools" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="392" />
+    <field name="name" eval="&quot;By Talent Pools&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 全部申请 (id=393) -->
+    <record id="hr_recruitment.menu_crm_case_categ_all_app" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="393" />
+    <field name="name" eval="&quot;全部申请&quot;" />
+    <field name="sequence" eval="3" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 报表 (id=394) -->
+    <record id="hr_recruitment.report_hr_recruitment" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="394" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="sequence" eval="99" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 招聘分析 (id=395) -->
+    <record id="hr_recruitment.hr_applicant_report_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="395" />
+    <field name="name" eval="&quot;招聘分析&quot;" />
+    <field name="sequence" eval="50" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 配置 (id=396) -->
+    <record id="hr_recruitment.menu_hr_recruitment_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="396" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="sequence" eval="100" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 设置 (id=397) -->
+    <record id="hr_recruitment.menu_hr_recruitment_global_settings" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="397" />
+    <field name="name" eval="&quot;设置&quot;" />
+    <field name="sequence" eval="0" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 工作岗位 (id=398) -->
+    <record id="hr_recruitment.menu_hr_recruitment_config_jobs" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="398" />
+    <field name="name" eval="&quot;工作岗位&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 阶段 (id=399) -->
+    <record id="hr_recruitment.menu_hr_recruitment_stage" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="399" />
+    <field name="name" eval="&quot;阶段&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 就业类型 (id=400) -->
+    <record id="hr_recruitment.menu_hr_recruitment_contract_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="400" />
+    <field name="name" eval="&quot;就业类型&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- UTMs (id=401) -->
+    <record id="hr_recruitment.menu_hr_recruitment_utm" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="401" />
+    <field name="name" eval="&quot;UTMs&quot;" />
+    <field name="sequence" eval="15" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 来源 (id=402) -->
+    <record id="hr_recruitment.menu_hr_recruitment_utm_sources" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="402" />
+    <field name="name" eval="&quot;来源&quot;" />
+    <field name="sequence" eval="15" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 中等 (id=403) -->
+    <record id="hr_recruitment.menu_hr_recruitment_utm_mediums" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="403" />
+    <field name="name" eval="&quot;中等&quot;" />
+    <field name="sequence" eval="15" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 应聘 (id=404) -->
+    <record id="hr_recruitment.menu_hr_recruitment_config_applications" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="404" />
+    <field name="name" eval="&quot;应聘&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 学历 (id=405) -->
+    <record id="hr_recruitment.menu_hr_recruitment_degree" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="405" />
+    <field name="name" eval="&quot;学历&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 拒绝原因 (id=406) -->
+    <record id="hr_recruitment.menu_hr_applicant_refuse_reason" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="406" />
+    <field name="name" eval="&quot;拒绝原因&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 标签 (id=407) -->
+    <record id="hr_recruitment.hr_applicant_category_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="407" />
+    <field name="name" eval="&quot;标签&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 员工 (id=408) -->
+    <record id="hr_recruitment.menu_hr_recruitment_config_employees" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="408" />
+    <field name="name" eval="&quot;员工&quot;" />
+    <field name="sequence" eval="30" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 部门 (id=409) -->
+    <record id="hr_recruitment.menu_hr_department" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="409" />
+    <field name="name" eval="&quot;部门&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 活动 (id=410) -->
+    <record id="hr_recruitment.menu_hr_recruitment_config_activities" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="410" />
+    <field name="name" eval="&quot;活动&quot;" />
+    <field name="sequence" eval="40" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 活动类型 (id=411) -->
+    <record id="hr_recruitment.hr_recruitment_menu_config_activity_type" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="411" />
+    <field name="name" eval="&quot;活动类型&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 活动计划 (id=412) -->
+    <record id="hr_recruitment.hr_recruitment_menu_config_activity_plan" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="412" />
+    <field name="name" eval="&quot;活动计划&quot;" />
+    <field name="sequence" eval="20" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 招聘网站 (id=413) -->
+    <record id="hr_recruitment.menu_hr_job_boards" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="413" />
+    <field name="name" eval="&quot;招聘网站&quot;" />
+    <field name="sequence" eval="50" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 电子邮件 (id=414) -->
+    <record id="hr_recruitment.menu_hr_recruitment_emails" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="414" />
+    <field name="name" eval="&quot;电子邮件&quot;" />
+    <field name="sequence" eval="50" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 技能类别 (id=415) -->
+    <record id="hr_recruitment_skills.hr_recruitment_skill_type_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="415" />
+    <field name="name" eval="&quot;技能类别&quot;" />
+    <field name="sequence" eval="35" />
+        <!-- 档1 子树（来自 招聘） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 课程 (id=416) -->
+    <record id="hr_skills.menu_learnings_training_attendances_courses" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="416" />
+    <field name="name" eval="&quot;课程&quot;" />
+    <field name="sequence" eval="96" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 现场 (id=417) -->
+    <record id="hr_skills_event.menu_learnings_training_attendances_onsite" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="417" />
+    <field name="name" eval="&quot;现场&quot;" />
+    <field name="sequence" eval="98" />
+        <!-- 档2 子树（来自 员工） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 点评 (id=433) -->
+    <record id="rating.rating_rating_menu_technical" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="433" />
+    <field name="name" eval="&quot;点评&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 测验 (id=504) -->
+    <record id="edu_quiz.menu_edu_quiz_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="504" />
+    <field name="name" eval="&quot;测验&quot;" />
+    <field name="sequence" eval="42" />
+        <!-- 合并：本根停用，子树迁往 测验(341) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- Quizzes (id=505) -->
+    <record id="edu_quiz.menu_edu_quiz" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="505" />
+    <field name="name" eval="&quot;Quizzes&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：Quizzes(505) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- Attempts (id=506) -->
+    <record id="edu_quiz.menu_edu_quiz_attempts" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="506" />
+    <field name="name" eval="&quot;Attempts&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：Attempts(506) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 在线聊天 (id=507) -->
+    <record id="im_livechat.menu_livechat_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="507" />
+    <field name="name" eval="&quot;在线聊天&quot;" />
+    <field name="sequence" eval="240" />
+        <!-- 合并：本根停用，子树迁往 在线聊天(218) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 频道 (id=508) -->
+    <record id="im_livechat.support_channels" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="508" />
+    <field name="name" eval="&quot;频道&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="5" />
+        <!-- 归并：频道(508) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 会话 (id=509) -->
+    <record id="im_livechat.menu_livechat_sessions" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="509" />
+    <field name="name" eval="&quot;会话&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：会话(509) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 报表 (id=512) -->
+    <record id="im_livechat.menu_reporting_livechat" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="512" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="50" />
+        <!-- 归并：报表(512) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 配置 (id=513) -->
+    <record id="im_livechat.livechat_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="513" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="55" />
+        <!-- 归并：配置(513) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- 技术 (id=514) -->
+    <record id="im_livechat.livechat_technical" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="514" />
+    <field name="name" eval="&quot;技术&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="75" />
+        <!-- 归并：技术(514) → 网站与沟通(218) -->
+        <field name="parent_id" eval="218" />
+    </record>
+    <!-- OAuth服务商 (id=528) -->
+    <record id="auth_oauth.menu_oauth_providers" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="528" />
+    <field name="name" eval="&quot;OAuth服务商&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 出勤 (id=529) -->
+    <record id="hr_attendance.menu_hr_attendance_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="529" />
+    <field name="name" eval="&quot;出勤&quot;" />
+    <field name="sequence" eval="205" />
+        <!-- 档1 彻底隐藏：整棵停用（记录保留，可一键回滚） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 自助考勤模式 (id=530) -->
+    <record id="hr_attendance.menu_action_open_form" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="530" />
+    <field name="name" eval="&quot;自助考勤模式&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 报表 (id=531) -->
+    <record id="hr_attendance.menu_hr_attendance_reporting" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="531" />
+    <field name="name" eval="&quot;报表&quot;" />
+    <field name="sequence" eval="15" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 出勤 (id=532) -->
+    <record id="hr_attendance.menu_hr_attendance_attendance_reporting" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="532" />
+    <field name="name" eval="&quot;出勤&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 概述 (id=533) -->
+    <record id="hr_attendance.menu_hr_attendance_overview" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="533" />
+    <field name="name" eval="&quot;概述&quot;" />
+    <field name="sequence" eval="5" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 仪表板 (id=534) -->
+    <record id="hr_attendance.menu_hr_attendance_view_dashboard" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="534" />
+    <field name="name" eval="&quot;仪表板&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 员工 (id=535) -->
+    <record id="hr_attendance.menu_hr_attendance_employee" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="535" />
+    <field name="name" eval="&quot;员工&quot;" />
+    <field name="sequence" eval="2" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 管理 (id=536) -->
+    <record id="hr_attendance.menu_hr_attendance_view_attendances_management" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="536" />
+    <field name="name" eval="&quot;管理&quot;" />
+    <field name="sequence" eval="6" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 配置 (id=537) -->
+    <record id="hr_attendance.menu_hr_attendance_configuration" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="537" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="sequence" eval="99" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 入职 (id=538) -->
+    <record id="hr_attendance.menu_hr_attendance_onboarding" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="538" />
+    <field name="name" eval="&quot;入职&quot;" />
+    <field name="sequence" eval="100" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 设置 (id=539) -->
+    <record id="hr_attendance.menu_hr_attendance_settings" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="539" />
+    <field name="name" eval="&quot;设置&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- Overtime Rulesets (id=540) -->
+    <record id="hr_attendance.menu_hr_attendance_overtime_rulesets" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="540" />
+    <field name="name" eval="&quot;Overtime Rulesets&quot;" />
+    <field name="sequence" eval="300" />
+        <!-- 档1 子树（来自 出勤） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 邀请码 (id=542) -->
+    <record id="edu_portal.menu_edu_invite_code_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="542" />
+    <field name="name" eval="&quot;邀请码&quot;" />
+    <field name="sequence" eval="80" />
+        <!-- 合并：本根停用，子树迁往 邀请码(257) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 日常管理 (id=543) -->
+    <record id="edu_portal.menu_edu_welfare_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="543" />
+    <field name="name" eval="&quot;日常管理&quot;" />
+    <field name="sequence" eval="66" />
+        <!-- 合并：本根停用，子树迁往 日常管理(593) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 全员打卡 (id=544) -->
+    <!-- 2026-10-03 **停用**：本菜单指向的是**已退休**的 `edu.daily.checkin`
+         （`edu_portal/controllers/welfare.py:10-11` 写明：该模型与其 /my/checkin* 路由已废弃、
+          写路径全部断掉、只留兼容重定向；同文件 :90 自己点破了后果 ——
+          「继续读它会得到**永远停在 2026-09-17 的僵尸看板**」）。
+         实测确证：旧模型最新一条 = 2026-09-17；接替它的 `edu.checkin.record` 有 68 条、最新是今天。
+         ⇒ 菜单开着，就是把**假数据当真数据**摆在教师面前。
+         现役同类能力没丢：edu_life 顶级菜单「灵命生活 → 打卡记录」读的是新模型。
+         ⚠ 为什么本文件里改不动它（实测两次都失败）：那条记录的 xmlid `noupdate=t`，
+           而 noupdate 是**按 xmlid** 咬的、与哪个模块的数据文件无关 ⇒
+           ① 改 edu_portal/views/welfare.xml + `-u edu_portal` ⇒ DB 里 active 仍 t；
+           ② 改**本文件** + `-u edu_nav` ⇒ active **仍是 t**。
+           真正的落点是 edu_portal/models/menu_labels.py 的 `RETIRE_MENUS` +
+           `edu_apply_menu_retirements()`（走 ORM、先规范 noupdate），与本仓 259 改名同因同治。
+           下面的 `active` 仍保留声明为 False：等 noupdate 被规范化之后，它与 ORM 值一致（不再打架）。
+           原先那句「为什么改在这里而不是 edu_portal/views/welfare.xml」的推断是错的，留着记录教训：
+           实测 `-u edu_portal` 后 DB 里 active **仍是 t** —— XML 改不动它；
+           本条（edu_nav 的归并声明）才是它的**权威声明处**（parent_id 也是这里定的）。
+         ⚠ 为什么不在本文件里改成指向新模型：edu_nav **只依赖 base**（刻意的），
+           而 edu_life 依赖 edu_portal ⇒ 引用 edu_life 的 action 既可能因加载顺序取不到，
+           又会把整条 edu 栈拖进这个 base-only 模块。模型/ACL 保留不动（表里有历史数据）。 -->
+    <record id="edu_portal.menu_edu_checkin_mgmt" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="544" />
+    <field name="name" eval="&quot;全员打卡&quot;" />
+    <field name="active" eval="False" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：全员打卡(544) → 学生生活(593) -->
+        <field name="parent_id" eval="593" />
+    </record>
+    <!-- 积分流水 (id=545) -->
+    <record id="edu_portal.menu_edu_point_mgmt" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="545" />
+    <field name="name" eval="&quot;积分流水&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 归并：积分流水(545) → 学生生活(593) -->
+        <field name="parent_id" eval="593" />
+    </record>
+    <!-- 教师积分排行 (id=546) -->
+    <record id="edu_portal.menu_edu_point_rank" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="546" />
+    <field name="name" eval="&quot;教师积分排行&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="30" />
+        <!-- 归并：教师积分排行(546) → 学生生活(593) -->
+        <field name="parent_id" eval="593" />
+    </record>
+    <!-- 数据清除 (id=566) -->
+    <record id="data_recycle.menu_data_cleaning_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="566" />
+    <field name="name" eval="&quot;数据清除&quot;" />
+    <field name="sequence" eval="250" />
+        <!-- 档2 整棵停用：本根停用（数据清除） -->
+        <field name="active" eval="False" />
+        <!-- 档2：组锚定为超管 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+    <!-- 回收记录 (id=567) -->
+    <record id="data_recycle.menu_data_recycle_record" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="567" />
+    <field name="name" eval="&quot;回收记录&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 数据清除） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 配置 (id=568) -->
+    <record id="data_recycle.menu_data_cleaning_config" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="568" />
+    <field name="name" eval="&quot;配置&quot;" />
+    <field name="sequence" eval="100" />
+        <!-- 档2 子树（来自 数据清除） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 规则 (id=569) -->
+    <record id="data_recycle.menu_data_cleaning_config_rules" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="569" />
+    <field name="name" eval="&quot;规则&quot;" />
+    <field name="sequence" eval="1" />
+        <!-- 档2 子树（来自 数据清除） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 回收记录 (id=570) -->
+    <record id="data_recycle.menu_data_cleaning_config_rules_recycle" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="570" />
+    <field name="name" eval="&quot;回收记录&quot;" />
+    <field name="sequence" eval="10" />
+        <!-- 档2 子树（来自 数据清除） -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 在线课程 (id=576) -->
+    <record id="edu_portal.menu_edu_lms_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="576" />
+    <field name="name" eval="&quot;在线课程&quot;" />
+    <field name="sequence" eval="67" />
+        <!-- 合并：本根停用，子树迁往 在线课程(341) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 课次管理 (id=577) -->
+    <record id="edu_portal.menu_edu_lms_lesson" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="577" />
+    <field name="name" eval="&quot;课次管理&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：课次管理(577) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 学习进度 (id=578) -->
+    <record id="edu_portal.menu_edu_lms_progress" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="578" />
+    <field name="name" eval="&quot;学习进度&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="20" />
+        <!-- 归并：学习进度(578) → 教学(341) -->
+        <field name="parent_id" eval="341" />
+    </record>
+    <!-- 招生报名 (id=591) -->
+    <record id="edu_apply.menu_edu_apply_root" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="591" />
+    <field name="name" eval="&quot;招生报名&quot;" />
+    <field name="sequence" eval="18" />
+        <!-- 合并：本根停用，子树迁往 招生报名(300) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 入学申请 (id=592) -->
+    <record id="edu_apply.menu_edu_application" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="592" />
+    <field name="name" eval="&quot;入学申请&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="10" />
+        <!-- 归并：入学申请(592) → 招生(300) -->
+        <field name="parent_id" eval="300" />
+    </record>
+    <!-- 报名表设置 (id=601) -->
+    <record id="edu_apply.menu_edu_apply_settings" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="601" />
+    <field name="name" eval="&quot;报名表设置&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="99" />
+        <!-- 归并：报名表设置(601) → 招生(300) -->
+        <field name="parent_id" eval="300" />
+    </record>
+    <!-- 老账号补挂身份 (id=606) -->
+    <record id="edu_portal.menu_edu_relink_identity" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="606" />
+    <field name="name" eval="&quot;老账号补挂身份&quot;" />
+    <field name="sequence" eval="81" />
+        <!-- 合并：本根停用，子树迁往 老账号补挂身份(257) -->
+        <field name="active" eval="False" />
+    </record>
+    <!-- 报名与报课截止 (id=617) -->
+    <record id="edu_portal.edu_deadline_settings_menu" model="ir.ui.menu" forcecreate="0">
+    <field name="id" eval="617" />
+    <field name="name" eval="&quot;报名与报课截止&quot;" />
+    <field name="active" eval="True" />
+    <field name="sequence" eval="99" />
+        <!-- 档2 子树（来自 设置）：根+子树一起挂超管组 -->
+        <field name="group_ids" eval="[(6, 0, [4])]" />
+    </record>
+</odoo>

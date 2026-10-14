@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_edu_schedule_holiday_list" model="ir.ui.view">
+        <field name="name">edu.schedule.holiday.list</field>
+        <field name="model">edu.schedule.holiday</field>
+        <field name="arch" type="xml">
+            <list string="停课日" default_order="date_start desc">
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="batch_id" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_schedule_holiday_form" model="ir.ui.view">
+        <field name="name">edu.schedule.holiday.form</field>
+        <field name="model">edu.schedule.holiday</field>
+        <field name="arch" type="xml">
+            <form string="停课日">
+                <sheet>
+                    <group>
+                        <field name="name" placeholder="如：春节假期 / 校庆放假"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="batch_id"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_schedule_holiday" model="ir.actions.act_window">
+        <field name="name">停课管理</field>
+        <field name="res_model">edu.schedule.holiday</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">登记第一个停课日</p>
+            <p>周期排课会自动避开这些日期；班级留空表示全校停课。单节课临时停课直接在「课节」列表里取消即可。</p>
+        </field>
+    </record>
+</odoo>

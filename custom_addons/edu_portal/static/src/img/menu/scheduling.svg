@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="96" height="96">
+  <rect x="4" y="4" width="40" height="40" rx="10" fill="#FFFFFF"/>
+  <g fill="none" stroke="#4338CA" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 日历主体 -->
+    <rect x="12" y="13" width="24" height="22" rx="3.5"/>
+    <path d="M16 9v6M32 9v6M12 20h24"/>
+  </g>
+  <g fill="#4338CA">
+    <!-- 表格格点 -->
+    <rect x="17" y="25" width="4" height="4" rx="1" opacity=".85"/>
+    <rect x="24" y="25" width="4" height="4" rx="1" opacity=".85"/>
+    <rect x="31" y="25" width="4" height="4" rx="1" opacity=".85"/>
+    <rect x="17" y="31" width="4" height="4" rx="1" opacity=".85"/>
+    <rect x="24" y="31" width="4" height="4" rx="1" opacity=".55"/>
+    <rect x="31" y="31" width="4" height="4" rx="1" opacity=".55"/>
+  </g>
+</svg>

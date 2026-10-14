@@ -1,0 +1,51 @@
+[
+ {
+  "suite": "anon",
+  "no": 1,
+  "name": "GET / 返回200且含「永约学坊」",
+  "pass": true,
+  "detail": "status=200, brand=True"
+ },
+ {
+  "suite": "anon",
+  "no": 2,
+  "name": "/campus/jobs 列出≥2张岗位卡(神学课程助教/图书馆兼职管理员)",
+  "pass": true,
+  "detail": "card_ids=['1', '2'], 神学课程助教=True, 图书馆兼职管理员=True"
+ },
+ {
+  "suite": "anon",
+  "no": 3,
+  "name": "/campus/jobs/1 详情页含 form[action*='/apply']",
+  "pass": true,
+  "detail": "apply_forms=1"
+ },
+ {
+  "suite": "anon",
+  "no": 4,
+  "name": "表单提交→「申请已提交」且 edu_job_application 行数+1",
+  "pass": true,
+  "detail": "url=http://localhost:8069/campus/jobs/1/sent, rows 34->35"
+ },
+ {
+  "suite": "anon",
+  "no": 5,
+  "name": "honeypot(website_url=spam) 提交后 edu_job_application 行数不变",
+  "pass": true,
+  "detail": "url=http://localhost:8069/campus/jobs, rows 35->35"
+ },
+ {
+  "suite": "anon",
+  "no": 6,
+  "name": "/alumni/job/card 返回200",
+  "pass": true,
+  "detail": "status=200"
+ },
+ {
+  "suite": "anon",
+  "no": 7,
+  "name": "未登录直接访问 /my/home → 落到登录页（/login?redirect=… 或 /web/login）",
+  "pass": true,
+  "detail": "http_final=http://localhost:8069/login?redirect=%2Fmy%2Fhome%3F, status=200, browser_url=http://localhost:8069/login?redirect=%2Fmy%2Fhome%3F"
+ }
+]

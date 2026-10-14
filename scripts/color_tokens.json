@@ -1,0 +1,464 @@
+{
+  "adopted_files": [
+    "custom_addons/edu_brand/static/src/scss/brand_tokens.scss"
+  ],
+  "channels": {
+    "--black-rgb": {
+      "base": "--black",
+      "value": "0, 0, 0",
+      "value_normalized": "0 0 0"
+    },
+    "--brand-500-rgb": {
+      "base": "--brand-500",
+      "value": "14, 123, 242",
+      "value_normalized": "14 123 242"
+    },
+    "--brand-action-rgb": {
+      "base": "--brand-action",
+      "value": "12, 109, 215",
+      "value_normalized": "12 109 215"
+    },
+    "--danger-rgb": {
+      "base": "--danger",
+      "value": "192, 39, 45",
+      "value_normalized": "192 39 45"
+    },
+    "--gold-500-rgb": {
+      "base": "--gold-500",
+      "value": "200, 168, 112",
+      "value_normalized": "200 168 112"
+    },
+    "--neutral-rgb": {
+      "base": "--neutral",
+      "value": "94, 103, 121",
+      "value_normalized": "94 103 121"
+    },
+    "--shadow-rgb": {
+      "base": "--shadow",
+      "value": "20, 24, 45",
+      "value_normalized": "20 24 45"
+    },
+    "--success-rgb": {
+      "base": "--success",
+      "value": "18, 122, 80",
+      "value_normalized": "18 122 80"
+    },
+    "--text-1-rgb": {
+      "base": "--text-1",
+      "value": "26, 34, 51",
+      "value_normalized": "26 34 51"
+    },
+    "--warning-rgb": {
+      "base": "--warning",
+      "value": "232, 147, 12",
+      "value_normalized": "232 147 12"
+    },
+    "--white-rgb": {
+      "base": "--white",
+      "value": "255, 255, 255",
+      "value_normalized": "255 255 255"
+    }
+  },
+  "debt": {
+    "distinct_outside_colors": 41,
+    "distinct_per_file_sum": 42,
+    "note": "未收口文件的令牌外裸色（INFO，不阻断）。**三个量纲不同，不可混用**：distinct_outside_colors=全仓去重后的令牌外颜色数（棘轮单调性建议用它）；distinct_per_file_sum=Σ_文件 该文件的不同色数（同色跨文件计两次）；occurrences=出现处数（与报告行的『出现处数』同量纲）。",
+    "occurrences": 105
+  },
+  "disabled_exempt_contrast": [
+    "--text-disabled"
+  ],
+  "exempt": [
+    "#000",
+    "#000000",
+    "#fff",
+    "#ffffff",
+    "rgba(0,0,0,0)",
+    "transparent"
+  ],
+  "generated_by": "scripts/color_tokens.py",
+  "non_text_tokens": [
+    "--border",
+    "--border-strong",
+    "--focus-ring",
+    "--shadow"
+  ],
+  "note": "令牌集唯一机读输入；不得手工维护（§6.2）。",
+  "source": "custom_addons/edu_brand/static/src/scss/brand_tokens.scss",
+  "tokens": {
+    "--accent": {
+      "alias_of": "--teal-600",
+      "bg": 4.64,
+      "scss": "$teal-600",
+      "value": "#0C7D75",
+      "white": 4.99
+    },
+    "--accent-soft": {
+      "alias_of": "--teal-50",
+      "bg": 1.03,
+      "scss": "$teal-50",
+      "value": "#E7F7F5",
+      "white": 1.1
+    },
+    "--bg": {
+      "bg": 1.0,
+      "scss": "$bg",
+      "value": "#F4F7FA",
+      "white": 1.08
+    },
+    "--black": {
+      "bg": 19.53,
+      "scss": "$black",
+      "value": "#000000",
+      "white": 21.0
+    },
+    "--body-color": {
+      "alias_of": "--text-3",
+      "bg": 5.29,
+      "scss": "$text-3",
+      "value": "#5E6779",
+      "white": 5.69
+    },
+    "--border": {
+      "bg": 1.14,
+      "scss": "$border",
+      "value": "#E3E9F2",
+      "white": 1.22
+    },
+    "--border-control": {
+      "bg": 2.84,
+      "scss": "$border-control",
+      "value": "#8A94A6",
+      "white": 3.06
+    },
+    "--border-strong": {
+      "bg": 1.37,
+      "scss": "$border-strong",
+      "value": "#CBD6E5",
+      "white": 1.47
+    },
+    "--brand": {
+      "alias_of": "--brand-500",
+      "bg": 3.8,
+      "scss": "$brand-500",
+      "value": "#0E7BF2",
+      "white": 4.09
+    },
+    "--brand-100": {
+      "bg": 1.15,
+      "scss": "$brand-100",
+      "value": "#D6E9FF",
+      "white": 1.24
+    },
+    "--brand-200": {
+      "bg": 1.5,
+      "scss": "$brand-200",
+      "value": "#A7CFFF",
+      "white": 1.61
+    },
+    "--brand-300": {
+      "bg": 2.11,
+      "scss": "$brand-300",
+      "value": "#71AFFF",
+      "white": 2.26
+    },
+    "--brand-400": {
+      "bg": 3.02,
+      "scss": "$brand-400",
+      "value": "#3C8FF7",
+      "white": 3.25
+    },
+    "--brand-50": {
+      "bg": 1.03,
+      "scss": "$brand-50",
+      "value": "#EAF4FF",
+      "white": 1.11
+    },
+    "--brand-500": {
+      "bg": 3.8,
+      "scss": "$brand-500",
+      "value": "#0E7BF2",
+      "white": 4.09
+    },
+    "--brand-600": {
+      "bg": 5.32,
+      "scss": "$brand-600",
+      "value": "#0A63CC",
+      "white": 5.72
+    },
+    "--brand-700": {
+      "bg": 7.65,
+      "scss": "$brand-700",
+      "value": "#084CA0",
+      "white": 8.23
+    },
+    "--brand-800": {
+      "bg": 10.9,
+      "scss": "$brand-800",
+      "value": "#063675",
+      "white": 11.72
+    },
+    "--brand-action": {
+      "bg": 4.67,
+      "scss": "$brand-action",
+      "value": "#0C6DD7",
+      "white": 5.02
+    },
+    "--brand-action-hover": {
+      "bg": 5.32,
+      "scss": "$brand-action-hover",
+      "value": "#0A63CC",
+      "white": 5.72
+    },
+    "--brand-ink": {
+      "alias_of": "--brand-700",
+      "bg": 7.65,
+      "scss": "$brand-700",
+      "value": "#084CA0",
+      "white": 8.23
+    },
+    "--brand-soft": {
+      "alias_of": "--brand-50",
+      "bg": 1.03,
+      "scss": "$brand-50",
+      "value": "#EAF4FF",
+      "white": 1.11
+    },
+    "--brand-strong": {
+      "alias_of": "--brand-600",
+      "bg": 5.32,
+      "scss": "$brand-600",
+      "value": "#0A63CC",
+      "white": 5.72
+    },
+    "--covenant-gold": {
+      "alias_of": "--gold-500",
+      "bg": 2.1,
+      "scss": "$gold-500",
+      "value": "#C8A870",
+      "white": 2.26
+    },
+    "--danger": {
+      "bg": 5.47,
+      "scss": "$danger",
+      "value": "#C0272D",
+      "white": 5.88
+    },
+    "--danger-soft": {
+      "bg": 1.07,
+      "scss": "$danger-soft",
+      "value": "#FDEBEC",
+      "white": 1.15
+    },
+    "--fill-active": {
+      "bg": 1.08,
+      "scss": "$fill-active",
+      "value": "#E8EFF8",
+      "white": 1.16
+    },
+    "--fill-hover": {
+      "bg": 1.03,
+      "scss": "$fill-hover",
+      "value": "#F0F4FA",
+      "white": 1.1
+    },
+    "--focus-ring": {
+      "alias_of": "--brand-500",
+      "bg": 3.8,
+      "scss": "$brand-500",
+      "value": "#0E7BF2",
+      "white": 4.09
+    },
+    "--gold-100": {
+      "bg": 1.32,
+      "scss": "$gold-100",
+      "value": "#E7D7B8",
+      "white": 1.42
+    },
+    "--gold-500": {
+      "bg": 2.1,
+      "scss": "$gold-500",
+      "value": "#C8A870",
+      "white": 2.26
+    },
+    "--gold-ink": {
+      "bg": 4.76,
+      "scss": "$gold-ink",
+      "value": "#836A42",
+      "white": 5.12
+    },
+    "--info": {
+      "alias_of": "--brand-500",
+      "bg": 3.8,
+      "scss": "$brand-500",
+      "value": "#0E7BF2",
+      "white": 4.09
+    },
+    "--info-soft": {
+      "alias_of": "--brand-50",
+      "bg": 1.03,
+      "scss": "$brand-50",
+      "value": "#EAF4FF",
+      "white": 1.11
+    },
+    "--neutral": {
+      "alias_of": "--text-3",
+      "bg": 5.29,
+      "scss": "$text-3",
+      "value": "#5E6779",
+      "white": 5.69
+    },
+    "--neutral-soft": {
+      "bg": 1.03,
+      "scss": "$neutral-soft",
+      "value": "#F0F3F8",
+      "white": 1.11
+    },
+    "--o-cc1-text": {
+      "alias_of": "--text-3",
+      "bg": 5.29,
+      "scss": "$text-3",
+      "value": "#5E6779",
+      "white": 5.69
+    },
+    "--secondary-color": {
+      "alias_of": "--text-3",
+      "bg": 5.29,
+      "scss": "$text-3",
+      "value": "#5E6779",
+      "white": 5.69
+    },
+    "--shadow": {
+      "bg": 16.3,
+      "scss": "$shadow",
+      "value": "#14182D",
+      "white": 17.52
+    },
+    "--success": {
+      "bg": 4.98,
+      "scss": "$success",
+      "value": "#127A50",
+      "white": 5.35
+    },
+    "--success-soft": {
+      "bg": 1.03,
+      "scss": "$success-soft",
+      "value": "#E8F7F0",
+      "white": 1.11
+    },
+    "--surface-card": {
+      "bg": 1.08,
+      "scss": "$surface-card",
+      "value": "#FFFFFF",
+      "white": 1.0
+    },
+    "--surface-topbar": {
+      "bg": 1.08,
+      "scss": "$surface-topbar",
+      "value": "#FFFFFF",
+      "white": 1.0
+    },
+    "--teal-100": {
+      "bg": 1.14,
+      "scss": "$teal-100",
+      "value": "#CEEFEC",
+      "white": 1.22
+    },
+    "--teal-200": {
+      "bg": 1.41,
+      "scss": "$teal-200",
+      "value": "#9CDED8",
+      "white": 1.52
+    },
+    "--teal-300": {
+      "bg": 1.83,
+      "scss": "$teal-300",
+      "value": "#66C9C1",
+      "white": 1.96
+    },
+    "--teal-400": {
+      "bg": 2.44,
+      "scss": "$teal-400",
+      "value": "#35B1A8",
+      "white": 2.62
+    },
+    "--teal-50": {
+      "bg": 1.03,
+      "scss": "$teal-50",
+      "value": "#E7F7F5",
+      "white": 1.1
+    },
+    "--teal-500": {
+      "bg": 3.19,
+      "scss": "$teal-500",
+      "value": "#0F9B91",
+      "white": 3.43
+    },
+    "--teal-600": {
+      "bg": 4.64,
+      "scss": "$teal-600",
+      "value": "#0C7D75",
+      "white": 4.99
+    },
+    "--teal-700": {
+      "bg": 6.88,
+      "scss": "$teal-700",
+      "value": "#0A605B",
+      "white": 7.4
+    },
+    "--teal-800": {
+      "bg": 9.83,
+      "scss": "$teal-800",
+      "value": "#07464B",
+      "white": 10.57
+    },
+    "--text-1": {
+      "bg": 14.79,
+      "scss": "$text-1",
+      "value": "#1A2233",
+      "white": 15.9
+    },
+    "--text-2": {
+      "bg": 6.47,
+      "scss": "$text-2",
+      "value": "#4E5A70",
+      "white": 6.95
+    },
+    "--text-3": {
+      "bg": 5.29,
+      "scss": "$text-3",
+      "value": "#5E6779",
+      "white": 5.69
+    },
+    "--text-disabled": {
+      "bg": 1.71,
+      "scss": "$text-disabled",
+      "value": "#B7C0CE",
+      "white": 1.83
+    },
+    "--warning": {
+      "bg": 2.27,
+      "scss": "$warning",
+      "value": "#E8930C",
+      "white": 2.44
+    },
+    "--warning-ink": {
+      "bg": 5.53,
+      "scss": "$warning-ink",
+      "value": "#8F5700",
+      "white": 5.95
+    },
+    "--warning-soft": {
+      "bg": 1.02,
+      "scss": "$warning-soft",
+      "value": "#FEF4E0",
+      "white": 1.09
+    },
+    "--white": {
+      "bg": 1.08,
+      "scss": "$white",
+      "value": "#FFFFFF",
+      "white": 1.0
+    }
+  }
+}

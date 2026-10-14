@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 共享 UI 原件（2026-10-03 从 edu_portal/views/roles.xml 下沉到此） ====
+         为什么下沉：本模板被 edu_schedule 引用（views/templates.xml 2 处），而 edu_schedule
+         **不能**依赖 edu_portal —— edu_portal 依赖 edu_schedule，加依赖即**成环**。
+         结果是 edu_schedule 的 manifest 一直在「说谎」：它引用了一个自己声明不到的模板，
+         只因为 QWeb 的 t-call 按 xmlid 在**渲染时**解析、而 edu_portal 恰好装着了，才侥幸能用。
+         放到 edu_brand（全体公共底层，且本模板是**纯 CSS、零模型访问**）后，
+         edu_schedule 可以**如实**声明依赖。
+         edu_portal 保留同名薄别名 ⇒ 既有 12 处调用点一个都不用改。
+         背景与完整方案：docs/plans/2026-10-02-shared-ui-primitives.md -->
+    <!-- ============ 窄屏（<768px）宽表 → 卡片（两张门户宽表共用） ============
+         D 组第一批真机读数（2026-09-26 21:28 采集）：/leave/approvals 375 视口横向
+         溢出 126px，首要动作「批准」按钮右边缘 x=435（视口 375，inX=False）⇒ 手机上
+         必须横滑才能审批；/grading/history 同因溢出 116px。
+         做法：**只在窄屏**把 <tr> 折成卡片（隐藏 thead，每个 <td> 用 data-label 顶出
+         列名），按钮换行堆叠、落回视口内。媒体查询之外没有任何规则 ⇒ 桌面端 DOM 与
+         观感一字不变。
+         ⚠「统一移动端表格体例」（卡片 / 横滑 / 折叠三选一）仍是队长待决事项（账 §7-6），
+         本处只解「按不到按钮」，不定义全站体例。 -->
+    <template id="edu_narrow_table_cards" name="Edu 窄屏卡片式表格（共用样式）">
+        <style>
+            @media (max-width: 767.98px) {
+                .edu-card-table thead { display: none; }
+                .edu-card-table tbody tr {
+                    display: block; background: #fff;
+                    border: 1px solid var(--border, #dee2e6);
+                    border-radius: .75rem; padding: .4rem .7rem;
+                    margin-bottom: .7rem;
+                }
+                .edu-card-table tbody tr > td {
+                    display: flex; flex-wrap: wrap; align-items: center;
+                    gap: .3rem .6rem; border: 0; padding: .2rem 0;
+                    text-align: left !important;
+                    /* 2026-10-02 补：卡片模式下把 white-space 复位（**防御性**，见下）。
+                       由来：narrow-b 报告「/assess/tasks 卡片化后表宽 421px > 容器 345px、卡片右侧被裁，
+                       疑因 tbody 的 tr 带 Bootstrap text-nowrap（nowrap !important）」。
+                       ✅ **已复现且有效**（narrow-b 出复现包，队长独立复跑 shots/local/task11/repro_421.py）：
+                       A 现状 345 → B 加回 nowrap 仍 345 → **C 删掉这条复位 = 421 > 容器 345（差 76px）** → D 重载 345。
+                       逐行归因：只有内容最长的那一行会撑破。
+                       ⚠ 队长第一轮「复现不出来」的三个原因（教训值得留档）：
+                         ① 换了个内容短的页面测，加 nowrap 也不会变宽；
+                         ② 注入的长文本是**元素**，flex 下自己折行 —— 要撑宽得让文本节点本身继承 nowrap；
+                         ③ **最关键**：把反向规则注入到 head，而本 style 在 body ⇒ 同特异性下文档序靠后者胜，
+                            那条「反向规则」根本没生效，读数恒为 0，于是我误判成「原规则无用」。
+                       ⇒ 通用教训：**反向注入必须先把 computed 值读回来，确认真的注进去了，再谈因果。**
+                       ⚠ 写在这里的注释**也是 XML 内容**：不能出现裸的尖括号（我第一版写了 tbody 的
+                         尖括号 tr，直接把 roles.xml 变成 mismatched tag —— 已改回纯文字）。 */
+                    white-space: normal !important;
+                }
+                .edu-card-table tbody tr > td::before {
+                    content: attr(data-label); flex: 0 0 5.5rem;
+                    color: #6c757d; font-size: .8rem; line-height: 1.4;
+                }
+                .edu-card-table tbody tr > td:not([data-label])::before {
+                    display: none;
+                }
+            }
+        </style>
+    </template>
+
+</odoo>

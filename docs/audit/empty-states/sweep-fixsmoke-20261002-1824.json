@@ -1,0 +1,499 @@
+{
+ "meta": {
+  "tag": "fixsmoke",
+  "started": "2026-10-02T18:24:02+08:00",
+  "container": {
+   "name": "edu19-clone-web-1",
+   "before": "2026-10-02T10:12:06.173571667Z",
+   "after": "2026-10-02T10:12:06.173571667Z",
+   "sample_valid": true
+  },
+  "finished": "2026-10-02T18:24:04+08:00",
+  "viewport": {
+   "width": 375,
+   "height": 812
+  },
+  "probes": 1,
+  "skipped": 19,
+  "source": "tests/ui/surface.json (scope=portal) x all roles"
+ },
+ "readings": [
+  {
+   "role": "first",
+   "path": "/student/attendance",
+   "path_template": "/student/attendance",
+   "collected_at": "2026-10-02T18:24:03+08:00",
+   "title": "出席率",
+   "rows": 0,
+   "cards": 0,
+   "asgCards": 0,
+   "libCards": 0,
+   "records": 0,
+   "tables": [],
+   "headings": [
+    "修改头像"
+   ],
+   "hints": [
+    {
+     "text": "新手上手清单 我知道了 点击右上角「应用面板」或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 排序依据： 日期 筛选依据： 全部 分组依据： 不分组 导出 CSV 暂无考勤记录。",
+     "tag": "div",
+     "cls": "b11-body",
+     "html": "<div class=\"b11-body\">\n                    \n                    <aside class=\"b11-side d-none d-lg-block\" id=\"b11-side\">\n                        <div class=\"b11-nav-group-title\">首页</div>\n                        <a class=\"b11-nav-item\" href=\"/my/home\" data-b11-tab=\"/my/home\">\n                            <i class=\"fa fa-home\" aria-hidden=\"true\"></i>我的主页</a>\n\n                        <div class=\"b11-nav-group-title\">学习</div>\n                            <a class=\"b11-nav-item\" href=\"/my/calendar\"><i "
+    },
+    {
+     "text": "排序依据： 日期 筛选依据： 全部 分组依据： 不分组 导出 CSV 暂无考勤记录。",
+     "tag": "div",
+     "cls": "oe-att-page",
+     "html": "<div class=\"oe-att-page\">\n                <nav class=\"navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar\">\n                    <div class=\"collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show\" id=\"o_portal_navbar_content\">\n                        <div class=\"nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0\">\n                            <div>\n                                <span class=\"small me-1 navbar-text\">排序依据：</span>\n                      "
+    },
+    {
+     "text": "暂无考勤记录。",
+     "tag": "div",
+     "cls": "alert alert-info",
+     "html": "<div class=\"alert alert-info\">暂无考勤记录。</div>"
+    }
+   ],
+   "emptyBlocks": [],
+   "mainText": "帮助 新手上手清单 我知道了 点击右上角「应用面板」或首页卡片进入各功能 顶部搜索框可查应用入口与作业 / 课程 / 公告 / 账单 布告栏公告点开即已读，未读角标自动减少 遇到问题见帮助中心， 或邮件联系 学坊办公室 排序依据： 日期 筛选依据： 全部 分组依据： 不分组 导出 CSV 暂无考勤记录。 首页 校历 消息 通讯录 修改密码",
+   "links": [
+    {
+     "href": "#wrap",
+     "text": "跳至内容"
+    },
+    {
+     "href": "/",
+     "text": ""
+    },
+    {
+     "href": "/about",
+     "text": "学院概况"
+    },
+    {
+     "href": "/programs",
+     "text": "专业设置"
+    },
+    {
+     "href": "/admissions",
+     "text": "招生信息"
+    },
+    {
+     "href": "/journal",
+     "text": "SCRTS校刊"
+    },
+    {
+     "href": "/login",
+     "text": "登录"
+    },
+    {
+     "href": "/",
+     "text": "首页"
+    },
+    {
+     "href": "/booking",
+     "text": "现在预订"
+    },
+    {
+     "href": "/digital-library",
+     "text": "图书馆"
+    },
+    {
+     "href": "/online-exams",
+     "text": "考试"
+    },
+    {
+     "href": "/jobs",
+     "text": "工作"
+    },
+    {
+     "href": "#",
+     "text": "入场"
+    },
+    {
+     "href": "/courses-offered",
+     "text": "开设课程"
+    },
+    {
+     "href": "/program-offered",
+     "text": "培养项目"
+    },
+    {
+     "href": "#",
+     "text": "工作机会"
+    },
+    {
+     "href": "/alumni/job/card",
+     "text": "校友招聘"
+    },
+    {
+     "href": "/campus/jobs",
+     "text": "校园工作"
+    },
+    {
+     "href": "/#contact",
+     "text": "联系我们"
+    },
+    {
+     "href": "/alumni",
+     "text": "校友"
+    },
+    {
+     "href": "/courses",
+     "text": "课程"
+    },
+    {
+     "href": "/my-courses",
+     "text": "我的课程"
+    },
+    {
+     "href": "/alumni/jobs",
+     "text": "校友与就业"
+    },
+    {
+     "href": "#",
+     "text": ""
+    },
+    {
+     "href": "#",
+     "text": "【演示】空态测试学生"
+    },
+    {
+     "href": "/my/home",
+     "text": "我的账户"
+    },
+    {
+     "href": "/logout",
+     "text": "登出"
+    },
+    {
+     "href": "/contactus",
+     "text": "联系我们"
+    },
+    {
+     "href": "/",
+     "text": ""
+    },
+    {
+     "href": "/about",
+     "text": "学院概况"
+    },
+    {
+     "href": "/programs",
+     "text": "专业设置"
+    },
+    {
+     "href": "/admissions",
+     "text": "招生信息"
+    },
+    {
+     "href": "/journal",
+     "text": "SCRTS校刊"
+    },
+    {
+     "href": "/login",
+     "text": "登录"
+    },
+    {
+     "href": "/",
+     "text": "首页"
+    },
+    {
+     "href": "/booking",
+     "text": "现在预订"
+    },
+    {
+     "href": "/digital-library",
+     "text": "图书馆"
+    },
+    {
+     "href": "/online-exams",
+     "text": "考试"
+    },
+    {
+     "href": "/jobs",
+     "text": "工作"
+    },
+    {
+     "href": "#",
+     "text": "入场"
+    },
+    {
+     "href": "/courses-offered",
+     "text": "开设课程"
+    },
+    {
+     "href": "/program-offered",
+     "text": "培养项目"
+    },
+    {
+     "href": "#",
+     "text": "工作机会"
+    },
+    {
+     "href": "/alumni/job/card",
+     "text": "校友招聘"
+    },
+    {
+     "href": "/campus/jobs",
+     "text": "校园工作"
+    },
+    {
+     "href": "/#contact",
+     "text": "联系我们"
+    },
+    {
+     "href": "/alumni",
+     "text": "校友"
+    },
+    {
+     "href": "/courses",
+     "text": "课程"
+    },
+    {
+     "href": "/my-courses",
+     "text": "我的课程"
+    },
+    {
+     "href": "/alumni/jobs",
+     "text": "校友与就业"
+    },
+    {
+     "href": "#",
+     "text": "【演示】空态测试学生"
+    },
+    {
+     "href": "/my/home",
+     "text": "我的账户"
+    },
+    {
+     "href": "/logout",
+     "text": "登出"
+    },
+    {
+     "href": "/contactus",
+     "text": "联系我们"
+    },
+    {
+     "href": "/my/home",
+     "text": ""
+    },
+    {
+     "href": "/my/home",
+     "text": ""
+    },
+    {
+     "href": "/my/help",
+     "text": "帮助"
+    },
+    {
+     "href": "/my/home",
+     "text": "我的主页"
+    },
+    {
+     "href": "/my/password",
+     "text": "修改密码"
+    },
+    {
+     "href": "#",
+     "text": "修改头像"
+    },
+    {
+     "href": "/logout",
+     "text": "退出登录"
+    },
+    {
+     "href": "/my/home",
+     "text": "我的主页"
+    },
+    {
+     "href": "/my/calendar",
+     "text": "课表"
+    },
+    {
+     "href": "/student/assignment/details",
+     "text": "作业"
+    },
+    {
+     "href": "/student/exam",
+     "text": "考试"
+    },
+    {
+     "href": "/grade-book",
+     "text": "成绩册"
+    },
+    {
+     "href": "/my-courses",
+     "text": "课程"
+    },
+    {
+     "href": "/subject/enroll",
+     "text": "报课选科"
+    },
+    {
+     "href": "/subject/registration",
+     "text": "我的申请"
+    },
+    {
+     "href": "/my/study",
+     "text": "课程中心"
+    },
+    {
+     "href": "/my/calendar",
+     "text": "校历"
+    },
+    {
+     "href": "/library/media",
+     "text": "图书馆"
+    },
+    {
+     "href": "/my/checkins",
+     "text": "每日打卡"
+    },
+    {
+     "href": "/my/journals",
+     "text": "我的周记"
+    },
+    {
+     "href": "/my/contacts",
+     "text": "通讯录"
+    },
+    {
+     "href": "/my/messages",
+     "text": "消息"
+    },
+    {
+     "href": "/my/notice_board/notice",
+     "text": "布告栏"
+    },
+    {
+     "href": "/student/profile",
+     "text": "个人资料"
+    },
+    {
+     "href": "/my/fees",
+     "text": "费用账单"
+    },
+    {
+     "href": "/my/time_off",
+     "text": "请假"
+    }
+   ],
+   "buttons": [
+    "跳至内容",
+    "联系我们",
+    "联系我们",
+    "取消",
+    "保存头像",
+    "我知道了",
+    "日期",
+    "全部",
+    "不分组",
+    "导出 CSV"
+   ],
+   "forms": 5,
+   "inputs": 8,
+   "bodyLen": 36552,
+   "http": 200,
+   "ctype": "text/html; charset=utf-8",
+   "final_path": "/student/attendance",
+   "verdict": "ok",
+   "ms": 566
+  }
+ ],
+ "skipped": [
+  {
+   "path": "/assess/child/<int:student_id>/history",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/assess/student/<int:student_id>/history",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/assess/tasks/<int:task_id>",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/assess/tasks/<int:task_id>/roster",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/assess/templates/<int:template_id>",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/attendance/import",
+   "role": "first",
+   "skipped": "side-effect-guard"
+  },
+  {
+   "path": "/attendance/selfcheck/<token>",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/leave/<int:leave_id>/return_confirm",
+   "role": "first",
+   "skipped": "side-effect-guard"
+  },
+  {
+   "path": "/leave/approvals/<int:leave_id>",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/leave/transfer",
+   "role": "first",
+   "skipped": "side-effect-guard"
+  },
+  {
+   "path": "/my/checkin/save",
+   "role": "first",
+   "skipped": "side-effect-guard"
+  },
+  {
+   "path": "/my/child/<int:child_id>/leave/saved",
+   "role": "first",
+   "skipped": "side-effect-guard"
+  },
+  {
+   "path": "/my/lang/<string:code>",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/my/messages/poll",
+   "role": "first",
+   "skipped": "side-effect-guard"
+  },
+  {
+   "path": "/my/reimburse/apply",
+   "role": "first",
+   "skipped": "side-effect-guard"
+  },
+  {
+   "path": "/my/reimburse/receipt/<int:bill_id>/<int:att_id>",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/my/study/session/<int:session_id>/join",
+   "role": "first",
+   "skipped": "side-effect-guard"
+  },
+  {
+   "path": "/registrar/subject/approvals/<int:rid>",
+   "role": "first",
+   "skipped": "no-instance"
+  },
+  {
+   "path": "/timetable/batch/<int:bid>/deactivate",
+   "role": "first",
+   "skipped": "no-instance"
+  }
+ ]
+}

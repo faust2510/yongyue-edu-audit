@@ -1,0 +1,500 @@
+[
+ {
+  "no": "C00a",
+  "name": "无升级锁（串行口径）",
+  "pass": true,
+  "detail": "/var/folders/p8/ss303xqd5j97kx5cpqd6x_lc0000gn/T/edu19_upgrade.lock"
+ },
+ {
+  "no": "C00b",
+  "name": "web 就绪（带库名登录页）",
+  "pass": true,
+  "detail": "code=302 tries=1"
+ },
+ {
+  "no": "F01",
+  "name": "六个账号均可登录（课代表/同学/外课/任课老师/教务/管理员）",
+  "pass": true,
+  "detail": "uid=[552, 553, 554, 11, 12, 555]"
+ },
+ {
+  "no": "F02",
+  "name": "载体合法：甲/乙在科目A、丙只在科目B",
+  "pass": true,
+  "detail": "A 行数=2"
+ },
+ {
+  "no": "F03",
+  "name": "载体合法：任课老师（faculty@local → op.faculty 17）任教夹具班",
+  "pass": true,
+  "detail": "batch=438"
+ },
+ {
+  "no": "N1a",
+  "name": "N1 非课代表 GET 面板 → 303 回 /my/courses",
+  "pass": true,
+  "detail": "code=303 loc=/my/courses"
+ },
+ {
+  "no": "N1b",
+  "name": "N1 非课代表 POST 发通知 → 0 条新站内信",
+  "pass": true,
+  "detail": "code=303 new_msg=0"
+ },
+ {
+  "no": "N1c",
+  "name": "N1 非课代表 POST 辞去 → 无槽位、无写",
+  "pass": true,
+  "detail": "code=303 rows=0"
+ },
+ {
+  "no": "N1d",
+  "name": "N1 非课代表 POST 点名 → 未新建点名表",
+  "pass": true,
+  "detail": "code=303 new_sheet=0"
+ },
+ {
+  "no": "N1e",
+  "name": "N1 外课学生（连本科学生都不是）GET 面板 → 303",
+  "pass": true,
+  "detail": "code=303 loc=/my/courses"
+ },
+ {
+  "no": "N1f",
+  "name": "N1 非课代表「我的课程」页无课代表徽标",
+  "pass": true,
+  "detail": "code=200 badge=False"
+ },
+ {
+  "no": "P0a",
+  "name": "教务任命 → 槽位 active、留痕「课代表任命」+1",
+  "pass": true,
+  "detail": "slot=25 state=active audit=1"
+ },
+ {
+  "no": "P0b",
+  "name": "被任命学生收到站内信（event_key=course_rep_appointed）",
+  "pass": true,
+  "detail": "n=1"
+ },
+ {
+  "no": "P0c",
+  "name": "「我的课程」徽标只给本人在任的课（本人有、同学无）",
+  "pass": true,
+  "detail": "rep_page=True mate_page=False"
+ },
+ {
+  "no": "P0d",
+  "name": "在任课代表 GET 面板 → 200",
+  "pass": true,
+  "detail": "code=200"
+ },
+ {
+  "no": "P0e",
+  "name": "后台「任命」按钮同一条方法路径可用（action_appoint）",
+  "pass": true,
+  "detail": "{'state': 'active', 'source': 'cap', 'expires': '2027-03-20', 'realtime': '2027-03-20'}"
+ },
+ {
+  "no": "N2a",
+  "name": "N2 自己的假单不进课代表队列（队列里没有它的处置表单）",
+  "pass": true,
+  "detail": "lid_self=337 in_queue=False"
+ },
+ {
+  "no": "N2b",
+  "name": "N2 前端根本不渲染该单（三层防御第②层：不是禁用按钮）；对照单在队列里 ⇒ 过滤是针对自己",
+  "pass": true,
+  "detail": "peer_in_queue=True self_in_queue=False"
+ },
+ {
+  "no": "N2c",
+  "name": "N2 直接 POST 通过自己的假单 → 不写任何字段",
+  "pass": true,
+  "detail": "code=303 state=request→request kind=NULL"
+ },
+ {
+  "no": "N2d",
+  "name": "N2 该单仍在教师 /leave/approvals 队列（没被顺手吞掉）",
+  "pass": true,
+  "detail": "code=200"
+ },
+ {
+  "no": "N2e",
+  "name": "N2 老师批它 → 成功且 approver_kind 不是 student_rep",
+  "pass": true,
+  "detail": "state=approved kind=faculty"
+ },
+ {
+  "no": "F04",
+  "name": "N4/N5 夹具齐备（外课单/法定假/其他/无课程单）",
+  "pass": true,
+  "detail": "ids=[339, 340, 341, 342]"
+ },
+ {
+  "no": "N4a",
+  "name": "N4 只在科目B的假单不进科目A课代表队列",
+  "pass": true,
+  "detail": "lid=339 in_queue=False"
+ },
+ {
+  "no": "N4b",
+  "name": "N4 直接 POST 跨课程审批 → 不写任何字段",
+  "pass": true,
+  "detail": "code=303 state=request kind=NULL"
+ },
+ {
+  "no": "N4c",
+  "name": "N4 subject_id 为空 → fail-closed（不进队列、POST 不写）",
+  "pass": true,
+  "detail": "in_queue=False subject=NULL"
+ },
+ {
+  "no": "N4d",
+  "name": "N4 空课程单直接 POST → 不写字段（state=request kind=NULL）",
+  "pass": true,
+  "detail": "code=303"
+ },
+ {
+  "no": "N5a",
+  "name": "N5 法定假（legal）不进课代表队列",
+  "pass": true,
+  "detail": "in_queue=False"
+ },
+ {
+  "no": "N5b",
+  "name": "N5 其他（other）不进课代表队列",
+  "pass": true,
+  "detail": "in_queue=False"
+ },
+ {
+  "no": "N5c",
+  "name": "N5 直接 POST 批法定假 → 不写字段",
+  "pass": true,
+  "detail": "state=request kind=NULL"
+ },
+ {
+  "no": "P3a",
+  "name": "P3 本课程出勤类假单进课代表队列（有它的处置表单）",
+  "pass": true,
+  "detail": "lid=343 in_queue=True"
+ },
+ {
+  "no": "P3b",
+  "name": "P3 课代表通过 → state=approved / approver_kind=student_rep / 审批人=课代表账号",
+  "pass": true,
+  "detail": "code=303 {\"state\": \"approved\", \"kind\": \"student_rep\", \"approver\": \"552\", \"subject\": \"767\", \"type\": \"sick\", \"name\": \"SLR000091\"}"
+ },
+ {
+  "no": "P3c",
+  "name": "P3 审计动作名独立：请假审批(课代表) +1，老师口径 请假审批 未+1",
+  "pass": true,
+  "detail": "rep_audit=1 teacher_audit=19"
+ },
+ {
+  "no": "P3d",
+  "name": "P3 申请人收到 leave_result 站内信",
+  "pass": true,
+  "detail": "2089|【审批通知】您的请假申请 SLR000091（2026/06/20 ~ 2026/06/21）已通过。"
+ },
+ {
+  "no": "P3e",
+  "name": "P3 单据页面显示「由课代表 X 审批」（需求⑥逐字）",
+  "pass": true,
+  "detail": "code=200 含课代表文案=True"
+ },
+ {
+  "no": "P4-faculty",
+  "name": "P4 faculty 可单独批（不串行等待）→ kind=faculty",
+  "pass": true,
+  "detail": "{\"state\": \"approved\", \"kind\": \"faculty\", \"approver\": \"11\", \"subject\": \"767\", \"type\": \"sick\", \"name\": \"SLR000092\"}"
+ },
+ {
+  "no": "P4-registrar",
+  "name": "P4 registrar 可单独批（不串行等待）→ kind=registrar",
+  "pass": true,
+  "detail": "{\"state\": \"approved\", \"kind\": \"registrar\", \"approver\": \"12\", \"subject\": \"767\", \"type\": \"sick\", \"name\": \"SLR000093\"}"
+ },
+ {
+  "no": "P4-admin",
+  "name": "P4 admin 可单独批（不串行等待）→ kind=admin",
+  "pass": true,
+  "detail": "{\"state\": \"approved\", \"kind\": \"admin\", \"approver\": \"555\", \"subject\": \"767\", \"type\": \"sick\", \"name\": \"SLR000094\"}"
+ },
+ {
+  "no": "P4d",
+  "name": "P4 三种身份都记了审批人（faculty / registrar / admin 各一行）",
+  "pass": true,
+  "detail": "kinds=admin,faculty,registrar,student_rep"
+ },
+ {
+  "no": "P1a",
+  "name": "P1 面板 200 且同学名单每行=姓名+班级",
+  "pass": true,
+  "detail": "code=200 行数=3 例=['\\n                                    【演示】课代表冒烟甲（课代表）\\n                                     · 【演示】课代表冒烟班', '\\n                                    【演示】课代表冒烟乙（同学）\\n                                     · 【演示】课代表冒烟班']"
+ },
+ {
+  "no": "P1b",
+  "name": "P1 名单行只有姓名+班级（无邮箱/学号/手机/成绩/财务/身份证）",
+  "pass": true,
+  "detail": "名单行内命中禁词=[]"
+ },
+ {
+  "no": "P1c",
+  "name": "P1 名单行不含生日等敏感事实",
+  "pass": true,
+  "detail": "ok"
+ },
+ {
+  "no": "P2a",
+  "name": "P2 发通知 → 本课程同学各 1 条、课代表自己 0 条",
+  "pass": true,
+  "detail": "new=1 rep_self=0 mate=1"
+ },
+ {
+  "no": "P2b",
+  "name": "P2 审计「课代表发通知」+1",
+  "pass": true,
+  "detail": "before=0 after=1"
+ },
+ {
+  "no": "P2c",
+  "name": "P2 /my/notify 偏好页能看到「课代表通知」开关（已登记 NOTIFY_EVENTS）",
+  "pass": true,
+  "detail": "code=200 events=leave_result,grade_result,assignment_graded,journal_reviewed,subject_reg_result,reimburse_result,session_change,course_rep_appointed,course_rep_notice,course_rep_expired,attendance_rep_submitted"
+ },
+ {
+  "no": "P6a",
+  "name": "P6 作业只给「还有几人没交」统计（应交 3 / 已交 1 / 还有 2 人没交）",
+  "pass": true,
+  "detail": "【演示】课代表冒烟作业：\n                                    应交 3 人 · 已交 1 人 ·\n                                     还有 2 人没交"
+ },
+ {
+  "no": "P6b",
+  "name": "P6 统计区里 grep 不到任何学生姓名（0 命中）",
+  "pass": true,
+  "detail": "泄漏命中=[] | 统计区=【演示】课代表冒烟作业：\n                                    应交 3 人 · 已交 1 人 ·\n                                     还有 2 人没交"
+ },
+ {
+  "no": "P5a",
+  "name": "P5 课代表提交点名 → 停在 state=start 且带提交人/科目/时刻",
+  "pass": true,
+  "detail": "code=303 {\"state\": \"start\", \"rep\": \"25\", \"subject\": \"767\", \"at\": \"2026-09-21 12:39:17\", \"proposal\": \"{\\\"377\\\": \\\"present\\\", \\\"378\\\": \\\"absent\\\", \\\"380\\\": \\\"present\\\"}\"}"
+ },
+ {
+  "no": "N8a",
+  "name": "N8 未确认前考勤统计一字不变（op.attendance.line 未新增）",
+  "pass": true,
+  "detail": "before=0 after=0"
+ },
+ {
+  "no": "P5b",
+  "name": "★ P5b 老师能在 /attendance/take 看见「待确认」入口 + 提交人",
+  "pass": true,
+  "detail": "code=200 含待确认块=True"
+ },
+ {
+  "no": "P5c",
+  "name": "P5c 任课老师收到 attendance_rep_submitted 站内信",
+  "pass": true,
+  "detail": "new=1"
+ },
+ {
+  "no": "N8b",
+  "name": "N8 课代表无法自行确认（POST 老师路由 → state 仍 start）",
+  "pass": true,
+  "detail": "code=303 state=start"
+ },
+ {
+  "no": "P5b2",
+  "name": "P5b 老师一键确认 → state=done + 考勤行落地（统计此刻才变）",
+  "pass": true,
+  "detail": "code=303 state=done lines=1"
+ },
+ {
+  "no": "N9a",
+  "name": "N9 已确认后再提交同一天 → 不覆盖、仍只有 1 张表",
+  "pass": true,
+  "detail": "code=303 loc=/my/courses/767/rep?box=att_locked sheets=1"
+ },
+ {
+  "no": "N9b",
+  "name": "N9 老师再录同一天 → 命中既有 dup 分支（不产生第二张表）",
+  "pass": true,
+  "detail": "code=303 loc=/attendance/take?batch_id=438&date=2026-06-01&dup=1&dup_sheet=189"
+ },
+ {
+  "no": "P5d-pre",
+  "name": "P5d 前置：该 (course,batch) 已由课代表路径建好登记簿 ⇒ P5d 验的是教师侧既有正常分支（既存缺陷路径另立项，见 P5f）",
+  "pass": true,
+  "detail": "registers=1"
+ },
+ {
+  "no": "P5d",
+  "name": "P5d 教师侧零回归：普通点名仍照旧新建（空响应=既有行为，未改一行）",
+  "pass": true,
+  "detail": "code=200 sheets 0→1"
+ },
+ {
+  "no": "P5d2",
+  "name": "P5d 教师侧新建的表不带课代表字段（_inherit 只加字段：不参与唯一性、也不污染既有路径）",
+  "pass": true,
+  "detail": "{\"state\": \"draft\", \"rep\": \"NULL\", \"subject\": \"NULL\", \"at\": \"NULL\", \"proposal\": \"NULL\"}"
+ },
+ {
+  "no": "P5f",
+  "name": "P5f 课代表侧建的考勤登记簿带 code（op.attendance.register.code 是 required+unique；教师侧两处建簿点 roles.py:556 / :2467 传了不存在的 start_date/end_date 且漏传 code ⇒ 全新 (course,batch) 上必 500 —— 既有缺陷、已单独立项，见交付报告）",
+  "pass": true,
+  "detail": "code=R18-438"
+ },
+ {
+  "no": "N6a",
+  "name": "N6 SQL 直插同一 subject 第二行 → 被数据库唯一约束拒绝",
+  "pass": true,
+  "detail": "ERROR:  duplicate key value violates unique constraint \"edu_course_rep_subject_uniq\"\nDETAIL:  Key (subject_id)=(767) already exists."
+ },
+ {
+  "no": "N6b",
+  "name": "N6 ORM 建第二行 → 抛唯一约束异常（不是代码 if 拦截）",
+  "pass": true,
+  "detail": "{\"exc\": \"UniqueViolation\", \"msg\": \"duplicate key value violates unique constraint \\\"edu_course_rep_subject_uniq\\\"\\nDETAIL:  Key (subject_id)=(767) already exists.\\n\"}"
+ },
+ {
+  "no": "N6c",
+  "name": "N6 每科目槽位数恒为 1（HAVING count(*)>1 → 0 行）",
+  "pass": true,
+  "detail": "dup_subjects=0"
+ },
+ {
+  "no": "N6d",
+  "name": "N6 结构核对：库里真有 UNIQUE (subject_id)",
+  "pass": true,
+  "detail": "UNIQUE (subject_id)"
+ },
+ {
+  "no": "N7a",
+  "name": "N7 结构证据：课代表路由**只有** 5 条（无提名/指定/转交入口）",
+  "pass": true,
+  "detail": "模型可疑字段=[] 路由=['/rep', '/rep/attendance', '/rep/leave/set_state', '/rep/notify', '/rep/release'] 多余=[]"
+ },
+ {
+  "no": "N7b",
+  "name": "N7 辞去课代表 → state=vacant、保留上一任、留痕「课代表归还」+1",
+  "pass": true,
+  "detail": "code=303 {\"id\": 25, \"state\": \"vacant\", \"student\": 377, \"expires_at\": \"2026-12-20\", \"source\": \"term\"}"
+ },
+ {
+  "no": "N7c",
+  "name": "N7 归还后立刻失效：面板 303 + 徽标消失",
+  "pass": true,
+  "detail": "panel=303 badge=False"
+ },
+ {
+  "no": "N7d",
+  "name": "N7 归还后 POST 发通知/批假 → 写库效果 0",
+  "pass": true,
+  "detail": "msg_new=0 state=request kind=NULL"
+ },
+ {
+  "no": "N7e",
+  "name": "N7 教务任命下一人 → 槽位仍只有 1 行（槽位复用，不新建行）",
+  "pass": true,
+  "detail": "rows=1 student=378"
+ },
+ {
+  "no": "N7f",
+  "name": "N7 学生无法经 RPC 直写课代表表（门户无 ACL，只能走控制器 sudo）",
+  "pass": true,
+  "detail": "rpc_error=odoo.exceptions.AccessError student_now=378"
+ },
+ {
+  "no": "N3-pre",
+  "name": "N3 前置：课代表重新在任（面板 200）",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "no": "N3a",
+  "name": "N3 期限实时重算到过去（班结课日 60 天前 + grace=0）",
+  "pass": true,
+  "detail": "{\"realtime\": \"2026-07-23\", \"stored\": \"2026-12-20\", \"source\": \"term\"}"
+ },
+ {
+  "no": "N3b",
+  "name": "★ N3 【cron 未跑】权限已失效：面板 GET → 303",
+  "pass": true,
+  "detail": "state_in_db=active"
+ },
+ {
+  "no": "N3c",
+  "name": "★ N3 【cron 未跑】徽标消失（实时判定，不靠 cron 改 state）",
+  "pass": true,
+  "detail": "badge=False"
+ },
+ {
+  "no": "N3d",
+  "name": "N3 【cron 未跑】库里 state 仍是 active（证明权限失效不依赖 cron）",
+  "pass": true,
+  "detail": "state=active"
+ },
+ {
+  "no": "N3e",
+  "name": "★ N3 【cron 未跑】到期后审批写库效果 0",
+  "pass": true,
+  "detail": "code=303 {\"state\": \"request\", \"kind\": \"NULL\", \"approver\": \"NULL\", \"subject\": \"767\", \"type\": \"sick\", \"name\": \"SLR000096\"}"
+ },
+ {
+  "no": "N3f",
+  "name": "N3 跑 cron → 收口写 expired + 留痕 + 通知学生",
+  "pass": true,
+  "detail": "cron_returned=1 state=expired audit=1"
+ },
+ {
+  "no": "N3g",
+  "name": "N3 参数/日期已还原（夹具自治）",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "no": "P7a",
+  "name": "P7 空值兜底：该生在本课程无班级档案 ⇒ 期限来源=cap（不是空、不是永久）",
+  "pass": true,
+  "detail": "{\"state\": \"active\", \"source\": \"cap\", \"expires\": \"2027-03-20\", \"realtime\": \"2027-03-20\"}"
+ },
+ {
+  "no": "P7b",
+  "name": "P7 期限 = 任命日 + 180 天（默认硬上限）",
+  "pass": true,
+  "detail": "expires=2027-03-20 expect=2027-03-20"
+ },
+ {
+  "no": "P8a",
+  "name": "P8 宽限期参数实时生效：30→0 让期限当场提前 30 天",
+  "pass": true,
+  "detail": "rt30=2026-12-31 rt0=2026-12-01"
+ },
+ {
+  "no": "P8b",
+  "name": "P8 判定读实时值、不读 stored 快照（stored 未变）",
+  "pass": true,
+  "detail": "stored=2026-12-31→2026-12-31"
+ },
+ {
+  "no": "UX1",
+  "name": "UX /my/time_off 有「涉及课程（选填）」下拉，且只列自己的课程",
+  "pass": true,
+  "detail": "code=200"
+ },
+ {
+  "no": "UX2",
+  "name": "UX 提交带课程 → 落库 subject_id；不选 → NULL（N4c 已证）",
+  "pass": true,
+  "detail": "subject=767"
+ },
+ {
+  "no": "CLEAN",
+  "name": "夹具归还：本次夹具的每个 id 都查不到（leftover = 0）",
+  "pass": true,
+  "detail": "{\"subjects\": 0, \"batches\": 0, \"students\": 0, \"reps\": 0, \"sheets\": 0, \"leaves\": 0, \"users\": 0, \"by_tag_subjects\": 0, \"by_tag_batches\": 0, \"by_tag_students\": 0}"
+ }
+]

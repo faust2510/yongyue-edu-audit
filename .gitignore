@@ -1,0 +1,47 @@
+/data/
+shots/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+
+# `shots/` 是全局忽略（截图工具的产物目录）—— 但**审计证据图要入库**，
+# 否则 `docs/audit/*/report.md` 会引用一堆仓库里不存在的图。故按路径开一个口子
+# （用通配而不是逐个列目录：2026-10-02 一天内就出现了两个需要它的审计目录）。
+# 第二条通配是必须的：git 不会进入被排除的目录，只写第一条不够。
+!docs/audit/*/shots/
+!docs/audit/*/shots/**
+!docs/audit/*/evidence/
+!docs/audit/*/evidence/**
+
+# --- 合规排除（2026-08-24 上线前加固）---
+reference/
+scrape/
+openeducat_erp/
+config/odoo.conf
+config/*.conf.local
+.agent-teams/
+tests/smoke/tmp_*.py
+tests/smoke/.assertion_history.json
+tests/smoke/.assertion_history.*.json
+.env*
+*.sqlite3
+# 2026-10-01：原先整目录忽略 deploy/ ⇒ deploy/docker-compose.prod.yml（生产编排）只存在于
+#   本机，旧服务器一丢就无处可查（当天重建时发现它还引用了不存在的 config/odoo.conf.server，
+#   照仓库原样根本起不来）。生产编排属于「必须有版本控制」的文件。
+#   deploy/odoo.conf.server 含生产 admin_passwd，继续忽略。
+deploy/*
+!deploy/docker-compose.prod.yml
+# systemd 单元（异地备份自动化）是交付物，必须进版本控制（2026-10-01）
+!deploy/systemd/
+config/server.local.md
+.zcode/
+
+# 容器侧临时台账落点（权威件在 scripts/migrations/ledger/）
+custom_addons/.migration-ledger/
+
+# Superdesign 的仓库分析产物（可由 init 重新生成，不入库）
+.superdesign/
+
+# 外派审计镜像（scripts/make_audit_mirror.py 生成，含脱敏副本，不进本仓）
+.audit-mirror/

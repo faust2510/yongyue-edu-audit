@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 资料下载中心 v2.1（单页两态） ============
+         /downloads 一页搞定：普通态=纯净下载；教务处登录后点「管理模式」
+         原地展开管理台（上传/文件夹/批量条/行内编辑），不再拆第二张页面。
+         约定：模板内不做 % 格式化，文案与数字由控制器预格式化。 -->
+
+    <!-- 行内"资料行"复用片段：下载端表格体（flat 与分组共用） -->
+    <template id="edu_downloads_rows" name="资料行（下载端）">
+        <t t-foreach="rows" t-as="f">
+            <tr>
+                <td>
+                    <span t-att-class="'badge rounded-pill me-2 ' + f['ext']['cls']">
+                        <i t-att-class="'fa ' + f['ext']['icon'] + ' me-1'"/>
+                        <t t-out="f['ext']['ext']"/>
+                    </span>
+                    <span class="fw-semibold" t-out="f['name']"/>
+                    <div class="text-muted small" t-if="f['description']" t-out="f['description']"/>
+                </td>
+                <td class="text-muted small text-nowrap d-none d-md-table-cell" t-out="f['uploader']"/>
+                <td class="text-muted small text-nowrap d-none d-md-table-cell" t-out="f['updated']"/>
+                <td class="text-end text-muted small text-nowrap" t-out="f['size_text']"/>
+                <td class="text-end text-nowrap">
+                    <span class="badge text-bg-light text-muted me-2" t-out="str(f['download_count']) + ' 次'"/>
+                    <span t-if="f['is_course']" class="badge text-bg-info me-1" t-out="f['subject']"/>
+                    <!-- v3（t8）需确认已读 -->
+                    <span t-if="f['ack_mode'] != 'none' and f['acked']" class="badge text-bg-success me-1">
+                        <i class="fa fa-check me-1"/>已确认
+                    </span>
+                    <form t-if="f['ack_mode'] != 'none' and not f['acked']"
+                          t-att-action="'/downloads/ack/' + str(f['id']) + '/save'"
+                          method="post" class="d-inline">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <button class="btn btn-sm btn-outline-success me-1" type="submit">
+                            <i class="fa fa-check me-1"/>我已知悉
+                        </button>
+                    </form>
+                    <a t-if="is_registrar and f['ack_mode'] != 'none'"
+                       t-att-href="'/downloads/unacked/' + str(f['id'])"
+                       class="btn btn-sm btn-outline-warning me-1">
+                        <i class="fa fa-user-times me-1"/>未读 <t t-out="f['ack_n']"/>
+                    </a>
+                    <a t-if="f['can_inline']" t-att-href="'/downloads/file/' + str(f['id']) + '?inline=1'" target="_blank" class="btn btn-sm btn-outline-secondary me-1">
+                        <i class="fa fa-eye me-1"/>预览
+                    </a>
+                    <a t-att-href="'/downloads/file/' + str(f['id'])" class="btn btn-sm btn-primary">
+                        <i class="fa fa-download me-1"/>下载
+                    </a>
+                </td>
+            </tr>
+        </t>
+    </template>
+
+    <!-- 内联批量上传面板（管理模式与普通态工具条共用） -->
+    <template id="edu_downloads_upload_panel" name="批量上传面板（内联）">
+        <div class="card-body border-bottom">
+            <form method="post" action="/downloads/upload/save" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="row g-2 mb-2">
+                    <div class="col-md-4">
+                        <select class="form-select form-select-sm" name="category_id" required="required"
+                                aria-label="目标文件夹">
+                            <option value="">选择目标文件夹…</option>
+                            <t t-foreach="folder_options" t-as="opt">
+                                <option t-att-value="opt['id']" t-out="opt['label']"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control form-control-sm" name="new_category"
+                               placeholder="或输入名称当场新建"/>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex flex-wrap gap-2 small pt-2">
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" name="vis_registrar" checked="checked"/> 教务处</label>
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" name="vis_teacher" checked="checked"/> 教师</label>
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" name="vis_student" checked="checked"/> 学生</label>
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" name="vis_parent" checked="checked"/> 家长</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control form-control-sm" name="description" placeholder="统一说明（可选）"/>
+                    </div>
+                </div>
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-8">
+                        <div id="dl_drop"
+                             class="border border-2 rounded-3 p-3 text-center text-muted bg-light mb-1"
+                             style="border-style:dashed;">
+                            <i class="fa fa-cloud-upload me-1"/>
+                            <span id="dl_drop_hint">把文件拖到这里，或点击下方按钮选择（支持 Ctrl/Shift 多选）</span>
+                        </div>
+                        <input type="file" name="files" id="dl_files" class="form-control form-control-sm"
+                               multiple="multiple" required="required" aria-label="选择要上传的文件"/>
+                        <div class="form-text">
+                            单个 ≤ <t t-out="max_mb"/>MB，类型限：<code t-out="exts_text"/>
+                        </div>
+                        <!-- 待上传清单：拖拽与下方文件选择框两条入口共用同一份集合，可逐条移除 -->
+                        <div class="border rounded-3 mt-2 p-2 bg-white">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                <span class="small fw-semibold" id="dl_pick_summary" role="status" aria-live="polite">尚未选择任何文件</span>
+                                <button type="button" class="btn btn-sm btn-outline-danger py-0"
+                                        id="dl_pick_clear" disabled="disabled">全部清空</button>
+                            </div>
+                            <div class="small text-warning-emphasis mt-1 d-none" id="dl_pick_notice"
+                                 role="status" aria-live="polite"/>
+                            <ul class="list-unstyled mb-0" id="dl_pick_list"/>
+                            <noscript>
+                                <div class="small text-muted mt-1">
+                                    本页脚本被禁用：待上传清单不可用，请直接用上方文件选择框提交。
+                                </div>
+                            </noscript>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn btn-sm btn-primary" type="submit">
+                            <i class="fa fa-upload me-1"/>开始上传
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <script type="text/javascript">
+                (function () {
+                    var drop = document.getElementById('dl_drop');
+                    var input = document.getElementById('dl_files');
+                    var list = document.getElementById('dl_pick_list');
+                    var summary = document.getElementById('dl_pick_summary');
+                    var notice = document.getElementById('dl_pick_notice');
+                    var clearBtn = document.getElementById('dl_pick_clear');
+                    var hint = document.getElementById('dl_drop_hint');
+                    if (!drop || !input || !list || !summary || !notice || !clearBtn || !hint) { return; }
+                    var HINT_DEFAULT = hint.textContent;
+                    var picked = [];      // 待上传集合：拖拽与文件选择框两条入口共用这一份
+                    var dupNotice = '';   // 重复文件提示（去重但不静默）
+                    var syncWarn = '';    // 无法重建 FileList 时的兜底告警
+
+                    function short(v) {
+                        return v >= 10 ? String(Math.round(v)) : v.toFixed(1);
+                    }
+
+                    function humanSize(n) {
+                        if (typeof n !== 'number' || isNaN(n) || !(n >= 0)) { return '大小未知'; }
+                        if (n >= 1073741824) { return short(n / 1073741824) + ' GB'; }
+                        if (n >= 1048576) { return short(n / 1048576) + ' MB'; }
+                        if (n >= 1024) { return short(n / 1024) + ' KB'; }
+                        return n + ' B';
+                    }
+
+                    function keyOf(file) {
+                        // 去重口径：文件名 + 大小
+                        return JSON.stringify([file.name, file.size]);
+                    }
+
+                    function syncInput() {
+                        // 把待上传集合写回 input.files：服务端收到的集合必须与界面清单一致
+                        try {
+                            var dt = new DataTransfer();
+                            picked.forEach(function (it) { dt.items.add(it.file); });
+                            input.files = dt.files;
+                            syncWarn = '';
+                        } catch (err) {
+                            syncWarn = '提示：当前浏览器无法同步待上传清单，文件选择框里的内容可能与清单不一致，请刷新页面后重试。';
+                            if (window.console &amp;&amp; window.console.error) {
+                                window.console.error('edu_downloads_upload_panel: 重建 input.files 失败', err);
+                            }
+                        }
+                    }
+
+                    function render() {
+                        list.textContent = '';
+                        var total = 0;
+                        picked.forEach(function (it, idx) {
+                            total += it.file.size || 0;
+                            var li = document.createElement('li');
+                            li.className = 'd-flex justify-content-between align-items-center gap-2 border-top py-1';
+                            var meta = document.createElement('span');
+                            meta.className = 'small text-break';
+                            var seq = document.createElement('span');
+                            seq.className = 'text-muted me-1';
+                            seq.textContent = String(idx + 1) + '.';
+                            var nm = document.createElement('span');
+                            nm.className = 'fw-semibold';
+                            nm.textContent = it.file.name;
+                            var sz = document.createElement('span');
+                            sz.className = 'text-muted ms-1';
+                            sz.textContent = humanSize(it.file.size);
+                            meta.appendChild(seq);
+                            meta.appendChild(nm);
+                            meta.appendChild(sz);
+                            var rm = document.createElement('button');
+                            rm.type = 'button';
+                            rm.className = 'btn btn-sm btn-outline-danger py-0 flex-shrink-0';
+                            rm.setAttribute('aria-label', '移除 ' + it.file.name);
+                            rm.textContent = '移除';
+                            rm.addEventListener('click', function () { removeAt(idx); });
+                            li.appendChild(meta);
+                            li.appendChild(rm);
+                            list.appendChild(li);
+                        });
+                        if (picked.length) {
+                            summary.textContent = '已选 ' + picked.length + ' 个文件 · 合计 ' + humanSize(total);
+                            hint.textContent = '已选 ' + picked.length + ' 个文件：可继续拖入，或用下方按钮继续选择';
+                        } else {
+                            summary.textContent = '尚未选择任何文件';
+                            hint.textContent = HINT_DEFAULT;
+                        }
+                        clearBtn.disabled = !picked.length;
+                        var msg = syncWarn || dupNotice;
+                        notice.textContent = msg;
+                        if (msg) {
+                            notice.classList.remove('d-none');
+                        } else {
+                            notice.classList.add('d-none');
+                        }
+                    }
+
+                    function addFiles(fileList) {
+                        var added = 0;
+                        var dups = [];
+                        Array.prototype.slice.call(fileList).forEach(function (file) {
+                            var k = keyOf(file);
+                            var dup = picked.some(function (it) { return it.key === k; });
+                            if (dup) { dups.push(file.name); return; }
+                            picked.push({ file: file, key: k });
+                            added += 1;
+                        });
+                        if (dups.length) {
+                            dupNotice = '提示：已忽略 ' + dups.length + ' 个重复文件（文件名与大小都相同）：'
+                                + dups.slice(0, 3).join('、') + (dups.length >= 4 ? ' 等' : '')
+                                + '。如需上传，请先改文件名或另存一份。';
+                        } else if (added) {
+                            dupNotice = '';
+                        }
+                        syncInput();
+                        render();
+                        return added;
+                    }
+
+                    function removeAt(idx) {
+                        picked.splice(idx, 1);
+                        dupNotice = '';
+                        syncInput();
+                        render();
+                        var btns = list.querySelectorAll('button');
+                        if (btns.length) {
+                            btns[Math.min(idx, btns.length - 1)].focus();
+                        } else {
+                            input.focus();
+                        }
+                    }
+
+                    ['dragenter', 'dragover'].forEach(function (ev) {
+                        drop.addEventListener(ev, function (e) {
+                            e.preventDefault();
+                            drop.classList.add('border-primary', 'bg-white', 'text-primary');
+                        });
+                    });
+                    drop.addEventListener('dragleave', function (e) {
+                        e.preventDefault();
+                        drop.classList.remove('border-primary', 'bg-white', 'text-primary');
+                    });
+                    drop.addEventListener('drop', function (e) {
+                        e.preventDefault();
+                        drop.classList.remove('border-primary', 'bg-white', 'text-primary');
+                        var files = e.dataTransfer ? e.dataTransfer.files : null;
+                        if (files &amp;&amp; files.length) {
+                            addFiles(files);   // 追加，不覆盖
+                        } else {
+                            dupNotice = '提示：这次拖入没有识别到文件，请从文件管理器里拖入文件，或用下方按钮选择。';
+                            render();
+                        }
+                    });
+                    input.addEventListener('change', function () {
+                        if (input.files &amp;&amp; input.files.length) {
+                            addFiles(input.files);
+                        }
+                    });
+                    clearBtn.addEventListener('click', function () {
+                        if (!picked.length) { return; }
+                        picked = [];
+                        dupNotice = '';
+                        syncInput();
+                        render();
+                        input.focus();
+                    });
+                    if (input.form) {
+                        input.form.addEventListener('submit', function () {
+                            syncInput();
+                            render();
+                        });
+                    }
+                    render();
+                })();
+            </script>
+        </div>
+    </template>
+
+    <!-- ══════════ 主页面：单页两态 ══════════ -->
+    <template id="edu_downloads_page" name="资料下载中心">
+        <t t-call="edu_portal.edu_page">
+            <t t-set="dl_csrf" t-value="request.csrf_token()"/>
+
+            <!-- ═════ 管理模式（教务处） ═════ -->
+            <t t-if="manage_mode">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h4 class="mb-1">
+                        <i class="fa fa-download me-2"/>资料下载
+                        <span class="badge text-bg-dark ms-2">管理模式 · 教务处</span>
+                    </h4>
+                    <div>
+                        <a href="/downloads" class="btn btn-sm btn-outline-secondary me-1">
+                            <i class="fa fa-eye me-1"/>退出管理模式
+                        </a>
+                        <a href="/downloads/stats" class="btn btn-sm btn-outline-primary">
+                            <i class="fa fa-pie-chart me-1"/>统计
+                        </a>
+                    </div>
+                </div>
+                <p class="text-muted mb-3">文件夹与资料的完全自助管理：新建、改名、删除、批量操作。</p>
+
+                <t t-if="flash_ok"><div class="alert alert-success py-2" t-out="flash_ok"/></t>
+                <t t-if="flash_err"><div class="alert alert-danger py-2" t-out="flash_err"/></t>
+                <!-- 上传逐文件结果回显 -->
+                <t t-if="upload_results">
+                    <div class="alert alert-secondary py-2">
+                        <div class="fw-semibold mb-1">本次上传明细：</div>
+                        <t t-foreach="upload_results" t-as="ur">
+                            <div class="small">
+                                <t t-if="ur['ok']">
+                                    <i class="fa fa-check-circle text-success me-1"/>
+                                    <t t-out="ur['name']"/>
+                                </t>
+                                <t t-else="">
+                                    <i class="fa fa-times-circle text-danger me-1"/>
+                                    <span class="text-muted"><t t-out="ur['name']"/>——<t t-out="ur['reason']"/></span>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+
+                <!-- 内联批量上传 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-4">
+                    <div class="card-header bg-white fw-semibold">
+                        <i class="fa fa-upload me-1"/>批量上传
+                    </div>
+                    <t t-call="edu_portal.edu_downloads_upload_panel"/>
+                </div>
+
+                <!-- 文件夹面板 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-4">
+                    <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center">
+                        <span><i class="fa fa-sitemap me-1"/>文件夹（最多两级）</span>
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse"
+                                data-bs-target="#dl_new_folder"><i class="fa fa-plus me-1"/>新建文件夹</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="collapse mb-3" id="dl_new_folder">
+                            <form method="post" action="/downloads/folder/save" class="row g-2 border rounded p-2 mb-2 bg-light">
+                                <input type="hidden" name="csrf_token" t-att-value="dl_csrf"/>
+                                <div class="col-md-3">
+                                    <input class="form-control form-control-sm" name="name" placeholder="文件夹名称" required="required"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-select form-select-sm" name="parent_id">
+                                        <option value="">作为顶级文件夹</option>
+                                        <t t-foreach="panel" t-as="p">
+                                            <option t-att-value="p['id']" t-out="'挂在：' + p['name']"/>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form-control form-control-sm" name="description" placeholder="描述（可选）"/>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control form-control-sm" name="sequence" type="number" value="10" placeholder="排序"/>
+                                </div>
+                                <div class="col-md-1">
+                                    <button class="btn btn-sm btn-primary w-100" type="submit">建</button>
+                                </div>
+                            </form>
+                        </div>
+                        <t t-if="not panel">
+                            <div class="text-muted small">还没有文件夹，先建一个吧。</div>
+                        </t>
+                        <t t-foreach="panel" t-as="p">
+                            <div class="border rounded p-2 mb-2">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-1">
+                                    <span class="fw-semibold">
+                                        <i class="fa fa-folder text-warning me-1"/><t t-out="p['name']"/>
+                                        <span class="badge text-bg-light text-muted ms-1" t-out="str(p['count']) + ' 份'"/>
+                                        <span class="text-muted small ms-2" t-if="p['description']" t-out="p['description']"/>
+                                    </span>
+                                    <span class="d-flex gap-1">
+                                        <button class="btn btn-sm btn-outline-secondary py-0"
+                                                data-bs-toggle="collapse" t-att-data-bs-target="'#dl_ren_' + str(p['id'])">改名</button>
+                                        <form method="post" action="/downloads/folder/delete" class="d-inline dl-confirm"
+                                              t-att-data-confirm="'确认删除文件夹「' + p['name'] + '」？'">
+                                            <input type="hidden" name="csrf_token" t-att-value="dl_csrf"/>
+                                            <input type="hidden" name="cid" t-att-value="p['id']"/>
+                                            <button class="btn btn-sm btn-outline-danger py-0" type="submit">删除</button>
+                                        </form>
+                                    </span>
+                                </div>
+                                <div class="collapse mt-2" t-att-id="'dl_ren_' + str(p['id'])">
+                                    <form method="post" action="/downloads/folder/save" class="row g-2">
+                                        <input type="hidden" name="csrf_token" t-att-value="dl_csrf"/>
+                                        <input type="hidden" name="cid" t-att-value="p['id']"/>
+                                        <div class="col-md-3"><input class="form-control form-control-sm" name="name" t-att-value="p['name']" required="required"/></div>
+                                        <div class="col-md-5"><input class="form-control form-control-sm" name="description" t-att-value="p['description']" placeholder="描述"/></div>
+                                        <div class="col-md-2"><input class="form-control form-control-sm" name="sequence" type="number" value="10"/></div>
+                                        <div class="col-md-2"><button class="btn btn-sm btn-primary w-100" type="submit">保存</button></div>
+                                    </form>
+                                </div>
+                                <t t-foreach="p['children']" t-as="ch">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 mt-1 ps-4">
+                                        <span>
+                                            <i class="fa fa-folder-o me-1"/><t t-out="ch['name']"/>
+                                            <span class="badge text-bg-light text-muted ms-1" t-out="str(ch['count']) + ' 份'"/>
+                                        </span>
+                                        <span class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-secondary py-0"
+                                                    data-bs-toggle="collapse" t-att-data-bs-target="'#dl_ren_' + str(ch['id'])">改名</button>
+                                            <form method="post" action="/downloads/folder/delete" class="d-inline dl-confirm"
+                                                  t-att-data-confirm="'确认删除文件夹「' + ch['name'] + '」？'">
+                                                <input type="hidden" name="csrf_token" t-att-value="dl_csrf"/>
+                                                <input type="hidden" name="cid" t-att-value="ch['id']"/>
+                                                <button class="btn btn-sm btn-outline-danger py-0" type="submit">删除</button>
+                                            </form>
+                                        </span>
+                                    </div>
+                                    <div class="collapse mt-1 ps-4" t-att-id="'dl_ren_' + str(ch['id'])">
+                                        <form method="post" action="/downloads/folder/save" class="row g-2">
+                                            <input type="hidden" name="csrf_token" t-att-value="dl_csrf"/>
+                                            <input type="hidden" name="cid" t-att-value="ch['id']"/>
+                                            <div class="col-md-3"><input class="form-control form-control-sm" name="name" t-att-value="ch['name']" required="required"/></div>
+                                            <div class="col-md-5"><input class="form-control form-control-sm" name="description" t-att-value="ch['description']" placeholder="描述"/></div>
+                                            <div class="col-md-2"><input class="form-control form-control-sm" name="sequence" type="number" value="10"/></div>
+                                            <div class="col-md-2"><button class="btn btn-sm btn-primary w-100" type="submit">保存</button></div>
+                                        </form>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- 资料列表（含停用）+ 批量条 -->
+                <div class="card shadow-sm border-0 rounded-3">
+                    <div class="card-header bg-white">
+                        <form method="get" action="/downloads" class="row g-2 align-items-center">
+                            <input type="hidden" name="mode" value="manage"/>
+                            <div class="col-12 col-md-4">
+                                <input type="text" class="form-control form-control-sm" name="q" t-att-value="q" placeholder="搜索资料…"/>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <select class="form-select form-select-sm" name="cat">
+                                    <option value="">全部文件夹</option>
+                                    <t t-foreach="folder_options" t-as="opt">
+                                        <option t-att-value="opt['id']" t-att-selected="cat == opt['id']" t-out="opt['label']"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <select class="form-select form-select-sm" name="status">
+                                    <option value="all" t-att-selected="status == 'all'">全部状态</option>
+                                    <option value="active" t-att-selected="status == 'active'">启用中</option>
+                                    <option value="inactive" t-att-selected="status == 'inactive'">已停用</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <button class="btn btn-sm btn-outline-primary w-100" type="submit">筛选</button>
+                            </div>
+                        </form>
+                    </div>
+                    <form method="post" action="/downloads/manage/bulk" id="dl_bulk_form" class="d-none">
+                        <input type="hidden" name="csrf_token" t-att-value="dl_csrf"/>
+                    </form>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="dl_table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width:2em"><input type="checkbox" id="dl_check_all"/></th>
+                                    <th>标题</th>
+                                    <th class="d-none d-md-table-cell">文件夹</th>
+                                    <th class="d-none d-md-table-cell">可见</th>
+                                    <th class="d-none d-lg-table-cell">上传者</th>
+                                    <th class="d-none d-lg-table-cell">更新时间</th>
+                                    <th class="text-end">大小</th>
+                                    <th class="text-end">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-if="not rows">
+                                    <tr><td colspan="8" class="text-center text-muted py-4">没有符合条件的资料。</td></tr>
+                                </t>
+                                <t t-foreach="manage_groups" t-as="g">
+                                    <tr class="table-light">
+                                        <td colspan="8" class="small fw-semibold text-muted">
+                                            <i class="fa fa-folder-open me-1"/><t t-out="g['name']"/>
+                                            <t t-out="'（' + str(len(g['files'])) + ' 份）'"/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="g['files']" t-as="f">
+                                    <tr t-att-class="'' if f['active'] else 'table-secondary'">
+                                        <td><input type="checkbox" name="ids" t-att-aria-label="'选择 ' + (f['name'] or ('#' + str(f['id'])))" t-att-value="f['id']" form="dl_bulk_form" class="dl-row-check form-check-input"/></td>
+                                        <td>
+                                            <span t-att-class="'badge rounded-pill me-2 ' + f['ext']['cls']">
+                                                <i t-att-class="'fa ' + f['ext']['icon'] + ' me-1'"/><t t-out="f['ext']['ext']"/>
+                                            </span>
+                                            <a class="fw-semibold" t-att-href="'/downloads/file/' + str(f['id'])" t-out="f['name']"/>
+                                            <span class="badge text-bg-secondary ms-1" t-if="not f['active']">已停用</span>
+                                            <div class="text-muted small" t-if="f['description']" t-out="f['description']"/>
+                                        </td>
+                                        <td class="d-none d-md-table-cell small" t-out="f['cat_name']"/>
+                                        <td class="d-none d-md-table-cell small">
+                                            <span class="badge text-bg-light text-muted" t-out="f['vis_label']"/>
+                                        </td>
+                                        <td class="d-none d-lg-table-cell text-muted small" t-out="f['uploader']"/>
+                                        <td class="d-none d-lg-table-cell text-muted small text-nowrap" t-out="f['updated']"/>
+                                        <td class="text-end text-muted small text-nowrap" t-out="f['size_text']"/>
+                                        <td class="text-end text-nowrap">
+                                            <span class="badge text-bg-light text-muted me-1" t-out="str(f['download_count']) + ' 次'"/>
+                                            <a t-if="f['can_inline']" t-att-href="'/downloads/file/' + str(f['id']) + '?inline=1'" target="_blank" class="btn btn-sm btn-outline-secondary py-0">预览</a>
+                                            <!-- 上传后落在管理模式（/downloads/upload/save → ?mode=manage）：
+                                                 此处必须与下载端行模板同样给出「下载」，否则「预览有点、下载没点」。
+                                                 不带 target="_blank"：下载走本页导航，与普通态一致（含 ack 门禁）。 -->
+                                            <a t-att-href="'/downloads/file/' + str(f['id'])" class="btn btn-sm btn-primary py-0 ms-1">
+                                                <i class="fa fa-download me-1"/>下载
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-secondary py-0" type="button"
+                                                    data-bs-toggle="collapse" t-att-data-bs-target="'#dl_edit_' + str(f['id'])">编辑</button>
+                                        </td>
+                                    </tr>
+                                    <tr class="collapse" t-att-id="'dl_edit_' + str(f['id'])">
+                                        <td colspan="8" class="bg-light">
+                                            <form method="post" action="/downloads/manage/file/update" enctype="multipart/form-data" class="row g-2 p-1">
+                                                <input type="hidden" name="csrf_token" t-att-value="dl_csrf"/>
+                                                <input type="hidden" name="fid" t-att-value="f['id']"/>
+                                                <div class="col-md-3"><input class="form-control form-control-sm" name="name" t-att-value="f['name']" required="required"/></div>
+                                                <div class="col-md-3">
+                                                    <select class="form-select form-select-sm" name="category_id">
+                                                        <t t-foreach="folder_options" t-as="opt">
+                                                            <option t-att-value="opt['id']" t-att-selected="f['cat_id'] == opt['id']" t-out="opt['label']"/>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="d-flex flex-wrap gap-1 small pt-1">
+                                                        <label class="form-check-label"><input type="checkbox" class="form-check-input" name="vis_registrar" t-att-checked="f['vis']['registrar']"/> 教务处</label>
+                                                        <label class="form-check-label"><input type="checkbox" class="form-check-input" name="vis_teacher" t-att-checked="f['vis']['teacher']"/> 教师</label>
+                                                        <label class="form-check-label"><input type="checkbox" class="form-check-input" name="vis_student" t-att-checked="f['vis']['student']"/> 学生</label>
+                                                        <label class="form-check-label"><input type="checkbox" class="form-check-input" name="vis_parent" t-att-checked="f['vis']['parent']"/> 家长</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-check-label small me-2">
+                                                        <input type="checkbox" name="active" class="form-check-input" t-att-checked="f['active']"/> 启用
+                                                    </label>
+                                                    <input type="file" name="replace_file" class="form-control form-control-sm d-inline w-auto"/>
+                                                    <button class="btn btn-sm btn-primary ms-1" type="submit">保存</button>
+                                                </div>
+                                                <div class="col-12"><textarea class="form-control form-control-sm" name="description" rows="1" placeholder="说明" t-out="f['description']"/></div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 批量操作条 -->
+                    <div class="card-footer bg-white d-flex flex-wrap gap-2 align-items-center">
+                        <span class="text-muted small">已选 <span id="dl_sel_count">0</span> 项</span>
+                        <select class="form-select form-select-sm w-auto" name="move_cat" form="dl_bulk_form">
+                            <option value="">移动到…</option>
+                            <t t-foreach="folder_options" t-as="opt">
+                                <option t-att-value="opt['id']" t-out="opt['label']"/>
+                            </t>
+                        </select>
+                        <button class="btn btn-sm btn-outline-secondary" type="submit" name="action" value="move" form="dl_bulk_form">移动</button>
+                        <button class="btn btn-sm btn-outline-warning" type="submit" name="action" value="deactivate" form="dl_bulk_form">停用</button>
+                        <button class="btn btn-sm btn-outline-success" type="submit" name="action" value="activate" form="dl_bulk_form">恢复</button>
+                        <span class="small text-muted">改可见：</span>
+                        <label class="form-check-label small"><input type="checkbox" class="form-check-input" name="vis_registrar" form="dl_bulk_form"/> 教务处</label>
+                        <label class="form-check-label small"><input type="checkbox" class="form-check-input" name="vis_teacher" form="dl_bulk_form"/> 教师</label>
+                        <label class="form-check-label small"><input type="checkbox" class="form-check-input" name="vis_student" form="dl_bulk_form"/> 学生</label>
+                        <label class="form-check-label small"><input type="checkbox" class="form-check-input" name="vis_parent" form="dl_bulk_form"/> 家长</label>
+                        <button class="btn btn-sm btn-outline-info" type="submit" name="action" value="visibility" form="dl_bulk_form">改范围</button>
+                        <button class="btn btn-sm btn-outline-danger" type="submit" name="action" value="delete" form="dl_bulk_form"
+                                onclick="return confirm('确认删除选中的资料？删除后不可恢复。');">删除</button>
+                    </div>
+                </div>
+                <div class="o_portal_pager d-flex justify-content-center my-3"
+                     t-if="pager and pager['page_count'] &gt; 1">
+                    <t t-call="portal.pager"/>
+                </div>
+
+                <script type="text/javascript">
+                    (function () {
+                        var all = document.getElementById('dl_check_all');
+                        var cnt = document.getElementById('dl_sel_count');
+                        function refresh() {
+                            var n = document.querySelectorAll('.dl-row-check:checked').length;
+                            if (cnt) { cnt.textContent = n; }
+                        }
+                        if (all) {
+                            all.addEventListener('change', function () {
+                                document.querySelectorAll('.dl-row-check').forEach(function (cb) {
+                                    cb.checked = all.checked;
+                                });
+                                refresh();
+                            });
+                        }
+                        document.querySelectorAll('.dl-row-check').forEach(function (cb) {
+                            cb.addEventListener('change', refresh);
+                        });
+                        document.querySelectorAll('form.dl-confirm').forEach(function (f) {
+                            f.addEventListener('submit', function (ev) {
+                                if (!window.confirm(f.getAttribute('data-confirm') || '确认？')) {
+                                    ev.preventDefault();
+                                }
+                            });
+                        });
+                    })();
+                </script>
+            </t>
+
+            <!-- ═════ 普通下载态 ═════ -->
+            <t t-else="">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h4 class="mb-1"><i class="fa fa-download me-2"/>资料下载</h4>
+                    <t t-if="is_registrar">
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse"
+                                    data-bs-target="#dl_upload"><i class="fa fa-upload me-1"/>批量上传</button>
+                            <a href="/downloads?mode=manage" class="btn btn-sm btn-outline-dark">
+                                <i class="fa fa-cog me-1"/>管理模式
+                            </a>
+                        </div>
+                    </t>
+                </div>
+                <p class="text-muted mb-3">按来源分流：<strong>课程资料</strong>按您所修科目过滤，<strong>行政表格</strong>为全校通用（请假表、阅读报告格式等）。</p>
+
+                <!-- v3（t8）来源分区：课程资料 / 行政表格 -->
+                <ul class="nav nav-pills mb-3 gap-1">
+                    <li class="nav-item">
+                        <a t-attf-class="nav-link py-1 px-3 {{ 'active' if src == 'all' else 'bg-light text-dark' }}"
+                           href="/downloads">全部
+                            <span class="badge text-bg-light" t-out="src_counts['course'] + src_counts['admin']"/></a>
+                    </li>
+                    <li class="nav-item">
+                        <a t-attf-class="nav-link py-1 px-3 {{ 'active' if src == 'course' else 'bg-light text-dark' }}"
+                           href="/downloads?src=course">课程资料
+                            <span class="badge text-bg-light" t-out="src_counts['course']"/></a>
+                    </li>
+                    <li class="nav-item">
+                        <a t-attf-class="nav-link py-1 px-3 {{ 'active' if src == 'admin' else 'bg-light text-dark' }}"
+                           href="/downloads?src=admin">行政表格
+                            <span class="badge text-bg-light" t-out="src_counts['admin']"/></a>
+                    </li>
+                </ul>
+
+                <!-- 教务内联上传（普通态也可直接传） -->
+                <div class="collapse mb-3" id="dl_upload" t-if="is_registrar">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-header bg-white fw-semibold">
+                            <i class="fa fa-upload me-1"/>批量上传
+                        </div>
+                        <t t-call="edu_portal.edu_downloads_upload_panel"/>
+                    </div>
+                </div>
+
+                <!-- 上新 / 热门横带 -->
+                <t t-if="new_count or top_files">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6" t-if="new_count">
+                            <div class="alert alert-success d-flex align-items-center mb-0 py-2">
+                                <i class="fa fa-bell-o me-2"/>
+                                <span>近 30 天上新 <strong t-out="new_count"/> 份资料</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6" t-if="top_files">
+                            <div class="alert alert-light border d-flex align-items-center flex-wrap gap-1 mb-0 py-2">
+                                <i class="fa fa-fire me-2 text-warning"/>
+                                <span class="me-1">最常下载：</span>
+                                <t t-foreach="top_files" t-as="tf">
+                                    <a class="badge text-bg-primary text-decoration-none"
+                                       t-att-href="'/downloads/file/' + str(tf['id'])"
+                                       t-out="tf['name']"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- 搜索 + 排序 -->
+                <form method="get" action="/downloads" class="row g-2 align-items-center mb-3">
+                    <div class="col-12 col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" t-att-value="q"
+                                   placeholder="搜索资料名称或说明…"/>
+                            <input type="hidden" name="sort" t-att-value="sort"/>
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-search me-1"/>搜索</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="btn-group float-md-end" role="group">
+                            <t t-foreach="sort_labels" t-as="sk">
+                                <a t-att-href="'/downloads?sort=' + sk + (('&amp;q=' + q_enc) if q else '')"
+                                   t-att-class="'btn btn-sm ' + ('btn-primary' if sort == sk else 'btn-outline-secondary')"
+                                   t-out="sort_labels[sk][0]"/>
+                            </t>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- 文件夹 chips（含子文件夹聚合计数） -->
+                <div class="mb-3 d-flex flex-wrap gap-2">
+                    <a t-att-class="'badge rounded-pill text-decoration-none p-2 px-3 ' + ('text-bg-primary' if not cat else 'text-bg-light text-dark')"
+                       t-att-href="'/downloads' if not q else ('/downloads?q=' + q_enc)"
+                       t-out="'全部 (' + str(total_count) + ')'"/>
+                    <t t-foreach="chips" t-as="ch">
+                        <a t-if="ch['count']"
+                           t-att-class="'badge rounded-pill text-decoration-none p-2 px-3 ' + ('text-bg-primary' if cat == ch['id'] else 'text-bg-light text-dark')"
+                           t-att-href="('/downloads?cat=' + str(ch['id'])) + (('&amp;q=' + q_enc) if q else '')">
+                            <i class="fa fa-folder-open-o me-1"/><t t-out="ch['name']"/>
+                            <t t-out="' (' + str(ch['count']) + ')'"/>
+                        </a>
+                    </t>
+                </div>
+
+                <!-- 空态 -->
+                <t t-if="not flat and not groups">
+                    <div class="alert alert-light border text-muted">
+                        <i class="fa fa-folder-open-o me-2"/>暂无资料，请稍后再来。
+                    </div>
+                </t>
+
+                <!-- 筛选态：平铺表格 + 分页 -->
+                <t t-if="flat_mode">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>标题</th>
+                                        <th class="d-none d-md-table-cell">上传者</th>
+                                        <th class="d-none d-md-table-cell">更新时间</th>
+                                        <th class="text-end">大小</th>
+                                        <th class="text-end">下载</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="rows" t-value="flat"/>
+                                    <t t-call="edu_portal.edu_downloads_rows"/>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="o_portal_pager d-flex justify-content-center my-3"
+                         t-if="pager and pager['page_count'] &gt; 1">
+                        <t t-call="portal.pager"/>
+                    </div>
+                </t>
+
+                <!-- 默认态：按文件夹分组（两级） -->
+                <t t-if="not flat_mode" t-foreach="groups" t-as="cat_g">
+                    <div class="card shadow-sm border-0 rounded-3 mb-4">
+                        <div class="card-header bg-white fw-semibold d-flex justify-content-between">
+                            <span><i class="fa fa-folder-open me-1"/><t t-out="cat_g['name']"/></span>
+                            <span class="badge rounded-pill text-bg-light text-muted"
+                                  t-out="str(len(cat_g['files']) + sum(len(s['files']) for s in cat_g['subs'])) + ' 份'"/>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>标题</th>
+                                        <th class="d-none d-md-table-cell">上传者</th>
+                                        <th class="d-none d-md-table-cell">更新时间</th>
+                                        <th class="text-end">大小</th>
+                                        <th class="text-end">下载</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="rows" t-value="cat_g['files']"/>
+                                    <t t-call="edu_portal.edu_downloads_rows"/>
+                                    <t t-foreach="cat_g['subs']" t-as="sub">
+                                        <tr class="table-light">
+                                            <td colspan="5" class="small text-muted">
+                                                <i class="fa fa-level-down me-1"/>
+                                                <t t-out="sub['name']"/>
+                                                <t t-out="'（' + str(len(sub['files'])) + ' 份）'"/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="rows" t-value="sub['files']"/>
+                                        <t t-call="edu_portal.edu_downloads_rows"/>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ══════════ 我的下载记录 ══════════ -->
+    <template id="edu_downloads_mine" name="我的下载记录">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1 d-flex align-items-center gap-2 flex-wrap">
+                <span><i class="fa fa-history me-2"/>我的下载记录</span>
+                <a class="btn btn-sm btn-outline-primary ms-auto" href="/downloads/mine/export">
+                    <i class="fa fa-download me-1"/>导出 CSV
+                </a>
+            </h4>
+            <p class="text-muted mb-3">最近 100 条下载记录（同一天重复下载只记一次）。</p>
+            <t t-if="not rows">
+                <div class="alert alert-light border text-muted">
+                    <i class="fa fa-download me-2"/>还没有下载过资料，
+                    去 <a href="/downloads">资料下载</a> 看看吧。
+                </div>
+            </t>
+            <t t-if="rows">
+                <div class="card shadow-sm border-0 rounded-3">
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr><th>资料</th><th class="text-end">下载时间</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="rows" t-as="r">
+                                    <tr>
+                                        <td>
+                                            <t t-if="r['href']">
+                                                <a class="fw-semibold" t-att-href="r['href']" t-out="r['name']"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-muted" t-out="r['name']"/>
+                                                <span class="badge text-bg-light text-muted ms-2">已下架</span>
+                                            </t>
+                                        </td>
+                                        <td class="text-end text-muted small text-nowrap" t-out="r['date']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ══════════ 下载统计（教务处） ══════════ -->
+    <template id="edu_downloads_stats" name="资料下载统计">
+        <t t-call="edu_portal.edu_page">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h4 class="mb-1"><i class="fa fa-pie-chart me-2"/>资料下载统计</h4>
+                <div>
+                    <a href="/downloads/stats/export" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-download me-1"/>导出全量 CSV
+                    </a>
+                    <span class="alert alert-success d-inline-block py-1 px-3 mb-0 ms-1">
+                        近 30 天下载 <strong t-out="total30"/> 次
+                    </span>
+                    <a href="/downloads?mode=manage" class="btn btn-sm btn-outline-secondary ms-1">返回管理模式</a>
+                </div>
+            </div>
+            <p class="text-muted mb-3">按累计下载次数排序（最多 50 条）；「独立人数」按去重后的下载者计。</p>
+
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-0 table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>资料</th>
+                                <th class="d-none d-md-table-cell">文件夹</th>
+                                <th style="width:18%">下载次数</th>
+                                <th class="text-end">独立人数</th>
+                                <th class="text-end d-none d-md-table-cell">最近下载</th>
+                                <th class="text-end d-none d-lg-table-cell">大小</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="not rows">
+                                <tr><td colspan="6" class="text-center text-muted py-4">还没有任何下载记录。</td></tr>
+                            </t>
+                            <t t-foreach="rows" t-as="r">
+                                <tr>
+                                    <td>
+                                        <a class="fw-semibold" t-att-href="'/downloads/file/' + str(r['id'])" t-out="r['name']"/>
+                                        <span class="badge text-bg-secondary ms-1" t-if="not r['active']">已停用</span>
+                                        <div class="progress mt-1" style="height:4px;">
+                                            <div class="progress-bar bg-primary" t-att-style="'width:' + str(r['bar']) + '%'"/>
+                                        </div>
+                                    </td>
+                                    <td class="d-none d-md-table-cell small" t-out="r['cat_name']"/>
+                                    <td class="fw-semibold" t-out="r['count']"/>
+                                    <td class="text-end" t-out="r['uniq']"/>
+                                    <td class="text-end text-muted small text-nowrap d-none d-md-table-cell" t-out="r['last']"/>
+                                    <td class="text-end text-muted small text-nowrap d-none d-lg-table-cell" t-out="r['size_text']"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ v3（t8）hard 档：确认已读门 ============ -->
+    <template id="edu_downloads_ack_gate" name="资料需确认已读">
+        <t t-call="edu_portal.edu_page">
+            <div class="card shadow-sm border-0 rounded-3 mx-auto" style="max-width:640px">
+                <div class="card-body">
+                    <h4 class="mb-2"><i class="fa fa-check-circle me-2"/>请先确认已读</h4>
+                    <p class="text-muted">
+                        《<span t-out="file.name"/>》要求确认已读后才能下载或预览。
+                    </p>
+                    <form t-att-action="'/downloads/ack/' + str(file.id) + '/save'" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="next" t-att-value="next_url"/>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-check me-1"/>我已知悉
+                        </button>
+                        <a href="/downloads" class="btn btn-outline-secondary ms-1">返回资料中心</a>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ v3（t8）未读名单（教务处） ============ -->
+    <template id="edu_downloads_unacked" name="资料未读名单">
+        <t t-call="edu_portal.edu_page">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                <h4 class="mb-0"><i class="fa fa-user-times me-2"/>未读名单</h4>
+                <div class="d-flex gap-1">
+                    <form t-att-action="'/downloads/remind/' + str(file.id) + '/save'"
+                          method="post" t-if="unacked_n">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <button class="btn btn-sm btn-outline-primary" type="submit">
+                            <i class="fa fa-bell me-1"/>催办未读
+                        </button>
+                    </form>
+                    <a t-att-href="'/downloads/unacked/' + str(file.id) + '/export'"
+                       class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-file-excel-o me-1"/>导出 CSV
+                    </a>
+                    <a href="/downloads" class="btn btn-sm btn-outline-secondary">返回</a>
+                </div>
+            </div>
+            <p class="text-muted">
+                《<span t-out="file.name"/>》：应确认 <strong t-out="target_n"/> 人，
+                已确认 <strong t-out="acked_n"/> 人，
+                未确认 <strong t-out="unacked_n"/> 人。
+            </p>
+            <table class="table table-sm align-middle" t-if="rows">
+                <thead>
+                    <tr><th>姓名</th><th>账号</th><th>邮箱</th></tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="rows" t-as="r">
+                        <td t-out="r['name']"/>
+                        <td class="text-muted" t-out="r['login']"/>
+                        <td class="text-muted" t-out="r['email']"/>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-muted" t-else="">全部已确认，无未读。</p>
+        </t>
+    </template>
+</odoo>

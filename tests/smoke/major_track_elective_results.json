@@ -1,0 +1,491 @@
+{
+ "at": "2026-09-22 11:20:37",
+ "db": "edu19",
+ "base": "http://127.0.0.1:8069",
+ "total": 60,
+ "pass": 58,
+ "fail": 0,
+ "skip": 2,
+ "results": [
+  {
+   "item": "V0.1 无升级锁",
+   "method": "fs",
+   "expect": "锁不存在",
+   "actual": "无锁",
+   "result": "PASS",
+   "evidence": "/var/folders/p8/ss303xqd5j97kx5cpqd6x_lc0000gn/T/edu19_upgrade.lock"
+  },
+  {
+   "item": "V0.2 探活 /web/login",
+   "method": "HTTP GET",
+   "expect": "200/302/303",
+   "actual": "HTTP 200",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V0.3 载体合法·student 登录",
+   "method": "HTTP POST /web/login",
+   "expect": "302/303（非 200 失败页）",
+   "actual": "HTTP 303",
+   "result": "PASS",
+   "evidence": "stu@local"
+  },
+  {
+   "item": "V0.3 载体合法·faculty 登录",
+   "method": "HTTP POST /web/login",
+   "expect": "302/303（非 200 失败页）",
+   "actual": "HTTP 303",
+   "result": "PASS",
+   "evidence": "faculty@local"
+  },
+  {
+   "item": "V0.3 载体合法·backoffice 登录",
+   "method": "HTTP POST /web/login",
+   "expect": "302/303（非 200 失败页）",
+   "actual": "HTTP 302",
+   "result": "PASS",
+   "evidence": "backoffice@local"
+  },
+  {
+   "item": "V0.3 载体合法·admin 登录",
+   "method": "HTTP POST /web/login",
+   "expect": "302/303（非 200 失败页）",
+   "actual": "HTTP 302",
+   "result": "PASS",
+   "evidence": "admin"
+  },
+  {
+   "item": "V1.1 条数（老表 = 新表）",
+   "method": "SQL count",
+   "expect": "两侧相等",
+   "actual": "old=320 new=320",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V1.2 (course,subject) 双向差集",
+   "method": "SQL EXCEPT×2",
+   "expect": "0 行",
+   "actual": "0 行",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V1.3 逐专业条数相等",
+   "method": "SQL 分组 EXCEPT",
+   "expect": "两个方向都 0 行",
+   "actual": "0 / 0 行",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V1.5 分类全空（= 继承全局）",
+   "method": "SQL count",
+   "expect": "0",
+   "actual": "0",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V1.4 老表未动（行数 + 内容指纹 md5）",
+   "method": "SQL",
+   "expect": "行数与指纹全程不变（=320 行）",
+   "actual": "320|9b5ce6d0ed179ec1835ba568f366325c",
+   "result": "PASS",
+   "evidence": "老表 320 行（关系表无 write_date，改用内容指纹；新代码从不写它）"
+  },
+  {
+   "item": "V1.6 兼容层字段属性",
+   "method": "ORM",
+   "expect": "store=False + compute/inverse/search 三件套齐全",
+   "actual": "store=False compute=True inverse=True search=True type=many2many comodel=op.subject",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "F0 夹具生效（2 行关系 + 学制已挂）",
+   "method": "ORM",
+   "expect": "FIX_LINES=2 且 LEVEL 非空",
+   "actual": "{\"FIX_LVL\": \"16\", \"FIX_CRS\": \"348\", \"FIX_BAT\": \"476\", \"FIX_SUB_A\": \"845\", \"FIX_SUB_B\": \"846\", \"FIX_LINES\": \"2\", \"FIX_LEVEL\": \"【冒烟】mt 学制\"}",
+   "result": "PASS",
+   "evidence": "2026-09-22 03:13:20,970 312 INFO edu19 odoo.registry: Registry loaded in 0.761s"
+  },
+  {
+   "item": "V5.1 没配的专业继承全局值",
+   "method": "HTTP GET /subject/enroll",
+   "expect": "200；必修 1（科目A）/ 选修 1（科目B）；A 卡带锁、B 卡不带",
+   "actual": "HTTP 200 必修=1 选修=1 A锁=True B锁=False",
+   "result": "PASS",
+   "evidence": "course=348 batch=476"
+  },
+  {
+   "item": "V5.2 全库逐条比对（未配 = 全局）",
+   "method": "ORM edu_effective_type",
+   "expect": "MISMATCH=0",
+   "actual": "total=322 mismatch=0",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V2.1 教务把「全局选修」配成本专业必修",
+   "method": "ORM write",
+   "expect": "compulsory",
+   "actual": "compulsory",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V2.3 学生刷新报课页立刻生效",
+   "method": "HTTP GET /subject/enroll",
+   "expect": "必修 2 / 选修 0；B 卡也带锁",
+   "actual": "HTTP 200 必修=2 选修=0 B锁=True",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V2.5 服务端必修全量补齐（与页面同源）",
+   "method": "HTTP POST + ORM",
+   "expect": "303 box=submitted；compulsory={A,B}；elective 空",
+   "actual": "HTTP 303 -> /subject/registration?box=submitted&new_id=609 | compulsory=845,846 elective=",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V2.4 改回选修 → 徽标还原",
+   "method": "HTTP GET",
+   "expect": "必修 1 / 选修 1",
+   "actual": "HTTP 200 必修=1 选修=1",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.1-#6 学生课程页",
+   "method": "HTTP GET /my/study",
+   "expect": "200/303 且无 Traceback",
+   "actual": "HTTP 200",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.1-#7 /courses?course=N（= len(subject_ids) 口径）",
+   "method": "HTTP GET + ORM",
+   "expect": "两个页面都 200；详情页逐条渲染 subject_ids 全部科目名",
+   "actual": "offer=HTTP 200 | detail=HTTP 200 | n=2 未渲染=[]",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.1-#8 基座选课注册向导 get_subjects()",
+   "method": "ORM（事务内回滚，不留夹具）",
+   "expect": "不抛错（读到 course_id.subject_ids）",
+   "actual": "ok compulsory=1",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.1-#12 作业发布（courses_subjects 赋值）",
+   "method": "ORM（回滚）",
+   "expect": "赋值不抛错",
+   "actual": "ok n=72",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.1-#9/10/11a 课表冲突脚本",
+   "method": "odoo shell < scripts/test_timetable_conflict.py",
+   "expect": "输出 CONFLICT-GUARD=PASS",
+   "actual": "exit=0 | 2026-09-22 03:13:34,832 376 INFO edu19 odoo.addons.edu_nav.models.menu_consolidation: [edu_nav] 菜单收口守卫：声明改写 357 条（参数表记为 357）；根菜单 40 条（停用 26）；全库 614 条（停用 202）  / 2026-09-22 03:13:34,884 376 INFO edu19 odoo.registry: Registry loaded in 0.740s",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.1-#9/10/11b 课表 related 链与域查询",
+   "method": "ORM（op.session.course_subject_ids）",
+   "expect": "related=course_id.subject_ids；链值相等；域查询不抛错",
+   "actual": "related=course_id.subject_ids chain=1 domain=ok n=0",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.1-#13/#14 后台表单/列表继承生效",
+   "method": "ORM get_view",
+   "expect": "表单含 subject_line_ids + edu_level_id；列表含 edu_level_id",
+   "actual": "form_lines=1 form_level=1 list_level=1",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.1-#3 审批详情（len(course.subject_ids) 文案）",
+   "method": "HTTP GET（不跟随重定向）",
+   "expect": "200 且无 Traceback",
+   "actual": "HTTP 200 rid=609",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.2 [(6,0,ids)] 不重置已配分类",
+   "method": "ORM write（create+write 两条路径）",
+   "expect": "A/B 仍是 compulsory；新增 C 留空；缩到 1 门时只剩 C",
+   "actual": "A轮=[('MTE-A', 'compulsory'), ('MTE-B', 'compulsory'), ('MTE-C', '')] | B轮=[('MTE-C', '')]",
+   "result": "PASS",
+   "evidence": "证明 inverse 只做「删多余/增缺失」，不动其它行"
+  },
+  {
+   "item": "V3.3 域查询走 _search_subject_ids",
+   "method": "ORM search",
+   "expect": "不抛错且 IN/NOT IN 都有结果",
+   "actual": "1 / 6",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.2-#16 p2_enroll_smoke",
+   "method": "python3 tests/smoke/p2_enroll_smoke.py",
+   "expect": "exit 0（通过线不低于改造前）",
+   "actual": "exit=0 |  / 13 / 13 passed",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V3.2-#17 seed 脚本（只读复跑前置检查）",
+   "method": "scripts/seed_wangxiaoming_subjects.py",
+   "expect": "复跑不冲突",
+   "actual": "跳过：该脚本会重置演示档案，改由 p2 冒烟与本节 ORM 判据覆盖",
+   "result": "SKIP",
+   "evidence": "见 docs/plans/major-track-elective-design.md §6.3.1 #17"
+  },
+  {
+   "item": "V8.1 菜单 263 = 专业（complete_name 含 教学管理/专业）",
+   "method": "ORM lang=zh_CN",
+   "expect": "专业 | …教学管理/专业",
+   "actual": "专业|Majors|学生信息/配置/教学管理/专业|True",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V8.2 动作 385 = 专业",
+   "method": "ORM lang=zh_CN",
+   "expect": "专业",
+   "actual": "专业|專業",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V8.3 277 = 学制 / 396 = 学制 / 277 已挂到 262 下",
+   "method": "ORM",
+   "expect": "学制 + 学制 + parent=262",
+   "actual": "277=['学制'] | act396=学制|學制 | parent=262",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V8.3b 菜单 262 = 教学管理",
+   "method": "ORM",
+   "expect": "教学管理",
+   "actual": "教学管理|Teaching Management|学生信息/配置/教学管理|True",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V8.4 回归对照：548/551/553/561 仍=课程；267/264/282/327 未动",
+   "method": "ORM lang=zh_CN",
+   "expect": "561=课程（在线课程未被连带改名）",
+   "actual": "264=批次; 267=科目; 282=学生课程详情; 327=考试课程; 548=课程; 551=课程; 553=课程; 561=课程",
+   "result": "PASS",
+   "evidence": "在线课程 slide.channel 的菜单未被 Courses→专业 波及"
+  },
+  {
+   "item": "V8.5 繁体：263=專業 / 277=學制",
+   "method": "ORM lang=zh_TW",
+   "expect": "專業 / 學制",
+   "actual": "263=專業 277=學制",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V8.6 275「项目管理」整棵停用（含 276 空壳）",
+   "method": "ORM",
+   "expect": "275 active=False；276 active=False",
+   "actual": "275=项目管理|Program Management|学生信息/配置/项目管理|False 276=专业|Programs|学生信息/配置/项目管理/专业|False",
+   "result": "PASS",
+   "evidence": "只停用不删除（记录保留）"
+  },
+  {
+   "item": "V4.2 重跑搬迁 SQL（事务内）",
+   "method": "ORM exec + migrate()",
+   "expect": "不产生重复行（before == after；当前新表 = 老表 320 + 夹具行）",
+   "actual": "before=322 after=322",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V4.3 自证失败必须回滚（INSERT 改成插不进的事务内探针）",
+   "method": "ORM（事务内探针，rollback 后两表复位）",
+   "expect": "RuntimeError（自证①）+ 老表 320 行 + 新表行数复位",
+   "actual": "raised=RuntimeError: [major-track] 自证① 失败：应搬 320 行 / 实插 0 行，新表 0 → 0 行 | old=320 (before=320) | new=322 (before=322)",
+   "result": "PASS",
+   "evidence": "探针改动在 rollback 后被撤销，两表都未被真改"
+  },
+  {
+   "item": "V4.1 第 1 次 -u edu_portal",
+   "method": "bash scripts/safe_upgrade.sh edu_portal",
+   "expect": "EXIT=0；老表不变（320）；新表 = 老表 + 夹具 2 行 = 322",
+   "actual": "EXIT=0 | new=322 old=320",
+   "result": "PASS",
+   "evidence": "[safe_upgrade] 结束：edu_portal（无失败特征；完整日志 /tmp/edu19_upgrade.20260922-111349.log）"
+  },
+  {
+   "item": "V4.1 第 2 次 -u edu_portal",
+   "method": "bash scripts/safe_upgrade.sh edu_portal",
+   "expect": "EXIT=0；老表不变（320）；新表 = 老表 + 夹具 2 行 = 322",
+   "actual": "EXIT=0 | new=322 old=320",
+   "result": "PASS",
+   "evidence": "[safe_upgrade] 结束：edu_portal（无失败特征；完整日志 /tmp/edu19_upgrade.20260922-111403.log）"
+  },
+  {
+   "item": "V6.1 教师看不见入口（口径 B：可见菜单集）",
+   "method": "ORM _visible_menu_ids",
+   "expect": "263/277 均不在可见集",
+   "actual": "263=0 277=0 命中名=[]",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V6.4 学生看不见入口（ORM 口径）",
+   "method": "ORM _visible_menu_ids",
+   "expect": "263/277 均不在可见集",
+   "actual": "263=None 277=None（门户账号连菜单集都取不到：AccessError: 不允许访问\"Menu\"（ir.ui.menu）记录。）",
+   "result": "SKIP",
+   "evidence": "取不到时以 V6.4b 的 HTTP 落点判据为准"
+  },
+  {
+   "item": "V6.2 教师直接访问动作 URL",
+   "method": "HTTP GET /odoo/action-385（不跟随重定向）",
+   "expect": "无权限/落 /apps",
+   "actual": "HTTP 200",
+   "result": "PASS",
+   "evidence": "session=faculty"
+  },
+  {
+   "item": "V6.4b 学生直接访问动作 URL",
+   "method": "HTTP GET /odoo/action-385（不跟随重定向）",
+   "expect": "无权限/回门户",
+   "actual": "HTTP 303",
+   "result": "PASS",
+   "evidence": "session=student"
+  },
+  {
+   "item": "V6.3 教师写 subject_ids 必须 AccessError 且整体回滚",
+   "method": "ORM with_user(faculty).write",
+   "expect": "AccessError；行集合前后逐字一致（无半写）",
+   "actual": "err=AccessError | before=['MTE-A', 'MTE-B'] | after=['MTE-A', 'MTE-B']",
+   "result": "PASS",
+   "evidence": "老表 320 行（未被牵连）"
+  },
+  {
+   "item": "V6.5 教务 + 管理员都能改（正对照）",
+   "method": "ORM with_user",
+   "expect": "两角色都写成功；tracking 留痕 > 0",
+   "actual": "acts=backoffice=elective admin=elective tracking=4",
+   "result": "PASS",
+   "evidence": "chatter 留痕（mail.tracking.value 行）"
+  },
+  {
+   "item": "V9.1 回滚前归档（copy 到 CSV）",
+   "method": "docker compose exec db psql",
+   "expect": "导出成功且行数 = 新表 322 + 表头",
+   "actual": "exit=0 lines=323",
+   "result": "PASS",
+   "evidence": "/tmp/mt_rollback_backup.csv（容器内）"
+  },
+  {
+   "item": "V9.2a 回滚前状态基线（对照组专业 18/8）",
+   "method": "ORM + HTTP",
+   "expect": "store=False / compute+inverse 在 / 页面 200",
+   "actual": "store=0 compute=1 inverse=1 | 页面 HTTP 200 必修=0 选修=14",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V9.2b 代码回滚到 da40f35（本功能 8 个文件）",
+   "method": "git checkout <base> -- <paths> / rm",
+   "expect": "工作区与基线一致（有改动 = 已回滚）",
+   "actual": "changed=8 行 | major_track.py:rm; __init__.py:checkout rc=0; major_track_views.xml:checkout rc=0",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V9.2c 回滚后：老表口径 + 数据零丢失 + 报课页正常",
+   "method": "-u edu_portal",
+   "expect": "EXIT=0；store=True；老表 320 行；新表 322 行仍在；对照组页面必修/选修与回滚前逐位一致（0/14）",
+   "actual": "EXIT=0 | store=1 model=0 old=320 new=322 | HTTP 200 必修=0 选修=14",
+   "result": "PASS",
+   "evidence": "老表从未被新代码写入 ⇒ 回滚零丢失"
+  },
+  {
+   "item": "V9.3a 切回改造后（git checkout HEAD -- <paths>）",
+   "method": "git checkout HEAD",
+   "expect": "工作区回到改造后（无残留改动）",
+   "actual": "left=干净",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V9.3b 再切回后：回到兼容层口径（可逆证明）",
+   "method": "-u edu_portal",
+   "expect": "EXIT=0；store=False；两侧仍 320 / 322 行",
+   "actual": "EXIT=0 | store=0 old=320 new=322 | HTTP 200 必修=0 选修=14",
+   "result": "PASS",
+   "evidence": "回滚→切回 两次都在同一份数据上，无重复行"
+  },
+  {
+   "item": "F9 清场 leftover=0",
+   "method": "ORM",
+   "expect": "全部 0",
+   "actual": "{\"LEFT_CRS\": \"0\", \"LEFT_SUB\": \"0\", \"LEFT_BAT\": \"0\", \"LEFT_LVL\": \"0\", \"LEFT_LINE\": \"0\", \"LEFT_REG\": \"0\"}",
+   "result": "PASS",
+   "evidence": "按【冒烟】标记自清，未用 max(id)"
+  },
+  {
+   "item": "V7.1 check_english",
+   "method": "python3 scripts/check_english.py",
+   "expect": "must-fix 0",
+   "actual": "exit=0 | must-fix=0,0,0,0,0",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V7.2 check_view_xpath",
+   "method": "python3 scripts/check_view_xpath.py",
+   "expect": "exit 0",
+   "actual": "exit=0 | RESULT=OK（失败项 0 / 未覆盖 0 = 环境型跳过 0 + 边界漂移 0） REVISION=r13 · 指纹 b2da31fb · 断言 26 条 · 运行 2026-09-22T11:15:26+08:00",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V7.3 check_accessibility",
+   "method": "python3 scripts/check_accessibility.py",
+   "expect": "exit 0",
+   "actual": "exit=0 | ",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V7.4 check_qweb_dict_foreach",
+   "method": "python3 scripts/check_qweb_dict_foreach.py",
+   "expect": "exit 0",
+   "actual": "exit=0 | RESULT=OK（失败项 0） REVISION=r2 · 指纹 1ac34dc5 · 断言 349 条 · 运行 2026-09-22T11:20:36+0800",
+   "result": "PASS",
+   "evidence": ""
+  },
+  {
+   "item": "V7.5 check_manifest_tracking",
+   "method": "python3 scripts/check_manifest_tracking.py",
+   "expect": "exit 0",
+   "actual": "exit=0 | 结论：OK",
+   "result": "PASS",
+   "evidence": ""
+  }
+ ]
+}

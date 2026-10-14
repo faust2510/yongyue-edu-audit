@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================
+         权限分层修正（2026-09-17，校长裁定）
+         基座 openeducat_core 把「经理」（= 教务处）组定义成**隐含
+         base.group_system**（openeducat_core/security/op_security.xml:45-51），
+         于是"教务"在系统里等于"系统管理员"：能装应用、改设置、看全部数据 ——
+         四层权限模型（开发者 / 教务 / 教师 / 学生家长）塌成两层。
+         这里把那条隐含**解除**：教务仍是教务（保留教师组、联系人管理），
+         但不再自动获得系统管理员；管理员账号不受影响。
+         注：(3, ref(...)) = 解除关联；(4, ...) = 保留关联。
+         ============================================================ -->
+    <record id="openeducat_core.group_op_back_office_admin" model="res.groups">
+        <field name="implied_ids" eval="[
+                 (3, ref('base.group_system')),
+                 (4, ref('openeducat_core.group_op_faculty')),
+                 (4, ref('base.group_partner_manager')),
+                 (4, ref('openeducat_attendance.group_op_attendance_user')),
+                 (4, ref('openeducat_attendance.group_op_attendance_manager')),
+                 (4, ref('openeducat_timetable.group_op_timetable_user')),
+                 (4, ref('openeducat_timetable.group_op_timetable_manager')),
+                 (4, ref('openeducat_library.group_op_library_user')),
+                 (4, ref('openeducat_library.group_op_library')),
+                 (4, ref('openeducat_exam.group_op_exam_user')),
+                 (4, ref('openeducat_exam.group_op_exam_admin'))]"/>
+    </record>
+
+    <!-- 说明（为什么是这几个组，而不是把 base.group_system 还回去）：
+         教务＝学院领导，需要的是**业务模块的管理身份**（考勤/课表/图书馆/考试），
+         不是"系统设置与应用安装"。前者由上面这些组给到，后者继续只留给开发者。
+
+         事实描述（2026-09-17 t1 实测；此前的「已知故意不给」清单与实现不符，已更正，
+         **不要**据此改行为）：
+           · 真正只给超管、教务看不见的根：**设置(menu 1) / 应用(menu 15)**（仅 base.group_system）；
+           · 对**任何人**都不可见的根（整棵 active=False，属菜单收口，不是"不给教务"）：
+             联系人(121) / 发票(142) / 员工(196) / HR招聘(388) / 数据清除(566) —— 引用时
+             别拿它们当"教务被挡"的证据（全局停用对谁都不显示）；
+           · 教务**看得见**网站的整棵子树（网站/博客/论坛/电子商务/会话…）与「招聘管理」根，
+             机制不是本文件，而是 `scripts/seed_teacher_menus.py` 把组
+             `edu_portal.group_backend_full`（后台·完整视图）授予了 backoffice@local
+             （实测：教务有效组里含该组；该组限制的是教师侧名单）。
+             要收紧教务的后台面，入口在 seed 脚本的组/名单，不在本文件。 -->
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ 登录页去 Odoo 痕迹（纯功能，不动视觉） ============
+         保留默认登录页观感（用户要求恢复蓝色卡片之前的样子），
+         仅移除“Powered by Odoo”链接与数据库管理入口。
+         注：多库环境下 web.login_layout 的入口 href 是 /web/database/selector
+         （本机实测 web/views/webclient_templates.xml:126 一带），单库时为
+         /web/database/manager —— 两种都清掉；config/odoo.conf 已置
+         list_db = False，生产/本地都不会再渲染该入口。 -->
+    <!-- ============ 登录页品牌头（2026-10-06，按 superdesign 登录页稿落地） ============
+         稿子（draft 958b491a）要求：卡片里有校徽 + 校名 + 「学生与教务门户」，让表单区有品牌感。
+         校徽复用页脚那枚 logo-medallion.png（同一资产，不新增文件）。
+         「学生与教务门户」取自本模块既有的页脚文案，非新造。
+         注：只加视觉元素，**不动任何既有表单控件**（输入框 name 逐字不变，提交链路不受影响）。 -->
+    <template id="yy_login_brand_head" name="YY Login Brand Head" inherit_id="web.login">
+        <xpath expr="//input[@name='csrf_token']" position="before">
+            <div class="yy-login-head">
+                <img src="/edu_brand/static/src/img/logo-medallion.png"
+                     alt="永约学坊校徽" class="yy-login-crest"/>
+                <div class="yy-login-name">永约学坊</div>
+                <div class="yy-login-sub">学生与教务门户</div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="yy_login_layout" name="YY Login Layout" inherit_id="web.login_layout">
+        <xpath expr="//a[contains(@href, '/web/database/')]" position="replace">
+            <span class="d-none"/>
+        </xpath>
+        <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace">
+            <span class="yy-login-foot">© 永约学坊 · 学生与教务门户</span>
+        </xpath>
+    </template>
+
+</odoo>

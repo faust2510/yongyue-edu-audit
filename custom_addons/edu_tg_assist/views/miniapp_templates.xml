@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Telegram Mini App 面板（设计文档 §9.17）。
+         一个自包含页面：不依赖门户布局、不引任何 Odoo 资产包，只引官方 SDK 那一个脚本。
+         数据一律走 data-api 指向的 JSON 接口（服务端按 miniapp_auth.py 验签）。 -->
+    <template id="miniapp_page" name="班务助手面板（Mini App）">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+                <title>班务助手</title>
+                <!-- 2026-10-14：官方 SDK 改为**自托管**（原来是 telegram.org 直链）。
+                     直链在打不开 telegram.org 的网络里会静默失败 ⇒ window.Telegram 不存在 ⇒
+                     面板只剩一句「no initData」。自托管后，只要客户端注入了身份数据
+                     （WebView bridge 或 URL hash）就能用。来源与校验见设计文档 §9.20。 -->
+                <script src="/edu_tg_assist/static/vendor/telegram-web-app.js?v=19.0.1"></script>
+                <style>
+                    :root {
+                        --bg: var(--tg-theme-bg-color, #ffffff);
+                        --fg: var(--tg-theme-text-color, #1f2937);
+                        --hint: var(--tg-theme-hint-color, #6b7280);
+                        --card: var(--tg-theme-secondary-bg-color, #f3f4f6);
+                        --brand: var(--tg-theme-button-color, #2563eb);
+                        --brand-fg: var(--tg-theme-button-text-color, #ffffff);
+                    }
+                    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+                    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+                        font: 16px/1.5 -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+                    #wrap { padding: 14px 14px 28px; max-width: 720px; margin: 0 auto; }
+                    #top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+                    #avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--brand); color: var(--brand-fg);
+                        display: flex; align-items: center; justify-content: center; font-size: 18px; flex: 0 0 auto; }
+                    #who { font-weight: 600; }
+                    #role { color: var(--hint); font-size: 13px; }
+                    .card { background: var(--card); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+                    .btn { display: block; width: 100%; padding: 15px 16px; margin-bottom: 10px; border: 0; border-radius: 14px;
+                        background: var(--brand); color: var(--brand-fg); font-size: 17px; text-align: left; }
+                    .btn.ghost { background: var(--card); color: var(--fg); }
+                    .btn:active { opacity: .75; }
+                    .row { display: flex; justify-content: space-between; align-items: center; gap: 10px;
+                        padding: 13px 12px; margin-bottom: 8px; border-radius: 12px; background: var(--card); }
+                    .row:active { opacity: .7; }
+                    .row .sub { color: var(--hint); font-size: 12px; }
+                    .tag { display: inline-block; font-size: 12px; color: var(--hint); margin-right: 6px; }
+                    textarea { width: 100%; min-height: 120px; padding: 12px; border-radius: 12px; border: 1px solid var(--hint);
+                        font-size: 16px; font-family: inherit; background: var(--bg); color: var(--fg); }
+                    select { padding: 10px; border-radius: 10px; border: 1px solid var(--hint); font-size: 16px;
+                        font-family: inherit; background: var(--bg); color: var(--fg); }
+                    .when-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+                    .muted { color: var(--hint); font-size: 13px; }
+                    .h1 { font-size: 20px; font-weight: 700; margin: 4px 0 12px; }
+                    .banner { border-radius: 12px; padding: 12px; margin-bottom: 12px; font-size: 14px; white-space: pre-wrap; }
+                    .banner.ok { background: #dcfce7; color: #166534; }
+                    .banner.bad { background: #fee2e2; color: #991b1b; }
+                    .banner.info { background: var(--card); color: var(--fg); }
+                    .loading { color: var(--hint); padding: 20px 4px; }
+                    .back { color: var(--brand); font-size: 15px; margin-bottom: 10px; display: inline-block; }
+                </style>
+            </head>
+            <body t-att-data-api="api_path" t-att-data-site="site_url" t-att-data-bot="bot_username">
+                <div id="wrap">
+                    <div id="top">
+                        <div id="avatar">班</div>
+                        <div>
+                            <div id="who">班务助手</div>
+                            <div id="role">正在识别你的身份…</div>
+                        </div>
+                    </div>
+                    <div id="view">
+                        <div class="loading">正在打开面板…</div>
+                    </div>
+                </div>
+                <script type="text/javascript"><![CDATA[
+(function () {
+    var tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+    var API = document.body.getAttribute('data-api');
+    var SITE = document.body.getAttribute('data-site') || '';
+    var view = document.getElementById('view');
+    var who = document.getElementById('who');
+    var role = document.getElementById('role');
+    var me = null;
+    var cache = { groups: null, staff: null, materials: null };
+
+    if (tg) {
+        tg.ready();
+        tg.expand();
+    }
+
+    // ---- 身份数据（initData）的三层来源 ------------------------------------
+    // 1) window.Telegram.WebApp.initData（SDK 正常时的首选）
+    // 2) URL hash 里的 tgWebAppData（Telegram Desktop / Web 把数据放在这里；SDK 没加载也能用）
+    // 3) 都没有 ⇒ 不是在 Telegram 里点开的（或客户端太旧）⇒ 明确告诉用户怎么办
+    var initDataCache = '';
+    function hashInitData() {
+        var h = (location.hash || '').replace(/^#/, '');
+        if (!h) { return ''; }
+        var parts = h.split('&');
+        for (var i = 0; i < parts.length; i++) {
+            var j = parts[i].indexOf('=');
+            if (j <= 0) { continue; }
+            var k = parts[i].slice(0, j);
+            if (k !== 'tgWebAppData') { continue; }
+            try { return decodeURIComponent(parts[i].slice(j + 1)); } catch (e) { return ''; }
+        }
+        return '';
+    }
+    function currentInitData() {
+        if (initDataCache) { return initDataCache; }
+        var d = (tg && tg.initData) ? tg.initData : '';
+        if (!d) { d = hashInitData(); }
+        initDataCache = d || '';
+        return initDataCache;
+    }
+    function hashKeys() {
+        // 只列**键名**、不列值：tgWebAppData 里是签名，绝不能出现在截图或日志里。
+        // 有 tgWebAppData 却读不到 ⇒ 是我们的解析问题；只有 tgWebAppPlatform/ThemeParams
+        // ⇒ 客户端压根没把它当 Mini App 打开（2026-10-14 加这一行就是为了分清这两种）。
+        var h = (location.hash || '').replace(/^#/, '');
+        if (!h) { return '-'; }
+        var out = [], parts = h.split('&');
+        for (var i = 0; i < parts.length; i++) {
+            var j = parts[i].indexOf('=');
+            if (j > 0) { out.push(parts[i].slice(0, j)); }
+        }
+        return out.join(',') || '-';
+    }
+    function platformInfo() {
+        return 'tg=' + (tg ? 'yes' : 'no') +
+            ' platform=' + ((tg && tg.platform) || '-') +
+            ' version=' + ((tg && tg.version) || '-') +
+            ' initData=' + currentInitData().length +
+            ' hash=' + ((location.hash || '').length) +
+            ' hkeys=' + hashKeys();
+    }
+
+    function el(tag, cls, text) {
+        var node = document.createElement(tag);
+        if (cls) { node.className = cls; }
+        if (text !== undefined && text !== null) { node.textContent = String(text); }
+        return node;
+    }
+
+    function show() {
+        while (view.firstChild) { view.removeChild(view.firstChild); }
+        for (var i = 0; i < arguments.length; i++) {
+            if (arguments[i]) { view.appendChild(arguments[i]); }
+        }
+    }
+
+    function banner(text, kind) {
+        return el('div', 'banner ' + (kind || 'info'), text);
+    }
+
+    function alertBox(text) {
+        if (tg && tg.showAlert) { tg.showAlert(text); } else { window.alert(text); }
+    }
+
+    function loading(text) {
+        show(el('div', 'loading', text || '正在处理…'));
+    }
+
+    function showNoIdentity() {
+        var retry = el('button', 'btn ghost', '重试');
+        retry.addEventListener('click', function () { location.reload(); });
+        show(
+            banner('这个面板要在 Telegram 里打开：' + '\n' +
+                '① 手机版：回到和「班务助手」的聊天，点底部那排的「🖥 打开面板」；' + '\n' +
+                '② 电脑版：在聊天里发一句 /menu，点它回的那条消息里的「🖥 打开面板」按钮。' + '\n' +
+                '（把链接复制到浏览器、或打开别处转发的链接都不行 —— Telegram 不会给它们身份数据。）', 'bad'),
+            banner('要发给管理员的信息：\n' + platformInfo() + '\nua=' + String(navigator.userAgent || '').slice(0, 70), 'info'),
+            retry
+        );
+    }
+
+    function call(action, params) {
+        var data = currentInitData();
+        if (!data) {
+            var e0 = new Error('面板需要从 Telegram 里点「🖥 打开面板」进入');
+            e0.code = 'no_identity';
+            showNoIdentity();
+            return Promise.reject(e0);
+        }
+        return fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ init_data: data, action: action, params: params || {} })
+        }).then(function (resp) {
+            return resp.json();
+        }).then(function (body) {
+            if (!body.ok) {
+                var err = new Error(body.message || '这一步没做成');
+                err.code = body.error;
+                throw err;
+            }
+            return body.data;
+        });
+    }
+
+    function backBtn(label, fn) {
+        var node = el('div', 'back', label || '‹ 返回');
+        node.addEventListener('click', fn);
+        return node;
+    }
+
+    function rowNode(label, sub, fn) {
+        var row = el('div', 'row');
+        var left = el('div');
+        left.appendChild(el('div', null, label));
+        if (sub) { left.appendChild(el('div', 'sub', sub)); }
+        row.appendChild(left);
+        row.appendChild(el('div', null, '›'));
+        row.addEventListener('click', fn);
+        return row;
+    }
+
+    function handleError(err) {
+        if (err && err.code === 'no_identity') {
+            showNoIdentity();
+            return;
+        }
+        if (err && err.code === 'unauthorized') {
+            show(banner(err.message, 'bad'));
+            return;
+        }
+        show(banner((err && err.message) || '这一步没做成', 'bad'), homeBtn());
+    }
+
+    function homeBtn() {
+        var b = el('button', 'btn ghost', '返回主菜单');
+        b.addEventListener('click', home);
+        return b;
+    }
+
+    function renderHome(data) {
+        show(
+            el('div', 'h1', '要做什么？'),
+            bigBtn('📢 发通知到群', me.is_admin ? null : '只有行政能发群通知', function () { pick('group', 'notify'); }),
+            bigBtn('✉️ 私发给某人', me.is_admin ? null : '只有行政能私发', function () { pick('staff', 'dm'); }),
+            bigBtn('⏰ 定时群发', me.is_admin ? null : '只有行政能设定时群发', openReminders),
+            bigBtn('📁 材料归档', null, openMaterials),
+            bigBtn('👤 我的身份', null, openWho),
+            bigBtn('📚 使用说明', null, openHelp)
+        );
+    }
+
+    function bigBtn(label, sub, fn) {
+        var b = el('button', 'btn' + (sub ? ' ghost' : ''), sub ? label + '（' + sub + '）' : label);
+        b.addEventListener('click', fn);
+        return b;
+    }
+
+    function home() {
+        renderHome();
+    }
+
+    function openWho() {
+        loading();
+        call('whoami').then(function (data) {
+            var card = el('div', 'card');
+            card.appendChild(el('div', 'h1', data.name || '（还没有真名）'));
+            card.appendChild(el('div', 'muted', '角色：' + (data.role_label || '其他')));
+            if (data.tg_name) { card.appendChild(el('div', 'muted', 'Telegram：' + data.tg_name)); }
+            card.appendChild(el('div', 'muted', '网站：' + SITE));
+            show(backBtn(), card, homeBtn());
+        }).catch(handleError);
+    }
+
+    function openHelp() {
+        loading();
+        call('help').then(function (data) {
+            var card = el('div', 'card');
+            card.appendChild(el('div', null, data.text || ''));
+            show(backBtn(), card, homeBtn());
+        }).catch(handleError);
+    }
+
+    function pick(kind, purpose) {
+        loading('正在读取名单…');
+        var key = kind === 'group' ? 'groups' : 'staff';
+        var known = cache[key];
+        var promise = known ? Promise.resolve(known) : call(key).then(function (data) {
+            cache[key] = data.rows || [];
+            return cache[key];
+        });
+        promise.then(function (rows) {
+            if (!rows.length) {
+                show(backBtn(), banner(kind === 'group'
+                    ? '后台还没有登记任何群。请管理员先把机器人拉进群、并在群里发一条消息。'
+                    : '还没有别人登记。一对一私发只能发给「跟机器人说过话并自报姓名」的人。', 'info'), homeBtn());
+                return;
+            }
+            var nodes = [backBtn('‹ 返回'), el('div', 'h1', kind === 'group' ? '发给哪个群？' : '发给谁？')];
+            rows.forEach(function (row) {
+                nodes.push(rowNode(row.label, row.role_label || row.title || '', function () {
+                    if (purpose === 'notify') { composeGroup(row); }
+                    else if (purpose === 'remind') { newReminderForm(row); }
+                    else { composePerson(row); }
+                }));
+            });
+            show.apply(null, nodes);
+        }).catch(handleError);
+    }
+
+    function composeGroup(group) {
+        var area = el('textarea');
+        area.setAttribute('placeholder', '要发到「' + group.label + '」的正文');
+        var send = el('button', 'btn', '✅ 发到「' + group.label + '」');
+        send.addEventListener('click', function () {
+            var text = area.value.trim();
+            if (!text) { alertBox('正文是空的。'); return; }
+            loading('正在发送…');
+            call('notify', { target_id: group.id, text: text }).then(function (data) {
+                show(banner('已发到「' + (data.target || group.label) + '」。（消息 id：' + (data.message_id || '—') + '）', 'ok'), homeBtn());
+            }).catch(handleError);
+        });
+        show(backBtn('‹ 返回', function () { pick('group', 'notify'); }),
+            el('div', 'h1', '发通知到「' + group.label + '」'), area, send, homeBtn());
+    }
+
+    function composePerson(person) {
+        var area = el('textarea');
+        area.setAttribute('placeholder', '要私发给 ' + person.label + ' 的正文');
+        var send = el('button', 'btn', '✅ 私发给 ' + person.label);
+        send.addEventListener('click', function () {
+            var text = area.value.trim();
+            if (!text) { alertBox('正文是空的。'); return; }
+            loading('正在发送…');
+            call('dm', { target_id: person.id, text: text }).then(function (data) {
+                show(banner('已私发给 ' + (data.target || person.label) + '。', 'ok'), homeBtn());
+            }).catch(handleError);
+        });
+        show(backBtn('‹ 返回', function () { pick('staff', 'dm'); }),
+            el('div', 'h1', '私发给 ' + person.label), area, send, homeBtn());
+    }
+
+    function openMaterials() {
+        loading('正在读取材料…');
+        var known = cache.materials;
+        var promise = known ? Promise.resolve(known) : call('materials').then(function (data) {
+            cache.materials = data.rows || [];
+            return cache.materials;
+        });
+        promise.then(function (rows) {
+            if (!rows.length) {
+                show(backBtn(), banner('材料归档还是空的。把文件转发给机器人，就会出现在这里。', 'info'), homeBtn());
+                return;
+            }
+            var nodes = [backBtn('‹ 返回'), el('div', 'h1', '材料归档')];
+            rows.forEach(function (row) {
+                var sub = [];
+                if (row.category) { sub.push(row.category); }
+                if (row.urgency) { sub.push(row.urgency); }
+                if (row.has_file) { sub.push('含文件'); }
+                if (row.when) { sub.push(row.when); }
+                nodes.push(rowNode(row.name, sub.join(' ｜ '), function () { openMaterial(row); }));
+            });
+            show.apply(null, nodes);
+        }).catch(handleError);
+    }
+
+    function openMaterial(row) {
+        var card = el('div', 'card');
+        card.appendChild(el('div', 'h1', row.name));
+        var meta = [];
+        if (row.category) { meta.push('分类：' + row.category); }
+        if (row.urgency) { meta.push('紧急度：' + row.urgency); }
+        if (meta.length) { card.appendChild(el('div', 'muted', meta.join(' ｜ '))); }
+        if (row.file_name) { card.appendChild(el('div', 'muted', '文件：' + row.file_name)); }
+        if (row.summary) { card.appendChild(el('div', null, row.summary)); }
+        var fwd = el('button', 'btn', '📤 转发给别人 / 某个群');
+        fwd.addEventListener('click', function () {
+            var toGroup = el('button', 'btn', '发到某个群');
+            toGroup.addEventListener('click', function () { pick2('group', row); });
+            var toPerson = el('button', 'btn', '私发给某人');
+            toPerson.addEventListener('click', function () { pick2('staff', row); });
+            show(backBtn('‹ 返回', function () { openMaterial(row); }),
+                el('div', 'h1', '转发「' + row.name + '」给谁？'), toGroup, toPerson);
+        });
+        show(backBtn('‹ 返回', openMaterials), card, fwd, homeBtn());
+    }
+
+    function pick2(kind, material) {
+        loading('正在读取名单…');
+        var key = kind === 'group' ? 'groups' : 'staff';
+        call(key).then(function (data) {
+            var rows = data.rows || [];
+            var nodes = [backBtn('‹ 返回', function () { openMaterial(material); }),
+                el('div', 'h1', kind === 'group' ? '发到哪个群？' : '私发给谁？')];
+            rows.forEach(function (row) {
+                nodes.push(rowNode(row.label, row.role_label || row.title || '', function () {
+                    composeForwardMaterial(material, kind, row);
+                }));
+            });
+            show.apply(null, nodes);
+        }).catch(handleError);
+    }
+
+    function composeForwardMaterial(material, kind, target) {
+        var note = el('textarea');
+        note.setAttribute('placeholder', '可选的附言，例如：文熙姐，这份材料请查收');
+        var send = el('button', 'btn', '✅ 转发给 ' + target.label);
+        send.addEventListener('click', function () {
+            loading('正在转发…');
+            call('forward', {
+                material_id: material.id,
+                target_kind: kind === 'group' ? 'group' : 'person',
+                target_id: target.id,
+                note: note.value.trim()
+            }).then(function () {
+                show(banner('已转发给 ' + target.label + '。', 'ok'), homeBtn());
+            }).catch(handleError);
+        });
+        show(backBtn('‹ 返回', function () { openMaterial(material); }),
+            el('div', 'h1', '转发「' + material.name + '」给 ' + target.label), note, send, homeBtn());
+    }
+
+    // ---- 定时群发（2026-10-14）------------------------------------------
+    var WEEKDAY_OPTS = [['0', '周一'], ['1', '周二'], ['2', '周三'], ['3', '周四'],
+                       ['4', '周五'], ['5', '周六'], ['6', '周日'], ['daily', '每天']];
+    var HOUR_OPTS = [['6', '06'], ['7', '07'], ['8', '08'], ['9', '09'], ['10', '10'],
+                    ['12', '12'], ['15', '15'], ['18', '18'], ['20', '20'], ['21', '21']];
+    var MINUTE_OPTS = [['0', '00'], ['10', '10'], ['15', '15'], ['20', '20'], ['30', '30'], ['45', '45']];
+
+    function pickOpts(options, selected) {
+        var s = el('select');
+        options.forEach(function (pair) {
+            var o = document.createElement('option');
+            o.value = pair[0];
+            o.textContent = pair[1];
+            if (pair[0] === selected) { o.selected = true; }
+            s.appendChild(o);
+        });
+        return s;
+    }
+
+    function openReminders() {
+        loading('正在读取定时规则…');
+        call('reminders').then(function (data) {
+            var rows = (data && data.rows) || [];
+            var nodes = [backBtn('‹ 返回', home),
+                bigBtn('＋ 新建定时群发', null, function () { pick('group', 'remind'); })];
+            if (!rows.length) {
+                nodes.push(el('div', 'muted', '还没有定时群发。点上面那行「＋ 新建定时群发」：选群、写正文、选星期几点，以后每周自动发。'));
+            }
+            rows.forEach(function (row) { nodes.push(reminderRow(row)); });
+            show.apply(null, nodes);
+        }).catch(handleError);
+    }
+
+    function reminderRow(row) {
+        var sub = [row.when];
+        if (row.group) { sub.push(row.group); }
+        if (!row.active) { sub.push('已停用'); }
+        else if (row.last_result) { sub.push(row.last_result); }
+        return rowNode('⏰ ' + (row.name || (row.group + ' 定时群发')), sub.join(' ｜ '),
+            function () { openReminder(row); });
+    }
+
+    function openReminder(row) {
+        var card = el('div', 'card');
+        card.appendChild(el('div', 'h1', row.name || '定时群发'));
+        card.appendChild(el('div', 'muted', '发到：' + (row.group || '（群已不在后台）')));
+        card.appendChild(el('div', 'muted', '时间：' + (row.when || '—')));
+        card.appendChild(el('div', 'muted', row.active ? '状态：启用中' : '状态：已停用（不会自动发）'));
+        if (row.last_sent_at) {
+            card.appendChild(el('div', 'muted', '上次发出：' + row.last_sent_at + (row.last_result ? '（' + row.last_result + '）' : '')));
+        }
+        var run = el('button', 'btn', '🚀 立即发一次');
+        run.addEventListener('click', function () {
+            loading('正在发送…');
+            call('reminder_run', { id: row.id }).then(function () {
+                show(banner('已经发了一次。去群里核对一下文字对不对，对的话以后每周它自己发。', 'ok'), homeBtn());
+            }).catch(handleError);
+        });
+        var toggle = el('button', 'btn ghost', row.active ? '⏸ 先停掉（不再自动发）' : '▶️ 启用它');
+        toggle.addEventListener('click', function () {
+            loading();
+            call('reminder_toggle', { id: row.id, active: !row.active }).then(function (data) {
+                show(banner(data.active ? '已启用，会按时间自动发。' : '已停用，不会再自动发（这条记录还在，随时能再启用）。', 'ok'),
+                    backBtn('‹ 回定时群发', openReminders), homeBtn());
+            }).catch(handleError);
+        });
+        var del = el('button', 'btn ghost', '🗑 删掉这条');
+        del.addEventListener('click', function () {
+            if (!window.confirm('删掉「' + (row.name || '定时群发') + '」？以后就不会再自动发了。')) { return; }
+            loading('正在删除…');
+            call('reminder_delete', { id: row.id }).then(function () {
+                show(banner('删掉了。', 'ok'), backBtn('‹ 回定时群发', openReminders), homeBtn());
+            }).catch(handleError);
+        });
+        show(backBtn('‹ 返回', openReminders), card, run, toggle, del, homeBtn());
+    }
+
+    function newReminderForm(group) {
+        var area = el('textarea');
+        area.setAttribute('placeholder', '要发的正文，例如：各位同事请注意，本周六上午大扫除，请各宿舍长带队。');
+        var wd = pickOpts(WEEKDAY_OPTS, '0');
+        var hh = pickOpts(HOUR_OPTS, '8');
+        var mm = pickOpts(MINUTE_OPTS, '0');
+        var when = el('div', 'when-row');
+        when.appendChild(el('span', 'muted', '每逢 '));
+        when.appendChild(wd);
+        when.appendChild(el('span', 'muted', ' 的 '));
+        when.appendChild(hh);
+        when.appendChild(el('span', 'muted', ' 点 '));
+        when.appendChild(mm);
+        when.appendChild(el('span', 'muted', ' 分'));
+        var create = el('button', 'btn', '✅ 建好，以后每周自动发');
+        create.addEventListener('click', function () {
+            var text = area.value.trim();
+            if (!text) { alertBox('正文是空的。'); return; }
+            loading('正在建…');
+            call('reminder_create', {
+                target_id: group.id, text: text,
+                weekday: wd.value, hour: hh.value, minute: mm.value
+            }).then(function (data) {
+                show(banner('建好了：' + (data.when || '') + ' 发到「' + (data.group || group.label) + '」。建议先点「🚀 立即发一次」看效果。', 'ok'),
+                    backBtn('‹ 回定时群发', openReminders), homeBtn());
+            }).catch(handleError);
+        });
+        show(backBtn('‹ 返回', function () { pick('group', 'remind'); }),
+            el('div', 'h1', '定时发到「' + group.label + '」'), area, when, create, homeBtn());
+    }
+    // 启动：先认身份，再出主菜单
+    function boot() {
+        call('whoami').then(function (data) {
+            me = data;
+            who.textContent = data.name || data.tg_name || '班务助手';
+            role.textContent = (data.role_label || '其他') + (SITE ? ' ｜ ' + SITE : '');
+            var avatar = document.getElementById('avatar');
+            if (avatar) { avatar.textContent = (data.name || '班').slice(0, 1); }
+            renderHome();
+        }).catch(function (err) {
+            me = { is_admin: false };
+            who.textContent = '班务助手';
+            role.textContent = '';
+            if (err && err.code === 'no_identity') {
+                showNoIdentity();
+            } else if (err && err.code === 'unauthorized') {
+                show(banner(err.message, 'bad'), banner('要发给管理员的信息：\n' + platformInfo(), 'info'));
+            } else if (err && err.code === 'not_registered') {
+                show(banner(err.message, 'bad'), banner('已经登记过的同事：请从机器人对话里点「🖥 打开面板」。', 'info'));
+            } else {
+                show(banner((err && err.message) || '面板没打开成功，请回到机器人对话重试。', 'bad'));
+            }
+        });
+    }
+
+    // 自托管 SDK 偶尔比 inline 脚本慢一拍（缓存/弱网）：最多等 2 秒再决定
+    var sdkWaited = 0;
+    function waitSdk() {
+        if (window.Telegram && window.Telegram.WebApp) {
+            tg = window.Telegram.WebApp;
+            try { tg.ready(); tg.expand(); } catch (e) {}
+            boot();
+            return;
+        }
+        if (sdkWaited >= 2000) { boot(); return; }
+        sdkWaited += 100;
+        setTimeout(waitSdk, 100);
+    }
+    waitSdk();
+})();
+]]></script>
+            </body>
+        </html>
+    </template>
+</odoo>

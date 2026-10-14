@@ -1,0 +1,260 @@
+[
+ {
+  "no": "S1",
+  "name": "C-1 代码路径无 telegram 出口（模型 C-1 段 + 控制器 + 模板）",
+  "pass": true,
+  "detail": "model=[] controller=[] template=[] ｜ t6 遗留 _notify_upcoming 仍调 telegram=True（非 C-1，未动）"
+ },
+ {
+  "no": "V2",
+  "name": "离线门禁 6 条全绿（--selftest + 接缝）",
+  "pass": true,
+  "detail": "6/6 exit=0"
+ },
+ {
+  "no": "V3",
+  "name": "正对照：课节落在有在读学生的班（batch=8）",
+  "pass": true,
+  "detail": "fixture={\"id\": 308, \"batch\": 8, \"faculty\": 17, \"state\": \"draft\", \"start\": \"2026-08-31 08:00:00\", \"end\": \"2026-08-31 08:45:00\", \"classroom\": 0, \"related_psql\": null}"
+ },
+ {
+  "no": "V4",
+  "name": "影响面页 200（教务）",
+  "pass": true,
+  "detail": "code=200 loc="
+ },
+ {
+  "no": "V4a",
+  "name": "受影响人数：页面 == psql 口径",
+  "pass": true,
+  "detail": "页面=2 psql=2"
+ },
+ {
+  "no": "V4b",
+  "name": "受牵连课节数：页面 == psql 口径",
+  "pass": true,
+  "detail": "页面=2 psql=2"
+ },
+ {
+  "no": "V4c",
+  "name": "页面标题含「改课影响面」与「通知相关师生」",
+  "pass": true,
+  "detail": "title_ok=True btn_ok=True"
+ },
+ {
+  "no": "V4d",
+  "name": "受影响的人逐个列名（教师 + 在读学生）",
+  "pass": true,
+  "detail": "卡片角色标注存在"
+ },
+ {
+  "no": "V4f",
+  "name": "影响面页截图留档（教务视角，tests/gap/shots/）",
+  "pass": true,
+  "detail": "c1_impact_impact_page.png（ok）"
+ },
+ {
+  "no": "V5",
+  "name": "学生访问影响面页 → 303 且 Location 精确 = /my/home",
+  "pass": true,
+  "detail": "code=303 loc=/my/home"
+ },
+ {
+  "no": "V4e",
+  "name": "后台表单两个按钮已装载（视图在库 + 动作返回影响面 URL）",
+  "pass": true,
+  "detail": "view_ok=True views_in_db=1 action_url=/timetable/session/308/impact"
+ },
+ {
+  "no": "V6a",
+  "name": "先断言目标确实不存在（id=99999999）",
+  "pass": true,
+  "detail": "count=0"
+ },
+ {
+  "no": "V6b",
+  "name": "POST 不存在的课节 → 3xx（非 500）",
+  "pass": true,
+  "detail": "code=303 loc=/my/home"
+ },
+ {
+  "no": "V6c",
+  "name": "学生 POST 真 id → 3xx（门禁）",
+  "pass": true,
+  "detail": "code=303 loc=/my/home"
+ },
+ {
+  "no": "V6d",
+  "name": "两次越界 POST 后：edu_message / audit / outbox 行数未变",
+  "pass": true,
+  "detail": "msg 1154→1154 audit 1432→1432 outbox 231→231"
+ },
+ {
+  "no": "V7a",
+  "name": "改课 → mail_tracking_value 该 res_id 新增行（old/new 非空）",
+  "pass": true,
+  "detail": "delta=2 fields=absent,contact_address_inline,contact_address_inline,description,email,email,email,end_datetime,feedback,interval_number,interval_type,invoice_policy,is_published,name,name,name,phone,phone,present,stage_id,start,start_datetime,state,state,state,stop,tz,user_id,user_id"
+ },
+ {
+  "no": "V7b",
+  "name": "改课 → edu_audit_log 新增 1 行 action='课节变更'（含 old→new）",
+  "pass": true,
+  "detail": "delta=1 detail=开始时间：2026-08-31 08:00 → 2026-08-31 07:00；结束时间：2026-08-31 08:45 → 2026-08-31 07:45"
+ },
+ {
+  "no": "V7c",
+  "name": "改课本身不发站内信（通知必须由人按）",
+  "pass": true,
+  "detail": "msg_delta=0"
+ },
+ {
+  "no": "V7d",
+  "name": "基线对照 A：只改课时的 outbox 增量已记录",
+  "pass": true,
+  "detail": "OUTBOX_DELTA_A=6（edu_telegram.hooks 覆写 op.session.write，与本功能无关）"
+ },
+ {
+  "no": "V8",
+  "name": "改到与同教师另一节课完全重叠 → 保存被拒（基座四查兜底）",
+  "pass": true,
+  "detail": "flag=True rejected=1 type=ValidationError msg=您无法在相同的日期和时间与相同的教师创建课程"
+ },
+ {
+  "no": "V9a",
+  "name": "POST 一键通知 → 303 回影响面页（带 sent/failed 回显）",
+  "pass": true,
+  "detail": "code=303 loc=/timetable/session/308/impact?notified=1&sent=2&failed=0&muted=0"
+ },
+ {
+  "no": "V9b",
+  "name": "edu_message 新增 N 条（event_key=session_change）且 N == 页面人数",
+  "pass": true,
+  "detail": "msg_delta=2 sent=2 页面人数=2"
+ },
+ {
+  "no": "V9c",
+  "name": "正文带「调课通知」标题 + old→new 变更摘要",
+  "pass": true,
+  "detail": "【调课通知】小要理问答 / 班级：预备科 · 2026级【演示】 / 时间：2026-09-01 15:00–15:45 / 任课教师：T14 教师乙 / 变更明细：结束时间 2026-08-31 07:45:00 → 2026-09-01 07:45:00；开始时间 2026-08-31 07:00:00 → 2026-09-01 07:00:00"
+ },
+ {
+  "no": "V9d",
+  "name": "通知留痕：edu_audit_log 1 行「课节变更通知」且人数可解析",
+  "pass": true,
+  "detail": "rows=1 detail=通知 2 人（静音跳过 0 · 失败 0）"
+ },
+ {
+  "no": "V9e",
+  "name": "页面回显「最近一次通知：<时刻> · <人数> 人」",
+  "pass": true,
+  "detail": "code=200 命中=最近一次通知：2026-09-18 09:55 · 2 人"
+ },
+ {
+  "no": "V9h",
+  "name": "通知后影响面页截图留档（含「最近一次通知」）",
+  "pass": true,
+  "detail": "c1_impact_notify_impact_page.png（ok）"
+ },
+ {
+  "no": "V9f",
+  "name": "通知后回显横幅（notified=1）显示本次送达人数",
+  "pass": true,
+  "detail": "横幅命中=本次已通知 2 人"
+ },
+ {
+  "no": "V9g",
+  "name": "基线对照 B == A：C-1 没有多写 edu_telegram_outbox",
+  "pass": true,
+  "detail": "A(只改课)=6 B(改课+一键通知)=6"
+ },
+ {
+  "no": "V10a",
+  "name": "学生 /my/messages 读到「调课通知」",
+  "pass": true,
+  "detail": "code=200"
+ },
+ {
+  "no": "V10b",
+  "name": "该条对教师与学生均为未读（未读角标 +1 的数据源）",
+  "pass": true,
+  "detail": "stu_unread=1 faculty_unread=1"
+ },
+ {
+  "no": "V10c",
+  "name": "学生消息中心截图留档 tests/gap/shots/",
+  "pass": true,
+  "detail": "c1_impact_notify_student_messages.png（ok）"
+ },
+ {
+  "no": "P4a",
+  "name": "停课写入点留痕：明细含「状态：草稿 → 停课」",
+  "pass": true,
+  "detail": "状态：草稿 → 停课"
+ },
+ {
+  "no": "P4b",
+  "name": "停课走同一套通知（同一条数 + 正文含停课提示）",
+  "pass": true,
+  "detail": "n=2 body=【调课通知】小要理问答 / 班级：预备科 · 2026级【演示】 / 时间：2026-09-01 15:00–15:45 / 任课教师：T14 教师乙 / 变更明细：状态 草稿 → 取消 / 本节已停课，请勿前往教室。"
+ },
+ {
+  "no": "P4c",
+  "name": "停课通知同样留痕（action='课节变更通知'）",
+  "pass": true,
+  "detail": "action=课节变更通知"
+ },
+ {
+  "no": "P4d",
+  "name": "state 已还原为草稿",
+  "pass": true,
+  "detail": "state=draft"
+ },
+ {
+  "no": "V11a",
+  "name": "start_datetime 已还原为基线值",
+  "pass": true,
+  "detail": "还原路径=blocked+sql（ORM 被基座四查拒绝：您无法在相同的日期和时间与相同的教师创建课程） now=2026-08-31 08:00:00 基线=2026-08-31 08:00:00"
+ },
+ {
+  "no": "V11b",
+  "name": "leftover=0：本次站内信 / 审计行全部清场",
+  "pass": true,
+  "detail": "left_msg=0 left_audit=0"
+ },
+ {
+  "no": "V11c",
+  "name": "库内 start_datetime == 基线值",
+  "pass": true,
+  "detail": "now=2026-08-31 08:00:00 基线=2026-08-31 08:00:00"
+ },
+ {
+  "no": "V11d",
+  "name": "outbox / 课节总数未被本脚本改动",
+  "pass": true,
+  "detail": "op_session=288 基线=288"
+ },
+ {
+  "no": "V11e",
+  "name": "--clean-chatter：本脚本产生的 chatter 行已清场",
+  "pass": true,
+  "detail": "deleted=5 left=0"
+ },
+ {
+  "no": "V12a",
+  "name": "check_english.py：must-fix = 0",
+  "pass": true,
+  "detail": "exit=0   x3    [data     ] LV000080                         例: student /my/time_off"
+ },
+ {
+  "no": "V12b",
+  "name": "check_odoo_trace.py：0 命中",
+  "pass": true,
+  "detail": "exit=0   REVISION=v3.7 · 指纹 431d5395 · 断言 40 条 · 运行 2026-09-18T09:56:00+08:00"
+ },
+ {
+  "no": "V13",
+  "name": "教务组传递闭包不含系统组（不回归）",
+  "pass": true,
+  "detail": "implied=经理,角色/用户,多种货币,技术特点,创建,基本价格表,送货地址,发票,用户,用户,经理,用户,经理,用户,经理,用户,经理,在申请表上显示履历,用户：阅读自己的考勤情况"
+ }
+]

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ S1 冲突分色：继承官方日历视图（时间表应用） ============
+         铁律零功能丢失：只改事件颜色映射与追加只读字段，
+         quick_create / 拖拽 / 弹窗 / 既有过滤全部保留。 -->
+    <record id="view_op_session_calendar_ux" model="ir.ui.view">
+        <field name="name">op.session.calendar.ux.conflict</field>
+        <field name="model">op.session</field>
+        <field name="inherit_id" ref="openeducat_timetable.view_op_session_calendar"/>
+        <field name="arch" type="xml">
+            <xpath expr="//calendar" position="attributes">
+                <attribute name="color">conflict_color</attribute>
+            </xpath>
+            <xpath expr="//calendar/field[@name='faculty_id']" position="after">
+                <field name="conflict_kind"/>
+                <field name="conflict_color" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ C-1 改课影响面：课节表单两个入口按钮 ============
+         设计稿 docs/plans/session-change-impact-design.md §7.3：
+         入口 = 既有「时间表」应用里打开一节课，不新增菜单；
+         权限按四层约定并列教务组/系统组（与 /edu/audit 同一把门，P3）。 -->
+    <record id="view_op_session_form_c1_impact" model="ir.ui.view">
+        <field name="name">op.session.form.c1.impact</field>
+        <field name="model">op.session</field>
+        <field name="inherit_id" ref="openeducat_timetable.view_op_session_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='lecture_cancel']" position="after">
+                <button type="object" name="action_open_impact" string="改课影响面"
+                        class="btn-secondary"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+                <button type="object" name="action_notify_session_change"
+                        string="通知相关师生" class="btn-primary"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

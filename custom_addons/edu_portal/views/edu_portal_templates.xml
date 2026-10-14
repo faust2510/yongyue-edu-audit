@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ 门户页基础骨架（对齐原站 o_portal_wrap DOM） ============
+         B11 工作台骨架：顶栏 + 桌面左侧角色导航 + 移动端底部 Tab。
+         铁律零功能丢失：面包屑/语言切换/帮助/搜索全部保留在顶栏；
+         导航为纯视觉新增层（全部指向既有路由），不改任何控制器行为。 -->
+    <template id="edu_page" name="Edu Portal Page">
+        <t t-set="is_portal" t-value="True"/>
+        <!-- 角色判定（视图层只读，口径与控制器 current_* 一致；仅用于导航显隐） -->
+        <t t-set="b11_sys" t-value="request.env.user._is_admin()"/>
+        <!-- v3 批次1：三层策略的第三层——教务/管理员保留中性中文后台入口 -->
+        <t t-set="b11_back" t-value="b11_sys or request.env.user.has_group('openeducat_core.group_op_back_office_admin')"/>
+        <t t-set="b11_fac" t-value="bool(request.env['op.faculty'].sudo().search_count([('user_id', '=', request.env.uid)]))"/>
+        <t t-set="b11_par" t-value="bool(request.env['op.parent'].sudo().search_count([('user_id', '=', request.env.uid)]))"/>
+        <t t-set="b11_stu" t-value="not b11_par and bool(request.env['op.student'].sudo().search_count([('user_id', '=', request.env.uid)]))"/>
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap b11-shell">
+                <!-- ═══ 公告横幅挂载点（notice-banner）：JS 拉取 /my/notice_banner 轮播渲染，
+                     无开启横幅的公告时此节点被移除，页面零变化 ═══ -->
+                <div id="edu-notice-banner" class="edu-notice-banner-zone"
+                     data-fetch="/my/notice_banner"></div>
+                <!-- ═══ 顶栏（B11）：品牌标 + 既有导航全部元素 ═══ -->
+                <header class="b11-topbar">
+                    <a class="b11-brandmark" href="/my/home" title="门户首页">
+                        <img src="/edu_brand/static/src/img/logo-medallion.png"
+                             class="b11-brandmark-img" alt="" loading="lazy"/>
+                        <span class="b11-brandmark-name" t-if="request.website and request.website.name"
+                              t-out="request.website.name"/>
+                    </a>
+                    <nav class="navbar navbar-expand-lg flex-wrap mb-0 p-0 o_portal_navbar">
+                        <ol class="o_portal_submenu breadcrumb mb-0 flex-grow-1 px-0">
+                            <li class="breadcrumb-item ms-1">
+                                <a href="/my/home" aria-label="家" title="家">
+                                    <i class="fa fa-home"/>
+                                </a>
+                            </li>
+                            <!-- 2026-10-03（task-19 合并）：教师只留一个入口 ⇒ 面包屑里这一节对教师隐藏。
+                                 教务/管理员仍照旧（他们的宫格/后台应用入口没变）。 -->
+                            <li class="breadcrumb-item"
+                                t-if="request.env.user.has_group('base.group_user') and not b11_fac">
+                                <a href="/apps" title="应用面板">应用面板</a>
+                            </li>
+                            <li class="breadcrumb-item active" t-out="title"/>
+                        </ol>
+                        <!-- 语言切换：**已撤除**（2026-09-14，用户反馈「翻译按钮一点用都没有」后实测确认）——
+                             ① 本仓按单语站点交付：website.language_ids 被钉为 [zh_CN]（见 edu_brand/data_brand/brand_debrand_data.xml:95）；
+                             ② 自研模板的**源语言就是简体中文**，没有 zh_TW / en_US 词条 ⇒ 选繁體/EN 后 user.lang 确实被写了
+                                （/my/lang/<code> 路由），但**页面一字不变** —— 是"看着能用、其实没用"的死控件，比没有更困惑。
+                             ③ 悬浮切换器此前已按同一理由撤除（见 edu_brand/views/brand_templates.xml:241 的裁决与恢复步骤）；本处与登录页是当时的**漏网**。
+                             恢复步骤同 brand_templates.xml:241：先做全量词条 → 再放开 language_ids → 再把这段控件放回来。 -->
+                        <!-- V2 修复（2026-10-02 视觉复核）：窄屏（390）下顶栏空间被搜索框挤占，
+                             本链接被折成「帮」/「助」两行（三张手机截图全有）。
+                             text-nowrap ⇒ 文字不再断行；flex-shrink-0 ⇒ 不参与压缩，
+                             顶栏本身是 navbar flex-wrap，放不下时整块换行而不是挤成两行。 -->
+                        <a href="/my/help" class="ms-auto me-2 small text-muted text-decoration-none text-nowrap flex-shrink-0"
+                           title="使用帮助"><i class="fa fa-question-circle"/> 帮助</a>
+                        <form class="d-flex" method="get" action="/my/search"
+                              role="search">
+                            <!-- 搜索入口（2026-09-29 搜索可用性修复）：
+                                 ① placeholder 原文只列 4 组（作业/课程/公告/账单），实际覆盖 11 组内容
+                                    **加应用入口**，用户照着它去搜「资料下载」必然落空 ⇒ 补上「应用」；
+                                 ② aria-label 给输入框**可访问名**（此前只有 placeholder）；
+                                 ③ autocomplete=off 防浏览器自带下拉与站内建议叠加。
+                                 下拉建议由 static/src/js/search_suggest.js 渐进增强挂载，
+                                 **无脚本时本表单行为不变**（GET /my/search）。 -->
+                            <!-- V3 修复（2026-10-02 视觉复核）：26 字的 placeholder 在 390 视口被截成
+                                 「搜索应用 / 作」——用户看到的是半句话。窄屏换 9 字短文案。
+                                 ⚠ 2026-10-02 二次裁定（队长）：**桌面也收短**。输入框内宽实测仅 150px，
+                                 而 26 字文案宽 219px ⇒ **桌面同样是截断的**（只是截在「课程」之后，
+                                 比手机好看一点，但仍是半句话）。一个必然被截的 placeholder 传达不了
+                                 任何信息 ⇒ 两个宽度都改成**排得下**的完整短句。
+                                 完整枚举（5 组）保留在 aria-label：可访问名不受影响，读屏用户仍听得到。
+                                 data-ph-* 由本模板末尾脚本切换；无脚本时用 HTML 里那条（= 桌面短文案）。 -->
+                            <input type="search" name="q" id="b11-topsearch"
+                                   class="form-control form-control-sm me-1"
+                                   placeholder="搜索应用 / 作业 / 课程"
+                                   data-ph-lg="搜索应用 / 作业 / 课程"
+                                   data-ph-sm="搜索应用 / 作业"
+                                   aria-label="站内搜索（应用 / 作业 / 课程 / 公告 / 账单）" autocomplete="off"
+                                   t-att-value="request.params.get('q', '')"/>
+                            <button class="btn btn-sm btn-outline-secondary" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </form>
+
+                        <!-- 用户菜单（B11 融合：原主题导航栏已隐藏，用户菜单移入本栏） -->
+                        <div class="b11-usermenu dropdown ms-2">
+                            <button type="button"
+                                    class="b11-user-btn dropdown-toggle d-flex align-items-center gap-2 text-decoration-none btn btn-link p-0"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="b11-user-avatar">
+                                    <!-- H-1（校长拍板 2026-09-18）：统一走 Odoo 内置
+                                         avatar_*（无图时自动生成姓名首字彩色头像），
+                                         去掉 image_1920 双分支 + 人形兜底图标——口径与
+                                         资料卡/迷你头部/通讯录/私信一致。 -->
+                                    <img class="b11-user-avatar-img"
+                                         t-att-src="'/web/image/res.partner/%d/avatar_128' % (request.env.user.partner_id.id or 0)"
+                                         alt="头像" loading="lazy"/>
+                                </span>
+                                <span class="b11-user-name d-none d-md-inline" t-out="request.env.user.name"/>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end b11-user-menu shadow">
+                                <li><a class="dropdown-item" href="/my/home"><i class="fa fa-home me-2" aria-hidden="true"/>我的主页</a></li>
+                                <!-- 2026-10-03（task-19）：教师合并后由首页那张「应用面板（后台）」卡进入，
+                                     用户菜单里不再单独占一条（教务/管理员照旧）。 -->
+                                <li t-if="request.env.user.has_group('base.group_user') and not b11_fac">
+                                    <a class="dropdown-item" href="/apps"><i class="fa fa-th-large me-2" aria-hidden="true"/>应用面板</a></li>
+                                <!-- 2026-09-24：这里原先指向 core portal 的 /my/security。该页的控制器
+                                     在进模型之前就把新密码 strip 了（odoo/addons/portal/controllers/portal.py:877-879
+                                     `post['old'].strip(), post['new1'].strip(), post['new2'].strip()`）⇒ 改密后
+                                     用自己敲的密码登不上（与注册事故同源，edu_portal 的 _change_password
+                                     覆盖够不到这一层）。改指我们自己的逐字安全页；标签同步改成「修改密码」
+                                     —— 落点是密码表单，标签就不能许诺「账户与安全」。 -->
+                                <li><a class="dropdown-item" href="/my/password"><i class="fa fa-key me-2" aria-hidden="true"/>修改密码</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#b11-avatar-modal"><i class="fa fa-camera me-2" aria-hidden="true"/>修改头像</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item text-danger" href="/logout"><i class="fa fa-sign-out me-2" aria-hidden="true"/>退出登录</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+
+                <!-- ═══ 修改头像（B11）：点击顶栏头像或用户菜单「修改头像」打开 ═══ -->
+                <div class="modal fade" id="b11-avatar-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <form method="post" action="/my/avatar/upload" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">修改头像</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <!-- H-1：预览同口径改 avatar_128 —— 无照片时显示首字彩色
+                                         头像（而不是灰底相机占位图），与页头/资料卡一致。 -->
+                                    <img id="b11-avatar-preview" class="b11-avatar-preview border mb-3"
+                                         t-att-src="'/web/image/res.partner/%d/avatar_128' % (request.env.user.partner_id.id or 0)"
+                                         alt="当前头像"/>
+                                    <input type="file" name="avatar" accept="image/*" class="form-control"
+                                           required="required"/>
+                                    <div class="form-text text-start mt-2">
+                                        支持 JPG / PNG，建议上传正方形照片；保存后顶栏头像立即生效。
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">取消</button>
+                                    <button type="submit" class="btn btn-primary">保存头像</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="b11-body">
+                    <!-- ═══ 桌面左侧角色导航（B11，≥992px；全部指向既有路由） ═══ -->
+                    <aside class="b11-side d-none d-lg-block" id="b11-side">
+                        <div class="b11-nav-group-title">首页</div>
+                        <a class="b11-nav-item" href="/my/home" data-b11-tab="/my/home">
+                            <i class="fa fa-home" aria-hidden="true"></i>我的主页</a>
+                        <!-- 2026-10-03（task-19）：教师只留「我的主页」一个入口 —— 工作台与应用宫格
+                             已在 /my/home 同页（batch2.py 的 edu_home 合并分支）。后台应用网格 /apps 不删除、
+                             仍可直达（首页有卡），但不占导航位。教务/管理员照旧。 -->
+                        <a class="b11-nav-item" href="/apps"
+                           t-if="request.env.user.has_group('base.group_user') and not b11_fac">
+                            <i class="fa fa-th-large" aria-hidden="true"></i>应用面板</a>
+
+                        <div class="b11-nav-group-title">学习</div>
+                        <t t-if="b11_stu">
+                            <a class="b11-nav-item" href="/my/calendar"><i class="fa fa-calendar" aria-hidden="true"></i>课表</a>
+                            <a class="b11-nav-item" href="/student/assignment/details"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>作业</a>
+                            <a class="b11-nav-item" href="/student/exam"><i class="fa fa-pencil-square" aria-hidden="true"></i>考试</a>
+                            <a class="b11-nav-item" href="/grade-book"><i class="fa fa-bar-chart" aria-hidden="true"></i>成绩册</a>
+                            <!-- 2026-10-03：删掉与「课程中心」重复的入口「课程」→ /my-courses。
+                                 理由（实测对比，1440 视口）：
+                                   · /my-courses 是 edu_public 里的旧页，用**公开站外壳**（顶栏是「学院概况/招生信息/登录」），
+                                     **没有门户底部 Tab** ⇒ 学生从门户点进来反而丢掉主导航；
+                                   · 内容只有 1 张课程卡（「预备科 CRS-PRP（14 门科目）进入学习」），站内链接 24 个；
+                                   · 而同一导航里「校园生活 → 课程中心」(/my/study) 是门户页，
+                                     内容为「报课→上课→资料→下载→成绩」+ 出勤率 + 本周课表，站内链接 46 个 ⇒ **严格更全**。
+                                 故这是**同名同义的两个入口**，删掉差的那个，学生不损失任何功能。
+                                 ⚠ /my-courses 路由**保留可访问**（登记 C-12，见 docs/audit/deprecated-inventory.md），
+                                 按 docs/plans/enroll-v2-design.md:59 的规划它将被重建为学生「我的课程」学习中枢，
+                                 重建后再决定入口放哪。 -->
+                            <a class="b11-nav-item" href="/subject/enroll"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>报课选科</a>
+                            <a class="b11-nav-item" href="/subject/registration"><i class="fa fa-list-ul" aria-hidden="true"></i>我的申请</a>
+                        </t>
+                        <t t-elif="b11_fac">
+                            <a class="b11-nav-item" href="/my/calendar"><i class="fa fa-calendar" aria-hidden="true"></i>教学安排</a>
+                            <a class="b11-nav-item" href="/assignment/manage"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>作业管理</a>
+                            <!-- 成绩录入（2026-09-29）：任课教师按「班级 x 科目」矩阵录分；
+                                 可录范围在控制器里收敛到本人任教班级（见 controllers/grade_entry.py） -->
+                            <a class="b11-nav-item" href="/grade-entry"><i class="fa fa-table" aria-hidden="true"></i>成绩录入</a>
+                            <a class="b11-nav-item" href="/checkins/stats"><i class="fa fa-pie-chart" aria-hidden="true"></i>打卡统计</a>
+                            <a class="b11-nav-item" href="/registrar/subject/approvals"><i class="fa fa-check-square-o" aria-hidden="true"></i>选课审批</a>
+                        </t>
+                        <t t-elif="b11_par">
+                            <a class="b11-nav-item" href="/my/child"><i class="fa fa-child" aria-hidden="true"></i>我的孩子</a>
+                        </t>
+                        <t t-elif="b11_sys">
+                            <a class="b11-nav-item" href="/my/calendar"><i class="fa fa-calendar" aria-hidden="true"></i>全校课表（只读）</a>
+                            <a class="b11-nav-item" href="/grade-entry"><i class="fa fa-table" aria-hidden="true"></i>成绩录入</a>
+                        </t>
+                        <t t-elif="b11_back">
+                            <!-- 教务（非超管）此前在这一组里没有任何入口：补一条成绩录入，
+                                 与后台「时间表 / 考试 / 考试参加者」是同一份数据（2026-09-29）。
+                                 注释必须留在 <t> 内部：放在 t-elif 与上一分支之间会打断 if/elif 链。 -->
+                            <a class="b11-nav-item" href="/grade-entry"><i class="fa fa-table" aria-hidden="true"></i>成绩录入</a>
+                        </t>
+
+                        <div class="b11-nav-group-title">校园生活</div>
+                        <a class="b11-nav-item" href="/my/study" data-b11-tab="/my/study"><i class="fa fa-graduation-cap" aria-hidden="true"></i>课程中心</a>
+                        <!-- H-1：学生/家长的「全部应用」已合并进「我的主页」
+                             (/my/home)，点它是自跳（/my/apps 对其 303 回本页）
+                             ⇒ 隐藏；内部用户（教师/教务/管理员）的宫格仍在
+                             /my/apps，那条入口保留。 -->
+                        <a class="b11-nav-item" href="/my/apps" data-b11-tab="/my/apps"
+                           t-if="not b11_stu and not b11_par and not b11_fac"><i class="fa fa-th-large" aria-hidden="true"></i>全部应用</a>
+                        <a class="b11-nav-item" href="/my/calendar" data-b11-tab="/my/calendar"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>校历</a>
+                        <a class="b11-nav-item" href="/library/media"><i class="fa fa-book" aria-hidden="true"></i>图书馆</a>
+                        <a class="b11-nav-item" href="/my/checkins" t-if="b11_stu"><i class="fa fa-calendar-check-o" aria-hidden="true"></i>每日打卡</a>
+                        <a class="b11-nav-item" href="/my/journals" t-if="b11_stu"><i class="fa fa-book-open" aria-hidden="true"></i>我的周记</a>
+
+                        <div class="b11-nav-group-title">沟通</div>
+                        <a class="b11-nav-item" href="/my/contacts" data-b11-tab="/my/contacts"><i class="fa fa-address-book-o" aria-hidden="true"></i>通讯录</a>
+                        <a class="b11-nav-item" href="/my/messages" data-b11-tab="/my/messages"><i class="fa fa-comments-o" aria-hidden="true"></i>消息</a>
+                        <a class="b11-nav-item" href="/my/notice_board/notice"><i class="fa fa-bullhorn" aria-hidden="true"></i>布告栏</a>
+
+                        <div class="b11-nav-group-title">个人</div>
+                        <a class="b11-nav-item" href="/student/profile" t-if="b11_stu"><i class="fa fa-user-circle" aria-hidden="true"></i>个人资料</a>
+                        <!-- 财务入口**只留这一处**（2026-09-24 合并重复入口，勿再拆回两条）：
+                             一名角色一个落地页 —— 教务/管理员(b11_back)「看账单」就是「管账单」，
+                             直接进后台 财务管理 ▸ 账单管理（/odoo/action-720，与 /apps 面板同落地页）；
+                             学生/家长/教师只有自己的账单，仍走门户 /my/fees（判据/文案一字未动）。
+                             /my/fees 的教务「全部账单（只读）」分支因此不再有入口，控制器与 ACL 未动。
+                             t-elif 上的 not b11_sys 是**旧口径的刻意保留**：系统管理员不得落到
+                             学生式的只读账单页（今天 b11_sys ⇒ b11_back 已被第一条覆盖，
+                             因此系统管理员由「无财务入口」变为「财务管理」）。 -->
+                        <a class="b11-nav-item" href="/odoo/action-720" t-if="b11_back"><i class="fa fa-credit-card" aria-hidden="true"></i>财务管理</a>
+                        <a class="b11-nav-item" href="/my/fees" t-elif="not b11_sys"><i class="fa fa-credit-card" aria-hidden="true"></i>费用账单</a>
+                        <a class="b11-nav-item" href="/my/time_off"><i class="fa fa-plane" aria-hidden="true"></i>请假</a>
+                        <a class="b11-nav-item" href="/my/grievances" t-if="b11_stu"><i class="fa fa-commenting-o" aria-hidden="true"></i>申诉</a>
+                        <a class="b11-nav-item" href="/certificate" t-if="b11_stu"><i class="fa fa-certificate" aria-hidden="true"></i>证书</a>
+                        <a class="b11-nav-item" href="/my/notify"><i class="fa fa-bell-o" aria-hidden="true"></i>通知偏好</a>
+                        <a class="b11-nav-item" href="/my/help"><i class="fa fa-question-circle" aria-hidden="true"></i>帮助中心</a>
+                        <a class="b11-nav-item" href="/edu/audit" t-if="b11_sys"><i class="fa fa-history" aria-hidden="true"></i>操作审计</a>
+                        <a class="b11-nav-item" href="/edu/import/students" t-if="b11_sys"><i class="fa fa-upload" aria-hidden="true"></i>导入学生</a>
+                        <!-- 2026-10-13 收口：原「管理后台」(href="/web") 入口不再渲染。
+                             裸 /web 必然先让 core 渲染一整页后台外壳（用户实测：一开进来先闪一下
+                             蓝顶栏），服务端现 303 到 /apps（controllers/main.py 的 web_client）；
+                             教务/管理员的后台入口改由 /apps 应用卡片 + 后台内浮动的「转到您的应用」
+                             承担，两者都是 /odoo/action-<id> 显式深链，不走裸入口。
+
+                             ⚠ 为什么元素本身还留在 arch 里（t-if="False"）：它是**扩展点**。
+                             curriculum.xml 的「课程编排」入口旧版用
+                             `xpath //aside[@id='b11-side']//a[@href='/web']` 定位它，而本文件
+                             在 manifest 里排在 curriculum.xml **之前** —— 父模板写入时会先校验
+                             DB 里那份尚未更新的子视图，元素一旦从 arch 里消失，升级当场失败并整批
+                             回滚：`上级视图内找不到元素 "<xpath expr=…a[@href='/web']">"`
+                             （本次实测 exit 255；同类事故见 scripts/check_alias_not_extended.py 文件头，
+                             2026-10-03）。子视图现已改锚 /edu/import/students，等确认所有环境都升过
+                             本版本后，这个壳可以整行删掉。 -->
+                        <a class="b11-nav-item" href="/web" t-if="False"><i class="fa fa-cog" aria-hidden="true"></i>管理后台</a>
+                    </aside>
+
+                    <!-- 内容区（保留原 container 结构与全部页面元素） -->
+                    <div class="container pt-3 pb-5 b11-content">
+                        <!-- v2-B7 角色上手清单（首次显示，可关闭）
+                             V1 修复（2026-10-02 视觉复核）：原先它渲染在<b>每一页</b>的页面标题之上
+                             （本 div 在 <t t-out="0"/> 之前），手机上约占 844px 屏的 18%，
+                             且在 /student/timetable 上压在「我的课表」标题上面。
+                             用户现场：「一进来先读 4 行引导，才看得到自己的内容」。
+                             ⇒ 只在首页显示（清单第 1 条讲的就是「首页卡片」），其余页面直接看内容。
+                             ★ 没有删功能：localStorage 的首次逻辑、关闭按钮、文案全部保留。 -->
+                        <t t-if="request.httprequest.path in ('/my/home', '/my')">
+                        <div id="yy-onboard" class="alert alert-primary py-2 mb-3" style="display:none">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <b><i class="fa fa-map-signs me-1"/>新手上手清单</b>
+                                <button type="button" class="btn btn-sm btn-light"
+                                        onclick="localStorage.setItem('yy_ob_done','1');document.getElementById('yy-onboard').style.display='none'">
+                                    我知道了
+                                </button>
+                            </div>
+                            <ol class="mb-0 ps-3 small mt-1">
+                                <!-- 2026-10-04（第 88 轮）：这句话原先**两处都不对**：
+                                     ① 「应用面板」只在 `has_group('base.group_user')` 时渲染
+                                        （见上方左侧导航那一项）⇒ **学生与家长根本没有这个入口**，
+                                        而这句提示是给他们看的（实测学生首页全文只有这一处出现「面板」二字）；
+                                     ② 它也不在「右上角」—— 是**桌面左侧导航**里的（模板注释自己写着
+                                        「桌面左侧角色导航」）。
+                                     改成按身份说两句实话：内部用户提「应用面板」，其余只提左侧导航与首页卡片。 -->
+                                <!-- 2026-10-03（task-19）：教师合并后左侧不再有「应用面板」入口，
+                                     这句承诺对他就是假的 ⇒ 教师回落到下面那句（学生/家长本来就走它）。 -->
+                                <li t-if="request.env.user.has_group('base.group_user') and not b11_fac">
+                                    点击左侧导航<b>「应用面板」</b>或首页卡片进入各功能</li>
+                                <li t-else="">点击左侧导航或<b>首页卡片</b>进入各功能</li>
+                                <li>顶部搜索框可查<b>应用入口</b>与作业 / 课程 / 公告 / 账单</li>
+                                <li>布告栏公告<b>点开即已读</b>，未读角标自动减少</li>
+                                <li>遇到问题见<a href="/my/help" class="alert-link">帮助中心</a>，
+                                    或邮件联系 <span title="见内部文档">学坊办公室</span></li>
+                            </ol>
+                        </div>
+                        </t>
+                        <t t-out="0"/>
+                <script>
+                    (function(){
+                        try{
+                            if(localStorage.getItem('yy_ob_done')) return;
+                            var el=document.getElementById('yy-onboard');
+                            var internal=document.querySelector('a[href="/apps"]');
+                            // 学生/家长也展示通用清单
+                            if(el){ el.style.display='block'; }
+                        }catch(e){}
+                    })();
+                </script>
+                <script>
+                    /* V3（2026-10-02 视觉复核）：窄屏搜索框 placeholder 被截断成「搜索应用 / 作」。
+                       长文案只在 ≥768px 显示；窄屏换短文案。无脚本时保持 HTML 里的长文案 = 原行为。
+                       为什么用脚本而不是两套 CSS：placeholder 是属性，CSS 改不了它的文字。 */
+                    (function(){
+                        try{
+                            var el = document.getElementById("b11-topsearch");
+                            if(!el || !window.matchMedia) return;
+                            var mq = window.matchMedia("(max-width: 767.98px)");
+                            var apply = function(){
+                                el.setAttribute("placeholder",
+                                    /* &amp;&amp; 是 XML 转义：QWeb 模板本身是 XML，裸和号不合法 */
+                                    (mq.matches &amp;&amp; el.dataset.phSm) ? el.dataset.phSm : el.dataset.phLg);
+                            };
+                            apply();
+                            if(mq.addEventListener) mq.addEventListener("change", apply);
+                            else if(mq.addListener) mq.addListener(apply);
+                        }catch(e){}
+                    })();
+                </script>
+                    </div>
+                </div>
+
+                <!-- ═══ 移动端底部 Tab（B11，<992px；全部指向既有路由） ═══ -->
+                <nav class="b11-tabbar d-lg-none" id="b11-tabbar" aria-label="移动端主导航">
+                    <a class="b11-tab" href="/my/home" data-b11-tab="/my/home">
+                        <i class="fa fa-home" aria-hidden="true"></i><span>首页</span></a>
+                    <a class="b11-tab" href="/my/calendar" data-b11-tab="/my/calendar">
+                        <i class="fa fa-calendar" aria-hidden="true"></i><span>校历</span></a>
+                    <a class="b11-tab" href="/my/messages" data-b11-tab="/my/messages">
+                        <i class="fa fa-comments-o" aria-hidden="true"></i><span>消息</span></a>
+                    <a class="b11-tab" href="/my/contacts" data-b11-tab="/my/contacts">
+                        <i class="fa fa-address-book-o" aria-hidden="true"></i><span>通讯录</span></a>
+                    <!-- 同上下拉项：/my/security 的 strip 在 core 控制器里，够不到；改指逐字安全的 /my/password -->
+                    <a class="b11-tab" href="/my/password" data-b11-tab="/my/password">
+                        <i class="fa fa-key" aria-hidden="true"></i><span>修改密码</span></a>
+                </nav>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my/home 卡片索引（对齐 o_portal_index_card 网格） ============ -->
+    <template id="edu_dashboard" name="Edu Portal Dashboard">
+        <t t-call="edu_portal.edu_page">
+            <section class="o_portal_hero mb-4">
+                <h2 class="mb-1">你好，<t t-out="(student and student.name) or user.name"/>！</h2>
+                <p class="text-muted mb-0">欢迎回到学生中心，这里汇总了你在校的一切事务。</p>
+            </section>
+            <div class="o_portal_docs row g-2">
+                <t t-foreach="cards" t-as="card">
+                    <div class="o_portal_index_card col-md-6">
+                        <a t-att-href="card['href']" t-att-title="card['title']"
+                           class="d-flex justify-content-start gap-2 gap-md-3 align-items-center py-3 pe-2 px-md-3 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                            <div class="o_portal_icon d-block align-self-start">
+                                <i t-attf-class="fa fa-lg {{ card['icon'] }}"/>
+                            </div>
+                            <div>
+                                <div class="mt-0 mb-1 fs-5 fw-normal lh-1">
+                                    <span t-out="card['title']"/>
+                                </div>
+                                <div class="opacity-75" t-out="card['desc']"/>
+                            </div>
+                            <span t-if="card['count'] not in ('', 0, None)"
+                                  class="oe_count badge rounded-pill text-bg-primary"
+                                  t-out="card['count']"/>
+                        </a>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /student/timetable 周课表（四视角 + 周导航，排课系统 v2） ============
+         S4 增强：周/日视图切换、「今天」定位、第 N 周标注、停课日灰显（只读）。 -->
+    <template id="edu_timetable" name="Edu Student Timetable">
+        <t t-call="edu_portal.edu_page">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-1">
+                <h4 class="mb-0">
+                    <i class="fa fa-calendar me-2"/>
+                    <t t-if="role == 'faculty'">我的教学安排</t>
+                    <t t-elif="role == 'parent'">孩子的课表</t>
+                    <t t-elif="role == 'staff'">全校课表（只读）</t>
+                    <t t-else=""><t t-out="title"/></t>
+                </h4>
+                <div class="btn-group" role="group" aria-label="周导航">
+                    <a t-att-href="prev_w" class="btn btn-outline-secondary btn-sm">
+                        <i class="fa fa-chevron-left me-1"/>
+                        <t t-if="view == 'day'">前一天</t><t t-else="">上一周</t>
+                    </a>
+                    <a t-if="view == 'week'" t-att-href="today_href"
+                       class="btn btn-outline-secondary btn-sm">今天</a>
+                    <a t-if="view == 'day'" t-att-href="week_href"
+                       class="btn btn-outline-secondary btn-sm">本周</a>
+                    <a t-att-href="next_w" class="btn btn-outline-secondary btn-sm">
+                        <t t-if="view == 'day'">后一天</t><t t-else="">下一周</t>
+                        <i class="fa fa-chevron-right ms-1"/>
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <p class="text-muted small mb-0">
+                    <i class="fa fa-calendar-o me-1"/><t t-out="week_label"/>
+                    <span t-if="week_no_label" class="badge text-bg-primary-subtle text-primary ms-1"
+                          t-out="week_no_label"/>
+                </p>
+                <!-- S4：周/日视图切换 -->
+                <div class="btn-group ms-auto" role="group" aria-label="视图切换">
+                    <a t-att-href="week_href" t-att-class="'btn btn-sm ' + ('btn-primary' if view == 'week' else 'btn-outline-secondary')">
+                        <i class="fa fa-calendar me-1"/>周视图</a>
+                    <a t-att-href="'/student/timetable?view=day'"
+                       t-att-class="'btn btn-sm ' + ('btn-primary' if view == 'day' else 'btn-outline-secondary')">
+                        <i class="fa fa-list me-1"/>日视图</a>
+                </div>
+                <!-- 3c 打印友好：调用浏览器打印（print 样式隐藏导航侧栏） -->
+                <button type="button" class="btn btn-sm btn-outline-secondary"
+                        onclick="window.print()">
+                    <i class="fa fa-print me-1"/>打印</button>
+            </div>
+
+            <!-- 3c 打印样式：只留课表主体，隐藏门户导航/侧栏/按钮 -->
+            <style>
+                @media print {
+                    header nav, .o_portal_navbar, aside, .offcanvas,
+                    footer, .btn, .btn-group, .ux-fav-menu,
+                    #wrapwrap > header, .o_footer { display: none !important; }
+                    .timetable-table { border: 1px solid #444 !important; }
+                    body { font-size: 12px; }
+                    .container, .oe-att-page { max-width: 100% !important; padding: 0 !important; }
+                }
+            </style>
+
+            <t t-if="has_holiday" class="mb-2">
+                <div class="alert alert-warning border py-2 small mb-3">
+                    <i class="fa fa-flag me-1"/>
+                    本<t t-if="view == 'day'">日</t><t t-else="">周</t>
+                    含停课日（灰底标注），停课日的课表仅展示不安排。
+                </div>
+            </t>
+
+            <div class="stud_id_timetable_parent"/>
+            <div class="timetable_schedule_portal active">
+                <t t-if="not has_sessions">
+                    <!-- 空态审计（2026-10-02）：课表是学生登录后的第一站，原来只有一句
+                         「这一周暂无排课记录。」—— 分不清「还没排课」和「我没分班/没选课」。
+                         控制器已给 role（scheduling.py：student/faculty/parent/staff），按角色分流。 -->
+                    <div class="alert alert-info mb-0">
+                        <t t-if="view == 'day'">这一天暂无排课记录。</t>
+                        <t t-else="">这一周暂无排课记录。</t>
+                        <t t-if="role == 'student'">
+                            课表按你所在的班级生成：还没分班、或本周尚未排课时，这里就是空的。
+                            分班与排课由教务在开学时完成，排好后会自动出现；
+                            想先确认自己的选课，可去报课选科。
+                            <a class="alert-link ms-1" href="/subject/enroll">去报课选科</a>
+                        </t>
+                        <t t-elif="role == 'parent'">
+                            孩子的课表按班级生成：孩子还没分班、或本周尚未排课时，这里就是空的。
+                            分班与排课由教务在开学时完成；可到孩子仪表盘确认分班与选课情况。
+                            <a class="alert-link ms-1" href="/my/child">查看我的孩子</a>
+                        </t>
+                        <t t-elif="role == 'faculty'">
+                            本周没有你的课节。课表按教务处的排课生成：还没排到你的课时，这里就是空的；
+                            如果应该有课却没显示，请联系教务处核对排课。
+                        </t>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-if="view == 'day'">
+                        <!-- S4 日视图：单日按节次纵排（同时间线信息密度） -->
+                        <div class="card shadow-sm border-0 rounded-3 mb-3">
+                            <div class="card-header bg-white fw-semibold d-flex align-items-center">
+                                <span class="flex-grow-1"><t t-out="week_label"/></span>
+                                <span t-if="day_flags and day_flags[0]['holiday']"
+                                      class="badge text-bg-warning">
+                                    <i class="fa fa-flag me-1"/>停课
+                                </span>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-bordered table-light align-middle timetable-table mb-0">
+                                    <tbody>
+                                        <t t-foreach="timings" t-as="t">
+                                            <tr>
+                                                <td class="text-nowrap small" style="width:130px">
+                                                    <strong t-out="t.name"/>
+                                                </td>
+                                                <td class="p-1">
+                                                    <t t-foreach="matrix[t.id]['周一']" t-as="ses">
+                                                        <div t-att-class="'rounded p-2 mb-1 small lh-sm ' + (day_flags and day_flags[0]['holiday'] and 'bg-secondary-subtle opacity-75' or 'bg-primary-subtle')">
+                                                            <div class="fw-bold" t-out="ses.subject_id.name"/>
+                                                            <div class="opacity-75">
+                                                                <span t-out='ses_fmt[ses.id][0]'/>–<span t-out='ses_fmt[ses.id][1]'/>
+                                                            </div>
+                                                            <div t-if="role != 'faculty' and ses.faculty_id" class="opacity-75">
+                                                                <i class="fa fa-user-o me-1"/> <t t-out="ses.faculty_id.name"/>
+                                                            </div>
+                                                            <div t-if="ses.classroom_id" class="opacity-75">
+                                                                <i class="fa fa-map-marker me-1"/> <t t-out="ses.classroom_id.name"/>
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr t-if="has_loose">
+                                            <td class="text-nowrap small text-muted">未分节</td>
+                                            <td class="p-1">
+                                                <t t-foreach="loose['周一']" t-as="ses">
+                                                    <div class="rounded bg-secondary-subtle p-2 mb-1 small lh-sm">
+                                                        <div class="fw-bold" t-out="ses.subject_id.name"/>
+                                                        <div class="opacity-75">
+                                                            <span t-out='ses_fmt[ses.id][0]'/>–<span t-out='ses_fmt[ses.id][1]'/>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a t-att-href="prev_w" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-chevron-left me-1"/>前一天</a>
+                            <a t-att-href="next_w" class="btn btn-outline-secondary btn-sm">
+                                后一天<i class="fa fa-chevron-right ms-1"/></a>
+                        </div>
+                    </t>
+                    <t t-else="">
+                    <table class="table table-bordered table-light align-middle timetable-table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width:110px">时段</th>
+                                <t t-foreach="days" t-as="day">
+                                    <!-- S4：今天高亮列 + 停课灰显列 -->
+                                    <th t-att-class="'text-center ux-daycol ' + (
+                                        day_flags[day_index]['today'] and 'ux-today-col ' or '') + (
+                                        day_flags[day_index]['holiday'] and 'ux-holiday-col' or '')">
+                                        <t t-out="day"/>
+                                        <span t-if="day_flags[day_index]['holiday']"
+                                              class="d-block ux-holiday-badge"
+                                              t-att-title="'停课：' + day_flags[day_index]['holiday']">
+                                            <i class="fa fa-flag me-1"/>停课
+                                        </span>
+                                        <span t-if="day_flags[day_index]['today']" class="d-block ux-today-badge">今天</span>
+                                    </th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="timings" t-as="t">
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong t-out="t.name"/>
+                                    </td>
+                                    <t t-foreach="days" t-as="day">
+                                        <td t-att-class="'p-1 ' + (
+                                            day_flags[day_index]['holiday'] and 'ux-holiday-col' or '') + (
+                                            day_flags[day_index]['today'] and ' ux-today-col' or '')">
+                                            <t t-foreach="matrix[t.id][day]" t-as="ses">
+                                                <div t-att-class="'rounded p-2 mb-1 small lh-sm ' + (day_flags[day_index]['holiday'] and 'bg-secondary-subtle opacity-75' or 'bg-primary-subtle')">
+                                                    <div class="fw-bold" t-out="ses.subject_id.name"/>
+                                                    <div class="opacity-75">
+                                                        <span t-out='ses_fmt[ses.id][0]'/>–<span t-out='ses_fmt[ses.id][1]'/>
+                                                    </div>
+                                                    <div t-if="role != 'faculty' and ses.faculty_id" class="opacity-75">
+                                                        <i class="fa fa-user-o me-1"/> <t t-out="ses.faculty_id.name"/>
+                                                    </div>
+                                                    <div t-if="ses.classroom_id" class="opacity-75">
+                                                        <i class="fa fa-map-marker me-1"/> <t t-out="ses.classroom_id.name"/>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr t-if="has_loose">
+                                <td class="text-nowrap small text-muted">未分节</td>
+                                <t t-foreach="days" t-as="day">
+                                    <td class="p-1">
+                                        <t t-foreach="loose[day]" t-as="ses">
+                                            <div class="rounded bg-secondary-subtle p-2 mb-1 small lh-sm">
+                                                <div class="fw-bold" t-out="ses.subject_id.name"/>
+                                                <div class="opacity-75">
+                                                    <span t-out='ses_fmt[ses.id][0]'/>–<span t-out='ses_fmt[ses.id][1]'/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </td>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 统一搜索结果（v2-A5） ============ -->
+    <template id="edu_search_results" name="Edu Portal Search Results">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-3"><i class="fa fa-search me-2"/>搜索结果</h4>
+            <t t-if="not q">
+                <div class="alert alert-info">请输入关键词，例如：资料下载、作业、公告、课程名。</div>
+            </t>
+            <t t-elif="not groups">
+                <div class="alert alert-light border">没有找到与「<t t-out="q"/>」相关的内容。</div>
+            </t>
+            <t t-else="">
+                <t t-foreach="groups" t-as="grp">
+                    <h5 class="mt-3 mb-2 text-primary">
+                        <i class="fa fa-folder-open-o me-1"/><t t-out="grp[0]"/>
+                        <span class="badge text-bg-light text-muted ms-1"><t t-out="len(grp[2])"/></span>
+                    </h5>
+                    <div class="list-group mb-2">
+                        <t t-foreach="grp[2]" t-as="it">
+                            <a t-att-href="it['href']"
+                               class="list-group-item list-group-item-action py-2">
+                                <i class="fa fa-angle-right me-2 text-muted"/><t t-out="it['name']"/>
+                            </a>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <!-- ============ 帮助中心（v2-B7 C 部分） ============ -->
+    <template id="edu_help_center" name="Edu Help Center">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-3"><i class="fa fa-life-ring me-2">帮助中心</i></h4>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 rounded-3 h-100"><div class="card-body">
+                        <h6><i class="fa fa-graduation-cap me-1 text-primary"/>学生</h6>
+                        <ul class="small mb-0 ps-3">
+                            <!-- 2026-10-04（第 89 轮）：原先写「左侧「时间表」」——**门户左导航里没有这个词**，
+                                 它叫「课表」（同一份文件 line 163）。「时间表」是**后台**菜单的名字
+                                 （见本文件 line 199 与 calendar.xml:357 的注释），学生照着找是找不到的。 -->
+                            <li>课表与打卡：左侧「课表」「每日打卡」</li>
+                            <li>作业：发布后在「作业」列表提交附件</li>
+                            <li>课程学习：「我的课程」进入课次逐节完成</li>
+                            <li>账单状态与历史：「费用账单」页查询</li>
+                        </ul>
+                    </div></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 rounded-3 h-100"><div class="card-body">
+                        <h6><i class="fa fa-users me-1 text-success"/>教师 / 教务 / 管理员</h6>
+                        <ul class="small mb-0 ps-3">
+                            <!-- 2026-10-04（第 89 轮）：与上手清单同一处错误 ——「应用面板」在**左侧导航**，
+                                 不在「右上角」。第 88 轮修了上手清单那一处，**这条是同一个错的第二处**，
+                                 当时没顺手全仓扫一遍（fix-then-sweep 又漏了一次）。 -->
+                            <li>左侧导航「应用面板」可回到功能总览</li>
+                            <li>考勤/成绩/作业：对应菜单进入后按班级操作</li>
+                            <li>综合评估：选模板→生成打分表→逐项打分→保存</li>
+                            <li>通知：布告栏支持一键全部已读与精确未读计数</li>
+                        </ul>
+                    </div></div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

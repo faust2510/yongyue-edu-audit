@@ -1,0 +1,240 @@
+{
+  "revision": "cb-ui1",
+  "base": "http://127.0.0.1:8069",
+  "db": "edu19",
+  "fixture": {
+    "batch": 387,
+    "student": 270,
+    "student_name": "【待分配】班级分配UI冒烟生【演示】",
+    "pending": true,
+    "course_id": 18
+  },
+  "checks": [
+    {
+      "no": "UI0.1",
+      "name": "夹具：【待分配】学生 + 有课节的演示班",
+      "pass": true,
+      "detail": "student=270 batch=387"
+    },
+    {
+      "no": "UI1.0",
+      "name": "学生列表有搜索框（教务可按姓名/待分配筛）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "UI1.0b",
+      "name": "载体合法：确实是**列表视图**（不是看板）",
+      "pass": true,
+      "detail": "列表容器数=1"
+    },
+    {
+      "no": "UI1.0c",
+      "name": "筛选后列表里正好是这名学生一行",
+      "pass": true,
+      "detail": "行数=1 · 行文本=\t\t【待分配】班级分配UI冒烟生【演示】\t\n分班\n\t男性\t\t\t\tChinese, Simplified / 简体中文\t\t\t"
+    },
+    {
+      "no": "UI1.1",
+      "name": "教务在学生列表看到这一行的「分班」按钮",
+      "pass": true,
+      "detail": "按钮数=1"
+    },
+    {
+      "no": "UI1.2",
+      "name": "点开是「分班」对话框且标题带学生名",
+      "pass": true,
+      "detail": "分班：【待分配】班级分配UI冒烟生【演示】 学生 【待分配】班级分配UI冒烟生【演示】 课程 班级 卷数 学年 条款 状态 完成的 跑步 保存 放弃"
+    },
+    {
+      "no": "UI1.3",
+      "name": "分班表单出现且学生已预填（default_student_id 生效）",
+      "pass": true,
+      "detail": "分班：【待分配】班级分配UI冒烟生【演示】 学生 【待分配】班级分配UI冒烟生【演示】 课程 班级 卷数 学年 条款 状态 完成的 跑步 保存 放弃"
+    },
+    {
+      "no": "UI1.4",
+      "name": "选了课程",
+      "pass": true,
+      "detail": "预备科"
+    },
+    {
+      "no": "UI1.5",
+      "name": "选了班级",
+      "pass": true,
+      "detail": "【演示】班级分配UI冒烟·甲班"
+    },
+    {
+      "no": "UI1.6",
+      "name": "分班表单有保存按钮",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "UI1.6b",
+      "name": "保存没有报\"必填\"错误（分班表单不带费用必填）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "UI1.7",
+      "name": "浏览器保存后库里有了班级档案（UI 写路径真跑通）",
+      "pass": true,
+      "detail": "batch_id=387"
+    },
+    {
+      "no": "UI1.8",
+      "name": "分班后名字里的「【待分配】」已被去掉",
+      "pass": true,
+      "detail": "name=班级分配UI冒烟生【演示】"
+    },
+    {
+      "no": "UI1.9",
+      "name": "edu_pending_setup 已清",
+      "pass": true,
+      "detail": "flag=f"
+    },
+    {
+      "no": "UI1.10",
+      "name": "学生表单上也有「分配班级」按钮（截图留证）",
+      "pass": true,
+      "detail": "按钮数=1"
+    },
+    {
+      "no": "UI1.11",
+      "name": "学生表单有「班级与课程」页签（看得见现在在哪个班）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "UI1.12",
+      "name": "学生列表有「待分配（未分班）」过滤器（教务日常入口）",
+      "pass": true,
+      "detail": "含过滤器=True"
+    },
+    {
+      "no": "UI2.1",
+      "name": "班级列表看得见演示班",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "UI2.2",
+      "name": "列表上有「状态」列（active 已进视图）",
+      "pass": true,
+      "detail": "\t 姓名 \t 代码 \t 开始日期 \t 结束日期 \t 课程 \t 状态 \t\t   \t预备科 · 2026级【演示】\tPRP-2026\t8月22日\t2028年7月22"
+    },
+    {
+      "no": "UI2.3",
+      "name": "教务在列表上看得见「停用」按钮（校长拍板用词）",
+      "pass": true,
+      "detail": "按钮数=18"
+    },
+    {
+      "no": "UI2.4",
+      "name": "班级列表有 ☰（操作菜单）按钮",
+      "pass": true,
+      "detail": "匹配数=1"
+    },
+    {
+      "no": "UI2.4b",
+      "name": "列表里找得到演示班那一行（按唯一名定位，不按第 N 条）",
+      "pass": true,
+      "detail": "\t【演示】班级分配UI冒烟·甲班\tCBM-UI-A\t9月1日\t2027年7月31日\t预备科\t \t \t"
+    },
+    {
+      "no": "UI2.5",
+      "name": "☰ 里有「归档 / 存档」项（含 active 字段才会出现）",
+      "pass": true,
+      "detail": "复制 存档 取消归档 删除"
+    },
+    {
+      "no": "UI3.0",
+      "name": "「停用」有确认弹窗（防手滑）",
+      "pass": true,
+      "detail": "确认按钮选择器=.o_dialog button:has-text(\"确定\")"
+    },
+    {
+      "no": "UI3.1",
+      "name": "界面上点「停用」后库里 active=false",
+      "pass": true,
+      "detail": "active=f"
+    },
+    {
+      "no": "UI3.2",
+      "name": "停用后默认列表里看不见它（回收站语义）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "UI3.3",
+      "name": "默认列表里没有「恢复」按钮（它不在使用中列表里）",
+      "pass": true,
+      "detail": "按钮数=0"
+    },
+    {
+      "no": "UI3.4",
+      "name": "「已停用班级」回收站页面看得见它",
+      "pass": true,
+      "detail": "\t 姓名 \t 代码 \t 开始日期 \t 结束日期 \t 课程 \t 状态 \t\t   \t【演示】班级分配UI冒烟·甲班\tCBM-UI-A\t9月1日\t2027年7月31日\t预备科\t \t \t \t"
+    },
+    {
+      "no": "UI3.5",
+      "name": "回收站里这一行有「恢复」按钮（同样按唯一名定位）",
+      "pass": true,
+      "detail": "按钮数=1 · 行=\t【演示】班级分配UI冒烟·甲班\tCBM-UI-A\t9月1日\t2027年7月31日\t预备科\t \t \t"
+    },
+    {
+      "no": "UI3.6",
+      "name": "界面上点「恢复」后库里 active=true（回得来）",
+      "pass": true,
+      "detail": "active=t"
+    },
+    {
+      "no": "UI3.7",
+      "name": "恢复后它回到使用中集合（active 查询命中）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "UI4.1",
+      "name": "教师能打开 /odoo/batches 并看见班名（菜单已可见）",
+      "pass": true,
+      "detail": "\t 姓名 \t 代码 \t 开始日期 \t 结束日期 \t 课程 \t 状态 \t   \t预备科 · 2026级【演示】\tPRP-2026\t8月22日\t2028年7月22日\t预备科\t \t  \tB1-B4全体\tB1234\t6月23日\t2027年6月18日"
+    },
+    {
+      "no": "UI4.2",
+      "name": "教师看不到「停用」按钮（按校长拍板：归档归教务）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "UI4.3",
+      "name": "教师 ☰ 里也有「归档 / 存档」项（这正是设计稿说的陷阱）",
+      "pass": true,
+      "detail": "复制 存档 取消归档"
+    },
+    {
+      "no": "UI4.4",
+      "name": "教师归档被人话拒绝（文案含「教务处」）",
+      "pass": true,
+      "detail": "无效操作  「停用 / 恢复」班级是教务处的业务动作，教师不能办理。  您可以照常新建与编辑班级（班名、起止日期、所属课程）；若某个班需要停用或恢复，请联系教务处。  关闭"
+    },
+    {
+      "no": "UI4.5",
+      "name": "教师那一下没有改动数据（active 仍为 true）",
+      "pass": true,
+      "detail": "active=t"
+    },
+    {
+      "no": "UI5.1",
+      "name": "清理后 leftover = 0",
+      "pass": true,
+      "detail": "{\"leftover_batch\": 0, \"leftover_student\": 0, \"leftover_user\": 0}"
+    }
+  ],
+  "pass": 37,
+  "fail": 0,
+  "rc": 0,
+  "shots": "/tmp/cbm_ui"
+}

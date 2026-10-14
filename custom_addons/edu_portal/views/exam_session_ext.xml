@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- v2 用户反馈：考试场次支持「线上考试」——勾选后场地非必填 -->
+    <record id="view_op_exam_session_form_edu" model="ir.ui.view">
+        <field name="name">op.exam.session.form.edu.online</field>
+        <field name="model">op.exam.session</field>
+        <field name="inherit_id" ref="openeducat_exam.view_op_exam_session_form"/>
+        <field name="arch" type="xml">
+            <field name="venue" position="before">
+                <field name="online"/>
+            </field>
+            <field name="venue" position="attributes">
+                <attribute name="required">not online</attribute>
+                <attribute name="placeholder">线上考试可留空</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

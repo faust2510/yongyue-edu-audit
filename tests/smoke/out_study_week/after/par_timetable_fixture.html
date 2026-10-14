@@ -1,0 +1,1095 @@
+
+        
+        <!DOCTYPE html>
+<html lang="zh-CN" data-website-id="1" data-main-object="ir.ui.view(2063,)" data-can-optimize-seo="True" dir="ltr">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="generator" content="永约学坊"/>
+            
+            
+        
+        <link rel="canonical" href="http://localhost:8069/student/timetable"/>
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""/>
+        <link rel="apple-touch-icon" href="/web/image/website/1/favicon?unique=84b0879"/>
+        <title>孩子的课表</title>
+        <link type="image/x-icon" rel="shortcut icon" href="/web/image/website/1/favicon?unique=84b0879"/>
+        <link rel="preload" href="/web/static/src/libs/fontawesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" crossorigin=""/>
+        <link type="text/css" rel="stylesheet" href="/web/assets/1/78ed718/web.assets_frontend.min.css"/>
+        <script id="web.layout.odooscript" type="text/javascript">
+            var odoo = {
+                csrf_token: "974218fd36d95dcb95967c92ab6d7fcb954c830bo1822106313",
+                debug: "",
+            };
+        </script>
+        <script type="text/javascript">
+            odoo.__session_info__ = {"is_admin": false, "is_system": false, "is_public": false, "is_internal_user": false, "is_website_user": false, "uid": 10, "registry_hash": "d221607f49c7d2308c02a8dddcd30fc86c52d0f523b0ec9aae90f9efd47ec877", "is_frontend": true, "profile_session": null, "profile_collectors": null, "profile_params": null, "show_effect": true, "currencies": {"6": {"name": "CNY", "symbol": "\u00a5", "position": "before", "digits": [69, 2]}, "1": {"name": "USD", "symbol": "$", "position": "before", "digits": [69, 2]}}, "quick_login": true, "bundle_params": {"lang": "zh_CN", "website_id": 1}, "test_mode": false, "server_version": "19.0-20260817", "server_version_info": [19, 0, 0, "final", 0, ""], "websocket_worker_version": "19.0-2", "translationURL": "/website/translations", "tour_enabled": false, "geoip_country_code": null, "geoip_phone_code": null, "lang_url_code": "zh_CN"};
+            if (!/(^|;\s)tz=/.test(document.cookie)) {
+                const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                document.cookie = `tz=${userTZ}; path=/`;
+            }
+        </script>
+        <script type="text/javascript" defer="defer" src="/web/assets/1/0c475a4/web.assets_frontend_minimal.min.js" onerror="__odooAssetError=1"></script>
+        <script type="text/javascript" data-src="/web/assets/1/ba0e6e7/web.assets_frontend_lazy.min.js" onerror="__odooAssetError=1"></script>
+        
+        
+    </head>
+    <body>
+        
+
+
+
+        <div id="wrapwrap" class="  o_portal ">
+            <a class="o_skip_to_content btn btn-primary rounded-0 visually-hidden-focusable position-absolute start-0" href="#wrap">跳至内容</a>
+                <header id="top" data-anchor="true" data-name="Header" data-extra-items-toggle-aria-label="额外项目按钮" class="   o_header_standard" style=" ">
+    <nav data-name="Navbar" aria-label="Main" class="navbar navbar-expand-lg navbar-light o_colored_level o_cc d-none d-lg-block shadow-sm ">
+        
+
+            <div id="o_main_nav" class="o_main_nav container">
+                
+    <a data-name="Navbar Logo" href="/" class="navbar-brand logo me-4">
+            
+            <span role="img" aria-label="Logo of 永约学坊" title="永约学坊"><img src="/web/image/website/1/logo/%E6%B0%B8%E7%BA%A6%E5%AD%A6%E5%9D%8A?unique=84b0879" class="img img-fluid" width="95" height="40" alt="永约学坊" loading="lazy"/></span>
+        </a>
+    
+                
+    <ul role="menu" id="top_menu" class="nav navbar-nav top_menu o_menu_loading  me-auto ">
+        
+                    
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/about" class="nav-link ">
+            <span>学院概况</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/programs" class="nav-link ">
+            <span>专业设置</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/admissions" class="nav-link ">
+            <span>招生信息</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/journal" class="nav-link ">
+            <span>SCRTS校刊</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/login" class="nav-link ">
+            <span>登录</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/" class="nav-link ">
+            <span>首页</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/booking" class="nav-link ">
+            <span>现在预订</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/digital-library" class="nav-link ">
+            <span>图书馆</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/online-exams" class="nav-link ">
+            <span>考试</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/jobs" class="nav-link ">
+            <span>工作</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item   dropdown">
+        <a href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="menuitem" class="dropdown-toggle nav-link   ">
+            <span>入场</span>
+        </a>
+        
+        
+        <ul role="menu" class="dropdown-menu ">
+
+    <li role="presentation" class=" ">
+        <a role="menuitem" href="/courses-offered" class="dropdown-item ">
+            <span>开设课程</span>
+        </a>
+    </li>
+
+    <li role="presentation" class=" ">
+        <a role="menuitem" href="/program-offered" class="dropdown-item ">
+            <span>培养项目</span>
+        </a>
+    </li>
+        </ul>
+        
+    </li>
+
+    <li role="presentation" class="nav-item   dropdown">
+        <a href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="menuitem" class="dropdown-toggle nav-link   ">
+            <span>工作机会</span>
+        </a>
+        
+        
+        <ul role="menu" class="dropdown-menu ">
+
+    <li role="presentation" class=" ">
+        <a role="menuitem" href="/alumni/job/card" class="dropdown-item ">
+            <span>校友招聘</span>
+        </a>
+    </li>
+
+    <li role="presentation" class=" ">
+        <a role="menuitem" href="/campus/jobs" class="dropdown-item ">
+            <span>校园工作</span>
+        </a>
+    </li>
+        </ul>
+        
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/#contact" class="nav-link ">
+            <span>联系我们</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/alumni" class="nav-link ">
+            <span>校友</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/courses" class="nav-link ">
+            <span>课程</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/my-courses" class="nav-link ">
+            <span>我的课程</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item ">
+        <a role="menuitem" href="/alumni/jobs" class="nav-link ">
+            <span>校友与就业</span>
+        </a>
+    </li>
+                
+    </ul>
+                
+                <ul class="navbar-nav align-items-center gap-2 flex-shrink-0 justify-content-end ps-3">
+                    
+        <li class="">
+                <div class="modal fade css_editable_mode_hidden" id="o_search_modal" aria-hidden="true" tabindex="-1">
+                    <div class="modal-dialog modal-lg pt-5">
+                        <div class="modal-content mt-5">
+    <form method="get" class="o_searchbar_form s_searchbar_input " action="/website/search" data-snippet="s_searchbar_input">
+            <div role="search" class="input-group input-group-lg">
+        <input type="search" name="search" class="search-query form-control oe_search_box border border-end-0 p-3 border-0 bg-light" placeholder="搜索..." data-search-type="all" data-limit="5" data-display-image="true" data-display-description="true" data-display-extra-link="true" data-display-detail="true" data-order-by="name asc"/>
+        <button type="submit" aria-label="搜索" title="搜索" class="btn oe_search_button border border-start-0 px-4 bg-o-color-4">
+            <i class="oi oi-search"></i>
+        </button>
+    </div>
+
+            <input name="order" type="hidden" class="o_search_order_by oe_unremovable" value="name asc"/>
+            
+        </form>
+                        </div>
+                    </div>
+                </div>
+                <a data-bs-target="#o_search_modal" data-bs-toggle="modal" role="button" title="搜索" href="#" class="btn rounded-circle p-1 lh-1 o_navlink_background text-reset o_not_editable">
+                    <i class="oi oi-search fa-stack lh-lg"></i>
+                </a>
+        </li>
+                    
+                    
+                    
+                    
+                    
+    <li class="dropdown o_no_autohide_item">
+            <a href="#" role="button" data-bs-toggle="dropdown" class="dropdown-toggle nav-link border-0">
+                <span class="">家长【演示】</span>
+            </a>
+            <div role="menu" class="dropdown-menu js_usermenu dropdown-menu-end">
+            <a href="/my/home" role="menuitem" class="dropdown-item ps-3">
+                <i class="fa fa-fw fa-id-card-o me-1 small text-primary-emphasis"></i> 我的账户
+            </a>
+                <div id="o_logout_divider" class="dropdown-divider"></div>
+                <a role="menuitem" id="o_logout" class="dropdown-item ps-3" href="/logout">
+                    <i class="fa fa-fw fa-sign-out me-1 small text-primary-emphasis"></i> 登出
+                </a>
+            </div>
+        </li>
+                    
+        <li class="">
+            <div class="oe_structure oe_structure_solo ">
+                <section class="oe_unremovable oe_unmovable s_text_block" data-snippet="s_text_block" data-name="Text">
+                    <div class="container">
+                        <a href="/contactus" class="oe_unremovable btn btn-primary btn_cta">联系我们</a>
+                    </div>
+                </section>
+            </div>
+        </li>
+                </ul>
+            </div>
+        
+    </nav>
+
+    <nav data-name="Navbar" aria-label="Mobile" class="navbar  navbar-light o_colored_level o_cc o_header_mobile d-block d-lg-none shadow-sm ">
+        
+
+        <div class="o_main_nav container flex-wrap justify-content-between">
+            <div class="d-flex flex-grow-1">
+                
+    <a data-name="Navbar Logo" href="/" class="navbar-brand logo ">
+            
+            <span role="img" aria-label="Logo of 永约学坊" title="永约学坊"><img src="/web/image/website/1/logo/%E6%B0%B8%E7%BA%A6%E5%AD%A6%E5%9D%8A?unique=84b0879" class="img img-fluid" width="95" height="40" alt="永约学坊" loading="lazy"/></span>
+        </a>
+    
+                <ul class="o_header_mobile_buttons_wrap navbar-nav d-flex flex-row align-items-center gap-2 mb-0 ms-auto"></ul>
+            </div>
+            <button class="nav-link btn p-2 o_not_editable" type="button" data-bs-toggle="offcanvas" data-bs-target="#top_menu_collapse_mobile" aria-controls="top_menu_collapse_mobile" aria-expanded="false" aria-label="切换导航">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="top_menu_collapse_mobile" class="offcanvas offcanvas-end o_navbar_mobile">
+                <div class="offcanvas-header justify-content-end o_not_editable">
+                    <button type="button" class="nav-link btn-close" data-bs-dismiss="offcanvas" aria-label="关闭"></button>
+                </div>
+                <div class="offcanvas-body d-flex flex-column justify-content-between h-100 w-100 pt-0">
+                    <ul class="navbar-nav">
+                        
+        <li class="">
+    <form method="get" class="o_searchbar_form s_searchbar_input " action="/website/search" data-snippet="s_searchbar_input">
+            <div role="search" class="input-group mb-3">
+        <input type="search" name="search" class="search-query form-control oe_search_box rounded-start-pill text-bg-light ps-3 border-0 bg-light" placeholder="搜索..." data-search-type="all" data-limit="0" data-display-image="true" data-display-description="true" data-display-extra-link="true" data-display-detail="true" data-order-by="name asc"/>
+        <button type="submit" aria-label="搜索" title="搜索" class="btn oe_search_button rounded-end-pill bg-o-color-3 pe-3">
+            <i class="oi oi-search"></i>
+        </button>
+    </div>
+
+            <input name="order" type="hidden" class="o_search_order_by oe_unremovable" value="name asc"/>
+            
+        </form>
+        </li>
+                        
+                        <li>
+    <ul role="menu" class="nav navbar-nav top_menu  o_mega_menu_is_offcanvas mx-n3  ">
+        
+                                
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/about" class="nav-link p-3 text-wrap ">
+            <span>学院概况</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/programs" class="nav-link p-3 text-wrap ">
+            <span>专业设置</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/admissions" class="nav-link p-3 text-wrap ">
+            <span>招生信息</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/journal" class="nav-link p-3 text-wrap ">
+            <span>SCRTS校刊</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/login" class="nav-link p-3 text-wrap ">
+            <span>登录</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/" class="nav-link p-3 text-wrap ">
+            <span>首页</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/booking" class="nav-link p-3 text-wrap ">
+            <span>现在预订</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/digital-library" class="nav-link p-3 text-wrap ">
+            <span>图书馆</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/online-exams" class="nav-link p-3 text-wrap ">
+            <span>考试</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/jobs" class="nav-link p-3 text-wrap ">
+            <span>工作</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top    accordion accordion-flush">
+        
+        
+        <div class="accordion-item">
+            <a href="#" data-bs-toggle="collapse" aria-expanded="false" class="nav-link p-3 text-wrap accordion-button collapsed" data-bs-target=".o_accordion_target_185" aria-controls="o_accordion_target_185">
+                <span>入场</span>
+            </a>
+            <div class="o_accordion_target_185 accordion-collapse collapse" aria-labelledby="o_accordion_target_185" data-bs-parent="#top_menu_collapse_mobile">
+                <ul class="show list-group list-unstyled py-0" role="menu">
+
+    <li role="presentation" class=" px-0">
+        <a role="menuitem" href="/courses-offered" class="nav-link list-group-item list-group-item-action border-0 rounded-0 px-4 text-wrap ">
+            <span>开设课程</span>
+        </a>
+    </li>
+
+    <li role="presentation" class=" px-0">
+        <a role="menuitem" href="/program-offered" class="nav-link list-group-item list-group-item-action border-0 rounded-0 px-4 text-wrap ">
+            <span>培养项目</span>
+        </a>
+    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </li>
+
+    <li role="presentation" class="nav-item border-top    accordion accordion-flush">
+        
+        
+        <div class="accordion-item">
+            <a href="#" data-bs-toggle="collapse" aria-expanded="false" class="nav-link p-3 text-wrap accordion-button collapsed" data-bs-target=".o_accordion_target_188" aria-controls="o_accordion_target_188">
+                <span>工作机会</span>
+            </a>
+            <div class="o_accordion_target_188 accordion-collapse collapse" aria-labelledby="o_accordion_target_188" data-bs-parent="#top_menu_collapse_mobile">
+                <ul class="show list-group list-unstyled py-0" role="menu">
+
+    <li role="presentation" class=" px-0">
+        <a role="menuitem" href="/alumni/job/card" class="nav-link list-group-item list-group-item-action border-0 rounded-0 px-4 text-wrap ">
+            <span>校友招聘</span>
+        </a>
+    </li>
+
+    <li role="presentation" class=" px-0">
+        <a role="menuitem" href="/campus/jobs" class="nav-link list-group-item list-group-item-action border-0 rounded-0 px-4 text-wrap ">
+            <span>校园工作</span>
+        </a>
+    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/#contact" class="nav-link p-3 text-wrap ">
+            <span>联系我们</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/alumni" class="nav-link p-3 text-wrap ">
+            <span>校友</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/courses" class="nav-link p-3 text-wrap ">
+            <span>课程</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top  px-0">
+        <a role="menuitem" href="/my-courses" class="nav-link p-3 text-wrap ">
+            <span>我的课程</span>
+        </a>
+    </li>
+
+    <li role="presentation" class="nav-item border-top border-bottom px-0">
+        <a role="menuitem" href="/alumni/jobs" class="nav-link p-3 text-wrap ">
+            <span>校友与就业</span>
+        </a>
+    </li>
+                            
+    </ul>
+                        </li>
+                        
+                        
+                    </ul>
+                    <ul class="navbar-nav gap-2 mt-3 w-100">
+                        
+                        
+                        
+    <li class="dropdown dropup o_no_autohide_item">
+            <a href="#" role="button" data-bs-toggle="dropdown" class="dropdown-toggle nav-link d-flex align-items-center border-0">
+                <div class="">
+                    <i class="fa fa-1x fa-fw fa-user me-2"></i>
+                </div>
+                <span class="me-auto small">家长【演示】</span>
+            </a>
+            <div role="menu" class="dropdown-menu js_usermenu w-100">
+            <a href="/my/home" role="menuitem" class="dropdown-item ps-3">
+                <i class="fa fa-fw fa-id-card-o me-1 small text-primary-emphasis"></i> 我的账户
+            </a>
+                <div id="o_logout_divider" class="dropdown-divider"></div>
+                <a role="menuitem" id="o_logout" class="dropdown-item ps-3" href="/logout">
+                    <i class="fa fa-fw fa-sign-out me-1 small text-primary-emphasis"></i> 登出
+                </a>
+            </div>
+        </li>
+                        
+        <li class="">
+            <div class="oe_structure oe_structure_solo ">
+                <section class="oe_unremovable oe_unmovable s_text_block" data-snippet="s_text_block" data-name="Text">
+                    <div class="container">
+                        <a href="/contactus" class="oe_unremovable btn btn-primary btn_cta w-100">联系我们</a>
+                    </div>
+                </section>
+            </div>
+        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+    </nav>
+    </header>
+                <main>
+                    
+            <div id="wrap" class="o_portal_wrap b11-shell">
+                
+                <div id="edu-notice-banner" class="edu-notice-banner-zone" data-fetch="/my/notice_banner"></div>
+                
+                <header class="b11-topbar">
+                    <a class="b11-brandmark" href="/my/home" title="门户首页">
+                        <img src="/edu_brand/static/src/img/logo-medallion.png" class="b11-brandmark-img" alt="" loading="lazy"/>
+                        <span class="b11-brandmark-name">永约学坊</span>
+                    </a>
+                    <nav class="navbar navbar-expand-lg flex-wrap mb-0 p-0 o_portal_navbar">
+                        <ol class="o_portal_submenu breadcrumb mb-0 flex-grow-1 px-0">
+                            <li class="breadcrumb-item ms-1">
+                                <a href="/my/home" aria-label="家" title="家">
+                                    <i class="fa fa-home"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active">孩子的课表</li>
+                        </ol>
+                        
+                        <a href="/my/help" class="ms-auto me-2 small text-muted text-decoration-none" title="使用帮助"><i class="fa fa-question-circle"></i> 帮助</a>
+                        <form class="d-flex" method="get" action="/my/search" role="search">
+                            <input type="search" name="q" class="form-control form-control-sm me-1" placeholder="搜索作业 / 课程 / 公告 / 账单" value=""/>
+                            <button class="btn btn-sm btn-outline-secondary" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"></span>
+                            </button>
+                        </form>
+
+                        
+                        <div class="b11-usermenu dropdown ms-2">
+                            <button type="button" class="b11-user-btn dropdown-toggle d-flex align-items-center gap-2 text-decoration-none btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="b11-user-avatar">
+                                    
+                                    <img class="b11-user-avatar-img" alt="头像" loading="lazy" src="/web/image/res.partner/47/avatar_128"/>
+                                </span>
+                                <span class="b11-user-name d-none d-md-inline">家长【演示】</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end b11-user-menu shadow">
+                                <li><a class="dropdown-item" href="/my/home"><i class="fa fa-home me-2" aria-hidden="true"></i>我的主页</a></li>
+                                
+                                <li><a class="dropdown-item" href="/my/password"><i class="fa fa-key me-2" aria-hidden="true"></i>修改密码</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#b11-avatar-modal"><i class="fa fa-camera me-2" aria-hidden="true"></i>修改头像</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item text-danger" href="/logout"><i class="fa fa-sign-out me-2" aria-hidden="true"></i>退出登录</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+
+                
+                <div class="modal fade" id="b11-avatar-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <form method="post" action="/my/avatar/upload" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" value="974218fd36d95dcb95967c92ab6d7fcb954c830bo1822106313"/>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">修改头像</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    
+                                    <img id="b11-avatar-preview" class="b11-avatar-preview border mb-3" alt="当前头像" src="/web/image/res.partner/47/avatar_128" loading="lazy"/>
+                                    <input type="file" name="avatar" accept="image/*" class="form-control" required="required"/>
+                                    <div class="form-text text-start mt-2">
+                                        支持 JPG / PNG，建议上传正方形照片；保存后顶栏头像立即生效。
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">取消</button>
+                                    <button type="submit" class="btn btn-primary">保存头像</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="b11-body">
+                    
+                    <aside class="b11-side d-none d-lg-block" id="b11-side">
+                        <div class="b11-nav-group-title">首页</div>
+                        <a class="b11-nav-item" href="/my/home" data-b11-tab="/my/home">
+                            <i class="fa fa-home" aria-hidden="true"></i>我的主页</a>
+
+                        <div class="b11-nav-group-title">学习</div>
+                            <a class="b11-nav-item" href="/my/child"><i class="fa fa-child" aria-hidden="true"></i>我的孩子</a>
+
+                        <div class="b11-nav-group-title">校园生活</div>
+                        <a class="b11-nav-item" href="/my/study" data-b11-tab="/my/study"><i class="fa fa-graduation-cap" aria-hidden="true"></i>课程中心</a>
+                        
+                        <a class="b11-nav-item" href="/my/calendar" data-b11-tab="/my/calendar"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>校历</a>
+                        <a class="b11-nav-item" href="/library/media"><i class="fa fa-book" aria-hidden="true"></i>图书馆</a>
+
+                        <div class="b11-nav-group-title">沟通</div>
+                        <a class="b11-nav-item" href="/my/contacts" data-b11-tab="/my/contacts"><i class="fa fa-address-book-o" aria-hidden="true"></i>通讯录</a>
+                        <a class="b11-nav-item" href="/my/messages" data-b11-tab="/my/messages"><i class="fa fa-comments-o" aria-hidden="true"></i>消息</a>
+                        <a class="b11-nav-item" href="/my/notice_board/notice"><i class="fa fa-bullhorn" aria-hidden="true"></i>布告栏</a>
+
+                        <div class="b11-nav-group-title">个人</div>
+                        
+                        <a class="b11-nav-item" href="/my/fees"><i class="fa fa-credit-card" aria-hidden="true"></i>费用账单</a>
+                        <a class="b11-nav-item" href="/my/time_off"><i class="fa fa-plane" aria-hidden="true"></i>请假</a>
+                        <a class="b11-nav-item" href="/my/notify"><i class="fa fa-bell-o" aria-hidden="true"></i>通知偏好</a>
+                        <a class="b11-nav-item" href="/my/help"><i class="fa fa-question-circle" aria-hidden="true"></i>帮助中心</a>
+                        
+                    </aside>
+
+                    
+                    <div class="container pt-3 pb-5 b11-content">
+                        
+                        <div id="yy-onboard" class="alert alert-primary py-2 mb-3" style="display:none">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <b><i class="fa fa-map-signs me-1"></i>新手上手清单</b>
+                                <button type="button" class="btn btn-sm btn-light" onclick="localStorage.setItem(&#39;yy_ob_done&#39;,&#39;1&#39;);document.getElementById(&#39;yy-onboard&#39;).style.display=&#39;none&#39;">
+                                    我知道了
+                                </button>
+                            </div>
+                            <ol class="mb-0 ps-3 small mt-1">
+                                <li>点击右上角<b>「应用面板」</b>或首页卡片进入各功能</li>
+                                <li>顶部搜索框可查<b>作业 / 课程 / 公告 / 账单</b></li>
+                                <li>布告栏公告<b>点开即已读</b>，未读角标自动减少</li>
+                                <li>遇到问题见<a href="/my/help" class="alert-link">帮助中心</a>，
+                                    或邮件联系 <span title="见内部文档">学坊办公室</span></li>
+                            </ol>
+                        </div>
+                        
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-1">
+                <h4 class="mb-0">
+                    <i class="fa fa-calendar me-2"></i>
+                    孩子的课表
+                </h4>
+                <div class="btn-group" role="group" aria-label="周导航">
+                    <a class="btn btn-outline-secondary btn-sm" href="/student/timetable?w=-1&amp;view=week">
+                        <i class="fa fa-chevron-left me-1"></i>
+                        上一周
+                    </a>
+                    <a class="btn btn-outline-secondary btn-sm" href="/student/timetable?view=week">今天</a>
+                    <a class="btn btn-outline-secondary btn-sm" href="/student/timetable?w=1&amp;view=week">
+                        下一周
+                        <i class="fa fa-chevron-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <p class="text-muted small mb-0">
+                    <i class="fa fa-calendar-o me-1"></i>9月28日 – 10月4日（本周）
+                    <span class="badge text-bg-primary-subtle text-primary ms-1">第 15 周</span>
+                </p>
+                
+                <div class="btn-group ms-auto" role="group" aria-label="视图切换">
+                    <a href="/student/timetable?view=week" class="btn btn-sm btn-primary">
+                        <i class="fa fa-calendar me-1"></i>周视图</a>
+                    <a href="/student/timetable?view=day" class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-list me-1"></i>日视图</a>
+                </div>
+                
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                    <i class="fa fa-print me-1"></i>打印</button>
+            </div>
+
+            
+            <style>
+                @media print {
+                    header nav, .o_portal_navbar, aside, .offcanvas,
+                    footer, .btn, .btn-group, .ux-fav-menu,
+                    #wrapwrap > header, .o_footer { display: none !important; }
+                    .timetable-table { border: 1px solid #444 !important; }
+                    body { font-size: 12px; }
+                    .container, .oe-att-page { max-width: 100% !important; padding: 0 !important; }
+                }
+            </style>
+
+
+            <div class="stud_id_timetable_parent"></div>
+            <div class="timetable_schedule_portal active">
+                    <table class="table table-bordered table-light align-middle timetable-table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width:110px">时段</th>
+                                    
+                                    <th class="text-center ux-daycol ux-today-col ">
+                                        周一
+                                        <span class="d-block ux-today-badge">今天</span>
+                                    </th>
+                                    
+                                    <th class="text-center ux-daycol ">
+                                        周二
+                                    </th>
+                                    
+                                    <th class="text-center ux-daycol ">
+                                        周三
+                                    </th>
+                                    
+                                    <th class="text-center ux-daycol ">
+                                        周四
+                                    </th>
+                                    
+                                    <th class="text-center ux-daycol ">
+                                        周五
+                                    </th>
+                                    
+                                    <th class="text-center ux-daycol ">
+                                        周六
+                                    </th>
+                                    
+                                    <th class="text-center ux-daycol ">
+                                        周日
+                                    </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>第1节</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>第2节</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>第3节</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>07:45-09:45</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>08:00-09:00</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>08:30-11:30</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>09:00-17:00</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>09:00-11:30</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>09:00-11:00</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>10:00-12:00</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>14:00-16:00</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>14:15-15:45</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>16:00-17:00</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>19:00-21:00</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>19:15-21:15</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong>19:30-21:30</strong>
+                                    </td>
+                                        <td class="p-1  ux-today-col">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                        <td class="p-1 ">
+                                        </td>
+                                </tr>
+                            <tr>
+                                <td class="text-nowrap small text-muted">未分节</td>
+                                    <td class="p-1">
+                                    </td>
+                                    <td class="p-1">
+                                    </td>
+                                    <td class="p-1">
+                                    </td>
+                                    <td class="p-1">
+                                            <div class="rounded bg-secondary-subtle p-2 mb-1 small lh-sm">
+                                                <div class="fw-bold">小要理问答</div>
+                                                <div class="opacity-75">
+                                                    <span>10:00</span>–<span>10:45</span>
+                                                </div>
+                                            </div>
+                                    </td>
+                                    <td class="p-1">
+                                    </td>
+                                    <td class="p-1">
+                                    </td>
+                                    <td class="p-1">
+                                    </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+        
+                <script>
+                    (function(){
+                        try{
+                            if(localStorage.getItem('yy_ob_done')) return;
+                            var el=document.getElementById('yy-onboard');
+                            var internal=document.querySelector('a[href="/apps"]');
+                            // 学生/家长也展示通用清单
+                            if(el){ el.style.display='block'; }
+                        }catch(e){}
+                    })();
+                </script>
+                    </div>
+                </div>
+
+                
+                <nav class="b11-tabbar d-lg-none" id="b11-tabbar" aria-label="移动端主导航">
+                    <a class="b11-tab" href="/my/home" data-b11-tab="/my/home">
+                        <i class="fa fa-home" aria-hidden="true"></i><span>首页</span></a>
+                    <a class="b11-tab" href="/my/calendar" data-b11-tab="/my/calendar">
+                        <i class="fa fa-calendar" aria-hidden="true"></i><span>校历</span></a>
+                    <a class="b11-tab" href="/my/messages" data-b11-tab="/my/messages">
+                        <i class="fa fa-comments-o" aria-hidden="true"></i><span>消息</span></a>
+                    <a class="b11-tab" href="/my/contacts" data-b11-tab="/my/contacts">
+                        <i class="fa fa-address-book-o" aria-hidden="true"></i><span>通讯录</span></a>
+                    
+                    <a class="b11-tab" href="/my/password" data-b11-tab="/my/password">
+                        <i class="fa fa-key" aria-hidden="true"></i><span>修改密码</span></a>
+            <style>
+                @media (max-width: 991.98px){
+                    #wrapwrap.o_portal .o_portal_wrap
+                    .b11-tabbar:has(a[href="/registrar/curriculum"]){
+                        grid-template-columns: repeat(6, 1fr);
+                    }
+                }
+            </style>
+                </nav>
+            </div>
+        
+        <div id="o_shared_blocks" class="oe_unremovable"></div>
+                </main>
+                <footer id="bottom" data-anchor="true" data-name="Footer" class="o_footer o_colored_level o_cc o_cc5 yylc-footer">
+                <div class="container yylc-footer-inner">
+                    <img src="/edu_brand/static/src/img/logo-medallion.png" alt="永约学坊校徽" class="yylc-footer-logo" loading="lazy"/>
+                    <div class="yylc-footer-body">
+                        <div class="yylc-footer-name">
+                            永约学坊
+                            <span class="yylc-footer-en">COVENANT REFORMED SEMINARY</span>
+                        </div>
+                        <div class="yylc-footer-contact">
+                            <div class="yylc-footer-head">
+                                <a href="/contactus">联系我们</a>
+            <span class="px-1 opacity-50">·</span>
+            <a href="/help">使用指南</a>
+                            </div>
+                            <div class="yylc-footer-line yylc-footer-mail">
+                                <i class="fa fa-envelope-o" role="img" aria-label="邮箱"></i>
+                                <a href="mailto:scrtsschool@gmail.com">scrtsschool@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="yylc-footer-copy">© 2026 永约学坊 / Soli Deo Gloria</div>
+                    </div>
+                </div>
+            </footer>
+            </div>
+        
+        </body>
+</html>

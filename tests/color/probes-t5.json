@@ -1,0 +1,264 @@
+{
+ "schema": "color-probes/v1",
+ "note": "**探针 ≠ 基线**。本文件不是 §7.3 的色数读数，也不参与 before/after 色数对照；它只回答「机制有没有进产物」「元素在不在、可不可读」。冻结基线见 baseline-local.json（15:50:33 那份），本工具绝不改写它。",
+ "captured_at": "2026-09-15T16:37:44+08:00",
+ "base_url": "http://127.0.0.1:8069",
+ "db": "edu19",
+ "probe_b_artifact": {
+  "plausibility_backend": {
+   "kind": "backend",
+   "bytes": 2354079,
+   "markers_present": {
+    "--brand-action": 62,
+    "--brand-500": 14,
+    "--teal-500": 2
+   },
+   "missing_markers": [],
+   "verdict": "PASS：产物含全部自定义标记且非空，是完整产物",
+   "problems": []
+  },
+  "text_variants": [
+   {
+    "bundle": "web.assets_web_print.min.css",
+    "class": ".text-success",
+    "expected_token": "--success",
+    "expected_value": "#127a50",
+    "found": "#127a50",
+    "found_raw": "var(--success)",
+    "resolved_via": "var(--success)",
+    "verdict": "PASS"
+   },
+   {
+    "bundle": "web.assets_web_print.min.css",
+    "class": ".text-danger",
+    "expected_token": "--danger",
+    "expected_value": "#c0272d",
+    "found": "#c0272d",
+    "found_raw": "var(--danger)",
+    "resolved_via": "var(--danger)",
+    "verdict": "PASS"
+   },
+   {
+    "bundle": "web.assets_web_print.min.css",
+    "class": ".text-warning",
+    "expected_token": "--warning-ink",
+    "expected_value": "#8f5700",
+    "found": "#8f5700",
+    "found_raw": "var(--warning-ink)",
+    "resolved_via": "var(--warning-ink)",
+    "verdict": "PASS"
+   },
+   {
+    "bundle": "web.assets_web_print.min.css",
+    "class": ".text-info",
+    "expected_token": "--info",
+    "expected_value": "#0e7bf2",
+    "found": "#5e6779",
+    "found_raw": "#5E6779",
+    "resolved_via": "literal",
+    "verdict": "FAIL"
+   },
+   {
+    "bundle": "web.assets_web.min.css",
+    "class": ".text-success",
+    "expected_token": "--success",
+    "expected_value": "#127a50",
+    "found": "#127a50",
+    "found_raw": "var(--success)",
+    "resolved_via": "var(--success)",
+    "verdict": "PASS"
+   },
+   {
+    "bundle": "web.assets_web.min.css",
+    "class": ".text-danger",
+    "expected_token": "--danger",
+    "expected_value": "#c0272d",
+    "found": "#c0272d",
+    "found_raw": "var(--danger)",
+    "resolved_via": "var(--danger)",
+    "verdict": "PASS"
+   },
+   {
+    "bundle": "web.assets_web.min.css",
+    "class": ".text-warning",
+    "expected_token": "--warning-ink",
+    "expected_value": "#8f5700",
+    "found": "#8f5700",
+    "found_raw": "var(--warning-ink)",
+    "resolved_via": "var(--warning-ink)",
+    "verdict": "PASS"
+   },
+   {
+    "bundle": "web.assets_web.min.css",
+    "class": ".text-info",
+    "expected_token": "--info",
+    "expected_value": "#0e7bf2",
+    "found": "#5e6779",
+    "found_raw": "#5E6779",
+    "resolved_via": "literal",
+    "verdict": "FAIL"
+   }
+  ],
+  "required_border": [
+   {
+    "bundle": "web.assets_web_print.min.css",
+    "class": ".o_required_modifier",
+    "expected_token": "--brand-action",
+    "expected_value": "#0c6dd7",
+    "found": "#0c6dd7",
+    "found_raw": "var(--brand-action)",
+    "last_rule": "border-bottom-color: var(--brand-action);",
+    "resolved_via": "var(--brand-action)",
+    "verdict": "PASS"
+   },
+   {
+    "bundle": "web.assets_web.min.css",
+    "class": ".o_required_modifier",
+    "expected_token": "--brand-action",
+    "expected_value": "#0c6dd7",
+    "found": "#0c6dd7",
+    "found_raw": "var(--brand-action)",
+    "last_rule": "border-bottom-color: var(--brand-action);",
+    "resolved_via": "var(--brand-action)",
+    "verdict": "PASS"
+   }
+  ],
+  "literal_scss_fingerprint": {
+   "rule": "产物里出现 $o- / $brand- 字面串 ⇒ 该变量未被插值 ⇒ 浏览器取空值",
+   "scope": "**按源文件归属判定**；整包跑会永久命中 2 处官方误报（见 upstream_known）",
+   "total_hits": 4,
+   "ours_count": 0,
+   "ours": [],
+   "upstream_known_count": 4,
+   "upstream_known": [
+    [
+     "$o-gray-200",
+     "/website/static/src/client_actions/website_preview/website_builder_action.dark.scss"
+    ],
+    [
+     "$o-theme-text-colors",
+     "/im_livechat/static/src/core/web/livechat_channel_info_list.scss"
+    ]
+   ],
+   "unclassified_count": 0,
+   "unclassified": [],
+   "verdict": "PASS：本方文件 0 命中（上游命中已按官方快照记录，不计入）"
+  },
+  "bundles": [
+   {
+    "url": "http://127.0.0.1:8069/web/assets/83e6bb5/web.assets_web_print.min.css",
+    "bytes": 1179687,
+    "sha256": "9833648405ece3b63637dc7693b5a9f1c6c0a0acb5be721f4cb02f267493360e"
+   },
+   {
+    "url": "http://127.0.0.1:8069/web/assets/c33bbfa/web.assets_web.min.css",
+    "bytes": 1174392,
+    "sha256": "323ca7a8f67f284fbb47fae332b31d3a63505bc82a59d97362038123a01fb848"
+   }
+  ],
+  "combined_bytes": 2354079,
+  "combined_sha256": "5084583d1c1b13f0457253c37eb3804f423e9bf7791acef871a2e85f6b86394f",
+  "tracked_counts_by_value": {
+   "#71639e": 2,
+   "#0c6dd7": 422,
+   "#0e7bf2": 156,
+   "#dee2e6": 10,
+   "#212529": 6,
+   "#714b67": 6,
+   "#005fcc": 0
+  },
+  "grep_note": "按**值** grep：#o-navbar-background 不落成 CSS 变量名（实测同名 count=0），故机制证据只能用值计数 + 产物 hash 复现。"
+ },
+ "probe_a_dom": {
+  "dropdownToggle": {
+   "count": 8,
+   "samples": [
+    {
+     "bg": "rgba(0, 0, 0, 0)",
+     "cls": "o-dropdown dropdown-toggle dropdown",
+     "tag": "BUTTON",
+     "color": "rgba(255, 255, 255, 0.9)"
+    },
+    {
+     "bg": "rgba(0, 0, 0, 0)",
+     "cls": "bg-transparent o-dropdown dropdown-toggle dropdown",
+     "tag": "BUTTON",
+     "color": "rgba(255, 255, 255, 0.9)"
+    },
+    {
+     "bg": "rgb(12, 109, 215)",
+     "cls": "o-dropdown dropdown-toggle dropdown",
+     "tag": "BUTTON",
+     "color": "rgba(255, 255, 255, 0.9)"
+    },
+    {
+     "bg": "rgba(0, 0, 0, 0)",
+     "cls": "o-dropdown dropdown-toggle dropdown",
+     "tag": "BUTTON",
+     "color": "rgba(255, 255, 255, 0.9)"
+    }
+   ],
+   "observable": true,
+   "verdict": "可读"
+  },
+  "title": "联系人",
+  "navbar": {
+   "count": 1,
+   "samples": [
+    {
+     "bg": "rgb(12, 109, 215)",
+     "cls": "o_main_navbar d-print-none",
+     "tag": "NAV",
+     "color": "rgb(94, 103, 121)"
+    }
+   ],
+   "observable": true,
+   "verdict": "可读"
+  },
+  "url": "http://127.0.0.1:8069/odoo/contacts",
+  "chip": {
+   "count": 1,
+   "samples": [
+    {
+     "bg": "rgb(113, 75, 103)",
+     "cls": "",
+     "tag": "A",
+     "color": "rgb(255, 255, 255)"
+    }
+   ],
+   "observable": true,
+   "verdict": "可读"
+  },
+  "dropdownInNavbar": {
+   "count": 5,
+   "samples": [
+    {
+     "bg": "rgba(0, 0, 0, 0)",
+     "cls": "o-dropdown dropdown-toggle dropdown",
+     "tag": "BUTTON",
+     "color": "rgba(255, 255, 255, 0.9)"
+    },
+    {
+     "bg": "rgba(0, 0, 0, 0)",
+     "cls": "bg-transparent o-dropdown dropdown-toggle dropdown",
+     "tag": "BUTTON",
+     "color": "rgba(255, 255, 255, 0.9)"
+    },
+    {
+     "bg": "rgb(12, 109, 215)",
+     "cls": "o-dropdown dropdown-toggle dropdown",
+     "tag": "BUTTON",
+     "color": "rgba(255, 255, 255, 0.9)"
+    },
+    {
+     "bg": "rgba(0, 0, 0, 0)",
+     "cls": "o-dropdown dropdown-toggle dropdown",
+     "tag": "BUTTON",
+     "color": "rgba(255, 255, 255, 0.9)"
+    }
+   ],
+   "observable": true,
+   "verdict": "可读"
+  }
+ }
+}

@@ -1,0 +1,342 @@
+/* 永约学坊品牌样式 —— 设计令牌复用旧项目 theo-edu-local/website-assets/css/covenant.css
+   作用域限定 .yylc-home / .yylc-footer，避免影响门户内页 */
+
+/* 2026-10-06：前台专用令牌 + 覆盖网站 CTA 按钮。
+   为什么需要：本站有两套色板（见 .superdesign/init/theme.md §0）——
+   A 套 --brand-action (#0C6DD7 工作台蓝) 注册在 web._assets_primary_variables，**前后台都会生效**；
+   B 套纸金只作用于 .yylc-home。结果是**公开营销页的导航 CTA「联系我们」渲染成了工作台蓝**
+   （实测 class=oe_unremovable btn btn-primary btn_cta，bg=rgb(12,109,215)），与整页金/墨/纸调性打架。
+   本文件只注册在 web.assets_frontend（见 __manifest__.py），所以这里覆盖**只影响前台**，后台工作台保持蓝。 */
+:root {
+    --yylc-gold: var(--gold-500);
+    --yylc-gold-dark: var(--gold-ink);
+    --yylc-gold-light: var(--gold-100);
+}
+.btn_cta.btn-primary {
+    background: var(--yylc-gold);
+    border-color: var(--yylc-gold);
+    color: #241d10;
+    font-weight: 600;
+}
+.btn_cta.btn-primary:hover,
+.btn_cta.btn-primary:focus {
+    background: var(--yylc-gold-dark);
+    border-color: var(--yylc-gold-dark);
+    color: #fffdf9;
+}
+
+.yylc-home {
+    --covenant-gold: var(--gold-500);
+    --gold-light: var(--gold-100);
+    --gold-dark: var(--gold-ink);   /* t111：旧 #9f8050 作 12px 正文 3.32 ✗ → 4.5 档（白底 5.12 / 纸底 4.59） */
+    --gold-deep: #7c6338;
+    --ink: #171512;
+    --paper: #f7f2eb;
+    --surface: #fffdf9;
+    --border: #e5ded4;
+    --sage: #41564f;
+    --yylc-serif: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+}
+
+/* ---- 首屏 ---- */
+.yylc-home .yylc-hero {
+    background:
+        radial-gradient(1200px 500px at 80% -10%, rgba(var(--gold-500-rgb),.25), transparent 60%),
+        linear-gradient(160deg, #171512 0%, #26384d 100%);
+    color: #f3ede1;
+    text-align: center;
+    padding: 96px 16px 104px;
+}
+.yylc-home .yylc-hero-badge {
+    display: inline-block;
+    background: rgba(255,253,249,.12);
+    border: 1px solid rgba(var(--gold-500-rgb),.55);
+    color: var(--gold-light);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 14px;
+    letter-spacing: .08em;
+}
+.yylc-home .yylc-hero-title {
+    font-family: var(--yylc-serif);
+    font-size: clamp(44px, 7vw, 76px);
+    font-weight: 700;
+    letter-spacing: .12em;
+    margin: 28px 0 8px;
+    color: #fffdf9;
+}
+.yylc-home .yylc-hero-sub {
+    letter-spacing: .35em;
+    font-size: 14px;
+    color: var(--gold-light);
+}
+.yylc-home .yylc-hero-motto {
+    margin-top: 10px;
+    letter-spacing: .22em;
+    font-size: 12px;
+    color: rgba(243,237,225,.65);
+}
+.yylc-home .yylc-hero-desc {
+    max-width: 620px;
+    margin: 26px auto 0;
+    line-height: 2;
+    color: rgba(243,237,225,.88);
+}
+.yylc-home .yylc-hero-actions { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.yylc-home .yylc-btn-gold {
+    background: linear-gradient(135deg, var(--gold-light), var(--covenant-gold) 45%, var(--gold-dark));
+    color: #241d10; font-weight: 600; border: none;
+    padding: 14px 32px; border-radius: 999px;
+    /* 2026-10-06：按稿子加金色柔光（稿子实测 rgba(200,168,112,.2) 0 10px 15px -3px） */
+    box-shadow: 0 10px 15px -3px rgba(var(--gold-500-rgb),.2), 0 4px 6px -4px rgba(var(--gold-500-rgb),.2);
+}
+.yylc-home .yylc-btn-gold:hover { filter: brightness(1.06); color: #241d10; }
+.yylc-home .yylc-btn-ghost {
+    border: 1px solid rgba(var(--gold-500-rgb),.6); color: var(--gold-light);
+    padding: 14px 32px; border-radius: 999px;
+}
+.yylc-home .yylc-btn-ghost:hover { background: rgba(var(--gold-500-rgb),.12); color: var(--gold-light); }
+
+/* ---- 区块通用 ---- */
+.yylc-home .yylc-section { background: var(--paper); padding: 72px 0 56px; }
+.yylc-home .yylc-section-alt { background: var(--surface); }
+.yylc-home .yylc-kicker { color: var(--gold-dark); letter-spacing: .3em; font-size: 12px; text-transform: uppercase; }
+.yylc-home .yylc-section-title {
+    font-family: var(--yylc-serif);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700; color: var(--ink);
+    margin: 10px 0 6px;
+}
+.yylc-home .yylc-section-sub { color: #70675e; margin-bottom: 36px; }
+.yylc-home .yylc-source { margin-top: 28px; font-size: 12px; color: #70675e; }   /* t112：旧 #a39a8d 压纸底 2.49 ✗ */
+
+/* ---- 学院卡片 ---- */
+/* 2026-10-06：按 superdesign 方向 B 稿子精修（取值由 Playwright 从生成稿**渲染结果**量出，不是照抄类名）：
+   圆角 12→16px、内边距 26×24→32px、边框改淡金 rgba(200,168,112,.2)、底改半透白 rgba(255,255,255,.6)，
+   并**去掉 3px 金色顶条**（稿子里没有，去掉后更克制）。全部限定 .yylc-home，内页 .yylc-page 不受影响。 */
+.yylc-home .yylc-card {
+    background: rgba(var(--white-rgb), .6);
+    border: 1px solid rgba(var(--gold-500-rgb), .2);
+    border-radius: 16px;
+    padding: 32px;
+    height: 100%;
+    box-shadow: 0 6px 22px rgba(23,21,18,.05);
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.yylc-home .yylc-card:hover {
+    border-color: rgba(var(--gold-500-rgb), .45);
+    box-shadow: 0 10px 26px rgba(var(--gold-500-rgb),.16);
+}
+.yylc-home .yylc-card-ic {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(var(--gold-500-rgb),.16); color: var(--gold-deep);
+    font-size: 18px; margin-bottom: 14px;
+}
+.yylc-home .yylc-card h3 { font-family: var(--yylc-serif); font-size: 20px; font-weight: 700; color: var(--ink); }
+.yylc-home .yylc-card p { color: #70675e; margin: 8px 0 0; }
+
+/* ---- 教务入口 ---- */
+.yylc-home .yylc-entry {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px;
+    color: var(--ink); text-decoration: none;
+    transition: all .18s ease;
+}
+.yylc-home .yylc-entry:hover { border-color: var(--covenant-gold); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(159,128,80,.15); color: var(--gold-deep); }
+.yylc-home .yylc-entry i { color: var(--gold-dark); font-size: 18px; }
+
+/* ---- 联系 ---- */
+.yylc-home .yylc-contact {
+    background: linear-gradient(160deg, #171512 0%, #26384d 100%);
+    color: #f3ede1; text-align: center; padding: 72px 16px 84px;
+}
+.yylc-home .yylc-contact .yylc-section-title { color: #fffdf9; }
+.yylc-home .yylc-contact-line { font-size: 17px; margin-top: 18px; }
+.yylc-home .yylc-mail { color: var(--gold-light); font-weight: 600; }
+.yylc-home .yylc-mail:hover { color: var(--white); }
+.yylc-home .yylc-contact-note { color: rgba(243,237,225,.6); font-size: 13px; margin-top: 10px; }
+
+/* ---- 页脚 ---- */
+.yylc-footer { background: #12100e !important; color: #d9d2c5; padding: 34px 0; }
+.yylc-footer .yylc-footer-inner { display: flex; align-items: center; gap: 18px; }
+.yylc-footer .yylc-footer-logo { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(var(--gold-500-rgb),.5); }
+.yylc-footer .yylc-footer-name { font-family: var(--yylc-serif); font-size: 18px; font-weight: 700; color: #f3ede1; }
+.yylc-footer .yylc-footer-en { font-size: 11px; letter-spacing: .25em; color: var(--gold-500); margin-left: 10px; }
+.yylc-footer .yylc-footer-mail a { color: #d9d2c5; text-decoration: none; }
+.yylc-footer .yylc-footer-mail a:hover { color: var(--gold-100); }
+.yylc-footer .yylc-footer-contact { margin-top: 12px; }
+.yylc-footer .yylc-footer-head { font-family: 'Noto Serif SC', 'Songti SC', Georgia, serif; font-size: 14px; letter-spacing: .12em; margin-bottom: 6px; }
+.yylc-footer .yylc-footer-head a { color: var(--gold-500); text-decoration: none; }
+.yylc-footer .yylc-footer-head a:hover { color: var(--gold-100); }
+.yylc-footer .yylc-footer-line { font-size: 13px; line-height: 1.9; }
+.yylc-footer .yylc-footer-line i { color: #9f8050; width: 18px; text-align: center; }
+.yylc-footer .yylc-footer-line a { color: #d9d2c5; text-decoration: none; }
+.yylc-footer .yylc-footer-line a:hover { color: var(--gold-100); }
+.yylc-footer .yylc-footer-copy { font-size: 12px; color: #8f867a; margin-top: 4px; }
+
+/* ==================== 登录页（2026-10-06，按 superdesign 稿落地） ====================
+   作用域用 .oe_website_login_container —— 登录页专属容器（实测是 form 的父级），
+   所以这套样式**不会外溢**到任何其它页面。
+   取值来自稿子渲染实测：卡片底 rgba(255,255,255,.8)、圆角 16px、淡金描边 rgba(200,168,112,.2)；
+   主按钮金色渐变胶囊（与首页 .yylc-btn-gold 同一语言）。
+   修的问题：① 表单挤在上半屏、下方 ~600px 纯白空；② 提交按钮与链接是 A 套工作台蓝 #0C6DD7。 */
+.oe_website_login_container {
+    background: linear-gradient(165deg, #f7f2eb 0%, #fdfaf6 55%, #f3ece1 100%);
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+}
+.oe_website_login_container main { width: 100%; max-width: 420px; }
+.oe_website_login_container form.oe_login_form {
+    width: 100%;
+    background: rgba(var(--white-rgb), .8);
+    border: 1px solid rgba(var(--gold-500-rgb), .2);
+    border-radius: 16px;
+    padding: 40px 36px 32px;
+    box-shadow: 0 18px 44px rgba(23, 21, 18, .07);
+}
+.yy-login-head { text-align: center; margin-bottom: 26px; }
+.yy-login-crest {
+    width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
+    border: 1px solid rgba(var(--gold-500-rgb), .45); margin-bottom: 12px;
+}
+.yy-login-name {
+    font-family: var(--yylc-serif);
+    font-size: 26px; font-weight: 700; color: #171512; letter-spacing: .04em;
+}
+.yy-login-sub { font-size: 13px; color: #70675e; letter-spacing: .18em; margin-top: 4px; }
+.oe_website_login_container .form-control {
+    border-color: rgba(var(--gold-500-rgb), .35);
+    border-radius: 10px;
+    padding: 11px 14px;
+}
+.oe_website_login_container .form-control:focus {
+    border-color: var(--yylc-gold);
+    box-shadow: 0 0 0 .2rem rgba(var(--gold-500-rgb), .22);
+}
+.oe_website_login_container label { color: #171512; font-weight: 600; }
+.oe_website_login_container form.oe_login_form .btn-primary {
+    background: linear-gradient(135deg, var(--gold-100), var(--gold-500) 45%, var(--gold-ink));
+    border: none; color: #241d10; font-weight: 600;
+    border-radius: 999px; padding: 14px 32px; width: 100%;
+    box-shadow: 0 10px 15px -3px rgba(var(--gold-500-rgb),.2), 0 4px 6px -4px rgba(var(--gold-500-rgb),.2);
+}
+.oe_website_login_container form.oe_login_form .btn-primary:hover { filter: brightness(1.06); color: #241d10; }
+.oe_website_login_container a,
+.oe_website_login_container .btn-link { color: var(--gold-ink); text-decoration: none; }
+.oe_website_login_container a:hover,
+.oe_website_login_container .btn-link:hover { color: #7c6338; text-decoration: underline; }
+.oe_website_login_container hr { border-color: rgba(var(--gold-500-rgb), .25); opacity: 1; }
+
+/* ---- Hero 底图（旧站庭院插画，纯 CSS 缓缩放） ---- */
+.yylc-hero { position: relative; overflow: hidden; }
+.yylc-home .yylc-hero-bg {
+    position: absolute; inset: 0;
+    background: url('/edu_brand/static/src/img/hero-courtyard-day.webp') center center / cover no-repeat;
+    animation: yylc-kenburns 26s ease-in-out infinite alternate;
+}
+.yylc-home .yylc-hero-overlay {
+    position: absolute; inset: 0;
+    background:
+        linear-gradient(180deg, rgba(23,21,18,.55) 0%, rgba(23,21,18,.35) 45%, rgba(23,21,18,.72) 100%),
+        radial-gradient(900px 400px at 50% 110%, rgba(var(--gold-500-rgb),.28), transparent 65%);
+}
+.yylc-home .yylc-hero > .container { position: relative; z-index: 1; }
+@keyframes yylc-kenburns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.09); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .yylc-home .yylc-hero-bg { animation: none; }
+}
+
+/* ---- 可点击卡片 ---- */
+.yylc-card-link { display: block; color: inherit; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.yylc-card-link:hover { transform: translateY(-3px); border-color: var(--covenant-gold); box-shadow: 0 10px 26px rgba(159,128,80,.16); }
+
+/* ---- 联系区标语（CTA 并入） ---- */
+.yylc-contact-slogan { font-size: 17px; color: rgba(243,237,225,.85); max-width: 640px; margin: 14px auto 34px; line-height: 2; }
+.yylc-contact-subhead { font-family: var(--yylc-serif); font-size: 20px; color: var(--gold-light); letter-spacing: .2em; margin-bottom: 4px; }
+
+/* ---- 内页（学院概况 / 招生信息） ---- */
+.yylc-page { background: #f7f2eb; }
+.yylc-page-head {
+    background:
+        radial-gradient(1000px 420px at 80% -20%, rgba(var(--gold-500-rgb),.22), transparent 60%),
+        linear-gradient(160deg, #171512 0%, #26384d 100%);
+    color: #fffdf9; text-align: center; padding: 64px 16px 56px;
+}
+.yylc-page .yylc-section-title { color: var(--ink); }
+.yylc-article { max-width: 860px; padding: 64px 16px 48px; }
+.yylc-article-block { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--covenant-gold); border-radius: 10px; padding: 28px 30px; margin-bottom: 22px; }
+.yylc-article-block h2 { font-family: 'Noto Serif SC', 'Songti SC', Georgia, serif; font-size: 22px; color: #171512; margin: 4px 0 14px; }
+.yylc-article-block p { color: #403a33; line-height: 2; margin-bottom: 8px; }
+.yylc-list { padding-left: 20px; color: #403a33; line-height: 2; }
+
+/* ---- 校刊网格与阅读器 ---- */
+.yylc-journal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+.yylc-journal-thumb {
+    position: relative; display: block; border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border); transition: all .18s ease; background: var(--white);
+}
+.yylc-journal-thumb:hover { border-color: var(--covenant-gold); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(159,128,80,.2); }
+.yylc-journal-thumb img { width: 100%; display: block; }
+.yylc-journal-no {
+    position: absolute; right: 6px; bottom: 6px;
+    background: rgba(23,21,18,.75); color: var(--gold-light);
+    font-size: 11px; border-radius: 4px; padding: 1px 7px;
+}
+.yylc-reader-nav { display: flex; justify-content: space-between; align-items: center; margin: 18px 0; flex-wrap: wrap; gap: 10px; }
+.yylc-reader-pos { color: #70675e; font-size: 14px; }
+.yylc-reader-stage { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 10px; }
+.yylc-reader-stage img { width: 100%; display: block; border-radius: 6px; }
+.btn.yylc-btn-ghost-dark { border: 1px solid rgba(var(--gold-500-rgb),.7); color: var(--gold-dark); border-radius: 999px; }
+.btn.yylc-btn-ghost-dark:hover { background: rgba(var(--gold-500-rgb),.12); color: var(--gold-deep); }
+
+
+/* ============ /programs 专业设置 ============ */
+.yylc-group-head { margin: 2.2rem 0 .6rem; padding-bottom: .35rem;
+  border-bottom: 1px solid rgba(var(--gold-500-rgb),.45); }
+.yylc-group-head .yylc-kicker { font-size: 1.05rem; letter-spacing: .12em; }
+.yylc-program { border: 1px solid rgba(var(--gold-500-rgb),.4); border-radius: 10px;
+  background: rgba(var(--white-rgb),.5); margin: .7rem 0; overflow: hidden; }
+.yylc-program > summary { cursor: pointer; padding: .9rem 1.1rem;
+  font-size: 1.08rem; font-weight: 600; color: #3d3325; list-style: none;
+  display: flex; align-items: center; gap: .6rem; }
+.yylc-program > summary::before { content: "▸"; color: var(--gold-500); transition: transform .2s; }
+.yylc-program[open] > summary::before { transform: rotate(90deg); }
+.yylc-program > summary::-webkit-details-marker { display: none; }
+.yylc-badge { font-size: .72rem; font-weight: 500; color: #7C6338;   /* t112：旧 #8a6d3b 压 #f4ede2 4.16 ✗ → 4.88 ✓ */
+  border: 1px solid rgba(var(--gold-500-rgb),.7); border-radius: 999px;
+  padding: .1rem .55rem; background: rgba(var(--gold-500-rgb),.14); }
+.yylc-program-body { padding: .3rem 1.2rem 1.1rem; }
+.yylc-meta { display: grid; gap: .35rem; margin: .7rem 0; }
+.yylc-meta div { display: flex; gap: .6rem; }
+.yylc-meta dt { flex: 0 0 4.5em; color: #8a6d3b; font-weight: 600; }
+.yylc-meta dd { margin: 0; }
+.yylc-note-h { font-weight: 700; color: #3d3325; margin: .9rem 0 .3rem; }
+.yylc-plan p { margin: .45rem 0; line-height: 1.85; }
+@media (prefers-reduced-motion: no-preference) {
+  .yylc-program > summary::before { transition: transform .2s; }
+}
+
+/* ============ 首页报名入学横幅 ============ */
+.yylc-apply-band { background: linear-gradient(180deg, rgba(var(--gold-500-rgb),.16), rgba(var(--gold-500-rgb),.30)); border-top: 1px solid rgba(var(--gold-500-rgb),.45); border-bottom: 1px solid rgba(var(--gold-500-rgb),.45); }
+.yylc-apply-title { font-size: 2rem; font-weight: 700; color: #3d3325; }
+.yylc-step-ic { color: #8a6d3b; }
+.yylc-apply-btn { background: #8a6d3b; border-color: #8a6d3b; color: var(--white); font-weight: 600; padding: .75rem 2.2rem; }
+.yylc-apply-btn:hover { background: #6f5630; border-color: #6f5630; color: var(--white); }
+
+/* ============ 全站语言切换悬浮器：**已删除**（2026-10-06 架构清理） ============
+   这一段原是 .yylc-lang-float / .yylc-lang-btn 两条**孤儿样式**（定义了但全仓没人用）。
+   控件的撤除是**产品裁定**、不是本次清理：2026-09-14 定「单语简体站点」，
+   撤除理由、实测数据与恢复步骤见 custom_addons/edu_brand/views/brand_templates.xml
+   里 lang_switcher_floating 原位留下的长注释（同一裁定的门户侧落点见
+   edu_portal/views/edu_portal_templates.xml 的语言切换段落）。
+   删除前的取证（2026-10-06）：全仓 grep（排除本文件与历史文档）命中 0；
+   官网 / 门户页渲染后的 HTML 里两个类名各出现 0 次。
+   将来若要恢复语言切换：本条的 git 历史里有完整规则可直接还原。 */

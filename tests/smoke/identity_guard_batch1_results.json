@@ -1,0 +1,2443 @@
+{
+ "suite": "identity_guard_batch1",
+ "db": "edu19",
+ "phases": {
+  "setup": {
+   "fixture": {
+    "s.s1": null,
+    "s.s2": null,
+    "s.s4": 479,
+    "s.s5": null,
+    "s.s8": null,
+    "s.s9": null,
+    "f.f6.salesperson": null,
+    "f.f6.users_on_partner": [
+     480
+    ],
+    "r.r10": null,
+    "r.r10.partner_salesperson": null,
+    "p.p1.salesperson": null,
+    "p.p1.users": [
+     476
+    ],
+    "p.p2.salesperson": null,
+    "p.p2.users": [
+     477
+    ],
+    "p.p3.salesperson": null,
+    "p.p3.users": [
+     478
+    ],
+    "p.p4.salesperson": null,
+    "p.p4.users": [
+     479
+    ],
+    "p.p5.salesperson": null,
+    "p.p5.users": [],
+    "p.p6.salesperson": null,
+    "p.p6.users": [
+     480
+    ],
+    "p.p7.salesperson": null,
+    "p.p7.users": [
+     481
+    ],
+    "p.p8.salesperson": null,
+    "p.p8.users": [],
+    "p.p9.salesperson": null,
+    "p.p9.users": [],
+    "p.p9u.salesperson": null,
+    "p.p9u.users": [
+     482
+    ],
+    "p.p10.salesperson": null,
+    "p.p10.users": [
+     483
+    ],
+    "p.p11.salesperson": null,
+    "p.p11.users": [
+     484
+    ],
+    "c.c1": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c4": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c8": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c10": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "reg_accounts": [],
+    "ids": {
+     "p|p1": 770,
+     "p|p2": 771,
+     "p|p3": 772,
+     "p|p4": 773,
+     "p|p5": 774,
+     "p|p6": 775,
+     "p|p7": 776,
+     "p|p8": 777,
+     "p|p9": 778,
+     "p|p9u": 779,
+     "p|p10": 780,
+     "p|p11": 781,
+     "u|u1": 476,
+     "u|u2": 477,
+     "u|u3": 478,
+     "u|u4": 479,
+     "u|u6": 480,
+     "u|u7": 481,
+     "u|u9": 482,
+     "u|u10": 483,
+     "u|u11": 484,
+     "s|s1": 311,
+     "s|s2": 312,
+     "s|s4": 313,
+     "s|s5": 314,
+     "s|s8": 315,
+     "s|s9": 316,
+     "f|f6": 207,
+     "r|r10": 148,
+     "c|c1": 219,
+     "c|c4": 222,
+     "c|c8": 220,
+     "c|c10": 221
+    },
+    "baseline_counts": {
+     "user": 19,
+     "partner": 94,
+     "student": 10,
+     "faculty": 3,
+     "parent": 2,
+     "invite": 8
+    }
+   },
+   "counts_after": {
+    "user": 19,
+    "partner": 94,
+    "student": 10,
+    "faculty": 3,
+    "parent": 2,
+    "invite": 9
+   }
+  },
+  "before": {
+   "fixture_state": {
+    "s.s1": null,
+    "s.s2": null,
+    "s.s4": 479,
+    "s.s5": null,
+    "s.s8": null,
+    "s.s9": null,
+    "f.f6.salesperson": null,
+    "f.f6.users_on_partner": [
+     480
+    ],
+    "r.r10": null,
+    "r.r10.partner_salesperson": null,
+    "p.p1.salesperson": null,
+    "p.p1.users": [
+     476
+    ],
+    "p.p2.salesperson": null,
+    "p.p2.users": [
+     477
+    ],
+    "p.p3.salesperson": null,
+    "p.p3.users": [
+     478
+    ],
+    "p.p4.salesperson": null,
+    "p.p4.users": [
+     479
+    ],
+    "p.p5.salesperson": null,
+    "p.p5.users": [],
+    "p.p6.salesperson": null,
+    "p.p6.users": [
+     480
+    ],
+    "p.p7.salesperson": null,
+    "p.p7.users": [
+     481
+    ],
+    "p.p8.salesperson": null,
+    "p.p8.users": [],
+    "p.p9.salesperson": null,
+    "p.p9.users": [],
+    "p.p9u.salesperson": null,
+    "p.p9u.users": [
+     482
+    ],
+    "p.p10.salesperson": null,
+    "p.p10.users": [
+     483
+    ],
+    "p.p11.salesperson": null,
+    "p.p11.users": [
+     484
+    ],
+    "c.c1": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c8": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c10": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "reg_accounts": [],
+    "ids": {
+     "p|p1": 770,
+     "p|p2": 771,
+     "p|p3": 772,
+     "p|p4": 773,
+     "p|p5": 774,
+     "p|p6": 775,
+     "p|p7": 776,
+     "p|p8": 777,
+     "p|p9": 778,
+     "p|p9u": 779,
+     "p|p10": 780,
+     "p|p11": 781,
+     "u|u1": 476,
+     "u|u2": 477,
+     "u|u3": 478,
+     "u|u4": 479,
+     "u|u6": 480,
+     "u|u7": 481,
+     "u|u9": 482,
+     "u|u10": 483,
+     "u|u11": 484,
+     "s|s1": 311,
+     "s|s2": 312,
+     "s|s4": 313,
+     "s|s5": 314,
+     "s|s8": 315,
+     "s|s9": 316,
+     "f|f6": 207,
+     "r|r10": 148,
+     "c|c1": 219,
+     "c|c8": 220,
+     "c|c10": 221
+    }
+   },
+   "code_verdicts": {
+    "c1": {
+     "code": "SMOKE-GUARD-A",
+     "identity": "student",
+     "profile": 311,
+     "verdict": null
+    },
+    "c8": {
+     "code": "SMOKE-GUARD-P",
+     "identity": "student",
+     "profile": 315,
+     "verdict": null
+    },
+    "c10": {
+     "code": "SMOKE-GUARD-R",
+     "identity": "parent",
+     "profile": 148,
+     "verdict": null
+    }
+   },
+   "n1": {
+    "http": {
+     "status": 303,
+     "location": "/my/home",
+     "register_page": 200,
+     "has_token": true,
+     "created": true
+    },
+    "owners": {
+     "c1": 491,
+     "c2": [
+      476,
+      491
+     ],
+     "owners": [
+      476,
+      491
+     ]
+    },
+    "resolve": {
+     "476": {
+      "student": [
+       311
+      ],
+      "faculty": [],
+      "parent": []
+     },
+     "491": {
+      "student": [
+       311
+      ],
+      "faculty": [],
+      "parent": []
+     }
+    }
+   },
+   "n5": {
+    "http": {
+     "status": 303,
+     "location": "/my/home",
+     "register_page": 200,
+     "has_token": true,
+     "created": true
+    },
+    "owners": {
+     "c1": 492,
+     "c2": [
+      483,
+      492
+     ],
+     "owners": [
+      483,
+      492
+     ]
+    }
+   },
+   "relink": {
+    "N6": {
+     "http": {
+      "status": 303,
+      "location": "/edu/backend/relink_identity?ok=1&skip=0",
+      "form_page": 200,
+      "has_token": true,
+      "ok": "1",
+      "skip": "0"
+     },
+     "owners": {
+      "c1": 478,
+      "c2": [
+       477
+      ],
+      "owners": [
+       477,
+       478
+      ]
+     },
+     "held": {
+      "478": {
+       "student": [
+        312
+       ],
+       "faculty": [],
+       "parent": []
+      }
+     },
+     "role": "student",
+     "pid": 312,
+     "uid": 478
+    },
+    "N7": {
+     "http": {
+      "status": 303,
+      "location": "/edu/backend/relink_identity?ok=1&skip=0",
+      "form_page": 200,
+      "has_token": true,
+      "ok": "1",
+      "skip": "0"
+     },
+     "owners": {
+      "c1": 479,
+      "c2": [],
+      "owners": [
+       479
+      ]
+     },
+     "held": {
+      "479": {
+       "student": [
+        313
+       ],
+       "faculty": [],
+       "parent": []
+      }
+     },
+     "role": "student",
+     "pid": 314,
+     "uid": 479
+    },
+    "N8": {
+     "http": {
+      "status": 303,
+      "location": "/edu/backend/relink_identity?ok=1&skip=0",
+      "form_page": 200,
+      "has_token": true,
+      "ok": "1",
+      "skip": "0"
+     },
+     "owners": {
+      "c1": 481,
+      "c2": [
+       480
+      ],
+      "owners": [
+       480,
+       481
+      ]
+     },
+     "held": {
+      "481": {
+       "student": [],
+       "faculty": [
+        207
+       ],
+       "parent": []
+      }
+     },
+     "role": "faculty",
+     "pid": 207,
+     "uid": 481
+    }
+   },
+   "positive_reg": {
+    "http": {
+     "status": 303,
+     "location": "/my/home",
+     "register_page": 200,
+     "has_token": true,
+     "created": true
+    },
+    "owners": {
+     "c1": 493,
+     "c2": [
+      493
+     ],
+     "owners": [
+      493
+     ]
+    }
+   },
+   "positive_relink": {
+    "http": {
+     "status": 303,
+     "location": "/edu/backend/relink_identity?ok=1&skip=0",
+     "form_page": 200,
+     "has_token": true,
+     "ok": "1",
+     "skip": "0"
+    },
+    "owners": {
+     "c1": 482,
+     "c2": [],
+     "owners": [
+      482
+     ]
+    }
+   },
+   "positive_relink_again": {
+    "http": {
+     "status": 303,
+     "location": "/edu/backend/relink_identity?ok=1&skip=0",
+     "form_page": 200,
+     "has_token": true,
+     "ok": "1",
+     "skip": "0"
+    }
+   },
+   "existing_matrix": {
+    "__system__": {},
+    "admin": {},
+    "public": {},
+    "portaltemplate": {},
+    "parentportaltemplate": {},
+    "stu@local": {
+     "student": [
+      5
+     ]
+    },
+    "fac@local": {},
+    "parent@local": {
+     "parent": [
+      2
+     ]
+    },
+    "faculty@local": {
+     "faculty": [
+      17
+     ]
+    },
+    "backoffice@local": {}
+   },
+   "existing_profiles": {
+    "student:5": [
+     8
+    ],
+    "student:7": [],
+    "student:8": [],
+    "student:9": [],
+    "student:311": [
+     476
+    ],
+    "student:312": [
+     477
+    ],
+    "student:313": [
+     479
+    ],
+    "student:314": [],
+    "student:315": [],
+    "student:316": [],
+    "faculty:17": [
+     11
+    ],
+    "faculty:43": [],
+    "faculty:207": [
+     480
+    ],
+    "parent:2": [
+     10
+    ],
+    "parent:148": [
+     483
+    ]
+   },
+   "guard_matrix": {
+    "error": "ImportError(\"cannot import name 'relink_guard_reason' from 'odoo.addons.edu_portal.controllers.contacts' (/mnt/custom-addons/edu_portal/controllers/contacts.py)\")"
+   },
+   "pristine_end": {
+    "s.s1": null,
+    "s.s2": null,
+    "s.s4": 479,
+    "s.s5": null,
+    "s.s8": null,
+    "s.s9": null,
+    "f.f6.salesperson": null,
+    "f.f6.users_on_partner": [
+     480
+    ],
+    "r.r10": null,
+    "r.r10.partner_salesperson": null,
+    "p.p1.salesperson": null,
+    "p.p1.users": [
+     476
+    ],
+    "p.p2.salesperson": null,
+    "p.p2.users": [
+     477
+    ],
+    "p.p3.salesperson": null,
+    "p.p3.users": [
+     478
+    ],
+    "p.p4.salesperson": null,
+    "p.p4.users": [
+     479
+    ],
+    "p.p5.salesperson": null,
+    "p.p5.users": [],
+    "p.p6.salesperson": null,
+    "p.p6.users": [
+     480
+    ],
+    "p.p7.salesperson": null,
+    "p.p7.users": [
+     481
+    ],
+    "p.p8.salesperson": null,
+    "p.p8.users": [],
+    "p.p9.salesperson": null,
+    "p.p9.users": [],
+    "p.p9u.salesperson": null,
+    "p.p9u.users": [
+     482
+    ],
+    "p.p10.salesperson": null,
+    "p.p10.users": [
+     483
+    ],
+    "p.p11.salesperson": null,
+    "p.p11.users": [
+     484
+    ],
+    "c.c1": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c8": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c10": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "reg_accounts": [],
+    "ids": {
+     "p|p1": 770,
+     "p|p2": 771,
+     "p|p3": 772,
+     "p|p4": 773,
+     "p|p5": 774,
+     "p|p6": 775,
+     "p|p7": 776,
+     "p|p8": 777,
+     "p|p9": 778,
+     "p|p9u": 779,
+     "p|p10": 780,
+     "p|p11": 781,
+     "u|u1": 476,
+     "u|u2": 477,
+     "u|u3": 478,
+     "u|u4": 479,
+     "u|u6": 480,
+     "u|u7": 481,
+     "u|u9": 482,
+     "u|u10": 483,
+     "u|u11": 484,
+     "s|s1": 311,
+     "s|s2": 312,
+     "s|s4": 313,
+     "s|s5": 314,
+     "s|s8": 315,
+     "s|s9": 316,
+     "f|f6": 207,
+     "r|r10": 148,
+     "c|c1": 219,
+     "c|c8": 220,
+     "c|c10": 221
+    }
+   }
+  },
+  "after": {
+   "fixture_state": {
+    "s.s1": null,
+    "s.s2": null,
+    "s.s4": 479,
+    "s.s5": null,
+    "s.s8": null,
+    "s.s9": null,
+    "f.f6.salesperson": null,
+    "f.f6.users_on_partner": [
+     480
+    ],
+    "r.r10": null,
+    "r.r10.partner_salesperson": null,
+    "p.p1.salesperson": null,
+    "p.p1.users": [
+     476
+    ],
+    "p.p2.salesperson": null,
+    "p.p2.users": [
+     477
+    ],
+    "p.p3.salesperson": null,
+    "p.p3.users": [
+     478
+    ],
+    "p.p4.salesperson": null,
+    "p.p4.users": [
+     479
+    ],
+    "p.p5.salesperson": null,
+    "p.p5.users": [],
+    "p.p6.salesperson": null,
+    "p.p6.users": [
+     480
+    ],
+    "p.p7.salesperson": null,
+    "p.p7.users": [
+     481
+    ],
+    "p.p8.salesperson": null,
+    "p.p8.users": [],
+    "p.p9.salesperson": null,
+    "p.p9.users": [],
+    "p.p9u.salesperson": null,
+    "p.p9u.users": [
+     482
+    ],
+    "p.p10.salesperson": null,
+    "p.p10.users": [
+     483
+    ],
+    "p.p11.salesperson": null,
+    "p.p11.users": [
+     484
+    ],
+    "c.c1": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c4": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c8": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c10": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "reg_accounts": [],
+    "ids": {
+     "p|p1": 770,
+     "p|p2": 771,
+     "p|p3": 772,
+     "p|p4": 773,
+     "p|p5": 774,
+     "p|p6": 775,
+     "p|p7": 776,
+     "p|p8": 777,
+     "p|p9": 778,
+     "p|p9u": 779,
+     "p|p10": 780,
+     "p|p11": 781,
+     "u|u1": 476,
+     "u|u2": 477,
+     "u|u3": 478,
+     "u|u4": 479,
+     "u|u6": 480,
+     "u|u7": 481,
+     "u|u9": 482,
+     "u|u10": 483,
+     "u|u11": 484,
+     "s|s1": 311,
+     "s|s2": 312,
+     "s|s4": 313,
+     "s|s5": 314,
+     "s|s8": 315,
+     "s|s9": 316,
+     "f|f6": 207,
+     "r|r10": 148,
+     "c|c1": 219,
+     "c|c4": 222,
+     "c|c8": 220,
+     "c|c10": 221
+    }
+   },
+   "code_verdicts": {
+    "c1": {
+     "code": "SMOKE-GUARD-A",
+     "identity": "student",
+     "profile": 311,
+     "verdict": "该邀请码对应的人员已绑定其他账号，请向管理员重新索取"
+    },
+    "c4": {
+     "code": "SMOKE-GUARD-B",
+     "identity": "student",
+     "profile": 313,
+     "verdict": "该邀请码对应的人员已绑定其他账号，请向管理员重新索取"
+    },
+    "c8": {
+     "code": "SMOKE-GUARD-P",
+     "identity": "student",
+     "profile": 315,
+     "verdict": null
+    },
+    "c10": {
+     "code": "SMOKE-GUARD-R",
+     "identity": "parent",
+     "profile": 148,
+     "verdict": "该邀请码对应的人员已绑定其他账号，请向管理员重新索取"
+    }
+   },
+   "n1": {
+    "http": {
+     "status": 303,
+     "location": "/register?error=该邀请码对应的人员已绑定其他账号，请向管理员重新索取&email=smoke_guard_reg1@example.invalid&code=SMOKE-GUARD-A&name=冒烟抢绑甲",
+     "register_page": 200,
+     "has_token": true,
+     "created": false
+    },
+    "owners": {
+     "c1": null,
+     "c2": [
+      476
+     ],
+     "owners": [
+      476
+     ]
+    },
+    "resolve": {
+     "476": {
+      "student": [
+       311
+      ],
+      "faculty": [],
+      "parent": []
+     }
+    }
+   },
+   "n5": {
+    "http": {
+     "status": 303,
+     "location": "/register?error=该邀请码对应的人员已绑定其他账号，请向管理员重新索取&email=smoke_guard_reg5@example.invalid&code=SMOKE-GUARD-R&name=冒烟抢绑家长",
+     "register_page": 200,
+     "has_token": true,
+     "created": false
+    },
+    "owners": {
+     "c1": null,
+     "c2": [
+      483
+     ],
+     "owners": [
+      483
+     ]
+    }
+   },
+   "relink": {
+    "N6": {
+     "http": {
+      "status": 303,
+      "location": "/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:478:student:312:该人员已绑定其他账号（smoke_guard_b@local），请先在后台解绑后再挂接",
+      "form_page": 200,
+      "has_token": true,
+      "ok": "0",
+      "skip": "1",
+      "dbg": "linked-skip:478:student:312:该人员已绑定其他账号（smoke_guard_b@local），请先在后台解绑后再挂接"
+     },
+     "owners": {
+      "c1": null,
+      "c2": [
+       477
+      ],
+      "owners": [
+       477
+      ]
+     },
+     "held": {
+      "478": {
+       "student": [],
+       "faculty": [],
+       "parent": []
+      }
+     },
+     "role": "student",
+     "pid": 312,
+     "uid": 478
+    },
+    "N7": {
+     "http": {
+      "status": 303,
+      "location": "/edu/backend/relink_identity?ok=0&skip=1&dbg=user-taken-skip:479:student:314:该账号已挂接其他身份档案（op.student#313），一个账号只能挂一份档案",
+      "form_page": 200,
+      "has_token": true,
+      "ok": "0",
+      "skip": "1",
+      "dbg": "user-taken-skip:479:student:314:该账号已挂接其他身份档案（op.student#313），一个账号只能挂一份档案"
+     },
+     "owners": {
+      "c1": null,
+      "c2": [],
+      "owners": []
+     },
+     "held": {
+      "479": {
+       "student": [
+        313
+       ],
+       "faculty": [],
+       "parent": []
+      }
+     },
+     "role": "student",
+     "pid": 314,
+     "uid": 479
+    },
+    "N8": {
+     "http": {
+      "status": 303,
+      "location": "/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:481:faculty:207:该人员已绑定其他账号（smoke_guard_e@local），请先在后台解绑后再挂接",
+      "form_page": 200,
+      "has_token": true,
+      "ok": "0",
+      "skip": "1",
+      "dbg": "linked-skip:481:faculty:207:该人员已绑定其他账号（smoke_guard_e@local），请先在后台解绑后再挂接"
+     },
+     "owners": {
+      "c1": null,
+      "c2": [
+       480
+      ],
+      "owners": [
+       480
+      ]
+     },
+     "held": {
+      "481": {
+       "student": [],
+       "faculty": [],
+       "parent": []
+      }
+     },
+     "role": "faculty",
+     "pid": 207,
+     "uid": 481
+    }
+   },
+   "relink_chain1_control": {
+    "status": 303,
+    "location": "/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:478:student:313:该人员已绑定其他账号（smoke_guard_d@local），请先在后台解绑后再挂接",
+    "form_page": 200,
+    "has_token": true,
+    "ok": "0",
+    "skip": "1",
+    "dbg": "linked-skip:478:student:313:该人员已绑定其他账号（smoke_guard_d@local），请先在后台解绑后再挂接"
+   },
+   "positive_reg": {
+    "http": {
+     "status": 303,
+     "location": "/my/home",
+     "register_page": 200,
+     "has_token": true,
+     "created": true
+    },
+    "owners": {
+     "c1": 499,
+     "c2": [
+      499
+     ],
+     "owners": [
+      499
+     ]
+    }
+   },
+   "positive_relink": {
+    "http": {
+     "status": 303,
+     "location": "/edu/backend/relink_identity?ok=1&skip=0",
+     "form_page": 200,
+     "has_token": true,
+     "ok": "1",
+     "skip": "0"
+    },
+    "owners": {
+     "c1": 482,
+     "c2": [],
+     "owners": [
+      482
+     ]
+    }
+   },
+   "positive_relink_again": {
+    "http": {
+     "status": 303,
+     "location": "/edu/backend/relink_identity?ok=1&skip=0",
+     "form_page": 200,
+     "has_token": true,
+     "ok": "1",
+     "skip": "0"
+    }
+   },
+   "existing_matrix": {
+    "__system__": {},
+    "admin": {},
+    "public": {},
+    "portaltemplate": {},
+    "parentportaltemplate": {},
+    "stu@local": {
+     "student": [
+      5
+     ]
+    },
+    "fac@local": {},
+    "parent@local": {
+     "parent": [
+      2
+     ]
+    },
+    "faculty@local": {
+     "faculty": [
+      17
+     ]
+    },
+    "backoffice@local": {}
+   },
+   "existing_profiles": {
+    "student:5": [
+     8
+    ],
+    "student:7": [],
+    "student:8": [],
+    "student:9": [],
+    "student:311": [
+     476
+    ],
+    "student:312": [
+     477
+    ],
+    "student:313": [
+     479
+    ],
+    "student:314": [],
+    "student:315": [],
+    "student:316": [],
+    "faculty:17": [
+     11
+    ],
+    "faculty:43": [],
+    "faculty:207": [
+     480
+    ],
+    "parent:2": [
+     10
+    ],
+    "parent:148": [
+     483
+    ]
+   },
+   "guard_matrix": {
+    "rows": [
+     [
+      "parent@local",
+      "parent",
+      2,
+      null
+     ],
+     [
+      "stu@local",
+      "student",
+      5,
+      null
+     ],
+     [
+      "faculty@local",
+      "faculty",
+      17,
+      null
+     ]
+    ],
+    "multi": []
+   },
+   "monotonicity": {
+    "pairs": 285,
+    "lost": [],
+    "added": [
+     [
+      "admin",
+      "student",
+      311
+     ],
+     [
+      "admin",
+      "student",
+      312
+     ],
+     [
+      "admin",
+      "faculty",
+      207
+     ],
+     [
+      "admin",
+      "parent",
+      148
+     ],
+     [
+      "parentportaltemplate",
+      "student",
+      311
+     ],
+     [
+      "parentportaltemplate",
+      "student",
+      312
+     ],
+     [
+      "parentportaltemplate",
+      "faculty",
+      207
+     ],
+     [
+      "parentportaltemplate",
+      "parent",
+      148
+     ],
+     [
+      "portaltemplate",
+      "student",
+      311
+     ],
+     [
+      "portaltemplate",
+      "student",
+      312
+     ],
+     [
+      "portaltemplate",
+      "faculty",
+      207
+     ],
+     [
+      "portaltemplate",
+      "parent",
+      148
+     ],
+     [
+      "smoke_guard_d@local",
+      "student",
+      7
+     ],
+     [
+      "smoke_guard_d@local",
+      "student",
+      8
+     ],
+     [
+      "smoke_guard_d@local",
+      "student",
+      9
+     ],
+     [
+      "smoke_guard_d@local",
+      "student",
+      311
+     ],
+     [
+      "smoke_guard_d@local",
+      "student",
+      312
+     ],
+     [
+      "smoke_guard_d@local",
+      "student",
+      314
+     ],
+     [
+      "smoke_guard_d@local",
+      "student",
+      315
+     ],
+     [
+      "smoke_guard_d@local",
+      "student",
+      316
+     ],
+     [
+      "smoke_guard_d@local",
+      "faculty",
+      43
+     ],
+     [
+      "smoke_guard_d@local",
+      "faculty",
+      207
+     ],
+     [
+      "smoke_guard_d@local",
+      "parent",
+      148
+     ],
+     [
+      "smoke_guard_b@local",
+      "student",
+      7
+     ],
+     [
+      "smoke_guard_b@local",
+      "student",
+      8
+     ],
+     [
+      "smoke_guard_b@local",
+      "student",
+      9
+     ],
+     [
+      "smoke_guard_b@local",
+      "student",
+      311
+     ],
+     [
+      "smoke_guard_b@local",
+      "student",
+      314
+     ],
+     [
+      "smoke_guard_b@local",
+      "student",
+      315
+     ],
+     [
+      "smoke_guard_b@local",
+      "student",
+      316
+     ],
+     [
+      "smoke_guard_b@local",
+      "faculty",
+      43
+     ],
+     [
+      "smoke_guard_b@local",
+      "faculty",
+      207
+     ],
+     [
+      "smoke_guard_b@local",
+      "parent",
+      148
+     ],
+     [
+      "smoke_guard_a@local",
+      "student",
+      7
+     ],
+     [
+      "smoke_guard_a@local",
+      "student",
+      8
+     ],
+     [
+      "smoke_guard_a@local",
+      "student",
+      9
+     ],
+     [
+      "smoke_guard_a@local",
+      "student",
+      312
+     ],
+     [
+      "smoke_guard_a@local",
+      "student",
+      314
+     ],
+     [
+      "smoke_guard_a@local",
+      "student",
+      315
+     ],
+     [
+      "smoke_guard_a@local",
+      "student",
+      316
+     ],
+     [
+      "smoke_guard_a@local",
+      "faculty",
+      43
+     ],
+     [
+      "smoke_guard_a@local",
+      "faculty",
+      207
+     ],
+     [
+      "smoke_guard_a@local",
+      "parent",
+      148
+     ],
+     [
+      "smoke_guard_h@local",
+      "student",
+      7
+     ],
+     [
+      "smoke_guard_h@local",
+      "student",
+      8
+     ],
+     [
+      "smoke_guard_h@local",
+      "student",
+      9
+     ],
+     [
+      "smoke_guard_h@local",
+      "student",
+      311
+     ],
+     [
+      "smoke_guard_h@local",
+      "student",
+      312
+     ],
+     [
+      "smoke_guard_h@local",
+      "student",
+      314
+     ],
+     [
+      "smoke_guard_h@local",
+      "student",
+      315
+     ],
+     [
+      "smoke_guard_h@local",
+      "student",
+      316
+     ],
+     [
+      "smoke_guard_h@local",
+      "faculty",
+      43
+     ],
+     [
+      "smoke_guard_h@local",
+      "faculty",
+      207
+     ],
+     [
+      "smoke_guard_i@local",
+      "student",
+      311
+     ],
+     [
+      "smoke_guard_i@local",
+      "student",
+      312
+     ],
+     [
+      "smoke_guard_i@local",
+      "faculty",
+      207
+     ],
+     [
+      "smoke_guard_i@local",
+      "parent",
+      148
+     ],
+     [
+      "smoke_guard_c@local",
+      "student",
+      311
+     ],
+     [
+      "smoke_guard_c@local",
+      "student",
+      312
+     ],
+     [
+      "smoke_guard_c@local",
+      "faculty",
+      207
+     ],
+     [
+      "smoke_guard_c@local",
+      "parent",
+      148
+     ],
+     [
+      "smoke_guard_f@local",
+      "student",
+      311
+     ],
+     [
+      "smoke_guard_f@local",
+      "student",
+      312
+     ],
+     [
+      "smoke_guard_f@local",
+      "faculty",
+      207
+     ],
+     [
+      "smoke_guard_f@local",
+      "parent",
+      148
+     ],
+     [
+      "smoke_guard_e@local",
+      "student",
+      7
+     ],
+     [
+      "smoke_guard_e@local",
+      "student",
+      8
+     ],
+     [
+      "smoke_guard_e@local",
+      "student",
+      9
+     ],
+     [
+      "smoke_guard_e@local",
+      "student",
+      311
+     ],
+     [
+      "smoke_guard_e@local",
+      "student",
+      312
+     ],
+     [
+      "smoke_guard_e@local",
+      "student",
+      314
+     ],
+     [
+      "smoke_guard_e@local",
+      "student",
+      315
+     ],
+     [
+      "smoke_guard_e@local",
+      "student",
+      316
+     ],
+     [
+      "smoke_guard_e@local",
+      "faculty",
+      43
+     ],
+     [
+      "smoke_guard_e@local",
+      "parent",
+      148
+     ],
+     [
+      "smoke_guard_g@local",
+      "student",
+      311
+     ],
+     [
+      "smoke_guard_g@local",
+      "student",
+      312
+     ],
+     [
+      "smoke_guard_g@local",
+      "faculty",
+      207
+     ],
+     [
+      "smoke_guard_g@local",
+      "parent",
+      148
+     ],
+     [
+      "public",
+      "student",
+      311
+     ],
+     [
+      "public",
+      "student",
+      312
+     ],
+     [
+      "public",
+      "faculty",
+      207
+     ],
+     [
+      "public",
+      "parent",
+      148
+     ],
+     [
+      "parent@local",
+      "student",
+      7
+     ],
+     [
+      "parent@local",
+      "student",
+      8
+     ],
+     [
+      "parent@local",
+      "student",
+      9
+     ],
+     [
+      "parent@local",
+      "student",
+      311
+     ],
+     [
+      "parent@local",
+      "student",
+      312
+     ],
+     [
+      "parent@local",
+      "student",
+      314
+     ],
+     [
+      "parent@local",
+      "student",
+      315
+     ],
+     [
+      "parent@local",
+      "student",
+      316
+     ],
+     [
+      "parent@local",
+      "faculty",
+      43
+     ],
+     [
+      "parent@local",
+      "faculty",
+      207
+     ],
+     [
+      "parent@local",
+      "parent",
+      148
+     ],
+     [
+      "backoffice@local",
+      "student",
+      311
+     ],
+     [
+      "backoffice@local",
+      "student",
+      312
+     ],
+     [
+      "backoffice@local",
+      "faculty",
+      207
+     ],
+     [
+      "backoffice@local",
+      "parent",
+      148
+     ],
+     [
+      "fac@local",
+      "student",
+      311
+     ],
+     [
+      "fac@local",
+      "student",
+      312
+     ],
+     [
+      "fac@local",
+      "faculty",
+      207
+     ],
+     [
+      "fac@local",
+      "parent",
+      148
+     ],
+     [
+      "stu@local",
+      "student",
+      7
+     ],
+     [
+      "stu@local",
+      "student",
+      8
+     ],
+     [
+      "stu@local",
+      "student",
+      9
+     ],
+     [
+      "stu@local",
+      "student",
+      311
+     ],
+     [
+      "stu@local",
+      "student",
+      312
+     ],
+     [
+      "stu@local",
+      "student",
+      314
+     ],
+     [
+      "stu@local",
+      "student",
+      315
+     ],
+     [
+      "stu@local",
+      "student",
+      316
+     ],
+     [
+      "stu@local",
+      "faculty",
+      43
+     ],
+     [
+      "stu@local",
+      "faculty",
+      207
+     ],
+     [
+      "stu@local",
+      "parent",
+      148
+     ],
+     [
+      "__system__",
+      "student",
+      311
+     ],
+     [
+      "__system__",
+      "student",
+      312
+     ],
+     [
+      "__system__",
+      "faculty",
+      207
+     ],
+     [
+      "__system__",
+      "parent",
+      148
+     ],
+     [
+      "faculty@local",
+      "student",
+      7
+     ],
+     [
+      "faculty@local",
+      "student",
+      8
+     ],
+     [
+      "faculty@local",
+      "student",
+      9
+     ],
+     [
+      "faculty@local",
+      "student",
+      311
+     ],
+     [
+      "faculty@local",
+      "student",
+      312
+     ],
+     [
+      "faculty@local",
+      "student",
+      314
+     ],
+     [
+      "faculty@local",
+      "student",
+      315
+     ],
+     [
+      "faculty@local",
+      "student",
+      316
+     ],
+     [
+      "faculty@local",
+      "faculty",
+      43
+     ],
+     [
+      "faculty@local",
+      "faculty",
+      207
+     ],
+     [
+      "faculty@local",
+      "parent",
+      148
+     ]
+    ],
+    "code_lost": [],
+    "code_added": [
+     [
+      "c1",
+      "SMOKE-GUARD-A"
+     ],
+     [
+      "c10",
+      "SMOKE-GUARD-R"
+     ]
+    ],
+    "fn": true
+   },
+   "pristine_end": {
+    "s.s1": null,
+    "s.s2": null,
+    "s.s4": 479,
+    "s.s5": null,
+    "s.s8": null,
+    "s.s9": null,
+    "f.f6.salesperson": null,
+    "f.f6.users_on_partner": [
+     480
+    ],
+    "r.r10": null,
+    "r.r10.partner_salesperson": null,
+    "p.p1.salesperson": null,
+    "p.p1.users": [
+     476
+    ],
+    "p.p2.salesperson": null,
+    "p.p2.users": [
+     477
+    ],
+    "p.p3.salesperson": null,
+    "p.p3.users": [
+     478
+    ],
+    "p.p4.salesperson": null,
+    "p.p4.users": [
+     479
+    ],
+    "p.p5.salesperson": null,
+    "p.p5.users": [],
+    "p.p6.salesperson": null,
+    "p.p6.users": [
+     480
+    ],
+    "p.p7.salesperson": null,
+    "p.p7.users": [
+     481
+    ],
+    "p.p8.salesperson": null,
+    "p.p8.users": [],
+    "p.p9.salesperson": null,
+    "p.p9.users": [],
+    "p.p9u.salesperson": null,
+    "p.p9u.users": [
+     482
+    ],
+    "p.p10.salesperson": null,
+    "p.p10.users": [
+     483
+    ],
+    "p.p11.salesperson": null,
+    "p.p11.users": [
+     484
+    ],
+    "c.c1": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c4": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c8": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "c.c10": [
+     "unused",
+     0,
+     null,
+     null
+    ],
+    "reg_accounts": [],
+    "ids": {
+     "p|p1": 770,
+     "p|p2": 771,
+     "p|p3": 772,
+     "p|p4": 773,
+     "p|p5": 774,
+     "p|p6": 775,
+     "p|p7": 776,
+     "p|p8": 777,
+     "p|p9": 778,
+     "p|p9u": 779,
+     "p|p10": 780,
+     "p|p11": 781,
+     "u|u1": 476,
+     "u|u2": 477,
+     "u|u3": 478,
+     "u|u4": 479,
+     "u|u6": 480,
+     "u|u7": 481,
+     "u|u9": 482,
+     "u|u10": 483,
+     "u|u11": 484,
+     "s|s1": 311,
+     "s|s2": 312,
+     "s|s4": 313,
+     "s|s5": 314,
+     "s|s8": 315,
+     "s|s9": 316,
+     "f|f6": 207,
+     "r|r10": 148,
+     "c|c1": 219,
+     "c|c4": 222,
+     "c|c8": 220,
+     "c|c10": 221
+    }
+   }
+  },
+  "teardown": {
+   "pre_counts": {
+    "user": 19,
+    "partner": 94,
+    "student": 10,
+    "faculty": 3,
+    "parent": 2,
+    "invite": 9
+   },
+   "after_counts": {
+    "user": 10,
+    "partner": 82,
+    "student": 4,
+    "faculty": 2,
+    "parent": 1,
+    "invite": 5
+   },
+   "delta": {
+    "invite": [
+     9,
+     4,
+     4
+    ],
+    "parent": [
+     2,
+     1,
+     1
+    ],
+    "student": [
+     10,
+     6,
+     6
+    ],
+    "faculty": [
+     3,
+     1,
+     1
+    ],
+    "user": [
+     19,
+     9,
+     9
+    ],
+    "partner": [
+     94,
+     12,
+     12
+    ]
+   },
+   "left": {
+    "users": [],
+    "partners_by_ref": [],
+    "partners_by_name": [],
+    "codes": [],
+    "students": [],
+    "faculty": [],
+    "parents": []
+   }
+  }
+ },
+ "checks": [
+  {
+   "no": "R1",
+   "name": "[before] 夹具已复位（负向探针的写入全部撤销）",
+   "pass": true,
+   "detail": "异常项=[] 注册残留=[]",
+   "phase": "before"
+  },
+  {
+   "no": "B0",
+   "name": "[before] 两处仍只查链①（公共 helper 尚未接入）",
+   "pass": true,
+   "detail": "{\"invite_imports_identity\": false, \"invite_uses_users_of_profile\": false, \"invite_old_guard_present\": true, \"contacts_imports_identity\": false, \"contacts_uses_users_of_profile\": false, \"contacts_uses_profile_of_user\": false, \"contacts_old_guard_present\": true, \"contacts_guard_fn_present\": false}",
+   "phase": "before"
+  },
+  {
+   "no": "B1",
+   "name": "[before] 复现①：学生甲已被账号 u1（链②）占用，绑人码仍判「可注册」",
+   "pass": true,
+   "detail": "{\"code\": \"SMOKE-GUARD-A\", \"identity\": \"student\", \"profile\": 311, \"verdict\": null}",
+   "phase": "before"
+  },
+  {
+   "no": "B1b",
+   "name": "[before] 复现①-对称：家长子已被账号 u10（链②）占用，同样判「可注册」",
+   "pass": true,
+   "detail": "{\"code\": \"SMOKE-GUARD-R\", \"identity\": \"parent\", \"profile\": 148, \"verdict\": null}",
+   "phase": "before"
+  },
+  {
+   "no": "B1c",
+   "name": "[before] 对照：空闲档案（学生辛）本就该放行",
+   "pass": true,
+   "detail": "{\"code\": \"SMOKE-GUARD-P\", \"identity\": \"student\", \"profile\": 315, \"verdict\": null}",
+   "phase": "before"
+  },
+  {
+   "no": "B2",
+   "name": "[before] 复现①落地：注册真的建出第二个账号，学生甲被两个账号同时占用",
+   "pass": true,
+   "detail": "location=/my/home owners={'c1': 491, 'c2': [476, 491], 'owners': [476, 491]}",
+   "phase": "before"
+  },
+  {
+   "no": "B3",
+   "name": "[before] 身份被抢：u1 与新建账号**都**解析出学生甲",
+   "pass": true,
+   "detail": "{\"476\": {\"student\": [311], \"faculty\": [], \"parent\": []}, \"491\": {\"student\": [311], \"faculty\": [], \"parent\": []}}",
+   "phase": "before"
+  },
+  {
+   "no": "B4",
+   "name": "[before] 复现①-家长分支：注册建出第二个账号，家长档案被两个账号占用",
+   "pass": true,
+   "detail": "location=/my/home owners={'c1': 492, 'c2': [483, 492], 'owners': [483, 492]}",
+   "phase": "before"
+  },
+  {
+   "no": "B56",
+   "name": "[before] 复现②：relink|学生乙已被 u2（链②）占用，u3 来抢 —— 守卫放行并真的写库",
+   "pass": true,
+   "detail": "{\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=1&skip=0\", \"form_page\": 200, \"has_token\": true, \"ok\": \"1\", \"skip\": \"0\"}",
+   "phase": "before"
+  },
+  {
+   "no": "B57",
+   "name": "[before] 复现②：relink|u4 已挂学生丁，再挂学生戊（一个账号挂两份档案） —— 守卫放行并真的写库",
+   "pass": true,
+   "detail": "{\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=1&skip=0\", \"form_page\": 200, \"has_token\": true, \"ok\": \"1\", \"skip\": \"0\"}",
+   "phase": "before"
+  },
+  {
+   "no": "B58",
+   "name": "[before] 复现②：relink|教师己已被 u6（链②）占用，u7 来抢 —— 守卫放行并真的写库",
+   "pass": true,
+   "detail": "{\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=1&skip=0\", \"form_page\": 200, \"has_token\": true, \"ok\": \"1\", \"skip\": \"0\"}",
+   "phase": "before"
+  },
+  {
+   "no": "B6",
+   "name": "[before] 身份被抢：学生乙的 owner 变成 {u2, u3} 两个账号",
+   "pass": true,
+   "detail": "{\"c1\": 478, \"c2\": [477], \"owners\": [477, 478]}",
+   "phase": "before"
+  },
+  {
+   "no": "B7",
+   "name": "[before] 一人多绑：u4 既占用学生丁、又占用了学生戊",
+   "pass": true,
+   "detail": "{\"s4\": {\"c1\": 479, \"c2\": [479], \"owners\": [479]}, \"s5\": {\"c1\": 479, \"c2\": [], \"owners\": [479]}}",
+   "phase": "before"
+  },
+  {
+   "no": "B8",
+   "name": "[before] 教师被抢：教师己的 owner 变成 {u6, u7} 两个账号",
+   "pass": true,
+   "detail": "{\"c1\": 481, \"c2\": [480], \"owners\": [480, 481]}",
+   "phase": "before"
+  },
+  {
+   "no": "P1",
+   "name": "正向用例：空闲档案的正常注册仍然成功（账号建出、档案挂上）",
+   "pass": true,
+   "detail": "location=/my/home owners={'c1': 493, 'c2': [493], 'owners': [493]}",
+   "phase": "before"
+  },
+  {
+   "no": "P2",
+   "name": "正向用例：空闲账号 ← 空闲档案的补挂仍然成功",
+   "pass": true,
+   "detail": "{\"http\": {\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=1&skip=0\", \"form_page\": 200, \"has_token\": true, \"ok\": \"1\", \"skip\": \"0\"}, \"owners\": {\"c1\": 482, \"c2\": [], \"owners\": [482]}}",
+   "phase": "before"
+  },
+  {
+   "no": "P3",
+   "name": "正向用例：重发**同一**绑定仍是成功（守卫不误伤幂等重存）",
+   "pass": true,
+   "detail": "{\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=1&skip=0\", \"form_page\": 200, \"has_token\": true, \"ok\": \"1\", \"skip\": \"0\"}",
+   "phase": "before"
+  },
+  {
+   "no": "R1",
+   "name": "[before|end] 夹具已复位（负向探针的写入全部撤销）",
+   "pass": true,
+   "detail": "异常项=[] 注册残留=[]",
+   "phase": "before"
+  },
+  {
+   "no": "Z1",
+   "name": "既有账号里没有「一个账号挂多份档案」的历史状态（新守卫不与既有数据打架）",
+   "pass": true,
+   "detail": "{}",
+   "phase": "before"
+  },
+  {
+   "no": "Z3",
+   "name": "既有账号的解析结果与上一相位逐条一致（只加不减，changed=[]）",
+   "pass": true,
+   "detail": "{}",
+   "phase": "before"
+  },
+  {
+   "no": "R1",
+   "name": "[after] 夹具已复位（负向探针的写入全部撤销）",
+   "pass": true,
+   "detail": "异常项=[] 注册残留=[]",
+   "phase": "after"
+  },
+  {
+   "no": "C0",
+   "name": "[after] 两处守卫都改走 identity.py 公共 helper（旧片段 0 处）",
+   "pass": true,
+   "detail": "{\"invite_imports_identity\": true, \"invite_uses_users_of_profile\": true, \"invite_old_guard_present\": false, \"contacts_imports_identity\": true, \"contacts_uses_users_of_profile\": true, \"contacts_uses_profile_of_user\": true, \"contacts_old_guard_present\": false, \"contacts_guard_fn_present\": true}",
+   "phase": "after"
+  },
+  {
+   "no": "N1",
+   "name": "[after] 学生甲已被 u1 占用 ⇒ 绑人码必须拒（且是人话提示）",
+   "pass": true,
+   "detail": "{\"code\": \"SMOKE-GUARD-A\", \"identity\": \"student\", \"profile\": 311, \"verdict\": \"该邀请码对应的人员已绑定其他账号，请向管理员重新索取\"}",
+   "phase": "after"
+  },
+  {
+   "no": "N1b",
+   "name": "[after] 家长子已被 u10 占用 ⇒ 绑人码必须拒",
+   "pass": true,
+   "detail": "{\"code\": \"SMOKE-GUARD-R\", \"identity\": \"parent\", \"profile\": 148, \"verdict\": \"该邀请码对应的人员已绑定其他账号，请向管理员重新索取\"}",
+   "phase": "after"
+  },
+  {
+   "no": "P1c",
+   "name": "[after] 空闲档案（学生辛）不被误伤：仍然放行",
+   "pass": true,
+   "detail": "{\"code\": \"SMOKE-GUARD-P\", \"identity\": \"student\", \"profile\": 315, \"verdict\": null}",
+   "phase": "after"
+  },
+  {
+   "no": "N9c",
+   "name": "对照（改前改后同）：链① 占用的档案，绑人码仍被拒",
+   "pass": true,
+   "detail": "{\"code\": \"SMOKE-GUARD-B\", \"identity\": \"student\", \"profile\": 313, \"verdict\": \"该邀请码对应的人员已绑定其他账号，请向管理员重新索取\"}",
+   "phase": "after"
+  },
+  {
+   "no": "N2",
+   "name": "[after] 注册被拒：不建账号、不写档案（人话提示而非 500）",
+   "pass": true,
+   "detail": "location=/register?error=该邀请码对应的人员已绑定其他账号，请向管理员重新索取&email=smoke_guard_reg1@example.invalid&code=SMOKE-GUARD-A&name=冒烟抢绑甲 owners={'c1': None, 'c2': [476], 'owners': [476]}",
+   "phase": "after"
+  },
+  {
+   "no": "N3",
+   "name": "[after] 修复后 u1 仍是学生甲的唯一账号（解析未受影响）",
+   "pass": true,
+   "detail": "{\"476\": {\"student\": [311], \"faculty\": [], \"parent\": []}}",
+   "phase": "after"
+  },
+  {
+   "no": "N4",
+   "name": "[after] 家长分支同样被拒：不建账号、不写档案",
+   "pass": true,
+   "detail": "location=/register?error=该邀请码对应的人员已绑定其他账号，请向管理员重新索取&email=smoke_guard_reg5@example.invalid&code=SMOKE-GUARD-R&name=冒烟抢绑家长 owners={'c1': None, 'c2': [483], 'owners': [483]}",
+   "phase": "after"
+  },
+  {
+   "no": "N6",
+   "name": "[after] 必须被拒且不写库：relink|学生乙已被 u2（链②）占用，u3 来抢",
+   "pass": true,
+   "detail": "{\"http\": {\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:478:student:312:该人员已绑定其他账号（smoke_guard_b@local），请先在后台解绑后再挂接\", \"form_page\": 200, \"has_token\": true, \"ok\": \"0\", \"skip\": \"1\", \"dbg\": \"linked-skip:478:student:312:该人员已绑定其他账号（smoke_guard_b@local），请先在后台解绑后再挂接\"}, \"owners\": {\"c1\": null, \"c2\": [477], \"owners\": [477]}}",
+   "phase": "after"
+  },
+  {
+   "no": "N7",
+   "name": "[after] 必须被拒且不写库：relink|u4 已挂学生丁，再挂学生戊（一个账号挂两份档案）",
+   "pass": true,
+   "detail": "{\"http\": {\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=0&skip=1&dbg=user-taken-skip:479:student:314:该账号已挂接其他身份档案（op.student#313），一个账号只能挂一份档案\", \"form_page\": 200, \"has_token\": true, \"ok\": \"0\", \"skip\": \"1\", \"dbg\": \"user-taken-skip:479:student:314:该账号已挂接其他身份档案（op.student#313），一个账号只能挂一份档案\"}, \"owners\": {\"c1\": null, \"c2\": [], \"owners\": []}}",
+   "phase": "after"
+  },
+  {
+   "no": "N8",
+   "name": "[after] 必须被拒且不写库：relink|教师己已被 u6（链②）占用，u7 来抢",
+   "pass": true,
+   "detail": "{\"http\": {\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:481:faculty:207:该人员已绑定其他账号（smoke_guard_e@local），请先在后台解绑后再挂接\", \"form_page\": 200, \"has_token\": true, \"ok\": \"0\", \"skip\": \"1\", \"dbg\": \"linked-skip:481:faculty:207:该人员已绑定其他账号（smoke_guard_e@local），请先在后台解绑后再挂接\"}, \"owners\": {\"c1\": null, \"c2\": [480], \"owners\": [480]}}",
+   "phase": "after"
+  },
+  {
+   "no": "N9r",
+   "name": "对照（改前改后同）：链① 占用的档案，补挂仍被拒",
+   "pass": true,
+   "detail": "{\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:478:student:313:该人员已绑定其他账号（smoke_guard_d@local），请先在后台解绑后再挂接\", \"form_page\": 200, \"has_token\": true, \"ok\": \"0\", \"skip\": \"1\", \"dbg\": \"linked-skip:478:student:313:该人员已绑定其他账号（smoke_guard_d@local），请先在后台解绑后再挂接\"}",
+   "phase": "after"
+  },
+  {
+   "no": "P1",
+   "name": "正向用例：空闲档案的正常注册仍然成功（账号建出、档案挂上）",
+   "pass": true,
+   "detail": "location=/my/home owners={'c1': 499, 'c2': [499], 'owners': [499]}",
+   "phase": "after"
+  },
+  {
+   "no": "P2",
+   "name": "正向用例：空闲账号 ← 空闲档案的补挂仍然成功",
+   "pass": true,
+   "detail": "{\"http\": {\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=1&skip=0\", \"form_page\": 200, \"has_token\": true, \"ok\": \"1\", \"skip\": \"0\"}, \"owners\": {\"c1\": 482, \"c2\": [], \"owners\": [482]}}",
+   "phase": "after"
+  },
+  {
+   "no": "P3",
+   "name": "正向用例：重发**同一**绑定仍是成功（守卫不误伤幂等重存）",
+   "pass": true,
+   "detail": "{\"status\": 303, \"location\": \"/edu/backend/relink_identity?ok=1&skip=0\", \"form_page\": 200, \"has_token\": true, \"ok\": \"1\", \"skip\": \"0\"}",
+   "phase": "after"
+  },
+  {
+   "no": "R1",
+   "name": "[after|end] 夹具已复位（负向探针的写入全部撤销）",
+   "pass": true,
+   "detail": "异常项=[] 注册残留=[]",
+   "phase": "after"
+  },
+  {
+   "no": "Z1",
+   "name": "既有账号里没有「一个账号挂多份档案」的历史状态（新守卫不与既有数据打架）",
+   "pass": true,
+   "detail": "{}",
+   "phase": "after"
+  },
+  {
+   "no": "Z5",
+   "name": "[after] 只加不减：旧实现判「已占用」的一条都没丢（多出来的条数 = 本次修复的净收益）",
+   "pass": true,
+   "detail": "{\"pairs\": 285, \"lost\": [], \"added\": [[\"admin\", \"student\", 311], [\"admin\", \"student\", 312], [\"admin\", \"faculty\", 207], [\"admin\", \"parent\", 148], [\"parentportaltemplate\", \"student\", 311], [\"parentportaltemplate\", \"student\", 312], [\"parentportaltemplate\", \"faculty\", 207], [\"parentportaltemplate\", \"parent\", 148], [\"portaltemplate\", \"student\", 311], [\"portaltemplate\", \"student\", 312], [\"portaltemplate\", \"faculty\", 207], [\"portaltemplate\", \"parent\", 148], [\"smoke_guard_d@local\", \"student\", 7], [\"smoke_guard_d@local\", \"student\", 8], [\"smoke_guard_d@local\", \"student\", 9], [\"smoke_guard_d@local\", \"student\", 311], [\"smoke_guard_d@local\", \"student\", 312], [\"smoke_guard_d@local\", \"student\", 314], [\"smoke_guard_d@local\", \"student\", 315], [\"smoke_guard_d@local\", \"student\", 316], [\"smoke_guard_d@local\", \"faculty\", 43], [\"smoke_guard_d@local\", \"faculty\", 207], [\"smoke_guard_d@local\", \"parent\", 148], [\"smoke_guard_b@local\", \"student\", 7], [\"smoke_guard_b@local\", \"student\", 8], [\"smoke_guard_b@local\", \"student\", 9], [\"smoke_guard_b@local\", \"student\", 311], [\"smoke_guard_b@local\", \"student\", 314], [\"smoke_guard_b@local\", \"student\", 315], [\"smoke_guard_b@local\", \"student\", 316], [\"smoke_guard_b@local\"",
+   "phase": "after"
+  },
+  {
+   "no": "Z2",
+   "name": "[after] 新守卫对**既有**绑定逐条放行（不误伤历史数据）",
+   "pass": true,
+   "detail": "rows=3 bad=[]",
+   "phase": "after"
+  },
+  {
+   "no": "Z4",
+   "name": "只加不减（码侧）：改前判「已占用」的每一张码，改后仍判「已占用」",
+   "pass": true,
+   "detail": "[]",
+   "phase": "after"
+  },
+  {
+   "no": "Z3",
+   "name": "既有账号的解析结果与上一相位逐条一致（只加不减，changed=[]）",
+   "pass": true,
+   "detail": "{}",
+   "phase": "after"
+  },
+  {
+   "no": "T1",
+   "name": "清场残留 = 0（账号 / 伙伴 / 邀请码 / 学生 / 教师 / 家长）",
+   "pass": true,
+   "detail": "{\"users\": [], \"partners_by_ref\": [], \"partners_by_name\": [], \"codes\": [], \"students\": [], \"faculty\": [], \"parents\": []}",
+   "phase": "teardown"
+  },
+  {
+   "no": "T2",
+   "name": "拆除的条数 = 计数差（我删干净了，也没多删别人的）",
+   "pass": true,
+   "detail": "{}",
+   "phase": "teardown"
+  }
+ ],
+ "readings": [
+  {
+   "name": "before | [before] 复位后夹具状态",
+   "value": "{'s.s1': None, 's.s2': None, 's.s4': 479, 's.s5': None, 's.s8': None, 's.s9': None, 'f.f6.salesperson': None, 'f.f6.users_on_partner': [480], 'r.r10': None, 'r.r10.partner_salesperson': None, 'p.p1.salesperson': None, 'p.p1.users': [476], 'p.p2.salesperson': None, 'p.p2.users': [477], 'p.p3.salesperson': None, 'p.p3.users': [478], 'p.p4.salesperson': None, 'p.p4.users': [479], 'p.p5.salesperson': None, 'p.p5.users': [], 'p.p6.salesperson': None, 'p.p6.users': [480], 'p.p7.salesperson': None, 'p.p7.users': [481], 'p.p8.salesperson': None, 'p.p8.users': [], 'p.p9.salesperson': None, 'p.p9.users': [], 'p.p9u.salesperson': None, 'p.p9u.users': [482], 'p.p10.salesperson': None, 'p.p10.users': [483], 'p.p11.salesperson': None, 'p.p11.users': [484], 'c.c1': ['unused', 0, None, None], 'c.c8': ['unused', 0, None, None], 'c.c10': ['unused', 0, None, None], 'reg_accounts': [], 'ids': {'p|p1': 770, 'p|p2': 771, 'p|p3': 772, 'p|p4': 773, 'p|p5': 774, 'p|p6': 775, 'p|p7': 776, 'p|p8': 777, 'p|p9': 778, 'p|p9u': 779, 'p|p10': 780, 'p|p11': 781, 'u|u1': 476, 'u|u2': 477, 'u|u3': 478, 'u|u4': 479, 'u|u6': 480, 'u|u7': 481, 'u|u9': 482, 'u|u10': 483, 'u|u11': 484, 's|s1': 311, 's|s2': 312, 's|s4': 313, 's|s5': 314, 's|s8': 315, 's|s9': 316, 'f|f6': 207, 'r|r10': 148, 'c|c1': 219, 'c|c8': 220, 'c|c10': 221}}"
+  },
+  {
+   "name": "before | 静态：两处守卫的写法",
+   "value": "{'invite_imports_identity': False, 'invite_uses_users_of_profile': False, 'invite_old_guard_present': True, 'contacts_imports_identity': False, 'contacts_uses_users_of_profile': False, 'contacts_uses_profile_of_user': False, 'contacts_old_guard_present': True, 'contacts_guard_fn_present': False}"
+  },
+  {
+   "name": "before | 绑人码 _validate_identity() 判定（c1=学生甲已被占用 / c8=学生辛空闲 / c10=家长子已被占用）",
+   "value": "{'c1': {'code': 'SMOKE-GUARD-A', 'identity': 'student', 'profile': 311, 'verdict': None}, 'c8': {'code': 'SMOKE-GUARD-P', 'identity': 'student', 'profile': 315, 'verdict': None}, 'c10': {'code': 'SMOKE-GUARD-R', 'identity': 'parent', 'profile': 148, 'verdict': None}}"
+  },
+  {
+   "name": "before | N1 注册（学生甲）HTTP 读数",
+   "value": "{'status': 303, 'location': '/my/home', 'register_page': 200, 'has_token': True, 'created': True}"
+  },
+  {
+   "name": "before | N1 注册后学生甲的 owner 集合（链① ∪ 链②）",
+   "value": "{'c1': 491, 'c2': [476, 491], 'owners': [476, 491]}"
+  },
+  {
+   "name": "before | N1 两个账号的 identity.py 解析结果（同一份学生档案）",
+   "value": "{'476': {'student': [311], 'faculty': [], 'parent': []}, '491': {'student': [311], 'faculty': [], 'parent': []}}"
+  },
+  {
+   "name": "before | N5 注册（家长子）HTTP 读数",
+   "value": "{'status': 303, 'location': '/my/home', 'register_page': 200, 'has_token': True, 'created': True}"
+  },
+  {
+   "name": "before | N5 注册后家长子的 owner 集合",
+   "value": "{'c1': 492, 'c2': [483, 492], 'owners': [483, 492]}"
+  },
+  {
+   "name": "before | admin 会话 uid",
+   "value": "2"
+  },
+  {
+   "name": "before | relink|学生乙已被 u2（链②）占用，u3 来抢：HTTP 读数",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=1&skip=0', 'form_page': 200, 'has_token': True, 'ok': '1', 'skip': '0'}"
+  },
+  {
+   "name": "before | relink|学生乙已被 u2（链②）占用，u3 来抢：档案 owner 集合",
+   "value": "{'c1': 478, 'c2': [477], 'owners': [477, 478]}"
+  },
+  {
+   "name": "before | relink|学生乙已被 u2（链②）占用，u3 来抢：该账号解析出的身份",
+   "value": "{'478': {'student': [312], 'faculty': [], 'parent': []}}"
+  },
+  {
+   "name": "before | relink|u4 已挂学生丁，再挂学生戊（一个账号挂两份档案）：HTTP 读数",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=1&skip=0', 'form_page': 200, 'has_token': True, 'ok': '1', 'skip': '0'}"
+  },
+  {
+   "name": "before | relink|u4 已挂学生丁，再挂学生戊（一个账号挂两份档案）：档案 owner 集合",
+   "value": "{'c1': 479, 'c2': [], 'owners': [479]}"
+  },
+  {
+   "name": "before | relink|u4 已挂学生丁，再挂学生戊（一个账号挂两份档案）：该账号解析出的身份",
+   "value": "{'479': {'student': [313], 'faculty': [], 'parent': []}}"
+  },
+  {
+   "name": "before | relink|教师己已被 u6（链②）占用，u7 来抢：HTTP 读数",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=1&skip=0', 'form_page': 200, 'has_token': True, 'ok': '1', 'skip': '0'}"
+  },
+  {
+   "name": "before | relink|教师己已被 u6（链②）占用，u7 来抢：档案 owner 集合",
+   "value": "{'c1': 481, 'c2': [480], 'owners': [480, 481]}"
+  },
+  {
+   "name": "before | relink|教师己已被 u6（链②）占用，u7 来抢：该账号解析出的身份",
+   "value": "{'481': {'student': [], 'faculty': [207], 'parent': []}}"
+  },
+  {
+   "name": "before | 正向注册（学生辛，空闲）HTTP 读数",
+   "value": "{'status': 303, 'location': '/my/home', 'register_page': 200, 'has_token': True, 'created': True}"
+  },
+  {
+   "name": "before | 正向注册后学生辛的 owner 集合",
+   "value": "{'c1': 493, 'c2': [493], 'owners': [493]}"
+  },
+  {
+   "name": "before | 正向补挂（u9 ← 学生壬）HTTP 读数",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=1&skip=0', 'form_page': 200, 'has_token': True, 'ok': '1', 'skip': '0'}"
+  },
+  {
+   "name": "before | 正向补挂后学生壬的 owner 集合",
+   "value": "{'c1': 482, 'c2': [], 'owners': [482]}"
+  },
+  {
+   "name": "before | 正向补挂重发同一绑定（幂等，不得被新守卫误拒）",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=1&skip=0', 'form_page': 200, 'has_token': True, 'ok': '1', 'skip': '0'}"
+  },
+  {
+   "name": "before | [before|end] 复位后夹具状态",
+   "value": "{'s.s1': None, 's.s2': None, 's.s4': 479, 's.s5': None, 's.s8': None, 's.s9': None, 'f.f6.salesperson': None, 'f.f6.users_on_partner': [480], 'r.r10': None, 'r.r10.partner_salesperson': None, 'p.p1.salesperson': None, 'p.p1.users': [476], 'p.p2.salesperson': None, 'p.p2.users': [477], 'p.p3.salesperson': None, 'p.p3.users': [478], 'p.p4.salesperson': None, 'p.p4.users': [479], 'p.p5.salesperson': None, 'p.p5.users': [], 'p.p6.salesperson': None, 'p.p6.users': [480], 'p.p7.salesperson': None, 'p.p7.users': [481], 'p.p8.salesperson': None, 'p.p8.users': [], 'p.p9.salesperson': None, 'p.p9.users': [], 'p.p9u.salesperson': None, 'p.p9u.users': [482], 'p.p10.salesperson': None, 'p.p10.users': [483], 'p.p11.salesperson': None, 'p.p11.users': [484], 'c.c1': ['unused', 0, None, None], 'c.c8': ['unused', 0, None, None], 'c.c10': ['unused', 0, None, None], 'reg_accounts': [], 'ids': {'p|p1': 770, 'p|p2': 771, 'p|p3': 772, 'p|p4': 773, 'p|p5': 774, 'p|p6': 775, 'p|p7': 776, 'p|p8': 777, 'p|p9': 778, 'p|p9u': 779, 'p|p10': 780, 'p|p11': 781, 'u|u1': 476, 'u|u2': 477, 'u|u3': 478, 'u|u4': 479, 'u|u6': 480, 'u|u7': 481, 'u|u9': 482, 'u|u10': 483, 'u|u11': 484, 's|s1': 311, 's|s2': 312, 's|s4': 313, 's|s5': 314, 's|s8': 315, 's|s9': 316, 'f|f6': 207, 'r|r10': 148, 'c|c1': 219, 'c|c8': 220, 'c|c10': 221}}"
+  },
+  {
+   "name": "before | 既有账号 × 三个身份模型的解析（逐条）",
+   "value": "{'__system__': {}, 'admin': {}, 'public': {}, 'portaltemplate': {}, 'parentportaltemplate': {}, 'stu@local': {'student': [5]}, 'fac@local': {}, 'parent@local': {'parent': [2]}, 'faculty@local': {'faculty': [17]}, 'backoffice@local': {}}"
+  },
+  {
+   "name": "before | 既有档案的 owner 集合",
+   "value": "{'student:5': [8], 'student:7': [], 'student:8': [], 'student:9': [], 'student:311': [476], 'student:312': [477], 'student:313': [479], 'student:314': [], 'student:315': [], 'student:316': [], 'faculty:17': [11], 'faculty:43': [], 'faculty:207': [480], 'parent:2': [10], 'parent:148': [483]}"
+  },
+  {
+   "name": "before | 新守卫过既有数据（改前该函数不存在）",
+   "value": "{'error': 'ImportError(\"cannot import name \\'relink_guard_reason\\' from \\'odoo.addons.edu_portal.controllers.contacts\\' (/mnt/custom-addons/edu_portal/controllers/contacts.py)\")'}"
+  },
+  {
+   "name": "setup | 建夹具前的基线计数",
+   "value": "{'user': 19, 'partner': 94, 'student': 10, 'faculty': 3, 'parent': 2, 'invite': 8}"
+  },
+  {
+   "name": "setup | 夹具 ids",
+   "value": "{'p|p1': 770, 'p|p2': 771, 'p|p3': 772, 'p|p4': 773, 'p|p5': 774, 'p|p6': 775, 'p|p7': 776, 'p|p8': 777, 'p|p9': 778, 'p|p9u': 779, 'p|p10': 780, 'p|p11': 781, 'u|u1': 476, 'u|u2': 477, 'u|u3': 478, 'u|u4': 479, 'u|u6': 480, 'u|u7': 481, 'u|u9': 482, 'u|u10': 483, 'u|u11': 484, 's|s1': 311, 's|s2': 312, 's|s4': 313, 's|s5': 314, 's|s8': 315, 's|s9': 316, 'f|f6': 207, 'r|r10': 148, 'c|c1': 219, 'c|c4': 222, 'c|c8': 220, 'c|c10': 221}"
+  },
+  {
+   "name": "setup | 夹具状态（建好即复位态）",
+   "value": "{'s.s1': None, 's.s2': None, 's.s4': 479, 's.s5': None, 's.s8': None, 's.s9': None, 'f.f6.salesperson': None, 'f.f6.users_on_partner': [480], 'r.r10': None, 'r.r10.partner_salesperson': None, 'p.p1.salesperson': None, 'p.p1.users': [476], 'p.p2.salesperson': None, 'p.p2.users': [477], 'p.p3.salesperson': None, 'p.p3.users': [478], 'p.p4.salesperson': None, 'p.p4.users': [479], 'p.p5.salesperson': None, 'p.p5.users': [], 'p.p6.salesperson': None, 'p.p6.users': [480], 'p.p7.salesperson': None, 'p.p7.users': [481], 'p.p8.salesperson': None, 'p.p8.users': [], 'p.p9.salesperson': None, 'p.p9.users': [], 'p.p9u.salesperson': None, 'p.p9u.users': [482], 'p.p10.salesperson': None, 'p.p10.users': [483], 'p.p11.salesperson': None, 'p.p11.users': [484], 'c.c1': ['unused', 0, None, None], 'c.c4': ['unused', 0, None, None], 'c.c8': ['unused', 0, None, None], 'c.c10': ['unused', 0, None, None], 'reg_accounts': []}"
+  },
+  {
+   "name": "after | [after] 复位后夹具状态",
+   "value": "{'s.s1': None, 's.s2': None, 's.s4': 479, 's.s5': None, 's.s8': None, 's.s9': None, 'f.f6.salesperson': None, 'f.f6.users_on_partner': [480], 'r.r10': None, 'r.r10.partner_salesperson': None, 'p.p1.salesperson': None, 'p.p1.users': [476], 'p.p2.salesperson': None, 'p.p2.users': [477], 'p.p3.salesperson': None, 'p.p3.users': [478], 'p.p4.salesperson': None, 'p.p4.users': [479], 'p.p5.salesperson': None, 'p.p5.users': [], 'p.p6.salesperson': None, 'p.p6.users': [480], 'p.p7.salesperson': None, 'p.p7.users': [481], 'p.p8.salesperson': None, 'p.p8.users': [], 'p.p9.salesperson': None, 'p.p9.users': [], 'p.p9u.salesperson': None, 'p.p9u.users': [482], 'p.p10.salesperson': None, 'p.p10.users': [483], 'p.p11.salesperson': None, 'p.p11.users': [484], 'c.c1': ['unused', 0, None, None], 'c.c4': ['unused', 0, None, None], 'c.c8': ['unused', 0, None, None], 'c.c10': ['unused', 0, None, None], 'reg_accounts': [], 'ids': {'p|p1': 770, 'p|p2': 771, 'p|p3': 772, 'p|p4': 773, 'p|p5': 774, 'p|p6': 775, 'p|p7': 776, 'p|p8': 777, 'p|p9': 778, 'p|p9u': 779, 'p|p10': 780, 'p|p11': 781, 'u|u1': 476, 'u|u2': 477, 'u|u3': 478, 'u|u4': 479, 'u|u6': 480, 'u|u7': 481, 'u|u9': 482, 'u|u10': 483, 'u|u11': 484, 's|s1': 311, 's|s2': 312, 's|s4': 313, 's|s5': 314, 's|s8': 315, 's|s9': 316, 'f|f6': 207, 'r|r10': 148, 'c|c1': 219, 'c|c4': 222, 'c|c8': 220, 'c|c10': 221}}"
+  },
+  {
+   "name": "after | 静态：两处守卫的写法",
+   "value": "{'invite_imports_identity': True, 'invite_uses_users_of_profile': True, 'invite_old_guard_present': False, 'contacts_imports_identity': True, 'contacts_uses_users_of_profile': True, 'contacts_uses_profile_of_user': True, 'contacts_old_guard_present': False, 'contacts_guard_fn_present': True}"
+  },
+  {
+   "name": "after | 绑人码 _validate_identity() 判定（c1=学生甲已被占用 / c8=学生辛空闲 / c10=家长子已被占用）",
+   "value": "{'c1': {'code': 'SMOKE-GUARD-A', 'identity': 'student', 'profile': 311, 'verdict': '该邀请码对应的人员已绑定其他账号，请向管理员重新索取'}, 'c4': {'code': 'SMOKE-GUARD-B', 'identity': 'student', 'profile': 313, 'verdict': '该邀请码对应的人员已绑定其他账号，请向管理员重新索取'}, 'c8': {'code': 'SMOKE-GUARD-P', 'identity': 'student', 'profile': 315, 'verdict': None}, 'c10': {'code': 'SMOKE-GUARD-R', 'identity': 'parent', 'profile': 148, 'verdict': '该邀请码对应的人员已绑定其他账号，请向管理员重新索取'}}"
+  },
+  {
+   "name": "after | N1 注册（学生甲）HTTP 读数",
+   "value": "{'status': 303, 'location': '/register?error=该邀请码对应的人员已绑定其他账号，请向管理员重新索取&email=smoke_guard_reg1@example.invalid&code=SMOKE-GUARD-A&name=冒烟抢绑甲', 'register_page': 200, 'has_token': True, 'created': False}"
+  },
+  {
+   "name": "after | N1 注册后学生甲的 owner 集合（链① ∪ 链②）",
+   "value": "{'c1': None, 'c2': [476], 'owners': [476]}"
+  },
+  {
+   "name": "after | N5 注册（家长子）HTTP 读数",
+   "value": "{'status': 303, 'location': '/register?error=该邀请码对应的人员已绑定其他账号，请向管理员重新索取&email=smoke_guard_reg5@example.invalid&code=SMOKE-GUARD-R&name=冒烟抢绑家长', 'register_page': 200, 'has_token': True, 'created': False}"
+  },
+  {
+   "name": "after | N5 注册后家长子的 owner 集合",
+   "value": "{'c1': None, 'c2': [483], 'owners': [483]}"
+  },
+  {
+   "name": "after | admin 会话 uid",
+   "value": "2"
+  },
+  {
+   "name": "after | relink|学生乙已被 u2（链②）占用，u3 来抢：HTTP 读数",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:478:student:312:该人员已绑定其他账号（smoke_guard_b@local），请先在后台解绑后再挂接', 'form_page': 200, 'has_token': True, 'ok': '0', 'skip': '1', 'dbg': 'linked-skip:478:student:312:该人员已绑定其他账号（smoke_guard_b@local），请先在后台解绑后再挂接'}"
+  },
+  {
+   "name": "after | relink|学生乙已被 u2（链②）占用，u3 来抢：档案 owner 集合",
+   "value": "{'c1': None, 'c2': [477], 'owners': [477]}"
+  },
+  {
+   "name": "after | relink|学生乙已被 u2（链②）占用，u3 来抢：该账号解析出的身份",
+   "value": "{'478': {'student': [], 'faculty': [], 'parent': []}}"
+  },
+  {
+   "name": "after | relink|u4 已挂学生丁，再挂学生戊（一个账号挂两份档案）：HTTP 读数",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=0&skip=1&dbg=user-taken-skip:479:student:314:该账号已挂接其他身份档案（op.student#313），一个账号只能挂一份档案', 'form_page': 200, 'has_token': True, 'ok': '0', 'skip': '1', 'dbg': 'user-taken-skip:479:student:314:该账号已挂接其他身份档案（op.student#313），一个账号只能挂一份档案'}"
+  },
+  {
+   "name": "after | relink|u4 已挂学生丁，再挂学生戊（一个账号挂两份档案）：档案 owner 集合",
+   "value": "{'c1': None, 'c2': [], 'owners': []}"
+  },
+  {
+   "name": "after | relink|u4 已挂学生丁，再挂学生戊（一个账号挂两份档案）：该账号解析出的身份",
+   "value": "{'479': {'student': [313], 'faculty': [], 'parent': []}}"
+  },
+  {
+   "name": "after | relink|教师己已被 u6（链②）占用，u7 来抢：HTTP 读数",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:481:faculty:207:该人员已绑定其他账号（smoke_guard_e@local），请先在后台解绑后再挂接', 'form_page': 200, 'has_token': True, 'ok': '0', 'skip': '1', 'dbg': 'linked-skip:481:faculty:207:该人员已绑定其他账号（smoke_guard_e@local），请先在后台解绑后再挂接'}"
+  },
+  {
+   "name": "after | relink|教师己已被 u6（链②）占用，u7 来抢：档案 owner 集合",
+   "value": "{'c1': None, 'c2': [480], 'owners': [480]}"
+  },
+  {
+   "name": "after | relink|教师己已被 u6（链②）占用，u7 来抢：该账号解析出的身份",
+   "value": "{'481': {'student': [], 'faculty': [], 'parent': []}}"
+  },
+  {
+   "name": "after | 对照：u3 抢「链① 已挂 u4」的学生丁（改前改后都应拒）",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=0&skip=1&dbg=linked-skip:478:student:313:该人员已绑定其他账号（smoke_guard_d@local），请先在后台解绑后再挂接', 'form_page': 200, 'has_token': True, 'ok': '0', 'skip': '1', 'dbg': 'linked-skip:478:student:313:该人员已绑定其他账号（smoke_guard_d@local），请先在后台解绑后再挂接'}"
+  },
+  {
+   "name": "after | 正向注册（学生辛，空闲）HTTP 读数",
+   "value": "{'status': 303, 'location': '/my/home', 'register_page': 200, 'has_token': True, 'created': True}"
+  },
+  {
+   "name": "after | 正向注册后学生辛的 owner 集合",
+   "value": "{'c1': 499, 'c2': [499], 'owners': [499]}"
+  },
+  {
+   "name": "after | 正向补挂（u9 ← 学生壬）HTTP 读数",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=1&skip=0', 'form_page': 200, 'has_token': True, 'ok': '1', 'skip': '0'}"
+  },
+  {
+   "name": "after | 正向补挂后学生壬的 owner 集合",
+   "value": "{'c1': 482, 'c2': [], 'owners': [482]}"
+  },
+  {
+   "name": "after | 正向补挂重发同一绑定（幂等，不得被新守卫误拒）",
+   "value": "{'status': 303, 'location': '/edu/backend/relink_identity?ok=1&skip=0', 'form_page': 200, 'has_token': True, 'ok': '1', 'skip': '0'}"
+  },
+  {
+   "name": "after | [after|end] 复位后夹具状态",
+   "value": "{'s.s1': None, 's.s2': None, 's.s4': 479, 's.s5': None, 's.s8': None, 's.s9': None, 'f.f6.salesperson': None, 'f.f6.users_on_partner': [480], 'r.r10': None, 'r.r10.partner_salesperson': None, 'p.p1.salesperson': None, 'p.p1.users': [476], 'p.p2.salesperson': None, 'p.p2.users': [477], 'p.p3.salesperson': None, 'p.p3.users': [478], 'p.p4.salesperson': None, 'p.p4.users': [479], 'p.p5.salesperson': None, 'p.p5.users': [], 'p.p6.salesperson': None, 'p.p6.users': [480], 'p.p7.salesperson': None, 'p.p7.users': [481], 'p.p8.salesperson': None, 'p.p8.users': [], 'p.p9.salesperson': None, 'p.p9.users': [], 'p.p9u.salesperson': None, 'p.p9u.users': [482], 'p.p10.salesperson': None, 'p.p10.users': [483], 'p.p11.salesperson': None, 'p.p11.users': [484], 'c.c1': ['unused', 0, None, None], 'c.c4': ['unused', 0, None, None], 'c.c8': ['unused', 0, None, None], 'c.c10': ['unused', 0, None, None], 'reg_accounts': [], 'ids': {'p|p1': 770, 'p|p2': 771, 'p|p3': 772, 'p|p4': 773, 'p|p5': 774, 'p|p6': 775, 'p|p7': 776, 'p|p8': 777, 'p|p9': 778, 'p|p9u': 779, 'p|p10': 780, 'p|p11': 781, 'u|u1': 476, 'u|u2': 477, 'u|u3': 478, 'u|u4': 479, 'u|u6': 480, 'u|u7': 481, 'u|u9': 482, 'u|u10': 483, 'u|u11': 484, 's|s1': 311, 's|s2': 312, 's|s4': 313, 's|s5': 314, 's|s8': 315, 's|s9': 316, 'f|f6': 207, 'r|r10': 148, 'c|c1': 219, 'c|c4': 222, 'c|c8': 220, 'c|c10': 221}}"
+  },
+  {
+   "name": "after | 既有账号 × 三个身份模型的解析（逐条）",
+   "value": "{'__system__': {}, 'admin': {}, 'public': {}, 'portaltemplate': {}, 'parentportaltemplate': {}, 'stu@local': {'student': [5]}, 'fac@local': {}, 'parent@local': {'parent': [2]}, 'faculty@local': {'faculty': [17]}, 'backoffice@local': {}}"
+  },
+  {
+   "name": "after | 既有档案的 owner 集合",
+   "value": "{'student:5': [8], 'student:7': [], 'student:8': [], 'student:9': [], 'student:311': [476], 'student:312': [477], 'student:313': [479], 'student:314': [], 'student:315': [], 'student:316': [], 'faculty:17': [11], 'faculty:43': [], 'faculty:207': [480], 'parent:2': [10], 'parent:148': [483]}"
+  },
+  {
+   "name": "after | 新守卫过既有数据（改前该函数不存在）",
+   "value": "{'rows': [['parent@local', 'parent', 2, None], ['stu@local', 'student', 5, None], ['faculty@local', 'faculty', 17, None]], 'multi': []}"
+  },
+  {
+   "name": "after | 改前实现（oracle）× 改后实现 逐条对拍（全库账号 × 全库档案）",
+   "value": "{'pairs': 285, 'lost': [], 'added': [['admin', 'student', 311], ['admin', 'student', 312], ['admin', 'faculty', 207], ['admin', 'parent', 148], ['parentportaltemplate', 'student', 311], ['parentportaltemplate', 'student', 312], ['parentportaltemplate', 'faculty', 207], ['parentportaltemplate', 'parent', 148], ['portaltemplate', 'student', 311], ['portaltemplate', 'student', 312], ['portaltemplate', 'faculty', 207], ['portaltemplate', 'parent', 148], ['smoke_guard_d@local', 'student', 7], ['smoke_guard_d@local', 'student', 8], ['smoke_guard_d@local', 'student', 9], ['smoke_guard_d@local', 'student', 311], ['smoke_guard_d@local', 'student', 312], ['smoke_guard_d@local', 'student', 314], ['smoke_guard_d@local', 'student', 315], ['smoke_guard_d@local', 'student', 316], ['smoke_guard_d@local', 'faculty', 43], ['smoke_guard_d@local', 'faculty', 207], ['smoke_guard_d@local', 'parent', 148], ['smoke_guard_b@local', 'student', 7], ['smoke_guard_b@local', 'student', 8], ['smoke_guard_b@local', 'student', 9], ['smoke_guard_b@local', 'student', 311], ['smoke_guard_b@local', 'student', 314], ['smoke_guard_b@local', 'student', 315], ['smoke_guard_b@local', 'student', 316], ['smoke_guard_b@local', 'faculty', 43], ['smoke_guard_b@local', 'faculty', 207], ['smoke_guard_b@local', 'parent', 148], ['smoke_guard_a@local', 'student', 7], ['smoke_guard_a@local', 'student', 8], ['smoke_guard_a@local', 'student', 9], ['smoke_guard_a@local', 'student', 312], ['smoke_guard_a@local', 'student', 314], ['smoke_guard_a@local', 'student', 315], ['smoke_guard_a@local', 'student', 316], ['smoke_guard_a@local', 'faculty', 43], ['smoke_guard_a@local', 'faculty', 207], ['smoke_guard_a@local', 'parent', 148], ['smoke_guard_h@local', 'student', 7], ['smoke_guard_h@local', 'student', 8], ['smoke_guard_h@local', 'student', 9], ['smoke_guard_h@local', 'student', 311], ['smoke_guard_h@local', 'student', 312], ['smoke_guard_h@local', 'student', 314], ['smoke_guard_h@local', 'student', 315], ['smoke_guard_h@lo"
+  },
+  {
+   "name": "teardown | 删除的夹具",
+   "value": "{'codes': 4, 'parents': 1, 'students': 6, 'faculty': 1, 'users': 9, 'partners': 12}"
+  },
+  {
+   "name": "teardown | 残留（必须全空）",
+   "value": "{'users': [], 'partners_by_ref': [], 'partners_by_name': [], 'codes': [], 'students': [], 'faculty': [], 'parents': []}"
+  },
+  {
+   "name": "teardown | 拆除前后计数（[前, 前-后, 本次删除条数]）",
+   "value": "{'invite': [9, 4, 4], 'parent': [2, 1, 1], 'student': [10, 6, 6], 'faculty': [3, 1, 1], 'user': [19, 9, 9], 'partner': [94, 12, 12]}"
+  },
+  {
+   "name": "teardown | 清场后全库计数",
+   "value": "{'user': 10, 'partner': 82, 'student': 4, 'faculty': 2, 'parent': 1, 'invite': 5}"
+  }
+ ],
+ "generated_at": "2026-09-18T17:26:54"
+}

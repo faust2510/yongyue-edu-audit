@@ -1,0 +1,194 @@
+{
+ "facts": {
+  "sql_before": "74|74|20",
+  "original": "74",
+  "sql_after": "83|83",
+  "sql_restored": "74|74|20"
+ },
+ "rows": [
+  {
+   "no": "A0",
+   "name": "跑前库内读数（容器 attendee / 容器 result_line / 演示行 attendee）",
+   "pass": true,
+   "info": true,
+   "detail": "74|74|20"
+  },
+  {
+   "no": "B1",
+   "name": "教务 uid 有效",
+   "pass": true,
+   "detail": "uid=12"
+  },
+  {
+   "no": "B2",
+   "name": "教务 GET /grade-book → 200",
+   "pass": true,
+   "detail": "HTTP 200"
+  },
+  {
+   "no": "B3",
+   "name": "教务看到的是「成绩录入」而不是拒止文案",
+   "pass": true,
+   "detail": "含「成绩录入」=True / 含拒止文案=False"
+  },
+  {
+   "no": "B4",
+   "name": "班级下拉真的渲染出来了（教务可选全校班级）",
+   "pass": true,
+   "detail": "option 数=18"
+  },
+  {
+   "no": "B5",
+   "name": "选班后出现成绩网格（未筛选：整班 × 全部科目）",
+   "pass": true,
+   "detail": "HTTP 200 / 格子数 56"
+  },
+  {
+   "no": "B6",
+   "name": "科目筛选页能定位到 (学生 × 科目) 输入框",
+   "pass": true,
+   "detail": "输入框=找到"
+  },
+  {
+   "no": "B7",
+   "name": "该格有可读的原值（用于还原）",
+   "pass": true,
+   "detail": "王小明 / 小要理问答 = '74'"
+  },
+  {
+   "no": "C1",
+   "name": "点「保存成绩」后出现保存成功提示",
+   "pass": true,
+   "detail": "final=http://127.0.0.1:8069/grade-entry?batch_id=8&term_id=1&saved=1&n=1"
+  },
+  {
+   "no": "C2",
+   "name": "保存后页面回显新分数",
+   "pass": true,
+   "detail": "提交 83"
+  },
+  {
+   "no": "C3",
+   "name": "库内两侧（写侧 attendee / 读侧 result_line）都是同一个新值",
+   "pass": true,
+   "detail": "83|83"
+  },
+  {
+   "no": "C4",
+   "name": "学生端 /grade-book 页面出现同一个分数",
+   "pass": true,
+   "detail": "学生页 (科目,考试,分数)=[('小要理问答', '小要理问答 · 第一学期 总评', '83')]"
+  },
+  {
+   "no": "C5",
+   "name": "学生端仍是成绩簿形态（没有被改成录入页）",
+   "pass": true,
+   "detail": "含「成绩录入」=False / 含「成绩簿」=True"
+  },
+  {
+   "no": "R1",
+   "name": "还原前能再次定位输入框",
+   "pass": true,
+   "detail": "原值='74'"
+  },
+  {
+   "no": "R2",
+   "name": "还原后库内两侧都回到原值",
+   "pass": true,
+   "detail": "74|74|20"
+  },
+  {
+   "no": "R3",
+   "name": "存量演示行（EX-DEMO-01）全程未变",
+   "pass": true,
+   "detail": "20 -> 20"
+  },
+  {
+   "no": "R4",
+   "name": "学生端页面也回到原值",
+   "pass": true,
+   "detail": "学生页=[('小要理问答', '小要理问答 · 第一学期 总评', '74')]"
+  },
+  {
+   "no": "D1",
+   "name": "教师 /grade-book = 录入形态（有班级下拉，无拒止文案）",
+   "pass": true,
+   "detail": "班级下拉=True / 含拒止=False"
+  },
+  {
+   "no": "D1b",
+   "name": "教师可选班级只有他任教的那 1 个（服务端收敛，不是前端隐藏）",
+   "pass": true,
+   "detail": "选项=['请选择班级', '预备科 · 2026级【演示】']"
+  },
+  {
+   "no": "D1c",
+   "name": "教师可选科目只含他任教的 4 科（正对照：教务 149 条）",
+   "pass": true,
+   "detail": "科目=['全部科目', '小要理问答', '圣经概论（新旧约概论）', '古汉语课程', '选修课程']"
+  },
+  {
+   "no": "D1d",
+   "name": "教师选了他任教的班后出现录入网格（不是空壳页）",
+   "pass": true,
+   "detail": "格子数=16"
+  },
+  {
+   "no": "D1e",
+   "name": "教师只看到本人任教的 4 个科目列（改前 14 列 = 看得见存不进去）",
+   "pass": true,
+   "detail": "列数=4 ['古汉语课程', '圣经概论（新旧约概论）', '小要理问答', '选修课程']"
+  },
+  {
+   "no": "D1f",
+   "name": "教师看不到非任教的列（如「写作课程」）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "D2",
+   "name": "家长 /grade-book 仍是原行为（拒止文案在）—— 用户只说了教务与教师，没提家长",
+   "pass": true,
+   "detail": "含拒止=True"
+  },
+  {
+   "no": "F0",
+   "name": "能从教师页面取到 csrf_token",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "no": "F1",
+   "name": "越权格子仍被服务端丢弃（库内不变）",
+   "pass": true,
+   "detail": "subject 36: 61 -> 61"
+  },
+  {
+   "no": "F2",
+   "name": "回跳 URL 带上被忽略的格数（skip_scope）",
+   "pass": true,
+   "detail": "/grade-entry?batch_id=8&term_id=1&saved=0&skip_scope=1"
+  },
+  {
+   "no": "F3",
+   "name": "页面说清「几格未保存、因为不是您任教的科目」（不再谎称「没有新的改动」）",
+   "pass": true,
+   "detail": "永约学坊 成绩录入 帮助 预备科导师【演示】 首页 我的主页 学习 教学安排 作业管理 成绩录入 打卡统计 选课审批 校园生活 课程中心 校历 图书馆 沟通 通讯录 消息 布告栏 个人 费用账单 请假 通知偏好 帮助中心 成绩录入 选好班级与学期，下面对应的就是整班学生的成绩网格：按科目填写，保存后学生即时可见， 教务"
+  },
+  {
+   "no": "E1",
+   "name": "未登录访问 = 跳到登录页（不是 200 的业务页）",
+   "pass": true,
+   "detail": "HTTP 200 / final=http://127.0.0.1:8069/login?redirect=%2Fgrade-book%3F"
+  },
+  {
+   "no": "E2",
+   "name": "不存在的班级 = 200 空表单（不是 500 / Traceback）",
+   "pass": true,
+   "detail": "HTTP 200"
+  }
+ ],
+ "pass": 29,
+ "fail": 0,
+ "total": 29
+}

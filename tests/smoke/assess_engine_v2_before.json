@@ -1,0 +1,414 @@
+{
+ "edu.assess.template": [
+  {
+   "id": 1,
+   "name": "教师评学生（验收）",
+   "kind": "student",
+   "target_kind": "student",
+   "total": 100.0,
+   "pass_line": 60.0,
+   "excellent_line": 90.0,
+   "state": "active"
+  },
+  {
+   "id": 2,
+   "name": "学生评教（验收·匿名）",
+   "kind": "teaching",
+   "target_kind": "faculty",
+   "total": 100.0,
+   "pass_line": 60.0,
+   "excellent_line": 90.0,
+   "state": "active"
+  },
+  {
+   "id": 3,
+   "name": "教务录入（验收·Excel）",
+   "kind": "student",
+   "target_kind": "student",
+   "total": 100.0,
+   "pass_line": 60.0,
+   "excellent_line": 90.0,
+   "state": "active"
+  }
+ ],
+ "edu.assess.item": [
+  {
+   "id": 1,
+   "template_id": [
+    1,
+    "教师评学生（验收）"
+   ],
+   "name": "课堂参与",
+   "max_score": 20.0,
+   "weight": 1.0,
+   "score_kind": "number",
+   "sequence": 10,
+   "active": true
+  },
+  {
+   "id": 2,
+   "template_id": [
+    1,
+    "教师评学生（验收）"
+   ],
+   "name": "作业完成",
+   "max_score": 30.0,
+   "weight": 1.0,
+   "score_kind": "number",
+   "sequence": 20,
+   "active": true
+  },
+  {
+   "id": 3,
+   "template_id": [
+    2,
+    "学生评教（验收·匿名）"
+   ],
+   "name": "备课充分",
+   "max_score": 25.0,
+   "weight": 1.0,
+   "score_kind": "number",
+   "sequence": 10,
+   "active": true
+  },
+  {
+   "id": 4,
+   "template_id": [
+    2,
+    "学生评教（验收·匿名）"
+   ],
+   "name": "课堂表达",
+   "max_score": 25.0,
+   "weight": 1.0,
+   "score_kind": "number",
+   "sequence": 20,
+   "active": true
+  },
+  {
+   "id": 5,
+   "template_id": [
+    3,
+    "教务录入（验收·Excel）"
+   ],
+   "name": "平时表现",
+   "max_score": 20.0,
+   "weight": 1.0,
+   "score_kind": "number",
+   "sequence": 10,
+   "active": true
+  },
+  {
+   "id": 6,
+   "template_id": [
+    3,
+    "教务录入（验收·Excel）"
+   ],
+   "name": "期末考评",
+   "max_score": 20.0,
+   "weight": 1.0,
+   "score_kind": "number",
+   "sequence": 20,
+   "active": true
+  },
+  {
+   "id": 22,
+   "template_id": [
+    1,
+    "教师评学生（验收）"
+   ],
+   "name": "课堂笔记",
+   "max_score": 10.0,
+   "weight": 1.0,
+   "score_kind": "number",
+   "sequence": 30,
+   "active": true
+  }
+ ],
+ "edu.assess.task": [
+  {
+   "id": 1,
+   "template_id": [
+    1,
+    "教师评学生（验收）"
+   ],
+   "period": "2026秋-验收",
+   "state": "open",
+   "target_kind": "student",
+   "anonymous": false,
+   "scorer_kind": "teacher",
+   "summary_min": 3
+  },
+  {
+   "id": 2,
+   "template_id": [
+    2,
+    "学生评教（验收·匿名）"
+   ],
+   "period": "2026秋-验收",
+   "state": "open",
+   "target_kind": "faculty",
+   "anonymous": true,
+   "scorer_kind": "student",
+   "summary_min": 3
+  },
+  {
+   "id": 3,
+   "template_id": [
+    3,
+    "教务录入（验收·Excel）"
+   ],
+   "period": "2026秋-验收",
+   "state": "open",
+   "target_kind": "student",
+   "anonymous": false,
+   "scorer_kind": "teacher",
+   "summary_min": 3
+  }
+ ],
+ "edu.assess.roster": [
+  {
+   "id": 1,
+   "task_id": [
+    1,
+    "教师评学生（验收） · 2026秋-验收"
+   ],
+   "subject_ref": "s:5",
+   "state": "done",
+   "total": 7.0,
+   "weighted_total": 7.0,
+   "average": 7.0,
+   "scorer_count": 1,
+   "subject_name": "王小明"
+  },
+  {
+   "id": 2,
+   "task_id": [
+    2,
+    "学生评教（验收·匿名） · 2026秋-验收"
+   ],
+   "subject_ref": "f:17",
+   "state": "done",
+   "total": 22.5,
+   "weighted_total": 22.5,
+   "average": 22.5,
+   "scorer_count": 1,
+   "subject_name": "T14 教师乙"
+  },
+  {
+   "id": 3,
+   "task_id": [
+    2,
+    "学生评教（验收·匿名） · 2026秋-验收"
+   ],
+   "subject_ref": "f:43",
+   "state": "pending",
+   "total": 0.0,
+   "weighted_total": 0.0,
+   "average": 0.0,
+   "scorer_count": 0,
+   "subject_name": "待定"
+  },
+  {
+   "id": 4,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "subject_ref": "s:5",
+   "state": "pending",
+   "total": 30.0,
+   "weighted_total": 30.0,
+   "average": 30.0,
+   "scorer_count": 1,
+   "subject_name": "王小明"
+  },
+  {
+   "id": 5,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "subject_ref": "s:7",
+   "state": "pending",
+   "total": 30.0,
+   "weighted_total": 30.0,
+   "average": 30.0,
+   "scorer_count": 1,
+   "subject_name": "张同学【演示】"
+  },
+  {
+   "id": 6,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "subject_ref": "s:8",
+   "state": "pending",
+   "total": 30.0,
+   "weighted_total": 30.0,
+   "average": 30.0,
+   "scorer_count": 1,
+   "subject_name": "李同学【演示】"
+  },
+  {
+   "id": 7,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "subject_ref": "s:9",
+   "state": "pending",
+   "total": 0.0,
+   "weighted_total": 0.0,
+   "average": 0.0,
+   "scorer_count": 0,
+   "subject_name": "陈同学【演示】"
+  }
+ ],
+ "edu.assess.score": [
+  {
+   "id": 6,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "roster_id": [
+    4,
+    "edu.assess.roster,4"
+   ],
+   "item_id": [
+    5,
+    "平时表现"
+   ],
+   "value": 12.0,
+   "scorer_ref": "i:12",
+   "note": false
+  },
+  {
+   "id": 7,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "roster_id": [
+    4,
+    "edu.assess.roster,4"
+   ],
+   "item_id": [
+    6,
+    "期末考评"
+   ],
+   "value": 18.0,
+   "scorer_ref": "i:12",
+   "note": false
+  },
+  {
+   "id": 8,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "roster_id": [
+    5,
+    "edu.assess.roster,5"
+   ],
+   "item_id": [
+    5,
+    "平时表现"
+   ],
+   "value": 12.0,
+   "scorer_ref": "i:12",
+   "note": false
+  },
+  {
+   "id": 9,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "roster_id": [
+    5,
+    "edu.assess.roster,5"
+   ],
+   "item_id": [
+    6,
+    "期末考评"
+   ],
+   "value": 18.0,
+   "scorer_ref": "i:12",
+   "note": false
+  },
+  {
+   "id": 10,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "roster_id": [
+    6,
+    "edu.assess.roster,6"
+   ],
+   "item_id": [
+    5,
+    "平时表现"
+   ],
+   "value": 12.0,
+   "scorer_ref": "i:12",
+   "note": false
+  },
+  {
+   "id": 11,
+   "task_id": [
+    3,
+    "教务录入（验收·Excel） · 2026秋-验收"
+   ],
+   "roster_id": [
+    6,
+    "edu.assess.roster,6"
+   ],
+   "item_id": [
+    6,
+    "期末考评"
+   ],
+   "value": 18.0,
+   "scorer_ref": "i:12",
+   "note": false
+  },
+  {
+   "id": 21,
+   "task_id": [
+    2,
+    "学生评教（验收·匿名） · 2026秋-验收"
+   ],
+   "roster_id": [
+    2,
+    "edu.assess.roster,2"
+   ],
+   "item_id": [
+    3,
+    "备课充分"
+   ],
+   "value": 22.5,
+   "scorer_ref": "h:19308bd6de926f9b027346c2393a464611430c0bf1bc8a0a29e0dcb41c0640fd",
+   "note": "讲得清楚"
+  },
+  {
+   "id": 22,
+   "task_id": [
+    1,
+    "教师评学生（验收） · 2026秋-验收"
+   ],
+   "roster_id": [
+    1,
+    "edu.assess.roster,1"
+   ],
+   "item_id": [
+    22,
+    "课堂笔记"
+   ],
+   "value": 7.0,
+   "scorer_ref": "u:11",
+   "note": false
+  }
+ ]
+}

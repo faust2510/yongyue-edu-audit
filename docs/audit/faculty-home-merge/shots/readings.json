@@ -1,0 +1,30 @@
+{
+ "/my/home": {
+  "tables": [
+   {
+    "cols": 7,
+    "rows": 5,
+    "tableW": 0,
+    "containerW": 0,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ },
+ "/my/home#desk": {
+  "tables": [
+   {
+    "cols": 7,
+    "rows": 5,
+    "tableW": 234,
+    "containerW": 270,
+    "thead_display": "table-header-group",
+    "card_cls": false,
+    "labels": 0
+   }
+  ],
+  "overflow": 0
+ }
+}

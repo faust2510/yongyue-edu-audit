@@ -1,0 +1,485 @@
+{
+ "/my/home": {
+  "title": "教师工作台",
+  "nav": [
+   {
+    "t": "我的主页",
+    "h": "/my/home"
+   },
+   {
+    "t": "应用面板",
+    "h": "/apps"
+   },
+   {
+    "t": "教学安排",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "作业管理",
+    "h": "/assignment/manage"
+   },
+   {
+    "t": "成绩录入",
+    "h": "/grade-entry"
+   },
+   {
+    "t": "打卡统计",
+    "h": "/checkins/stats"
+   },
+   {
+    "t": "选课审批",
+    "h": "/registrar/subject/approvals"
+   },
+   {
+    "t": "课程中心",
+    "h": "/my/study"
+   },
+   {
+    "t": "全部应用",
+    "h": "/my/apps"
+   },
+   {
+    "t": "校历",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "图书馆",
+    "h": "/library/media"
+   },
+   {
+    "t": "通讯录",
+    "h": "/my/contacts"
+   },
+   {
+    "t": "消息",
+    "h": "/my/messages"
+   },
+   {
+    "t": "布告栏",
+    "h": "/my/notice_board/notice"
+   },
+   {
+    "t": "费用账单",
+    "h": "/my/fees"
+   },
+   {
+    "t": "请假",
+    "h": "/my/time_off"
+   },
+   {
+    "t": "通知偏好",
+    "h": "/my/notify"
+   },
+   {
+    "t": "帮助中心",
+    "h": "/my/help"
+   }
+  ],
+  "tabs": [
+   {
+    "t": "首页",
+    "h": "/my/home"
+   },
+   {
+    "t": "校历",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "消息",
+    "h": "/my/messages"
+   },
+   {
+    "t": "通讯录",
+    "h": "/my/contacts"
+   },
+   {
+    "t": "修改密码",
+    "h": "/my/password"
+   }
+  ],
+  "heads": [
+   "修改头像",
+   "T14 教师乙老师您好",
+   "本周我教的课"
+  ],
+  "cards": [],
+  "links": [
+   "/",
+   "/about",
+   "/programs",
+   "/admissions",
+   "/journal",
+   "/login",
+   "/booking",
+   "/digital-library",
+   "/online-exams",
+   "/jobs",
+   "/courses-offered",
+   "/program-offered",
+   "/alumni/job/card",
+   "/campus/jobs",
+   "/#contact",
+   "/alumni",
+   "/courses",
+   "/my-courses",
+   "/alumni/jobs",
+   "/apps",
+   "/my/home",
+   "/logout",
+   "/contactus",
+   "/my/help",
+   "/my/password",
+   "/my/calendar",
+   "/assignment/manage",
+   "/grade-entry",
+   "/checkins/stats",
+   "/registrar/subject/approvals",
+   "/my/study",
+   "/my/apps",
+   "/library/media",
+   "/my/contacts",
+   "/my/messages",
+   "/my/notice_board/notice",
+   "/my/fees",
+   "/my/time_off",
+   "/my/notify",
+   "/leave/approvals",
+   "/grievances/approvals",
+   "/journals/review",
+   "/downloads",
+   "/my/reimburse/apply",
+   "/timetable/bulk",
+   "/help"
+  ],
+  "status": 200,
+  "final": "/my/home"
+ },
+ "/my/apps": {
+  "title": "全部应用",
+  "nav": [
+   {
+    "t": "我的主页",
+    "h": "/my/home"
+   },
+   {
+    "t": "应用面板",
+    "h": "/apps"
+   },
+   {
+    "t": "教学安排",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "作业管理",
+    "h": "/assignment/manage"
+   },
+   {
+    "t": "成绩录入",
+    "h": "/grade-entry"
+   },
+   {
+    "t": "打卡统计",
+    "h": "/checkins/stats"
+   },
+   {
+    "t": "选课审批",
+    "h": "/registrar/subject/approvals"
+   },
+   {
+    "t": "课程中心",
+    "h": "/my/study"
+   },
+   {
+    "t": "全部应用",
+    "h": "/my/apps"
+   },
+   {
+    "t": "校历",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "图书馆",
+    "h": "/library/media"
+   },
+   {
+    "t": "通讯录",
+    "h": "/my/contacts"
+   },
+   {
+    "t": "消息",
+    "h": "/my/messages"
+   },
+   {
+    "t": "布告栏",
+    "h": "/my/notice_board/notice"
+   },
+   {
+    "t": "费用账单",
+    "h": "/my/fees"
+   },
+   {
+    "t": "请假",
+    "h": "/my/time_off"
+   },
+   {
+    "t": "通知偏好",
+    "h": "/my/notify"
+   },
+   {
+    "t": "帮助中心",
+    "h": "/my/help"
+   }
+  ],
+  "tabs": [
+   {
+    "t": "首页",
+    "h": "/my/home"
+   },
+   {
+    "t": "校历",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "消息",
+    "h": "/my/messages"
+   },
+   {
+    "t": "通讯录",
+    "h": "/my/contacts"
+   },
+   {
+    "t": "修改密码",
+    "h": "/my/password"
+   }
+  ],
+  "heads": [
+   "修改头像",
+   "通知 38",
+   "👋 欢迎回来，预备科导师【演示】",
+   "常用应用",
+   "学业 Academics",
+   "资源与学习 Resources",
+   "财务 Finance",
+   "社区 Community",
+   "个人与设置",
+   "预备科导师【演示】"
+  ],
+  "cards": [],
+  "links": [
+   "/",
+   "/about",
+   "/programs",
+   "/admissions",
+   "/journal",
+   "/login",
+   "/booking",
+   "/digital-library",
+   "/online-exams",
+   "/jobs",
+   "/courses-offered",
+   "/program-offered",
+   "/alumni/job/card",
+   "/campus/jobs",
+   "/#contact",
+   "/alumni",
+   "/courses",
+   "/my-courses",
+   "/alumni/jobs",
+   "/apps",
+   "/my/home",
+   "/logout",
+   "/contactus",
+   "/my/help",
+   "/my/password",
+   "/my/calendar",
+   "/assignment/manage",
+   "/grade-entry",
+   "/checkins/stats",
+   "/registrar/subject/approvals",
+   "/my/study",
+   "/my/apps",
+   "/library/media",
+   "/my/contacts",
+   "/my/messages",
+   "/my/notice_board/notice",
+   "/my/fees",
+   "/my/time_off",
+   "/my/notify",
+   "/users/result-overview",
+   "/subject/registration",
+   "/my/thesis",
+   "/quiz",
+   "/my-library",
+   "/meeting/information",
+   "/online/meeting",
+   "/my/asset-request",
+   "/downloads",
+   "/my/grievances",
+   "/my/addresses",
+   "/my/account",
+   "/student/attendance",
+   "/student/assignment/details",
+   "/student/exam",
+   "/grade-book",
+   "/certificate",
+   "/help"
+  ],
+  "status": 200,
+  "final": "/my/apps"
+ },
+ "/apps": {
+  "title": "应用面板",
+  "nav": [
+   {
+    "t": "我的主页",
+    "h": "/my/home"
+   },
+   {
+    "t": "应用面板",
+    "h": "/apps"
+   },
+   {
+    "t": "教学安排",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "作业管理",
+    "h": "/assignment/manage"
+   },
+   {
+    "t": "成绩录入",
+    "h": "/grade-entry"
+   },
+   {
+    "t": "打卡统计",
+    "h": "/checkins/stats"
+   },
+   {
+    "t": "选课审批",
+    "h": "/registrar/subject/approvals"
+   },
+   {
+    "t": "课程中心",
+    "h": "/my/study"
+   },
+   {
+    "t": "全部应用",
+    "h": "/my/apps"
+   },
+   {
+    "t": "校历",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "图书馆",
+    "h": "/library/media"
+   },
+   {
+    "t": "通讯录",
+    "h": "/my/contacts"
+   },
+   {
+    "t": "消息",
+    "h": "/my/messages"
+   },
+   {
+    "t": "布告栏",
+    "h": "/my/notice_board/notice"
+   },
+   {
+    "t": "费用账单",
+    "h": "/my/fees"
+   },
+   {
+    "t": "请假",
+    "h": "/my/time_off"
+   },
+   {
+    "t": "通知偏好",
+    "h": "/my/notify"
+   },
+   {
+    "t": "帮助中心",
+    "h": "/my/help"
+   }
+  ],
+  "tabs": [
+   {
+    "t": "首页",
+    "h": "/my/home"
+   },
+   {
+    "t": "校历",
+    "h": "/my/calendar"
+   },
+   {
+    "t": "消息",
+    "h": "/my/messages"
+   },
+   {
+    "t": "通讯录",
+    "h": "/my/contacts"
+   },
+   {
+    "t": "修改密码",
+    "h": "/my/password"
+   }
+  ],
+  "heads": [
+   "修改头像"
+  ],
+  "cards": [],
+  "links": [
+   "/",
+   "/about",
+   "/programs",
+   "/admissions",
+   "/journal",
+   "/login",
+   "/booking",
+   "/digital-library",
+   "/online-exams",
+   "/jobs",
+   "/courses-offered",
+   "/program-offered",
+   "/alumni/job/card",
+   "/campus/jobs",
+   "/#contact",
+   "/alumni",
+   "/courses",
+   "/my-courses",
+   "/alumni/jobs",
+   "/apps",
+   "/my/home",
+   "/logout",
+   "/contactus",
+   "/my/help",
+   "/my/password",
+   "/my/calendar",
+   "/assignment/manage",
+   "/grade-entry",
+   "/checkins/stats",
+   "/registrar/subject/approvals",
+   "/my/study",
+   "/my/apps",
+   "/library/media",
+   "/my/contacts",
+   "/my/messages",
+   "/my/notice_board/notice",
+   "/my/fees",
+   "/my/time_off",
+   "/my/notify",
+   "/odoo/action-644",
+   "/odoo/action-722",
+   "/odoo/action-729",
+   "/odoo/action-724",
+   "/odoo/action-382",
+   "/odoo/action-728",
+   "/odoo/action-456",
+   "/odoo/action-429",
+   "/help"
+  ],
+  "status": 200,
+  "final": "/apps"
+ }
+}

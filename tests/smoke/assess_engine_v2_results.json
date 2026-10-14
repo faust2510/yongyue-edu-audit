@@ -1,0 +1,450 @@
+{
+ "items": [
+  {
+   "no": "W1-①",
+   "name": "4 类别 + 14 子项目 → 叶子 14 个",
+   "pass": true,
+   "detail": "leaf_count=14"
+  },
+  {
+   "no": "W1-②",
+   "name": "Σ占比 = 100%（frozenset 明细 40+15+30+15）",
+   "pass": true,
+   "detail": "weight_sum=100.0 ok=True"
+  },
+  {
+   "no": "W1-③",
+   "name": "一级占比派生 = 40/15/30/15（素材 §2.2）",
+   "pass": true,
+   "detail": "派生={'综合技能': 40.0, '社群协作': 15.0, '灵命表现': 30.0, '学业表现': 15.0}"
+  },
+  {
+   "no": "W1-④",
+   "name": "双轨项 4 个（技能类），其余单轨",
+   "pass": true,
+   "detail": "dual=4"
+  },
+  {
+   "no": "W1-⑤",
+   "name": "「学术成果」带\"未提供\"标注且非必填（裁定 A7/P2）",
+   "pass": true,
+   "detail": "help=分数来源《成绩统计表》未提供，本期不可评（不参与总分归一，也不按 0 计入）"
+  },
+  {
+   "no": "W2-①",
+   "name": "三级：一级 4 + 二级 4 + 叶子 22（素材 §6.1 的 22 个合并区）",
+   "pass": true,
+   "detail": "组=8（4 一级 + 4 二级） 叶子=22"
+  },
+  {
+   "no": "W2-②",
+   "name": "真三级（叶子挂在二级分组下）12 项",
+   "pass": true,
+   "detail": "depth3=12"
+  },
+  {
+   "no": "W2-③",
+   "name": "Σ占比 = 100%（xlsx E27 = SUM(E5:E26) 同式）",
+   "pass": true,
+   "detail": "weight_sum=100.0"
+  },
+  {
+   "no": "W2-④",
+   "name": "服务端加权总分 = Excel I27 = 47.5200",
+   "pass": true,
+   "detail": "引擎=47.5200 Excel=47.5200 差=0.00e+00"
+  },
+  {
+   "no": "W2-⑤",
+   "name": "22 项全评 → 已评 22 项 / 可评满分 100 / 等级由 60 线判",
+   "pass": true,
+   "detail": "scored=22 reachable=100.0 grade=不及格"
+  },
+  {
+   "no": "W2-⑥",
+   "name": "留空「学术成果」⇒ 未评项清单 + 可评满分 92.5",
+   "pass": true,
+   "detail": "missing=学术成果 reachable=92.5"
+  },
+  {
+   "no": "W2-⑦",
+   "name": "留空项**不参与归一**（不按 0 计、也不把 92.5 当 100）",
+   "pass": true,
+   "detail": "引擎=46.7700 期望(=总分−学术成果贡献)=46.7700"
+  },
+  {
+   "no": "W3-①",
+   "name": "注入的双轨项 = 12 项（每项两条：客观 + 主观）",
+   "pass": true,
+   "detail": "双轨项 = 12"
+  },
+  {
+   "no": "W3-②",
+   "name": "反向注入①：旧算法行总分 = Σ 所有 score 行 = 1768.00（双轨被算两遍）",
+   "pass": true,
+   "detail": "旧=1768.00 新=1099.00 差=669.00（= 双轨项之和 669.00，正是被算第二遍的那份）"
+  },
+  {
+   "no": "W3-②b",
+   "name": "反向注入①b：旧 average 的分母是\"打分人份数\"（2 个指纹 = 两条轨）",
+   "pass": true,
+   "detail": "旧 average=884.0000（旧total ÷ 份数） 新 average=49.9545（总分 ÷ 已评项数）"
+  },
+  {
+   "no": "W3-③",
+   "name": "单轨项：旧算法与新引擎逐项一致（没有误伤第 1 期口径）",
+   "pass": true,
+   "detail": "单轨记录 10 条"
+  },
+  {
+   "no": "W3-④",
+   "name": "结果页 HTML 里双轨项的明细格 = (客观+主观)/2（走门户读点）",
+   "pass": true,
+   "detail": "HTTP 200 / 命中 3/3 个期望值"
+  },
+  {
+   "no": "W3-⑤",
+   "name": "缺一路 ⇒ 该项**不计入**总分（不按 0、也不按单路平均）",
+   "pass": true,
+   "detail": "weighted=0.0 scored=0（旧算法会算出 60.00）"
+  },
+  {
+   "no": "W3-⑥",
+   "name": "缺一路 ⇒ 显式标注 missing_tracks + 不判级",
+   "pass": true,
+   "detail": "missing_tracks=主观 grade='' complete=False"
+  },
+  {
+   "no": "W3-⑦",
+   "name": "结果页对缺一路的格子显示「未评」（不是半个数）",
+   "pass": true,
+   "detail": "HTTP 200"
+  },
+  {
+   "no": "W3-⑧",
+   "name": "正对照：补上主观路后该项立刻 =（60+100)/2 并计入总分",
+   "pass": true,
+   "detail": "weighted=2.4000 期望=2.4000"
+  },
+  {
+   "no": "W4-①",
+   "name": "5 区项数 7/7/6/6/6 + 区满分 30/30/20/10/10（素材 §8.4）",
+   "pass": true,
+   "detail": "实测=[('厨房', 7, 30.0), ('卫生间', 7, 30.0), ('卧室', 6, 20.0), ('阳台', 6, 10.0), ('客厅', 6, 10.0)]"
+  },
+  {
+   "no": "W4-②",
+   "name": "32 项全部扣分制（score_mode=deduct）",
+   "pass": true,
+   "detail": "扣分项 = 32"
+  },
+  {
+   "no": "W4-③",
+   "name": "扣 14 分 ⇒ 总分 = 100 − 14 = 86（旧算法会算成 14）",
+   "pass": true,
+   "detail": "total=86.0（第 1 期口径 Σvalue 会得 14）"
+  },
+  {
+   "no": "W4-④",
+   "name": "反向注入：旧算法把\"扣分\"当\"得分\"求和 ⇒ 14.00 ≠ 86",
+   "pass": true,
+   "detail": "旧 total=14.00"
+  },
+  {
+   "no": "W4-⑤",
+   "name": "分区小计派生 = 厨房 23 / 卫生间 25 / 卧室 20 / 阳台 8 / 客厅 10",
+   "pass": true,
+   "detail": "实测=[('厨房', '23.00'), ('卫生间', '25.00'), ('卧室', '20.00'), ('阳台', '8.00'), ('客厅', '10.00')]"
+  },
+  {
+   "no": "W4-⑥",
+   "name": "小计**不落库**：edu_assess_roster 表里没有 total/grade/小计列",
+   "pass": true,
+   "detail": "落库列 = id,task_id,student_id,faculty_id,batch_id,create_uid,write_uid,subject_ref,state,create_date,write_date,summary"
+  },
+  {
+   "no": "W4-⑦",
+   "name": "全扣光 ⇒ 0 分且等级=不及格（及格线 60，素材唯一有据的阈值）",
+   "pass": true,
+   "detail": "total=0.0 grade=不及格"
+  },
+  {
+   "no": "W7-①",
+   "name": "同构模板下 3 个任务（XS 自评 / JS 导师评 / 教务录入）",
+   "pass": true,
+   "detail": "任务数=3，打分人=self,teacher,teacher"
+  },
+  {
+   "no": "W7-②",
+   "name": "XS 版 = 自评（scorer_kind=self）",
+   "pass": true,
+   "detail": "self,teacher,teacher"
+  },
+  {
+   "no": "W8-①",
+   "name": "手工加一行（选学生）成功且自动带出班级",
+   "pass": true,
+   "detail": "rid=315 err=None"
+  },
+  {
+   "no": "W8-②",
+   "name": "重复加同一人 ⇒ 被唯一键拦住（正对照：另一个人能加）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 操作无法完成：同一任务里的同一个被评对象只能有一行名单。"
+  },
+  {
+   "no": "W8-③",
+   "name": "正对照：换一个人可以加（不是\"整表不能加\"）",
+   "pass": true,
+   "detail": "rid=317"
+  },
+  {
+   "no": "W8-④",
+   "name": "有打分的名单行**拒删**（历史保留；文案给出出路）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.UserError: 名单行「王小明」已有 1 条打分记录，不能删除（历史要保留）。若确实不再评估此人，请先删除对应的打分记录。"
+  },
+  {
+   "no": "W8-⑤",
+   "name": "正对照：无打分的名单行可以删",
+   "pass": true,
+   "detail": "err="
+  },
+  {
+   "no": "W8-⑥",
+   "name": "批量粘贴名单：新增 2 / 重复 1 跳过 / 找不到 1 报错（幂等）",
+   "pass": true,
+   "detail": "added=1 skipped=1 errors=1"
+  },
+  {
+   "no": "W9-①",
+   "name": "草稿可以存（中途搭结构不被拦，§5.2.1 明写）",
+   "pass": true,
+   "detail": "err=None"
+  },
+  {
+   "no": "W9-②",
+   "name": "Σ=60 ≠ 100 ⇒ **建任务被拒**（§5.2.1 第二道闸门）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 模板「【第2期验收】占比未满（反向）」是占比模式：所有启用中的叶子评分项权重合计必须 = 100%，当前为 60%（差 +40.00%）。请补齐或调整各项占比。"
+  },
+  {
+   "no": "W9-③",
+   "name": "正对照：补到 100% 后建任务通过（不是\"整类都建不了\"）",
+   "pass": true,
+   "detail": "err="
+  },
+  {
+   "no": "W10-①",
+   "name": "匿名任务挂在含双轨项的模板上 ⇒ 被拒（任务侧）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 模板「【第2期验收】说明表1·综合技能与灵命成长（两级·占比）」含双轨评分项（生活技能、与人交往、工作能力、应用能力），不能设为匿名：主观路是学生自评，身份天然已知。"
+  },
+  {
+   "no": "W10-②",
+   "name": "正对照：全单轨模板可以建匿名任务",
+   "pass": true,
+   "detail": "err="
+  },
+  {
+   "no": "W10-③",
+   "name": "把匿名任务下的项改成双轨 ⇒ 被拒（项侧）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 模板「【第2期验收】卫生检测表（5 区·扣分制）」下已有匿名任务（【第2期验收】卫生检测表（5 区·扣分制） · 匿名·卫生），不能把「洗碗池有污渍/饭菜渣」设为双轨：主观路是学生自评，身份天然已知，双轨会让匿名失效。"
+  },
+  {
+   "no": "W11-①",
+   "name": "第 3 级分组下再挂孩子（会到第 4 级）⇒ 被拒（D1 上限 3 级）",
+   "pass": true,
+   "detail": "g3=1809 err=odoo.exceptions.ValidationError: 层级最多 3 级（xlsx 表头最多可读三层，冻结表头也要靠固定层数）；当前会到第 4 级。"
+  },
+  {
+   "no": "W11-②",
+   "name": "上级是叶子评分项 ⇒ 被拒（叶子不能当容器）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 「生活技能」是叶子评分项，不能作为上级节点；请先把它改成「分组节点」，或另建一个分组节点。"
+  },
+  {
+   "no": "W11-③",
+   "name": "上级节点属于别的模板 ⇒ 被拒",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 上级节点「厨房」不属于同一个模板：层级只能在模板内部建。"
+  },
+  {
+   "no": "W11-④",
+   "name": "把父节点挂到自己的下级 ⇒ 被拒（不成环）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 层级不能成环：「【第2期验收】临时子」已经是「【第2期验收】临时组」的下级，不能反过来当它的上级。"
+  },
+  {
+   "no": "W11-⑤",
+   "name": "正对照：无打分的临时层级可以整体删除（组节点按深度倒序）",
+   "pass": true,
+   "detail": "err="
+  },
+  {
+   "no": "W11-⑥",
+   "name": "给分组节点打分 ⇒ 被拒（防\"给一个类别打一个总分\"双重计分）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 「厨房」是分组节点，不参与打分：它的小计由下级评分项汇总。请把分数填到它下面的具体评分项上。"
+  },
+  {
+   "no": "W11-⑦",
+   "name": "给分组节点填权重 ⇒ 被拒（权重只允许挂在叶子上）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 分组节点「综合技能」不参与权重：它的占比由下级评分项汇总得来。请把权重挂在叶子评分项上，本节点保持 1。"
+  },
+  {
+   "no": "W12-①",
+   "name": "默认锚点 = 10/40/60/80/100（说明 P067–P073）",
+   "pass": true,
+   "detail": "anchors=10,40,60,80,100"
+  },
+  {
+   "no": "W12-②",
+   "name": "优秀线默认**关闭**（裁定 A4：素材里查无 90 优秀）",
+   "pass": true,
+   "detail": "enabled=False line=90.0"
+  },
+  {
+   "no": "W12-③",
+   "name": "档位型：非锚点值 55 被拒 / 锚点值 60 通过（正反成对）",
+   "pass": true,
+   "detail": "err55=odoo.exceptions.ValidationError: 「【第2期验收】档位项」是档位型评分项：取值必须是模板的刻度锚点之一（10、40、60、80、 / err60=无"
+  },
+  {
+   "no": "W12-④",
+   "name": "优秀线开关真的参与判级：关闭=及格 / 开启 85 线=优秀（86 分）",
+   "pass": true,
+   "detail": "关闭=及格 开启(85)=优秀 总分=86.0"
+  },
+  {
+   "no": "W12-⑤",
+   "name": "关闭优秀线时只校验「0 < 及格线 ≤ 满分」：及格线 120 被拒",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 等级线需满足：0 < 及格线 ≤ 满分。"
+  },
+  {
+   "no": "W12-⑥",
+   "name": "幂等键仍生效：同模板同名评分项被拒（xlsx 导入按名称对列）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.ValidationError: 同一模板、同一上级下已有同名评分项「【第2期验收】重复名」：名称不能重复（xlsx 导入按名称对列做幂等键）。不同分区的同名检查项请挂到各自的分组节点下。"
+  },
+  {
+   "no": "W13-①",
+   "name": "模板表单 arch 含 10 个新控件（含\"校验占比\"按钮）",
+   "pass": true,
+   "detail": "缺失=无"
+  },
+  {
+   "no": "W13-②",
+   "name": "任务表单 arch 含双轨两路 + 名单行可编辑 + 派生列",
+   "pass": true,
+   "detail": "缺失=无"
+  },
+  {
+   "no": "W13-③",
+   "name": "名单行表单可打开且含派生小计 + 评语",
+   "pass": true,
+   "detail": "err="
+  },
+  {
+   "no": "W13-④",
+   "name": "打分记录列表含「轨」列（客观/主观）",
+   "pass": true,
+   "detail": "err="
+  },
+  {
+   "no": "W13-⑤",
+   "name": "名单 search_read 能读到派生列（供后台列表/结果页/报表）",
+   "pass": true,
+   "detail": "4 行，首行={'weighted_total': 47.52, 'grade': '不及格', 'complete': True}"
+  },
+  {
+   "no": "W14-①",
+   "name": "存量 5 条名单（打分未被改写的那些）：total / weighted_total 逐条相等",
+   "pass": true,
+   "detail": "不相等=无；另 2 条打分被验收脚本改写过，已剔除：[1, 2]"
+  },
+  {
+   "no": "W14-①b",
+   "name": "算法等价（逐条现算）：单轨+加分制数据上，旧公式与新引擎完全一致",
+   "pass": true,
+   "detail": "不一致=无"
+  },
+  {
+   "no": "W14-②",
+   "name": "存量 8 条打分逐字节不变（没动用户数据）",
+   "pass": true,
+   "detail": "变化=无"
+  },
+  {
+   "no": "W14-③",
+   "name": "平均分只在\"被评项 > 1\"的行上改变（= 有意重定义：总分÷打分人份数 ⇒ 总分÷已评项数）；单项行一字不变 [3, 7]",
+   "pass": true,
+   "detail": "变化行=[4, 5, 6]（未受验收脚本改写影响的行里）"
+  },
+  {
+   "no": "W16-①",
+   "name": "夹具前提：评教任务下有多名被评教师（3 名，其中我是 1 行）",
+   "pass": true,
+   "detail": "全部名单=['f:17', 'f:43', 'f:213'] 我的=['f:17']"
+  },
+  {
+   "no": "W16-②",
+   "name": "score_visible=False ⇒ 被评教师读到自己被评行 = 0 行（开关有牙）",
+   "pass": true,
+   "detail": "rows=[] err=None"
+  },
+  {
+   "no": "W16-③",
+   "name": "score_visible=True ⇒ 被评教师只读到自己那一行",
+   "pass": true,
+   "detail": "读到=[2] 期望=[2]（别人的行 [3, 184] 必须缺席）"
+  },
+  {
+   "no": "W16-④",
+   "name": "反向：教师 A 读教师 B 的评教行 ⇒ 拿不到",
+   "pass": true,
+   "detail": "B 的行=[3, 184]，A 读到=[2]"
+  },
+  {
+   "no": "W16-⑤",
+   "name": "score_visible=True ⇒ 只读到\"自己那行\"的打分记录",
+   "pass": true,
+   "detail": "读到 1 条，全部落在我的行上=True"
+  },
+  {
+   "no": "W16-⑥",
+   "name": "score_visible=False ⇒ 打分记录同样读不到（同一开关、两层同步）",
+   "pass": true,
+   "detail": "rows=[] err=None"
+  },
+  {
+   "no": "W16-⑦",
+   "name": "被评教师**不能改**自己被评的行（新规则只开 perm_read）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.AccessError: 哦豁！你似乎偶然发现了一些绝密记录⋯⋯\n\n不好意思，预备科导师【演示】 (id=11) 对下列操作没有「写入」权限：\n- 评估名单快照（edu.assess.roster）\n\n如果你"
+  },
+  {
+   "no": "W16-⑧",
+   "name": "被评教师**不能改**别人给自己的分（防自利式改分）",
+   "pass": true,
+   "detail": "err=odoo.exceptions.AccessError: 哦豁！你似乎偶然发现了一些绝密记录⋯⋯\n\n不好意思，预备科导师【演示】 (id=11) 对下列操作没有「写入」权限：\n- 评估打分记录（edu.assess.score）\n\n如果你真"
+  },
+  {
+   "no": "W16-⑨",
+   "name": "正对照：教务不受行过滤（恒真域仍在，可见全部 3 行）",
+   "pass": true,
+   "detail": "教务读到 3 行"
+  },
+  {
+   "no": "W15",
+   "name": "夹具已清空（只留脚本外数据）",
+   "pass": true,
+   "detail": "残留 = 0"
+  }
+ ],
+ "passed": 74,
+ "failed": 0
+}

@@ -1,0 +1,117 @@
+{
+ "collected_at": {
+  "http": "2026-09-26 21:02~21:05 (+0800)",
+  "viewport": "2026-09-26 21:06~21:09 (+0800)",
+  "orm_recheck": "2026-09-26 21:09~21:12 (+0800)"
+ },
+ "site": "http://localhost:8069 (docker edu19-clone: web Up 47h / db Up 5d healthy)",
+ "identity_note": "admin 口令为 demo123（非 backoffice_reachability.py 里写的 admin/admin）",
+ "dead_45": {
+  "页面数": 45,
+  "已探页面数": 37,
+  "未探页面数": 6,
+  "级别分布_按页取最重": {
+   "无问题": 27,
+   "P3": 4,
+   "P2": 4,
+   "P1": 2
+  },
+  "评级明细": {
+   "/assess/fill/<int:task_id>": null,
+   "/assess/grade/<int:task_id>": null,
+   "/assess/task/<int:task_id>/results": null,
+   "/eval/review/<int:task_id>": null,
+   "/eval/fill/<int:task_id>": null,
+   "/journals/review/<int:entry_id>": "P3",
+   "/library/media/info/<int:mid>": null,
+   "/subject/material/detail/<int:sid>": "P2",
+   "/my/notice/<int:notice_id>": null,
+   "/my/notice_banner": null,
+   "/my/calendar/new": null,
+   "/subject/enroll": null,
+   "/registrar/curriculum": null,
+   "/my/evaluation/task/<int:task_id>": null,
+   "/my/reimburse/receipt/<int:bill_id>/<int:att_id>": null,
+   "/my/courses/<int:subject_id>": "P2",
+   "/my/courses/lesson/<int:lesson_id>": "P2",
+   "/my/courses/<int:subject_id>/rep": null,
+   "/my/messages/<int:uid>": null,
+   "/my/messages/poll": null,
+   "/grading/history": "P2",
+   "/my/documents": null,
+   "/my/documents/enrollment-certificate": null,
+   "/my/documents/transcript": null,
+   "/my/study/<int:subject_id>": null,
+   "/my/points/me": "P3",
+   "/quiz/<int:qid>/take": "P1",
+   "/quiz/<int:qid>/result/<int:aid>": null,
+   "/timetable/session/<int:sid>/impact": "P1",
+   "/my/child/<int:child_id>": "P3",
+   "/my/child/<int:child_id>/leave": null,
+   "/my/evaluation/new": null,
+   "/my/reimburse/apply": null,
+   "/my/child/<int:child_id>/leave/saved": "P3",
+   "/leave/transfer": null,
+   "/leave/<int:leave_id>/return_confirm": null,
+   "/my/study/session/<int:session_id>/join": null
+  },
+  "范围内页面数": 37,
+  "范围外页面数": 2,
+  "修正": "① 退役模块 2 条移出范围；② eval 家族 4 条改判「设计如此（303 兼容层）」，移出 P1；③ 授权补测 5 条并入"
+ },
+ "ctrl_20": {
+  "页面数": 20,
+  "级别分布_按页取最重": {
+   "无问题": 13,
+   "P2": 6,
+   "P1": 1
+  },
+  "评级明细": {
+   "/my": null,
+   "/my/home": "P2",
+   "/student/profile": "P2",
+   "/student/timetable": null,
+   "/student/subjects": null,
+   "/my/time_off": null,
+   "/leave/approvals": "P1",
+   "/grade-book": "P2",
+   "/grading/entry": "P2",
+   "/downloads": "P2",
+   "/downloads/mine": null,
+   "/quiz": "P2",
+   "/quiz/my": null,
+   "/library/media": null,
+   "/my-library": null,
+   "/my/courses": null,
+   "/my/notify": null,
+   "/my/help": null,
+   "/my/search": null,
+   "/attendance/take": null
+  }
+ },
+ "问题密度": {
+  "死角组": {
+   "已探页": 37,
+   "P1": 2,
+   "P2": 4,
+   "P3": 4,
+   "有问题页数": 10,
+   "P1率": 0.054,
+   "有问题率": 0.27
+  },
+  "对照组": {
+   "已探页": 20,
+   "P1": 1,
+   "P2": 6,
+   "P3": 0,
+   "有问题页数": 7,
+   "P1率": 0.05,
+   "有问题率": 0.35
+  },
+  "比值": {
+   "P1密度比(死角/对照)": 1.08,
+   "P1+P2密度比(死角/对照)": 0.46,
+   "有问题密度比(死角/对照)": 0.77
+  }
+ }
+}

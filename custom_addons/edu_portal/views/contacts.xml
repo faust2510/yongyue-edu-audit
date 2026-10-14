@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ /my/contacts 通讯录（v2.1-B8） ============ -->
+    <template id="edu_contacts" name="Edu Contacts">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1"><i class="fa fa-address-book-o me-2" aria-hidden="true"></i>通讯录</h2>
+                <p class="text-muted mb-0">老师、学生、家长三组自动归类，按熟人圈可见：家长=孩子任课教师、学生=自己的教师与同班同学、教师=本班学生/家长（均含管理员），管理员可见全部。</p>
+            </section>
+
+            <!-- ============ 需求 7 G6：学生视角的「我的班级 + 同班同学」 ============
+                 校长拍板 P3-(a)：同班同学**只显示姓名 + 班名** —— 没有学号、没有头像、
+                 没有邮箱、没有手机。本段模板里根本不存在这些元素（不是"留空"，
+                 是**结构上没有**），验收脚本按 id="edu-classmates" 精确取这一段来断言。
+                 本段只在学生身份下渲染（classmates is not None），
+                 家长/教师/管理员看不到它（家长看不到别人家孩子，校长拍板 P4）。 -->
+            <section id="edu-classmates" class="mb-3" t-if="classmates is not None">
+                <h5 class="mt-4 mb-2">
+                    <i class="fa fa-users me-1" aria-hidden="true"/>同班同学
+                    <span class="badge text-bg-light text-muted ms-1" t-out="len(classmates)"/>
+                </h5>
+                <p class="text-muted small mb-2">
+                    我的班级：<b t-out="my_class_label or '尚未分班（请联系教务处）'"/>。
+                    这里只显示同班同学的姓名与班级，同学的联系方式不在门户公开。
+                </p>
+                <t t-if="not classmates">
+                    <div class="oe-norec"><i class="fa fa-users oe-norec-ic" aria-hidden="true"></i>
+                        <!-- 空态审计（2026-10-02）：原来只有一句「本班暂时还没有其他同学。」；
+                             上方虽有「我的班级：尚未分班（请联系教务处）」，但空态本身要能独立回答
+                             「为什么空 + 下一步」。 -->
+                        <p class="oe-norec-txt">
+                            本班暂时还没有其他同学。同学名单来自教务的分班与选课，
+                            分班后会自动出现在这里；如果你还没分班，请联系教务处。
+                        </p></div>
+                </t>
+                <div t-else="" class="o_portal_docs row g-2">
+                    <t t-foreach="classmates" t-as="mate">
+                        <div class="o_portal_index_card col-md-6">
+                            <div class="d-flex justify-content-between gap-2 py-2 px-3 h-100 rounded text-bg-light">
+                                <div>
+                                    <div class="fs-6 fw-bold" t-out="mate['name']"/>
+                                    <div class="small opacity-75" t-out="mate['class_name']"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </section>
+
+            <t t-if="not groups">
+                <div class="oe-norec"><i class="fa fa-address-book-o oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">当前账号未挂接身份，暂无可展示的联系人。请联系管理员补挂身份。</p></div>
+            </t>
+
+            <t t-foreach="groups" t-as="g">
+                <h5 class="mt-4 mb-2">
+                    <i t-attf-class="fa {{ g['icon'] }} me-1" aria-hidden="true"></i><t t-out="g['title']"/>
+                    <span class="badge text-bg-light text-muted ms-1" t-out="len(g['items'])"/>
+                </h5>
+                <div class="o_portal_docs row g-2">
+                    <t t-foreach="g['items']" t-as="item">
+                        <div class="o_portal_index_card col-md-6">
+                            <div class="d-flex justify-content-between gap-2 py-2 px-3 h-100 rounded text-bg-light">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <img class="rounded-circle" width="48" height="48" loading="lazy"
+                                         t-att-src="'/web/image/res.partner/%s/avatar_256' % (item['partner_id'] or 0)"
+                                         alt=""/>
+                                    <div>
+                                        <div class="fs-6 fw-bold">
+                                            <t t-out="item['name']"/>
+                                            <span t-att-class="'badge ms-1 ' + item['badge_cls']" t-out="item['role']"/>
+                                        </div>
+                                        <div class="small opacity-75" t-out="item['subtitle']"/>
+                                        <div class="small mt-1">
+                                            <t t-if="item['phone']"><i class="fa fa-phone me-1" aria-hidden="true"></i><t t-out="item['phone']"/></t>
+                                            <t t-if="item['email']"><i class="fa fa-envelope-o ms-2 me-1" aria-hidden="true"></i><t t-out="item['email']"/></t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ /edu/backend/relink_identity 老账号补挂身份（仅系统组） ============
+         原文保留（勿删，供追溯）：本页最初只放行 base.group_system。
+         【2026-09-17 t13 起更正】守卫已改为复用 controllers/main.py 的 is_backoffice(user)
+         （= base.group_system 或 openeducat_core.group_op_back_office_admin），即**教务 + 系统管理员**；
+         实现见 controllers/contacts.py 的 EduIdentityRelink._allowed()。本页只把账号挂到
+         student/parent/faculty 档案的 user_id（一人一挂），不写任何 res.users 组（无提权路径）。 -->
+    <template id="edu_relink_identity" name="Edu Backend Relink Identity">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1"><i class="fa fa-link me-2" aria-hidden="true"></i>老账号补挂身份</h2>
+                <p class="text-muted mb-0">为尚未挂接学生 / 家长 / 教师档案的账号批量补挂身份（一人一挂）。挂接后该账号即可使用对应角色的门户功能并可被通讯录检索。</p>
+            </section>
+
+            <div class="alert alert-success py-2" t-if="ok_count">
+                成功挂接 <b t-out="ok_count"/> 个账号。
+            </div>
+            <div class="alert alert-warning py-2" t-if="skip_count">
+                跳过 <b t-out="skip_count"/> 个（账号或对应人员无效、或人员已绑定其他账号）。
+            </div>
+
+            <t t-if="not users">
+                <div class="oe-norec"><i class="fa fa-check-circle oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">所有真实账号均已挂接身份。</p></div>
+            </t>
+
+            <form t-else="" method="post" action="/edu/backend/relink_identity/save"
+                  class="card shadow-sm border-0">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="table-responsive">
+                    <table class="table table-light align-middle mb-0">
+                        <thead><tr>
+                            <th>账号</th><th>姓名</th><th>类型</th>
+                            <th style="min-width:280px">挂接为（选择后保存即生效）</th>
+                        </tr></thead>
+                        <tbody>
+                            <t t-foreach="users" t-as="u">
+                                <tr>
+                                    <td class="font-monospace small" t-out="u['login']"/>
+                                    <td t-out="u['name']"/>
+                                    <td><span class="badge text-bg-secondary" t-out="u['group_label']"/></td>
+                                    <td>
+                                        <select t-att-name="'person_' + str(u['id'])" class="form-select form-select-sm">
+                                            <option value="">— 不挂接 —</option>
+                                            <optgroup label="学生">
+                                                <t t-foreach="students" t-as="c">
+                                                    <option t-att-value="'student:' + str(c['id'])" t-out="c['label']"/>
+                                                </t>
+                                            </optgroup>
+                                            <optgroup label="家长">
+                                                <t t-foreach="parents" t-as="c">
+                                                    <option t-att-value="'parent:' + str(c['id'])" t-out="c['label']"/>
+                                                </t>
+                                            </optgroup>
+                                            <optgroup label="教师">
+                                                <t t-foreach="faculties" t-as="c">
+                                                    <option t-att-value="'faculty:' + str(c['id'])" t-out="c['label']"/>
+                                                </t>
+                                            </optgroup>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer d-flex gap-2 align-items-center">
+                    <button class="btn btn-primary" type="submit">批量挂接</button>
+                    <span class="small text-muted">共 <t t-out="len(users)"/> 个未挂接账号</span>
+                </div>
+            </form>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 排课冲突检测开关：openeducat_timetable 的四类冲突检查由
+         ir.config_parameter 门控，但该基座只在 demo 数据里种参数；
+         本库无 demo → 检查被静默跳过。这里以 noupdate 固化默认全开。
+         （调研结论见 docs/plans/timetable-design.md 第二节） -->
+    <data noupdate="1">
+        <record id="param_timetable_faculty_constraint" model="ir.config_parameter">
+            <field name="key">timetable.is_faculty_constraint</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_timetable_classroom_constraint" model="ir.config_parameter">
+            <field name="key">timetable.is_classroom_constraint</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_timetable_batch_subject_constraint" model="ir.config_parameter">
+            <field name="key">timetable.is_batch_and_subject_constraint</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_timetable_batch_constraint" model="ir.config_parameter">
+            <field name="key">timetable.is_batch_constraint</field>
+            <field name="value">True</field>
+        </record>
+    </data>
+    <!-- t88：报名 / 报课截止日（学校在 设置 → 报名与报课截止 自助修改）。
+         noupdate=1：一旦学校改过，升级不会覆盖其取值。 -->
+    <data noupdate="1">
+        <record id="param_edu_apply_deadline" model="ir.config_parameter">
+            <field name="key">edu.apply.deadline</field>
+            <field name="value">2026-10-01</field>
+        </record>
+        <record id="param_edu_enroll_deadline" model="ir.config_parameter">
+            <field name="key">edu.enroll.deadline</field>
+            <field name="value">2026-10-01</field>
+        </record>
+    </data>
+</odoo>

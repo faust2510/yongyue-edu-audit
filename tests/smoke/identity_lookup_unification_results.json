@@ -1,0 +1,919 @@
+{
+ "suite": "identity_lookup_unification",
+ "db": "edu19",
+ "phases": {
+  "setup": {
+   "fixture": {
+    "faculty": 43,
+    "faculty_partner": 120,
+    "teacher_uid": 452,
+    "teacher_partner": 120,
+    "student_uid": 453,
+    "student_partner": 734,
+    "student_rec": 291,
+    "batch": 8,
+    "bill": 384,
+    "student_course": 150,
+    "fee_bill": 384,
+    "baseline_counts": {
+     "user": 10,
+     "partner": 82,
+     "faculty": 2,
+     "student": 4,
+     "student_course": 4,
+     "session": 288,
+     "bill": 2,
+     "message": 1154
+    },
+    "teacher_salesperson_before": "",
+    "teacher_native_accounts": 1
+   }
+  },
+  "before": {
+   "fixture": {
+    "teacher_uid": 419,
+    "teacher_partner": 120,
+    "student_uid": 420,
+    "student_partner": 707,
+    "student_rec": 279,
+    "faculty": 43,
+    "faculty_partner": 120,
+    "student_course": 145,
+    "fee_bill": 379
+   },
+   "session_ext": {
+    "no_students": {
+     "sid": 746,
+     "batch": 12,
+     "n_students": 0,
+     "recipients": 0,
+     "recipient_ids": [],
+     "teacher_in": false,
+     "impact": 0
+    },
+    "with_students": {
+     "sid": 844,
+     "batch": 8,
+     "n_students": 1,
+     "recipients": 1,
+     "recipient_ids": [
+      8
+     ],
+     "teacher_in": false,
+     "impact": 1
+    },
+    "existing_faculty": {
+     "sid": 756,
+     "batch": 8,
+     "n_students": 1,
+     "recipients": 2,
+     "recipient_ids": [
+      8,
+      11
+     ],
+     "teacher_in": false,
+     "impact": 2
+    },
+    "notify_change": {
+     "sent": 0,
+     "total": 0,
+     "failed": 0,
+     "muted": 0
+    }
+   },
+   "ical": {
+    "teacher": {
+     "total_vevent": 0,
+     "session_vevent": 0,
+     "exam_vevent": 0,
+     "event_vevent": 0,
+     "holiday_vevent": 0,
+     "status": 200
+    },
+    "student": {
+     "total_vevent": 0,
+     "session_vevent": 0,
+     "exam_vevent": 0,
+     "event_vevent": 0,
+     "holiday_vevent": 0,
+     "status": 200
+    }
+   },
+   "messages": {
+    "teacher_login_ok": true,
+    "admin_status": 200,
+    "admin_picker": 4,
+    "admin_has_teacher": false,
+    "student_status": 200,
+    "student_picker": 3,
+    "student_has_teacher": false,
+    "student_options": [
+     "2",
+     "11",
+     "12"
+    ],
+    "teacher_status": 200,
+    "teacher_picker": 4,
+    "teacher_picker_has_students": true
+   },
+   "fees": {
+    "fixture_bill_as_teacher": false,
+    "fixture_bill_as_student_acct": false,
+    "existing_matrix": {
+     "2:1": true,
+     "2:2": true,
+     "5:1": false,
+     "5:2": false,
+     "4:1": false,
+     "4:2": false,
+     "420:1": false,
+     "420:2": false,
+     "3:1": false,
+     "3:2": false,
+     "10:1": false,
+     "10:2": false,
+     "419:1": false,
+     "419:2": false,
+     "12:1": true,
+     "12:2": true,
+     "9:1": false,
+     "9:2": false,
+     "8:1": true,
+     "8:2": true,
+     "1:1": true,
+     "1:2": true,
+     "11:1": false,
+     "11:2": false
+    }
+   },
+   "regression": {
+    "changed": [],
+    "added": [
+     [
+      "smoke_id_student@local",
+      "op.student",
+      279
+     ],
+     [
+      "smoke_id_teacher@local",
+      "op.faculty",
+      43
+     ]
+    ],
+    "total": 36
+   }
+  },
+  "after": {
+   "fixture": {
+    "teacher_uid": 446,
+    "teacher_partner": 120,
+    "student_uid": 447,
+    "student_partner": 729,
+    "student_rec": 289,
+    "faculty": 43,
+    "faculty_partner": 120,
+    "student_course": 149,
+    "fee_bill": 383
+   },
+   "session_ext": {
+    "no_students": {
+     "sid": 746,
+     "batch": 12,
+     "n_students": 0,
+     "recipients": 1,
+     "recipient_ids": [
+      446
+     ],
+     "teacher_in": true,
+     "impact": 1
+    },
+    "with_students": {
+     "sid": 844,
+     "batch": 8,
+     "n_students": 2,
+     "recipients": 3,
+     "recipient_ids": [
+      8,
+      447,
+      446
+     ],
+     "teacher_in": true,
+     "impact": 3
+    },
+    "existing_faculty": {
+     "sid": 756,
+     "batch": 8,
+     "n_students": 2,
+     "recipients": 3,
+     "recipient_ids": [
+      8,
+      447,
+      11
+     ],
+     "teacher_in": false,
+     "impact": 3
+    },
+    "notify_change": {
+     "sent": 1,
+     "total": 1,
+     "failed": 0,
+     "muted": 0
+    }
+   },
+   "ical": {
+    "teacher": {
+     "total_vevent": 231,
+     "session_vevent": 231,
+     "exam_vevent": 0,
+     "event_vevent": 0,
+     "holiday_vevent": 0,
+     "status": 200
+    },
+    "student": {
+     "total_vevent": 41,
+     "session_vevent": 41,
+     "exam_vevent": 0,
+     "event_vevent": 0,
+     "holiday_vevent": 0,
+     "status": 200
+    }
+   },
+   "messages": {
+    "teacher_login_ok": true,
+    "admin_status": 200,
+    "admin_picker": 6,
+    "admin_has_teacher": true,
+    "student_status": 200,
+    "student_picker": 4,
+    "student_has_teacher": true,
+    "student_options": [
+     "2",
+     "11",
+     "12",
+     "446"
+    ],
+    "teacher_status": 200,
+    "teacher_picker": 5,
+    "teacher_picker_has_students": true
+   },
+   "fees": {
+    "fixture_bill_as_teacher": true,
+    "fixture_bill_as_student_acct": false,
+    "existing_matrix": {
+     "2:1": true,
+     "2:2": true,
+     "5:1": false,
+     "5:2": false,
+     "4:1": false,
+     "4:2": false,
+     "447:1": false,
+     "447:2": false,
+     "3:1": false,
+     "3:2": false,
+     "10:1": false,
+     "10:2": false,
+     "446:1": false,
+     "446:2": false,
+     "12:1": true,
+     "12:2": true,
+     "9:1": false,
+     "9:2": false,
+     "8:1": true,
+     "8:2": true,
+     "1:1": true,
+     "1:2": true,
+     "11:1": false,
+     "11:2": false
+    },
+    "matrix_diff_vs_before": {},
+    "matrix_new_keys": [
+     "446:1",
+     "446:2",
+     "447:1",
+     "447:2"
+    ]
+   },
+   "helper_unit": {
+    "student": {
+     "chain1": 0,
+     "dual": 290,
+     "forward": [
+      448
+     ]
+    },
+    "faculty": {
+     "chain1": 0,
+     "dual": 202,
+     "forward": [
+      449
+     ]
+    },
+    "parent": {
+     "chain1": 0,
+     "dual": 144,
+     "forward": [
+      450
+     ]
+    },
+    "chain1_priority": {
+     "got": 290,
+     "want": 290
+    }
+   },
+   "regression": {
+    "changed": [],
+    "added": [
+     [
+      "smoke_id_student@local",
+      "op.student",
+      289
+     ],
+     [
+      "smoke_id_teacher@local",
+      "op.faculty",
+      43
+     ]
+    ],
+    "total": 36
+   }
+  },
+  "teardown": {
+   "leftover": {
+    "student": [],
+    "student_course": [],
+    "partners": [],
+    "bills": [],
+    "users": []
+   },
+   "sql_left": {
+    "users": 0,
+    "partners_by_prefix": 0,
+    "students_by_prefix": 0,
+    "student_course_by_prefix": 0,
+    "students": 0,
+    "partners": 0,
+    "bills": 0
+   },
+   "counts": {
+    "fixture_present": {
+     "user": 12,
+     "partner": 83,
+     "faculty": 2,
+     "student": 5,
+     "student_course": 5,
+     "session": 288,
+     "bill": 3,
+     "message": 1154
+    },
+    "after": {
+     "user": 10,
+     "partner": 82,
+     "faculty": 2,
+     "student": 4,
+     "student_course": 4,
+     "session": 288,
+     "bill": 2,
+     "message": 1154
+    }
+   }
+  },
+  "verify": {
+   "fixture": {
+    "teacher_uid": 452,
+    "teacher_partner": 120,
+    "student_uid": 453,
+    "student_partner": 734,
+    "student_rec": 291,
+    "faculty": 43,
+    "faculty_partner": 120,
+    "student_course": 150,
+    "fee_bill": 384
+   },
+   "session_ext": {
+    "no_students": {
+     "sid": 746,
+     "batch": 12,
+     "n_students": 0,
+     "recipients": 1,
+     "recipient_ids": [
+      452
+     ],
+     "teacher_in": true,
+     "impact": 1
+    },
+    "with_students": {
+     "sid": 844,
+     "batch": 8,
+     "n_students": 2,
+     "recipients": 3,
+     "recipient_ids": [
+      8,
+      453,
+      452
+     ],
+     "teacher_in": true,
+     "impact": 3
+    },
+    "existing_faculty": {
+     "sid": 756,
+     "batch": 8,
+     "n_students": 2,
+     "recipients": 3,
+     "recipient_ids": [
+      8,
+      453,
+      11
+     ],
+     "teacher_in": false,
+     "impact": 3
+    },
+    "notify_change": {
+     "sent": 1,
+     "total": 1,
+     "failed": 0,
+     "muted": 0
+    }
+   },
+   "ical": {
+    "teacher": {
+     "total_vevent": 231,
+     "session_vevent": 231,
+     "exam_vevent": 0,
+     "event_vevent": 0,
+     "holiday_vevent": 0,
+     "status": 200
+    },
+    "student": {
+     "total_vevent": 41,
+     "session_vevent": 41,
+     "exam_vevent": 0,
+     "event_vevent": 0,
+     "holiday_vevent": 0,
+     "status": 200
+    }
+   },
+   "messages": {
+    "teacher_login_ok": true,
+    "admin_status": 200,
+    "admin_picker": 6,
+    "admin_has_teacher": true,
+    "student_status": 200,
+    "student_picker": 4,
+    "student_has_teacher": true,
+    "student_options": [
+     "2",
+     "11",
+     "12",
+     "452"
+    ],
+    "teacher_status": 200,
+    "teacher_picker": 5,
+    "teacher_picker_has_students": true
+   },
+   "fees": {
+    "fixture_bill_as_teacher": true,
+    "fixture_bill_as_student_acct": false,
+    "existing_matrix": {
+     "2:1": true,
+     "2:2": true,
+     "5:1": false,
+     "5:2": false,
+     "4:1": false,
+     "4:2": false,
+     "453:1": false,
+     "453:2": false,
+     "3:1": false,
+     "3:2": false,
+     "10:1": false,
+     "10:2": false,
+     "452:1": false,
+     "452:2": false,
+     "12:1": true,
+     "12:2": true,
+     "9:1": false,
+     "9:2": false,
+     "8:1": true,
+     "8:2": true,
+     "1:1": true,
+     "1:2": true,
+     "11:1": false,
+     "11:2": false
+    },
+    "matrix_diff_vs_before": {},
+    "matrix_new_keys": [
+     "452:1",
+     "452:2",
+     "453:1",
+     "453:2"
+    ]
+   },
+   "helper_unit": {
+    "student": {
+     "chain1": 0,
+     "dual": 292,
+     "forward": [
+      454
+     ]
+    },
+    "faculty": {
+     "chain1": 0,
+     "dual": 203,
+     "forward": [
+      455
+     ]
+    },
+    "parent": {
+     "chain1": 0,
+     "dual": 145,
+     "forward": [
+      456
+     ]
+    },
+    "chain1_priority": {
+     "got": 292,
+     "want": 292
+    }
+   },
+   "regression": {
+    "changed": [],
+    "added": [
+     [
+      "smoke_id_student@local",
+      "op.student",
+      291
+     ],
+     [
+      "smoke_id_teacher@local",
+      "op.faculty",
+      43
+     ]
+    ],
+    "total": 36
+   }
+  }
+ },
+ "checks": [
+  {
+   "no": "V5",
+   "name": "只加不减：既有非空解析结果一字不变（全库用户 × 三身份模型）",
+   "pass": true,
+   "detail": "changed=[] added=[['smoke_id_student@local', 'op.student', 279], ['smoke_id_teacher@local', 'op.faculty', 43]] total=36",
+   "phase": "before"
+  },
+  {
+   "no": "C0",
+   "name": "公共 helper 已落地（且不是第二套）",
+   "pass": true,
+   "detail": "helper=custom_addons/edu_schedule/models/identity.py",
+   "phase": "after"
+  },
+  {
+   "no": "C0b",
+   "name": "高危点已改走公共 helper：edu_portal/controllers/ical.py",
+   "pass": true,
+   "detail": "残留旧口径片段=[]",
+   "phase": "after"
+  },
+  {
+   "no": "C0b",
+   "name": "高危点已改走公共 helper：edu_portal/controllers/messages.py",
+   "pass": true,
+   "detail": "残留旧口径片段=[]",
+   "phase": "after"
+  },
+  {
+   "no": "C0b",
+   "name": "高危点已改走公共 helper：edu_schedule/models/session_ext.py",
+   "pass": true,
+   "detail": "残留旧口径片段=[]",
+   "phase": "after"
+  },
+  {
+   "no": "C0b",
+   "name": "高危点已改走公共 helper：edu_portal/models/fees.py",
+   "pass": true,
+   "detail": "残留旧口径片段=[]",
+   "phase": "after"
+  },
+  {
+   "no": "V1",
+   "name": "课前/改课通知收件人不再为 0（脚本新建教师账号的夹具）",
+   "pass": true,
+   "detail": "sid=746 收件人=1 含教师=True（改课通知 {'sent': 1, 'total': 1, 'failed': 0, 'muted': 0}）",
+   "phase": "after"
+  },
+  {
+   "no": "V1b",
+   "name": "只加不减（逐 id）：改前每位收件人改后仍在名单里",
+   "pass": true,
+   "detail": "丢失={}（改前 {'sid': 844, 'batch': 8, 'n_students': 1, 'recipients': 1, 'recipient_ids': [8], 'teacher_in': False, 'impact': 1} / 改后 {'sid': 844, 'batch': 8, 'n_students': 2, 'recipients': 3, 'recipient_ids': [8, 447, 446], 'teacher_in': True, 'impact': 3}）",
+   "phase": "after"
+  },
+  {
+   "no": "V2",
+   "name": "教师 ICS 不再是空日历（身份解析出 faculty 视角）",
+   "pass": true,
+   "detail": "session 事件=231 / 总事件=231",
+   "phase": "after"
+  },
+  {
+   "no": "V2b",
+   "name": "学生 ICS 不再是空日历（身份解析出 student 视角）",
+   "pass": true,
+   "detail": "session 事件=41 / 总事件=41",
+   "phase": "after"
+  },
+  {
+   "no": "V3",
+   "name": "学生的熟人圈里出现「脚本新建教师」账号（私信可达）",
+   "pass": true,
+   "detail": "student_picker=4 has_teacher=True",
+   "phase": "after"
+  },
+  {
+   "no": "V3b",
+   "name": "管理员私信列表把该教师识别为「教师」（不是管理员/查无此人）",
+   "pass": true,
+   "detail": "admin_picker=6 has_teacher=True",
+   "phase": "after"
+  },
+  {
+   "no": "V4",
+   "name": "报销收据可见性：受理教师本人的账号能看见自己的单据",
+   "pass": true,
+   "detail": "as_teacher=True（改前为 False）",
+   "phase": "after"
+  },
+  {
+   "no": "V4b",
+   "name": "报销收据可见性：既有账号 × 既有账单 与改前逐条一致",
+   "pass": true,
+   "detail": "共同键 20 个，差异={}（新增键 ['446:1', '446:2', '447:1', '447:2']）",
+   "phase": "after"
+  },
+  {
+   "no": "V6",
+   "name": "helper 自身：三模型都「链①空→链②命中」且正向并集能找回账号；链①优先不变",
+   "pass": true,
+   "detail": "{\"student\": {\"chain1\": 0, \"dual\": 290, \"forward\": [448]}, \"faculty\": {\"chain1\": 0, \"dual\": 202, \"forward\": [449]}, \"parent\": {\"chain1\": 0, \"dual\": 144, \"forward\": [450]}, \"chain1_priority\": {\"got\": 290, \"want\": 290}}",
+   "phase": "after"
+  },
+  {
+   "no": "V5",
+   "name": "只加不减：既有非空解析结果一字不变（全库用户 × 三身份模型）",
+   "pass": true,
+   "detail": "changed=[] added=[['smoke_id_student@local', 'op.student', 289], ['smoke_id_teacher@local', 'op.faculty', 43]] total=36",
+   "phase": "after"
+  },
+  {
+   "no": "C0",
+   "name": "公共 helper 已落地（且不是第二套）",
+   "pass": true,
+   "detail": "helper=custom_addons/edu_schedule/models/identity.py",
+   "phase": "verify"
+  },
+  {
+   "no": "C0b",
+   "name": "高危点已改走公共 helper：edu_portal/controllers/ical.py",
+   "pass": true,
+   "detail": "残留旧口径片段=[]",
+   "phase": "verify"
+  },
+  {
+   "no": "C0b",
+   "name": "高危点已改走公共 helper：edu_portal/controllers/messages.py",
+   "pass": true,
+   "detail": "残留旧口径片段=[]",
+   "phase": "verify"
+  },
+  {
+   "no": "C0b",
+   "name": "高危点已改走公共 helper：edu_schedule/models/session_ext.py",
+   "pass": true,
+   "detail": "残留旧口径片段=[]",
+   "phase": "verify"
+  },
+  {
+   "no": "C0b",
+   "name": "高危点已改走公共 helper：edu_portal/models/fees.py",
+   "pass": true,
+   "detail": "残留旧口径片段=[]",
+   "phase": "verify"
+  },
+  {
+   "no": "V1",
+   "name": "课前/改课通知收件人不再为 0（脚本新建教师账号的夹具）",
+   "pass": true,
+   "detail": "sid=746 收件人=1 含教师=True（改课通知 {'sent': 1, 'total': 1, 'failed': 0, 'muted': 0}）",
+   "phase": "verify"
+  },
+  {
+   "no": "V2",
+   "name": "教师 ICS 不再是空日历（身份解析出 faculty 视角）",
+   "pass": true,
+   "detail": "session 事件=231 / 总事件=231",
+   "phase": "verify"
+  },
+  {
+   "no": "V2b",
+   "name": "学生 ICS 不再是空日历（身份解析出 student 视角）",
+   "pass": true,
+   "detail": "session 事件=41 / 总事件=41",
+   "phase": "verify"
+  },
+  {
+   "no": "V3",
+   "name": "学生的熟人圈里出现「脚本新建教师」账号（私信可达）",
+   "pass": true,
+   "detail": "student_picker=4 has_teacher=True",
+   "phase": "verify"
+  },
+  {
+   "no": "V3b",
+   "name": "管理员私信列表把该教师识别为「教师」（不是管理员/查无此人）",
+   "pass": true,
+   "detail": "admin_picker=6 has_teacher=True",
+   "phase": "verify"
+  },
+  {
+   "no": "V4",
+   "name": "报销收据可见性：受理教师本人的账号能看见自己的单据",
+   "pass": true,
+   "detail": "as_teacher=True（改前为 False）",
+   "phase": "verify"
+  },
+  {
+   "no": "V4b",
+   "name": "报销收据可见性：既有账号 × 既有账单 与改前逐条一致",
+   "pass": true,
+   "detail": "共同键 20 个，差异={}（新增键 ['452:1', '452:2', '453:1', '453:2']）",
+   "phase": "verify"
+  },
+  {
+   "no": "V6",
+   "name": "helper 自身：三模型都「链①空→链②命中」且正向并集能找回账号；链①优先不变",
+   "pass": true,
+   "detail": "{\"student\": {\"chain1\": 0, \"dual\": 292, \"forward\": [454]}, \"faculty\": {\"chain1\": 0, \"dual\": 203, \"forward\": [455]}, \"parent\": {\"chain1\": 0, \"dual\": 145, \"forward\": [456]}, \"chain1_priority\": {\"got\": 292, \"want\": 292}}",
+   "phase": "verify"
+  },
+  {
+   "no": "V5",
+   "name": "只加不减：既有非空解析结果一字不变（全库用户 × 三身份模型）",
+   "pass": true,
+   "detail": "changed=[] added=[['smoke_id_student@local', 'op.student', 291], ['smoke_id_teacher@local', 'op.faculty', 43]] total=36",
+   "phase": "verify"
+  },
+  {
+   "no": "T1",
+   "name": "清场：夹具账号/档案/账单全部删除（残留 = 0，SQL 直读复核）",
+   "pass": true,
+   "detail": "事务内={\"student\": [], \"student_course\": [], \"partners\": [], \"bills\": [], \"users\": []} 提交后 SQL={\"users\": 0, \"partners_by_prefix\": 0, \"students_by_prefix\": 0, \"student_course_by_prefix\": 0, \"students\": 0, \"partners\": 0, \"bills\": 0}",
+   "phase": "teardown"
+  },
+  {
+   "no": "T2",
+   "name": "清场：既有数据一行未少（清场后计数 ≥ 建夹具前基线）",
+   "pass": true,
+   "detail": "基线={'user': 10, 'partner': 82, 'faculty': 2, 'student': 4, 'student_course': 4, 'session': 288, 'bill': 2, 'message': 1154} 清场后={'user': 10, 'partner': 82, 'faculty': 2, 'student': 4, 'student_course': 4, 'session': 288, 'bill': 2, 'message': 1154} 减少项={}",
+   "phase": "teardown"
+  },
+  {
+   "no": "T3",
+   "name": "清场：教师 partner 的 user_id 仍是空（未抢占任何账号）",
+   "pass": true,
+   "detail": "partner 120 user_id=''",
+   "phase": "teardown"
+  }
+ ],
+ "readings": [
+  {
+   "name": "before | 静态检查",
+   "value": "{'helper': None, 'importers': {'edu_portal/controllers/ical.py': False, 'edu_portal/controllers/messages.py': True, 'edu_schedule/models/session_ext.py': False, 'edu_portal/models/fees.py': False}, 'bad_patterns': {'edu_portal/controllers/ical.py': [\"('user_id', '=', uid)\"], 'edu_portal/controllers/messages.py': [\"('partner_id.user_id', '=', uid)\", \"('name.user_id', '=', uid)\"], 'edu_schedule/models/session_ext.py': ['self.faculty_id.user_id if'], 'edu_portal/models/fees.py': ['self.faculty_id.partner_id.user_id.id == uid']}}"
+  },
+  {
+   "name": "before | session_ext 收件人读数",
+   "value": "{'no_students': {'sid': 746, 'batch': 12, 'n_students': 0, 'recipients': 0, 'recipient_ids': [], 'teacher_in': False, 'impact': 0}, 'with_students': {'sid': 844, 'batch': 8, 'n_students': 1, 'recipients': 1, 'recipient_ids': [8], 'teacher_in': False, 'impact': 1}, 'existing_faculty': {'sid': 756, 'batch': 8, 'n_students': 1, 'recipients': 2, 'recipient_ids': [8, 11], 'teacher_in': False, 'impact': 2}, 'notify_change': {'sent': 0, 'total': 0, 'failed': 0, 'muted': 0}}"
+  },
+  {
+   "name": "before | session_ext｜无学生批次（=746）收件人",
+   "value": "收件人 0 人（含教师=False）｜影响面 0 人"
+  },
+  {
+   "name": "before | session_ext｜有学生批次（=844）收件人",
+   "value": "收件人 1 人（学生 1）｜影响面 1 人"
+  },
+  {
+   "name": "before | ical 教师 ICS",
+   "value": "{'total_vevent': 0, 'session_vevent': 0, 'exam_vevent': 0, 'event_vevent': 0, 'holiday_vevent': 0, 'status': 200}"
+  },
+  {
+   "name": "before | ical 学生 ICS",
+   "value": "{'total_vevent': 0, 'session_vevent': 0, 'exam_vevent': 0, 'event_vevent': 0, 'holiday_vevent': 0, 'status': 200}"
+  },
+  {
+   "name": "before | messages 私信可见性",
+   "value": "{'teacher_login_ok': True, 'admin_status': 200, 'admin_picker': 4, 'admin_has_teacher': False, 'student_status': 200, 'student_picker': 3, 'student_has_teacher': False, 'student_options': ['2', '11', '12'], 'teacher_status': 200, 'teacher_picker': 4, 'teacher_picker_has_students': True}"
+  },
+  {
+   "name": "before | fees 收据可见性",
+   "value": "{'夹具单·教师账号': False, '夹具单·学生账号': False, '既有账单矩阵条目': 24}"
+  },
+  {
+   "name": "before | 零回归矩阵（旧口径 vs 双向并集）",
+   "value": "{'changed': [], 'added': [['smoke_id_student@local', 'op.student', 279], ['smoke_id_teacher@local', 'op.faculty', 43]]}"
+  },
+  {
+   "name": "after | 静态检查",
+   "value": "{'helper': 'custom_addons/edu_schedule/models/identity.py', 'importers': {'edu_portal/controllers/ical.py': True, 'edu_portal/controllers/messages.py': True, 'edu_schedule/models/session_ext.py': True, 'edu_portal/models/fees.py': True}, 'bad_patterns': {'edu_portal/controllers/ical.py': [], 'edu_portal/controllers/messages.py': [], 'edu_schedule/models/session_ext.py': [], 'edu_portal/models/fees.py': []}}"
+  },
+  {
+   "name": "after | session_ext 收件人读数",
+   "value": "{'no_students': {'sid': 746, 'batch': 12, 'n_students': 0, 'recipients': 1, 'recipient_ids': [446], 'teacher_in': True, 'impact': 1}, 'with_students': {'sid': 844, 'batch': 8, 'n_students': 2, 'recipients': 3, 'recipient_ids': [8, 447, 446], 'teacher_in': True, 'impact': 3}, 'existing_faculty': {'sid': 756, 'batch': 8, 'n_students': 2, 'recipients': 3, 'recipient_ids': [8, 447, 11], 'teacher_in': False, 'impact': 3}, 'notify_change': {'sent': 1, 'total': 1, 'failed': 0, 'muted': 0}}"
+  },
+  {
+   "name": "after | session_ext｜无学生批次（=746）收件人",
+   "value": "收件人 1 人（含教师=True）｜影响面 1 人"
+  },
+  {
+   "name": "after | session_ext｜有学生批次（=844）收件人",
+   "value": "收件人 3 人（学生 2）｜影响面 3 人"
+  },
+  {
+   "name": "after | ical 教师 ICS",
+   "value": "{'total_vevent': 231, 'session_vevent': 231, 'exam_vevent': 0, 'event_vevent': 0, 'holiday_vevent': 0, 'status': 200}"
+  },
+  {
+   "name": "after | ical 学生 ICS",
+   "value": "{'total_vevent': 41, 'session_vevent': 41, 'exam_vevent': 0, 'event_vevent': 0, 'holiday_vevent': 0, 'status': 200}"
+  },
+  {
+   "name": "after | messages 私信可见性",
+   "value": "{'teacher_login_ok': True, 'admin_status': 200, 'admin_picker': 6, 'admin_has_teacher': True, 'student_status': 200, 'student_picker': 4, 'student_has_teacher': True, 'student_options': ['2', '11', '12', '446'], 'teacher_status': 200, 'teacher_picker': 5, 'teacher_picker_has_students': True}"
+  },
+  {
+   "name": "after | fees 收据可见性",
+   "value": "{'夹具单·教师账号': True, '夹具单·学生账号': False, '既有账单矩阵条目': 24}"
+  },
+  {
+   "name": "after | helper 单元探针（三模型 × 两条链，事务内回滚）",
+   "value": "{'student': {'chain1': 0, 'dual': 290, 'forward': [448]}, 'faculty': {'chain1': 0, 'dual': 202, 'forward': [449]}, 'parent': {'chain1': 0, 'dual': 144, 'forward': [450]}, 'chain1_priority': {'got': 290, 'want': 290}}"
+  },
+  {
+   "name": "after | 零回归矩阵（旧口径 vs 双向并集）",
+   "value": "{'changed': [], 'added': [['smoke_id_student@local', 'op.student', 289], ['smoke_id_teacher@local', 'op.faculty', 43]]}"
+  },
+  {
+   "name": "setup | 建夹具前的基线计数",
+   "value": "{'user': 10, 'partner': 82, 'faculty': 2, 'student': 4, 'student_course': 4, 'session': 288, 'bill': 2, 'message': 1154}"
+  },
+  {
+   "name": "setup | 夹具（setup）",
+   "value": "{'faculty': 43, 'faculty_partner': 120, 'teacher_uid': 452, 'teacher_partner': 120, 'student_uid': 453, 'student_partner': 734, 'student_rec': 291, 'batch': 8, 'bill': 384}"
+  },
+  {
+   "name": "verify | 静态检查",
+   "value": "{'helper': 'custom_addons/edu_schedule/models/identity.py', 'importers': {'edu_portal/controllers/ical.py': True, 'edu_portal/controllers/messages.py': True, 'edu_schedule/models/session_ext.py': True, 'edu_portal/models/fees.py': True}, 'bad_patterns': {'edu_portal/controllers/ical.py': [], 'edu_portal/controllers/messages.py': [], 'edu_schedule/models/session_ext.py': [], 'edu_portal/models/fees.py': []}}"
+  },
+  {
+   "name": "verify | session_ext 收件人读数",
+   "value": "{'no_students': {'sid': 746, 'batch': 12, 'n_students': 0, 'recipients': 1, 'recipient_ids': [452], 'teacher_in': True, 'impact': 1}, 'with_students': {'sid': 844, 'batch': 8, 'n_students': 2, 'recipients': 3, 'recipient_ids': [8, 453, 452], 'teacher_in': True, 'impact': 3}, 'existing_faculty': {'sid': 756, 'batch': 8, 'n_students': 2, 'recipients': 3, 'recipient_ids': [8, 453, 11], 'teacher_in': False, 'impact': 3}, 'notify_change': {'sent': 1, 'total': 1, 'failed': 0, 'muted': 0}}"
+  },
+  {
+   "name": "verify | session_ext｜无学生批次（=746）收件人",
+   "value": "收件人 1 人（含教师=True）｜影响面 1 人"
+  },
+  {
+   "name": "verify | session_ext｜有学生批次（=844）收件人",
+   "value": "收件人 3 人（学生 2）｜影响面 3 人"
+  },
+  {
+   "name": "verify | ical 教师 ICS",
+   "value": "{'total_vevent': 231, 'session_vevent': 231, 'exam_vevent': 0, 'event_vevent': 0, 'holiday_vevent': 0, 'status': 200}"
+  },
+  {
+   "name": "verify | ical 学生 ICS",
+   "value": "{'total_vevent': 41, 'session_vevent': 41, 'exam_vevent': 0, 'event_vevent': 0, 'holiday_vevent': 0, 'status': 200}"
+  },
+  {
+   "name": "verify | messages 私信可见性",
+   "value": "{'teacher_login_ok': True, 'admin_status': 200, 'admin_picker': 6, 'admin_has_teacher': True, 'student_status': 200, 'student_picker': 4, 'student_has_teacher': True, 'student_options': ['2', '11', '12', '452'], 'teacher_status': 200, 'teacher_picker': 5, 'teacher_picker_has_students': True}"
+  },
+  {
+   "name": "verify | fees 收据可见性",
+   "value": "{'夹具单·教师账号': True, '夹具单·学生账号': False, '既有账单矩阵条目': 24}"
+  },
+  {
+   "name": "verify | helper 单元探针（三模型 × 两条链，事务内回滚）",
+   "value": "{'student': {'chain1': 0, 'dual': 292, 'forward': [454]}, 'faculty': {'chain1': 0, 'dual': 203, 'forward': [455]}, 'parent': {'chain1': 0, 'dual': 145, 'forward': [456]}, 'chain1_priority': {'got': 292, 'want': 292}}"
+  },
+  {
+   "name": "verify | 零回归矩阵（旧口径 vs 双向并集）",
+   "value": "{'changed': [], 'added': [['smoke_id_student@local', 'op.student', 291], ['smoke_id_teacher@local', 'op.faculty', 43]]}"
+  },
+  {
+   "name": "teardown | 清场残留",
+   "value": "{'leftover': {'student': [], 'student_course': [], 'partners': [], 'bills': [], 'users': []}, 'counts_before': {'user': 12, 'partner': 83, 'faculty': 2, 'student': 5, 'student_course': 5, 'session': 288, 'bill': 3, 'message': 1154}, 'counts_after': {'user': 10, 'partner': 82, 'faculty': 2, 'student': 4, 'student_course': 4, 'session': 288, 'bill': 2, 'message': 1154}}"
+  }
+ ],
+ "generated_at": "2026-09-18T17:08:48"
+}

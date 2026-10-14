@@ -1,0 +1,128 @@
+/* v3 一条龙（t6）：课程中心 / Timeline 工作台 / 应用面板配套样式。
+   设计：docs/plans/study-hub-v3-design.md §5
+   高度纪律：首页目标 桌面 ≤1800px、375px ≤2600px（现状 3744 / 5889），
+   故本文件一律用紧凑行距、小内边距，避免大卡片堆叠。 */
+
+/* t111（2026-09-14）对比度：--ux3-dim 旧 var(--text-3)（var(--bg) 底 4.49 ✗ 临界）；
+   --ux3-gold 旧 #C8A870（白底 2.26 ✗，且作 .ux3-btn 底配白字需 4.5）→ var(--brand-action)（白底 4.85 ✓） */
+.ux3-page { --ux3-line: var(--border); --ux3-dim: var(--text-3); --ux3-gold: var(--brand-action); }
+
+.ux3-hero { margin: 0 0 14px; }
+.ux3-hero-title { font-size: 20px; font-weight: 700; margin: 0 0 2px; }
+.ux3-hero-sub { color: var(--ux3-dim); font-size: 13px; margin: 0 0 6px; }
+.ux3-hero-compact .ux3-hero-title { font-size: 18px; }
+
+.ux3-stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.ux3-stat {
+  background: var(--bg); border: 1px solid var(--ux3-line); border-radius: 6px;
+  padding: 3px 9px; font-size: 12px; color: var(--ux3-dim);
+}
+.ux3-stat b { color: var(--text-1); }
+
+.ux3-section { margin: 0 0 16px; }
+.ux3-section-title {
+  font-size: 14px; font-weight: 700; margin: 0 0 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.ux3-overdue { color: var(--danger); }
+.ux3-dim { color: var(--ux3-dim); font-size: 12px; }
+.ux3-hint { color: var(--ux3-dim); font-size: 12px; margin: 4px 0 0; }
+
+/* 行式列表：比卡片省高度（首页瘦身主力之一） */
+.ux3-list, .ux3-row-set { display: block; }
+.ux3-row {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 6px 8px; border-bottom: 1px solid var(--ux3-line); font-size: 13px;
+}
+.ux3-row:last-child { border-bottom: 0; }
+.ux3-row-name { font-weight: 600; color: var(--text-1); text-decoration: none; }
+.ux3-row-name:hover { color: var(--ux3-gold); text-decoration: underline; }
+
+.ux3-tag {
+  display: inline-block; padding: 1px 7px; border-radius: 10px;
+  font-size: 11px; background: var(--brand-50); color: var(--brand-700); white-space: nowrap;
+}
+.ux3-tag.ok { background: var(--success-soft); color: var(--success); }
+.ux3-tag.warn { background: var(--danger-soft); color: var(--danger); }
+
+.ux3-card {
+  border: 1px solid var(--ux3-line); border-radius: 8px; padding: 10px 12px;
+  height: 100%; background: #fff;
+}
+.ux3-card-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.ux3-card-title { font-size: 15px; font-weight: 700; color: var(--text-1); text-decoration: none; }
+.ux3-code { font-size: 11px; color: var(--ux3-dim); }
+.ux3-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--ux3-dim); }
+.ux3-meta-item { display: inline-flex; align-items: center; gap: 4px; }
+.ux3-card-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; margin-top: 8px;
+}
+
+.ux3-join { font-size: 12px; color: var(--ux3-dim); }
+.ux3-join.ready { color: var(--success); font-weight: 600; }
+.ux3-link { font-size: 12px; color: var(--brand-action); text-decoration: none; }
+.ux3-link:hover { text-decoration: underline; }
+
+.ux3-session {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap; padding: 7px 8px;
+  border-bottom: 1px solid var(--ux3-line); font-size: 13px;
+}
+.ux3-session-when { display: flex; align-items: baseline; gap: 8px; }
+.ux3-session-act { display: flex; align-items: center; gap: 8px; }
+
+.ux3-btn {
+  background: var(--ux3-gold); border: 1px solid var(--ux3-gold); color: #fff;
+  border-radius: 6px; padding: 3px 12px; font-size: 12px; text-decoration: none;
+}
+.ux3-btn:hover { filter: brightness(0.95); color: #fff; }
+
+.ux3-collapse-btn {
+  background: none; border: 0; color: var(--brand-action); font-size: 12px; padding: 4px 0;
+}
+.ux3-collapse-btn:hover { text-decoration: underline; }
+
+.ux3-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.ux3-label { font-size: 12px; color: var(--ux3-dim); width: 100%; }
+.ux3-input {
+  flex: 1 1 240px; border: 1px solid var(--ux3-line); border-radius: 6px;
+  padding: 4px 8px; font-size: 13px;
+}
+
+.ux3-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ux3-chip {
+  border: 1px solid var(--ux3-line); border-radius: 14px; padding: 2px 10px;
+  font-size: 12px; color: var(--text-1); text-decoration: none; background: #fff;
+}
+.ux3-chip:hover { border-color: var(--ux3-gold); color: var(--ux3-gold); }
+.ux3-chip-more { color: var(--brand-action); }
+
+/* 成绩三层：L2/L3 折进 details，默认收起（不淹没首屏） */
+.ux3-grade { border: 1px solid var(--ux3-line); border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
+.ux3-grade-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; }
+.ux3-details { margin-top: 6px; }
+.ux3-details > summary { cursor: pointer; font-size: 12px; color: var(--brand-action); }
+.ux3-feedback { width: 100%; font-size: 12px; color: var(--text-2); padding-top: 2px; }
+.ux3-history { border-top: 1px dashed var(--ux3-line); padding-top: 8px; }
+
+.ux3-quick { display: flex; flex-wrap: wrap; gap: 8px; }
+.ux3-quick-item {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; width: 84px; height: 68px; border: 1px solid var(--ux3-line);
+  border-radius: 8px; font-size: 12px; color: var(--text-1); text-decoration: none;
+  text-align: center; background: #fff;
+}
+.ux3-quick-item i { font-size: 16px; color: var(--ux3-gold); }
+.ux3-quick-item:hover { border-color: var(--ux3-gold); }
+.ux3-quick-steps .ux3-quick-item { width: 150px; height: auto; padding: 10px 8px; }
+
+.ux3-empty { text-align: center; padding: 26px 12px; color: var(--ux3-dim); }
+.ux3-empty i { font-size: 26px; color: var(--ux3-gold); margin-bottom: 6px; }
+.ux3-next-steps { margin-top: 14px; }
+
+@media (max-width: 575.98px) {
+  .ux3-quick-item { width: 76px; height: 62px; }
+  .ux3-row { padding: 6px 4px; }
+  .ux3-hero-title { font-size: 18px; }
+}

@@ -1,0 +1,226 @@
+{
+ "tag": "P3ADM160404",
+ "passed": 54,
+ "total": 54,
+ "checks": [
+  {
+   "ok": true,
+   "name": "A0-a edu_invite_code.application_id 列存在"
+  },
+  {
+   "ok": true,
+   "name": "A0-b application_id 唯一索引存在"
+  },
+  {
+   "ok": true,
+   "name": "A1-a 调用无错误"
+  },
+  {
+   "ok": true,
+   "name": "A1-b 生成 1 张码并绑定本申请"
+  },
+  {
+   "ok": true,
+   "name": "A1-c use_limit=1"
+  },
+  {
+   "ok": true,
+   "name": "A1-d application_id 绑定"
+  },
+  {
+   "ok": true,
+   "name": "A1-e 有效期 ≈ 14 天（13.5~14.5）"
+  },
+  {
+   "ok": true,
+   "name": "A1-f 码文本不像短连号"
+  },
+  {
+   "ok": true,
+   "name": "A1-g note 指向本申请"
+  },
+  {
+   "ok": true,
+   "name": "A2-a 调用无错误"
+  },
+  {
+   "ok": true,
+   "name": "A2-b 行数不变"
+  },
+  {
+   "ok": true,
+   "name": "A2-c 还是同一张码"
+  },
+  {
+   "ok": true,
+   "name": "A3-a 重复绑定被拒（UniqueViolation）"
+  },
+  {
+   "ok": true,
+   "name": "A4-a 生成了邮件记录"
+  },
+  {
+   "ok": true,
+   "name": "A4-b 无 SMTP 时 state=exception（如实落库，不抛错）"
+  },
+  {
+   "ok": true,
+   "name": "A4-c 按钮调用未向教务抛错"
+  },
+  {
+   "ok": true,
+   "name": "A5-a 调用无错误"
+  },
+  {
+   "ok": true,
+   "name": "A5-b 码仍生成"
+  },
+  {
+   "ok": true,
+   "name": "A5-c 未新建邮件"
+  },
+  {
+   "ok": true,
+   "name": "A5-d 回显里提示了「没留邮箱」"
+  },
+  {
+   "ok": true,
+   "name": "A5-e 两张码不连号（含字母）"
+  },
+  {
+   "ok": true,
+   "name": "A6-a 发放入学码按钮"
+  },
+  {
+   "ok": true,
+   "name": "A6-b 重新发放入学码按钮"
+  },
+  {
+   "ok": true,
+   "name": "A6-c 展示注册邮箱"
+  },
+  {
+   "ok": true,
+   "name": "A6-d 展示已注册时间"
+  },
+  {
+   "ok": true,
+   "name": "A6-e 按钮限教务/系统组"
+  },
+  {
+   "ok": true,
+   "name": "A7-stu stu@local 被拒"
+  },
+  {
+   "ok": true,
+   "name": "A7-faculty faculty@local 被拒"
+  },
+  {
+   "ok": true,
+   "name": "A7-parent parent@local 被拒"
+  },
+  {
+   "ok": true,
+   "name": "A7-d 拒止后码数不变"
+  },
+  {
+   "ok": true,
+   "name": "A8-a 表单里有邮箱比对提示"
+  },
+  {
+   "ok": true,
+   "name": "A8-b 写入 used_login 成功（未被拦截）"
+  },
+  {
+   "ok": true,
+   "name": "A9-a 调用无错误"
+  },
+  {
+   "ok": true,
+   "name": "A9-b 旧码解绑"
+  },
+  {
+   "ok": true,
+   "name": "A9-c 旧码已过期"
+  },
+  {
+   "ok": true,
+   "name": "A9-d 新码已生成"
+  },
+  {
+   "ok": true,
+   "name": "A9-e 新码 ≠ 旧码"
+  },
+  {
+   "ok": true,
+   "name": "A9-f 审计 ≥ +2"
+  },
+  {
+   "ok": true,
+   "name": "A10-a 可置为过期且无新状态字段"
+  },
+  {
+   "ok": true,
+   "name": "A10-b edu.invite.code 无新增 state 取值依赖"
+  },
+  {
+   "ok": true,
+   "name": "A11-a edu_tg_claim 行数不变"
+  },
+  {
+   "ok": true,
+   "name": "A11-b TG 池可用数不变"
+  },
+  {
+   "ok": true,
+   "name": "A12-a 改动面只有新模块 + 文档 + 探针"
+  },
+  {
+   "ok": true,
+   "name": "A12-b 未碰禁改目录"
+  },
+  {
+   "ok": true,
+   "name": "A13 check_manifest_tracking 退出码 0"
+  },
+  {
+   "ok": true,
+   "name": "A13 check_view_xpath 退出码 0"
+  },
+  {
+   "ok": true,
+   "name": "A13 check_view_selector_attrs 退出码 0"
+  },
+  {
+   "ok": true,
+   "name": "A13 check_english 退出码 0"
+  },
+  {
+   "ok": true,
+   "name": "A13 check_odoo_trace 退出码 0"
+  },
+  {
+   "ok": true,
+   "name": "A13 check_ui_surface 退出码 0"
+  },
+  {
+   "ok": true,
+   "name": "A13 check_docs_index 退出码 0"
+  },
+  {
+   "ok": true,
+   "name": "A14-a 测试申请残留 0"
+  },
+  {
+   "ok": true,
+   "name": "A14-b 测试码残留 0"
+  },
+  {
+   "ok": true,
+   "name": "A14-c 探针邮件残留 0"
+  }
+ ],
+ "notes": [
+  "测试申请 id=53（有邮箱）/ 54（无邮箱）"
+ ]
+}

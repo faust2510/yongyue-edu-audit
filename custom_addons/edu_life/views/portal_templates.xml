@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ 门户页骨架（委托门户壳） ============
+         本仓**成文标准**：门户页模板外壳 = t-call="edu_portal.edu_page"
+           · docs/code-map.md §4：「门户页面：模板外壳 t-call="edu_portal.edu_page"」；
+           · docs/code-map.md:93：「edu_page 模板 = **所有门户页**的 t-call 外壳」；
+           · docs/dev-workflow.md:157 同款。
+         此前这里直接 t-call="website.layout"，**绕过了门户壳**，实测三条后果（375 视口）：
+           ① 已登录用户的页面上仍有**可见的「登录」链接**（措辞错的）；
+           ② 移动端**没有底部 Tab**（门户的主要导航方式）⇒ 只能靠浏览器后退；
+           ③ 顶栏没有门户搜索框。
+         改法：本骨架委托 edu_portal.edu_page，**一处改动**让 5 个调用点一起换壳
+         （/my/checkins、/my/journals、/journals/review、/journals/review/<id>、/checkins/stats）。
+         · 原骨架的本地面包屑 nav 由门户壳自带的顶栏面包屑取代（预期，未在任何单页重复添加）；
+         · 页面自身内容仍从 t-out="0" 注入 —— 该写法在 Odoo 19 是**受支持**的：
+           ir_qweb.py 的 _compile_directive_call 把 t-call 的 body 编译成
+           「以**调用方** values 的副本（values.copy()）为入参」的子模板，并作为 0 传给被调模板
+           ⇒ 内层 t-out="0" 取到的仍是页面模板传进来的内容，不会递归。
+         · 内容容器仍是 <div class="container pt-3 pb-5 …">（门户壳的 b11-content），间距不变。 -->
+    <template id="edu_life_page" name="Edu Life Portal Page">
+        <t t-call="edu_portal.edu_page">
+            <t t-out="0"/>
+        </t>
+    </template>
+
+    <!-- ============ 门户：/my/checkins 灵命打卡 ============ -->
+    <template id="edu_life_my_checkins" name="Edu Life My Checkins">
+        <t t-call="edu_life.edu_life_page">
+
+            <t t-if="saved">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-info-circle me-1"/>打卡成功，坚持就是操练！
+                </div>
+            </t>
+            <t t-elif="dup">
+                <div class="alert alert-info py-2" role="alert">
+                    <i class="fa fa-info-circle me-1"/>这个类型今天已经打过卡了。
+                </div>
+            </t>
+            <t t-elif="error">
+                <div class="alert alert-danger py-2" role="alert">
+                    <i class="fa fa-exclamation-triangle me-1"/>
+                    打卡失败：类型不可用或日期无效，请重试。
+                </div>
+            </t>
+
+            <h4 class="mb-1 d-flex align-items-center gap-2 flex-wrap">
+                <span><i class="fa fa-calendar-check-o me-2"/>灵命打卡</span>
+                <a class="btn btn-sm btn-outline-primary ms-auto" href="/my/checkins/export">
+                    <i class="fa fa-download me-1"/>导出 CSV
+                </a>
+            </h4>
+            <p class="text-muted mb-2">
+                <t t-out="student.name"/>，这是你
+                <span class="fw-semibold"><t t-out="month_label"/></span> 的属灵操练记录，
+                点击下方按钮即可一键打卡。
+            </p>
+
+            <!-- 连续打卡天数（streak）：任一类型当天打过即计入 -->
+            <div class="d-flex align-items-center gap-2 mb-3 px-3 py-2 rounded-3 bg-warning bg-opacity-10">
+                <i class="fa fa-fire fa-lg text-warning"/>
+                <span class="fw-semibold"><t t-out="streak_text"/></span>
+                <span class="text-muted small ms-auto d-none d-sm-inline">任意类型打卡均计入连续天数</span>
+            </div>
+
+            <!-- 顶部各类型当月计数 -->
+            <div class="row g-3 mb-4">
+                <t t-foreach="stat_cards" t-as="card">
+                    <div class="col-md-4 col-12">
+                        <div class="card shadow-sm border-0 rounded-3 text-center h-100">
+                            <div class="card-body py-3">
+                                <i t-attf-class="fa fa-2x {{ card['icon'] }} text-primary mb-1"/>
+                                <div class="fs-3 fw-bold" t-out="card['count']"/>
+                                <div class="text-muted"><t t-out="card['label']"/></div>
+                                <small class="text-muted">
+                                    <t t-if="card['is_weekly']">每周目标 <t t-out="card['target']"/> 次 · <t t-out="card['deadline_name']"/>截止</t>
+                                    <t t-else="">每日打卡</t>
+                                    · 本月已 <t t-out="card['count']"/> 次
+                                </small>
+                                <div class="small text-primary mt-1" role="note">
+                                    <t t-out="card['cheer']"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- 今日一键打卡 -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center">
+                    <span>
+                        <i class="fa fa-hand-o-up me-1"/>今日打卡
+                        <span class="text-muted fw-normal small ms-2"><t t-out="today"/></span>
+                    </span>
+                    <span t-if="today_total"
+                          class="badge rounded-pill text-bg-light">今日进度 <t t-out="today_done"/>/<t t-out="today_total"/></span>
+                </div>
+                <div class="card-body">
+                    <t t-if="today_total">
+                        <div class="progress mb-3" style="height:8px"
+                             role="progressbar" aria-label="今日打卡进度"
+                           t-att-aria-valuenow="today_progress_pct"
+                             aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar bg-success"
+                                 t-attf-style="width: {{ today_progress_pct }}%"/>
+                        </div>
+                    </t>
+                    <!-- 手机触达面积：按钮整行可点（d-grid 纵向堆叠 + w-100 d-block） -->
+                    <div class="d-grid gap-2">
+                        <t t-if="not today_types">
+                            <span class="text-muted small">暂无每日打卡类型，请联系管理员在后台配置。</span>
+                        </t>
+                        <t t-foreach="today_types" t-as="tt">
+                            <t t-if="tt['done']">
+                                <span class="badge rounded-pill text-bg-success px-3 py-2 fw-semibold fs-6 w-100 d-block">
+                                    <i class="fa fa-check me-1"/><t t-out="tt['label']"/> 已打卡
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <form method="post" action="/my/checkins/check"
+                                      class="m-0">
+                                    <input type="hidden" name="csrf_token"
+                                           t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="type_id"
+                                           t-att-value="tt['id']"/>
+                                    <button class="btn btn-outline-primary px-3 py-2 w-100 d-block" type="submit">
+                                        <i t-attf-class="fa {{ tt['icon'] }} me-1"/>
+                                        一键打卡 · <t t-out="tt['label']"/>
+                                    </button>
+                                </form>
+                            </t>
+                        </t>
+                    </div>
+                    <p t-if="today_total and today_done &lt; today_total"
+                       class="small text-muted mb-0 mt-2">
+                        每完成一项，进度条向前一步；全部完成后今日即达成。
+                    </p>
+                    <p t-elif="today_total"
+                       class="small text-success mb-0 mt-2 fw-semibold">
+                        <i class="fa fa-check me-1"/>今天的操练全部完成，做得好！
+                    </p>
+                </div>
+            </div>
+
+            <!-- 本月日历网格 -->
+            <h6 class="mb-2 text-muted">
+                <i class="fa fa-calendar me-1"/>本月日历（<t t-out="month_label"/>）
+            </h6>
+            <div class="card shadow-sm border-0 rounded-3 mb-2">
+                <div class="card-body p-2">
+                    <t t-if="not has_month_records">
+                        <div class="oe-empty p-4 text-center text-muted">
+                            <i class="fa fa-sun-o fa-2x mb-2"/>
+                            <p>这个月还没有打卡记录——从今天的第一次打卡开始吧！</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                    <div class="table-responsive">
+                    <table class="table table-bordered align-middle text-center mb-0 life-cal">
+                        <thead class="table-light">
+                            <tr>
+                                <t t-foreach="weekday_headers" t-as="wn">
+                                    <th class="fw-normal text-muted" t-out="wn"/>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="grid" t-as="row">
+                                <tr style="height:64px">
+                                    <t t-foreach="row" t-as="cell">
+                                        <td t-att-class="'table-light' if cell['blank'] else ('table-primary fw-bold' if cell['is_today'] else ('text-muted bg-light bg-opacity-25' if cell['future'] else ''))">
+                                            <t t-if="not cell['blank']">
+                                                <div class="small"><t t-out="cell['day']"/></div>
+                                                <div class="d-flex justify-content-center gap-1 mt-1">
+                                                    <t t-foreach="cell['cells']" t-as="ck">
+                                                        <span t-att-title="ck['type_label']"
+                                                              t-attf-class="fa {{ ck['icon'] }} {{ 'text-success' if ck['done'] else 'text-secondary opacity-25' }}"/>
+                                                    </t>
+                                                </div>
+                                            </t>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    </div>
+                    </t>
+                </div>
+            </div>
+            <p t-if="has_month_records" class="small text-muted mb-4">
+                图标说明：<span class="text-success">彩色</span> = 当天该类型已打卡，
+                <span class="text-secondary">浅色</span> = 未打卡；今日列以蓝色高亮。
+            </p>
+        </t>
+    </template>
+
+    <!-- ============ 门户：/my/journals 我的周记 ============ -->
+    <template id="edu_life_my_journals" name="Edu Life My Journals">
+        <t t-call="edu_life.edu_life_page">
+
+            <t t-if="saved">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-info-circle me-1"/>草稿已保存，记得本周内提交哦。
+                </div>
+            </t>
+            <t t-elif="submitted">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-info-circle me-1"/>周记已提交，等待老师批阅。
+                </div>
+            </t>
+            <t t-elif="error">
+                <div class="alert alert-danger py-2" role="alert">
+                    <i class="fa fa-exclamation-triangle me-1"/>
+                    操作失败：提交时标题和正文不能为空；本周周记已提交或已批阅时不能再修改。
+                </div>
+            </t>
+
+            <h4 class="mb-1"><i class="fa fa-file-text-o me-2"/>我的周记</h4>
+            <p class="text-muted mb-3">每周一篇，记录这一周的属灵与学习生活。</p>
+
+            <!-- 本周编辑 / 只读展示 -->
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <span class="fw-semibold">
+                        <i class="fa fa-pencil me-1"/>本周周记
+                        <span class="badge rounded-pill text-bg-light ms-1" t-out="week_key"/>
+                    </span>
+                    <span t-if="entry and not can_edit"
+                          t-attf-class="badge rounded-pill {{ entry.state_badge() }}"
+                          t-out="entry.state_label()"/>
+                </div>
+                <div class="card-body">
+                    <div t-attf-class="alert alert-{{ week_hint_style }} py-2 small"
+                         role="alert">
+                        <t t-if="week_hint_style == 'warning'">
+                            <i class="fa fa-hourglass-half me-1"/>
+                        </t>
+                        <t t-elif="week_hint_style == 'success'">
+                            <i class="fa fa-commenting-o me-1"/>
+                        </t>
+                        <t t-else="">
+                            <i class="fa fa-info-circle me-1"/>
+                        </t>
+                        <t t-out="week_hint_text"/>
+                    </div>
+                    <t t-if="can_edit">
+                        <form method="post" action="/my/journals/save">
+                            <input type="hidden" name="csrf_token"
+                                   t-att-value="request.csrf_token()"/>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold" for="jr_title">标题</label>
+                                <input type="text" class="form-control" id="jr_title"
+                                       name="title" maxlength="200"
+                                       placeholder="如：在忙碌中保持安静"
+                                       t-att-value="(entry and entry.title) or ''"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold" for="jr_content">正文</label>
+                                <textarea class="form-control" id="jr_content" rows="8"
+                                          name="content"
+                                          placeholder="写下这一周的读经、灵修、学习与生活感悟……"><t t-out="(entry and entry.content) or ''"/></textarea>
+                                <div id="jr_count" class="form-text text-end">已写 0 字</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-secondary px-3" type="submit"
+                                        name="action" value="draft">
+                                    <i class="fa fa-save me-1"/>暂存草稿
+                                </button>
+                                <button class="btn btn-primary px-4" type="submit"
+                                        name="action" value="submit">
+                                    <i class="fa fa-send-o me-1"/>提交周记
+                                </button>
+                            </div>
+                        </form>
+                        <!-- 极简实时字数统计：中文按字符计数，超 1500 字变警示色 -->
+                        <script type="text/javascript">
+                            (function () {
+                                var ta = document.getElementById('jr_content');
+                                var out = document.getElementById('jr_count');
+                                if (!ta || !out) { return; }
+                                var update = function () {
+                                    var n = ta.value.length;
+                                    out.textContent = '已写 ' + n + ' 字';
+                                    if (n > 1500) { out.classList.add('text-warning'); }
+                                    else { out.classList.remove('text-warning'); }
+                                };
+                                ta.addEventListener('input', update);
+                                update();
+                            })();
+                        </script>
+                    </t>
+                    <t t-elif="entry and entry.state == 'submitted'">
+                        <h5 t-if="entry and entry.title" t-out="entry.title"/>
+                        <div class="border rounded p-3 bg-light bg-opacity-25 mb-2"
+                             style="white-space: pre-wrap;"
+                             t-out="(entry and entry.content) or '（无正文）'"/>
+                        <div class="alert alert-warning py-2 mb-0 small" role="alert">
+                            <i class="fa fa-hourglass-half me-1"/>
+                            周记已提交，等待老师批阅；批阅完成后评语会显示在这里。
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <h5 t-if="entry and entry.title" t-out="entry.title"/>
+                        <div class="border rounded p-3 bg-light bg-opacity-25 mb-2"
+                             style="white-space: pre-wrap;"
+                             t-out="(entry and entry.content) or '（无正文）'"/>
+                        <t t-if="entry and entry.feedback">
+                            <div class="rounded p-3 bg-success bg-opacity-10 border border-success-subtle">
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fa fa-quote-left text-success me-2"/>
+                                    <span class="fw-semibold text-success">教师评语</span>
+                                    <span class="text-muted small ms-2"><t t-out="entry.reviewer_id.name or ''"/></span>
+                                </div>
+                                <div style="white-space: pre-wrap;" t-out="entry.feedback"/>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+
+            <!-- 窄屏折成卡片（复用本仓共用模板 edu_portal.edu_narrow_table_cards，
+                 定义在 edu_portal/views/roles.xml:554；**不新造轮子**）。
+                 桌面端 DOM 与观感一字不变 —— 媒体查询只在 max-width:767.98px 生效；
+                 <768px 时由每个 td 的 data-label 顶出列名。
+                 375 实测到的病（改前）：这张 5 列表宽 442px > 容器 345px，
+                 「教师评语」被压成**逐字竖排**（「继/修/惯/示」）、「最近更新」整列落在屏外。 -->
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <!-- 历史列表 -->
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-history me-1"/>历史周记
+                    <span class="badge rounded-pill text-bg-secondary ms-1"
+                          t-out="len(history)"/>
+                </div>
+                <div class="card-body p-0">
+                    <t t-if="all_count">
+                        <div class="btn-group btn-group-sm p-3 pb-0" role="group"
+                             aria-label="按状态筛选历史周记">
+                            <a t-attf-class="btn {{ 'btn-primary' if not state_filter else 'btn-outline-secondary' }}"
+                               href="/my/journals">全部 <t t-out="all_count"/></a>
+                            <a t-attf-class="btn {{ 'btn-primary' if state_filter == 'draft' else 'btn-outline-secondary' }}"
+                               href="/my/journals?state=draft">草稿 <t t-out="state_counts['draft']"/></a>
+                            <a t-attf-class="btn {{ 'btn-primary' if state_filter == 'submitted' else 'btn-outline-secondary' }}"
+                               href="/my/journals?state=submitted">已提交 <t t-out="state_counts['submitted']"/></a>
+                            <a t-attf-class="btn {{ 'btn-primary' if state_filter == 'reviewed' else 'btn-outline-secondary' }}"
+                               href="/my/journals?state=reviewed">已批阅 <t t-out="state_counts['reviewed']"/></a>
+                        </div>
+                    </t>
+                    <t t-if="not history">
+                        <div class="oe-empty p-4 text-center text-muted">
+                            <i class="fa fa-file-text-o fa-2x mb-2"/>
+                            <t t-if="state_filter">
+                                <p>没有符合筛选条件的周记，换一个状态看看。</p>
+                            </t>
+                            <t t-else="">
+                                <p>还没有历史周记，从本周开始记录吧。</p>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>周次</th>
+                                    <th>标题</th>
+                                    <th>状态</th>
+                                    <th>教师评语</th>
+                                    <th class="d-none d-md-table-cell">最近更新</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="history" t-as="h">
+                                    <tr>
+                                        <td class="text-nowrap" data-label="周次" t-out="h['week']"/>
+                                        <td data-label="标题" t-out="h['title']"/>
+                                        <td data-label="状态">
+                                            <span t-attf-class="badge rounded-pill {{ h['badge'] }}"
+                                                  t-out="h['state_label']"/>
+                                        </td>
+                                        <td class="small" data-label="教师评语">
+                                            <t t-if="h['has_feedback']">
+                                                <span class="text-success"><i class="fa fa-commenting-o me-1"/><t t-out="h['feedback_short']"/></span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-muted">-</span>
+                                            </t>
+                                        </td>
+                                        <!-- d-none d-md-table-cell：本列在 <768px 本来就 display:none（!important），
+                                             卡片模式下不会渲染，data-label 只为与表头一一对应。 -->
+                                        <td class="text-nowrap small text-muted d-none d-md-table-cell" data-label="最近更新" t-out="h['when']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 教师端：/journals/review 待批队列 ============ -->
+    <template id="edu_life_review_queue" name="Edu Life Review Queue">
+        <t t-call="edu_life.edu_life_page">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-1">
+                <h4 class="mb-0"><i class="fa fa-inbox me-2"/>周记批阅</h4>
+                <a href="/checkins/stats" class="btn btn-outline-primary btn-sm"
+                   title="查看各班学生当月打卡完成情况">
+                    <i class="fa fa-pie-chart me-1"/>打卡统计
+                </a>
+            </div>
+            <p class="text-muted mb-3">
+                查看学生提交的周记正文，填写评语后置为已批阅。
+                队列按提交时间从早到晚排列——先交的同学先批，反馈更及时。
+            </p>
+
+            <!-- 窄屏折成卡片（复用 edu_portal.edu_narrow_table_cards，roles.xml:554）：
+                 本页**两张**表共用一次调用，只输出一份 <style>（重复调用会重复输出）。
+                 375 实测到的病（改前，待批阅表）：5 列表宽 354px > 容器 345px，
+                 「学生」表头折成「学/生」两行、姓名「王/小/明」逐字竖排。
+                 ⚠ 上一次调用必须放在 t-if/t-else 之外 —— 两个分支都可能为空，
+                 放进任一个分支都会让另一张表在窄屏失去卡片样式。 -->
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-hourglass-half me-1"/>待批阅
+                    <span class="badge rounded-pill text-bg-warning ms-1 fs-6 px-3 py-2"
+                          t-out="len(pending)"/>
+                </div>
+                <div class="card-body p-0">
+                    <t t-if="not pending">
+                        <div class="oe-empty p-4 text-center text-muted">
+                            <i class="fa fa-check-circle-o fa-2x mb-2"/>
+                            <p>太棒了，没有待批阅的周记！</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>学生</th>
+                                    <th>周次</th>
+                                    <th>标题</th>
+                                    <th class="d-none d-md-table-cell">提交时间</th>
+                                    <th class="text-end">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="pending" t-as="p">
+                                    <tr>
+                                        <td class="fw-semibold" data-label="学生" t-out="p['student']"/>
+                                        <td class="text-nowrap" data-label="周次" t-out="p['week']"/>
+                                        <td data-label="标题" t-out="p['title']"/>
+                                        <td class="text-nowrap small text-muted d-none d-md-table-cell" data-label="提交时间" t-out="p['when']"/>
+                                        <td class="text-end" data-label="操作">
+                                            <a t-att-href="p['href']"
+                                               class="btn btn-sm btn-primary px-3">
+                                                <i class="fa fa-pencil-square-o me-1"/>批阅
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-archive me-1"/>最近已批阅
+                    <span class="badge rounded-pill text-bg-secondary ms-1"
+                          t-out="len(reviewed)"/>
+                </div>
+                <div class="card-body p-0">
+                    <t t-if="not reviewed">
+                        <div class="oe-empty p-4 text-center text-muted">
+                            <p>还没有批阅记录——批阅完成的周记会自动归档在这里。</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>学生</th>
+                                    <th>周次</th>
+                                    <th>标题</th>
+                                    <th class="d-none d-md-table-cell">批阅时间</th>
+                                    <th class="text-end">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="reviewed" t-as="r">
+                                    <tr>
+                                        <td class="fw-semibold" data-label="学生" t-out="r['student']"/>
+                                        <td class="text-nowrap" data-label="周次" t-out="r['week']"/>
+                                        <td data-label="标题" t-out="r['title']"/>
+                                        <td class="text-nowrap small text-muted d-none d-md-table-cell" data-label="批阅时间" t-out="r['when']"/>
+                                        <td class="text-end" data-label="操作">
+                                            <a t-att-href="r['href']" class="btn btn-sm btn-outline-secondary">
+                                                <i class="fa fa-eye me-1"/>查看
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 教师端：批阅详情页 ============ -->
+    <template id="edu_life_review_detail" name="Edu Life Review Detail">
+        <t t-call="edu_life.edu_life_page">
+            <t t-if="reviewed_ok">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-info-circle me-1"/>批阅完成，已通知学生查看评语。
+                </div>
+            </t>
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <h4 class="mb-0"><i class="fa fa-commenting-o me-2"/>批阅周记</h4>
+                <a href="/journals/review" class="btn btn-sm btn-outline-secondary">
+                    <i class="fa fa-arrow-left me-1"/>返回队列
+                </a>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <span class="fw-semibold">
+                        <t t-out="student_name"/>
+                        <span class="badge rounded-pill text-bg-light ms-1" t-out="entry.week"/>
+                    </span>
+                    <span t-attf-class="badge rounded-pill {{ badge }}" t-out="state_label"/>
+                </div>
+                <div class="card-body">
+                    <h5 t-if="entry.title" class="mb-2" t-out="entry.title"/>
+                    <div class="small text-muted mb-3">
+                        提交/更新时间：<t t-out="when"/>
+                    </div>
+                    <div class="border rounded p-3 bg-light bg-opacity-25 mb-3"
+                         style="white-space: pre-wrap;"
+                         t-out="entry.content or '（无正文）'"/>
+
+                    <t t-if="can_grade">
+                        <form method="post" t-att-action="grade_href">
+                            <input type="hidden" name="csrf_token"
+                                   t-att-value="request.csrf_token()"/>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold" for="rv_feedback">教师评语</label>
+                                <textarea class="form-control" id="rv_feedback"
+                                          rows="4" name="feedback"
+                                          placeholder="写下鼓励或建议……"></textarea>
+                            </div>
+                            <button class="btn btn-primary px-4" type="submit">
+                                <i class="fa fa-check-square-o me-1"/>批阅通过并置为「已批阅」
+                            </button>
+                        </form>
+                    </t>
+                    <t t-else="">
+                        <t t-if="entry.feedback">
+                            <div class="rounded p-3 bg-success bg-opacity-10 border border-success-subtle">
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fa fa-quote-left text-success me-2"/>
+                                    <span class="fw-semibold text-success">教师评语</span>
+                                    <span class="text-muted small ms-2" t-out="reviewer_name"/>
+                                </div>
+                                <div style="white-space: pre-wrap;" t-out="entry.feedback"/>
+                            </div>
+                        </t>
+                        <t t-if="entry.state == 'draft'">
+                            <div class="alert alert-info py-2 mb-0">
+                                该生本周周记还是草稿，尚未提交。
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 教师端：/checkins/stats 打卡统计 ============ -->
+    <template id="edu_life_checkin_stats" name="Edu Life Checkin Stats">
+        <t t-call="edu_life.edu_life_page">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-1">
+                <h4 class="mb-0"><i class="fa fa-pie-chart me-2"/>打卡统计</h4>
+                <div class="d-flex gap-2">
+                    <a href="/checkins/stats/export" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-download me-1"/>导出 CSV
+                    </a>
+                    <a href="/journals/review" class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-arrow-left me-1"/>返回批阅队列
+                    </a>
+                </div>
+            </div>
+            <p class="text-muted mb-3">
+                <t t-out="month_label"/>（已过 <t t-out="days_elapsed"/> 天）各班每位学生的打卡完成情况，
+                按完成率升序排列——排在前面的学生最需要关注。
+                目标口径：每日类型=本月已过天数；每周类型=周目标×已过整周数。
+            </p>
+
+            <t t-if="not has_types">
+                <div class="alert alert-info py-2" role="alert">
+                    <i class="fa fa-info-circle me-1"/>
+                    还没有启用的打卡类型，请先在后台「灵命生活 → 打卡类型」配置。
+                </div>
+            </t>
+            <t t-if="has_types and groups and not has_any_records">
+                <div class="alert alert-info py-2" role="alert">
+                    <i class="fa fa-info-circle me-1"/>
+                    还没有学生打卡数据，开学后这里会自动出现。
+                    学生从门户「灵命打卡」一键打卡后，统计会实时汇总。
+                </div>
+            </t>
+            <t t-if="has_types and not groups">
+                <div class="alert alert-info py-2" role="alert">
+                    <i class="fa fa-users me-1"/>
+                    还没有可统计的学生：请先在教务后台为学生完成分班与选课。
+                </div>
+            </t>
+            <p class="small text-muted">
+                完成率颜色：
+                <span class="text-danger fw-semibold">&lt;50% 需重点关注</span> ·
+                <span class="text-warning fw-semibold">50–79% 加油</span> ·
+                <span class="text-success fw-semibold">≥80% 达标</span>。
+            </p>
+
+            <!-- 窄屏折成卡片（复用本仓共用模板 edu_portal.edu_narrow_table_cards，
+                 定义在 edu_portal/views/roles.xml:554；**不新造轮子**）。
+                 ⚠ 本页的表在 t-foreach="groups" 里（每个班一张表），t-call 必须放在**循环外**，
+                   否则有几个班就输出几份 <style>。
+                 375 实测到的病（改前，判据 C「表头折行≥2」）：
+                   两个班各 7 列，表宽 345 = 容器 345 —— **「装得下」所以判据 A 看不见**，
+                   但列被自动布局压窄，分别有 6 / 5 个表头被拆成上下两行
+                   （「完成率」「最近一次打卡」与各打卡类型名一起折行）。 -->
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <t t-foreach="groups" t-as="grp">
+                <div class="card shadow-sm border-0 rounded-3 mb-4">
+                    <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center">
+                        <span><i class="fa fa-users me-1"/><t t-out="grp['name']"/></span>
+                        <span class="badge rounded-pill text-bg-secondary">
+                            <t t-out="len(grp['rows'])"/> 人
+                        </span>
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-hover align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>学生</th>
+                                    <t t-foreach="grp['type_headers']" t-as="th">
+                                        <th class="text-center">
+                                            <i t-attf-class="fa {{ th['icon'] }} me-1 text-muted"/>
+                                            <t t-out="th['label']"/>
+                                        </th>
+                                    </t>
+                                    <th class="text-center">完成率</th>
+                                    <th class="text-end d-none d-md-table-cell">最近一次打卡</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="grp['rows']" t-as="r">
+                                    <tr>
+                                        <td class="fw-semibold" data-label="学生"><t t-out="r['student_name']"/></td>
+                                        <!-- 动态列：data-label 取自 cell['label']，与上面 <th> 的 th['label']
+                                             同源（controller 里都是 t.label or t.name），表头改了标签卡片跟着改，不会漂移。 -->
+                                        <t t-foreach="r['cells']" t-as="cell">
+                                            <td class="text-center small" t-att-data-label="cell['label']">
+                                                <span t-if="cell['done']"
+                                                      class="badge rounded-pill text-bg-success">
+                                                    <i class="fa fa-check me-1"/><t t-out="cell['text']"/>
+                                                </span>
+                                                <span t-else="" t-out="cell['text']"/>
+                                            </td>
+                                        </t>
+                                        <td class="text-center" data-label="完成率">
+                                            <span t-attf-class="fs-4 fw-bold {{ 'text-danger' if r['avg_rate'] &lt; 50 else ('text-warning' if r['avg_rate'] &lt; 80 else 'text-success') }}"
+                                                  t-out="r['rate_text']"/>
+                                        </td>
+                                        <td class="text-end text-muted small d-none d-md-table-cell" data-label="最近一次打卡" t-out="r['last_date']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

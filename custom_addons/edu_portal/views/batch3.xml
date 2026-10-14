@@ -1,0 +1,1433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ /certificate 证书（空态，对齐 oe-norec DOM） ============ -->
+    <template id="edu_certificate" name="Edu Certificates">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'index': '序号', 'course_id': '课程', 'enrollment_date': '入学日期', 'completion_date': '结业日期'}.get(sortby, '序号')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/certificate?sortby=index'" t-att-class="'dropdown-item' + (sortby == 'index' and ' active' or '')"><span>序号</span></a>
+                                    <a t-att-href="'/certificate?sortby=course_id'" t-att-class="'dropdown-item' + (sortby == 'course_id' and ' active' or '')"><span>课程</span></a>
+                                    <a t-att-href="'/certificate?sortby=enrollment_date'" t-att-class="'dropdown-item' + (sortby == 'enrollment_date' and ' active' or '')"><span>入学日期</span></a>
+                                    <a t-att-href="'/certificate?sortby=completion_date'" t-att-class="'dropdown-item' + (sortby == 'completion_date' and ' active' or '')"><span>结业日期</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">全部</button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/certificate?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">不分组</button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/certificate?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/certificate?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-asg-page oe-att-page">
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <!-- 空态审计（2026-10-02）：补一个真出口（课程中心＝在修科目与课节进度）。 -->
+                        <p class="oe-norec-txt">
+                            暂未获得结业证书，完成课程并经审核后自动发放。
+                            想查看在修科目与课节进度，可去课程中心。
+                            <a href="/my/study">去课程中心</a>
+                        </p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="items" t-as="card">
+                        <div class="oe-asg-card">
+                            <div class="oe-asg-top">
+                                <div class="oe-asg-co">
+                                    <span class="oe-asg-ic"><i class="fa fa-certificate" aria-hidden="true"/></span>
+                                    <span class="oe-asg-name" t-out="card['certificate_no'] or '结业证书'"/>
+                                </div>
+                                <span t-att-class="'oe-asg-pill ' + (card['state_raw'] == 'issued' and 'oe-asg-pill--success' or 'oe-asg-pill--info')" t-out="card['state']"/>
+                            </div>
+                            <div class="oe-asg-fields">
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-graduation-cap" aria-hidden="true"/> 课程</span><span class="oe-asg-val" t-out="card['course'] or '—'"/></div>
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-calendar-o" aria-hidden="true"/> 发证日期</span><span class="oe-asg-val" t-out="card['issue_date'] or '—'"/></div>
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-star-o" aria-hidden="true"/> 成绩</span><span class="oe-asg-val" t-out="card['grade'] or '—'"/></div>
+                            </div>
+                            <a class="oe-asg-btn" t-att-href="'/my/certificate/download/' + str(card['cert_id'])">
+                                <i class="fa fa-download" aria-hidden="true"/> 下载证书 PDF
+                            </a>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my-library 数字图书馆（分类入口卡，对齐 oe-lib-* DOM） ============ -->
+    <template id="edu_my_library" name="Edu My Library">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-mylibrary" id="my-library">
+                <div class="oe-lib-head">
+                    <ol class="breadcrumb oe-lib-bc">
+                        <li class="breadcrumb-item"><a href="/my/home" title="首页"><i class="fa fa-home" aria-hidden="true"/></a></li>
+                        <li class="breadcrumb-item active">我的图书馆</li>
+                    </ol>
+                    <form class="oe-lib-search" action="/library/media" role="search" method="get">
+                        <input type="text" name="search" placeholder="搜索图书馆"/>
+                        <button class="btn" type="submit"><i class="fa fa-search" aria-hidden="true"/></button>
+                    </form>
+                </div>
+
+                <div class="oe-lib-stats">
+                    <a href="/my-library" class="oe-lib-stat oe-lib-stat--active">
+                        <span class="oe-lib-stat-ic oe-lib-stat-ic--primary"><i class="fa fa-book" aria-hidden="true"/></span>
+                        <div class="oe-lib-stat-b"><span class="oe-lib-stat-lab">图书总数</span><span class="oe-lib-stat-val" t-out="stats['total_books']"/></div>
+                    </a>
+                    <a href="?box=in_progress" class="oe-lib-stat">
+                        <span class="oe-lib-stat-ic oe-lib-stat-ic--info"><i class="fa fa-spinner" aria-hidden="true"/></span>
+                        <div class="oe-lib-stat-b"><span class="oe-lib-stat-lab">进行中</span><span class="oe-lib-stat-val" t-out="stats['in_progress']"/></div>
+                    </a>
+                    <a href="?box=reading_list" class="oe-lib-stat">
+                        <span class="oe-lib-stat-ic oe-lib-stat-ic--success"><i class="fa fa-bookmark-o" aria-hidden="true"/></span>
+                        <div class="oe-lib-stat-b"><span class="oe-lib-stat-lab">阅读清单</span><span class="oe-lib-stat-val" t-out="stats['reading_list']"/></div>
+                    </a>
+                    <div class="oe-lib-stat">
+                        <span class="oe-lib-stat-ic oe-lib-stat-ic--warn"><i class="fa fa-headphones" aria-hidden="true"/></span>
+                        <div class="oe-lib-stat-b"><span class="oe-lib-stat-lab">有声书</span><span class="oe-lib-stat-val" t-out="stats['audiobooks']"/></div>
+                    </div>
+                </div>
+
+                <div class="oe-lib-grid">
+                    <t t-foreach="cat_cards" t-as="cat">
+                        <div class="oe-lib-card">
+                            <a class="oe-lib-thumb" t-att-href="cat['all'] and '/library/media' or ('/library/media?filterby=' + str(cat['id']))">
+                                <i t-attf-class="fa {{ cat['icon'] }}" aria-hidden="true"/>
+                            </a>
+                            <div class="oe-lib-body">
+                                <h3 class="oe-lib-name">
+                                    <a t-att-href="cat['all'] and '/library/media' or ('/library/media?filterby=' + str(cat['id']))" t-out="cat['name']"/>
+                                </h3>
+                                <div class="oe-lib-meta">
+                                    <div class="oe-lib-field">
+                                        <span class="oe-lib-lab">馆藏数量</span>
+                                        <span class="oe-lib-val" t-out="cat['count']"/>
+                                    </div>
+                                </div>
+                                <a class="oe-lib-btn" t-att-href="cat['all'] and '/library/media' or ('/library/media?filterby=' + str(cat['id']))">
+                                    <i class="fa fa-book" aria-hidden="true"/>
+                                    <t t-out="cat['all'] and '浏览全部馆藏' or '按分类浏览'"/>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <t t-if="not has_media">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <p class="oe-norec-txt">暂无数字馆藏。图书馆上架媒体后，将在此处展示可在线阅读的资源。</p>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /course/change/request 换班申请（真实数据） ============
+         入口名按校长拍板 =「换班申请」；目标课程 + 目标班级成对选择
+         （课程可换 = 校长 P6 改判，故副标题写明可同时换课程）。 -->
+    <template id="edu_course_change_request" name="Edu Course Change Request">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-asg-page">
+                <div class="oe-asg-group portal_buttons">
+                    <a class="oe-asg-btn" href="#" data-bs-toggle="collapse" data-bs-target="#ccr_form" aria-expanded="false" aria-controls="ccr_form">
+                        <i class="fa fa-plus" aria-hidden="true"/> 提交换班申请
+                    </a>
+                </div>
+
+                <t t-if="box == 'submitted'">
+                    <div class="alert alert-success">换班申请已提交，处理进度将在此处展示。</div>
+                </t>
+                <t t-if="box == 'error'">
+                    <div class="alert alert-danger">提交失败：<t t-out="msg or '请选择有效的目标课程与班级后重试。'"/></div>
+                </t>
+                <t t-if="block_note">
+                    <div class="alert alert-warning"><i class="fa fa-exclamation-triangle me-1"/>
+                        <t t-out="block_note"/></div>
+                </t>
+
+                <div class="oe-asg-group collapse mb-3" id="ccr_form">
+                    <t t-if="cur_sc">
+                        <div class="alert alert-light border py-2 mb-2">
+                            <i class="fa fa-info-circle me-1 text-primary"/>
+                            将变更您当前在读的档案：<strong t-out="cur_label"/>
+                            （申请通过后<b>原班 → 新班</b>，原班已录的考勤与成绩仍可在门户查看）
+                        </div>
+                    </t>
+                    <form method="post" action="/course/change/request/save" class="row g-3">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="col-md-6">
+                            <label class="form-label" for="ccr_course">目标课程</label>
+                            <select class="form-select" id="ccr_course" name="course_id" required="required" t-att-disabled="not can_submit">
+                                <option value="">请选择课程</option>
+                                <option t-foreach="courses" t-as="c" t-att-value="c.id" t-out="c.name" t-att-selected="c.id == cur_course_id"/>
+                            </select>
+                            <div class="form-text">只换班时保持课程不变；换课程时档案科目将按新课程重算。</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="ccr_batch">目标班级</label>
+                            <select class="form-select" id="ccr_batch" name="batch_id" required="required" t-att-disabled="not can_submit">
+                                <option value="">请先选择课程</option>
+                            </select>
+                            <div class="form-text">仅列出未停用的班级。</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="ccr_reason">申请理由</label>
+                            <textarea class="form-control" id="ccr_reason" name="reason" rows="3"
+                                      maxlength="500" placeholder="例：选课时填错了班级"> </textarea>
+                        </div>
+                        <div class="col-12">
+                            <div class="small text-muted mb-2">当前：<t t-out="cur_label or '（无在读档案）'"/>
+                                <span class="mx-1">→</span> 变更后：<strong t-out="cur_label or '—'"/> 改为所选的目标课程与班级</div>
+                            <button type="submit" class="btn btn-primary" t-att-disabled="not can_submit">提交申请</button>
+                        </div>
+                    </form>
+                    <script type="application/json" id="ccr_batch_map"><t t-out="batch_map_json"/></script>
+                    <script type="text/javascript">
+                        (function () {
+                            var raw = document.getElementById('ccr_batch_map');
+                            var MAP = {};
+                            try { MAP = JSON.parse(raw ? raw.textContent : '{}'); }
+                            catch (e) { MAP = {}; }
+                            var sel = document.getElementById('ccr_course');
+                            var bs = document.getElementById('ccr_batch');
+                            if (!sel || !bs) { return; }
+                            function fill(keep) {
+                                var list = MAP[String(sel.value)] || [];
+                                bs.innerHTML = '';
+                                if (!list.length) {
+                                    var o0 = document.createElement('option');
+                                    o0.value = '';
+                                    o0.textContent = '该课程下暂无可选班级';
+                                    bs.appendChild(o0);
+                                    return;
+                                }
+                                var ph = document.createElement('option');
+                                ph.value = '';
+                                ph.textContent = '请选择班级';
+                                bs.appendChild(ph);
+                                list.forEach(function (b) {
+                                    var o = document.createElement('option');
+                                    o.value = String(b.id);
+                                    o.textContent = b.name + '（在读 ' + b.student_n + ' 人 · 课节 ' + b.session_n + '）';
+                                    if (keep === String(b.id)) { o.selected = true; }
+                                    bs.appendChild(o);
+                                });
+                            }
+                            sel.addEventListener('change', function () { fill(''); });
+                            fill('');
+                        })();
+                    </script>
+                </div>
+
+                <div class="oe-statrow">
+                    <a href="/course/change/request" class="oe-statbox oe-statbox--active">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-exchange" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">总请求数</span><span class="oe-statbox-val" t-out="stats['total']"/></div>
+                    </a>
+                    <a href="?box=approved" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-check-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已批准</span><span class="oe-statbox-val" t-out="stats['approved']"/></div>
+                    </a>
+                    <a href="?box=pending" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-hourglass-half" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">待审批</span><span class="oe-statbox-val" t-out="stats['pending']"/></div>
+                    </a>
+                    <a href="?box=rejected" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--danger"><i class="fa fa-times-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已驳回</span><span class="oe-statbox-val" t-out="stats['rejected']"/></div>
+                    </a>
+                </div>
+
+                <div class="oe-att-page">
+                    <t t-if="has_records">
+                        <!-- 窄屏折成卡片（复用共用模板 edu_portal.edu_narrow_table_cards，不新造）：
+                             375 视口实测这张 5 列表**装得进** 345 容器（表宽 345 = 容器 345），
+                             所以「表宽 > 容器宽」那条判据看不见它 —— 但自动布局把列压窄，
+                             5 个表头全被拆成上下两行（find_squeezed_tables 判据 C：折行表头 5）。
+                             卡片模式下 thead 隐藏、由 td 的 data-label 顶出列名；桌面端一字不变
+                             （折行规则只在 @media (max-width: 767.98px) 内）。 -->
+                        <t t-call="edu_portal.edu_narrow_table_cards"/>
+                        <table class="table align-middle edu-card-table">
+                            <thead>
+                                <tr><th>申请编号</th><th>原（课程 · 班级）</th><th>新（课程 · 班级）</th><th>申请理由</th><th>状态</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="items" t-as="it">
+                                    <td data-label="申请编号" t-out="it['name']"/>
+                                    <td data-label="原（课程 · 班级）" t-out="it['old_label']"/>
+                                    <td data-label="新（课程 · 班级）"><span class="text-success" aria-hidden="true">→</span> <t t-esc="it['new_label']"/></td>
+                                    <td class="small text-muted" data-label="申请理由" t-esc="it['note'] or '—'"/>
+                                    <td data-label="状态">
+                                        <span t-out="it['state']"/>
+                                        <t t-if="it['reject_reason']">
+                                            <span class="small text-danger d-block" t-esc="'驳回原因：' + it['reject_reason']"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-if="not has_records">
+                        <div class="oe-norec">
+                            <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                            <p class="oe-norec-txt">暂无换班申请。提交申请后，处理进度将在此处展示。</p>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /subject/registration 科目注册（op.subject.registration 真实数据） ============ -->
+    <template id="edu_subject_registration" name="Edu Subject Registration">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'name': '姓名', 'course_id': '课程（A到Z）', 'batch_id': '批次（Z 到 A）', 'state': '状态'}.get(sortby, '姓名')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/subject/registration?sortby=name'" t-att-class="'dropdown-item' + (sortby == 'name' and ' active' or '')"><span>姓名</span></a>
+                                    <a t-att-href="'/subject/registration?sortby=course_id'" t-att-class="'dropdown-item' + (sortby == 'course_id' and ' active' or '')"><span>课程（A到Z）</span></a>
+                                    <a t-att-href="'/subject/registration?sortby=batch_id'" t-att-class="'dropdown-item' + (sortby == 'batch_id' and ' active' or '')"><span>批次（Z 到 A）</span></a>
+                                    <a t-att-href="'/subject/registration?sortby=state'" t-att-class="'dropdown-item' + (sortby == 'state' and ' active' or '')"><span>状态</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'all': '全部', 'approved': '已批准', 'rejected': '被拒绝', 'submitted': '已提交'}.get(filterby, '全部')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/subject/registration?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                    <a t-att-href="'/subject/registration?filterby=approved'" t-att-class="'dropdown-item' + (filterby == 'approved' and ' active' or '')"><span>已批准</span></a>
+                                    <a t-att-href="'/subject/registration?filterby=rejected'" t-att-class="'dropdown-item' + (filterby == 'rejected' and ' active' or '')"><span>已拒绝</span></a>
+                                    <a t-att-href="'/subject/registration?filterby=submitted'" t-att-class="'dropdown-item' + (filterby == 'submitted' and ' active' or '')"><span>已提交</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="groupby == 'course_id' and '课程' or '不分组'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/subject/registration?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                    <a t-att-href="'/subject/registration?groupby=course_id'" t-att-class="'dropdown-item' + (groupby == 'course_id' and ' active' or '')"><span>课程</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/subject/registration?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-asg-page">
+                <div class="oe-asg-group portal_buttons">
+                    <a class="oe-asg-btn" href="/subject/enroll"><i class="fa fa-plus" aria-hidden="true"/> 报课选科</a>
+                    <a class="oe-asg-btn" href="/subject/enroll"><i class="fa fa-pencil-square-o" aria-hidden="true"/> 新建科目注册</a>
+                </div>
+
+                <t t-if="box == 'submitted'">
+                    <div class="alert alert-success">选课注册单已提交，等待教务处审批。审批结果将以站内通知告知。</div>
+                </t>
+                <t t-if="box == 'error'">
+                    <div class="alert alert-danger">提交失败：请选择有效课程后重试。</div>
+                </t>
+
+                <!-- 我的已选科目（在读档案 approved 生效科目横卡） -->
+                <t t-if="subject_cards">
+                    <div class="oe-asg-group mt-1">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"/><em>我的已选科目</em>
+                        <span class="text-muted small ms-2">点击科目进入 LMS 学习</span>
+                    </div>
+                    <t t-foreach="subject_cards" t-as="scard">
+                        <div class="oe-asg-card mb-3">
+                            <div class="oe-asg-top">
+                                <div class="oe-asg-co">
+                                    <span class="oe-asg-ic"><i class="fa fa-graduation-cap" aria-hidden="true"/></span>
+                                    <span class="oe-asg-name" t-out="scard['course']"/>
+                                    <span class="badge text-bg-light border ms-2" t-out="scard['batch']"/>
+                                    <span class="badge text-bg-success ms-1">在读</span>
+                                </div>
+                                <span class="small text-muted"><t t-out="scard['subject_n']"/> 门</span>
+                            </div>
+                            <div class="oe-adm-chips mt-2">
+                                <t t-foreach="scard['subjects']" t-as="s">
+                                    <a class="oe-adm-chip" t-att-href="'/my/courses/' + str(s.id)" t-out="s.name"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+                <div class="oe-statrow">
+                    <a href="/subject/registration" class="oe-statbox oe-statbox--active">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-pencil-square-o" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">总注册数</span><span class="oe-statbox-val" t-out="stats['total']"/></div>
+                    </a>
+                    <a href="?box=approved" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-check-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已批准</span><span class="oe-statbox-val" t-out="stats['approved']"/></div>
+                    </a>
+                    <a href="?box=pending" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-hourglass-half" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">待审批</span><span class="oe-statbox-val" t-out="stats['pending']"/></div>
+                    </a>
+                    <a href="?box=rejected" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--danger"><i class="fa fa-times-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已驳回</span><span class="oe-statbox-val" t-out="stats['rejected']"/></div>
+                    </a>
+                </div>
+
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <p class="oe-norec-txt">暂无科目注册记录。完成科目注册后，注册信息将在此处展示。</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="groups" t-as="group">
+                        <div t-if="group['name']" class="oe-asg-group">
+                            <i class="fa fa-graduation-cap" aria-hidden="true"/><em>注册用于：</em> <span t-out="group['name']"/>
+                        </div>
+                        <t t-foreach="group['items']" t-as="card">
+                            <div class="oe-asg-card">
+                                <div class="oe-asg-top">
+                                    <div class="oe-asg-co">
+                                        <span class="oe-asg-ic"><i class="fa fa-pencil-square-o" aria-hidden="true"/></span>
+                                        <a class="oe-asg-name" t-att-href="'/subject/registration/data/' + str(card['reg'].id)" t-out="card['name']"/>
+                                    </div>
+                                    <span t-att-class="'oe-asg-pill ' + (card['state_raw'] == 'approved' and 'oe-asg-pill--success' or (card['state_raw'] == 'rejected' and 'oe-asg-pill--danger' or 'oe-asg-pill--info'))" t-out="card['state']"/>
+                                </div>
+                                <div class="oe-asg-fields">
+                                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-user-o" aria-hidden="true"/> 学生</span><span class="oe-asg-val" id="student_name" t-out="card['student_name']"/></div>
+                                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-graduation-cap" aria-hidden="true"/> 课程</span><span class="oe-asg-val" t-out="card['course'] or '—'"/></div>
+                                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-users" aria-hidden="true"/> 班级</span><span class="oe-asg-val" t-out="card['batch'] or '—'"/></div>
+                                </div>
+                                <div t-if="card['subjects']" class="oe-adm-chips mt-2">
+                                    <t t-foreach="card['subjects']" t-as="subj">
+                                        <a class="oe-adm-chip" t-att-href="'/my/courses/' + str(subj.id)" t-out="subj.name"/>
+                                    </t>
+                                </div>
+                                <div t-if="card['reject_reason']" class="mt-2 small text-danger">
+                                    <i class="fa fa-times-circle me-1"/>驳回原因：<t t-out="card['reject_reason']"/>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+                <div class="o_portal_pager d-flex justify-content-center my-3"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /requested/queue/list 图书预约队列（op.media.queue 真实数据，partner_id） ============ -->
+    <template id="edu_requested_queue_list" name="Edu Requested Queue List">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'name': '顺序', 'date_from': '开始日期', 'date_to': '结束日期', 'state': '状态'}.get(sortby, '顺序')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/requested/queue/list?sortby=name'" t-att-class="'dropdown-item' + (sortby == 'name' and ' active' or '')"><span>顺序</span></a>
+                                    <a t-att-href="'/requested/queue/list?sortby=date_from'" t-att-class="'dropdown-item' + (sortby == 'date_from' and ' active' or '')"><span>开始日期</span></a>
+                                    <a t-att-href="'/requested/queue/list?sortby=date_to'" t-att-class="'dropdown-item' + (sortby == 'date_to' and ' active' or '')"><span>结束日期</span></a>
+                                    <a t-att-href="'/requested/queue/list?sortby=state'" t-att-class="'dropdown-item' + (sortby == 'state' and ' active' or '')"><span>状态</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'all': '全部', 'state+accept': '已批准', 'state+reject': '已拒绝', 'state+request': '已申请'}.get(filterby, '全部')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/requested/queue/list?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                    <a t-att-href="'/requested/queue/list?filterby=state+accept'" t-att-class="'dropdown-item' + (filterby == 'state+accept' and ' active' or '')"><span>已批准</span></a>
+                                    <a t-att-href="'/requested/queue/list?filterby=state+reject'" t-att-class="'dropdown-item' + (filterby == 'state+reject' and ' active' or '')"><span>已拒绝</span></a>
+                                    <a t-att-href="'/requested/queue/list?filterby=state+request'" t-att-class="'dropdown-item' + (filterby == 'state+request' and ' active' or '')"><span>已申请</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="groupby == 'media_id' and '媒体' or '不分组'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/requested/queue/list?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                    <a t-att-href="'/requested/queue/list?groupby=media_id'" t-att-class="'dropdown-item' + (groupby == 'media_id' and ' active' or '')"><span>媒体</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/requested/queue/list?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-asg-page">
+                <div class="oe-asg-group portal_buttons">
+                    <a class="oe-asg-btn" href="/library/media"><i class="fa fa-plus" aria-hidden="true"/> 媒体队列请求</a>
+                </div>
+
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <p class="oe-norec-txt">暂无媒体预约请求。在图书馆选择图书并加入预约队列后，将在此处展示。</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="oe-att-page">
+                        <t t-foreach="groups" t-as="group">
+                            <h5 t-if="group['name']" class="oe-group-title"><i class="fa fa-book" aria-hidden="true"/><t t-out="group['name']"/></h5>
+                            <t t-foreach="group['items']" t-as="card">
+                                <div class="oe-att-card oe-att-card--pill-end oe-att-card--end-fixed">
+                                    <div class="oe-att-left">
+                                        <span class="oe-att-ic"><i class="fa fa-exchange" aria-hidden="true"/></span>
+                                        <div>
+                                            <div class="oe-att-name" t-out="card['name']"/>
+                                            <div class="oe-att-sheet" t-out="card['media']"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe-att-end">
+                                        <span t-att-class="'oe-att-pill ' + (card['state_raw'] == 'accept' and 'oe-att-pill--present' or (card['state_raw'] == 'reject' and 'oe-att-pill--absent' or 'oe-att-pill--info'))" t-out="card['state']"/>
+                                    </div>
+                                    <div class="oe-att-field oe-att-col-date">
+                                        <div class="oe-att-fbody">
+                                            <span class="oe-att-flab"><i class="fa fa-calendar-o" aria-hidden="true"/> 起始日期</span>
+                                            <span class="oe-att-fval" t-out="card['date_from'] or '—'"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe-att-field oe-att-col-batch">
+                                        <div class="oe-att-fbody">
+                                            <span class="oe-att-flab"><i class="fa fa-calendar-check-o" aria-hidden="true"/> 截至目前</span>
+                                            <span class="oe-att-fval" t-out="card['date_to'] or '—'"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </t>
+                <div class="o_portal_pager d-flex justify-content-center my-3"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my/time_off 休息时间/请假（edu.leave 真实数据） ============ -->
+    <template id="edu_time_off" name="Edu Time Off">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'date': '日期', 'state': '状态', 'leave_type': '休假类型', 'request_number': '申请编号'}.get(sortby, '日期')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/time_off?sortby=date'" t-att-class="'dropdown-item' + (sortby == 'date' and ' active' or '')"><span>日期</span></a>
+                                    <a t-att-href="'/my/time_off?sortby=state'" t-att-class="'dropdown-item' + (sortby == 'state' and ' active' or '')"><span>状态</span></a>
+                                    <a t-att-href="'/my/time_off?sortby=leave_type'" t-att-class="'dropdown-item' + (sortby == 'leave_type' and ' active' or '')"><span>休假类型</span></a>
+                                    <a t-att-href="'/my/time_off?sortby=request_number'" t-att-class="'dropdown-item' + (sortby == 'request_number' and ' active' or '')"><span>申请编号</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'all': '全部', 'sick': 'Sick Leave', 'legal': 'Legal Leave', 'casual': 'Casual Leave', 'other': 'Other'}.get(filterby, '全部')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/time_off?filterby=sick'" t-att-class="'dropdown-item' + (filterby == 'sick' and ' active' or '')"><span>病假</span></a>
+                                    <a t-att-href="'/my/time_off?filterby=legal'" t-att-class="'dropdown-item' + (filterby == 'legal' and ' active' or '')"><span>法定假期</span></a>
+                                    <a t-att-href="'/my/time_off?filterby=casual'" t-att-class="'dropdown-item' + (filterby == 'casual' and ' active' or '')"><span>事假</span></a>
+                                    <a t-att-href="'/my/time_off?filterby=other'" t-att-class="'dropdown-item' + (filterby == 'other' and ' active' or '')"><span>其他</span></a>
+                                    <a t-att-href="'/my/time_off?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/my/time_off?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-asg-page">
+                <div class="oe-asg-group portal_buttons d-flex gap-2 flex-wrap">
+                    <a class="oe-asg-btn" id="create_leave" href="#" data-bs-toggle="collapse" data-bs-target="#leave_form" aria-expanded="false" aria-controls="leave_form">
+                        <i class="fa fa-plus" aria-hidden="true"/> 创建休假请求
+                    </a>
+                    <a class="oe-asg-btn" t-att-href="'/my/time_off/export?filterby=' + filterby + (search and ('&amp;search=' + search) or '')">
+                        <i class="fa fa-download" aria-hidden="true"/> 导出 CSV
+                    </a>
+                </div>
+
+                <t t-if="box == 'submitted'">
+                    <div class="alert alert-success">请假申请已提交，请等待审核。</div>
+                </t>
+                <t t-if="box == 'error_date'">
+                    <div class="alert alert-danger">日期格式不正确，请重新填写。</div>
+                </t>
+                <t t-if="box == 'error_range'">
+                    <!-- 2026-10-03：此前「结束早于开始」被**静默改写**成一天并提示「已提交」，
+                         用户不知道输入被改过。改为明确告知。（判据见控制器同名注释） -->
+                    <div class="alert alert-danger">结束日期早于开始日期，请检查后重新提交。</div>
+                </t>
+
+                <div class="oe-asg-group collapse mb-3" id="leave_form">
+                    <form method="post" action="/my/time_off/save" class="row g-3">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="col-md-3">
+                            <label class="form-label" for="to-leave-type">休假类型</label>
+                            <select class="form-select" name="leave_type" id="to-leave-type">
+                                <option value="sick">病假</option>
+                                <option value="legal">法定假期</option>
+                                <option value="casual">事假</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label" for="to-date-from">开始日期</label>
+                            <input type="date" class="form-control" name="date_from" id="to-date-from" required="required"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label" for="to-date-to">结束日期</label>
+                            <input type="date" class="form-control" name="date_to" id="to-date-to" required="required"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label" for="to-subject">涉及课程（选填）</label>
+                            <select class="form-select" name="subject_id" id="to-subject">
+                                <option value="">不指定课程</option>
+                                <t t-foreach="my_subjects" t-as="sub">
+                                    <option t-att-value="sub.id" t-out="sub.name"/>
+                                </t>
+                            </select>
+                            <div class="form-text">指定课程后，该课程的课代表可先行审批；不指定则由老师/教务审批。</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">请假事由</label>
+                            <textarea class="form-control" name="reason" rows="2" placeholder="请简述请假原因"/>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">提交申请</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="oe-statrow">
+                    <a href="/my/time_off" class="oe-statbox oe-statbox--active">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-calendar-minus-o" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">总请求数</span><span class="oe-statbox-val" t-out="stats['total']"/></div>
+                    </a>
+                    <a href="?box=approved" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-check-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已批准</span><span class="oe-statbox-val" t-out="stats['approved']"/></div>
+                    </a>
+                    <a href="?box=pending" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-hourglass-half" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">待审批</span><span class="oe-statbox-val" t-out="stats['pending']"/></div>
+                    </a>
+                    <a href="?box=refused" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--danger"><i class="fa fa-times-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已拒绝</span><span class="oe-statbox-val" t-out="stats['refused']"/></div>
+                    </a>
+                </div>
+
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <p class="oe-norec-txt">暂无休假请求。提交请假申请后，审批状态将在此处展示。</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="items" t-as="card">
+                        <div class="oe-asg-card">
+                            <div class="oe-asg-top">
+                                <div class="oe-asg-co">
+                                    <span class="oe-asg-ic"><i class="fa fa-calendar-minus-o" aria-hidden="true"/></span>
+                                    <div>
+                                        <div class="oe-asg-name" t-out="card['name']"/>
+                                        <div class="oe-asg-lab" t-out="card['type']"/>
+                                    </div>
+                                </div>
+                                <div class="oe-sub-pills">
+                                    <span t-att-class="'oe-asg-pill ' + (card['state_raw'] == 'approved' and 'oe-asg-pill--success' or (card['state_raw'] == 'refused' and 'oe-asg-pill--danger' or 'oe-asg-pill--info'))" t-out="card['state']"/>
+                                </div>
+                            </div>
+                            <div class="oe-asg-fields">
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-user-o" aria-hidden="true"/> 学生</span><span class="oe-asg-val" id="student_id" t-out="card['student_name']"/></div>
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-calendar-o" aria-hidden="true"/> 开始日期</span><span class="oe-asg-val" t-out="card['date_from'] or '—'"/></div>
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-calendar-check-o" aria-hidden="true"/> 结束日期</span><span class="oe-asg-val" t-out="card['date_to'] or '—'"/></div>
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-hourglass-half" aria-hidden="true"/> 持续时间</span><span class="oe-asg-val" t-out="card['days_str']"/></div>
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-book" aria-hidden="true"/> 涉及课程</span><span class="oe-asg-val" t-out="card['leave'].subject_id.name or '—'"/></div>
+                                <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-user-secret" aria-hidden="true"/> 审批人</span><span class="oe-asg-val" t-out="card['leave'].approver_label()"/></div>
+                            </div>
+                            <div class="oe-asg-fields mt-3">
+                                <div class="oe-asg-field oe-asg-field--full"><span class="oe-asg-lab"><i class="fa fa-align-left" aria-hidden="true"/> 描述</span><span class="oe-asg-val" t-out="card['reason'] or '—'"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <div class="o_portal_pager d-flex justify-content-center my-3"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /meeting/information 会议（空态，对齐 kendo 占位 DOM） ============ -->
+    <template id="edu_meeting" name="Edu Meeting Information">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'meeting_id': '会议', 'start': '开始日期'}.get(sortby, '会议')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/meeting/information?sortby=meeting_id'" t-att-class="'dropdown-item' + (sortby == 'meeting_id' and ' active' or '')"><span>会议</span></a>
+                                    <a t-att-href="'/meeting/information?sortby=start'" t-att-class="'dropdown-item' + (sortby == 'start' and ' active' or '')"><span>开始日期</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">全部</button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/meeting/information?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="groupby == 'name' and '主题' or '不分组'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/meeting/information?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                    <a t-att-href="'/meeting/information?groupby=name'" t-att-class="'dropdown-item' + (groupby == 'name' and ' active' or '')"><span>主题</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/meeting/information?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="stud_id_meeting_parent"/>
+            <div class="meeting_schedule_portal active">
+                <div id="meeting_portal_kendo"/>
+            </div>
+            <t t-if="not has_records">
+                <div class="oe-norec">
+                    <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                    <p class="oe-norec-txt">Zoom 会议链接尚未发布。链接配置好后，进入本页将自动跳转 Zoom 会议室。</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ /online/meeting 在线会议（空态） ============ -->
+    <template id="edu_online_meeting" name="Edu Online Meeting">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'name': '会议主题', 'start_date': '开始日期'}.get(sortby, '会议主题')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/online/meeting?sortby=name'" t-att-class="'dropdown-item' + (sortby == 'name' and ' active' or '')"><span>会议主题</span></a>
+                                    <a t-att-href="'/online/meeting?sortby=start_date'" t-att-class="'dropdown-item' + (sortby == 'start_date' and ' active' or '')"><span>开始日期</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">全部</button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/online/meeting?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="groupby == 'name' and '主题' or '不分组'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/online/meeting?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                    <a t-att-href="'/online/meeting?groupby=name'" t-att-class="'dropdown-item' + (groupby == 'name' and ' active' or '')"><span>主题</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/online/meeting?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="stud_id_online_meeting_parent"/>
+            <div class="online_meeting_schedule_portal active">
+                <div id="online_meeting_portal_kendo"/>
+            </div>
+            <t t-if="not has_records">
+                <div class="oe-norec">
+                    <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                    <p class="oe-norec-txt">Zoom 会议链接尚未发布。链接配置好后，进入本页将自动跳转 Zoom 会议室。</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    
+
+    
+
+    <!-- ============ /users/result-overview 测验结果（空态） ============ -->
+    <template id="edu_result_overview" name="Edu Users Result Overview">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'index': '序号'}.get(sortby, '序号')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/users/result-overview?sortby=index'" t-att-class="'dropdown-item' + (sortby == 'index' and ' active' or '')"><span>序号</span></a>
+                                    <a t-att-href="'/users/result-overview?sortby=quiz_id'" t-att-class="'dropdown-item' + (sortby == 'quiz_id' and ' active' or '')"><span>考试</span></a>
+                                    <a t-att-href="'/users/result-overview?sortby=finish_date'" t-att-class="'dropdown-item' + (sortby == 'finish_date' and ' active' or '')"><span>尝试日期</span></a>
+                                    <a t-att-href="'/users/result-overview?sortby=total_question'" t-att-class="'dropdown-item' + (sortby == 'total_question' and ' active' or '')"><span>总问题</span></a>
+                                    <a t-att-href="'/users/result-overview?sortby=total_correct'" t-att-class="'dropdown-item' + (sortby == 'total_correct' and ' active' or '')"><span>总正确率</span></a>
+                                    <a t-att-href="'/users/result-overview?sortby=total_incorrect'" t-att-class="'dropdown-item' + (sortby == 'total_incorrect' and ' active' or '')"><span>完全错误</span></a>
+                                    <a t-att-href="'/users/result-overview?sortby=total_marks'" t-att-class="'dropdown-item' + (sortby == 'total_marks' and ' active' or '')"><span>总分</span></a>
+                                    <a t-att-href="'/users/result-overview?sortby=received_marks'" t-att-class="'dropdown-item' + (sortby == 'received_marks' and ' active' or '')"><span>收到的分数</span></a>
+                                    <a t-att-href="'/users/result-overview?sortby=score'" t-att-class="'dropdown-item' + (sortby == 'score' and ' active' or '')"><span>总分</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">全部</button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/users/result-overview?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">不分组</button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/users/result-overview?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/users/result-overview?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-exam-page">
+                <div class="oe-statrow">
+                    <a href="/users/result-overview" class="oe-statbox oe-statbox--active">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-question-circle-o" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">测验总数</span><span class="oe-statbox-val" t-out="stats['total']"/></div>
+                    </a>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--info"><i class="fa fa-bullseye" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">平均分</span><span class="oe-statbox-val" t-out="stats['avg']"/></div>
+                    </div>
+                    <a href="?box=passed" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-check-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">通过</span><span class="oe-statbox-val" t-out="stats['passed']"/></div>
+                    </a>
+                    <a href="?box=failed" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--danger"><i class="fa fa-times-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">失败</span><span class="oe-statbox-val" t-out="stats['failed']"/></div>
+                    </a>
+                </div>
+
+                <t t-if="has_records">
+                    <div class="oe-att-page">
+                        <!-- 同上（判据 C）：6 列装得进 345 容器，但「得分/满分/百分比」等 3 个表头被压成两行。
+                             窄屏折卡片，桌面端（1440）媒体查询不生效 —— 实测 thead 仍 table-header-group。 -->
+                        <t t-call="edu_portal.edu_narrow_table_cards"/>
+                        <table class="table align-middle edu-card-table">
+                            <thead>
+                                <tr><th>科目</th><th>考试</th><th>得分</th><th>满分</th><th>百分比</th><th>结果</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="items" t-as="it">
+                                    <td data-label="科目" t-out="it['subject']"/>
+                                    <td data-label="考试" t-out="it['exam']"/>
+                                    <td data-label="得分" t-out="it['marks']"/>
+                                    <td data-label="满分" t-out="it['total']"/>
+                                    <td data-label="百分比" t-out="it['pct_str']"/>
+                                    <td data-label="结果">
+                                        <span t-att-class="'badge ' + (it['status'] == '及格' and 'bg-success' or 'bg-danger')" t-out="it['status']"/>
+                                        <a t-if="it['attempt_url']" t-att-href="it['attempt_url']" class="ms-2 small text-decoration-none">查看详情 <i class="fa fa-arrow-right" aria-hidden="true"/></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <p class="oe-norec-txt">暂无测验结果。完成测验后，成绩分析将在此处展示。</p>
+                    </div>
+                </t>
+                <div class="o_portal_pager d-flex justify-content-center my-3"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my/grievances 申诉（edu.grievance 真实数据） ============ -->
+    <template id="edu_grievances" name="Edu Grievances">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'id': '最新', 'grievance_category_id': '类别'}.get(sortby, '最新')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/grievances?sortby=id'" t-att-class="'dropdown-item' + (sortby == 'id' and ' active' or '')"><span>最新</span></a>
+                                    <a t-att-href="'/my/grievances?sortby=grievance_category_id'" t-att-class="'dropdown-item' + (sortby == 'grievance_category_id' and ' active' or '')"><span>类别</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'all': '全部', 'close': '关闭', 'draft': '草稿', 'in_progress': '审查中', 'reject': '已驳回', 'resolve': '已解决', 'submitted': '已提交'}.get(filterby, '全部')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/grievances?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                    <a t-att-href="'/my/grievances?filterby=close'" t-att-class="'dropdown-item' + (filterby == 'close' and ' active' or '')"><span>关闭</span></a>
+                                    <a t-att-href="'/my/grievances?filterby=draft'" t-att-class="'dropdown-item' + (filterby == 'draft' and ' active' or '')"><span>草稿</span></a>
+                                    <a t-att-href="'/my/grievances?filterby=in_progress'" t-att-class="'dropdown-item' + (filterby == 'in_progress' and ' active' or '')"><span>审查中</span></a>
+                                    <a t-att-href="'/my/grievances?filterby=reject'" t-att-class="'dropdown-item' + (filterby == 'reject' and ' active' or '')"><span>已驳回</span></a>
+                                    <a t-att-href="'/my/grievances?filterby=resolve'" t-att-class="'dropdown-item' + (filterby == 'resolve' and ' active' or '')"><span>已解决</span></a>
+                                    <a t-att-href="'/my/grievances?filterby=submitted'" t-att-class="'dropdown-item' + (filterby == 'submitted' and ' active' or '')"><span>已提交</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="groupby == 'category_id' and '类别' or '不分组'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/grievances?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                    <a t-att-href="'/my/grievances?groupby=category_id'" t-att-class="'dropdown-item' + (groupby == 'category_id' and ' active' or '')"><span>类别</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/my/grievances?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-asg-page oe-att-page">
+                <div class="oe-asg-group portal_buttons d-flex gap-2 flex-wrap">
+                    <a class="oe-asg-btn" href="#" data-bs-toggle="collapse" data-bs-target="#grievance_form" aria-expanded="false" aria-controls="grievance_form">
+                        <i class="fa fa-plus" aria-hidden="true"/> 添加申诉
+                    </a>
+                    <a class="oe-asg-btn" t-att-href="'/my/grievances/export?filterby=' + filterby + (search and ('&amp;search=' + search) or '')">
+                        <i class="fa fa-download" aria-hidden="true"/> 导出 CSV
+                    </a>
+                </div>
+
+                <t t-if="box == 'submitted'">
+                    <div class="alert alert-success">申诉已提交，我们会在处理过程中及时反馈进度。</div>
+                </t>
+                <t t-if="box == 'error_subject'">
+                    <div class="alert alert-danger">请填写申诉主题后再提交。</div>
+                </t>
+
+                <div class="oe-asg-group collapse mb-3" id="grievance_form">
+                    <form method="post" action="/my/grievances/save" class="row g-3">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="col-md-6">
+                            <label class="form-label">申诉主题</label>
+                            <input type="text" class="form-control" name="subject" maxlength="200" required="required" placeholder="简要描述问题"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">问题类别</label>
+                            <select class="form-select" name="category">
+                                <option t-foreach="categories" t-as="cat" t-att-value="cat" t-out="cat"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">详细说明</label>
+                            <textarea class="form-control" name="description" rows="3" placeholder="请补充时间、地点、涉及课程等细节，以便更快处理"/>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">提交申诉</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="oe-statrow">
+                    <a href="/my/grievances" class="oe-statbox oe-statbox--active">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-commenting-o" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">总申诉</span><span class="oe-statbox-val" t-out="stats['total']"/></div>
+                    </a>
+                    <a href="?box=resolved" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-check-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已解决</span><span class="oe-statbox-val" t-out="stats['resolved']"/></div>
+                    </a>
+                    <a href="?box=pending" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-hourglass-half" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">待审批</span><span class="oe-statbox-val" t-out="stats['pending']"/></div>
+                    </a>
+                    <a href="?box=rejected" class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--danger"><i class="fa fa-times-circle" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">已驳回</span><span class="oe-statbox-val" t-out="stats['rejected']"/></div>
+                    </a>
+                </div>
+
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <p class="oe-norec-txt">暂无申诉记录。提交申诉后，处理进度将在此处展示。</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="groups" t-as="group">
+                        <h5 t-if="group['name']" class="oe-group-title"><i class="fa fa-tags" aria-hidden="true"/><t t-out="group['name']"/></h5>
+                        <t t-foreach="group['items']" t-as="card">
+                            <div class="oe-att-card oe-att-card--pill-end oe-att-card--end-fixed">
+                                <div class="oe-att-left">
+                                    <span class="oe-att-ic"><i class="fa fa-commenting-o" aria-hidden="true"/></span>
+                                    <div>
+                                        <span class="oe-att-name" t-out="card['name']"/>
+                                        <div class="oe-att-sheet"><span id="gms_subject_list" t-out="card['subject']"/></div>
+                                    </div>
+                                </div>
+                                <div class="oe-att-end">
+                                    <span t-att-class="'oe-att-pill ' + (card['state_raw'] in ('resolve', 'close') and 'oe-att-pill--present' or (card['state_raw'] == 'reject' and 'oe-att-pill--absent' or 'oe-att-pill--info'))" t-out="card['state']"/>
+                                </div>
+                                <div class="oe-att-field oe-att-col-date">
+                                    <div class="oe-att-fbody">
+                                        <span class="oe-att-flab"><i class="fa fa-tags" aria-hidden="true"/> 类别</span>
+                                        <span class="oe-att-fval" t-out="card['category'] or '—'"/>
+                                    </div>
+                                </div>
+                                <div class="oe-att-field oe-att-col-batch">
+                                    <div class="oe-att-fbody">
+                                        <span class="oe-att-flab"><i class="fa fa-calendar-o" aria-hidden="true"/> 创建日期</span>
+                                        <span class="oe-att-fval" t-out="card['date'] or '—'"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+                <div class="o_portal_pager d-flex justify-content-center my-3"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my/academic-calendar 学术日历（op.academic.year/term 真实数据） ============ -->
+    <template id="edu_academic_calendar" name="Edu Academic Calendar">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show"
+                     id="o_portal_navbar_content">
+                    <div class="nav flex-column flex-sm-row gap-2 ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        <div>
+                            <span class="small me-1 navbar-text">排序依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'name': '姓名', 'start_date': '开始日期', 'stop_date': '结束日期'}.get(sortby, '开始日期')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/academic-calendar?sortby=name'" t-att-class="'dropdown-item' + (sortby == 'name' and ' active' or '')"><span>姓名</span></a>
+                                    <a t-att-href="'/my/academic-calendar?sortby=start_date'" t-att-class="'dropdown-item' + (sortby == 'start_date' and ' active' or '')"><span>开始日期</span></a>
+                                    <a t-att-href="'/my/academic-calendar?sortby=stop_date'" t-att-class="'dropdown-item' + (sortby == 'stop_date' and ' active' or '')"><span>结束日期</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">筛选依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="{'all': '全部', 'today': '今天'}.get(filterby, '全部')"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/academic-calendar?filterby=all'" t-att-class="'dropdown-item' + (filterby == 'all' and ' active' or '')"><span>全部</span></a>
+                                    <a t-att-href="'/my/academic-calendar?filterby=today'" t-att-class="'dropdown-item' + (filterby == 'today' and ' active' or '')"><span>今天</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-lg-2">
+                            <span class="small me-1 navbar-text">分组依据：</span>
+                            <div class="btn-group">
+                                <button data-bs-toggle="dropdown" class="btn btn-light dropdown-toggle">
+                                    <t t-out="groupby == 'start_date' and '开始日期' or '不分组'"/>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a t-att-href="'/my/academic-calendar?groupby=none'" t-att-class="'dropdown-item' + (groupby == 'none' and ' active' or '')"><span>不分组</span></a>
+                                    <a t-att-href="'/my/academic-calendar?groupby=start_date'" t-att-class="'dropdown-item' + (groupby == 'start_date' and ' active' or '')"><span>开始日期</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="o_portal_search_panel col-md-5 col-xl-4 ms-lg-2" method="get"
+                          t-att-action="'/my/academic-calendar?filterby=' + filterby">
+                        <div class="input-group w-100">
+                            <input type="search" class="form-control border-0 bg-light" placeholder="搜索"
+                                   name="search" t-att-value="search"/>
+                            <button class="btn btn-light" type="submit" aria-label="搜索">
+                                <span class="oi oi-search"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="oe-asg-page">
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-info-circle oe-norec-ic" aria-hidden="true"/>
+                        <p class="oe-norec-txt">暂无学术日历。学校配置学年与学期后，将在此处展示。</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="groups" t-as="group">
+                        <h5 t-if="group['name']" class="oe-group-title"><i class="fa fa-calendar" aria-hidden="true"/><t t-out="group['name']"/></h5>
+                        <t t-foreach="group['items']" t-as="item">
+                            <div class="oe-acd-card">
+                                <div class="oe-acd-head">
+                                    <span class="oe-acd-ic"><i class="fa fa-graduation-cap" aria-hidden="true"/></span>
+                                    <span class="oe-acd-name" t-out="item['name']"/>
+                                    <span t-if="item['current']" class="oe-acd-pill">当前学年</span>
+                                    <span class="oe-acd-dates">
+                                        <i class="fa fa-calendar-o me-1"/><t t-out="item['start'] or '—'"/> — <t t-out="item['end'] or '—'"/>
+                                    </span>
+                                </div>
+                                <div class="oe-acd-terms">
+                                    <t t-foreach="item['terms']" t-as="term">
+                                        <div class="oe-acd-term">
+                                            <span class="oe-acd-term-name" t-out="term['name']"/>
+                                            <span class="oe-acd-term-dates">
+                                                <i class="fa fa-calendar-o me-1"/><t t-out="term['start'] or '—'"/> — <t t-out="term['end'] or '—'"/>
+                                            </span>
+                                        </div>
+                                    </t>
+                                    <t t-if="not item['terms']">
+                                        <div class="oe-acd-term">
+                                            <span class="oe-acd-term-dates">该学年暂无学期安排</span>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 登录页身份快捷标签（安全规格 2026-08-24 拷问锁定） ============
+         仅填充用户名便于定位身份；密码永不写入页面、永不自动提交；
+         首次登录由用户手动输入，后续交由浏览器密码管理器记忆。
+         仅开发环境显示：系统参数 edu.dev_quick_login=1 时才渲染（生产不设置）。 -->
+    <template id="web_login_demo_buttons" name="Login Role Quick Tags"
+              inherit_id="web.login">
+        <xpath expr="//input[@name='csrf_token']" position="before">
+            <!-- 语言切换：**已撤除**（2026-09-14）—— 与门户顶栏同一理由：单语站点（language_ids 钉为 [zh_CN]）
+                 + 自研模板源语言即简体中文（无 zh_TW/en_US 词条）⇒ 切换后页面一字不变，属"看着能用、其实没用"的死控件。
+                 恢复步骤见 edu_brand/views/brand_templates.xml:241。 -->
+            <!-- 开发环境快速登录（仅 edu.dev_quick_login=1 时渲染） -->
+            <div class="mb-3 text-center demo-login-buttons"
+                 t-if="request.env['ir.config_parameter'].sudo().get_param('edu.dev_quick_login') == '1'">
+                <div class="small mb-1">选择你的身份：</div>
+                <div class="btn-group-sm">
+                    <a href="#" class="btn btn-outline-primary demo-login-btn mb-1"
+                       data-username="stu@local"
+                       title="学生登录"><i class="fa fa-graduation-cap me-1"/>学生 Student</a>
+                    <a href="#" class="btn btn-outline-primary demo-login-btn mb-1"
+                       data-username="faculty@local"
+                       title="教师登录"><i class="fa fa-user me-1"/>教師 Teacher</a>
+                    <a href="#" class="btn btn-outline-primary demo-login-btn mb-1"
+                       data-username="parent@local"
+                       title="家长登录"><i class="fa fa-users me-1"/>家長 Parent</a>
+                    <a href="#" class="btn btn-outline-primary demo-login-btn mb-1"
+                       data-username="backoffice@local"
+                       title="教务登录"><i class="fa fa-briefcase me-1"/>教務 Registrar</a>
+                    <a href="#" class="btn btn-outline-secondary demo-login-btn mb-1"
+                       data-username="admin"
+                       title="管理员登录"><i class="fa fa-user-secret me-1"/>管理員 Admin</a>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+
+
+    <!-- ============ /subject/registration/data/<id> 注册单详情（对齐原站） ============ -->
+    <template id="edu_subject_registration_data" name="Edu Subject Registration Data">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe-cat-head mb-3">
+                <span class="oe-cat-dot"/>
+                <h2 class="oe-cat-title"><i class="fa fa-pencil-square-o me-2"/><t t-out="r.name"/></h2>
+                <span class="oe-cat-count" t-out="state_label"/>
+            </div>
+
+            <div class="oe-asg-card mb-3">
+                <div class="oe-asg-fields">
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-user-o"/> 学生</span><span class="oe-asg-val" t-out="r.student_id.name or '—'"/></div>
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-graduation-cap"/> 课程</span><span class="oe-asg-val" t-out="r.course_id.name or '—'"/></div>
+                    <div class="oe-asg-field"><span class="oe-asg-lab"><i class="fa fa-users"/> 班级</span><span class="oe-asg-val" t-out="r.batch_id.name or '—'"/></div>
+                    <div class="oe-asg-field" t-if="r.applicant_note"><span class="oe-asg-lab"><i class="fa fa-sticky-note-o"/> 申请备注</span><span class="oe-asg-val" t-out="r.applicant_note"/></div>
+                    <div class="oe-asg-field" t-if="r.state == 'rejected' and r.reject_reason"><span class="oe-asg-lab"><i class="fa fa-times-circle"/> 驳回原因</span><span class="oe-asg-val text-danger" t-out="r.reject_reason"/></div>
+                </div>
+            </div>
+
+            <div class="oe-asg-card">
+                <div class="oe-asg-top">
+                    <div class="oe-asg-co">
+                        <span class="oe-asg-ic"><i class="fa fa-list"/></span>
+                        <span class="oe-asg-name">已注册科目</span>
+                    </div>
+                </div>
+                <t t-if="not subjects">
+                    <div class="oe-empty"><i class="fa fa-pencil-square-o"/><p>该注册单下暂无科目。</p></div>
+                </t>
+                <div class="oe-adm-chips mt-2" t-else="">
+                    <t t-foreach="subjects" t-as="s">
+                        <a class="oe-adm-chip" t-att-href="'/my/courses/' + str(s.id)" t-out="s.name"/>
+                    </t>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a class="btn btn-light" href="/subject/registration"><i class="fa fa-arrow-left me-1"/>返回注册列表</a>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 收尾三页：DMS / 资产请求 / 论文 ============ -->
+    <template id="edu_dms" name="Edu My DMS">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show">
+                </div>
+            </nav>
+            <div class="oe-asg-page oe-att-page">
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-folder-open oe-norec-ic" aria-hidden="true"/>
+                        <!-- 空态审计（2026-10-02）：本页是占位页（controllers/batch3.py 的 _simple_page，
+                             has_records 恒 False），真实资料入口在 /downloads —— 与其说「将在此处管理」，
+                             不如把人带到能真正拿到文件的地方。 -->
+                        <p class="oe-norec-txt">
+                            暂无文档。学坊的文件统一放在「资料下载」：教师与教务处上传的资料都在那里，
+                            按可见范围筛选后即可下载。
+                            <a href="/downloads">去资料下载</a>
+                        </p>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="edu_asset_request" name="Edu Assets Request">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show">
+                    <div class="ms-auto">
+                    </div>
+                </div>
+            </nav>
+            <div class="oe-asg-page oe-att-page">
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-laptop oe-norec-ic" aria-hidden="true"/>
+                        <!-- 空态审计（2026-10-02，与 edu_thesis 同一条规矩）：本页是占位页（_simple_page），
+                             模板体里**没有任何表单/按钮**，原文案「需要教学设备或资料时可在此提交申请」
+                             暗示「这里能用」—— 用户照做会发现无按钮可点。
+                             而资产申请**是真功能**，只是在另一个地址：/my/assets（「资产借还」：
+                             可借资产列表 + POST /my/assets/apply）。
+                             ⇒ 按 edu_dms 的写法，把人送到**真能办事的地方**，而不是含糊地说「在此」。 -->
+                        <p class="oe-norec-txt">
+                            暂无资产请求。申请借用教学设备或资料请到
+                            <a href="/my/assets">资产借还</a>页面：那里可以选择可借资产、
+                            提交申请并查看审批进度。
+                        </p>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="edu_thesis" name="Edu My Thesis">
+        <t t-call="edu_portal.edu_page">
+            <nav class="navbar navbar-expand-lg flex-wrap mb-4 p-0 o_portal_navbar">
+                <div class="collapse navbar-collapse flex-wrap-reverse justify-content-end gap-3 show">
+                    <div class="ms-auto">
+                    </div>
+                </div>
+            </nav>
+            <div class="oe-asg-page oe-att-page">
+                <t t-if="not has_records">
+                    <div class="oe-norec">
+                        <i class="fa fa-book oe-norec-ic" aria-hidden="true"/>
+                        <!-- 空态审计（2026-10-02）：本页同样是占位页（_simple_page），
+                             论文模块尚未落地 —— 空态必须说清「现在没有」而不是暗示「这里能用」。 -->
+                        <p class="oe-norec-txt">
+                            暂无论文记录。论文注册与提交尚未在此开放；
+                            如需登记论文题目或提交材料，请联系教务处。
+                        </p>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

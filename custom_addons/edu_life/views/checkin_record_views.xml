@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 打卡记录：后台 search+list+form（中文） -->
+    <record id="view_edu_life_checkin_record_search" model="ir.ui.view">
+        <field name="name">edu.checkin.record.search.life</field>
+        <field name="model">edu.checkin.record</field>
+        <field name="arch" type="xml">
+            <search string="筛选打卡记录">
+                <field name="student_id" string="学生"/>
+                <field name="type_id" string="打卡类型"/>
+                <filter name="filter_today" string="今天"
+                        domain="[('checkin_date', '=', context_today())]"/>
+                <filter name="filter_7d" string="近7天"
+                        domain="[('checkin_date', '&gt;=', context_today() + datetime.timedelta(days=-6))]"/>
+                <group>
+                    <filter name="group_student" string="按学生"
+                            context="{'group_by': 'student_id'}"/>
+                    <filter name="group_type" string="按类型"
+                            context="{'group_by': 'type_id'}"/>
+                    <filter name="group_date" string="按日期"
+                            context="{'group_by': 'checkin_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_edu_life_checkin_record_list" model="ir.ui.view">
+        <field name="name">edu.checkin.record.list.life</field>
+        <field name="model">edu.checkin.record</field>
+        <field name="arch" type="xml">
+            <list string="打卡记录">
+                <field name="checkin_date" string="打卡日期"/>
+                <field name="student_id" string="学生"/>
+                <field name="type_id" string="打卡类型"/>
+                <field name="note" string="备注" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_life_checkin_record_form" model="ir.ui.view">
+        <field name="name">edu.checkin.record.form.life</field>
+        <field name="model">edu.checkin.record</field>
+        <field name="arch" type="xml">
+            <form string="打卡记录">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="student_id" string="学生"/>
+                            <field name="type_id" string="打卡类型"/>
+                            <field name="checkin_date" string="打卡日期"/>
+                        </group>
+                        <group>
+                            <field name="note" string="备注"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_life_checkin_record" model="ir.actions.act_window">
+        <field name="name">打卡记录</field>
+        <field name="res_model">edu.checkin.record</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                <i class="fa fa-calendar me-1"/>还没有打卡记录
+            </p>
+            <p>学生在门户「灵命打卡」页提交的记录会汇总到这里。</p>
+        </field>
+    </record>
+</odoo>

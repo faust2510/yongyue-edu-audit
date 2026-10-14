@@ -1,0 +1,57 @@
+name: static-gates
+
+# 离线门禁：不需要 Docker / 数据库 / 真实站点，能在任意 CI runner 上跑。
+# 清单与 AGENTS.md §4 一致 —— 改了一边就同步另一边。
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  offline-gates:
+    name: 离线门禁（阻塞）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 安装解析依赖
+        run: python3 -m pip install --quiet lxml
+
+      # 门禁的自证用例：红了说明有人改了门禁本身，而不是改了业务代码
+      - name: 门禁自证
+        run: |
+          python3 scripts/check_english.py --selftest
+          python3 scripts/check_odoo_trace.py --selftest
+          python3 scripts/check_view_xpath.py --selftest
+          python3 tests/smoke/gate_seam_check.py
+
+      - name: 静态门禁（全模式）
+        run: |
+          for c in \
+            check_docs_index check_manifest_order check_manifest_tracking \
+            check_qweb_dict_foreach check_recordset_none check_shell_exitcode \
+            check_ui_surface check_po_sanity check_alias_not_extended \
+            check_nav_reachable check_english check_view_xpath \
+          ; do
+            echo "=== $c"
+            python3 "scripts/$c.py"
+          done
+
+  known-red:
+    name: 已知红灯（不阻塞）
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # 2026-10-14 本机实测为红的真缺陷。修绿后把它们移进上面的阻塞 job。
+      - name: 已知缺陷清单
+        run: |
+          for c in check_doc_module_count check_md_tables check_menu_data_sync check_nav_jobs_entries; do
+            echo "=== $c"
+            python3 "scripts/$c.py" || echo "::warning::$c 仍为红（见 AGENTS.md §4）"
+          done

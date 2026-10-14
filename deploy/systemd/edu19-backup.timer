@@ -1,0 +1,15 @@
+[Unit]
+Description=每天 02:30 Asia/Shanghai 跑 edu19 异地备份
+
+[Timer]
+# 时区后缀由 systemd 解析（本机 TZ=Etc/UTC，所以不能直接写 02:30 了事）
+OnCalendar=*-*-* 02:30:00 Asia/Shanghai
+# 机器关机错过点也要补跑一次（生产机半夜重启不会丢掉当天的备份）
+Persistent=true
+# 抖开 5 分钟，避免和其它任务抢 IO
+RandomizedDelaySec=300
+AccuracySec=1min
+Unit=edu19-backup.service
+
+[Install]
+WantedBy=timers.target

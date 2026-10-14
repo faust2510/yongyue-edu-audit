@@ -1,0 +1,716 @@
+{
+ "base": "http://localhost:8069",
+ "when_start": "2026-09-29 15:07:07",
+ "when_end": "2026-09-29 15:07:28",
+ "readings": {
+  "fixture": {
+   "template": 323,
+   "task": 476,
+   "rosters": 27,
+   "leaves": 20,
+   "rows": 27,
+   "fill_template": 324,
+   "fill_task": 477
+  },
+  "browser": {
+   "version": "147.0.7727.15",
+   "url": "/assess/grade/476",
+   "viewport": "1440x900"
+  },
+  "P_state": {
+   "viewport": {
+    "w": 1440,
+    "h": 900
+   },
+   "boxHeight": 516,
+   "boxWidth": 1178,
+   "maxScrollTop": 1556,
+   "maxScrollLeft": 742,
+   "scrollTop": 0,
+   "scrollLeft": 0,
+   "rows": 27,
+   "cols": 21,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "headLefts": [
+    0,
+    120,
+    120
+   ],
+   "headTexts": [
+    "学生",
+    "清洁",
+    "窗户有灰尘/污渍"
+   ],
+   "bodyRow0Top": 115.28,
+   "col0Left": 0,
+   "col2Left": 210,
+   "leadTop": 0,
+   "leadLeft": 0,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky",
+   "boxOverflow": "auto/auto",
+   "boxMaxHeight": "516px"
+  },
+  "F_at_origin": {
+   "viewport": {
+    "w": 1440,
+    "h": 900
+   },
+   "boxHeight": 516,
+   "boxWidth": 1178,
+   "maxScrollTop": 1556,
+   "maxScrollLeft": 742,
+   "scrollTop": 0,
+   "scrollLeft": 0,
+   "rows": 27,
+   "cols": 21,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "headLefts": [
+    0,
+    120,
+    120
+   ],
+   "headTexts": [
+    "学生",
+    "清洁",
+    "窗户有灰尘/污渍"
+   ],
+   "bodyRow0Top": 115.28,
+   "col0Left": 0,
+   "col2Left": 210,
+   "leadTop": 0,
+   "leadLeft": 0,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky",
+   "boxOverflow": "auto/auto",
+   "boxMaxHeight": "516px"
+  },
+  "F_after_vscroll": {
+   "viewport": {
+    "w": 1440,
+    "h": 900
+   },
+   "boxHeight": 516,
+   "boxWidth": 1178,
+   "maxScrollTop": 1556,
+   "maxScrollLeft": 742,
+   "scrollTop": 200,
+   "scrollLeft": 0,
+   "rows": 27,
+   "cols": 21,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "headLefts": [
+    0,
+    120,
+    120
+   ],
+   "headTexts": [
+    "学生",
+    "清洁",
+    "窗户有灰尘/污渍"
+   ],
+   "bodyRow0Top": -84.72,
+   "col0Left": 0,
+   "col2Left": 210,
+   "leadTop": 0,
+   "leadLeft": 0,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky",
+   "boxOverflow": "auto/auto",
+   "boxMaxHeight": "516px"
+  },
+  "F_after_hscroll": {
+   "viewport": {
+    "w": 1440,
+    "h": 900
+   },
+   "boxHeight": 516,
+   "boxWidth": 1178,
+   "maxScrollTop": 1556,
+   "maxScrollLeft": 742,
+   "scrollTop": 200,
+   "scrollLeft": 300,
+   "rows": 27,
+   "cols": 21,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "headLefts": [
+    0,
+    0,
+    0
+   ],
+   "headTexts": [
+    "学生",
+    "清洁",
+    "窗户有灰尘/污渍"
+   ],
+   "bodyRow0Top": -84.72,
+   "col0Left": 0,
+   "col2Left": -90,
+   "leadTop": 0,
+   "leadLeft": 0,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky",
+   "boxOverflow": "auto/auto",
+   "boxMaxHeight": "516px"
+  },
+  "V_block": [
+   [
+    1,
+    2,
+    3,
+    4
+   ],
+   [
+    5,
+    6,
+    7,
+    8
+   ],
+   [
+    9,
+    10,
+    11,
+    12
+   ]
+  ],
+  "V_cells": [
+   {
+    "name": "v_994_3397",
+    "value": "1",
+    "invalid": false
+   },
+   {
+    "name": "v_994_3398",
+    "value": "2",
+    "invalid": false
+   },
+   {
+    "name": "v_994_3401",
+    "value": "3",
+    "invalid": false
+   },
+   {
+    "name": "v_994_3402",
+    "value": "4",
+    "invalid": false
+   },
+   {
+    "name": "v_995_3397",
+    "value": "5",
+    "invalid": false
+   },
+   {
+    "name": "v_995_3398",
+    "value": "6",
+    "invalid": false
+   },
+   {
+    "name": "v_995_3401",
+    "value": "7",
+    "invalid": false
+   },
+   {
+    "name": "v_995_3402",
+    "value": "8",
+    "invalid": false
+   },
+   {
+    "name": "v_996_3397",
+    "value": "9",
+    "invalid": false
+   },
+   {
+    "name": "v_996_3398",
+    "value": "10",
+    "invalid": false
+   },
+   {
+    "name": "v_996_3401",
+    "value": "11",
+    "invalid": false
+   },
+   {
+    "name": "v_996_3402",
+    "value": "12",
+    "invalid": false
+   }
+  ],
+  "V_status": {
+   "text": "粘贴 12 格：写入 12。",
+   "role": "status",
+   "live": "polite"
+  },
+  "V_anchor": {
+   "name": "v_994_3397"
+  },
+  "V_after_reload": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12"
+  ],
+  "V_sql": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12"
+  ],
+  "C4_status": {
+   "text": "粘贴 3 格：写入 0，非数字忽略 3（已标红）。",
+   "role": "status",
+   "live": "polite"
+  },
+  "C6_status": {
+   "text": "粘贴 4 格：写入 1，超出矩阵范围舍弃 3。",
+   "role": "status",
+   "live": "polite"
+  },
+  "C7_focus": [
+   "v_1001_3402",
+   "v_1002_3402",
+   "v_1002_3404",
+   "v_1003_3404"
+  ],
+  "R_state": {
+   "viewport": {
+    "w": 1440,
+    "h": 900
+   },
+   "boxHeight": 516,
+   "boxWidth": 1178,
+   "maxScrollTop": 1556,
+   "maxScrollLeft": 742,
+   "scrollTop": 473,
+   "scrollLeft": 26,
+   "rows": 27,
+   "cols": 21,
+   "headRowCount": 3,
+   "headTops": [
+    0,
+    31.09,
+    62.69
+   ],
+   "headLefts": [
+    0,
+    94,
+    94
+   ],
+   "headTexts": [
+    "学生",
+    "清洁",
+    "窗户有灰尘/污渍"
+   ],
+   "bodyRow0Top": -357.72,
+   "col0Left": 0,
+   "col2Left": 184,
+   "leadTop": 0,
+   "leadLeft": 0,
+   "theadPos": "sticky",
+   "leadPos": "sticky",
+   "td0Pos": "sticky",
+   "boxOverflow": "auto/auto",
+   "boxMaxHeight": "516px"
+  },
+  "G_state": {
+   "found": true,
+   "docTop": 378.67,
+   "boxH": 516,
+   "bottom": 894.67,
+   "vh": 900,
+   "maxH": "516px",
+   "rows": 27,
+   "headRowCount": 3
+  },
+  "G_saved_state": {
+   "found": true,
+   "docTop": 468.05,
+   "boxH": 516,
+   "bottom": 984.05,
+   "vh": 900,
+   "maxH": "516px",
+   "rows": 27,
+   "headRowCount": 3
+  },
+  "H_nojs": {
+   "name": "v_993_3394",
+   "typed": "7.5",
+   "sql": "7.5",
+   "url": "http://localhost:8069/assess/grade/476?saved=1"
+  },
+  "A_grade": {
+   "frozen": {
+    "violations": [
+     {
+      "id": "page-has-heading-one",
+      "impact": "moderate",
+      "nodes": 1,
+      "targets": [
+       "html"
+      ]
+     }
+    ],
+    "rules": [
+     "page-has-heading-one"
+    ],
+    "nodes": 1
+   },
+   "before": {
+    "violations": [
+     {
+      "id": "page-has-heading-one",
+      "impact": "moderate",
+      "nodes": 1,
+      "targets": [
+       "html"
+      ]
+     }
+    ],
+    "rules": [
+     "page-has-heading-one"
+    ],
+    "nodes": 1
+   },
+   "after_paste": {
+    "violations": [
+     {
+      "id": "page-has-heading-one",
+      "impact": "moderate",
+      "nodes": 1,
+      "targets": [
+       "html"
+      ]
+     }
+    ],
+    "rules": [
+     "page-has-heading-one"
+    ],
+    "nodes": 1
+   }
+  },
+  "A_results": {
+   "frozen": {
+    "violations": [
+     {
+      "id": "heading-order",
+      "impact": "moderate",
+      "nodes": 1,
+      "targets": [
+       "h6"
+      ]
+     },
+     {
+      "id": "page-has-heading-one",
+      "impact": "moderate",
+      "nodes": 1,
+      "targets": [
+       "html"
+      ]
+     }
+    ],
+    "rules": [
+     "heading-order",
+     "page-has-heading-one"
+    ],
+    "nodes": 2
+   },
+   "before": {
+    "violations": [
+     {
+      "id": "heading-order",
+      "impact": "moderate",
+      "nodes": 1,
+      "targets": [
+       "h6"
+      ]
+     },
+     {
+      "id": "page-has-heading-one",
+      "impact": "moderate",
+      "nodes": 1,
+      "targets": [
+       "html"
+      ]
+     }
+    ],
+    "rules": [
+     "heading-order",
+     "page-has-heading-one"
+    ],
+    "nodes": 2
+   },
+   "after_paste": null
+  }
+ },
+ "items": [
+  {
+   "no": "P1",
+   "name": "矩阵在自己的滚动容器 .yy-assess-scroll 里",
+   "pass": true,
+   "detail": "boxOverflow=auto/auto maxHeight=516px box=1178.0×516.0"
+  },
+  {
+   "no": "P2",
+   "name": "容器是真的滚动盒（横向 & 纵向都有行程）",
+   "pass": true,
+   "detail": "maxScrollTop=1556 maxScrollLeft=742（行程不足则冻结无从判定）"
+  },
+  {
+   "no": "P3",
+   "name": "表头是多行的（三层模板：分组行 ≥2 + 叶子项名行）",
+   "pass": true,
+   "detail": "thead 行数=3｜各行首格=['学生', '清洁', '窗户有灰尘/污渍']"
+  },
+  {
+   "no": "P4",
+   "name": "行数/列数 = 夹具口径（27 行 × 20 项）",
+   "pass": true,
+   "detail": "rows=27 cols=21"
+  },
+  {
+   "no": "P5",
+   "name": "三处 sticky 都在（thead / 交叉格 / tbody 首列）",
+   "pass": true,
+   "detail": "thead=sticky 交叉格=sticky 首列=sticky"
+  },
+  {
+   "no": "F1",
+   "name": "纵滚 200：**全部**表头行相对容器位移 ≈ 0（含分组行）",
+   "pass": true,
+   "detail": "各行位移=[0, 0.0, 0.0]（判据 |Δ|<1.5）"
+  },
+  {
+   "no": "F2",
+   "name": "同一时刻 tbody 首行确实在走（Δ≈-200）⇒ 不是「整表没滚」",
+   "pass": true,
+   "detail": "bodyRow0Top 115.28→-84.72（Δ=-200.00，scrollTop 0→200）"
+  },
+  {
+   "no": "F3",
+   "name": "冻结后表头仍在容器可视区内（分组行没被冻没）",
+   "pass": true,
+   "detail": "headTops=[0, 31.09, 62.69] boxHeight=516.00"
+  },
+  {
+   "no": "F4",
+   "name": "横滚 300：首列相对容器位移 ≈ 0",
+   "pass": true,
+   "detail": "col0Left 0.00→0.00（Δ=0.00）"
+  },
+  {
+   "no": "F5",
+   "name": "同一时刻第 3 列确实在走（Δ≈-300）⇒ 不是「横向没滚」",
+   "pass": true,
+   "detail": "col2Left 210.00→-90.00（Δ=-300.00，scrollLeft 0→300）"
+  },
+  {
+   "no": "F6",
+   "name": "交叉格（thead 首列）两轴都不动",
+   "pass": true,
+   "detail": "lead 0.00,0.00 → 0.00,0.00"
+  },
+  {
+   "no": "V1",
+   "name": "剪贴板 3×4（CRLF + 末尾空行）→ 12 格**逐格相等**",
+   "pass": true,
+   "detail": "DOM 实读=[['1', '2', '3', '4'], ['5', '6', '7', '8'], ['9', '10', '11', '12']]（期望=[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]）"
+  },
+  {
+   "no": "V2",
+   "name": "提示条存在且说清了写入格数",
+   "pass": true,
+   "detail": "role=status aria-live=polite text=粘贴 12 格：写入 12。"
+  },
+  {
+   "no": "V3",
+   "name": "提示条是读屏可读的活区（role=status + aria-live=polite）",
+   "pass": true,
+   "detail": "{'text': '粘贴 12 格：写入 12。', 'role': 'status', 'live': 'polite'}"
+  },
+  {
+   "no": "V4",
+   "name": "提交后重新加载：服务端回填的 12 格**逐格相等**（落库往返）",
+   "pass": true,
+   "detail": "回填=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']（期望=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']）"
+  },
+  {
+   "no": "V5",
+   "name": "SQL 逐格对照：edu_assess_score 的 value 与剪贴板逐格相等",
+   "pass": true,
+   "detail": "SQL=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']"
+  },
+  {
+   "no": "C1",
+   "name": "单行 1×4 粘贴：只改这 4 格（值逐格相等）",
+   "pass": true,
+   "detail": "该行=['7', '8', '9', '10']｜全表变化格数=4 ['v_996_3402', 'v_996_3404', 'v_996_3405', 'v_996_3408']"
+  },
+  {
+   "no": "C2",
+   "name": "单列 3×1 粘贴：只改这 3 格",
+   "pass": true,
+   "detail": "该列=['11', '12', '13']｜全表变化格数=3"
+  },
+  {
+   "no": "C3",
+   "name": "空剪贴板：零格变化，页面照常（提示条不新增噪音）",
+   "pass": true,
+   "detail": "变化格数=0"
+  },
+  {
+   "no": "C4",
+   "name": "一段中文（3 行）→ 零格写入 + 提示「非数字忽略 3」",
+   "pass": true,
+   "detail": "变化格数=0｜提示=粘贴 3 格：写入 0，非数字忽略 3（已标红）。"
+  },
+  {
+   "no": "C5",
+   "name": "被拒的格标红（既有 paint 通道），且不影响其它格",
+   "pass": true,
+   "detail": "标红格数=3"
+  },
+  {
+   "no": "C6",
+   "name": "越界块：落得下的写入、落不下的**明说**舍弃（不静默丢弃）",
+   "pass": true,
+   "detail": "最后一格=['21']｜提示=粘贴 4 格：写入 1，超出矩阵范围舍弃 3。"
+  },
+  {
+   "no": "C7",
+   "name": "键盘移动（Enter/→/↓）在冻结容器里照常工作",
+   "pass": true,
+   "detail": "焦点链=['v_1001_3402', 'v_1002_3402', 'v_1002_3404', 'v_1003_3404']"
+  },
+  {
+   "no": "C8",
+   "name": "非矩阵输入框的粘贴不被劫持（浏览器默认行为保留）",
+   "pass": true,
+   "detail": "input[name=\"q\"] 值='外部粘贴不受影响'｜矩阵变化格数=0"
+  },
+  {
+   "no": "R1",
+   "name": "结果页矩阵也在自有滚动容器里，且是三层表头 + 尾部列",
+   "pass": true,
+   "detail": "thead 行数=3｜各行首格=['学生', '清洁', '窗户有灰尘/污渍']｜maxScrollTop=1556"
+  },
+  {
+   "no": "R2",
+   "name": "结果页：纵滚 200 表头不动、tbody 首行在走",
+   "pass": true,
+   "detail": "表头位移=[0, 0.0, 0.0]｜首行 -357.72->-557.72"
+  },
+  {
+   "no": "R3",
+   "name": "结果页：横滚 300 首列不动、第 3 列在走",
+   "pass": true,
+   "detail": "首列 0.00->0.00｜第3列 184.00->-116.00"
+  },
+  {
+   "no": "G1",
+   "name": "学生填写页也在自有滚动容器里（27 行 × 20 项）",
+   "pass": true,
+   "detail": "docTop=378.67 boxH=516.00 视口=900 行=27"
+  },
+  {
+   "no": "G2",
+   "name": "学生填写页：纵滚 200 表头不动、首行在走",
+   "pass": true,
+   "detail": "表头位移=[0, 0.0, 0.0]｜首行 115.28->-84.72"
+  },
+  {
+   "no": "G3",
+   "name": "学生填写页：横滚 300 首列不动、第 3 列在走",
+   "pass": true,
+   "detail": "首列 0.00->0.00｜第3列 210.00->-90.00"
+  },
+  {
+   "no": "G4",
+   "name": "学生填写页（未提交态）：容器底边在 1440×900 首屏内",
+   "pass": true,
+   "detail": "容器顶边 docTop=378.67 + 高 516.00 = 底边 894.67（视口 900）｜max-height=516px"
+  },
+  {
+   "no": "H1",
+   "name": "关掉 JS：矩阵仍由服务端渲染完整（27 行 × 540 格输入）",
+   "pass": true,
+   "detail": "行=27 输入格=540（期望 27 / 540）"
+  },
+  {
+   "no": "H2",
+   "name": "关掉 JS：没有任何粘贴提示条（增强件不在提交路径上）",
+   "pass": true,
+   "detail": "提示条数=0"
+  },
+  {
+   "no": "H3",
+   "name": "关掉 JS：真键盘输入 + 真点击提交 → 值落库（v_993_3394=7.5）",
+   "pass": true,
+   "detail": "输入框读数='7.5'｜SQL='7.5'｜提交后 URL=http://localhost:8069/assess/grade/476?saved=1"
+  },
+  {
+   "no": "A1",
+   "name": "冻结态相对「改动前」没有新增任何 axe 规则",
+   "pass": true,
+   "detail": "新增规则=[]｜冻结态规则=['page-has-heading-one']"
+  },
+  {
+   "no": "A2",
+   "name": "冻结态没有任何规则的命中节点数上升",
+   "pass": true,
+   "detail": "上升=[]"
+  },
+  {
+   "no": "A3",
+   "name": "粘贴后的动态态（提示条有文字）没有新增规则",
+   "pass": true,
+   "detail": "新增=[]｜规则=['page-has-heading-one']"
+  },
+  {
+   "no": "A4",
+   "name": "结果页（无输入矩阵）冻结态没有新增 axe 规则",
+   "pass": true,
+   "detail": "新增=[]｜冻结态规则=['heading-order', 'page-has-heading-one']"
+  }
+ ],
+ "passed": 38,
+ "failed": 0
+}

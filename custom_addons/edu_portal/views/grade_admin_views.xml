@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== 成绩中心（后台）· 只读 ====================
+         硬约束（设计稿 §4.3）：后台**能看不能改**。教务的组闭包里带着 openeducat_exam 的
+         op.exam 写权限（实测 ACL perm_write=1）—— ACL 拦不住，所以「只读」只能靠视图做：
+         列表的 create / edit / delete 全关、只注册 list（不给 form 视图）、不挂任何可写控件。
+         为什么这是硬约束：后台上直接改 op.exam.attendees.marks 会绕过 edu_apply_marks 的留痕
+         与 op.result.line 的双写 —— 学生看不见、事后也查不到是谁改的。
+         改分请走「打开录入页」进门户 /grade-entry：那条路才留痕 + 双写。
+
+         学期怎么定位：基座的 op.exam / op.exam.session 都没有学期字段（实测），学期只编码在
+         容器的 exam_code 与成绩单名字里（名字 =「学期 · 班 成绩单」，见
+         controllers/grade_entry.py 的 _ensure_container）。所以这里按「成绩单」筛选 / 分组：
+         输入学期名就能筛到，不需要给基座加字段。 -->
+
+    <!-- 行按钮与行点击共用这个动作：把当前行（一门课的成绩容器）拼成门户录入页地址，
+         新标签打开，后台不跳走。
+         type="action" 的按钮会把本行 id 作为 active_id / active_model 传下来，服务端动作里的
+         record 就是这一行的 op.exam（见 odoo/addons/base/models/ir_actions.py 的
+         _get_eval_context 与 _run_action_code_multi：代码里给 action 赋值即返回值）。 -->
+    <record id="action_grade_entry_open" model="ir.actions.server">
+        <field name="name">打开成绩录入页</field>
+        <field name="model_id" ref="openeducat_exam.model_op_exam"/>
+        <field name="state">code</field>
+        <field name="code">exam = record
+if not (exam and exam.batch_id and exam.subject_id):
+    raise UserError('这一行缺班级或科目，打不开录入页。')
+action = {
+    'type': 'ir.actions.act_url',
+    'url': '/grade-entry?batch_id=%d&amp;subject_id=%d' % (exam.batch_id.id, exam.subject_id.id),
+    'target': 'new',
+}
+</field>
+    </record>
+
+    <!-- edit/create/delete=false 是这一页「只读」的唯一实现手段（ACL 挡不住）；
+         action/type 让整行也可点，跟按钮同一个动作（参照 web 的 list 行点击语义）。 -->
+    <record id="view_grade_container_list" model="ir.ui.view">
+        <field name="name">edu.grade.container.list</field>
+        <field name="model">op.exam</field>
+        <field name="arch" type="xml">
+            <list string="成绩录入容器" create="false" edit="false" delete="false"
+                  action="%(action_grade_entry_open)d" type="action"
+                  default_order="id desc">
+                <field name="session_id" string="成绩单（学期 · 班级）"/>
+                <field name="name" string="容器名（科目 · 学期 总评）"/>
+                <field name="batch_id"/>
+                <field name="subject_id"/>
+                <field name="start_time"/>
+                <field name="total_marks" string="满分"/>
+                <field name="state"/>
+                <field name="exam_code" optional="hide"/>
+                <button name="%(action_grade_entry_open)d" type="action"
+                        string="打开录入页" icon="fa-external-link"
+                        title="在新标签页打开这门课的成绩录入"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- priority 99：这一页只是成绩中心的筛选视图，别抢基座考试菜单的默认搜索视图
+         （基座 view_op_exam_search 是 8）；本页在 action 里显式指定，互不影响。 -->
+    <record id="view_grade_container_search" model="ir.ui.view">
+        <field name="name">edu.grade.container.search</field>
+        <field name="model">op.exam</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <search string="成绩录入容器">
+                <field name="session_id" string="学期 / 成绩单"
+                       filter_domain="[('session_id.name', 'ilike', self)]"/>
+                <field name="batch_id"/>
+                <field name="subject_id"/>
+                <field name="name" string="容器名"/>
+                <!-- Odoo 19 的 search_view.rng（走 common.rng 的 group 定义）只认
+                     colspan/rowspan/fill/height/width/name/color/invisible 这几个属性：
+                     expand 是 19 以前的写法，string 也不在白名单里，两个都会让整个视图
+                     加载失败（真升级才暴露，check_view_xpath 的结构检查抓不到）。
+                     name="group_by" 是 19 core 的写法（base/views/res_partner_views.xml）。 -->
+                <group name="group_by">
+                    <filter name="group_session" string="按学期 / 成绩单"
+                            context="{'group_by': 'session_id'}"/>
+                    <filter name="group_batch" string="按班级"
+                            context="{'group_by': 'batch_id'}"/>
+                    <filter name="group_subject" string="按科目"
+                            context="{'group_by': 'subject_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_grade_container" model="ir.actions.act_window">
+        <field name="name">成绩录入容器（只读）</field>
+        <field name="res_model">op.exam</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_grade_container_list"/>
+        <field name="search_view_id" ref="view_grade_container_search"/>
+        <!-- 只认成绩录入容器（exam_code = 'GE…'，_ensure_container 生成）：
+             基座自己的考试记录不在这张表里混着显示 -->
+        <field name="domain">[('exam_code', 'like', 'GE')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">还没有成绩录入容器</p>
+            <p>
+                容器会在教务第一次保存某门课的成绩时自动建立（班 × 学期 × 科目 一条）。
+                后台**不提供**直接改分的入口：这一页只读，改分请点「打开录入页」到门户去改，
+                那里才会留痕并把分数同步到学生端。
+            </p>
+        </field>
+    </record>
+
+    <!-- 批量导入 / 导出（xlsx）：指向门户页 /grade-entry/xlsx（不带参数进去时先让你选
+         班级 / 学期 / 科目），新标签打开，后台不跳走。 -->
+    <record id="action_grade_entry_io" model="ir.actions.act_url">
+        <field name="name">批量导入 / 导出（xlsx）</field>
+        <field name="url">/grade-entry/xlsx</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_edu_grade_root" name="成绩中心" sequence="72"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+    <menuitem id="menu_edu_grade_container" name="成绩录入容器（只读）"
+              parent="menu_edu_grade_root" action="action_grade_container" sequence="10"/>
+    <menuitem id="menu_edu_grade_io" name="批量导入 / 导出（xlsx）"
+              parent="menu_edu_grade_root" action="action_grade_entry_io" sequence="20"/>
+</odoo>

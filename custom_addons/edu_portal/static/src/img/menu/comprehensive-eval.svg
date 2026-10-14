@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="96" height="96">
+  <rect x="4" y="4" width="40" height="40" rx="10" fill="#FFFFFF"/>
+  <g fill="none" stroke="#0E7BF2" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 表盘 + 指针 -->
+    <circle cx="24" cy="24" r="15"/>
+    <path d="M24 15v9l6.5 4"/>
+  </g>
+  <g fill="#0E7BF2">
+    <!-- 刻度 -->
+    <rect x="22.7" y="8.5" width="2.6" height="3" rx="1"/>
+    <rect x="36.5" y="22.7" width="3" height="2.6" rx="1"/>
+    <rect x="8.5" y="22.7" width="3" height="2.6" rx="1"/>
+  </g>
+</svg>

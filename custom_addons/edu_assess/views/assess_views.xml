@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 评估引擎：后台管理（形态甲：评分项 = 数据行） ============
+
+         菜单挂在既有根 588「综合评估」下（edu_portal.menu_edu_eval_root），
+         **不新建第 3 个评估根**（设计稿 §3.5：backoffice 可见根 ≤12 的验收线）。
+         588 自身的改名与 groups 收紧由 edu_nav 的菜单收口方案承载，
+         不写在本文件里 —— 否则会重演 F1「-u 把收口值打回」。
+         ================================================================ -->
+
+    <record id="view_edu_assess_template_list" model="ir.ui.view">
+        <field name="name">edu.assess.template.list.cn</field>
+        <field name="model">edu.assess.template</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="评估模板">
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="target_kind"/>
+                <field name="item_count" string="评分项数"/>
+                <field name="total"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_assess_template_form" model="ir.ui.view">
+        <field name="name">edu.assess.template.form.cn</field>
+        <field name="model">edu.assess.template</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="评估模板">
+                <sheet>
+                    <group>
+                        <group string="基本设置">
+                            <field name="name" required="1"/>
+                            <field name="kind" required="1"/>
+                            <field name="target_kind" required="1"/>
+                            <field name="state"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="分值与等级线">
+                            <field name="total" required="1"/>
+                            <field name="pass_line" required="1"/>
+                            <field name="excellent_line" required="1"/>
+                            <field name="score_visible"/>
+                            <field name="allow_self"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="评分项（一个评分项 = 矩阵的一列）">
+                            <field name="item_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" required="1"/>
+                                    <field name="max_score" required="1"/>
+                                    <field name="weight" required="1"/>
+                                    <field name="required"/>
+                                    <field name="score_count" readonly="1"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                            <div class="text-muted small mt-1">
+                                新增评分项只需在此点「添加一行」并保存：门户矩阵页与导出表格
+                                会立刻多出一列，不需要升级模块。已有打分的评分项请用「启用」
+                                勾选停用，不要删除。
+                            </div>
+                        </page>
+                        <page string="说明">
+                            <field name="notes" placeholder="给教务看的说明（不会展示给学生）"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_assess_item_list" model="ir.ui.view">
+        <field name="name">edu.assess.item.list.cn</field>
+        <field name="model">edu.assess.item</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <list string="评分项" editable="bottom">
+                <field name="template_id"/>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="max_score"/>
+                <field name="weight"/>
+                <field name="required"/>
+                <field name="score_count" readonly="1"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_assess_task_list" model="ir.ui.view">
+        <field name="name">edu.assess.task.list.cn</field>
+        <field name="model">edu.assess.task</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="评估任务">
+                <field name="name"/>
+                <field name="template_id"/>
+                <field name="period"/>
+                <field name="scorer_kind"/>
+                <field name="anonymous"/>
+                <field name="date_due"/>
+                <field name="roster_count"/>
+                <field name="score_count"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'open'"
+                       decoration-warning="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_assess_task_form" model="ir.ui.view">
+        <field name="name">edu.assess.task.form.cn</field>
+        <field name="model">edu.assess.task</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="评估任务">
+                <header>
+                    <button name="action_open" type="object" string="发布（生成名单）"
+                            class="oe_highlight" invisible="state == 'open'"/>
+                    <button name="action_close" type="object" string="结束评估"
+                            invisible="state != 'open'"/>
+                    <button name="action_build_roster" type="object"
+                            string="重新生成名单" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,open,closed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="评估设置">
+                            <field name="template_id" required="1"/>
+                            <field name="period" required="1"/>
+                            <field name="scorer_kind"/>
+                            <field name="target_kind"/>
+                        </group>
+                        <group string="时间与匿名">
+                            <field name="date_begin"/>
+                            <field name="date_due"/>
+                            <field name="anonymous"/>
+                            <field name="summary_min"
+                                   invisible="not anonymous"/>
+                        </group>
+                    </group>
+                    <group string="参与范围">
+                        <field name="scope_batch_ids" widget="many2many_tags"/>
+                        <field name="scope_program_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="给参与人看的说明"/>
+                    </group>
+                    <notebook>
+                        <page string="名单快照（一行 = 一个被评对象）">
+                            <field name="roster_ids">
+                                <list>
+                                    <field name="subject_name"/>
+                                    <field name="batch_id"/>
+                                    <field name="scorer_count"/>
+                                    <field name="weighted_total"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="打分记录">
+                            <field name="score_ids">
+                                <list editable="bottom">
+                                    <field name="roster_id"/>
+                                    <field name="item_id"/>
+                                    <field name="value"/>
+                                    <field name="note"/>
+                                    <field name="scorer_ref"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group string="进度">
+                        <field name="roster_count"/>
+                        <field name="done_count"/>
+                        <field name="score_count"/>
+                        <field name="scorer_count"/>
+                        <field name="progress"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_assess_score_list" model="ir.ui.view">
+        <field name="name">edu.assess.score.list.cn</field>
+        <field name="model">edu.assess.score</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="打分记录" editable="bottom" multi_edit="1">
+                <field name="task_id"/>
+                <field name="roster_id"/>
+                <field name="item_id"/>
+                <field name="value"/>
+                <field name="note"/>
+                <field name="scorer_ref"/>
+                <field name="scorer_id" readonly="1"/>
+                <field name="task_anonymous" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_assess_score_form" model="ir.ui.view">
+        <field name="name">edu.assess.score.form.cn</field>
+        <field name="model">edu.assess.score</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="打分记录">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="task_id"/>
+                            <field name="roster_id"/>
+                            <field name="item_id"/>
+                        </group>
+                        <group>
+                            <field name="value"/>
+                            <field name="note"/>
+                            <field name="scorer_ref"/>
+                            <field name="scorer_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_assess_template" model="ir.actions.act_window">
+        <field name="name">模板与评分项</field>
+        <field name="res_model">edu.assess.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_edu_assess_task" model="ir.actions.act_window">
+        <field name="name">评估任务</field>
+        <field name="res_model">edu.assess.task</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_edu_assess_result" model="ir.actions.act_window">
+        <field name="name">结果与导出</field>
+        <field name="res_model">edu.assess.task</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '!=', 'draft')]</field>
+    </record>
+
+    <record id="action_edu_assess_score" model="ir.actions.act_window">
+        <field name="name">打分记录</field>
+        <field name="res_model">edu.assess.score</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_edu_assess_template" name="模板与评分项"
+              parent="edu_portal.menu_edu_eval_root"
+              action="action_edu_assess_template" sequence="30"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+    <menuitem id="menu_edu_assess_task" name="评估任务"
+              parent="edu_portal.menu_edu_eval_root"
+              action="action_edu_assess_task" sequence="40"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+    <menuitem id="menu_edu_assess_result" name="结果与导出"
+              parent="edu_portal.menu_edu_eval_root"
+              action="action_edu_assess_result" sequence="50"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+    <menuitem id="menu_edu_assess_score" name="打分记录"
+              parent="edu_portal.menu_edu_eval_root"
+              action="action_edu_assess_score" sequence="60"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+</odoo>

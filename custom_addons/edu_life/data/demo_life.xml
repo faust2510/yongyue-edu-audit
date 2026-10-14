@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 【演示】灵命生活演示数据：三类打卡类型 + 演示学生近7天打卡与一篇已阅周记 -->
+    <record id="checkin_type_bible" model="edu.checkin.type">
+        <field name="name">读经打卡</field>
+        <field name="label">读经打卡【演示】</field>
+        <field name="description">每日读经后打卡记录进度与范围（演示数据）。</field>
+        <field name="frequency">daily</field>
+        <field name="icon">fa-book</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="checkin_type_devotion" model="edu.checkin.type">
+        <field name="name">灵修打卡</field>
+        <field name="label">灵修打卡【演示】</field>
+        <field name="description">每日灵修祷告打卡（演示数据）。</field>
+        <field name="frequency">daily</field>
+        <field name="icon">fa-heart</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="checkin_type_weekly_journal" model="edu.checkin.type">
+        <field name="name">周记</field>
+        <field name="label">周记【演示】</field>
+        <field name="description">每周一篇周记，周日截止，目标每周 1 篇（演示数据）。</field>
+        <field name="frequency">weekly</field>
+        <field name="weekly_target">1</field>
+        <field name="deadline_weekday">0</field>
+        <field name="icon">fa-pencil-square-o</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <!-- 为 stu@local 关联的 op.student 补近 7 天打卡与一篇已阅周记；
+         方法内部幂等（先查重再写），学生未初始化时跳过不报错 -->
+    <function model="edu.checkin.type" name="_load_demo_records"/>
+    <function model="edu.checkin.type" name="_ensure_attend_checkin_type"/>
+</odoo>

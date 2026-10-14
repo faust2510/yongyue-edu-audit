@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 评估中心：后台管理（v2-P2） ============ -->
+
+    <record id="view_edu_eval_template_list" model="ir.ui.view">
+        <field name="name">edu.eval.template.list.cn</field>
+        <field name="model">edu.eval.template</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="评分模板">
+                <field name="name"/>
+                <field name="type_code"/>
+                <field name="total"/>
+                <field name="pass_line"/>
+                <field name="excellent_line"/>
+                <field name="line_count" string="评分项数"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_eval_template_form" model="ir.ui.view">
+        <field name="name">edu.eval.template.form.cn</field>
+        <field name="model">edu.eval.template</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="评分模板">
+                <sheet>
+                    <group>
+                        <group string="基本设置">
+                            <field name="name" required="1"/>
+                            <field name="type_code" required="1"/>
+                            <field name="visible_to_student"/>
+                        </group>
+                        <group string="分值与等级线">
+                            <field name="total" required="1"/>
+                            <field name="pass_line" required="1"/>
+                            <field name="excellent_line" required="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="评分项">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" required="1"/>
+                                    <field name="max_score" required="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_eval_task_list" model="ir.ui.view">
+        <field name="name">edu.eval.task.list.cn</field>
+        <field name="model">edu.eval.task</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="评估任务">
+                <field name="student_id"/>
+                <field name="template_id"/>
+                <field name="evaluator_type"/>
+                <field name="period"/>
+                <field name="total_score"/>
+                <field name="grade" widget="badge"
+                       decoration-success="grade == 'excellent'"
+                       decoration-warning="grade == 'pass'"
+                       decoration-danger="grade == 'fail'"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'scoring'"
+                       decoration-success="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_eval_template" model="ir.actions.act_window">
+        <field name="name">模板管理</field>
+        <field name="res_model">edu.eval.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_edu_eval_task" model="ir.actions.act_window">
+        <field name="name">评估任务</field>
+        <field name="res_model">edu.eval.task</field>
+        <field name="view_mode">list,form,pivot</field>
+    </record>
+
+    <menuitem id="menu_edu_eval_root" name="综合评估"
+              sequence="71" groups="base.group_user"
+              web_icon="edu_portal,static/src/img/menu/comprehensive-eval.svg"/>
+    <menuitem id="menu_edu_eval_template" name="模板管理"
+              parent="menu_edu_eval_root"
+              action="action_edu_eval_template" sequence="10"/>
+    <menuitem id="menu_edu_eval_task" name="评估任务"
+              parent="menu_edu_eval_root"
+              action="action_edu_eval_task" sequence="20"/>
+
+    <!-- ============ 门户：评估中心首页 ============ -->
+    <template id="edu_eval_center" name="Edu Eval Center">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1"><i class="fa fa-dashboard me-2"/>综合评估</h4>
+            <p class="text-muted mb-3">三大评估的建表、打分与汇总。</p>
+            <div class="oe-statrow mb-3">
+                <div class="oe-statbox"><span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-list"/></span>
+                    <div class="oe-statbox-b"><span class="oe-statbox-lab">任务总数</span><span class="oe-statbox-val" t-out="stats['total']"/></div></div>
+                <div class="oe-statbox"><span class="oe-statbox-ic oe-statbox-ic--info"><i class="fa fa-pencil"/></span>
+                    <div class="oe-statbox-b"><span class="oe-statbox-lab">打分中</span><span class="oe-statbox-val" t-out="stats['scoring']"/></div></div>
+                <div class="oe-statbox"><span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-check"/></span>
+                    <div class="oe-statbox-b"><span class="oe-statbox-lab">已完成</span><span class="oe-statbox-val" t-out="stats['done']"/></div></div>
+                <div class="oe-statbox"><span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-star"/></span>
+                    <div class="oe-statbox-b"><span class="oe-statbox-lab">优秀</span><span class="oe-statbox-val" t-out="stats['excellent']"/></div></div>
+            </div>
+
+            <t t-if="is_staff">
+                <a href="/my/evaluation/new" class="btn btn-primary btn-sm mb-3">
+                    <i class="fa fa-plus me-1"/>新建评估
+                </a>
+            </t>
+
+            <t t-if="not tasks">
+                <div class="alert alert-info">暂无评估任务。</div>
+            </t>
+            <t t-else="">
+                <table class="table table-hover align-middle bg-white rounded-3 shadow-sm">
+                    <thead class="table-light">
+                        <tr><th>学生</th><th>类型</th><th>维度</th><th>周期</th>
+                            <th class="text-end">总分</th><th>等级</th><th>状态</th></tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="tasks" t-as="t">
+                            <tr t-att-class="'fw-semibold' if t.grade == 'excellent' else ''">
+                                <td><t t-out="t.student_id.name"/></td>
+                                <td><t t-out="type_labels.get(t.type_code,'')"/></td>
+                                <td><t t-out="dim_labels.get(t.evaluator_type,'')"/></td>
+                                <td><t t-out="t.period"/></td>
+                                <td class="text-end" t-out="'%g' % t.total_score"/>
+                                <td><t t-out="grade_labels.get(t.grade,'—')"/></td>
+                                <td><t t-out="state_labels.get(t.state,'')"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ 门户：新建评估 ============ -->
+    <template id="edu_eval_new" name="Edu Eval New">
+        <t t-call="edu_portal.edu_page">
+            <a href="/my/evaluation" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回综合评估
+            </a>
+            <h4 class="mt-2 mb-3">新建评估任务</h4>
+            <t t-if="error"><div class="alert alert-danger py-2">请完整选择模板与学生，且模板需包含评分项。</div></t>
+            <form method="post" action="/my/evaluation/create" class="card shadow-sm border-0 rounded-3 p-3 row g-2">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="col-md-6"><label class="form-label small mb-1">评分模板 *</label>
+                    <select name="template_id" class="form-select" required="">
+                        <t t-foreach="templates" t-as="tp">
+                            <option t-att-value="tp.id" t-out="tp.name"/>
+                        </t>
+                    </select></div>
+                <div class="col-md-6"><label class="form-label small mb-1">学生 *</label>
+                    <select name="student_id" class="form-select" required="">
+                        <t t-foreach="students" t-as="s">
+                            <option t-att-value="s.id" t-out="s.name"/>
+                        </t>
+                    </select></div>
+                <div class="col-md-4"><label class="form-label small mb-1">维度</label>
+                    <select name="evaluator_type" class="form-select">
+                        <option value="teacher">教师评</option>
+                        <option value="self">自评</option>
+                        <option value="ta">TA评</option>
+                        <option value="pastor">牧者评</option>
+                    </select></div>
+                <div class="col-md-4"><label class="form-label small mb-1">周期</label>
+                    <input type="text" name="period" class="form-control" value="2026秋"/></div>
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-primary">生成打分表</button>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <!-- ============ 门户：Excel 式打分表 ============ -->
+    <template id="edu_eval_task" name="Edu Eval Task Sheet">
+        <t t-call="edu_portal.edu_page">
+            <a href="/my/evaluation" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回综合评估
+            </a>
+            <h4 class="mt-2 mb-1">
+                打分：<t t-out="task.student_id.name"/> · <t t-out="task.template_id.name"/>
+            </h4>
+            <p class="text-muted small">
+                周期：<t t-out="task.period"/> ｜ 维度：
+                <t t-out="dict(task._fields['evaluator_type'].selection).get(task.evaluator_type,'')"/>
+                <t t-if="saved"><span class="badge text-bg-success ms-2">已保存</span></t>
+            </p>
+
+            <form method="post"
+                  t-att-action="'/my/evaluation/task/%d/save' % task.id"
+                  class="card shadow-sm border-0 rounded-3 p-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <table class="table table-bordered align-middle mb-2" id="eval-grid">
+                    <thead class="table-light">
+                        <tr><th style="width:50%">评分项</th><th style="width:120px">满分</th><th style="width:140px">得分</th></tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="rows" t-as="r">
+                            <tr>
+                                <td t-out="r['line'].name"/>
+                                <td t-out="'%g' % r['line'].max_score"/>
+                                <td><input type="number" step="0.5" min="0"
+                                       t-att-max="r['line'].max_score"
+                                       class="form-control form-control-sm score-input"
+                                       t-att-name="'score_%d' % r['score_id']"
+                                       t-att-value="'%g' % r['score']" required=""/></td>
+                            </tr>
+                        </t>
+                        <tr class="table-light fw-bold">
+                            <td>合计</td><td></td>
+                            <td class="text-end" id="eval-total">—</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary"
+                        t-if="task.state != 'done'">
+                    <i class="fa fa-save me-1"/>保存打分
+                </button>
+                <span t-if="task.state == 'done'" class="badge text-bg-success fs-6">
+                    已完成（管理员批准）
+                </span>
+            </form>
+            <script>
+                (function () {
+                    function calc() {
+                        var t = 0;
+                        document.querySelectorAll('#eval-grid .score-input')
+                          .forEach(function (i) { t += parseFloat(i.value || 0); });
+                        var el = document.getElementById('eval-total');
+                        if (el) el.textContent = Math.round(t * 10) / 10;
+                    }
+                    document.addEventListener('input', function (e) {
+                        if (e.target.classList.contains('score-input')) calc();
+                    });
+                    document.addEventListener('DOMContentLoaded', calc);
+                })();
+            </script>
+        </t>
+    </template>
+
+    <!-- ============ 门户：成绩汇总 + 雷达图 ============ -->
+    <template id="edu_eval_results" name="Edu Eval Results">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-3"><i class="fa fa-pie-chart me-2"/>成绩汇总</h4>
+            <div class="d-flex gap-4 flex-wrap align-items-start">
+                <canvas id="eval-radar" width="380" height="380"
+                        t-att-data-dims="radar_dims_json"
+                        t-att-data-vals="radar_vals_json"></canvas>
+                <div class="flex-grow-1">
+                    <form method="get" class="row g-2 align-items-end mb-2">
+                        <div class="col-auto">
+                            <label class="form-label small mb-1">按学生查看</label>
+                            <select name="student_id" class="form-select form-select-sm">
+                                <option value="">全部学生</option>
+                                <t t-foreach="students" t-as="s">
+                                    <option t-att-value="s.id"
+                                        t-att-selected="sel_student and sel_student.id == s.id and 'selected' or None"
+                                        t-out="s.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-sm btn-outline-secondary">筛选</button>
+                            <a href="/my/evaluation/results.csv"
+                               class="btn btn-sm btn-outline-primary ms-1">
+                                <i class="fa fa-download me-1"/>导出 CSV
+                            </a>
+                        </div>
+                    </form>
+                    <table class="table table-hover align-middle bg-white rounded-3 shadow-sm">
+                        <thead class="table-light">
+                            <tr><th>学生</th><th>类型</th><th>维度</th><th>周期</th>
+                                <th class="text-end">总分</th><th>等级</th></tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="rows" t-as="r">
+                                <tr>
+                                    <td t-out="r['student']"/><td t-out="r['type']"/>
+                                    <td t-out="r['dim']"/><td t-out="r['period']"/>
+                                    <td class="text-end" t-out="r['total']"/>
+                                    <td t-out="r['grade']"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+<script>
+                //<![CDATA[
+
+                (function () {
+                    var cv = document.getElementById('eval-radar');
+                    if (!cv) return;
+                    var dims = JSON.parse(cv.dataset.dims || '[]');
+                    var vals = JSON.parse(cv.dataset.vals || '[]');
+                    var ctx = cv.getContext('2d');
+                    // v4-t8：雷达图色值走令牌，不再写死原厂紫。
+                    // ⚠ canvas 的 fillStyle/strokeStyle **不能**直接吃 var(--x)
+                    //   （CSS 变量不会被 canvas 解析），所以按令牌在运行期的计算值取字符串。
+                    // 取不到令牌时退到 body 的正文色（同样是令牌派生值）—— 刻意**不留字面色值兜底**，
+                    // 否则这就是给"令牌外色"开口子（规范 §1.6）。
+                    var brand = (getComputedStyle(document.documentElement)
+                                 .getPropertyValue('--brand-700') || '').trim()
+                                || getComputedStyle(document.body).color;
+                    var cx = cv.width / 2, cy = cv.height / 2,
+                        R = Math.min(cx, cy) - 40, n = dims.length || 1;
+                    ctx.clearRect(0, 0, cv.width, cv.height);
+                    [0.25, 0.5, 0.75, 1].forEach(function (k) {
+                        ctx.beginPath();
+                        for (var i = 0; i <= n; i++) {
+                            var a = -Math.PI / 2 + 2 * Math.PI * i / n;
+                            i ? ctx.lineTo(cx + R * k * Math.cos(a),
+                                cy + R * k * Math.sin(a))
+                              : ctx.moveTo(cx + R * k * Math.cos(a),
+                                cy + R * k * Math.sin(a));
+                        }
+                        ctx.strokeStyle = '#ddd'; ctx.stroke();
+                    });
+                    for (var i = 0; i < n; i++) {
+                        var a = -Math.PI / 2 + 2 * Math.PI * i / n;
+                        ctx.beginPath(); ctx.moveTo(cx, cy);
+                        ctx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
+                        ctx.strokeStyle = '#ccc'; ctx.stroke();
+                        ctx.fillStyle = '#555'; ctx.textAlign = 'center';
+                        ctx.fillText(dims[i], cx + (R + 28) * Math.cos(a),
+                                     cy + (R + 24) * Math.sin(a));
+                    }
+                    if (!vals.length) return;
+                    ctx.beginPath();
+                    for (var i = 0; i <= n; i++) {
+                        var v = (vals[i % vals.length] || 0) / 100;
+                        var a = -Math.PI / 2 + 2 * Math.PI * i / n;
+                        i ? ctx.lineTo(cx + R * v * Math.cos(a),
+                            cy + R * v * Math.sin(a))
+                          : ctx.moveTo(cx + R * v * Math.cos(a),
+                            cy + R * v * Math.sin(a));
+                    }
+                    ctx.closePath();
+                    // 原写法是 rgba(113,75,103,.35) 面 + #714B67 线（同色相、面 35% α）。
+                    // 用 globalAlpha 还原同一个「面淡线实」的形态，色相改为品牌蓝。
+                    ctx.fillStyle = brand;
+                    ctx.globalAlpha = .35;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                    ctx.strokeStyle = brand;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                })();
+            
+                //]]>
+            </script>
+        </t>
+    </template>
+
+</odoo>

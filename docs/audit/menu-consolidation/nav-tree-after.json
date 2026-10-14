@@ -1,0 +1,335 @@
+[
+ {
+  "id": 1,
+  "name": "Default Main Menu",
+  "url": "#",
+  "parent_id": null,
+  "sequence": 0,
+  "website_id": null,
+  "page_id": null
+ },
+ {
+  "id": 2,
+  "name": "Home",
+  "url": "/",
+  "parent_id": 1,
+  "sequence": 10,
+  "website_id": null,
+  "page_id": 2
+ },
+ {
+  "id": 3,
+  "name": "Contact us",
+  "url": "/contactus",
+  "parent_id": 1,
+  "sequence": 60,
+  "website_id": null,
+  "page_id": 3
+ },
+ {
+  "id": 4,
+  "name": "网站顶级菜单 1",
+  "url": "#",
+  "parent_id": null,
+  "sequence": 0,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 5,
+  "name": "Home",
+  "url": "/",
+  "parent_id": 4,
+  "sequence": 10,
+  "website_id": 1,
+  "page_id": 4
+ },
+ {
+  "id": 6,
+  "name": "Contact us",
+  "url": "/#contact",
+  "parent_id": 4,
+  "sequence": 120,
+  "website_id": 1,
+  "page_id": 3
+ },
+ {
+  "id": 17,
+  "name": "图书馆",
+  "url": "/digital-library",
+  "parent_id": 4,
+  "sequence": 40,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 18,
+  "name": "考试",
+  "url": "/online-exams",
+  "parent_id": 4,
+  "sequence": 50,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 56,
+  "name": "Courses",
+  "url": "/courses",
+  "parent_id": 4,
+  "sequence": 140,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 57,
+  "name": "我的课程",
+  "url": "/my-courses",
+  "parent_id": 4,
+  "sequence": 145,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 58,
+  "name": "学院概况",
+  "url": "/about",
+  "parent_id": 4,
+  "sequence": 2,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 59,
+  "name": "专业设置",
+  "url": "/programs",
+  "parent_id": 4,
+  "sequence": 3,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 60,
+  "name": "招生信息",
+  "url": "/admissions",
+  "parent_id": 4,
+  "sequence": 5,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 61,
+  "name": "SCRTS校刊",
+  "url": "/journal",
+  "parent_id": 4,
+  "sequence": 6,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 62,
+  "name": "登录",
+  "url": "/login",
+  "parent_id": 4,
+  "sequence": 7,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 64,
+  "name": "Courses",
+  "url": "/slides",
+  "parent_id": 1,
+  "sequence": 50,
+  "website_id": null,
+  "page_id": null
+ },
+ {
+  "id": 65,
+  "name": "报名入学",
+  "url": "/apply",
+  "parent_id": null,
+  "sequence": 4,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 124,
+  "name": "Alumni & Careers",
+  "url": "/alumni/jobs",
+  "parent_id": 4,
+  "sequence": 155,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 181,
+  "name": "现在预订",
+  "url": "/booking",
+  "parent_id": 4,
+  "sequence": 30,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 182,
+  "name": "活动",
+  "url": "/event",
+  "parent_id": 4,
+  "sequence": 60,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 183,
+  "name": "论坛",
+  "url": "/forum",
+  "parent_id": 4,
+  "sequence": 70,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 184,
+  "name": "博客",
+  "url": "/blog",
+  "parent_id": 4,
+  "sequence": 80,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 185,
+  "name": "入场",
+  "url": "#",
+  "parent_id": 4,
+  "sequence": 90,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 186,
+  "name": "开设课程",
+  "url": "/courses-offered",
+  "parent_id": 185,
+  "sequence": 91,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 187,
+  "name": "培养项目",
+  "url": "/program-offered",
+  "parent_id": 185,
+  "sequence": 92,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 188,
+  "name": "工作机会",
+  "url": "/campus/jobs",
+  "parent_id": 4,
+  "sequence": 100,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 189,
+  "name": "校友招聘",
+  "url": "/alumni/job/card",
+  "parent_id": 188,
+  "sequence": 101,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 190,
+  "name": "校园工作",
+  "url": "/campus/jobs",
+  "parent_id": 188,
+  "sequence": 102,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 192,
+  "name": "校友",
+  "url": "/alumni",
+  "parent_id": 4,
+  "sequence": 130,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 193,
+  "name": "Blog",
+  "url": "/blog",
+  "parent_id": 4,
+  "sequence": 40,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 194,
+  "name": "Blog",
+  "url": "/blog",
+  "parent_id": 1,
+  "sequence": 40,
+  "website_id": null,
+  "page_id": null
+ },
+ {
+  "id": 195,
+  "name": "Events",
+  "url": "/event",
+  "parent_id": 4,
+  "sequence": 30,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 196,
+  "name": "Events",
+  "url": "/event",
+  "parent_id": 1,
+  "sequence": 30,
+  "website_id": null,
+  "page_id": null
+ },
+ {
+  "id": 199,
+  "name": "Forum",
+  "url": "/forum",
+  "parent_id": 4,
+  "sequence": 35,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 200,
+  "name": "Forum",
+  "url": "/forum",
+  "parent_id": 1,
+  "sequence": 35,
+  "website_id": null,
+  "page_id": null
+ },
+ {
+  "id": 201,
+  "name": "Shop",
+  "url": "/shop",
+  "parent_id": 4,
+  "sequence": 20,
+  "website_id": 1,
+  "page_id": null
+ },
+ {
+  "id": 202,
+  "name": "Shop",
+  "url": "/shop",
+  "parent_id": 1,
+  "sequence": 20,
+  "website_id": null,
+  "page_id": null
+ }
+]

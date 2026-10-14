@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_edu_download_category_list" model="ir.ui.view">
+        <field name="name">edu.download.category.list</field>
+        <field name="model">edu.download.category</field>
+        <field name="arch" type="xml">
+            <list string="资料文件夹" default_order="sequence, id">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="description"/>
+                <field name="file_count" string="资料数"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_download_category_form" model="ir.ui.view">
+        <field name="name">edu.download.category.form</field>
+        <field name="model">edu.download.category</field>
+        <field name="arch" type="xml">
+            <form string="资料文件夹">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="parent_id"
+                               domain="[('parent_id', '=', False)]"/>
+                        <field name="description"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                        <field name="file_count" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_download_category_search" model="ir.ui.view">
+        <field name="name">edu.download.category.search</field>
+        <field name="model">edu.download.category</field>
+        <field name="arch" type="xml">
+            <search string="搜索文件夹">
+                <field name="name"/>
+                <group>
+                    <filter string="上级文件夹" name="group_parent" context="{'group_by': 'parent_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_download_category" model="ir.actions.act_window">
+        <field name="name">文件夹管理</field>
+        <field name="res_model">edu.download.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_download_category_search"/>
+    </record>
+
+    <record id="view_edu_download_file_list" model="ir.ui.view">
+        <field name="name">edu.download.file.list</field>
+        <field name="model">edu.download.file</field>
+        <field name="arch" type="xml">
+            <list string="下载资料" default_order="category_id, name">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="visible_registrar" string="教务"/>
+                <field name="visible_teacher" string="教师" optional="show"/>
+                <field name="visible_student" string="学生" optional="show"/>
+                <field name="visible_parent" string="家长" optional="show"/>
+                <field name="subject_id" optional="show"/>
+                <field name="ack_mode" optional="show"/>
+                <field name="expire_at" optional="show"/>
+                <field name="file_name"/>
+                <field name="create_uid" string="上传者"/>
+                <field name="write_date" string="更新时间"/>
+                <field name="download_count" string="下载次数"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_download_file_form" model="ir.ui.view">
+        <field name="name">edu.download.file.form</field>
+        <field name="model">edu.download.file</field>
+        <field name="arch" type="xml">
+            <form string="上传资料">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category_id"/>
+                        <group>
+                            <field name="visible_registrar"/>
+                            <field name="visible_teacher"/>
+                            <field name="visible_student"/>
+                            <field name="visible_parent"/>
+                            <field name="visible_course"/>
+                        </group>
+                        <field name="subject_id"/>
+                        <field name="description"/>
+                        <field name="file" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                        <field name="ack_mode"/>
+                        <field name="ack_n" readonly="1"/>
+                        <field name="publish_from"/>
+                        <field name="expire_at"/>
+                        <field name="expired_at" readonly="1"/>
+                        <field name="active"/>
+                        <field name="download_count" readonly="1"/>
+                        <field name="create_uid" readonly="1"/>
+                        <field name="write_date" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_download_file_search" model="ir.ui.view">
+        <field name="name">edu.download.file.search</field>
+        <field name="model">edu.download.file</field>
+        <field name="arch" type="xml">
+            <search string="搜索资料">
+                <field name="name"/>
+                <field name="category_id"/>
+                <filter string="已停用" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="近30天上新" name="recent30"
+                        domain="[('create_date', '&gt;=', (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter string="文件夹" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="学生可见" name="group_vis_student" context="{'group_by': 'visible_student'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_download_file" model="ir.actions.act_window">
+        <field name="name">上传资料</field>
+        <field name="res_model">edu.download.file</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_download_file_search"/>
+    </record>
+
+    <!-- 应用面板「资料下载」统一打开门户页（下载+管理模式单页两态），
+         后台 CRUD 视图保留但不再挂菜单，经动作/URL 仍可达（零功能丢失）。 -->
+    <record id="action_edu_download_portal" model="ir.actions.act_url">
+        <field name="name">资料下载</field>
+        <field name="url">/downloads</field>
+        <field name="target">self</field>
+    </record>
+
+    <record id="menu_edu_download_root" model="ir.ui.menu">
+        <field name="name">资料下载</field>
+        <field name="action" ref="action_edu_download_portal"/>
+        <field name="web_icon">edu_portal,static/src/img/menu/downloads.svg</field>
+        <field name="group_ids" eval="[(4, ref('openeducat_core.group_op_back_office_admin'))]"/>
+        <field name="sequence">30</field>
+    </record>
+
+    <!-- ==================================================================
+         v3（t8）资料有效期：每小时扫描
+         ① 到期自动下架（active=False + expired_at 留痕）
+         ② 定时上架**一次性消费**（触发后清空 publish_from）——否则手动停用
+            过的文件会被反复复活；上架额外要求 expired_at 为空，已下架不复活。
+         依据 docs/research/onestop-learning-and-repetitive-work.md §4.4：
+         国内钉盘/企微微盘/飞书云文档均无「分享有效期/过期自动下架」，
+         调研指名「过期下架需自建（ir.cron 改发布状态）」。
+         本文件已在 __manifest__.py:57 注册，故 cron 直接落在此处。
+         ================================================================== -->
+    <record id="ir_cron_edu_expire_downloads" model="ir.cron">
+        <field name="name">edu_portal: 资料过期自动下架 + 定时上架（每小时）</field>
+        <field name="model_id" ref="model_edu_download_file"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_expire_downloads()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

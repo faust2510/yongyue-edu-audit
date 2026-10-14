@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- F2 一对一私发：审计记录（只读）。
+             为什么要给人看：/dm 的授权口径是「只有 admin 能用」，被拒、重名、找不到人
+             这三种情况**没有出网**，只在 edu.tg.assist.send_log 里看不到 ⇒ 必须有这张表。
+             ⚠ 本视图只读：审计行不允许在界面上改或删（要删就走数据库/开发模式）。 -->
+        <record id="view_assist_dm_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.dm.list</field>
+            <field name="model">edu.tg.assist.dm</field>
+            <field name="arch" type="xml">
+                <list create="false" edit="false" delete="false" default_order="create_date desc">
+                    <field name="create_date" string="时间"/>
+                    <field name="sender_name"/>
+                    <field name="sender_role"/>
+                    <field name="target_name"/>
+                    <field name="person_id"/>
+                    <field name="state" decoration-danger="state in ('denied', 'failed')"
+                           decoration-warning="state in ('ambiguous', 'not_found', 'no_chat')"
+                           decoration-success="state == 'sent'"/>
+                    <field name="target_chat_id"/>
+                    <field name="text"/>
+                    <field name="error"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_dm_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.dm.form</field>
+            <field name="model">edu.tg.assist.dm</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group string="发起人">
+                                <field name="sender_name"/>
+                                <field name="sender_role"/>
+                                <field name="sender_tg_user_id"/>
+                                <field name="create_date" string="时间"/>
+                            </group>
+                            <group string="收件人">
+                                <field name="target_name"/>
+                                <field name="person_id"/>
+                                <field name="target_chat_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="error"/>
+                        </group>
+                        <group string="原始指令（留痕）">
+                            <field name="raw"/>
+                        </group>
+                        <group string="内容">
+                            <field name="text"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_assist_dm_search" model="ir.ui.view">
+            <field name="name">edu.tg.assist.dm.search</field>
+            <field name="model">edu.tg.assist.dm</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="target_name"/>
+                    <field name="sender_name"/>
+                    <field name="person_id"/>
+                    <filter name="f_sent" string="已发出" domain="[('state', '=', 'sent')]"/>
+                    <filter name="f_denied" string="被拒绝（越权尝试）"
+                            domain="[('state', '=', 'denied')]"/>
+                    <filter name="f_problem" string="异常（失败/重名/找不到人）"
+                            domain="[('state', 'in', ['failed', 'ambiguous', 'not_found', 'no_chat'])]"/>
+                    <!-- 2026-10-08（队长+backend-ux 实测）：Odoo 19 的 search 视图 RNG **不接受**
+                         <group expand="0" string="..."> 外壳（会直接 ParseError：「视图定义无效」）。
+                         分组过滤器要**扁平**写在 <search> 下（core 19 就是这么写的）——
+                         判据不是「看着像」，而是装得进库：本文件本轮就是这样栽过一次。 -->
+                    <filter name="g_state" string="按结果分组"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="g_sender" string="按发起人分组"
+                            context="{'group_by': 'sender_name'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_assist_dm" model="ir.actions.act_window">
+            <field name="name">私发记录</field>
+            <field name="res_model">edu.tg.assist.dm</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- 挂在本模块根菜单下（menu_assist_root 定义在 views/assist_views.xml，同模块引用） -->
+        <menuitem id="menu_assist_dm" name="私发记录" parent="menu_assist_root" sequence="30"/>
+        <menuitem id="menu_assist_dm_action" parent="menu_assist_dm"
+                  action="action_assist_dm" sequence="10"/>
+    </data>
+</odoo>

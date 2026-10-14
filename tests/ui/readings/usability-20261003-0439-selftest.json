@@ -1,0 +1,761 @@
+{
+ "meta": {
+  "group": "usability-selftest",
+  "source": "tests/ui/surface.json (scope=portal) + tests/ui/wording.json",
+  "axes": "正样本 /leave/approvals（须报红） vs 负样本 /my/password（须不报红）",
+  "thresholds": {
+   "vpx": 375,
+   "vpy": 812,
+   "overflow_px": 8,
+   "button_bottom_factor": 1.5
+  },
+  "collected_at": {
+   "probe": "2026-10-03T04:39:05+08:00",
+   "finish": "2026-10-03T04:39:08+08:00",
+   "tool": "2026-10-03T04:39:05+08:00"
+  },
+  "tool": {
+   "script": "scripts/check_ui_usability.py",
+   "revision": "v1.0 · 2026-09-26 七轴体检收口：A/B/C/D 四轴门禁（真实页面正负自证 + ratchet 基线）",
+   "fingerprint": "86d94c3e"
+  },
+  "counts": {
+   "paths": 2,
+   "probes": 2,
+   "skipped": 0,
+   "failed": 0,
+   "env_failed": 0,
+   "red_probes": 0,
+   "red_paths": 0,
+   "axes": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 0
+   }
+  },
+  "concurrency": "quiet",
+  "container": {
+   "name": "edu19-clone-web-1",
+   "before": "2026-10-02T20:19:16.892082418Z",
+   "after": "2026-10-02T20:19:16.892082418Z",
+   "sample_valid": true
+  },
+  "probe_engine": {
+   "browser": "chrome (channel=chrome, headless)",
+   "restart_every": 30,
+   "browser_restarts": 0,
+   "restarted_before_probe": [],
+   "probes": 2,
+   "policy": "重置量具：每 30 条重启 browser；不重试、不调单页超时"
+  }
+ },
+ "readings": [
+  {
+   "path": "/leave/approvals",
+   "path_template": "/leave/approvals",
+   "role": "faculty",
+   "set": "usability-portal",
+   "authorized": "yes",
+   "source": "selftest: 正样本（已知 375 溢出）",
+   "http": {
+    "first": 200,
+    "hist": [],
+    "final": 200,
+    "final_path": "/leave/approvals",
+    "ctype": "text/html; charset=utf-8",
+    "disposition": "",
+    "marks": [],
+    "bytes": 69463,
+    "ms": 603
+   },
+   "viewport": {
+    "viewport_375": {
+     "overflow_px": 0,
+     "scroll_width": 375,
+     "client_width": 375,
+     "buttons": [
+      {
+       "text": "",
+       "left": 267,
+       "right": 293,
+       "top": 8,
+       "bottom": 44,
+       "inX": true
+      },
+      {
+       "text": "预备科导师【演示】",
+       "left": 309,
+       "right": 363,
+       "top": 11,
+       "bottom": 45,
+       "inX": true
+      },
+      {
+       "text": "全部 15",
+       "left": 15,
+       "right": 90,
+       "top": 149,
+       "bottom": 185,
+       "inX": true
+      },
+      {
+       "text": "待审批 14",
+       "left": 89,
+       "right": 178,
+       "top": 149,
+       "bottom": 185,
+       "inX": true
+      },
+      {
+       "text": "已通过 1",
+       "left": 177,
+       "right": 260,
+       "top": 149,
+       "bottom": 185,
+       "inX": true
+      },
+      {
+       "text": "已拒绝 0",
+       "left": 259,
+       "right": 343,
+       "top": 149,
+       "bottom": 185,
+       "inX": true
+      },
+      {
+       "text": "",
+       "left": 334,
+       "right": 360,
+       "top": 193,
+       "bottom": 227,
+       "inX": true
+      },
+      {
+       "text": "批量通过",
+       "left": 15,
+       "right": 101,
+       "top": 317,
+       "bottom": 342,
+       "inX": true
+      },
+      {
+       "text": "批量驳回",
+       "left": 109,
+       "right": 192,
+       "top": 317,
+       "bottom": 342,
+       "inX": true
+      },
+      {
+       "text": "代理审批设置",
+       "left": 248,
+       "right": 360,
+       "top": 317,
+       "bottom": 342,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 555,
+       "bottom": 580,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 178,
+       "right": 218,
+       "top": 555,
+       "bottom": 580,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 232,
+       "right": 272,
+       "top": 555,
+       "bottom": 580,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 160,
+       "right": 200,
+       "top": 615,
+       "bottom": 640,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 866,
+       "bottom": 891,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 866,
+       "bottom": 891,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 866,
+       "bottom": 891,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 160,
+       "right": 200,
+       "top": 926,
+       "bottom": 951,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 1178,
+       "bottom": 1203,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 1178,
+       "bottom": 1203,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 1178,
+       "bottom": 1203,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 160,
+       "right": 200,
+       "top": 1238,
+       "bottom": 1263,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 1489,
+       "bottom": 1514,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 1489,
+       "bottom": 1514,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 1489,
+       "bottom": 1514,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 1524,
+       "bottom": 1549,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 1776,
+       "bottom": 1801,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 1776,
+       "bottom": 1801,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 1776,
+       "bottom": 1801,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 1811,
+       "bottom": 1836,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 2063,
+       "bottom": 2088,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 2063,
+       "bottom": 2088,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 2063,
+       "bottom": 2088,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 2098,
+       "bottom": 2123,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 129,
+       "right": 169,
+       "top": 2350,
+       "bottom": 2375,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 2627,
+       "bottom": 2652,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 2627,
+       "bottom": 2652,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 2627,
+       "bottom": 2652,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 2663,
+       "bottom": 2688,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 2914,
+       "bottom": 2939,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 2914,
+       "bottom": 2939,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 2914,
+       "bottom": 2939,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 2950,
+       "bottom": 2975,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 3201,
+       "bottom": 3226,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 3201,
+       "bottom": 3226,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 3201,
+       "bottom": 3226,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 3237,
+       "bottom": 3262,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 3488,
+       "bottom": 3513,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 3488,
+       "bottom": 3513,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 3488,
+       "bottom": 3513,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 3523,
+       "bottom": 3548,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 3775,
+       "bottom": 3800,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 3775,
+       "bottom": 3800,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 3775,
+       "bottom": 3800,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 3810,
+       "bottom": 3835,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 4062,
+       "bottom": 4087,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 4062,
+       "bottom": 4087,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 4062,
+       "bottom": 4087,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 4097,
+       "bottom": 4122,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 4349,
+       "bottom": 4374,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 4349,
+       "bottom": 4374,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 4349,
+       "bottom": 4374,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 4384,
+       "bottom": 4409,
+       "inX": true
+      },
+      {
+       "text": "批准",
+       "left": 125,
+       "right": 165,
+       "top": 4636,
+       "bottom": 4661,
+       "inX": true
+      },
+      {
+       "text": "驳回",
+       "left": 173,
+       "right": 213,
+       "top": 4636,
+       "bottom": 4661,
+       "inX": true
+      },
+      {
+       "text": "详情",
+       "left": 226,
+       "right": 266,
+       "top": 4636,
+       "bottom": 4661,
+       "inX": true
+      },
+      {
+       "text": "转交",
+       "left": 145,
+       "right": 185,
+       "top": 4671,
+       "bottom": 4696,
+       "inX": true
+      }
+     ]
+    },
+    "collected_at": "2026-10-03T04:39:07+08:00"
+   },
+   "key_elements_found": {
+    "forms": 19,
+    "tables": 1,
+    "inputs": 55,
+    "rows": 15,
+    "cards": 0,
+    "outbound_links": 56,
+    "empty_state": false,
+    "buttons": [
+     "",
+     "预备科导师【演示】",
+     "全部 15",
+     "待审批 14",
+     "已通过 1",
+     "已拒绝 0",
+     "",
+     "批量通过",
+     "批量驳回",
+     "代理审批设置",
+     "批准",
+     "驳回",
+     "详情",
+     "转交",
+     "批准",
+     "驳回",
+     "详情",
+     "转交",
+     "批准",
+     "驳回"
+    ],
+    "content_links": [
+     "/",
+     "/about",
+     "/admissions",
+     "/alumni",
+     "/alumni/job/card",
+     "/alumni/jobs",
+     "/approvals/delegate",
+     "/apps"
+    ]
+   },
+   "findings": [],
+   "verdict": "green",
+   "notes": ""
+  },
+  {
+   "path": "/my/password",
+   "path_template": "/my/password",
+   "role": "student",
+   "set": "usability-portal",
+   "authorized": "yes",
+   "source": "selftest: 负样本（实测干净页）",
+   "http": {
+    "first": 200,
+    "hist": [],
+    "final": 200,
+    "final_path": "/my/password",
+    "ctype": "text/html; charset=utf-8",
+    "disposition": "",
+    "marks": [],
+    "bytes": 37047,
+    "ms": 507
+   },
+   "viewport": {
+    "viewport_375": {
+     "overflow_px": 0,
+     "scroll_width": 375,
+     "client_width": 375,
+     "buttons": [
+      {
+       "text": "跳至内容",
+       "left": -1,
+       "right": 0,
+       "top": -1,
+       "bottom": 35,
+       "inX": true
+      },
+      {
+       "text": "",
+       "left": 267,
+       "right": 293,
+       "top": 8,
+       "bottom": 44,
+       "inX": true
+      },
+      {
+       "text": "王小明",
+       "left": 309,
+       "right": 363,
+       "top": 11,
+       "bottom": 45,
+       "inX": true
+      },
+      {
+       "text": "保存新密码",
+       "left": 39,
+       "right": 187,
+       "top": 432,
+       "bottom": 470,
+       "inX": true
+      }
+     ]
+    },
+    "collected_at": "2026-10-03T04:39:08+08:00"
+   },
+   "key_elements_found": {
+    "forms": 5,
+    "tables": 0,
+    "inputs": 11,
+    "rows": 0,
+    "cards": 1,
+    "outbound_links": 43,
+    "empty_state": false,
+    "buttons": [
+     "跳至内容",
+     "",
+     "王小明",
+     "保存新密码"
+    ],
+    "content_links": [
+     "/",
+     "/about",
+     "/admissions",
+     "/alumni",
+     "/alumni/job/card",
+     "/alumni/jobs",
+     "/booking",
+     "/campus/jobs"
+    ]
+   },
+   "findings": [],
+   "verdict": "green",
+   "notes": ""
+  }
+ ],
+ "axes": {
+  "A": 0,
+  "B": 0,
+  "C": 0,
+  "D": 0
+ },
+ "findings": [],
+ "fingerprint": "4f53cda18c2baa0c"
+}

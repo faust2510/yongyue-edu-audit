@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ /register 邀请码注册页（旧 /web/register 302 兼容，
+         v3 批次1 去 Odoo 化：友好路径 + 表单一并改指新地址） ============ -->
+    <template id="edu_register" name="Edu Register (Invite Code)">
+        <t t-set="is_portal" t-value="True"/>
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container" style="max-width: 460px; padding: 48px 16px;">
+                    <div class="text-center mb-4">
+                        <!-- v4-t8：此处原先内联写死 #714B67（Odoo 企业版原厂主色）。
+                             色值一律走令牌（brand_tokens.scss 里那个交互面唯一蓝），
+                             白底对比 7.23 → 5.02 仍满足 AA，且它不再是令牌外色。 -->
+                        <h2 class="fw-bold" style="color:var(--brand-action);">注册账号</h2>
+                        <p class="text-muted" t-if="not registered">本站采用邀请制：请向管理员索取邀请码</p>
+                    </div>
+
+                    <div t-if="error" class="alert alert-danger" role="alert">
+                        <i class="fa fa-exclamation-circle me-1"/>
+                        <t t-out="error"/>
+                    </div>
+
+                    <!-- 重复提交的「输家」（2026-09-24 生产 edu.example.org 事故）：
+                         第一次提交其实已经建号成功并自动登录，只是浏览器渲染了后到的
+                         那个响应。此处如实告知 + 给出登录入口，绝不再显示
+                         「该邀请码已被使用」——那会把一次成功的注册说成失败。 -->
+                    <div t-if="registered" class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body p-4 text-center">
+                            <i class="fa fa-check-circle fa-2x text-success mb-3 d-block"/>
+                            <h5 class="fw-bold mb-2">你已注册成功，请直接登录</h5>
+                            <p class="text-muted mb-3">
+                                账号 <span class="fw-semibold" t-out="email"/> 已经注册成功
+                                （邀请码已由本次注册使用），无需重复提交；
+                                重复提交不会重复建号。
+                            </p>
+                            <a href="/login" class="btn btn-primary w-100 py-2">去登录</a>
+                        </div>
+                    </div>
+
+                    <form t-if="not registered" action="/register/submit" method="post"
+                          class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body p-4">
+                            <input type="hidden" name="csrf_token"
+                                   t-att-value="request.csrf_token()"/>
+                            <div class="mb-3">
+                                <label class="form-label" for="reg-code">邀请码</label>
+                                <input type="text" name="code" id="reg-code" required="required"
+                                       placeholder="EDU-XXXXXX"
+                                       t-att-value="code" class="form-control text-uppercase"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="reg-name">姓名</label>
+                                <input type="text" name="name" id="reg-name" required="required"
+                                       placeholder="您的姓名"
+                                       t-att-value="name" class="form-control"/>
+                            </div>
+                            <!-- 学号（选填，2026-09-24）：层级码注册拿它去**认领**
+                                 教务预建的学生档案（按学号匹配比按姓名可靠：op.student.gr_no
+                                 有唯一约束）。留空照常注册，只是退化为按姓名匹配。
+                                 只加这一个控件，版式与其余字段完全一致。 -->
+                            <div class="mb-3">
+                                <label class="form-label" for="reg-gr-no">学号（选填）</label>
+                                <input type="text" name="gr_no" id="reg-gr-no"
+                                       placeholder="如 26A0013，不确定可留空"
+                                       t-att-value="gr_no" class="form-control"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="reg-email">邮箱（作为登录名）</label>
+                                <input type="email" name="email" id="reg-email" required="required"
+                                       placeholder="you@example.com"
+                                       t-att-value="email" class="form-control"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="reg-password">密码</label>
+                                <input type="password" name="password" id="reg-password" required="required"
+                                       minlength="6" class="form-control"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="reg-confirm">确认密码</label>
+                                <input type="password" name="confirm" id="reg-confirm" required="required"
+                                       minlength="6" class="form-control"/>
+                            </div>
+                            <button type="submit"
+                                    class="btn btn-primary w-100 py-2">注册</button>
+                        </div>
+                    </form>
+
+                    <div t-if="not registered" class="text-center mt-3 small">
+                        已有账号？
+                        <a href="/login">去登录</a>
+                    </div>
+
+                    <!-- 提交守卫（2026-09-24 生产事故）：表单被连点两次时，第二个 POST
+                         到达时邀请码已被第一个请求消费 —— 于是本人拿到「已被使用」的
+                         错误屏。这里在第一次 submit 上置位 flag 并禁用按钮，重复的 submit
+                         一律 preventDefault（回车重复提交也一并拦掉），双击发不出第二个
+                         POST。纯原生 JS，无框架；防双击写法与 edu_apply 的
+                         static/src/js/apply_form.js 同源（仅把图标字符串换成
+                         textContent —— 本文件是 QWeb 模板）。 -->
+                    <script id="register-submit-guard" type="text/javascript">
+                        (function () {
+                            'use strict';
+                            var form = document.querySelector('form[action="/register/submit"]');
+                            if (!form) { return; }
+                            var submitting = false;
+                            form.addEventListener('submit', function (ev) {
+                                if (submitting) {   // 第二次提交：拦掉，不发第二个 POST
+                                    ev.preventDefault();
+                                    return;
+                                }
+                                submitting = true;
+                                var btn = form.querySelector('button[type="submit"]');
+                                if (btn &amp;&amp; !btn.disabled) {
+                                    btn.disabled = true;
+                                    btn.textContent = '正在注册，请勿重复点击…';
+                                }
+                            });
+                            // 从 bfcache 返回（用户按了浏览器后退）：复位，否则按钮永久禁用，
+                            // 变成另一种「点了没反应」。
+                            window.addEventListener('pageshow', function (ev) {
+                                if (!ev.persisted) { return; }
+                                submitting = false;
+                                var btn = form.querySelector('button[type="submit"]');
+                                if (btn) {
+                                    btn.disabled = false;
+                                    btn.textContent = '注册';
+                                }
+                            });
+                        })();
+                    </script>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 登录页加“使用邀请码注册”入口 ============ -->
+    <template id="edu_register_login_link" name="Login Register Link"
+              inherit_id="web.login">
+        <xpath expr="//div[hasclass('oe_login_buttons')]" position="after">
+            <div class="text-center mt-3 small">
+                <a href="/register"><i class="fa fa-ticket me-1"/>使用邀请码注册</a>
+            </div>
+            <!-- 学号登录（乙，2026-10-12）：登录名一栏既能填邮箱也能填学号。
+                 控制器侧的唯一实现见 controllers/main.py 的 _edu_alias_login()。 -->
+            <div class="text-center mt-2 small text-muted">
+                <i class="fa fa-info-circle me-1"/>学生也可以直接填<b>学号</b>登录（密码不变）；
+                没有学号的，请填注册时用的邮箱。
+            </div>
+        </xpath>
+    </template>
+</odoo>

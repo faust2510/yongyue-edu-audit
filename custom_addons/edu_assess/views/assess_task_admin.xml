@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==========================================================================
+         评估引擎：评估任务生命周期 —— **门户原生**管理页（教务自助，不必进后台）
+         ==========================================================================
+
+         为什么有这一页：门户此前已经有评估的填表/打分/看结果/导出，**唯独「评估任务」
+         本身（新建/发布/排名单/结束）只能在 Odoo 后台做**。实测本地库：3 个任务全部
+         进行中（closed = 0）⇒ /assess/my 的「我收到的评估结果」永远是空的 ——
+         学生看不到任何结果。本页把这段生命周期搬进门户。
+
+         体例来源（照抄门户既有页，不新造风格）：
+           · 外壳     = edu_portal.edu_page（顶栏 + 侧栏 + 移动端底部 Tab）
+           · 面包屑   = <a href="/assess"> 返回评估首页（照 assess_portal.xml）
+           · 卡片     = card shadow-sm border-0 rounded-3（照 assess_portal.xml）
+           · 表格     = table table-sm align-middle + thead.table-light + .table-responsive
+           · 按钮     = btn btn-sm btn-primary / btn-outline-*（照 assess_portal.xml）
+           · 回执     = ?saved=1 的 alert-success、错误 = alert-danger（照模板管理页）
+
+         无障碍（codebase 硬约定 §6.10；BASELINE 0 ⇒ 任何一条新违规立即报警）：
+           每个 input/select/textarea 都有 <label for=…> 且 for/id 由同一个表达式生成；
+           多选框的 for/id 带记录 id 保证唯一；图标 <i> 一律 aria-hidden="true"；
+           状态一律「文字 + 徽标」；表格全部 <th scope="col">；表格里的短按钮另带
+           aria-label（含任务名，避免"管理/名单/结果"三个按钮在屏幕阅读器里同名）。
+
+         注意（踩过的坑）：QWeb 表达式里不要写 %% —— 视图装载器会把 '%%' 折成 '%'
+         （odoo/tools/convert.py），'%.1f%%' 这类串会变成 '%.1f%' 直接报格式错。
+         本页的百分号只出现在**纯文本**里（如 100%），不进表达式。
+         ========================================================================== -->
+
+    <!-- ============ 页 1：评估任务列表 ============ -->
+    <template id="edu_assess_tasks" name="评估·任务（列表）">
+        <t t-call="edu_portal.edu_page">
+            <a href="/assess" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1" aria-hidden="true"/>返回评估首页
+            </a>
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mt-2 mb-3">
+                <div>
+                    <h4 class="mb-1"><i class="fa fa-tasks me-2" aria-hidden="true"/>评估任务</h4>
+                    <p class="text-muted small mb-0">
+                        新建 → 发布 → 名单 → 结束：一次评估的全程都在门户里走完，不需要打开后台。
+                    </p>
+                </div>
+                <a href="/assess/tasks/new" class="btn btn-primary btn-sm">
+                    <i class="fa fa-plus me-1" aria-hidden="true"/>新建评估任务
+                </a>
+            </div>
+
+            <div t-if="saved" class="alert alert-success py-2" role="status">
+                <i class="fa fa-check-circle me-1" aria-hidden="true"/>已保存。
+            </div>
+            <div t-if="error" class="alert alert-danger py-2" role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/><t t-out="error"/>
+            </div>
+
+            <div class="alert alert-light border small">
+                状态说明：<b>草稿</b> —— 还没发布，学生与教师都看不到；
+                <b>进行中</b> —— 可以打分（学生填评教 / 教师整班打分）；
+                <b>已结束</b> —— 名单冻结、结果对被评者开放（受模板的可见性开关与匿名门槛约束）。
+                只有走到「已结束」，被评者才可能在自己的门户里看到结果。
+            </div>
+
+            <div t-if="not rows" class="alert alert-info py-2">
+                还没有评估任务。<a href="/assess/tasks/new" class="alert-link">现在新建一个</a>。
+            </div>
+
+            <!-- 窄屏折成卡片（复用共用模板 edu_portal.edu_narrow_table_cards，不新造）：
+                 375 视口实测这张 7 列表表宽 796px vs 容器 345px（2.3 倍）—— 第 3 列起
+                 （状态/名单/已评/打分条数/操作）全被裁在屏外，必须横滑才看得全。
+                 桌面端一字不变：折行规则只在 @media (max-width: 767.98px) 内。
+                 tbody 行**去掉** text-nowrap（thead 保留）：卡片模式下 td 是靠内容折行
+                 落回卡片里的，nowrap 会让长任务名把行撑成 421px > 容器 345px（实测），
+                 卡片右边照样被裁。桌面端等价性实测：1440 视口下 th 宽度/行高/表宽与
+                 整页截图 md5 在「带/不带该 class」两态**完全一致**（shots/local/task11/desk_*）。 -->
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <div t-if="rows" class="table-responsive">
+                <table class="table table-sm align-middle edu-card-table">
+                    <thead class="table-light">
+                        <tr class="text-nowrap">
+                            <th scope="col">任务</th>
+                            <th scope="col">周期</th>
+                            <th scope="col">状态</th>
+                            <th scope="col" class="text-end">名单</th>
+                            <th scope="col" class="text-end">已评</th>
+                            <th scope="col" class="text-end">打分条数</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="rows" t-as="row">
+                            <!-- 不给本行 text-nowrap：窄屏折卡片时要能换行（见上） -->
+                            <tr>
+                                <td data-label="任务">
+                                    <b t-out="row['task'].name"/>
+                                    <div class="small text-muted"
+                                         t-out="'模板：' + row['task'].template_id.name"/>
+                                </td>
+                                <td data-label="周期" t-out="row['task'].period"/>
+                                <td data-label="状态">
+                                    <span class="badge"
+                                          t-attf-class="badge #{state_badges.get(row['task'].state, 'text-bg-light')}"
+                                          t-out="states.get(row['task'].state, row['task'].state)"/>
+                                </td>
+                                <td class="text-end" data-label="名单" t-out="row['roster_n']"/>
+                                <td class="text-end" data-label="已评" t-out="row['done_n']"/>
+                                <td class="text-end" data-label="打分条数" t-out="row['score_n']"/>
+                                <td data-label="操作">
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <a t-attf-href="/assess/tasks/#{row['task'].id}"
+                                           class="btn btn-sm btn-primary"
+                                           t-att-aria-label="'管理任务：' + row['task'].name">管理</a>
+                                        <a t-attf-href="/assess/tasks/#{row['task'].id}/roster"
+                                           class="btn btn-sm btn-outline-primary"
+                                           t-att-aria-label="'管理名单：' + row['task'].name">名单</a>
+                                        <a t-attf-href="/assess/task/#{row['task'].id}/results"
+                                           class="btn btn-sm btn-outline-secondary"
+                                           t-att-aria-label="'查看结果：' + row['task'].name">结果</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 页 2：新建 / 编辑任务 + 生命周期 ============ -->
+    <template id="edu_assess_task_form" name="评估·任务（表单与生命周期）">
+        <t t-call="edu_portal.edu_page">
+            <a href="/assess/tasks" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1" aria-hidden="true"/>返回评估任务
+            </a>
+            <h4 class="mt-2 mb-1">
+                <i class="fa fa-tasks me-2" aria-hidden="true"/>
+                <t t-if="is_new">新建评估任务</t>
+                <t t-else="">任务：<t t-out="task.name"/></t>
+            </h4>
+            <p class="text-muted small mb-3">
+                一次评估的全过程都在这一页：填基本信息 → 保存 → 发布 → 管名单 → 结束。
+            </p>
+
+            <div t-if="saved" class="alert alert-success py-2" role="status">
+                <i class="fa fa-check-circle me-1" aria-hidden="true"/>已保存。
+            </div>
+            <div t-if="error" class="alert alert-danger py-2" role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/><t t-out="error"/>
+            </div>
+
+            <form method="post" action="/assess/tasks/save">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="task_id" t-if="not is_new" t-att-value="task.id"/>
+
+                <!-- 区块 A：基本信息 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-header bg-white"><b>基本信息</b></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="template_id">评估模板</label>
+                                <select class="form-select" id="template_id" name="template_id" required="required">
+                                    <option value="">请选择模板</option>
+                                    <t t-foreach="templates" t-as="tpl">
+                                        <option t-att-value="tpl.id"
+                                                t-att-selected="'selected' if tpl.id == v['template_id'] else None"
+                                                t-out="tpl.name + '（被评：' + targets.get(tpl.target_kind, '') + '）' + ('' if (tpl.active and tpl.state == 'active') else '【已停用】')"/>
+                                    </t>
+                                </select>
+                                <div class="form-text">
+                                    模板决定评分项（列）与被评对象；模板本身在
+                                    <a href="/assess/templates">模板与评分项</a> 页维护。
+                                    任务一旦有了名单或打分，就不能再换模板。
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="period">评估周期</label>
+                                <input type="text" class="form-control" id="period" name="period"
+                                       maxlength="200" required="required"
+                                       placeholder="如：2026春" t-att-value="v['period']"/>
+                                <div class="form-text">出现在任务名与各类列表里，用于区分同模板的多次评估。</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="date_begin">开始日期</label>
+                                <input type="date" class="form-control" id="date_begin"
+                                       name="date_begin" t-att-value="v['date_begin']"/>
+                                <div class="form-text">可留空；留空只是不设提醒，不挡打分。</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="date_due">截止日期</label>
+                                <input type="date" class="form-control" id="date_due"
+                                       name="date_due" t-att-value="v['date_due']"/>
+                                <div class="form-text">不能早于开始日期。</div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="notes">说明</label>
+                                <textarea class="form-control" id="notes" name="notes" rows="2"
+                                          t-out="v['notes']"/>
+                                <div class="form-text">给参与打分的师生看的背景说明（可留空）。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 区块 B：评估范围 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-header bg-white"><b>评估范围</b></div>
+                    <div class="card-body">
+                        <p class="small text-muted">
+                            决定「发布」时名单里会有谁。<b>都不勾 = 全部在读学生</b>（学生任务）
+                            或<b>全部教师</b>（教师任务）。勾了班级就只取这些班级的学生；
+                            被评对象是教师时，勾班级 = 取任教这些班级的教师。
+                            <b>改范围不会改动已经生成的名单</b>（名单是快照），需要补时用名单页的
+                            「按范围生成名单」。
+                        </p>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <span class="form-label d-block" id="scope_batch_label">参与班级</span>
+                                <div class="border rounded p-2" style="max-height:14rem;overflow:auto"
+                                     role="group" aria-labelledby="scope_batch_label">
+                                    <t t-if="batches">
+                                        <div class="form-check" t-foreach="batches" t-as="b">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="scope_batch_ids" t-att-value="b.id"
+                                                   t-att-id="'scope_batch_%d' % b.id"
+                                                   t-att-checked="'checked' if b.id in v['scope_batch_ids'] else None"/>
+                                            <label class="form-check-label"
+                                                   t-att-for="'scope_batch_%d' % b.id" t-out="b.name"/>
+                                        </div>
+                                    </t>
+                                    <span t-else="" class="text-muted small">当前没有可选班级。</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <span class="form-label d-block" id="scope_program_label">参与专业</span>
+                                <div class="border rounded p-2" style="max-height:14rem;overflow:auto"
+                                     role="group" aria-labelledby="scope_program_label">
+                                    <t t-if="programs">
+                                        <div class="form-check" t-foreach="programs" t-as="p">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="scope_program_ids" t-att-value="p.id"
+                                                   t-att-id="'scope_program_%d' % p.id"
+                                                   t-att-checked="'checked' if p.id in v['scope_program_ids'] else None"/>
+                                            <label class="form-check-label"
+                                                   t-att-for="'scope_program_%d' % p.id" t-out="p.name"/>
+                                        </div>
+                                    </t>
+                                    <span t-else="" class="text-muted small">当前没有可选专业。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 区块 C：打分与匿名 -->
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-header bg-white"><b>打分与匿名</b></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-4">
+                                <label class="form-label" for="scorer_kind">打分人</label>
+                                <select class="form-select" id="scorer_kind" name="scorer_kind">
+                                    <t t-foreach="scorers.items()" t-as="opt">
+                                        <option t-att-value="opt[0]"
+                                                t-att-selected="'selected' if opt[0] == v['scorer_kind'] else None"
+                                                t-out="opt[1]"/>
+                                    </t>
+                                </select>
+                                <div class="form-text">谁给被评对象打分。</div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label" for="objective_scorer_kind">客观路打分人</label>
+                                <select class="form-select" id="objective_scorer_kind"
+                                        name="objective_scorer_kind">
+                                    <option value="">跟随上面的「打分人」</option>
+                                    <t t-foreach="scorers.items()" t-as="opt">
+                                        <option t-att-value="opt[0]"
+                                                t-att-selected="'selected' if opt[0] == v['objective_scorer_kind'] else None"
+                                                t-out="opt[1]"/>
+                                    </t>
+                                </select>
+                                <div class="form-text">仅当模板含「双轨」评分项时生效。</div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label" for="subjective_scorer_kind">主观路打分人</label>
+                                <select class="form-select" id="subjective_scorer_kind"
+                                        name="subjective_scorer_kind">
+                                    <option value="">跟随上面的「打分人」</option>
+                                    <t t-foreach="scorers.items()" t-as="opt">
+                                        <option t-att-value="opt[0]"
+                                                t-att-selected="'selected' if opt[0] == v['subjective_scorer_kind'] else None"
+                                                t-out="opt[1]"/>
+                                    </t>
+                                </select>
+                                <div class="form-text">仅当模板含「双轨」评分项时生效。</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1"
+                                           id="anonymous" name="anonymous"
+                                           t-att-checked="'checked' if v['anonymous'] else None"/>
+                                    <label class="form-check-label" for="anonymous">匿名打分</label>
+                                </div>
+                                <div class="form-text">
+                                    勾选后不保存打分人的身份（只存不可反推的校验码）；
+                                    含双轨评分项的模板不能设为匿名。结果页另有样本门槛。
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label class="form-label" for="summary_min">匿名汇总门槛（份）</label>
+                                <input type="number" class="form-control" id="summary_min"
+                                       name="summary_min" min="1" step="1" required="required"
+                                       t-att-value="v['summary_min']"/>
+                                <div class="form-text">低于这个份数不展示明细。</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="form-check mt-md-4 pt-md-2">
+                                    <input class="form-check-input" type="checkbox" value="1"
+                                           id="active" name="active"
+                                           t-att-checked="'checked' if v['active'] else None"/>
+                                    <label class="form-check-label" for="active">启用本任务</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa fa-save me-1" aria-hidden="true"/>保存
+                    </button>
+                    <a href="/assess/tasks" class="btn btn-outline-secondary btn-sm">返回列表</a>
+                    <a t-if="not is_new" t-attf-href="/assess/tasks/#{task.id}/roster"
+                       class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-list-ul me-1" aria-hidden="true"/>名单管理
+                    </a>
+                </div>
+            </form>
+
+            <!-- 区块 D：生命周期（每个动作一个独立表单；HTML 不允许表单嵌套） -->
+            <div t-if="not is_new" class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white d-flex flex-wrap align-items-center gap-2">
+                    <b>生命周期</b>
+                    <span class="badge"
+                          t-attf-class="badge #{state_badges.get(task.state, 'text-bg-light')}"
+                          t-out="states.get(task.state, task.state)"/>
+                </div>
+                <div class="card-body">
+                    <div class="row row-cols-2 row-cols-md-4 g-2 mb-3">
+                        <div class="col">
+                            <div class="border rounded p-2 h-100">
+                                <div class="small text-muted">名单行数</div>
+                                <b t-out="stats['roster_n']"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="border rounded p-2 h-100">
+                                <div class="small text-muted">已收到打分</div>
+                                <b t-out="stats['done_n']"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="border rounded p-2 h-100">
+                                <div class="small text-muted">一行未收到</div>
+                                <b t-out="stats['pending_n']"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="border rounded p-2 h-100">
+                                <div class="small text-muted">答卷份数</div>
+                                <b t-out="stats['refs_n']"/>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3">
+                        模板的「结果可见性」：
+                        <b t-if="task.template_id.score_visible">结果可见（被评者能看到自己的结果）</b>
+                        <b t-else="">结果不对被评者公开（结束后学生端不会出现这次结果）</b>
+                        <t t-if="task.anonymous">；本任务匿名，明细需答卷份数达到门槛 <t t-out="task.summary_min"/> 份。</t>
+                    </p>
+
+                    <t t-if="task.state == 'draft'">
+                        <p class="small text-muted">
+                            发布后任务进入「进行中」，同时按上面的范围生成名单快照；
+                            学生/教师那边才会看到它。
+                        </p>
+                        <form method="post" t-attf-action="/assess/tasks/#{task.id}/state">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="action" value="open"/>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-paper-plane me-1" aria-hidden="true"/>发布（草稿 → 进行中）
+                            </button>
+                        </form>
+                    </t>
+                    <t t-elif="task.state == 'open'">
+                        <div t-if="warnings" class="alert alert-warning py-2">
+                            <b>结束前请先确认：</b>
+                            <ul class="mb-0 small">
+                                <li t-foreach="warnings" t-as="w" t-out="w"/>
+                            </ul>
+                        </div>
+                        <form method="post" t-attf-action="/assess/tasks/#{task.id}/state">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="action" value="close"/>
+                            <div class="form-check mb-2" t-if="warnings">
+                                <input class="form-check-input" type="checkbox" value="1"
+                                       id="close_confirm" name="confirm" required="required"/>
+                                <label class="form-check-label small" for="close_confirm">
+                                    我已了解上述情况，仍然结束本次评估（未评人数与答卷份数会记入审计）
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fa fa-flag-checkered me-1" aria-hidden="true"/>结束评估（进行中 → 已结束）
+                            </button>
+                            <span class="small text-muted ms-2">
+                                结束后名单冻结；被评者那边才会出现这次结果。
+                            </span>
+                        </form>
+                    </t>
+                    <t t-else="">
+                        <p class="small text-muted">
+                            任务已结束：名单与评语只读，结果对被评者开放。
+                            需要改名单或补打分时先重新打开 —— 注意重开后学生端这次结果会立刻消失。
+                        </p>
+                        <form method="post" t-attf-action="/assess/tasks/#{task.id}/state">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="action" value="reopen"/>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" value="1"
+                                       id="reopen_confirm" name="confirm" required="required"/>
+                                <label class="form-check-label small" for="reopen_confirm">
+                                    我确认重新打开（学生端这次结果会立刻消失，直到再次结束）
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary btn-sm">
+                                <i class="fa fa-undo me-1" aria-hidden="true"/>重新打开（已结束 → 进行中）
+                            </button>
+                        </form>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 页 3：名单管理 ============ -->
+    <template id="edu_assess_task_roster" name="评估·任务名单管理">
+        <t t-call="edu_portal.edu_page">
+            <a href="/assess/tasks" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1" aria-hidden="true"/>返回评估任务
+            </a>
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mt-2 mb-3">
+                <div>
+                    <h4 class="mb-1"><i class="fa fa-list-ul me-2" aria-hidden="true"/>名单管理</h4>
+                    <p class="text-muted small mb-0">
+                        <t t-out="task.name"/> · 周期 <t t-out="task.period"/> ·
+                        <span class="badge"
+                              t-attf-class="badge #{state_badges.get(task.state, 'text-bg-light')}"
+                              t-out="states.get(task.state, task.state)"/>
+                    </p>
+                </div>
+                <div class="d-flex flex-wrap gap-1">
+                    <a t-attf-href="/assess/tasks/#{task.id}" class="btn btn-outline-secondary btn-sm">任务设置</a>
+                    <a t-attf-href="/assess/task/#{task.id}/results" class="btn btn-outline-secondary btn-sm">结果与导出</a>
+                </div>
+            </div>
+
+            <div t-if="saved" class="alert alert-success py-2" role="status">
+                <i class="fa fa-check-circle me-1" aria-hidden="true"/>已保存。
+            </div>
+            <div t-if="added is not None" class="alert alert-info py-2" role="status">
+                <i class="fa fa-info-circle me-1" aria-hidden="true"/>
+                <t t-if="added">按范围补齐名单：新增 <t t-out="added"/> 行。</t>
+                <t t-else="">名单已是最新：没有可新增的行。</t>
+                <t t-if="skipped">（有 <t t-out="skipped"/> 行因为名单里已有而跳过。）</t>
+            </div>
+            <div t-if="error" class="alert alert-danger py-2" role="alert">
+                <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/><t t-out="error"/>
+            </div>
+
+            <div t-if="task.state == 'closed'" class="alert alert-warning py-2">
+                任务已结束：<b>名单处于冻结状态</b>，不能新增或移除行。
+                确需改动请先回
+                <a t-attf-href="/assess/tasks/#{task.id}" class="alert-link">任务设置</a>
+                页「重新打开」。
+            </div>
+
+            <!-- 生成名单（幂等增量） -->
+            <div t-if="task.state != 'closed'" class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white"><b>按范围生成名单</b></div>
+                <div class="card-body">
+                    <p class="small text-muted">
+                        按任务设置里的「评估范围」补进被评对象 ——
+                        <b>幂等</b>：已经在名单里的不会重复，<b>一行都不会删</b>。
+                        被评对象是学生时取范围内的在读学生；是教师时取范围内的教师。
+                    </p>
+                    <form method="post" t-attf-action="/assess/tasks/#{task.id}/roster/build">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="fa fa-refresh me-1" aria-hidden="true"/>生成 / 补齐名单
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 手工添加 -->
+            <div t-if="task.state != 'closed'" class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white"><b>手工添加</b></div>
+                <div class="card-body">
+                    <p class="small text-muted">
+                        一行一个：
+                        <t t-if="task.target_kind == 'faculty'">教师姓名（必须与系统里的姓名完全一致，同名多人时会提示）。</t>
+                        <t t-else="">学号（首选）或姓名（姓名只在唯一时接受）。</t>
+                        名单里已有的自动跳过；找不到的会逐条提示。
+                    </p>
+                    <form method="post" t-attf-action="/assess/tasks/#{task.id}/roster/add">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="mb-2">
+                            <label class="form-label" for="names">待加入名单</label>
+                            <textarea class="form-control" id="names" name="names" rows="3"
+                                      placeholder="每行一个"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="fa fa-plus me-1" aria-hidden="true"/>加入名单
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 名单表（同上：375 视口实测 5 列 588px > 容器 345px，「状态/操作」被裁在屏外） -->
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle edu-card-table">
+                    <thead class="table-light">
+                        <tr class="text-nowrap">
+                            <th scope="col">被评对象</th>
+                            <th scope="col">班级</th>
+                            <th scope="col">状态</th>
+                            <th scope="col" class="text-end">打分条数</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="rows" t-as="row">
+                            <!-- 同上：窄屏折卡片时要能换行，不给 text-nowrap -->
+                            <tr>
+                                <td data-label="被评对象">
+                                    <b t-out="row['name']"/>
+                                    <div class="small text-muted" t-if="row['gr_no']"
+                                         t-out="'学号：' + row['gr_no']"/>
+                                </td>
+                                <td data-label="班级" t-out="row['batch']"/>
+                                <td data-label="状态">
+                                    <span t-if="row['done']" class="badge text-bg-success">已收到打分</span>
+                                    <span t-else="" class="badge text-bg-secondary">一行未收到</span>
+                                </td>
+                                <td class="text-end" data-label="打分条数" t-out="row['score_n']"/>
+                                <td data-label="操作">
+                                    <form t-if="row['deletable']" method="post"
+                                          t-attf-action="/assess/tasks/#{task.id}/roster/#{row['id']}/delete">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                t-att-aria-label="'从名单移除：' + row['name']">移除</button>
+                                    </form>
+                                    <span t-elif="row['score_n']" class="small text-muted">已有打分，不可移除</span>
+                                    <span t-else="" class="small text-muted">—</span>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+            <div t-if="not rows" class="alert alert-info py-2">
+                名单还是空的。点上面的「生成 / 补齐名单」按范围建，或手工添加。
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 录取后发放入学码（C-3）：入学申请表单上的发放入口与回执。
+         口径：docs/plans/admission-invite-link-design.md §18.3。
+
+         选择器只用 @name / @widget —— **不得**用 @string 等翻译属性做选择器，
+         scripts/check_view_selector_attrs.py 会判 FAIL（教训见 docs/code-map.md §6 第 20 条：
+         roles.xml 的 //div[@aria-label='周导航'] 曾让整个模块升级 ParseError）。
+         按钮的 groups 只挡 UI；方法体内还有一道 ORM 门禁（edu.application 对
+         base.group_user 是只读，菜单也不带组 ⇒ 只靠视图会「看得见点得动」）。 -->
+    <record id="view_edu_application_form_admit_invite" model="ir.ui.view">
+        <field name="name">edu.application.form.admit.invite</field>
+        <field name="model">edu.application</field>
+        <field name="inherit_id" ref="edu_apply.view_edu_application_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state' and @widget='statusbar']" position="after">
+                <button name="action_issue_admission_invite" type="object"
+                        string="发放入学码" class="btn-primary"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"
+                        invisible="state != 'admitted'"/>
+                <button name="action_reissue_admission_invite" type="object"
+                        string="重新发放入学码"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"
+                        invisible="not invite_code_text or invite_used_on"/>
+            </xpath>
+            <xpath expr="//notebook" position="before">
+                <group string="入学码">
+                    <field name="invite_code_text" readonly="1"/>
+                    <field name="invite_issued_at" readonly="1"/>
+                    <field name="invite_issued_by" readonly="1"/>
+                    <field name="invite_used_login" readonly="1"/>
+                    <field name="invite_used_on" readonly="1"/>
+                    <field name="invite_email_mismatch" invisible="1"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="after">
+                <div class="alert alert-warning" colspan="2"
+                     invisible="not invite_email_mismatch">
+                    该申请已完成注册，但注册邮箱（<field name="invite_used_login" class="d-inline"/>）
+                    与申请邮箱不一致，请核对身份。
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,287 @@
+{
+  "rows": [
+    {
+      "no": "A1",
+      "name": "跑前行数（exam/session/attendee/result/marksheet/register/template/history）",
+      "pass": true,
+      "info": true,
+      "detail": "3/2/3/3/2/1/1/283"
+    },
+    {
+      "no": "A2",
+      "name": "存量演示数据（EX-DEMO-01 / 王小明）attendee 与 result_line",
+      "pass": true,
+      "info": true,
+      "detail": "20 / 92"
+    },
+    {
+      "no": "B1",
+      "name": "教务 GET /grade-entry?batch_id=8 → 200",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "no": "B2",
+      "name": "页面渲染出成绩矩阵表格",
+      "pass": true,
+      "detail": "yy-grade-matrix 出现在页面：True"
+    },
+    {
+      "no": "B3",
+      "name": "矩阵里有 (学生 x 科目) 格子",
+      "pass": true,
+      "detail": "56 个格子，样例 [('5', '35'), ('5', '36'), ('5', '37'), ('5', '38')]"
+    },
+    {
+      "no": "B4",
+      "name": "名单含本班学生（王小明）",
+      "pass": true,
+      "detail": "学生 5 的格子：[('5', '35'), ('5', '36'), ('5', '37')]"
+    },
+    {
+      "no": "B5",
+      "name": "页面带 csrf 令牌",
+      "pass": true,
+      "detail": "token=True"
+    },
+    {
+      "no": "B6",
+      "name": "教务提交 → 303 回本页且 saved=1",
+      "pass": true,
+      "detail": "HTTP 303 Location=/grade-entry?batch_id=8&term_id=1&saved=1&n=1"
+    },
+    {
+      "no": "C1",
+      "name": "写侧 op.exam.attendees.marks 落库",
+      "pass": true,
+      "detail": "attendee marks=87（期望 87）"
+    },
+    {
+      "no": "C2",
+      "name": "读侧 op.result.line.marks 同步为同一个值",
+      "pass": true,
+      "detail": "result_line marks=87（期望 87）"
+    },
+    {
+      "no": "C3",
+      "name": "成绩单行 op.marksheet.line 生成（学生端卡片来源）",
+      "pass": true,
+      "detail": "marksheet_line id=25"
+    },
+    {
+      "no": "C4",
+      "name": "留痕 edu.grade.history 记下了这次改动",
+      "pass": true,
+      "detail": "history 条数=95"
+    },
+    {
+      "no": "C5",
+      "name": "最近一条留痕原文（原分 -> 新分 / 来源）",
+      "pass": true,
+      "info": true,
+      "detail": "74 -> 87 / manual"
+    },
+    {
+      "no": "C6",
+      "name": "操作审计 edu.audit.log 有「成绩录入」记录",
+      "pass": true,
+      "detail": "audit 条数=303"
+    },
+    {
+      "no": "C7",
+      "name": "后台会话 RPC 读 op.exam.attendees",
+      "pass": true,
+      "info": true,
+      "detail": "[{'id': 162, 'student_id': [5, '王小明'], 'marks': 87}] "
+    },
+    {
+      "no": "C8",
+      "name": "后台会话 RPC 读 op.result.line",
+      "pass": true,
+      "info": true,
+      "detail": "[{'id': 30, 'student_id': [5, '王小明'], 'marks': 87}] "
+    },
+    {
+      "no": "C9",
+      "name": "后台两处读数 == 门户写入值",
+      "pass": true,
+      "detail": "attendees=[{'id': 162, 'student_id': [5, '王小明'], 'marks': 87}] result=[{'id': 30, 'student_id': [5, '王小明'], 'marks': 87}]"
+    },
+    {
+      "no": "C10",
+      "name": "后台会话 RPC 读 op.marksheet.line",
+      "pass": true,
+      "info": true,
+      "detail": "([{'id': 7, 'total_marks': 92, 'percentage': 92.0}, {'id': 25, 'total_marks': 148, 'percentage': 74.0}], None)"
+    },
+    {
+      "no": "C14",
+      "name": "等级按既有七档映射出 A（87 分）",
+      "pass": true,
+      "detail": "result_line grade=['A'] "
+    },
+    {
+      "no": "C11",
+      "name": "学生端 /grade-book 200",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "no": "C12",
+      "name": "学生端页面出现本科目与分数",
+      "pass": true,
+      "detail": "含科目名=True 含分数=True"
+    },
+    {
+      "no": "C13",
+      "name": "学生端 CSV 该行的「得分 / 满分」等于门户写入值",
+      "pass": true,
+      "detail": "CSV 行：['小要理问答,小要理问答 · 第一学期 总评,87,100']"
+    },
+    {
+      "no": "D1a",
+      "name": "教师提交非任教科目（36）→ 303 且不带 saved=1",
+      "pass": true,
+      "detail": "HTTP 303 Location=/grade-entry?batch_id=8&term_id=1&saved=0&skip_scope=1"
+    },
+    {
+      "no": "D1b",
+      "name": "该科目容器一行都没建（零落库）",
+      "pass": true,
+      "detail": "GE8S36T1 id=None"
+    },
+    {
+      "no": "D1c",
+      "name": "行数改前改后逐字相等",
+      "pass": true,
+      "detail": "before=2/2/2/2/2/1/1/283 after=2/2/2/2/2/1/1/283"
+    },
+    {
+      "no": "D2a",
+      "name": "教师提交任外班级 → 303 带 err=scope",
+      "pass": true,
+      "detail": "HTTP 303 Location=/grade-entry?err=scope"
+    },
+    {
+      "no": "D2b",
+      "name": "任外班级的容器没被建出来",
+      "pass": true,
+      "detail": "session(GB12T*) = 0"
+    },
+    {
+      "no": "D2c",
+      "name": "行数改前改后逐字相等",
+      "pass": true,
+      "detail": "before=2/2/2/2/2/1/1/283 after=2/2/2/2/2/1/1/283"
+    },
+    {
+      "no": "D3a",
+      "name": "学生会话 GET /grade-entry → 303 /my/home",
+      "pass": true,
+      "detail": "HTTP 303 Location=/my/home"
+    },
+    {
+      "no": "D3b",
+      "name": "学生会话 POST /grade-entry/save → 303 /my/home（或被 csrf 拒）",
+      "pass": true,
+      "detail": "HTTP 303 Location=/my/home"
+    },
+    {
+      "no": "D3c",
+      "name": "未登录 → 303 到登录页",
+      "pass": true,
+      "detail": "HTTP 303 Location=/web/login?redirect=%2Fgrade-entry%3F"
+    },
+    {
+      "no": "D3d",
+      "name": "D3 三个身份的行数改前改后逐字相等",
+      "pass": true,
+      "detail": "before=2/2/2/2/2/1/1/283 after=2/2/2/2/2/1/1/283"
+    },
+    {
+      "no": "D4a",
+      "name": "不存在的学生 id → 整条丢弃（303 且 saved 不为 1）",
+      "pass": true,
+      "detail": "HTTP 303 Location=/grade-entry?batch_id=8&term_id=1&saved=0&skip_roster=1"
+    },
+    {
+      "no": "D4b",
+      "name": "没给这个幽灵学生建 attendee 行",
+      "pass": true,
+      "detail": "attendee(999999)=0"
+    },
+    {
+      "no": "D6a",
+      "name": "教师的选择页不再列全校班级（只列本人任教的班）",
+      "pass": true,
+      "detail": "含预备科=True 含神学一年级=False"
+    },
+    {
+      "no": "D6b",
+      "name": "教师带上任外班级 id 也只能回到空选择页（不渲染那班的网格）",
+      "pass": true,
+      "detail": "页面含矩阵表=False"
+    },
+    {
+      "no": "D5a",
+      "name": "超范围分数 → 303 带 err=invalid",
+      "pass": true,
+      "detail": "HTTP 303 Location=/grade-entry?batch_id=8&term_id=1&err=invalid"
+    },
+    {
+      "no": "D5b",
+      "name": "原有分数未被改写",
+      "pass": true,
+      "detail": "attendee=87（改前 87）"
+    },
+    {
+      "no": "E1",
+      "name": "同一 payload 由教务提交 → 成功落库（D1 的拒绝来自权限）",
+      "pass": true,
+      "detail": "HTTP 303 Location=/grade-entry?batch_id=8&term_id=1&saved=1&n=1 result_line=61"
+    },
+    {
+      "no": "E2",
+      "name": "任课教师提交本人任教科目 → 成功落库（D2 的拒绝来自范围）",
+      "pass": true,
+      "detail": "HTTP 303 Location=/grade-entry?batch_id=8&term_id=1&saved=1&n=1 result_line=74"
+    },
+    {
+      "no": "E3",
+      "name": "重复提交相同值 → 留痕不新增（无变化不写第二条）",
+      "pass": true,
+      "detail": "history 96 -> 96"
+    },
+    {
+      "no": "E4",
+      "name": "不存在的班级 → 303 带 err=nobatch（\"成功\"断言在坏路径上会失败）",
+      "pass": true,
+      "detail": "HTTP 303 Location=/grade-entry?err=nobatch"
+    },
+    {
+      "no": "F1",
+      "name": "存量演示行改前改后逐字相等",
+      "pass": true,
+      "detail": "before=['20', '92'] after=['20', '92']"
+    },
+    {
+      "no": "F2",
+      "name": "跑后行数（exam/session/attendee/result/marksheet/register/template/history）",
+      "pass": true,
+      "info": true,
+      "detail": "3/2/3/3/2/1/1/285"
+    }
+  ],
+  "facts": {
+    "counts_before": "3/2/3/3/2/1/1/283",
+    "demo_before": [
+      "20",
+      "92"
+    ],
+    "csv_line": [
+      "小要理问答,小要理问答 · 第一学期 总评,87,100"
+    ],
+    "counts_after": "3/2/3/3/2/1/1/285"
+  },
+  "failed": 0
+}

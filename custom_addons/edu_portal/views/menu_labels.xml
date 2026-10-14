@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  后台菜单 / 动作改名（**只改 source 名，不改模型、不改基座**）—— 2026-09-22 教务实测驱动。
+
+  问题（教务专员原话）：「我这是院系，我不知道后面搞那么多无关的信息干嘛」
+    · 菜单 259 的中文名是「院系」，但它的动作 388 指向 op.faculty = **教职员工人事档案**
+      （openeducat_core/models/faculty.py 里 名/姓/性别/出生日期 全是 required=True），
+      教务想建「院系」却落进人事表，保存报 Missing required fields；页面还是一张**人员看板**
+      （本地实测截图 shots/smoke/dept_path_before_0_faculty_page.png）。
+    · 真正的「院系」是菜单 265「部门」→ op.department（只有 名称 + 代码 两个必填，父级可选）。
+
+  做法（照 2026-09-19 专业编排的既有机制，docs/plans/major-track-elective-design.md §6.6.3）：
+    ① 用**基座 xmlid + forcecreate="0"** 把菜单与**动作**的 name（en_US source）改成**全新唯一串**；
+    ② edu_zh/i18n_extra/{zh_CN,zh_TW}.po 给新串出中文词条；
+    ③ 升级命令带 i18n-overwrite 长选项（两个连字符前缀；不带 = exit 0 但菜单名一字未变，
+       实测见 docs/ops/menu-rename-list.md §1/§3）。
+
+  为什么另造新串、不直接在 PO 里覆盖旧 msgid（实测证据，openeducat_core/i18n/zh_CN.po）：
+    · `Faculties` 这个 msgid **不只挂在菜单 259** —— 还挂在 act_open_op_faculty_view_2 与
+      向导字段 field_wizard_op_faculty__faculty_ids 上（该文件 2239-2241 行的 #: 引用）；
+    · `Department` 这个 msgid 还挂在 op_course / op_program / op_subject 的 department_id
+      三个字段标签与三张 op.department 视图 arch 上（同文件 1832-1838 行）。
+    ⇒ PO 覆盖按 msgid **全局生效**（docs/ops/menu-rename-list.md §5），直接覆盖会连带改错别处。
+
+  只改菜单不改动作 ⇒ 面包屑 / 页面标题仍是旧名（§6.6.3 第 1 条），故两个动作一并改。
+
+  升级顺序（改名靠 XML 重放；而 -u edu_portal 会把菜单收口值重放回来 —— 见
+  docs/audit/finding-F1-menu-replay-on-upgrade.md）：
+    -u edu_portal → UPGRADE_EXTRA_ARGS="（i18n-overwrite）" -u edu_zh → **最后** -u edu_nav
+  （脚本用法见 scripts/safe_upgrade.sh 头部注释，环境变量值以该脚本为准）
+-->
+<odoo>
+
+    <!-- 259「院系」→「教职员工」：它的模型是 op.faculty（教学人员/人事档案），不是院系。
+         动作 388 一并改（否则面包屑仍写「院系」，自相矛盾）。新串 Teaching Staff 全库唯一。
+         ⚠ 菜单 259 这条**不能用声明式 <record>**：它的 xmlid 在 ir_model_data 里 noupdate=t
+         （本批唯一）。noupdate 咬两次：① 声明式写 name 被静默跳过（升级 exit 0，实测源名仍是
+         Faculties）；② 即使改了 source，Odoo 19 的译文导入器也不覆盖 noupdate 记录的已有译文
+         （odoo/tools/translate.py:1609-1610、1663 —— 只有 force_overwrite 才越过它），
+         中文会停在旧的「院系」。故改由 <function> 走 ORM：先规范 noupdate=False、再写 source，
+         中文照旧由 edu_zh 的 PO 出词条（幂等、跳过缺记录）—— 见 models/menu_labels.py 头注释。 -->
+    <record id="openeducat_core.act_open_op_faculty_view" model="ir.actions.act_window" forcecreate="0">
+        <field name="name">Teaching Staff</field>
+    </record>
+    <function model="ir.ui.menu" name="edu_apply_menu_label_renames"/>
+
+    <!-- 2026-10-03：退休菜单停用（同样走 ORM，原因同 259：xmlid 的 noupdate=t，声明式被静默跳过）。
+         详见 models/menu_labels.py 的 RETIRE_MENUS / edu_apply_menu_retirements。 -->
+    <function model="ir.ui.menu" name="edu_apply_menu_retirements"/>
+
+    <!-- 265「部门」→「院系部门」：它就是教务要建的「院系」（op.department：名称 + 代码）。
+         「部门」在中文里更常指人事/行政部门，教务口径是「院系部门」（用户用词）。
+         动作 380 一并改。新串 Academic Departments 全库唯一。 -->
+    <record id="openeducat_core.menu_op_department_sub" model="ir.ui.menu" forcecreate="0">
+        <field name="name">Academic Departments</field>
+    </record>
+    <record id="openeducat_core.act_open_op_department_view" model="ir.actions.act_window" forcecreate="0">
+        <field name="name">Academic Departments</field>
+    </record>
+
+    <!-- ============================================================================
+         2026-09-24 第二轮：教务审计出的其余错名（P0/P1/P2）—— 机制与上面完全相同：
+         **改 source 成全新唯一串**（本仓 edu_portal 声明式覆盖基座 xmlid）+ **edu_zh 给新串出词条**；
+         菜单与动作成对改（只改菜单 ⇒ 面包屑 / 页面标题仍写旧名）。
+         这一批 6 条记录 ir_model_data.noupdate 实测**全是 f**（复现 SQL 见
+         docs/ops/menu-rename-list.md §0.2）⇒ 声明式 <record forcecreate="0"> 即可生效，
+         不必走 259 那条 <function> ORM 路（那条是 noupdate=t 专用缺口）。
+         升级顺序不变：-u edu_portal → UPGRADE_EXTRA_ARGS="（两个连字符）i18n-overwrite" -u edu_zh
+         → -u edu_nav **最后**（XML 注释里不能出现两个连续连字符，写法同本文件头注释第 ③ 条）。
+         ============================================================================ -->
+
+    <!-- P1 菜单 276「专业」→「培养方案」：276 的动作 395 指向 op.program，而 263「专业」指向
+         op.course —— 两条菜单**同名不同物**（276 挂在停用的 275 项目管理下，启用即静默多出第二个
+         「专业」）。本仓口径 2026-09-19 已定：学校的「专业」= op.course（263，major_track 改的名）；
+         op.program 是「课程 + 学制」的编排结构 ⇒ 取「培养方案」。动作 395 一并改（它还是机翻「节目」）。
+         一览表与取舍理由见 docs/ops/menu-rename-list.md §2.2。 -->
+    <record id="openeducat_core.menu_op_program_sub" model="ir.ui.menu" forcecreate="0">
+        <field name="name">Program Plans</field>
+    </record>
+    <record id="openeducat_core.act_open_op_program_view" model="ir.actions.act_window" forcecreate="0">
+        <field name="name">Program Plans</field>
+    </record>
+
+    <!-- P2 菜单 264「批次」→「班级」：op.batch 在本校就是「一个班的学生」，不是生产批次。
+         证据是仓内既有实现：需求 7 的班级分配与管理全部**复用 op.batch**
+         （views/class_batch_views.xml:4-5「班级实体、学生归属、回收站全部复用基座」），
+         且 797「已停用班级」的动作 815 同样是 op.batch。动作 386 一并改。 -->
+    <record id="openeducat_core.menu_op_batch_sub" model="ir.ui.menu" forcecreate="0">
+        <field name="name">Student Batches</field>
+    </record>
+    <record id="openeducat_core.act_open_op_batch_view" model="ir.actions.act_window" forcecreate="0">
+        <field name="name">Student Batches</field>
+    </record>
+
+    <!-- P2 菜单 298「父母」→「家长设置」：**298 与 297 同名 Parents，但不是同物**——
+         297 是 op.parent 家长名册（动作 414），298 **没有动作**、是挂在 学生信息/配置 下、
+         以 299 为唯一子节点的配置容器。297 已是「家长」，故 298 按容器语义改成「家长设置」。
+         （297 的 xmlid noupdate=t，本轮不动它的 source，只补动作 414 的中文词条，见 §0.3。） -->
+    <record id="openeducat_parent.menu_op_school_config_parent" model="ir.ui.menu" forcecreate="0">
+        <field name="name">Parent Settings</field>
+    </record>
+
+    <!-- P2 菜单 299「人际关系」→「亲属关系」（动作 415 一并改）：op.parent.relationship 是
+         father / mother / guardian 这类**关系字典**，不是「人际关系」网络。 -->
+    <record id="openeducat_parent.menu_op_parent_relationship_sub_parent" model="ir.ui.menu" forcecreate="0">
+        <field name="name">Kinship Relations</field>
+    </record>
+    <record id="openeducat_parent.act_open_op_parent_relationship_view" model="ir.actions.act_window" forcecreate="0">
+        <field name="name">Kinship Relations</field>
+    </record>
+
+</odoo>

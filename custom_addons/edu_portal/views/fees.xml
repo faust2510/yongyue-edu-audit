@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 财务缴费：后台管理（自研，中文视图 priority=1） ============ -->
+
+    <!-- ============ 纵深防御：edu.fee.bill 记录规则（第三期评审 M1） ============
+         门户/教师即使 ACL 放开也无越权直读他人在途账目的可能：
+         - 门户账号（学生/家长）= base.group_portal：只见 自己学生的账单
+           （student_id.user_id = 我）或 自己发起的报销（created_by_partner
+           的 user_ids 含我）；
+         - 内部普通用户（教师）读规则：只见 与本人相关（受理人/发起人/教师档案）
+           或与学生本人相关的记录；教务处/管理员经 ACL 写权 + 本规则不挂组（无全局
+           规则）不受限。控制器功能路径全部走 sudo（env.su 时规则跳过）不受影响。 -->
+    <record id="rule_edu_fee_bill_portal_own" model="ir.rule">
+        <field name="name">edu.fee.bill: 门户仅见本人/孩子的账单（纵深防御）</field>
+        <field name="model_id" ref="model_edu_fee_bill"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">['|', '|', ('student_id.user_id', '=', user.id), ('created_by_partner.user_ids', 'in', [user.id]), ('student_id.parent_id.user_ids', 'in', [user.id])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- 教师/内部用户（含教务隐含的 group_op_faculty）仅见与本人相关的记录：
+         - 我发起的报销：created_by_partner.user_ids 含我（门户账号直连 partner）
+         - 以我的教师档案为对象：faculty_id.partner_id.user_id = 我
+           （res.partner.user_id 是可存化反向解析：教师 partner 32 → user 11）
+         - 以我为受理人：partner_id.user_id = 我
+         - 我的学生记录：student_id.user_id = 我
+         实测口径（本地 edu19）：门户发起用 user_ids，教师档案/受理人用 user_id，
+         混用会静默不匹配（见 repair-round-2 复核）。 -->
+    <record id="rule_edu_fee_bill_faculty_own" model="ir.rule">
+        <field name="name">edu.fee.bill: 教师仅见与本人相关记录（纵深防御）</field>
+        <field name="model_id" ref="model_edu_fee_bill"/>
+        <field name="groups" eval="[(4, ref('openeducat_core.group_op_faculty'))]"/>
+        <field name="domain_force">['|', '|', '|', ('created_by_partner.user_ids', 'in', [user.id]), ('partner_id.user_id', '=', user.id), ('faculty_id.partner_id.user_id', '=', user.id), ('student_id.user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- 教务处/管理员 = 全量可见（组规则 OR 语义：admin 同时属于
+         group_op_faculty（隐含）与本组，OR 后不受教师本人规则限制） -->
+    <record id="rule_edu_fee_bill_backoffice_all" model="ir.rule">
+        <field name="name">edu.fee.bill: 教务/管理员全量可见（纵深防御）</field>
+        <field name="model_id" ref="model_edu_fee_bill"/>
+        <field name="groups" eval="[(4, ref('openeducat_core.group_op_back_office_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============ 列默认可发现性（2026-09-28 · 方案 A 试点） ============
+         用户现场：「它很多功能被折叠了，导致我不点都不知道有这些功能」。
+         机制（Odoo 19，已查实，不要重新验证）：列表的默认可见性只由 optional 决定
+         （list_renderer.js:1171-1189 —— localStorage 无记录时
+         optionalActiveFields[col] = (col.optional === "show")）；
+         optional="hide"/"show" **都进「列设置」菜单**，而 column_invisible 是按表达式
+         的硬隐藏、**连列设置菜单都进不去**（同文件 :326-341）
+         ⇒ 用 column_invisible 藏东西 = 永久不可发现（调研 §2.3、§7 的 D1）。
+         先例：views/invite_code_views.xml:58-65（2026-09-17 同款用户抱怨的处置口径）。
+
+         逐列判定（依据 = 教务在这一页要做的判断/操作需不需要它，不凭感觉）：
+         · faculty_id（教师）optional="hide" → show：
+           本列表是**双向台账**（第 1 列就是方向 badge），应付侧的对象记在 faculty_id 上
+           （models/fees.py:187-189「应付给老师时记录对应教师档案」），而 partner_id /
+           created_by_partner 根本不在这张表里 ⇒ 默认藏掉后**应付行看不出对象是谁**，
+           必须点进表单才知道。对照：同一批数据的门户总台账把「受理人」
+           = student / faculty / partner 作为一等列露出（views/ledger.xml:155,175）
+           ⇒ 后台比门户信息更少，属 D2 + D3。
+         · reimburse_ref（报销单号）optional="hide" → show：
+           单号是全流程的**对外单据号**：门户「我的报销」第一列就是「单号」
+           （本文件 :378,389）；站内通知正文写「您的报销申请 REB000123…」
+           （models/fees.py:336-337）；唯一性约束按它报错（fees.py:279-288）。
+           而「报销状态」列已经是 optional="show" —— **显示状态却不显示单号**
+           正是先例注释里那种「只放一半」的错：申请人拿着单号来对账，列表里却没有那一列。
+         · currency_id（币种）column_invisible="1" → optional="hide"：
+           保留「默认不显示」的设计（金额列是 Monetary，实测渲染已带符号「¥ 12,000.00」；
+           本库唯一币种 = 公司币种 CNY ⇒ 单独一列无信息量），但**必须给出找回路径**：
+           column_invisible 连列设置菜单都进不去，一旦将来出现非本币账单
+           （金额口径会变成关键判断），用户没有任何路径把它找回来。
+           改 optional="hide" 后默认视图**一字不变**，只是进了列设置菜单。
+         ⚠ 回归护栏：不要让 faculty_id / reimburse_ref 退回 optional="hide"，
+           也不要把 currency_id 退回 column_invisible —— 否则「不点不知道」原样复发。
+         ⚠ 代价如实记（1440 视口实测，2026-09-28，读数与截图见
+           tests/smoke/out_col_discoverability/{before,after}/）：
+           默认可见列 9 → 11，**表格总宽不变**（list 用 table-layout: fixed，
+           容器 1440 / 表格 1440，无横向溢出），代价是其余列各窄一点 ——
+           账单名称 359 → 297px、方向 121 → 90px、状态 169 → 132px。
+           更窄的视口下名称列会更短、长账单名会被截断：这是本次改动的可见代价。
+           若某位教务不接受，**正确做法是在列设置里自己关掉「教师」或「报销单号」
+           （只记在本机浏览器），不要退回 optional="hide"** —— 那会让下一个人
+           重新掉进「不点不知道」。 -->
+    <record id="view_edu_fee_bill_list" model="ir.ui.view">
+        <field name="name">edu.fee.bill.list.cn</field>
+        <field name="model">edu.fee.bill</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="账单">
+                <field name="direction" string="方向" widget="badge"
+                       decoration-info="direction == 'receivable'"
+                       decoration-warning="direction == 'payable'"/>
+                <field name="name"/>
+                <field name="student_id" optional="show"/>
+                <field name="faculty_id" optional="show"/>
+                <field name="category_id" string="分类" optional="show"/>
+                <field name="amount"/>
+                <field name="paid_amount"/>
+                <field name="reimburse_ref" string="报销单号" optional="show"/>
+                <field name="reimburse_state" string="报销状态" optional="show"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="due_date"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'open'"
+                       decoration-warning="state == 'partial'"
+                       decoration-success="state == 'paid'"
+                       decoration-danger="state == 'void'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_fee_bill_form" model="ir.ui.view">
+        <field name="name">edu.fee.bill.form.cn</field>
+        <field name="model">edu.fee.bill</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="账单">
+                <header>
+                    <button name="action_reimburse_approve" type="object"
+                            string="同意报销" class="btn-primary"
+                            invisible="reimburse_state != 'request'"/>
+                    <button name="action_reimburse_refuse" type="object"
+                            string="驳回报销" confirm="确认驳回该报销申请？驳回前请填写原因。"
+                            invisible="reimburse_state != 'request'"/>
+                    <button name="action_pay" type="object"
+                            string="登记付款" class="btn-primary"
+                            invisible="reimburse_state != 'approved'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="基本信息">
+                            <field name="direction" string="方向"/>
+                            <field name="category_id" string="分类" required="1"/>
+                            <field name="name" required="1"/>
+                            <field name="amount" required="1"/>
+                            <field name="due_date"/>
+                        </group>
+                        <group string="对象">
+                            <field name="student_id"/>
+                            <field name="faculty_id"/>
+                            <field name="partner_id"/>
+                            <field name="created_by_partner"/>
+                        </group>
+                        <group string="汇总">
+                            <field name="paid_amount"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                    <group string="报销（应付报销单）" invisible="direction != 'payable'">
+                        <field name="reimburse_ref"/>
+                        <field name="reimburse_state"/>
+                        <field name="approved_amount"/>
+                        <field name="approved_by" readonly="1"/>
+                        <field name="approved_on" readonly="1"/>
+                        <field name="reject_reason"/>
+                        <field name="receipt_attachment_ids" widget="many2many_tags"/>
+                        <field name="source_ref"/>
+                    </group>
+                    <notebook>
+                        <page string="收付记录">
+                            <field name="payment_ids">
+                                <list editable="bottom">
+                                    <field name="payment_date"/>
+                                    <field name="amount"/>
+                                    <field name="method"/>
+                                    <field name="received_by"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_fee_payment_list" model="ir.ui.view">
+        <field name="name">edu.fee.payment.list.cn</field>
+        <field name="model">edu.fee.payment</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="缴费流水">
+                <field name="payment_date"/>
+                <field name="student_id"/>
+                <field name="bill_id"/>
+                <field name="amount"/>
+                <field name="method"/>
+                <field name="received_by"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_fee_bill" model="ir.actions.act_window">
+        <field name="name">账单管理</field>
+        <field name="res_model">edu.fee.bill</field>
+        <field name="view_mode">list,form</field>
+        <!-- 文案口径（2026-09-28 复核）：
+             ① 原写「为学生创建应收账单」只描述了双向台账的一半 ——
+                本表第 1 列就是「方向」badge，应付（报销 / 付给老师）同样在这里建，
+                口径照 views/ledger.xml:42「应收=学校应收（统筹费/罚款/教材），
+                应付=学校应付/报销」；
+             ② 原写「下方「到账记录」」在表单里**没有这个页签** ——
+                真实页签名是「收付记录」（本文件 view_edu_fee_bill_form 的 <page>），
+                空列表引导把一个不存在的页签名指给用户，属「界面文字与实际能力不符」。
+             ③ 术语用「统筹费」不用「学费」（docs/plans/data-provenance.md §8）。 -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">还没有账单</p>
+            <p>这里登记应收（统筹费、罚款、教材等）与应付（报销付款、付给老师）两类账单；
+                到账款目打开账单后在下方「收付记录」逐笔登记，状态自动汇总。</p>
+        </field>
+    </record>
+
+    <!-- 缴费流水：本仓 56 个动作里 39 个没写 <field name="help">，空库时用户看到的是
+         Odoo 英文兜底（no_content_helpers.xml:13-14「No data to display」）——
+         中文产品里出现英文兜底 = D3。本条按同一体例补中文空态说明。
+         文案只陈述既有事实：字段名取自 models/fees.py:524-534
+         （本次到账 / 方式 / 到账日期 / 经手人），日常登记入口是账单表单的
+         「收付记录」页签（本文件 view_edu_fee_bill_form）。 -->
+    <record id="action_edu_fee_payment" model="ir.actions.act_window">
+        <field name="name">缴费流水</field>
+        <field name="res_model">edu.fee.payment</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">还没有缴费流水</p>
+            <p>每一次到账 / 付款登记都会在这里留一条流水（到账日期、本次到账金额、方式、经手人）；
+                日常在「账单管理」打开账单，在下方「收付记录」逐笔登记，本页用于按笔核对。</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_edu_fees_root" name="财务管理"
+              sequence="68"
+              groups="openeducat_core.group_op_back_office_admin,-base.group_user"/>
+    <menuitem id="menu_edu_fees_bill" name="账单管理"
+              parent="menu_edu_fees_root"
+              action="action_edu_fee_bill" sequence="10"
+              groups="openeducat_core.group_op_back_office_admin"/>
+    <menuitem id="menu_edu_fees_payment" name="缴费流水"
+              parent="menu_edu_fees_root"
+              action="action_edu_fee_payment" sequence="20"
+              groups="openeducat_core.group_op_back_office_admin"/>
+
+    <!-- ============ 门户：/my/fees（统筹费应收 + 我的报销 同页） ============ -->
+    <template id="edu_fees_page" name="Edu Fees Portal">
+        <t t-call="edu_portal.edu_page">
+            <!-- 窄屏卡片样式：在**页面级**调用一次（task-12，2026-10-02）。
+                 原先这个 t-call 写在 edu_fees_bill_list 的「学生分支」里 ⇒ 家长/教师/内部走的
+                 t-elif="bills" 那段根本拿不到 <style>，我给它加的 edu-card-table 类形同虚设
+                 （实测证据：家长身份下 card=True 但 thead 仍是 table-header-group、表宽 371 > 345）。
+                 页面级调用同时也解决了「家长有 N 个孩子就输出 N 份 <style>」的重复问题。
+                 学生分支的表格与 data-label 一字未动。 -->
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <h4 class="mb-1 d-flex align-items-center gap-2 flex-wrap">
+                <span><i class="fa fa-credit-card me-2"/><t t-out="title"/></span>
+                <a t-if="role in ('student', 'faculty')" class="btn btn-sm btn-primary ms-2"
+                   href="/my/reimburse/apply">
+                    <i class="fa fa-plus me-1"/>发起报销
+                </a>
+                <a class="btn btn-sm btn-outline-primary ms-auto" href="/my/fees/export">
+                    <i class="fa fa-download me-1"/>导出 CSV
+                </a>
+            </h4>
+            <p class="text-muted mb-3">线下转账后由学坊登记到账，此处可随时查询缴纳状态；
+                报销申请由教务处审核后线下付款，进展会在此同步。</p>
+
+            <t t-if="box == 'reimburse_submitted'">
+                <div class="alert alert-success py-2">
+                    <i class="fa fa-check-circle me-1"/>报销申请已提交（单号
+                    <b t-out="ref or '—'"/>），等待教务处审核。
+                </div>
+            </t>
+
+            <!-- 家长：按孩子分组 -->
+            <t t-if="role == 'parent'">
+                <t t-if="not sections">
+                    <div class="alert alert-info">
+                        暂无孩子账单数据。孩子名下的应收账单由学坊登记后，会在这里按孩子分组显示；
+                        如果刚交完费，请等学坊登记到账。
+                    </div>
+                </t>
+                <t t-foreach="sections" t-as="sec">
+                    <h5 class="mt-4 mb-2">
+                        <i class="fa fa-user-o me-2"/><t t-out="sec['student'].name"/>
+                        <span t-if="sec['due']" class="badge text-bg-warning ms-2">
+                            待缴合计 <t t-out="cur_symbol"/><t t-out="'%g' % sec['due']"/>
+                        </span>
+                    </h5>
+                    <t t-set="bills" t-value="sec['bills']"/>
+                    <t t-call="edu_portal.edu_fees_bill_list"/>
+                </t>
+            </t>
+
+            <!-- 学生/教师/内部：单一列表（学生=应收+我的报销同页） -->
+            <t t-else="">
+                <t t-if="role == 'student' and due_total">
+                    <div class="alert alert-warning">
+                        当前待缴合计：<b><t t-out="cur_symbol"/><t t-out="'%g' % due_total"/></b>
+                    </div>
+                </t>
+                <t t-call="edu_portal.edu_fees_bill_list"/>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ /my/reimburse/apply 发起报销 ============ -->
+    <template id="edu_reimburse_apply" name="Edu Reimburse Apply">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1"><i class="fa fa-plus-circle me-2 text-primary"/>发起报销</h2>
+                <p class="text-muted mb-0">垫付的书费、车费、活动费等可在此申请报销；
+                    上传收据（jpg / png / pdf，≤10MB）便于教务处审核。</p>
+            </section>
+
+            <t t-if="box == 'bad_amount'">
+                <div class="alert alert-danger py-2">报销金额必须大于零。</div>
+            </t>
+            <t t-if="box == 'bad_type'">
+                <div class="alert alert-danger py-2">收据仅支持 jpg / png / pdf 格式。</div>
+            </t>
+            <t t-if="box == 'too_big'">
+                <div class="alert alert-danger py-2">单个收据文件不能超过 10MB。</div>
+            </t>
+            <t t-if="box == 'bad_image'">
+                <div class="alert alert-danger py-2">图片文件已损坏或格式不受支持，请重新选择。</div>
+            </t>
+            <t t-if="box == 'bad_category'">
+                <div class="alert alert-warning py-2">没有可用的费用分类，请联系教务处。</div>
+            </t>
+            <t t-if="dup">
+                <div class="alert alert-warning py-2">
+                    您已有一笔相同分类、相同金额的报销正在申请/待付中，
+                    请勿重复提交；如需调整请先等待审核结果。
+                </div>
+            </t>
+
+            <form method="post" action="/my/reimburse/apply/save"
+                  enctype="multipart/form-data" class="card shadow-sm border-0 rounded-3 mb-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">分类 <span class="text-danger">*</span></label>
+                            <select name="category" class="form-select" required="required">
+                                <option value="">请选择分类</option>
+                                <t t-foreach="categories" t-as="cat">
+                                    <option t-att-value="cat.id" t-out="cat.name"/>
+                                </t>
+                            </select>
+                            <div class="form-text">报销必须选择分类。</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">金额（元）<span class="text-danger">*</span></label>
+                            <input type="number" name="amount" step="0.01" min="0.01"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">事由说明</label>
+                            <input type="text" name="name" class="form-control"
+                                   placeholder="如：购买教材 / 地铁通勤 / 班级活动物资"/>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">备注</label>
+                            <textarea name="note" class="form-control" rows="2"
+                                      placeholder="补充说明（选填）"/>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">收据附件（可多选）</label>
+                            <input type="file" name="receipts" multiple="multiple"
+                                   accept=".jpg,.jpeg,.png,.pdf" class="form-control"/>
+                            <div class="form-text">仅支持 jpg / png / pdf，单个 ≤10MB；
+                                上传后仅教务处与您本人可见。</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-paper-plane me-1"/>提交报销申请</button>
+                        <a href="/my/fees" class="btn btn-light">返回账单</a>
+                    </div>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <!-- 账单列表片段（学生/家长共用：应收统筹费 + 应付报销 两段同表；
+         学生段的 recv_bills/pay_bills 由控制器预计算传入） -->
+    <template id="edu_fees_bill_list" name="Edu Fees Bill List Snippet">
+        <t t-if="role == 'student' and bills">
+            <h6 class="mt-2 mb-1 text-muted">
+                <i class="fa fa-money me-1"/>统筹费账单
+                <span t-if="recv_count" class="small">（<t t-out="recv_count"/> 笔）</span>
+            </h6>
+            <t t-if="not recv_bills">
+                <div class="alert alert-light border">暂无统筹费账单。</div>
+            </t>
+            <!-- 包装理由：学生分支这两张表没跟着家长分支用 .table-responsive（第 491 行那种），
+                 实测 375 视口下表格 453px ⇒ 整个文档横向溢出 93px（门禁只抽中 faculty 身份、而教师看不到这两张表，故 A 轴为 0）。 -->
+            <!-- 窄屏折成卡片（复用第一批共用模板 edu_portal.edu_narrow_table_cards）：
+                 桌面端 DOM 与观感一字不变；<768px 由每个 td 的 data-label 顶出列名。
+                 不加的话 390 视口下这张 6 列表会挤成**逐字换行**（实测「【演/示】/2026/春季/统筹/费」），
+                 且「状态」列被裁在屏幕外 —— 只包 .table-responsive 只能止住「整页横向溢出」，
+                 并不能让它**看得懂**。
+                 task-12：<style> 的 t-call 已上移到 edu_fees_page（页面级、全角色一次），
+                 这里不再重复调用，否则学生侧会有两份样式。 -->
+            <div class="table-responsive" t-if="recv_bills">
+            <table class="table table-hover align-middle bg-white rounded-3 shadow-sm edu-card-table">
+                <thead class="table-light">
+                    <tr>
+                        <th>账单名称</th>
+                        <th>分类</th>
+                        <th class="text-end">应收</th>
+                        <th class="text-end">已缴</th>
+                        <th>截止日期</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="recv_bills" t-as="b">
+                        <tr>
+                            <td data-label="账单名称" t-out="b['name']"/>
+                            <td data-label="分类" t-out="b['category_label']"/>
+                            <td data-label="应收" class="text-end"><t t-out="b['symbol']"/><t t-out="'%g' % b['amount']"/></td>
+                            <td data-label="已缴" class="text-end text-success"><t t-out="b['symbol']"/><t t-out="'%g' % b['paid']"/></td>
+                            <td data-label="截止日期"><span t-out="b['due_date']" t-options='{"widget": "date"}'/></td>
+                            <td data-label="状态">
+                                <span t-if="b['state'] == 'paid'" class="badge text-bg-success">已缴清</span>
+                                <span t-elif="b['state'] == 'partial'" class="badge text-bg-warning">部分缴纳</span>
+                                <span t-elif="b['state'] == 'void'" class="badge text-bg-secondary">作废</span>
+                                <span t-else="" class="badge text-bg-info">待缴</span>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+            </div>
+
+            <!-- 我的报销申请 -->
+            <h6 class="mt-4 mb-1 text-muted">
+                <i class="fa fa-exchange me-1"/>我的报销
+                <span t-if="pay_count" class="small">（<t t-out="pay_count"/> 笔）</span>
+            </h6>
+            <t t-if="not pay_bills">
+                <div class="alert alert-light border">暂无报销申请。
+                    <a class="alert-link" href="/my/reimburse/apply">发起报销</a></div>
+            </t>
+            <!-- 同上：学生分支的「我的报销」表也补 .table-responsive -->
+            <div class="table-responsive" t-if="pay_bills">
+            <table class="table table-hover align-middle bg-white rounded-3 shadow-sm edu-card-table">
+                <thead class="table-light">
+                    <tr>
+                        <th>单号</th>
+                        <th>分类</th>
+                        <th class="text-end">申请金额</th>
+                        <th class="text-end">同意金额</th>
+                        <th>状态</th>
+                        <th>收据</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="pay_bills" t-as="b">
+                        <tr>
+                            <td data-label="单号"><span class="font-monospace small" t-out="b['ref'] or '—'"/></td>
+                            <td data-label="分类" t-out="b['category_label']"/>
+                            <td data-label="申请金额" class="text-end"><t t-out="b['symbol']"/><t t-out="'%g' % b['amount']"/></td>
+                            <!-- 2026-10-04（第 80 轮）：原先判据是「approved_amount 不是 None」，
+                                 而 fees.py:339 在**提交那一刻**就把申请金额写进了 approved_amount
+                                 （那是给审批台输入框当预填值的，本身合理）⇒ 结果是**学生这边**
+                                 一张「申请中」的单子也显示「同意金额 66」，读起来像已经批了，
+                                 与同一行的状态「申请中」自相矛盾。
+                                 改成：只有真的同意/付款过才显示金额，其余一律「—」。
+                                 数据不动（审批台的预填便利保留）。 -->
+                            <td data-label="同意金额" class="text-end">
+                                <span t-if="b['reimburse_state'] in ('approved', 'paid')"
+                                      t-out="'%g' % b['approved_amount']"/>
+                                <span t-else="">—</span>
+                            </td>
+                            <td data-label="状态">
+                                <span t-if="b['reimburse_state'] == 'request'" class="badge text-bg-info">申请中</span>
+                                <span t-elif="b['reimburse_state'] == 'approved'" class="badge text-bg-primary">已同意待付</span>
+                                <span t-elif="b['reimburse_state'] == 'paid'" class="badge text-bg-success">已付款</span>
+                                <span t-elif="b['reimburse_state'] == 'refused'" class="badge text-bg-danger">已驳回</span>
+                                <span t-else="" t-out="b['state_label']"/>
+                            </td>
+                            <td data-label="收据">
+                                <t t-foreach="b['attachments']" t-as="att">
+                                    <a t-att-href="'/my/reimburse/receipt/%d/%d?inline=1' % (b['id'], att.id)"
+                                       target="_blank" class="me-1"
+                                       title="收据（仅本人与教务可见）">
+                                        <i class="fa fa-file-image-o"/>收据</a>
+                                </t>
+                                <span t-if="not b['attachments']" class="text-muted small">—</span>
+                            </td>
+                        </tr>
+                        <tr t-if="b['reimburse_state'] == 'refused' and b['reject_reason']">
+                            <td colspan="6" class="text-danger small py-1 ps-4">
+                                <i class="fa fa-times-circle me-1"/>驳回原因：<t t-out="b['reject_reason']"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+            </div>
+        </t>
+
+        <!-- 家长/教师/内部：与既有一致的单表（含方向列） -->
+        <t t-elif="bills">
+            <!-- 窄屏卡片化（task-12，2026-10-02）：家长/教师/内部这张单表 6~7 列，
+                 375 视口实测表宽 371px > 容器 345px（家长视角：班级/分类那几列挤成逐字换行）。
+                 共用样式本模板上面已经 t-call 过一次（学生分支那两张表），**不重复调用**，
+                 否则会往页面里再插一份 <style>；这里只补类名与每个 td 的 data-label。
+                 工具判据：scripts/find_squeezed_tables.py（path=/my/fees、role=parent）。 -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle bg-white rounded-3 shadow-sm edu-card-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>账单名称</th>
+                            <th t-if="role != 'parent'">方向</th>
+                            <th>分类</th>
+                            <th class="text-end">金额</th>
+                            <th class="text-end">已收付</th>
+                            <th>截止日期</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="bills" t-as="b">
+                            <tr>
+                                <td data-label="账单名称" t-out="b['name']"/>
+                                <td data-label="方向" t-if="role != 'parent'">
+                                    <span t-if="b['direction'] == 'payable'"
+                                          class="badge text-bg-warning-subtle text-warning">应付</span>
+                                    <span t-else="" class="badge text-bg-primary-subtle text-primary">应收</span>
+                                </td>
+                                <td data-label="分类" t-out="b['category_label']"/>
+                                <td data-label="金额" class="text-end"><t t-out="b['symbol']"/><t t-out="'%g' % b['amount']"/></td>
+                                <td data-label="已收付" class="text-end text-success"><t t-out="b['symbol']"/><t t-out="'%g' % b['paid']"/></td>
+                                <td data-label="截止日期"><span t-out="b['due_date']" t-options='{"widget": "date"}'/></td>
+                                <td data-label="状态">
+                                    <span t-if="b['reimburse_state']" t-out="b['reimburse_label']"/>
+                                    <span t-else="" t-out="b['state_label']"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+        <t t-else="">
+            <!-- 空态审计（2026-10-02）：原来只有「暂无账单。」一句，
+                 不说账单从哪来、也不给出口（页面顶部有「发起报销」入口，但没有一句话指过去）。 -->
+            <div class="alert alert-light border">
+                暂无账单。统筹费等应收账单由学坊登记（线下转账后记到账），登记后会出现在这里；
+                <t t-if="role in ('student', 'faculty')">需要垫付报销时，点上方「发起报销」提交申请。</t>
+                <t t-else="">如已缴费却没看到记录，请联系学坊办公室核对。</t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

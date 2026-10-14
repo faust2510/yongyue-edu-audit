@@ -1,0 +1,6 @@
+g = env['edu.grievance'].search([('name','=','ZZPROBE1')])
+print('FOUND=%d IDS=%s' % (len(g), g.ids))
+g.unlink()
+env.cr.commit()
+left = env['edu.grievance'].search_count([('name','=','ZZPROBE1')])
+print('LEFT_AFTER_CLEANUP=%d TOTAL_GRIEVANCES=%d' % (left, env['edu.grievance'].search_count([])))

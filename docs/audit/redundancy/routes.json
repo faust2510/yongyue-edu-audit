@@ -1,0 +1,3599 @@
+[
+ {
+  "file": "custom_addons/edu_apply/controllers/main.py",
+  "func": "apply_form",
+  "routes": [
+   "/apply"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_apply/controllers/main.py",
+  "func": "apply_submit",
+  "routes": [
+   "/apply/submit"
+  ],
+  "auth": "public",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_home",
+  "routes": [
+   "/assess"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_my",
+  "routes": [
+   "/assess/my"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_fill",
+  "routes": [
+   "/assess/fill/<int:task_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_fill_save",
+  "routes": [
+   "/assess/fill/<int:task_id>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_grade",
+  "routes": [
+   "/assess/grade/<int:task_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_grade_save",
+  "routes": [
+   "/assess/grade/<int:task_id>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_review",
+  "routes": [
+   "/assess/review"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_results",
+  "routes": [
+   "/assess/task/<int:task_id>/results"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_blank_xlsx",
+  "routes": [
+   "/assess/template/<int:template_id>/blank.xlsx"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_export_xlsx",
+  "routes": [
+   "/assess/task/<int:task_id>/export.xlsx"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_import",
+  "routes": [
+   "/assess/task/<int:task_id>/import"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_import_commit",
+  "routes": [
+   "/assess/task/<int:task_id>/import/commit"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_my_history",
+  "routes": [
+   "/assess/my/history"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_student_history",
+  "routes": [
+   "/assess/student/<int:student_id>/history"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_my_faculty_history",
+  "routes": [
+   "/assess/faculty/history"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "my_child",
+  "routes": [
+   "/my/child"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "my_child_dashboard",
+  "routes": [
+   "/my/child/<int:child_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/portal.py",
+  "func": "assess_child_history",
+  "routes": [
+   "/assess/child/<int:student_id>/history"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_tasks",
+  "routes": [
+   "/assess/tasks"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_task_new",
+  "routes": [
+   "/assess/tasks/new"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_task_edit",
+  "routes": [
+   "/assess/tasks/<int:task_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_task_roster",
+  "routes": [
+   "/assess/tasks/<int:task_id>/roster"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_task_save",
+  "routes": [
+   "/assess/tasks/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_task_state",
+  "routes": [
+   "/assess/tasks/<int:task_id>/state"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_task_roster_build",
+  "routes": [
+   "/assess/tasks/<int:task_id>/roster/build"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_task_roster_add",
+  "routes": [
+   "/assess/tasks/<int:task_id>/roster/add"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/task_admin.py",
+  "func": "assess_task_roster_delete",
+  "routes": [
+   "/assess/tasks/<int:task_id>/roster/<int:roster_id>/delete"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/template_admin.py",
+  "func": "assess_templates",
+  "routes": [
+   "/assess/templates"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/template_admin.py",
+  "func": "assess_template_new",
+  "routes": [
+   "/assess/templates/new"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/template_admin.py",
+  "func": "assess_template_edit",
+  "routes": [
+   "/assess/templates/<int:template_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/template_admin.py",
+  "func": "assess_template_save",
+  "routes": [
+   "/assess/templates/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/template_admin.py",
+  "func": "assess_template_state",
+  "routes": [
+   "/assess/templates/<int:template_id>/state"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/template_admin.py",
+  "func": "assess_item_save",
+  "routes": [
+   "/assess/templates/<int:template_id>/items/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_assess/controllers/template_admin.py",
+  "func": "assess_item_delete",
+  "routes": [
+   "/assess/templates/<int:template_id>/items/<int:item_id>/delete"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_brand/controllers/main.py",
+  "func": "about",
+  "routes": [
+   "/about"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_brand/controllers/main.py",
+  "func": "programs",
+  "routes": [
+   "/programs"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_brand/controllers/main.py",
+  "func": "admissions",
+  "routes": [
+   "/admissions"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_brand/controllers/main.py",
+  "func": "journal",
+  "routes": [
+   "/journal"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_brand/controllers/main.py",
+  "func": "journal_page",
+  "routes": [
+   "/journal/page/<int:page_no>"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "my_checkins",
+  "routes": [
+   "/my/checkins"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "my_checkins_export",
+  "routes": [
+   "/my/checkins/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "my_checkins_check",
+  "routes": [
+   "/my/checkins/check"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "my_journals",
+  "routes": [
+   "/my/journals"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "my_journals_save",
+  "routes": [
+   "/my/journals/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "journals_review",
+  "routes": [
+   "/journals/review"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "journals_review_detail",
+  "routes": [
+   "/journals/review/<int:entry_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "journals_review_grade",
+  "routes": [
+   "/journals/review/<int:entry_id>/grade"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "checkin_stats",
+  "routes": [
+   "/checkins/stats"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_life/controllers/life.py",
+  "func": "checkin_stats_export",
+  "routes": [
+   "/checkins/stats/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/assets.py",
+  "func": "my_assets",
+  "routes": [
+   "/my/assets"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/assets.py",
+  "func": "asset_apply",
+  "routes": [
+   "/my/assets/apply"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/avatar.py",
+  "func": "avatar_upload",
+  "routes": [
+   "/my/avatar/upload"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "student_attendance",
+  "routes": [
+   "/student/attendance"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "student_attendance_export",
+  "routes": [
+   "/student/attendance/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "student_profile",
+  "routes": [
+   "/student/profile"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "student_exam",
+  "routes": [
+   "/student/exam"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "student_exam_data",
+  "routes": [
+   "/student/exam/data/<int:eid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "student_assignment_details",
+  "routes": [
+   "/student/assignment/details"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "assignment_submit_page",
+  "routes": [
+   "/submited/assignment/list/<int:aid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "assignment_submit_save",
+  "routes": [
+   "/submited/assignment/list/<int:aid>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "assignment_sub_file",
+  "routes": [
+   "/my/assignment/sub/<int:sid>/file"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "my_skill_save",
+  "routes": [
+   "/my/skill/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "my_offer_set_state",
+  "routes": [
+   "/my/offer/set_state"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "my_leave_withdraw",
+  "routes": [
+   "/my/leave/withdraw"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "my_invoice_pdf",
+  "routes": [
+   "/my/invoice/pdf/<int:move_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch1.py",
+  "func": "my_apology_save",
+  "routes": [
+   "/my/apology/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "grade_book",
+  "routes": [
+   "/grade-book"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "grade_book_download",
+  "routes": [
+   "/grade-book/report/download"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "student_progression",
+  "routes": [
+   "/student/progression"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "library_media",
+  "routes": [
+   "/library/media"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "subject_details",
+  "routes": [
+   "/subject/details"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "library_media_info",
+  "routes": [
+   "/library/media/info/<int:mid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "subject_material_detail",
+  "routes": [
+   "/subject/material/detail/<int:sid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "notice_board",
+  "routes": [
+   "/my/notice_board/notice"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "notice_detail",
+  "routes": [
+   "/my/notice/<int:notice_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "notice_banner",
+  "routes": [
+   "/my/notice_banner"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "notice_all_read",
+  "routes": [
+   "/my/notice_board/all_read"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "edu_home",
+  "routes": [
+   "/my/home"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "edu_apps",
+  "routes": [
+   "/my/apps"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch2.py",
+  "func": "alerts_mark_read",
+  "routes": [
+   "/alerts/mark_read"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "certificate",
+  "routes": [
+   "/certificate"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "certificate_download",
+  "routes": [
+   "/my/certificate/download/<int:cert_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_library",
+  "routes": [
+   "/my-library"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "course_change_request",
+  "routes": [
+   "/course/change/request"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "course_change_request_save",
+  "routes": [
+   "/course/change/request/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_time_off_save",
+  "routes": [
+   "/my/time_off/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_grievances_save",
+  "routes": [
+   "/my/grievances/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "subject_registration",
+  "routes": [
+   "/subject/registration"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "subject_registration_data",
+  "routes": [
+   "/subject/registration/data/<int:rid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "requested_queue_list",
+  "routes": [
+   "/requested/queue/list"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_time_off",
+  "routes": [
+   "/my/time_off"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "meeting_information",
+  "routes": [
+   "/meeting/information"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "online_meeting",
+  "routes": [
+   "/online/meeting"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "users_result_overview",
+  "routes": [
+   "/users/result-overview"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_grievances",
+  "routes": [
+   "/my/grievances"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_grievances_export",
+  "routes": [
+   "/my/grievances/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_academic_calendar",
+  "routes": [
+   "/my/academic-calendar"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_dms",
+  "routes": [
+   "/my/dms"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_asset_request",
+  "routes": [
+   "/my/asset-request"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/batch3.py",
+  "func": "my_thesis",
+  "routes": [
+   "/my/thesis"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/calendar.py",
+  "func": "my_calendar",
+  "routes": [
+   "/my/calendar"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/calendar.py",
+  "func": "calendar_new",
+  "routes": [
+   "/my/calendar/new"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/calendar.py",
+  "func": "calendar_create",
+  "routes": [
+   "/my/calendar/create"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/contacts.py",
+  "func": "my_contacts",
+  "routes": [
+   "/my/contacts"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/contacts.py",
+  "func": "relink_form",
+  "routes": [
+   "/edu/backend/relink_identity"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/contacts.py",
+  "func": "relink_save",
+  "routes": [
+   "/edu/backend/relink_identity/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_index",
+  "routes": [
+   "/downloads"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_file",
+  "routes": [
+   "/downloads/file/<int:fid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_need_ack",
+  "routes": [
+   "/downloads/need-ack/<int:fid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_ack_save",
+  "routes": [
+   "/downloads/ack/<int:fid>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_unacked",
+  "routes": [
+   "/downloads/unacked/<int:fid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_unacked_export",
+  "routes": [
+   "/downloads/unacked/<int:fid>/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_remind",
+  "routes": [
+   "/downloads/remind/<int:fid>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_mine",
+  "routes": [
+   "/downloads/mine"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_mine_export",
+  "routes": [
+   "/downloads/mine/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_manage",
+  "routes": [
+   "/downloads/manage"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_folder_save",
+  "routes": [
+   "/downloads/folder/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_folder_delete",
+  "routes": [
+   "/downloads/folder/delete"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_upload",
+  "routes": [
+   "/downloads/upload"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_upload_save",
+  "routes": [
+   "/downloads/upload/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_manage_bulk",
+  "routes": [
+   "/downloads/manage/bulk"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_manage_file_update",
+  "routes": [
+   "/downloads/manage/file/update"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_stats",
+  "routes": [
+   "/downloads/stats"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/downloads.py",
+  "func": "downloads_stats_export",
+  "routes": [
+   "/downloads/stats/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "enroll_catalog",
+  "routes": [
+   "/subject/enroll"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "enroll_save",
+  "routes": [
+   "/subject/enroll/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "my_subjects",
+  "routes": [
+   "/student/subjects"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "approvals",
+  "routes": [
+   "/registrar/subject/approvals"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "approval_detail",
+  "routes": [
+   "/registrar/subject/approvals/<int:rid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "set_state",
+  "routes": [
+   "/registrar/subject/approvals/<int:rid>/set_state"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "set_state_bulk",
+  "routes": [
+   "/registrar/subject/set_state_bulk"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "curriculum",
+  "routes": [
+   "/registrar/curriculum"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/enroll.py",
+  "func": "curriculum_save",
+  "routes": [
+   "/registrar/curriculum/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/eval_compat.py",
+  "func": "eval_center",
+  "routes": [
+   "/my/evaluation"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/eval_compat.py",
+  "func": "eval_new",
+  "routes": [
+   "/my/evaluation/new"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/eval_compat.py",
+  "func": "eval_create",
+  "routes": [
+   "/my/evaluation/create"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/eval_compat.py",
+  "func": "eval_task",
+  "routes": [
+   "/my/evaluation/task/<int:task_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/eval_compat.py",
+  "func": "eval_task_save",
+  "routes": [
+   "/my/evaluation/task/<int:task_id>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/eval_compat.py",
+  "func": "eval_results",
+  "routes": [
+   "/my/evaluation/results"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/eval_compat.py",
+  "func": "eval_results_csv",
+  "routes": [
+   "/my/evaluation/results.csv"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/evaluation.py",
+  "func": "eval_center",
+  "routes": [
+   "/my/evaluation"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/evaluation.py",
+  "func": "eval_new",
+  "routes": [
+   "/my/evaluation/new"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/evaluation.py",
+  "func": "eval_create",
+  "routes": [
+   "/my/evaluation/create"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/evaluation.py",
+  "func": "eval_task",
+  "routes": [
+   "/my/evaluation/task/<int:task_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/evaluation.py",
+  "func": "eval_task_save",
+  "routes": [
+   "/my/evaluation/task/<int:task_id>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/evaluation.py",
+  "func": "eval_results",
+  "routes": [
+   "/my/evaluation/results"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/evaluation.py",
+  "func": "eval_results_csv",
+  "routes": [
+   "/my/evaluation/results.csv"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/favorite.py",
+  "func": "favorites_save",
+  "routes": [
+   "/my/favorites/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/favorite.py",
+  "func": "notify_prefs",
+  "routes": [
+   "/my/notify"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/favorite.py",
+  "func": "notify_prefs_save",
+  "routes": [
+   "/my/notify/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/fees.py",
+  "func": "my_fees",
+  "routes": [
+   "/my/fees"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/fees.py",
+  "func": "my_fees_export",
+  "routes": [
+   "/my/fees/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/fees.py",
+  "func": "reimburse_receipt",
+  "routes": [
+   "/my/reimburse/receipt/<int:bill_id>/<int:att_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/fees.py",
+  "func": "reimburse_apply",
+  "routes": [
+   "/my/reimburse/apply"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/fees.py",
+  "func": "reimburse_apply_save",
+  "routes": [
+   "/my/reimburse/apply/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/grade_entry.py",
+  "func": "grade_entry",
+  "routes": [
+   "/grade-entry"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/grade_entry.py",
+  "func": "grade_entry_save",
+  "routes": [
+   "/grade-entry/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/help_center.py",
+  "func": "help_index",
+  "routes": [
+   "/help"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/help_center.py",
+  "func": "help_student",
+  "routes": [
+   "/help/student"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/help_center.py",
+  "func": "help_faculty",
+  "routes": [
+   "/help/faculty"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/help_center.py",
+  "func": "help_parent",
+  "routes": [
+   "/help/parent"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/help_center.py",
+  "func": "help_registrar",
+  "routes": [
+   "/help/registrar"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/ical.py",
+  "func": "ical_feed",
+  "routes": [
+   "/my/calendar/ics/<token>"
+  ],
+  "auth": "public",
+  "methods": [
+   "GET"
+  ],
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/ledger.py",
+  "func": "ledger",
+  "routes": [
+   "/ledger"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/ledger.py",
+  "func": "ledger_export",
+  "routes": [
+   "/ledger/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/ledger.py",
+  "func": "ledger_new",
+  "routes": [
+   "/ledger/new"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/ledger.py",
+  "func": "ledger_new_save",
+  "routes": [
+   "/ledger/new/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/ledger.py",
+  "func": "ledger_reimburse",
+  "routes": [
+   "/ledger/reimburse"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/ledger.py",
+  "func": "ledger_reimburse_set",
+  "routes": [
+   "/ledger/reimburse/set"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "my_courses",
+  "routes": [
+   "/my/courses"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "course_lessons",
+  "routes": [
+   "/my/courses/<int:subject_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "lesson_detail",
+  "routes": [
+   "/my/courses/lesson/<int:lesson_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "lesson_done",
+  "routes": [
+   "/my/courses/lesson/<int:lesson_id>/done"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "course_rep_panel",
+  "routes": [
+   "/my/courses/<int:subject_id>/rep"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "course_rep_notify",
+  "routes": [
+   "/my/courses/<int:subject_id>/rep/notify"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "course_rep_leave_set_state",
+  "routes": [
+   "/my/courses/<int:subject_id>/rep/leave/set_state"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "course_rep_attendance",
+  "routes": [
+   "/my/courses/<int:subject_id>/rep/attendance"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/lms.py",
+  "func": "course_rep_release",
+  "routes": [
+   "/my/courses/<int:subject_id>/rep/release"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "edu_account_gr_no_submit",
+  "routes": [
+   "/my/account/gr-no"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "edu_home",
+  "routes": [
+   "/my/home"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "edu_my_redirect",
+  "routes": [
+   "/my"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "edu_login",
+  "routes": [
+   "/login"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "edu_reset_password",
+  "routes": [
+   "/reset_password"
+  ],
+  "auth": "none",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "edu_logout",
+  "routes": [
+   "/logout"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "apps_menu",
+  "routes": [
+   "/apps"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "apps_menu_legacy",
+  "routes": [
+   "/openeducat/apps_menu"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "register_form",
+  "routes": [
+   "/register"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "register_submit",
+  "routes": [
+   "/register/submit"
+  ],
+  "auth": "public",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "register_form_legacy",
+  "routes": [
+   "/web/register"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/main.py",
+  "func": "register_submit_legacy",
+  "routes": [
+   "/web/register/submit"
+  ],
+  "auth": "public",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/messages.py",
+  "func": "messages_list",
+  "routes": [
+   "/my/messages"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/messages.py",
+  "func": "messages_chat",
+  "routes": [
+   "/my/messages/<int:uid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/messages.py",
+  "func": "messages_send",
+  "routes": [
+   "/my/messages/send"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/messages.py",
+  "func": "messages_poll",
+  "routes": [
+   "/my/messages/poll"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/my_password.py",
+  "func": "password_form",
+  "routes": [
+   "/my/password"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/my_password.py",
+  "func": "password_save",
+  "routes": [
+   "/my/password/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/register.py",
+  "func": "register_form",
+  "routes": [
+   "/web/register"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/register.py",
+  "func": "register_submit",
+  "routes": [
+   "/web/register/submit"
+  ],
+  "auth": "public",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "my_child",
+  "routes": [
+   "/my/child"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "my_child_dashboard",
+  "routes": [
+   "/my/child/<int:child_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "attendance_take",
+  "routes": [
+   "/attendance/take"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "attendance_confirm_rep_sheet",
+  "routes": [
+   "/attendance/confirm_rep_sheet"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "attendance_save",
+  "routes": [
+   "/attendance/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "attendance_selfcheck_start",
+  "routes": [
+   "/attendance/selfcheck/start"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "attendance_selfcheck_stop",
+  "routes": [
+   "/attendance/selfcheck/stop"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "attendance_selfcheck_scan",
+  "routes": [
+   "/attendance/selfcheck/<token>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grading_entry",
+  "routes": [
+   "/grading/entry"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grading_save",
+  "routes": [
+   "/grading/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "assignment_publish",
+  "routes": [
+   "/assignment/publish"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "assignment_publish_save",
+  "routes": [
+   "/assignment/publish_save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "child_leave_form",
+  "routes": [
+   "/my/child/<int:child_id>/leave",
+   "/my/child/<int:child_id>/leave/saved"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "child_leave_save",
+  "routes": [
+   "/my/child/<int:child_id>/leave/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "leave_approvals",
+  "routes": [
+   "/leave/approvals"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "leave_set_state",
+  "routes": [
+   "/leave/set_state"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grievance_approvals",
+  "routes": [
+   "/grievances/approvals"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grievance_detail",
+  "routes": [
+   "/grievances/approvals/<int:gid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grievance_set_state",
+  "routes": [
+   "/grievances/set_state"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "leave_detail",
+  "routes": [
+   "/leave/approvals/<int:leave_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "notice_publish",
+  "routes": [
+   "/notice/publish"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "notice_publish_save",
+  "routes": [
+   "/notice/publish_save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "alumni_job_list",
+  "routes": [
+   "/alumni/job/list"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "apps_menu",
+  "routes": [
+   "/openeducat/apps_menu"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "alerts_mark_read",
+  "routes": [
+   "/alerts/mark_read"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "edu_audit",
+  "routes": [
+   "/edu/audit"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "assignment_manage",
+  "routes": [
+   "/assignment/manage"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "assignment_edit",
+  "routes": [
+   "/assignment/edit/<int:aid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "assignment_edit_save",
+  "routes": [
+   "/assignment/edit/<int:aid>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "assignment_set_state",
+  "routes": [
+   "/assignment/set_state"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "assignment_submissions",
+  "routes": [
+   "/assignment/submissions/<int:aid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "edu_import_students",
+  "routes": [
+   "/edu/import/students"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "edu_import_students_preview",
+  "routes": [
+   "/edu/import/students/preview"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "edu_import_students_commit",
+  "routes": [
+   "/edu/import/students/commit"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "leave_set_state_bulk",
+  "routes": [
+   "/leave/set_state_bulk"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grievance_set_state_bulk",
+  "routes": [
+   "/grievances/set_state_bulk"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "approval_delegate",
+  "routes": [
+   "/approvals/delegate"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "approval_delegate_save",
+  "routes": [
+   "/approvals/delegate/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "approval_delegate_cancel",
+  "routes": [
+   "/approvals/delegate/cancel"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grading_export",
+  "routes": [
+   "/grading/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grading_import",
+  "routes": [
+   "/grading/import"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grading_import_commit",
+  "routes": [
+   "/grading/import/commit"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grading_copy_prev",
+  "routes": [
+   "/grading/copy_prev"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "grading_history",
+  "routes": [
+   "/grading/history"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "attendance_import",
+  "routes": [
+   "/attendance/import"
+  ],
+  "auth": "user",
+  "methods": [
+   "GET",
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "attendance_import_commit",
+  "routes": [
+   "/attendance/import/commit"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "notice_template_save",
+  "routes": [
+   "/notice/template/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "my_documents",
+  "routes": [
+   "/my/documents"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "my_enrollment_certificate",
+  "routes": [
+   "/my/documents/enrollment-certificate"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "my_transcript",
+  "routes": [
+   "/my/documents/transcript"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "leave_transfer",
+  "routes": [
+   "/leave/transfer"
+  ],
+  "auth": "user",
+  "methods": [
+   "GET",
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/roles.py",
+  "func": "leave_return_confirm",
+  "routes": [
+   "/leave/<int:leave_id>/return_confirm"
+  ],
+  "auth": "user",
+  "methods": [
+   "GET",
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/scheduling.py",
+  "func": "student_timetable",
+  "routes": [
+   "/student/timetable"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/search.py",
+  "func": "my_search",
+  "routes": [
+   "/my/search"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/search.py",
+  "func": "my_search_suggest",
+  "routes": [
+   "/my/search/suggest"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/search.py",
+  "func": "set_lang",
+  "routes": [
+   "/my/lang/<string:code>"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/search.py",
+  "func": "help_center",
+  "routes": [
+   "/my/help"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/study.py",
+  "func": "my_study",
+  "routes": [
+   "/my/study"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/study.py",
+  "func": "study_subject",
+  "routes": [
+   "/my/study/<int:subject_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/study.py",
+  "func": "session_join",
+  "routes": [
+   "/my/study/session/<int:session_id>/join"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/study.py",
+  "func": "session_link_save",
+  "routes": [
+   "/my/study/session/<int:session_id>/link/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/welfare.py",
+  "func": "my_checkin",
+  "routes": [
+   "/my/checkin"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/welfare.py",
+  "func": "my_checkin_export",
+  "routes": [
+   "/my/checkin/export"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/welfare.py",
+  "func": "my_checkin_save",
+  "routes": [
+   "/my/checkin/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "GET",
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/welfare.py",
+  "func": "checkin_board",
+  "routes": [
+   "/my/checkin/board"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/welfare.py",
+  "func": "my_points_give_page",
+  "routes": [
+   "/my/points"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/welfare.py",
+  "func": "my_points_give",
+  "routes": [
+   "/my/points/give"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_portal/controllers/welfare.py",
+  "func": "my_points_me",
+  "routes": [
+   "/my/points/me"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "public_courses",
+  "routes": [
+   "/courses"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "public_exams",
+  "routes": [
+   "/online-exams"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "digital_library",
+  "routes": [
+   "/digital-library"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "digital_library_material",
+  "routes": [
+   "/digital-library/material/<int:mid>"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "booking",
+  "routes": [
+   "/booking"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "alumni",
+  "routes": [
+   "/alumni"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "campus_jobs",
+  "routes": [
+   "/campus/jobs"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "campus_job_detail",
+  "routes": [
+   "/campus/jobs/<int:posting_id>",
+   "/campus/jobs/<int:posting_id>/sent"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "campus_job_apply",
+  "routes": [
+   "/campus/jobs/<int:posting_id>/apply"
+  ],
+  "auth": "public",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "alumni_job_card",
+  "routes": [
+   "/alumni/job/card"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "alumni_jobs_page",
+  "routes": [
+   "/alumni/jobs"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "courses_offered",
+  "routes": [
+   "/courses-offered"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "program_offered",
+  "routes": [
+   "/program-offered"
+  ],
+  "auth": "public",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_public/controllers/main.py",
+  "func": "my_courses",
+  "routes": [
+   "/my-courses"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_quiz/controllers/portal.py",
+  "func": "quiz_list",
+  "routes": [
+   "/quiz"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_quiz/controllers/portal.py",
+  "func": "quiz_my",
+  "routes": [
+   "/quiz/my"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_quiz/controllers/portal.py",
+  "func": "quiz_take",
+  "routes": [
+   "/quiz/<int:qid>/take"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_quiz/controllers/portal.py",
+  "func": "quiz_submit",
+  "routes": [
+   "/quiz/<int:qid>/submit"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_quiz/controllers/portal.py",
+  "func": "quiz_result",
+  "routes": [
+   "/quiz/<int:qid>/result/<int:aid>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_schedule/controllers/main.py",
+  "func": "timetable_bulk",
+  "routes": [
+   "/timetable/bulk"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_schedule/controllers/main.py",
+  "func": "timetable_bulk_preview",
+  "routes": [
+   "/timetable/bulk/preview"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_schedule/controllers/main.py",
+  "func": "timetable_bulk_create",
+  "routes": [
+   "/timetable/bulk/create"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_schedule/controllers/main.py",
+  "func": "batch_deactivate",
+  "routes": [
+   "/timetable/batch/<int:bid>/deactivate"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_schedule/controllers/main.py",
+  "func": "batch_deactivate_confirm",
+  "routes": [
+   "/timetable/batch/<int:bid>/deactivate/confirm"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_schedule/controllers/main.py",
+  "func": "session_impact",
+  "routes": [
+   "/timetable/session/<int:sid>/impact"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_schedule/controllers/main.py",
+  "func": "session_notify",
+  "routes": [
+   "/timetable/session/<int:sid>/notify"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/main.py",
+  "func": "telegram_webhook",
+  "routes": [
+   "/telegram/webhook"
+  ],
+  "auth": "public",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/main.py",
+  "func": "telegram_report",
+  "routes": [
+   "/telegram/report/<string:token>"
+  ],
+  "auth": "public",
+  "methods": [
+   "GET"
+  ],
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal.py",
+  "func": "telegram_binding",
+  "routes": [
+   "/my/telegram"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal.py",
+  "func": "telegram_new_code",
+  "routes": [
+   "/my/telegram/new_code"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal_ops.py",
+  "func": "subject_reg",
+  "routes": [
+   "/my/subject-reg"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal_ops.py",
+  "func": "subject_reg_save",
+  "routes": [
+   "/my/subject-reg/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal_ops.py",
+  "func": "rollcall_index",
+  "routes": [
+   "/my/rollcall"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal_ops.py",
+  "func": "rollcall_form",
+  "routes": [
+   "/my/rollcall/<int:session_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal_ops.py",
+  "func": "rollcall_save",
+  "routes": [
+   "/my/rollcall/<int:session_id>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal_ops.py",
+  "func": "marks_index",
+  "routes": [
+   "/my/marks"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal_ops.py",
+  "func": "marks_form",
+  "routes": [
+   "/my/marks/<int:exam_id>"
+  ],
+  "auth": "user",
+  "methods": null,
+  "type": "http",
+  "site": true
+ },
+ {
+  "file": "custom_addons/edu_telegram/controllers/portal_ops.py",
+  "func": "marks_save",
+  "routes": [
+   "/my/marks/<int:exam_id>/save"
+  ],
+  "auth": "user",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": null
+ },
+ {
+  "file": "custom_addons/edu_tg_bind/controllers/webhook.py",
+  "func": "telegram_tgb_webhook",
+  "routes": [
+   "/telegram/tgb/webhook"
+  ],
+  "auth": "public",
+  "methods": [
+   "POST"
+  ],
+  "type": "http",
+  "site": null
+ }
+]

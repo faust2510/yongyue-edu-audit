@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==========================================================================
+         edu_assess 行级权限（ir.rule）—— 纵深防御
+         ==========================================================================
+
+         ### 口径（照 custom_addons/edu_portal/security/security.xml 的形态写，不发明第二套）
+         本文件与 ir.model.access.csv 是**两层**，互不替代：
+           · CSV：门户组与内部用户组**一行都不给**（0,0,0,0）⇒ 一条
+             POST /web/dataset/call_kw/edu.assess.score/search_read 直接被 ACL 拒；
+           · 本文件：万一将来有人给门户/内部用户开了读权限，行过滤仍然在，
+             不会重演「有整表读、没有行过滤」的安全审计 F1。
+
+         ### 四类规则
+         1. **门户（base.group_portal）**：学生只能看到"本人是被评者"的名单行与
+            打分记录；教师评语等其它行一律不可见。task 只放行 open 状态。
+            —— 与 edu_portal/security/security.xml 的
+               ('student_id.user_id', '=', user.id) 完全同构。
+         2. **教师（openeducat_core.group_op_faculty）**：名单行按其 batch_id 收敛到
+            本人任教班（user.edu_taught_batch_ids，models/assess.py 里按
+            op.session.faculty_id 口径算）。**这是"教师打分范围收紧"的兜底**：
+            控制器即使漏判，行级规则也不会让一位教师读到/写到别班。
+         3. **教务/系统**：显式"全行通过"规则。为什么必须有它 —— Odoo 的规则组合是
+            「同组内 AND、跨组 OR」：一个既在教师组又在教务组的人，若只有规则 2，
+            会被**误收敛**成"只看自己任教班"。补一条恒真域即可让 OR 命中它。
+         ========================================================================== -->
+
+    <!-- ===== 门户：本人为被评者的行 ===== -->
+    <record id="rule_edu_assess_roster_portal_own" model="ir.rule">
+        <field name="name">edu.assess.roster: 门户仅见本人为被评者的名单行（纵深防御）</field>
+        <field name="model_id" ref="model_edu_assess_roster"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('student_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edu_assess_score_portal_own" model="ir.rule">
+        <field name="name">edu.assess.score: 门户仅见本人为被评者的打分记录（纵深防御）</field>
+        <field name="model_id" ref="model_edu_assess_score"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('roster_id.student_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edu_assess_task_portal_open" model="ir.rule">
+        <field name="name">edu.assess.task: 门户仅见进行中的任务（纵深防御）</field>
+        <field name="model_id" ref="model_edu_assess_task"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('state', '=', 'open')]</field>
+    </record>
+
+    <!-- ===== 教师：收敛到本人任教班 ===== -->
+    <record id="rule_edu_assess_roster_faculty_batch" model="ir.rule">
+        <field name="name">edu.assess.roster: 教师仅见本人任教班的名单行（纵深防御）</field>
+        <field name="model_id" ref="model_edu_assess_roster"/>
+        <field name="groups" eval="[(4, ref('openeducat_core.group_op_faculty'))]"/>
+        <field name="domain_force">[('batch_id', 'in', user.edu_taught_batch_ids.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_edu_assess_score_faculty_batch" model="ir.rule">
+        <field name="name">edu.assess.score: 教师仅见本人任教班的打分记录（纵深防御）</field>
+        <field name="model_id" ref="model_edu_assess_score"/>
+        <field name="groups" eval="[(4, ref('openeducat_core.group_op_faculty'))]"/>
+        <field name="domain_force">[('roster_id.batch_id', 'in', user.edu_taught_batch_ids.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ===== 被评者本人：只读、且只在模板公开结果时（D3 修复） =====
+         为什么挂 base.group_user 而不是教师组：Odoo 的规则组合是
+         「同组内 AND、跨组 OR」⇒ 往**教师组**再加一条会与规则 2 变成 AND
+         （batch 域 ∩ 自评域 = 空集，越修越不可见）。挂到一个教师**也在**的另一个组
+         （base.group_user = 所有内部用户）即得 OR 分支；而这条规则**只开 perm_read**，
+         因此 write/create/unlink 一律不经过它 ⇒ 被评者只能"看到自己的结果"，
+         改不了自己的行（也不能改别人给自己的分）。
+         score_visible 在这里成为**数据层**的真实消费者：模板没公开结果 ⇒ 0 行。 -->
+    <record id="rule_edu_assess_roster_subject_read" model="ir.rule">
+        <field name="name">edu.assess.roster: 被评者本人（只读；模板公开结果时）</field>
+        <field name="model_id" ref="model_edu_assess_roster"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">['&amp;', ('task_id.template_id.score_visible', '=', True), '|', ('faculty_id.user_id', '=', user.id), '|', ('student_id.user_id', '=', user.id), ('faculty_id.partner_id.user_ids', 'in', [user.id])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_edu_assess_score_subject_read" model="ir.rule">
+        <field name="name">edu.assess.score: 被评者本人（只读；模板公开结果时）</field>
+        <field name="model_id" ref="model_edu_assess_score"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">['&amp;', ('roster_id.task_id.template_id.score_visible', '=', True), '|', ('roster_id.faculty_id.user_id', '=', user.id), '|', ('roster_id.student_id.user_id', '=', user.id), ('roster_id.faculty_id.partner_id.user_ids', 'in', [user.id])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ===== 教务/系统：恒真域（跨组 OR 的"全放行"分支） ===== -->
+    <record id="rule_edu_assess_roster_admin_all" model="ir.rule">
+        <field name="name">edu.assess.roster: 教务与系统管理员不受行过滤</field>
+        <field name="model_id" ref="model_edu_assess_roster"/>
+        <field name="groups" eval="[(4, ref('openeducat_core.group_op_back_office_admin')), (4, ref('base.group_system'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_edu_assess_score_admin_all" model="ir.rule">
+        <field name="name">edu.assess.score: 教务与系统管理员不受行过滤</field>
+        <field name="model_id" ref="model_edu_assess_score"/>
+        <field name="groups" eval="[(4, ref('openeducat_core.group_op_back_office_admin')), (4, ref('base.group_system'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+</odoo>

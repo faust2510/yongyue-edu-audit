@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_application_user,edu.application user,model_edu_application,base.group_user,1,0,0,0
+access_edu_application_system,edu.application system,model_edu_application,base.group_system,1,1,1,1
+access_edu_apply_line_user,edu.apply.lines user,model_edu_apply_education,base.group_user,1,0,0,0
+access_edu_work_user,edu.apply.work user,model_edu_apply_work,base.group_user,1,0,0,0
+access_edu_ministry_user,edu.apply.ministry user,model_edu_apply_ministry,base.group_user,1,0,0,0
+access_edu_family_user,edu.apply.family user,model_edu_apply_family,base.group_user,1,0,0,0
+access_edu_apply_section_user,edu.apply.section user,model_edu_apply_section,base.group_user,1,1,1,0
+access_edu_apply_field_user,edu.apply.field user,model_edu_apply_field,base.group_user,1,1,1,0
+access_edu_apply_section_system,edu.apply.section system,model_edu_apply_section,base.group_system,1,1,1,1
+access_edu_application_backoffice,edu.application backoffice,model_edu_application,openeducat_core.group_op_back_office_admin,1,1,0,0
+access_edu_apply_education_backoffice,edu.apply.education backoffice,model_edu_apply_education,openeducat_core.group_op_back_office_admin,1,1,0,0
+access_edu_apply_work_backoffice,edu.apply.work backoffice,model_edu_apply_work,openeducat_core.group_op_back_office_admin,1,1,0,0
+access_edu_apply_ministry_backoffice,edu.apply.ministry backoffice,model_edu_apply_ministry,openeducat_core.group_op_back_office_admin,1,1,0,0
+access_edu_apply_family_backoffice,edu.apply.family backoffice,model_edu_apply_family,openeducat_core.group_op_back_office_admin,1,1,0,0
+access_edu_apply_field_system,edu.apply.field system,model_edu_apply_field,base.group_system,1,1,1,1

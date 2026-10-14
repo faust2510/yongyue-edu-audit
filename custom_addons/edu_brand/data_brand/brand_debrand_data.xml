@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 去_odoo 化数据：favicon 与公司 logo 换为永约学坊校徽。
+         website.favicon 默认取 web/static/img/favicon.ico（Odoo 圆圈）；
+         Odoo 写入钩子会把 favicon 自动转成 256px 多尺寸 ICO（正常管线）。
+         注意：website.default_website / base.main_company 的 xml_id 自带
+         noupdate=True，-u 升级时会跳过本文件的更新（对全新安装生效）；
+         已装库升级需一次性 ORM 强制写入（见 2026-08-29 部署记录）。 -->
+    <data>
+        <record id="website.default_website" model="website">
+            <field name="favicon" type="base64"
+                   file="edu_brand/static/src/img/favicon_64.png"/>
+        </record>
+        <record id="base.main_company" model="res.company">
+            <field name="logo" type="base64"
+                   file="edu_brand/static/src/img/logo_256.png"/>
+            <field name="uses_default_logo" eval="False"/>
+        </record>
+    </data>
+
+    <!-- ============ v3 批次1（2026-09-12）：去 Odoo 化数据侧 ============ -->
+
+    <!-- 应用菜单里两个指向 apps.odoo.com 的外链入口（base 自带「主题商店」
+         「第三方应用程序」；实测 ir.act.url 40/41 均为 https://apps.odoo.com/...）。
+         限制为「技术特性」组（开发者模式）可见，教务/管理员日常不再看到；
+         「应用 / 主要应用」保留（本地模块列表，站点自用）。 -->
+    <record id="base.menu_theme_store" model="ir.ui.menu">
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_no_one')])]"/>
+    </record>
+    <record id="base.menu_third_party" model="ir.ui.menu">
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_no_one')])]"/>
+    </record>
+
+    <!-- 2026-09-24：原此处停用 website_sale.search 视图（它把站内搜索覆盖成商品搜索）。
+         电商族模块已整族卸载，该视图不复存在，补丁随之移除。 -->
+
+    <!-- 默认发件人：Odoo 未配置时 From 会落到 noreply@<域名>；本系统统一使用
+         学坊唯一对外邮箱（base.main_company 记录 noupdate，故公司邮箱用
+         function 每次 -u 强制写入；系统参数用 set_param 幂等设置）。 -->
+    <!-- 2026-10-04（第 66 轮，全新库实测）：**先把 zh_CN 启用**，再写下面那些翻译字段。
+         本文件后半段有一批 `context="{'lang': 'zh_CN'}"` 的 <function>（邮件模板正文去品牌化等）。
+         Odoo 19 写翻译字段时**只接受 active 语言** —— 新库里 zh_CN 默认尚未启用，
+         于是加载到那里就抛异常、**整个安装中断**（克隆库上看不出来，因为生产早就启用过）。
+         本仓的站点语言本来就是简体中文（见下方 language_ids 与 brand_templates.xml 的说明），
+         所以在这里幂等地把它启用，既修了安装，也与本仓「单语言（简体）」的既定口径一致。 -->
+    <function model="res.lang" name="write"
+              eval="[[ref('base.lang_zh_CN')], {'active': True}]"/>
+
+    <function model="res.company" name="write"
+              eval="[[ref('base.main_company')], {'email': 'scrtsschool@gmail.com'}]"/>
+    <function model="ir.config_parameter" name="set_param">
+        <value>mail.default.from</value>
+        <value>scrtsschool@gmail.com</value>
+    </function>
+
+    <!-- 基座机器人显示名（t26 治根）：Odoo 把 id=1 账号命名为 'OpenEducat Bot'，
+         该名字会作为 create_uid / 作者 / 上传人显示名渲染到**任何**列表列上
+         （2026-09-12 实测：/downloads 上传人列泄漏 4 处；且该账号 active=false，
+         人工查用户列表永远发现不了）。base.partner_root / base.user_root 都是
+         noupdate，普通 <record> 更新在 -u 时会被跳过，故用 function 每次重放，
+         与上面的 company.email 同款。**只改显示名**：login(__system__)、权限、
+         分组、绑定一律不动（scripts/cleanup_demo_data.py 与逐页过滤器都按 login 匹配）。 -->
+    <function model="res.partner" name="write"
+              eval="[[ref('base.partner_root')], {'name': '系统'}]"/>
+
+    <!-- 每周摘要（digest）去品牌化（t31 / t10 评审 F2，2026-10-04 第 66 轮改写法）：
+         原先是**逐语言** <function write>（name 是翻译字段，普通 write 只写当前语言那一份）。
+         但那种写法在**全新库**上会炸安装：① `ref()` 解析不到就抛 —— 这些引用横跨 6 个模块，
+         而 depends 只声明 3 个；② `context={"lang": "zh_CN"}` 写翻译字段时只接受 **active 语言**，
+         新库里 zh_CN 可能还没启用。实测：create database edu19_fresh; odoo -i edu_life（不带演示数据）
+         → ParseError 在本文件原第 65 行。克隆库上看不出来（生产早装过、语言也都启用）。
+         ⇒ 收敛成一个**容错方法**：缺记录跳过、只写已启用语言、绝不炸安装（见 models/brand_digest.py）。 -->
+    <function model="digest.digest" name="_edu_brand_apply_digest_branding"/>
+    <!-- 2026-10-01 重建生产事故修复：以下 23 条 zh_TW 写入已移除。失败机制（实测）：Odoo 19 写翻译字段时 env.lang 只接受 active 语言，带 lang=zh_TW 上下文的 function 写入在 zh_TW 非 active 的库上抛 UserError: Invalid language code: zh_TW，被 convert.py 包成 ParseError，导致整个注册表加载失败（-u all 在 Loading module edu_brand 处 CRITICAL + exit 255）。为什么删而不是留：zh_TW 是本地开发账号 faculty@local 的语言；本站按裁决为单语言（website language_ids 仅 zh_CN，res.lang active 仅 zh_CN/en_US），这些写入在本站不可达。将来若确实要启用 zh_TW：请改成【仅当该语言 active 时才写】的 Python 守卫。 -->
+
+    <!-- 发件服务器「测试邮件收件人」默认值由 models/ir_mail_server.py 覆盖为
+         scrtsschool@gmail.com（上游硬编码 noreply@odoo.com）。 -->
+
+    <!-- 站点维持**单语言（简体）**（t40，2026-09-12）
+         ··································································
+         为什么钉住：原来 website.layout 上有一个「简/繁/EN」悬浮切换器，
+         但在单语站点下它**点了不改变语言**（装饰品）。队长裁决「不放任装饰性控件」，
+         已在 views/brand_templates.xml 撤除该控件；这里同时把「单语」这一决定
+         **幂等固化**，避免有人从后台把 zh_TW 加回来之后，控件却已不在、页面
+         仍显示简体（那种组合比现状更令人困惑）。
+
+         为什么不是「启用多语言」（实测理由，见 brand_templates.xml 的详细注释）：
+         本仓自研模板的**源语言就是简体中文**（写死在 XML 里），没有 zh_TW 译文；
+         临时启用 zh_TW 后实测 /zh_TW/programs 为「简体独有 358 : 繁体独有 8」，
+         即 URL 说繁体、内容 92-98% 仍是简体 —— 比不切换更误导。en_US 未启用且
+         源串为中文，会中英混排。
+
+         以后真要做多语言：先做「以英文/简体为源语言 + PO 提供繁英译文」的内容工程，
+         然后**删掉这个 function** 并按需恢复 brand_templates.xml 里的切换器模板。
+
+         language_ids 是 m2m，(6, 0, [...]) 是「替换为给定集合」，天然幂等。 -->
+    <function model="website" name="write"
+              eval="[[ref('website.default_website')], {'language_ids': [(6, 0, [ref('base.lang_zh_CN')])]}]"/>
+
+    <!-- ============ digest.tip 数据层清空（t49） ============
+         digest.tip 是 Odoo 官方营销小贴士（「提示：Odoo中的一个计算器」「@OdooBot」
+         「Odoo 与 Unsplash 集成」…），学坊不需要；t44 已断其渲染路径，本任务把**数据层**
+         也清掉，消除潜伏面（这样 t41 的邮件数据面扫描不需要「未渲染来源」豁免规则）。
+         处置 = **清空**而不是编造内容（品牌红线：不编造事实）。
+         写法要点：① <function> 每次 -u 重放（幂等，与 company.email / 机器人显示名同款）；
+         ② name / tip_description 是**翻译字段**，普通 <function write> 只写当前语言 ——
+         必须用 context="{'lang': 'xx'}" 逐语言写（t31 在 digest 名称上踩过这个坑）；
+         ③ xmlid 必须**写全模块名** `digest.xxx` —— 数据文件里的裸 ref 会按当前模块
+         （edu_brand）解析，实测报 'External ID not found: edu_brand.digest_tip_digest_0'；
+         ④ 只写「实际含品牌词」的 (记录, 字段, 语言) 组合（由 DB 扫描生成）。 -->
+
+    <!-- ============ 邮件模板正文去品牌化（t54） ============
+         背景：数据面扫描发现 mail.template 里 15/47 条记录含品牌 token（可见文案 12 条），
+         其中**我们真会发的 4 条**（3 auth_signup + auth_totp_mail 邀请）必须治根。
+         为什么只能是 function 重放（实测结论，不是偏好）：
+         ① 这 4 条是 `mail.template` **数据记录**（不在 ir.qweb 模板表里 ——
+            `ir.qweb._render('auth_signup.set_password_email')` 直接报「没找到模板」）→ 视图继承够不到；
+         ② 它们的 `ir_model_data.noupdate = t` → 普通 `<record>` 与 PO（含 i18n overwrite 参数）都写不进去
+            （i18n-eng 在 t47 拿到记录级证据）→ 只有每次 -u 重放能覆盖。
+         三条纪律：**逐语言**（`context="{'lang': …}"`，品牌 token 在翻译字段里）、
+         **片段级替换**（不用朴素整串替换；每条 replace 的都是完整片段或完整句子，markup 保持平衡）、
+         **幂等**（片段不存在时 str.replace 为 no-op，重复 -u 结果一致；注入脏值后重放自动恢复）。
+         替换策略：URL 一律改指**唯一获准的联系方式** `scrtsschool@gmail.com`（不编造网址）；
+         落款 Odoo → 永约学坊；机器人名 OdooBot → 系统；Odoo 官方营销句整句替换为中性提示。 -->
+
+    <!-- 可选项（队长 t54 允许顺路做）：public 账号显示名 'Public user' 改中性中文。
+         只改显示名：login(`public`) 不动 → `_TECH_LOGINS` 按 login 的匹配与门禁数据不变量都不受影响。 -->
+    <function model="res.partner" name="write"
+              eval="[[ref('base.public_partner')], {'name': '公众用户'}]"/>
+    <function model="mail.template" name="write" context="{'lang': 'en_US'}"
+              eval="[[ref('auth_signup.mail_template_user_signup_account_created')], {'body_html': str(obj(ref('auth_signup.mail_template_user_signup_account_created')).body_html).replace('https://www.odoo.com', 'mailto:scrtsschool@gmail.com').replace('&gt;Odoo&lt;/a&gt;', '&gt;永约学坊&lt;/a&gt;').replace('OdooBot', '系统').replace('mailto:scrtsschool@gmail.com/page/tour', 'mailto:scrtsschool@gmail.com')}]"/>
+    <function model="mail.template" name="write" context="{'lang': 'zh_CN'}"
+              eval="[[ref('auth_signup.mail_template_user_signup_account_created')], {'body_html': str(obj(ref('auth_signup.mail_template_user_signup_account_created')).body_html).replace('https://www.odoo.com', 'mailto:scrtsschool@gmail.com').replace('&gt;Odoo&lt;/a&gt;', '&gt;永约学坊&lt;/a&gt;').replace('OdooBot', '系统').replace('mailto:scrtsschool@gmail.com/page/tour', 'mailto:scrtsschool@gmail.com')}]"/>
+    <function model="mail.template" name="write" context="{'lang': 'en_US'}"
+              eval="[[ref('auth_signup.portal_set_password_email')], {'body_html': str(obj(ref('auth_signup.portal_set_password_email')).body_html).replace('https://www.odoo.com', 'mailto:scrtsschool@gmail.com').replace('&gt;Odoo&lt;/a&gt;', '&gt;永约学坊&lt;/a&gt;').replace('OdooBot', '系统').replace('mailto:scrtsschool@gmail.com/page/tour', 'mailto:scrtsschool@gmail.com')}]"/>
+    <function model="mail.template" name="write" context="{'lang': 'zh_CN'}"
+              eval="[[ref('auth_signup.portal_set_password_email')], {'body_html': str(obj(ref('auth_signup.portal_set_password_email')).body_html).replace('https://www.odoo.com', 'mailto:scrtsschool@gmail.com').replace('&gt;Odoo&lt;/a&gt;', '&gt;永约学坊&lt;/a&gt;').replace('OdooBot', '系统').replace('mailto:scrtsschool@gmail.com/page/tour', 'mailto:scrtsschool@gmail.com')}]"/>
+    <function model="mail.template" name="write" context="{'lang': 'en_US'}"
+              eval="[[ref('auth_signup.set_password_email')], {'body_html': str(obj(ref('auth_signup.set_password_email')).body_html).replace('https://www.odoo.com', 'mailto:scrtsschool@gmail.com').replace('&gt;Odoo&lt;/a&gt;', '&gt;永约学坊&lt;/a&gt;').replace('OdooBot', '系统').replace('mailto:scrtsschool@gmail.com/page/tour', 'mailto:scrtsschool@gmail.com').replace('Never heard of Odoo? It’s an all-in-one business software loved by 12+ million users. It will considerably improve your experience at work and increase your productivity.', 'Need help getting started? Please contact the school office.').replace('&gt;Odoo Tour&lt;/a&gt; to discover the tool.', '&gt;user guide&lt;/a&gt; to get started.').replace('Enjoy Odoo!', 'Enjoy the portal!').replace('Welcome to Odoo', 'Welcome to the school portal').replace('to connect on Odoo.', 'to connect on the school portal.').replace('Your Odoo domain is:', 'Your portal address is:').replace('http://yourcompany.odoo.com', 'portal'), 'subject': str(obj(ref('auth_signup.set_password_email')).subject).replace('invites you to connect to Odoo', 'invites you to connect to the school portal')}]"/>
+    <function model="mail.template" name="write" context="{'lang': 'zh_CN'}"
+              eval="[[ref('auth_signup.set_password_email')], {'body_html': '&lt;div style=&quot;font-size: 13px;&quot;&gt;&lt;p&gt;您好 {{ object.create_uid.name }}：&lt;/p&gt;&lt;p&gt;邀请您在 {{ object.company_id.name }} 建立连接，登录邮箱为 {{ object.email }}。&lt;/p&gt;&lt;p&gt;请点击 &lt;a t-attf-href=&quot;/web/login?login={{ object.email }}&quot; target=&quot;_blank&quot;&gt;此处登录&lt;/a&gt; 使用该邮箱进入系统。&lt;/p&gt;&lt;p&gt;如需帮助，请联系学务处（scrtsschool@gmail.com）。&lt;/p&gt;&lt;p style=&quot;font-weight: bold;&quot;&gt;由 永约学坊 提供支持&lt;/p&gt;&lt;/div&gt;', 'subject': str(obj(ref('auth_signup.set_password_email')).subject).replace('邀请您连接 Odoo', '邀请您登录教务系统')}]"/>
+    <function model="mail.template" name="write" context="{'lang': 'en_US'}"
+              eval="[[ref('auth_totp_mail.mail_template_totp_invite')], {'body_html': str(obj(ref('auth_totp_mail.mail_template_totp_invite')).body_html).replace('https://www.odoo.com', 'mailto:scrtsschool@gmail.com').replace('&gt;Odoo&lt;/a&gt;', '&gt;永约学坊&lt;/a&gt;').replace('OdooBot', '系统').replace('mailto:scrtsschool@gmail.com/page/tour', 'mailto:scrtsschool@gmail.com'), 'subject': str(obj(ref('auth_totp_mail.mail_template_totp_invite')).subject).replace('two-factor authentication on your Odoo account', 'two-factor authentication on your school account')}]"/>
+    <function model="mail.template" name="write" context="{'lang': 'zh_CN'}"
+              eval="[[ref('auth_totp_mail.mail_template_totp_invite')], {'body_html': str(obj(ref('auth_totp_mail.mail_template_totp_invite')).body_html).replace('https://www.odoo.com', 'mailto:scrtsschool@gmail.com').replace('&gt;Odoo&lt;/a&gt;', '&gt;永约学坊&lt;/a&gt;').replace('OdooBot', '系统').replace('mailto:scrtsschool@gmail.com/page/tour', 'mailto:scrtsschool@gmail.com'), 'subject': str(obj(ref('auth_totp_mail.mail_template_totp_invite')).subject).replace('邀请在您的Odoo帐户上激活two-factor双因素身份验证', '邀请您在教务系统帐户上激活双因素身份验证')}]"/>
+</odoo>

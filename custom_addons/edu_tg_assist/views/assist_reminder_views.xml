@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ================= 文案模板（F6） ================= -->
+        <record id="view_assist_template_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.template.list</field>
+            <field name="model">edu.tg.assist.template</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="scene"/>
+                    <field name="placeholder_help"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_template_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.template.form</field>
+            <field name="model">edu.tg.assist.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="例如：学习日测试链接"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="scene"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="placeholder_help" readonly="1"/>
+                                <field name="note" placeholder="给同事看的说明"/>
+                            </group>
+                        </group>
+                        <separator string="正文"/>
+                        <div class="alert alert-info py-2" role="alert">
+                            <i class="fa fa-info-circle me-1"/>可用占位符：{name} 人名、{date} 日期、
+                            {weekday} 星期、{group} 群名。写错的占位符会**原样发出**，不会静默消失。
+                        </div>
+                        <field name="body" nolabel="1"
+                               placeholder="例如：{name} 同学，本周的学习日测试在这里，记得按时完成：https://…"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ================= 定时提醒（F1） ================= -->
+        <record id="view_assist_reminder_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.reminder.list</field>
+            <field name="model">edu.tg.assist.reminder</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="schedule_label"/>
+                    <field name="target_chat_id"/>
+                    <field name="template_id"/>
+                    <field name="with_buttons"/>
+                    <field name="active"/>
+                    <field name="last_sent_at"/>
+                    <field name="last_result"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_reminder_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.reminder.form</field>
+            <field name="model">edu.tg.assist.reminder</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_send_now" type="object" string="立即发送一次"
+                                class="btn-primary"
+                                help="配好之后当场验一条，不必等到点。会给目标群真发一条消息（试运行开关打开时只落库不出网）。"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="例如：周一学习日提醒"/></h1>
+                        </div>
+                        <group>
+                            <group string="什么时候发">
+                                <field name="weekday"/>
+                                <field name="send_hour"/>
+                                <field name="send_minute"/>
+                                <field name="tz"/>
+                                <field name="schedule_label"/>
+                            </group>
+                            <group string="发到哪 / 发什么">
+                                <field name="target_chat_id"/>
+                                <field name="template_id"/>
+                                <field name="person_id"/>
+                                <field name="with_buttons"/>
+                                <field name="poll_options" invisible="not with_buttons"/>
+                                <field name="poll_expected_role" invisible="not with_buttons"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group string="执行情况（只读）">
+                            <field name="cron_id"/>
+                            <field name="last_sent_at"/>
+                            <field name="last_result"/>
+                            <field name="last_error"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- 动作 -->
+        <record id="action_assist_template" model="ir.actions.act_window">
+            <field name="name">文案模板</field>
+            <field name="res_model">edu.tg.assist.template</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_assist_reminder" model="ir.actions.act_window">
+            <field name="name">定时提醒</field>
+            <field name="res_model">edu.tg.assist.reminder</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- 菜单：挂在骨架定义的根菜单下（assist_views.xml 的 menu_assist_root） -->
+        <menuitem id="menu_assist_template" name="文案模板" parent="edu_tg_assist.menu_assist_root"
+                  sequence="30"/>
+        <menuitem id="menu_assist_reminder" name="定时提醒" parent="edu_tg_assist.menu_assist_root"
+                  sequence="40"/>
+        <menuitem id="menu_assist_template_action" parent="menu_assist_template"
+                  action="action_assist_template" sequence="10"/>
+        <menuitem id="menu_assist_reminder_action" parent="menu_assist_reminder"
+                  action="action_assist_reminder" sequence="10"/>
+    </data>
+</odoo>

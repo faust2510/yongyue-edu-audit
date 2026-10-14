@@ -1,0 +1,10 @@
+[Unit]
+Description=每月 1 日 04:30 Asia/Shanghai 演练最老的一份备份
+
+[Timer]
+OnCalendar=*-*-01 04:30:00 Asia/Shanghai
+Persistent=true
+Unit=edu19-backup-drill.service
+
+[Install]
+WantedBy=timers.target

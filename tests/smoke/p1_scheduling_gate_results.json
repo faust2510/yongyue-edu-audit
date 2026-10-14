@@ -1,0 +1,216 @@
+{
+ "checks": [
+  {
+   "name": "四个身份登录成功（教务/教师/学生/家长）",
+   "pass": true
+  },
+  {
+   "name": "载体①教师档案存在（op_faculty）",
+   "pass": true
+  },
+  {
+   "name": "G4 迁移：该教师已回填 resource.resource",
+   "pass": true
+  },
+  {
+   "name": "载体②有在读学生的班（batch）",
+   "pass": true
+  },
+  {
+   "name": "载体③该班×科目×教师有既有课节（冲突/回归用）",
+   "pass": true
+  },
+  {
+   "name": "V10-a 教师自助页 /my/availability 200",
+   "pass": true
+  },
+  {
+   "name": "V10-a 页面含「我的不可用时间」",
+   "pass": true
+  },
+  {
+   "name": "V10-b 登记提交 → 303",
+   "pass": true
+  },
+  {
+   "name": "V10-c resource_calendar_leaves +1",
+   "pass": true
+  },
+  {
+   "name": "V10-d time_type = leave",
+   "pass": true
+  },
+  {
+   "name": "V10-e resource_id 指向该教师资源",
+   "pass": true
+  },
+  {
+   "name": "V10-f 时段落库 = 明日 10:00–12:00（本地，UTC 存 02:00–04:00）",
+   "pass": true
+  },
+  {
+   "name": "V11-a /timetable/bulk 教务可打开（200）",
+   "pass": true
+  },
+  {
+   "name": "V11-b 预览 200",
+   "pass": true
+  },
+  {
+   "name": "V11-c 预览格位 title = 日期：教师不可用·自动排除（图例那句永远在，不作证据）",
+   "pass": true
+  },
+  {
+   "name": "V11-d 提交被拦 → 303",
+   "pass": true
+  },
+  {
+   "name": "V11-e 该行 failed=1 且 created=0",
+   "pass": true
+  },
+  {
+   "name": "V11-f op_session 行数不变（真没落库）",
+   "pass": true
+  },
+  {
+   "name": "V13-a 把既有课改到教师不可用时段（本地 11:00–12:00）⇒ 教师不可用判词",
+   "pass": true
+  },
+  {
+   "name": "V13-b 改课失败后该节仍停在原时段（无半写）",
+   "pass": true
+  },
+  {
+   "name": "V12-a 逃逸口提交 → 303",
+   "pass": true
+  },
+  {
+   "name": "V12-b created=1（绕过成功）",
+   "pass": true
+  },
+  {
+   "name": "V12-c op_session +1",
+   "pass": true
+  },
+  {
+   "name": "V12-d 审计留痕含「教师不可用」",
+   "pass": true
+  },
+  {
+   "name": "V14-0 找到该教师当日夜间空闲时段（19:15/21:15/23:15 本地起）",
+   "pass": true
+  },
+  {
+   "name": "V14-a 常规工时之外且教师无 leave ⇒ 允许创建",
+   "pass": true
+  },
+  {
+   "name": "V15-a 预览 200（与既有课节同时段）",
+   "pass": true
+  },
+  {
+   "name": "V15-b 出现带日期前缀的「与既有课时冲突」格位",
+   "pass": true
+  },
+  {
+   "name": "V15-c 未指定教室 ⇒ 黄色待补文案",
+   "pass": true
+  },
+  {
+   "name": "V15-d 待补不等于致命（页面不出现「数据异常必须先修好」）",
+   "pass": true
+  },
+  {
+   "name": "V8-a 教务 /timetable/coverage 200",
+   "pass": true
+  },
+  {
+   "name": "V8-b 课时数与同口径 SQL 相等（269）",
+   "pass": true
+  },
+  {
+   "name": "V8-c 教室填写率分子与 SQL 相等（11 / 269）",
+   "pass": true
+  },
+  {
+   "name": "V8-d 教师不可用登记率一行已生效（不再是降级说明）",
+   "pass": true
+  },
+  {
+   "name": "V8-e /unfilled 教务拿到真 CSV",
+   "pass": true
+  },
+  {
+   "name": "V9-a 学生访问看板 ⇒ 303 /my/home",
+   "pass": true
+  },
+  {
+   "name": "V9-b 家长访问 CSV ⇒ 303 /my/home",
+   "pass": true
+  },
+  {
+   "name": "V18-a 学生访问 /my/availability ⇒ 303 回门户",
+   "pass": true
+  },
+  {
+   "name": "V18-b 教务组 implied 闭包不含 base.group_system",
+   "pass": true
+  },
+  {
+   "name": "V4-a 学生报课页 200",
+   "pass": true
+  },
+  {
+   "name": "V4-b 未排课科目卡有红字「不可报：本学期未排课」",
+   "pass": true
+  },
+  {
+   "name": "V5-a 绕过前端提交未排课科目 → 303 且带 box=",
+   "pass": true
+  },
+  {
+   "name": "V5-b 报课零新增（真没落库）",
+   "pass": true
+  },
+  {
+   "name": "G1-a 档位默认 = annotate（先排课后报课）",
+   "pass": true
+  },
+  {
+   "name": "G1-b off 档 = 零回归开关（科目卡不再出现「不可报：本学期未排课」）",
+   "pass": true
+  },
+  {
+   "name": "V7-a 审批详情页 200",
+   "pass": true
+  },
+  {
+   "name": "V7-b 页面出现「已排课」计数",
+   "pass": true
+  },
+  {
+   "name": "G1-c 设置页入口 /edu/enroll/pool_mode 可达（200）",
+   "pass": true
+  },
+  {
+   "name": "V16-a 演示 leave 已删（页面提交 303）",
+   "pass": true
+  },
+  {
+   "name": "V16-b 探针口径的【演示】leave 残留 = 0（含上一轮崩溃留下的）",
+   "pass": true
+  },
+  {
+   "name": "V16-c op_session 回到基线",
+   "pass": true
+  },
+  {
+   "name": "V16-d 报课行数回到基线",
+   "pass": true
+  }
+ ],
+ "notes": [
+  "全库【演示】leave 行数（含种子数据，仅记录不判定）：0"
+ ],
+ "run_at": "2026-10-14T01:50:27.364181"
+}

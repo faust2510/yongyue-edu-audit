@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 招聘后台：岗位与申请（自研） ============ -->
+
+    <record id="view_edu_job_posting_list" model="ir.ui.view">
+        <field name="name">edu.job.posting.list.cn</field>
+        <field name="model">edu.job.posting</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="岗位">
+                <field name="publish_date"/>
+                <field name="name"/>
+                <field name="department"/>
+                <field name="location"/>
+                <field name="salary_range"/>
+                <field name="openings"/>
+                <field name="application_count"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'published'"
+                       decoration-muted="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_job_posting_form" model="ir.ui.view">
+        <field name="name">edu.job.posting.form.cn</field>
+        <field name="model">edu.job.posting</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="岗位">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="岗位信息">
+                            <field name="name" required="1"/>
+                            <field name="department"/>
+                            <field name="location"/>
+                            <field name="salary_range"/>
+                            <field name="openings"/>
+                        </group>
+                        <group string="发布">
+                            <field name="publish_date"/>
+                            <field name="posted_by"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="职责与要求">
+                            <field name="description"/>
+                        </page>
+                        <page string="申请记录">
+                            <field name="application_ids">
+                                <list>
+                                    <field name="applied_date"/>
+                                    <field name="name"/>
+                                    <field name="phone"/>
+                                    <field name="education"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_job_application_list" model="ir.ui.view">
+        <field name="name">edu.job.application.list.cn</field>
+        <field name="model">edu.job.application</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="申请处理">
+                <field name="applied_date"/>
+                <field name="posting_id"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email" optional="hide"/>
+                <field name="education"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'new'"
+                       decoration-warning="state in ('reviewing','interview')"
+                       decoration-success="state == 'accepted'"
+                       decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_job_posting" model="ir.actions.act_window">
+        <field name="name">岗位管理</field>
+        <field name="res_model">edu.job.posting</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">还没有发布岗位</p>
+            <p>创建岗位并发布后，会即时出现在公开页 /campus/jobs。</p>
+        </field>
+    </record>
+
+    <record id="action_edu_job_application" model="ir.actions.act_window">
+        <field name="name">申请处理</field>
+        <field name="res_model">edu.job.application</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_edu_jobs_root" name="招聘管理"
+              sequence="70" groups="base.group_user"/>
+    <menuitem id="menu_edu_jobs_posting" name="岗位管理"
+              parent="menu_edu_jobs_root"
+              action="action_edu_job_posting" sequence="10"/>
+    <menuitem id="menu_edu_jobs_application" name="申请处理"
+              parent="menu_edu_jobs_root"
+              action="action_edu_job_application" sequence="20"/>
+
+</odoo>

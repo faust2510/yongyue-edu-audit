@@ -1,0 +1,493 @@
+{
+ "stamp": "2026-10-02T18:34:05+08:00",
+ "attest": "backend_probe fp=9b4748be · check_english REVISION=v3.8 指纹=c9b87745 · 运行时刻 2026-10-02T18:34:05+08:00",
+ "roles": {
+  "admin": {
+   "uid": 2,
+   "menus": 321,
+   "roots": 14,
+   "root_names": [
+    "资料下载",
+    "教务审批",
+    "财务管理",
+    "资产管理",
+    "招聘管理",
+    "灵命生活",
+    "综合评估",
+    "网站",
+    "学生信息",
+    "招生",
+    "时间表",
+    "图书馆",
+    "应用",
+    "设置"
+   ],
+   "menu_hits": [
+    {
+     "value": "Technical Pages",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "website.menu_website_technical_pages",
+     "kind": "text",
+     "depth": 3,
+     "menu_id": 231
+    },
+    {
+     "value": "All Conversations",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "im_livechat.menu_livechat_all_conversations",
+     "kind": "text",
+     "depth": 2,
+     "menu_id": 510
+    },
+    {
+     "value": "Looking for Help",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "im_livechat.menu_livechat_looking_for_help",
+     "kind": "text",
+     "depth": 2,
+     "menu_id": 511
+    },
+    {
+     "value": "Event Questions",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "event.event_question_menu",
+     "kind": "text",
+     "depth": 2,
+     "menu_id": 380
+    },
+    {
+     "value": "Quizzes",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "edu_quiz.menu_edu_quiz",
+     "kind": "text",
+     "depth": 1,
+     "menu_id": 505
+    },
+    {
+     "value": "Attempts",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+     "kind": "text",
+     "depth": 1,
+     "menu_id": 506
+    },
+    {
+     "value": "EMail",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "mail.menu_mail_mail",
+     "kind": "text",
+     "depth": 3,
+     "menu_id": 91
+    },
+    {
+     "value": "IAP",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "iap.iap_root_menu",
+     "kind": "text",
+     "depth": 2,
+     "menu_id": 81
+    }
+   ]
+  },
+  "backoffice": {
+   "uid": 12,
+   "menus": 143,
+   "roots": 12,
+   "root_names": [
+    "资料下载",
+    "教务审批",
+    "财务管理",
+    "资产管理",
+    "招聘管理",
+    "灵命生活",
+    "综合评估",
+    "网站",
+    "学生信息",
+    "招生",
+    "时间表",
+    "图书馆"
+   ],
+   "menu_hits": [
+    {
+     "value": "All Conversations",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "backoffice",
+     "xmlid": "im_livechat.menu_livechat_all_conversations",
+     "kind": "text",
+     "depth": 2,
+     "menu_id": 510
+    },
+    {
+     "value": "Looking for Help",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "backoffice",
+     "xmlid": "im_livechat.menu_livechat_looking_for_help",
+     "kind": "text",
+     "depth": 2,
+     "menu_id": 511
+    },
+    {
+     "value": "Quizzes",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "backoffice",
+     "xmlid": "edu_quiz.menu_edu_quiz",
+     "kind": "text",
+     "depth": 1,
+     "menu_id": 505
+    },
+    {
+     "value": "Attempts",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "backoffice",
+     "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+     "kind": "text",
+     "depth": 1,
+     "menu_id": 506
+    }
+   ]
+  },
+  "faculty": {
+   "uid": 11,
+   "menus": 74,
+   "roots": 9,
+   "root_names": [
+    "教务审批",
+    "资产管理",
+    "招聘管理",
+    "灵命生活",
+    "综合评估",
+    "学生信息",
+    "招生",
+    "时间表",
+    "图书馆"
+   ],
+   "menu_hits": [
+    {
+     "value": "Quizzes",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "faculty",
+     "xmlid": "edu_quiz.menu_edu_quiz",
+     "kind": "text",
+     "depth": 1,
+     "menu_id": 505
+    },
+    {
+     "value": "Attempts",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "faculty",
+     "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+     "kind": "text",
+     "depth": 1,
+     "menu_id": 506
+    }
+   ]
+  }
+ },
+ "must_fix": [
+  {
+   "value": "Technical Pages",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "website.menu_website_technical_pages",
+   "kind": "text",
+   "depth": 3,
+   "menu_id": 231
+  },
+  {
+   "value": "All Conversations",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "im_livechat.menu_livechat_all_conversations",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 510
+  },
+  {
+   "value": "Looking for Help",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "im_livechat.menu_livechat_looking_for_help",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 511
+  },
+  {
+   "value": "Event Questions",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "event.event_question_menu",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 380
+  },
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "edu_quiz.menu_edu_quiz",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 505
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 506
+  },
+  {
+   "value": "EMail",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "mail.menu_mail_mail",
+   "kind": "text",
+   "depth": 3,
+   "menu_id": 91
+  },
+  {
+   "value": "IAP",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "iap.iap_root_menu",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 81
+  },
+  {
+   "value": "All Conversations",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "backoffice",
+   "xmlid": "im_livechat.menu_livechat_all_conversations",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 510
+  },
+  {
+   "value": "Looking for Help",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "backoffice",
+   "xmlid": "im_livechat.menu_livechat_looking_for_help",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 511
+  },
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "backoffice",
+   "xmlid": "edu_quiz.menu_edu_quiz",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 505
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "backoffice",
+   "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 506
+  },
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "faculty",
+   "xmlid": "edu_quiz.menu_edu_quiz",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 505
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "faculty",
+   "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 506
+  }
+ ],
+ "brand": [],
+ "all_hits": [
+  {
+   "value": "Technical Pages",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "website.menu_website_technical_pages",
+   "kind": "text",
+   "depth": 3,
+   "menu_id": 231
+  },
+  {
+   "value": "All Conversations",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "im_livechat.menu_livechat_all_conversations",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 510
+  },
+  {
+   "value": "Looking for Help",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "im_livechat.menu_livechat_looking_for_help",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 511
+  },
+  {
+   "value": "Event Questions",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "event.event_question_menu",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 380
+  },
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "edu_quiz.menu_edu_quiz",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 505
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 506
+  },
+  {
+   "value": "EMail",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "mail.menu_mail_mail",
+   "kind": "text",
+   "depth": 3,
+   "menu_id": 91
+  },
+  {
+   "value": "IAP",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "iap.iap_root_menu",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 81
+  },
+  {
+   "value": "All Conversations",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "backoffice",
+   "xmlid": "im_livechat.menu_livechat_all_conversations",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 510
+  },
+  {
+   "value": "Looking for Help",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "backoffice",
+   "xmlid": "im_livechat.menu_livechat_looking_for_help",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 511
+  },
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "backoffice",
+   "xmlid": "edu_quiz.menu_edu_quiz",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 505
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "backoffice",
+   "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 506
+  },
+  {
+   "value": "Quizzes",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "faculty",
+   "xmlid": "edu_quiz.menu_edu_quiz",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 505
+  },
+  {
+   "value": "Attempts",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "faculty",
+   "xmlid": "edu_quiz.menu_edu_quiz_attempts",
+   "kind": "text",
+   "depth": 1,
+   "menu_id": 506
+  }
+ ]
+}

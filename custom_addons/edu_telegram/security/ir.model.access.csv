@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_op_telegram_chat_bot,op.telegram.chat bot,model_op_telegram_chat,base.group_system,1,1,1,1
+access_edu_telegram_binding_user,edu.telegram.binding user,model_edu_telegram_binding,base.group_portal,1,0,0,0
+access_edu_telegram_binding_internal,edu.telegram.binding internal,model_edu_telegram_binding,base.group_user,1,0,0,0
+access_edu_telegram_outbox_bot,edu.telegram.outbox bot,model_edu_telegram_outbox,base.group_system,1,1,1,1
+access_op_notice_bot,op.notice bot,model_op_notice,base.group_system,1,1,1,1
+access_op_leave_request_bot,op.leave.request bot,model_op_leave_request,base.group_system,1,1,1,1
+access_edu_telegram_flow_bot,edu.telegram.flow bot,model_edu_telegram_flow,base.group_system,1,1,1,1

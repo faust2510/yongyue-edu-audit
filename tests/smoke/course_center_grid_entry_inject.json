@@ -1,0 +1,44 @@
+{
+ "base": "http://localhost:8069",
+ "when": "2026-09-29 14:25:32",
+ "items": [
+  {
+   "no": "I1a",
+   "name": "注入后：宫格卡片消失（变红）",
+   "pass": true,
+   "detail": "卡片 = None"
+  },
+  {
+   "no": "I1b",
+   "name": "注入后：搜索结果页应用入口组同时消失（变红）",
+   "pass": true,
+   "detail": "命中 = 无"
+  },
+  {
+   "no": "I1c",
+   "name": "注入后：建议端点同时消失（变红；限流不计）",
+   "pass": true,
+   "detail": "建议 = [] ｜ err = "
+  },
+  {
+   "no": "I2a",
+   "name": "还原后：宫格卡片回来（变绿）",
+   "pass": true,
+   "detail": "卡片 = {'href': '/my/study', 'title': '课程中心', 'label': '课程中心\\n                                \\n                                每门在修科目：课节、一键入会、课程资料与成绩'}"
+  },
+  {
+   "no": "I2b",
+   "name": "还原后：搜索结果页入口组回来（变绿）",
+   "pass": true,
+   "detail": "命中 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "I2c",
+   "name": "还原后：建议端点入口组回来（变绿）",
+   "pass": true,
+   "detail": "建议 = [('课程中心', '/my/study')]"
+  }
+ ],
+ "passed": 6,
+ "failed": 0
+}

@@ -1,0 +1,17 @@
+[Unit]
+Description=edu19 备份月度演练（把保留期内最老的一份重新还原一遍）
+Documentation=file:/opt/edu-app/docs/ops/backup-offsite-daily.md
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=oneshot
+User=root
+EnvironmentFile=-/etc/edu19-backup.env
+ExecStart=/opt/edu-app/scripts/backup_daily.sh --drill
+TimeoutStartSec=3600
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=6
+StandardOutput=append:/var/log/edu19-backup.log
+StandardError=append:/var/log/edu19-backup.log

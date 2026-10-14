@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_quiz_user,edu.quiz.user,model_edu_quiz,base.group_user,1,1,1,1
+access_edu_quiz_question_user,edu.quiz.question.user,model_edu_quiz_question,base.group_user,1,1,1,1
+access_edu_quiz_attempt_user,edu.quiz.attempt.user,model_edu_quiz_attempt,base.group_user,1,0,1,0
+access_edu_quiz_portal,edu.quiz.portal,model_edu_quiz,base.group_portal,1,0,0,0

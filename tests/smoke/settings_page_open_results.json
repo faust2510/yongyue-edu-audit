@@ -1,0 +1,21 @@
+{
+  "mode": "open",
+  "base_url": "http://127.0.0.1:8069",
+  "login": "admin",
+  "uid": 2,
+  "dialog": "",
+  "field": {
+    "tag": "BUTTON",
+    "value": "2026/10/01 00:00:00",
+    "shown": "10月1日",
+    "tooltip": "2026/10/01",
+    "form_cls": "o-settings-form-view o_field_highlight o_xxl_form_view h-100 o_form_view o_base_settings_view oe_form_configuration o_view_controller o_action"
+  },
+  "fields_on_page": [
+    "edu_apply_deadline",
+    "edu_enroll_deadline"
+  ],
+  "form_is_settings_view": true,
+  "text_head": "保存 | 放弃 | 设置 | 报名与报课截止 | 学校可自行修改；保存后公开页与报课页立即显示新日期。 | 报名截止 | 10月1日 | 报课截止 | 10月1日",
+  "verdict": "PASS"
+}

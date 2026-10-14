@@ -1,0 +1,766 @@
+[
+ {
+  "path": "/my/home",
+  "spec_markers": [
+   "出勤趋势",
+   "快速操作"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/my/home",
+   "final_url": "http://localhost:8069/my/home",
+   "len": 44555,
+   "title": "工作台",
+   "marker_hits": [],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "工作台 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": nu",
+   "ms": 89
+  },
+  "verdict": "WARN",
+  "note": "页面正常渲染(含表格/内容 44555B)但未见标记串; title=工作台；[重试后]"
+ },
+ {
+  "path": "/my",
+  "spec_markers": null,
+  "res": {
+   "status": 200,
+   "history": [
+    "303->/my/home"
+   ],
+   "final_path": "/my/home",
+   "final_url": "http://localhost:8069/my/home",
+   "len": 44555,
+   "title": "工作台",
+   "marker_hits": [],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "工作台 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": nu",
+   "ms": 69
+  },
+  "verdict": "PASS",
+  "note": "跳转至 /my/home；[重试后]"
+ },
+ {
+  "path": "/my/notice_board/notice",
+  "spec_markers": [
+   "布告",
+   "通知"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/my/notice_board/notice",
+   "final_url": "http://localhost:8069/my/notice_board/notice",
+   "len": 56181,
+   "title": "布告栏",
+   "marker_hits": [
+    "布告",
+    "通知"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "布告栏 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": nu",
+   "ms": 36
+  },
+  "verdict": "PASS",
+  "note": "命中: 布告/通知"
+ },
+ {
+  "path": "/student/timetable",
+  "spec_markers": [
+   "时间表"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/student/timetable",
+   "final_url": "http://localhost:8069/student/timetable",
+   "len": 70981,
+   "title": "我的课表",
+   "marker_hits": [],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": true,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "我的课表 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": n",
+   "ms": 34
+  },
+  "verdict": "WARN",
+  "note": "页面正常渲染(含表格/内容 70981B)但未见标记串; title=我的课表；[重试后]"
+ },
+ {
+  "path": "/student/attendance",
+  "spec_markers": [
+   "考勤"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/student/attendance",
+   "final_url": "http://localhost:8069/student/attendance",
+   "len": 60595,
+   "title": "出席率",
+   "marker_hits": [
+    "考勤"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "出席率 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": nu",
+   "ms": 38
+  },
+  "verdict": "PASS",
+  "note": "命中: 考勤"
+ },
+ {
+  "path": "/student/attendance?page=2",
+  "spec_markers": [
+   "考勤"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/student/attendance",
+   "final_url": "http://localhost:8069/student/attendance?page=2",
+   "len": 60729,
+   "title": "出席率",
+   "marker_hits": [
+    "考勤"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "出席率 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": nu",
+   "ms": 36
+  },
+  "verdict": "PASS",
+  "note": "命中: 考勤; 分页元素: 有"
+ },
+ {
+  "path": "/student/profile",
+  "spec_markers": [
+   "王小明",
+   "档案",
+   "个人资料"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/student/profile",
+   "final_url": "http://localhost:8069/student/profile",
+   "len": 70660,
+   "title": "学生档案",
+   "marker_hits": [
+    "王小明",
+    "档案",
+    "个人资料"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": true,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "学生档案 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": n",
+   "ms": 40
+  },
+  "verdict": "PASS",
+  "note": "命中: 王小明/档案/个人资料; 含表格; 空态字样: 暂无"
+ },
+ {
+  "path": "/student/exam",
+  "spec_markers": [
+   "考试"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/student/exam",
+   "final_url": "http://localhost:8069/student/exam",
+   "len": 46565,
+   "title": "考试",
+   "marker_hits": [
+    "考试"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "考试 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": nul",
+   "ms": 29
+  },
+  "verdict": "PASS",
+  "note": "命中: 考试"
+ },
+ {
+  "path": "/student/assignment/details",
+  "spec_markers": [
+   "作业"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/student/assignment/details",
+   "final_url": "http://localhost:8069/student/assignment/details",
+   "len": 49355,
+   "title": "作业",
+   "marker_hits": [
+    "作业"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "作业 var odoo = { csrf_token: \"7a9080b5925cf9fe508b7847f67f68f33a682271o1821145556\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": nul",
+   "ms": 32
+  },
+  "verdict": "PASS",
+  "note": "命中: 作业"
+ },
+ {
+  "path": "/grade-book",
+  "spec_markers": [
+   "成绩"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/grade-book",
+   "final_url": "http://localhost:8069/grade-book",
+   "len": 42906,
+   "title": "成绩簿",
+   "marker_hits": [
+    "成绩"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": true,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "成绩簿 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": nu",
+   "ms": 71
+  },
+  "verdict": "PASS",
+  "note": "命中: 成绩; 含表格"
+ },
+ {
+  "path": "/library/media",
+  "spec_markers": [
+   "图书",
+   "媒体"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/library/media",
+   "final_url": "http://localhost:8069/library/media",
+   "len": 44180,
+   "title": "库所有媒体列表",
+   "marker_hits": [
+    "图书",
+    "媒体"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "库所有媒体列表 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\"",
+   "ms": 38
+  },
+  "verdict": "PASS",
+  "note": "命中: 图书/媒体; 空态字样: 暂无"
+ },
+ {
+  "path": "/library/media?page=2",
+  "spec_markers": [
+   "图书",
+   "媒体"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/library/media",
+   "final_url": "http://localhost:8069/library/media?page=2",
+   "len": 44180,
+   "title": "库所有媒体列表",
+   "marker_hits": [
+    "图书",
+    "媒体"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "库所有媒体列表 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\"",
+   "ms": 30
+  },
+  "verdict": "PASS",
+  "note": "命中: 图书/媒体; 分页元素: 有"
+ },
+ {
+  "path": "/subject/details",
+  "spec_markers": [
+   "科目",
+   "课程详情"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/subject/details",
+   "final_url": "http://localhost:8069/subject/details",
+   "len": 42843,
+   "title": "学习材料",
+   "marker_hits": [
+    "科目"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "学习材料 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": n",
+   "ms": 40
+  },
+  "verdict": "PASS",
+  "note": "命中: 科目; 空态字样: 暂无"
+ },
+ {
+  "path": "/subject/registration",
+  "spec_markers": [
+   "选课",
+   "注册"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/subject/registration",
+   "final_url": "http://localhost:8069/subject/registration",
+   "len": 59944,
+   "title": "我的选课申请",
+   "marker_hits": [
+    "选课",
+    "注册"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "我的选课申请 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\":",
+   "ms": 37
+  },
+  "verdict": "PASS",
+  "note": "命中: 选课/注册"
+ },
+ {
+  "path": "/my-library",
+  "spec_markers": [
+   "借阅",
+   "我的图书馆"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/my-library",
+   "final_url": "http://localhost:8069/my-library",
+   "len": 47658,
+   "title": "我的图书馆",
+   "marker_hits": [
+    "我的图书馆"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "我的图书馆 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": ",
+   "ms": 31
+  },
+  "verdict": "PASS",
+  "note": "命中: 我的图书馆; 空态字样: 暂无"
+ },
+ {
+  "path": "/certificate",
+  "spec_markers": null,
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/certificate",
+   "final_url": "http://localhost:8069/certificate",
+   "len": 42937,
+   "title": "课程结业证书",
+   "marker_hits": [],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [
+    "证书"
+   ],
+   "snippet": "课程结业证书 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\":",
+   "ms": 33
+  },
+  "verdict": "PASS",
+  "note": "页面正常渲染，含关键词: 证书"
+ },
+ {
+  "path": "/meeting/information",
+  "spec_markers": [
+   "会议"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/meeting/information",
+   "final_url": "http://localhost:8069/meeting/information",
+   "len": 41846,
+   "title": "线上会议",
+   "marker_hits": [
+    "会议"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "尚未"
+   ],
+   "kw_hits": [],
+   "snippet": "线上会议 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": n",
+   "ms": 36
+  },
+  "verdict": "PASS",
+  "note": "命中: 会议; 空态字样: 尚未"
+ },
+ {
+  "path": "/online/meeting",
+  "spec_markers": [
+   "会议",
+   "课堂"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/online/meeting",
+   "final_url": "http://localhost:8069/online/meeting",
+   "len": 41841,
+   "title": "Zoom 会议",
+   "marker_hits": [
+    "会议"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "尚未"
+   ],
+   "kw_hits": [],
+   "snippet": "Zoom 会议 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\"",
+   "ms": 61
+  },
+  "verdict": "PASS",
+  "note": "命中: 会议; 空态字样: 尚未"
+ },
+ {
+  "path": "/my/academic-calendar",
+  "spec_markers": [
+   "校历",
+   "学年"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/my/academic-calendar",
+   "final_url": "http://localhost:8069/my/academic-calendar",
+   "len": 43467,
+   "title": "学术日历",
+   "marker_hits": [
+    "校历",
+    "学年"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "学术日历 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": n",
+   "ms": 34
+  },
+  "verdict": "PASS",
+  "note": "命中: 校历/学年"
+ },
+ {
+  "path": "/my/asset-request",
+  "spec_markers": [
+   "资产"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/my/asset-request",
+   "final_url": "http://localhost:8069/my/asset-request",
+   "len": 38869,
+   "title": "资产请求",
+   "marker_hits": [
+    "资产"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "资产请求 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": n",
+   "ms": 56
+  },
+  "verdict": "PASS",
+  "note": "命中: 资产; 空态字样: 暂无"
+ },
+ {
+  "path": "/my/dms",
+  "spec_markers": [
+   "文档"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/my/dms",
+   "final_url": "http://localhost:8069/my/dms",
+   "len": 38794,
+   "title": "我的 DMS",
+   "marker_hits": [
+    "文档"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "我的 DMS var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\":",
+   "ms": 27
+  },
+  "verdict": "PASS",
+  "note": "命中: 文档; 空态字样: 暂无"
+ },
+ {
+  "path": "/my/thesis",
+  "spec_markers": [
+   "论文"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/my/thesis",
+   "final_url": "http://localhost:8069/my/thesis",
+   "len": 38858,
+   "title": "我的论文",
+   "marker_hits": [
+    "论文"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "我的论文 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": n",
+   "ms": 32
+  },
+  "verdict": "PASS",
+  "note": "命中: 论文; 空态字样: 暂无"
+ },
+ {
+  "path": "/users/result-overview",
+  "spec_markers": [
+   "成绩总览",
+   "结果"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/users/result-overview",
+   "final_url": "http://localhost:8069/users/result-overview",
+   "len": 44902,
+   "title": "测验结果",
+   "marker_hits": [
+    "结果"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": true,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "测验结果 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\": n",
+   "ms": 40
+  },
+  "verdict": "PASS",
+  "note": "命中: 结果; 含表格"
+ },
+ {
+  "path": "/requested/queue/list",
+  "spec_markers": [
+   "队列",
+   "请求",
+   "审批"
+  ],
+  "res": {
+   "status": 200,
+   "history": [],
+   "final_path": "/requested/queue/list",
+   "final_url": "http://localhost:8069/requested/queue/list",
+   "len": 42749,
+   "title": "媒体队列列表",
+   "marker_hits": [
+    "队列",
+    "请求"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": true,
+   "has_table": false,
+   "empty_hits": [
+    "暂无"
+   ],
+   "kw_hits": [],
+   "snippet": "媒体队列列表 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profile_collectors\":",
+   "ms": 28
+  },
+  "verdict": "PASS",
+  "note": "命中: 队列/请求; 空态字样: 暂无"
+ },
+ {
+  "path": "/openeducat-omr/student/exam",
+  "spec_markers": [
+   "OMR",
+   "答题卡",
+   "考试"
+  ],
+  "res": {
+   "status": 404,
+   "history": [],
+   "final_path": "/openeducat-omr/student/exam",
+   "final_url": "http://localhost:8069/openeducat-omr/student/exam",
+   "len": 29008,
+   "title": "Page Not Found | 永约学坊",
+   "marker_hits": [
+    "考试"
+   ],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": false,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [],
+   "snippet": "Page Not Found | 永约学坊 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profi",
+   "ms": 30
+  },
+  "verdict": "FAIL",
+  "note": "HTTP 404；[重试后]"
+ },
+ {
+  "path": "/openeducat-omr/exam-result",
+  "spec_markers": null,
+  "res": {
+   "status": 404,
+   "history": [],
+   "final_path": "/openeducat-omr/exam-result",
+   "final_url": "http://localhost:8069/openeducat-omr/exam-result",
+   "len": 29006,
+   "title": "Page Not Found | 永约学坊",
+   "marker_hits": [],
+   "has_tb": false,
+   "has_ise": false,
+   "login_redirect": false,
+   "has_pagination": false,
+   "has_table": false,
+   "empty_hits": [],
+   "kw_hits": [
+    "考试"
+   ],
+   "snippet": "Page Not Found | 永约学坊 var odoo = { csrf_token: \"ee806516187d0d255f9e76330bc7c748737bb5b2o1821145557\", debug: \"\", }; odoo.__session_info__ = {\"is_admin\": false, \"is_system\": false, \"is_public\": false, \"is_internal_user\": false, \"is_website_user\": false, \"uid\": 8, \"registry_hash\": \"f0f8ac8353110b7ea2ed25d48564a674fb2047f288628b7c090fa677ab01023f\", \"is_frontend\": true, \"profile_session\": null, \"profi",
+   "ms": 29
+  },
+  "verdict": "FAIL",
+  "note": "HTTP 404；[重试后]"
+ }
+]

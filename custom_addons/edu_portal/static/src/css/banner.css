@@ -1,0 +1,141 @@
+/* ============================================================
+   notice-banner 门户顶部公告横幅（对标 tokenrouter 式蓝底横幅）
+   结构：[🎉] [徽标胶囊] 正文 [CTA→] [×] [🎉] / 底部圆点
+   开关在「教务审批 → 布告栏管理」；无数据时 JS 移除挂载点。
+   ============================================================ */
+
+.edu-notice-banner-zone:empty { display: none; }
+
+.edu-notice-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 56px;
+  background: var(--brand-500, var(--brand-500));
+  color: #fff;
+  overflow: hidden;
+}
+
+/* 两端 🎉 装饰（窄屏隐藏） */
+.edu-notice-spark {
+  font-size: 22px;
+  line-height: 1;
+  filter: saturate(1.1);
+  user-select: none;
+  flex: none;
+}
+.edu-notice-spark--right { transform: scaleX(-1); }
+
+/* 轮播轨道：非活动滑层隐藏 */
+.edu-notice-track {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 28px;
+}
+.edu-notice-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity .35s ease, transform .35s ease, visibility .35s;
+}
+.edu-notice-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 徽标胶囊（如「截止 8 月 31 日」） */
+.edu-notice-badge {
+  flex: none;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .18);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+
+/* 正文 */
+.edu-notice-text {
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* CTA：白字下划线 + 箭头 */
+.edu-notice-cta {
+  flex: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  white-space: nowrap;
+}
+.edu-notice-cta:hover { color: rgba(255, 255, 255, .85); }
+
+/* 底部轮播圆点：活动项为长条（对齐参考站） */
+.edu-notice-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.edu-notice-dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .45);
+  cursor: pointer;
+  transition: width .25s ease, background .25s ease;
+}
+.edu-notice-dot.is-active {
+  width: 18px;
+  background: #fff;
+}
+
+/* 关闭按钮 */
+.edu-notice-close {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(255, 255, 255, .8);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.edu-notice-close:hover {
+  background: rgba(255, 255, 255, .15);
+  color: #fff;
+}
+
+/* 窄屏：收起装饰与徽标间距，正文限一行 */
+@media (max-width: 768px) {
+  .edu-notice-bar { padding: 10px 40px 12px; }
+  .edu-notice-spark { display: none; }
+  .edu-notice-badge { padding: 4px 10px; font-size: 12px; }
+  .edu-notice-text { font-size: 13px; }
+  .edu-notice-cta { font-size: 13px; }
+}

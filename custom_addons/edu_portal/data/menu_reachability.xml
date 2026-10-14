@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 教务后台可达性收口（t1，2026-09-17）：把「教务看得见、点进去打不开」的原生菜单
+         收回到它真正需要的业务组 + 超管（按业务补组，不是把系统管理员加回教务）。
+         规则与逐条理由写在 models/menu_reachability.py 的 NARROW_RULES；
+         判据与实测证据见 docs/plans/perm-split-audit.md §6.1 / §6.4。
+         用 <function> 而不是声明式 <record forcecreate="0">：记录键是别的模块的 xmlid，
+         缺模块时声明式写法会打断升级，这里查不到就跳过。 -->
+    <function model="ir.ui.menu" name="edu_apply_reachability_groups"/>
+</odoo>

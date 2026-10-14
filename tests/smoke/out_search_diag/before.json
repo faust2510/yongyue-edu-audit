@@ -1,0 +1,681 @@
+{
+ "tag": "before",
+ "probes": [
+  {
+   "login": "stu@local",
+   "uid": 8,
+   "probes": [
+    {
+     "kw": "圣经",
+     "url": "http://localhost:8069/my/search?q=%E5%9C%A3%E7%BB%8F",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "课程 7",
+      "申诉单 8"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "课程 7",
+       "items": []
+      },
+      {
+       "raw_label": "申诉单 8",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "小要理问答",
+     "url": "http://localhost:8069/my/search?q=%E5%B0%8F%E8%A6%81%E7%90%86%E9%97%AE%E7%AD%94",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "作业 1",
+      "课程 1",
+      "申诉单 8"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "作业 1",
+       "items": []
+      },
+      {
+       "raw_label": "课程 1",
+       "items": []
+      },
+      {
+       "raw_label": "申诉单 8",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "作业",
+     "url": "http://localhost:8069/my/search?q=%E4%BD%9C%E4%B8%9A",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "作业 3",
+      "申诉单 8"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "作业 3",
+       "items": []
+      },
+      {
+       "raw_label": "申诉单 8",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "账单",
+     "url": "http://localhost:8069/my/search?q=%E8%B4%A6%E5%8D%95",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "申诉单 8"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "申诉单 8",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "布告",
+     "url": "http://localhost:8069/my/search?q=%E5%B8%83%E5%91%8A",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "申诉单 8"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "申诉单 8",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "a",
+     "url": "http://localhost:8069/my/search?q=a",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "请假单 8",
+      "申诉单 8"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "请假单 8",
+       "items": []
+      },
+      {
+       "raw_label": "申诉单 8",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "zzz_no_such_thing",
+     "url": "http://localhost:8069/my/search?q=zzz_no_such_thing",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "申诉单 8"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "申诉单 8",
+       "items": []
+      }
+     ]
+    }
+   ],
+   "form_html": "<form class=\"d-flex\" method=\"get\" action=\"/my/search\" role=\"search\"> <input type=\"search\" name=\"q\" class=\"form-control form-control-sm me-1\" placeholder=\"搜索作业 / 课程 / 公告 / 账单\" value=\"\"/> <button class=\"btn btn-sm btn-outline-secondary\" type=\"submit\" aria-label=\"搜索\"> <span class=\"oi oi-search\"></span> </button> </form>"
+  },
+  {
+   "login": "parent@local",
+   "uid": 10,
+   "probes": [
+    {
+     "kw": "圣经",
+     "url": "http://localhost:8069/my/search?q=%E5%9C%A3%E7%BB%8F",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "课程 7"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "课程 7",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "小要理问答",
+     "url": "http://localhost:8069/my/search?q=%E5%B0%8F%E8%A6%81%E7%90%86%E9%97%AE%E7%AD%94",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "作业 1",
+      "课程 1"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "作业 1",
+       "items": []
+      },
+      {
+       "raw_label": "课程 1",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "作业",
+     "url": "http://localhost:8069/my/search?q=%E4%BD%9C%E4%B8%9A",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "作业 3"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "作业 3",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "账单",
+     "url": "http://localhost:8069/my/search?q=%E8%B4%A6%E5%8D%95",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "布告",
+     "url": "http://localhost:8069/my/search?q=%E5%B8%83%E5%91%8A",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "a",
+     "url": "http://localhost:8069/my/search?q=a",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "zzz_no_such_thing",
+     "url": "http://localhost:8069/my/search?q=zzz_no_such_thing",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    }
+   ],
+   "form_html": "<form class=\"d-flex\" method=\"get\" action=\"/my/search\" role=\"search\"> <input type=\"search\" name=\"q\" class=\"form-control form-control-sm me-1\" placeholder=\"搜索作业 / 课程 / 公告 / 账单\" value=\"\"/> <button class=\"btn btn-sm btn-outline-secondary\" type=\"submit\" aria-label=\"搜索\"> <span class=\"oi oi-search\"></span> </button> </form>"
+  },
+  {
+   "login": "faculty@local",
+   "uid": 11,
+   "probes": [
+    {
+     "kw": "圣经",
+     "url": "http://localhost:8069/my/search?q=%E5%9C%A3%E7%BB%8F",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "课程 7",
+      "网课 3"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "课程 7",
+       "items": []
+      },
+      {
+       "raw_label": "网课 3",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "小要理问答",
+     "url": "http://localhost:8069/my/search?q=%E5%B0%8F%E8%A6%81%E7%90%86%E9%97%AE%E7%AD%94",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "作业 1",
+      "课程 1"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "作业 1",
+       "items": []
+      },
+      {
+       "raw_label": "课程 1",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "作业",
+     "url": "http://localhost:8069/my/search?q=%E4%BD%9C%E4%B8%9A",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "作业 3"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "作业 3",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "账单",
+     "url": "http://localhost:8069/my/search?q=%E8%B4%A6%E5%8D%95",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "布告",
+     "url": "http://localhost:8069/my/search?q=%E5%B8%83%E5%91%8A",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "a",
+     "url": "http://localhost:8069/my/search?q=a",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "邀请码 2"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "邀请码 2",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "zzz_no_such_thing",
+     "url": "http://localhost:8069/my/search?q=zzz_no_such_thing",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    }
+   ],
+   "form_html": "<form class=\"d-flex\" method=\"get\" action=\"/my/search\" role=\"search\"> <input type=\"search\" name=\"q\" class=\"form-control form-control-sm me-1\" placeholder=\"搜索作业 / 课程 / 公告 / 账单\" value=\"\"/> <button class=\"btn btn-sm btn-outline-secondary\" type=\"submit\" aria-label=\"搜索\"> <span class=\"oi oi-search\"></span> </button> </form>"
+  },
+  {
+   "login": "backoffice@local",
+   "uid": 12,
+   "probes": [
+    {
+     "kw": "圣经",
+     "url": "http://localhost:8069/my/search?q=%E5%9C%A3%E7%BB%8F",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "课程 7",
+      "网课 3"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "课程 7",
+       "items": []
+      },
+      {
+       "raw_label": "网课 3",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "小要理问答",
+     "url": "http://localhost:8069/my/search?q=%E5%B0%8F%E8%A6%81%E7%90%86%E9%97%AE%E7%AD%94",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "作业 1",
+      "课程 1"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "作业 1",
+       "items": []
+      },
+      {
+       "raw_label": "课程 1",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "作业",
+     "url": "http://localhost:8069/my/search?q=%E4%BD%9C%E4%B8%9A",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "作业 3"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "作业 3",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "账单",
+     "url": "http://localhost:8069/my/search?q=%E8%B4%A6%E5%8D%95",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "布告",
+     "url": "http://localhost:8069/my/search?q=%E5%B8%83%E5%91%8A",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "a",
+     "url": "http://localhost:8069/my/search?q=a",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": false,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像",
+      "邀请码 2"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      },
+      {
+       "raw_label": "邀请码 2",
+       "items": []
+      }
+     ]
+    },
+    {
+     "kw": "zzz_no_such_thing",
+     "url": "http://localhost:8069/my/search?q=zzz_no_such_thing",
+     "status": 200,
+     "error": false,
+     "error_sample": "",
+     "empty_msg": true,
+     "need_kw_msg": false,
+     "groups": [
+      "修改头像"
+     ],
+     "groups_full": [
+      {
+       "raw_label": "修改头像",
+       "items": []
+      }
+     ]
+    }
+   ],
+   "form_html": "<form class=\"d-flex\" method=\"get\" action=\"/my/search\" role=\"search\"> <input type=\"search\" name=\"q\" class=\"form-control form-control-sm me-1\" placeholder=\"搜索作业 / 课程 / 公告 / 账单\" value=\"\"/> <button class=\"btn btn-sm btn-outline-secondary\" type=\"submit\" aria-label=\"搜索\"> <span class=\"oi oi-search\"></span> </button> </form>"
+  }
+ ],
+ "anon": {
+  "status": 303,
+  "location": "/web/login?redirect=%2Fmy%2Fsearch%3Fq%3D%25E5%259C%25A3%25E7%25BB%258F"
+ }
+}

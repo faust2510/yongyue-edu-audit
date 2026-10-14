@@ -1,0 +1,131 @@
+{
+ "stamp": "2026-10-02T19:04:41+08:00",
+ "attest": "backend_probe fp=f1956530 · check_english REVISION=v3.8 指纹=c9b87745 · 运行时刻 2026-10-02T19:04:41+08:00",
+ "roles": {
+  "admin": {
+   "uid": 2,
+   "menus": 321,
+   "roots": 14,
+   "root_names": [
+    "资料下载",
+    "教务审批",
+    "财务管理",
+    "资产管理",
+    "招聘管理",
+    "灵命生活",
+    "综合评估",
+    "网站",
+    "学生信息",
+    "招生",
+    "时间表",
+    "图书馆",
+    "应用",
+    "设置"
+   ],
+   "menu_hits": [
+    {
+     "value": "EMail",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "mail.menu_mail_mail",
+     "kind": "text",
+     "depth": 3,
+     "menu_id": 91
+    },
+    {
+     "value": "IAP",
+     "bucket": "must-fix",
+     "source": "menu",
+     "role": "admin",
+     "xmlid": "iap.iap_root_menu",
+     "kind": "text",
+     "depth": 2,
+     "menu_id": 81
+    }
+   ]
+  },
+  "backoffice": {
+   "uid": 12,
+   "menus": 143,
+   "roots": 12,
+   "root_names": [
+    "资料下载",
+    "教务审批",
+    "财务管理",
+    "资产管理",
+    "招聘管理",
+    "灵命生活",
+    "综合评估",
+    "网站",
+    "学生信息",
+    "招生",
+    "时间表",
+    "图书馆"
+   ],
+   "menu_hits": []
+  },
+  "faculty": {
+   "uid": 11,
+   "menus": 74,
+   "roots": 9,
+   "root_names": [
+    "教务审批",
+    "资产管理",
+    "招聘管理",
+    "灵命生活",
+    "综合评估",
+    "学生信息",
+    "招生",
+    "时间表",
+    "图书馆"
+   ],
+   "menu_hits": []
+  }
+ },
+ "must_fix": [
+  {
+   "value": "EMail",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "mail.menu_mail_mail",
+   "kind": "text",
+   "depth": 3,
+   "menu_id": 91
+  },
+  {
+   "value": "IAP",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "iap.iap_root_menu",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 81
+  }
+ ],
+ "brand": [],
+ "all_hits": [
+  {
+   "value": "EMail",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "mail.menu_mail_mail",
+   "kind": "text",
+   "depth": 3,
+   "menu_id": 91
+  },
+  {
+   "value": "IAP",
+   "bucket": "must-fix",
+   "source": "menu",
+   "role": "admin",
+   "xmlid": "iap.iap_root_menu",
+   "kind": "text",
+   "depth": 2,
+   "menu_id": 81
+  }
+ ]
+}

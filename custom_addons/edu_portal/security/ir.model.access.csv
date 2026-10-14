@@ -1,0 +1,107 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_certificate_portal,edu.certificate portal,model_edu_certificate,base.group_portal,1,0,0,0
+access_edu_certificate_user,edu.certificate user,model_edu_certificate,base.group_user,1,1,1,1
+access_edu_leave_portal,edu.leave portal,model_edu_leave,base.group_portal,1,0,0,0
+access_edu_course_rep_backoffice,edu.course.rep backoffice,model_edu_course_rep,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_course_rep_system,edu.course.rep system,model_edu_course_rep,base.group_system,1,1,1,1
+access_edu_leave_user,edu.leave user,model_edu_leave,base.group_user,1,1,1,1
+access_edu_grievance_portal,edu.grievance portal,model_edu_grievance,base.group_portal,1,0,0,0
+access_edu_grievance_user,edu.grievance user,model_edu_grievance,base.group_user,1,1,1,1
+access_op_subject_user,op.subject user,openeducat_core.model_op_subject,base.group_user,1,1,1,0
+access_op_media_user,op.media user,openeducat_library.model_op_media,base.group_user,1,1,1,0
+access_op_media_unit_user,op.media.unit user,openeducat_library.model_op_media_unit,base.group_user,1,1,1,0
+access_op_author_user,op.author user,openeducat_library.model_op_author,base.group_user,1,1,1,0
+access_op_publisher_user,op.publisher user,openeducat_library.model_op_publisher,base.group_user,1,1,1,0
+access_op_media_type_user,op.media.type user,openeducat_library.model_op_media_type,base.group_user,1,1,1,0
+
+access_edu_invite_code_admin,edu.invite.code admin,model_edu_invite_code,base.group_system,1,1,1,1
+
+access_edu_student_skill_portal,edu.student.skill portal,model_edu_student_skill,base.group_portal,1,0,0,0
+access_edu_student_skill_user,edu.student.skill user,model_edu_student_skill,base.group_user,1,1,1,1
+access_edu_placement_offer_portal,edu.placement.offer portal,model_edu_placement_offer,base.group_portal,1,0,0,0
+access_edu_placement_offer_user,edu.placement.offer user,model_edu_placement_offer,base.group_user,1,1,1,1
+access_edu_daily_checkin_portal,edu.daily.checkin portal,model_edu_daily_checkin,base.group_portal,1,0,0,0
+access_edu_daily_checkin_user,edu.daily.checkin user,model_edu_daily_checkin,base.group_user,1,0,0,0
+access_edu_daily_checkin_admin,edu.daily.checkin admin,model_edu_daily_checkin,base.group_system,1,1,1,1
+access_edu_point_log_portal,edu.point.log portal,model_edu_point_log,base.group_portal,1,0,0,0
+access_edu_point_log_user,edu.point.log user,model_edu_point_log,base.group_user,1,0,0,0
+access_edu_point_log_admin,edu.point.log admin,model_edu_point_log,base.group_system,1,1,1,1
+
+access_op_session_system,op.session system,openeducat_timetable.model_op_session,base.group_system,1,1,1,1
+access_op_timing_system,op.timing system,openeducat_timetable.model_op_timing,base.group_system,1,1,1,1
+access_op_classroom_system,op.classroom system,openeducat_classroom.model_op_classroom,base.group_system,1,1,1,1
+access_op_timing_user,op.timing user,openeducat_timetable.model_op_timing,base.group_user,1,0,0,0
+access_op_classroom_user,op.classroom user,openeducat_classroom.model_op_classroom,base.group_user,1,0,0,0
+access_op_session_user,op.session user,openeducat_timetable.model_op_session,base.group_user,1,0,0,0
+
+access_edu_lesson_user,edu.lesson user,model_edu_lesson,base.group_user,1,1,1,0
+access_edu_lesson_system,edu.lesson system,model_edu_lesson,base.group_system,1,1,1,1
+access_edu_lesson_progress_system,edu.lesson.progress system,model_edu_lesson_progress,base.group_system,1,1,1,1
+access_edu_lesson_progress_user,edu.lesson.progress user,model_edu_lesson_progress,base.group_user,1,0,0,0
+
+access_edu_fee_bill_user,edu.fee.bill user read,model_edu_fee_bill,base.group_user,1,0,0,0
+access_edu_fee_bill_backoffice,edu.fee.bill backoffice,model_edu_fee_bill,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_fee_category_admin,edu.fee.category admin,model_edu_fee_category,base.group_system,1,1,1,1
+access_edu_fee_category_backoffice,edu.fee.category backoffice,model_edu_fee_category,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_fee_category_user,edu.fee.category user read,model_edu_fee_category,base.group_user,1,0,0,0
+access_edu_fee_category_portal,edu.fee.category portal read,model_edu_fee_category,base.group_portal,1,0,0,0
+access_edu_fee_payment_user,edu.fee.payment user read,model_edu_fee_payment,base.group_user,1,0,0,0
+access_edu_fee_payment_backoffice,edu.fee.payment backoffice,model_edu_fee_payment,openeducat_core.group_op_back_office_admin,1,1,1,1
+
+access_edu_asset_user,edu.asset user,model_edu_asset,base.group_user,1,1,1,1
+access_edu_asset_loan_user,edu.asset.loan user,model_edu_asset_loan,base.group_user,1,1,1,1
+
+access_edu_job_posting_user,edu.job.posting user,model_edu_job_posting,base.group_user,1,1,1,1
+access_edu_job_application_user,edu.job.application user,model_edu_job_application,base.group_user,1,1,1,0
+
+access_edu_notice_read_system,edu.notice.read system,model_edu_notice_read,base.group_system,1,1,1,1
+access_edu_notice_system,edu.notice system,model_edu_notice,base.group_system,1,1,1,1
+
+access_edu_eval_template_user,edu.eval.template user,model_edu_eval_template,base.group_user,1,1,1,0
+access_edu_eval_template_system,edu.eval.template system,model_edu_eval_template,base.group_system,1,1,1,1
+access_edu_eval_task_user,edu.eval.task user,model_edu_eval_task,base.group_user,1,1,1,0
+access_edu_eval_task_system,edu.eval.task system,model_edu_eval_task,base.group_system,1,1,1,1
+access_edu_eval_score_user,edu.eval.score user,model_edu_eval_score,base.group_user,1,1,1,0
+access_edu_eval_score_system,edu.eval.score system,model_edu_eval_score,base.group_system,1,1,1,1
+access_edu_eval_template_line_user,edu.eval.template.line user,model_edu_eval_template_line,base.group_user,1,1,1,0
+access_edu_eval_template_line_system,edu.eval.template.line system,model_edu_eval_template_line,base.group_system,1,1,1,1
+
+access_edu_event_system,edu.event system,model_edu_event,base.group_system,1,1,1,1
+
+access_edu_message_system,edu.message system,model_edu_message,base.group_system,1,1,1,1
+access_edu_download_category_admin,edu.download.category admin,model_edu_download_category,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_download_category_user,edu.download.category user,model_edu_download_category,base.group_user,1,0,0,0
+access_edu_download_file_admin,edu.download.file admin,model_edu_download_file,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_download_file_user,edu.download.file user,model_edu_download_file,base.group_user,1,0,0,0
+access_edu_download_log_admin,edu.download.log admin,model_edu_download_log,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_download_log_user,edu.download.log user,model_edu_download_log,base.group_user,1,0,0,0
+access_edu_favorite_user,edu.favorite user,model_edu_favorite,base.group_user,1,1,1,1
+access_edu_favorite_portal,edu.favorite portal,model_edu_favorite,base.group_portal,1,1,1,1
+access_edu_audit_admin,edu.audit.log admin,model_edu_audit_log,base.group_system,1,1,1,1
+access_edu_audit_backoffice,edu.audit.log backoffice,model_edu_audit_log,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_notify_pref_user,edu.notify.pref user,model_edu_notify_pref,base.group_user,1,1,1,1
+access_edu_notify_pref_portal,edu.notify.pref portal,model_edu_notify_pref,base.group_portal,1,1,1,1
+access_edu_invite_code_backoffice,edu.invite.code backoffice,model_edu_invite_code,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_daily_checkin_backoffice,edu.daily.checkin backoffice,model_edu_daily_checkin,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_point_log_backoffice,edu.point.log backoffice,model_edu_point_log,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_notice_backoffice,edu.notice backoffice,model_edu_notice,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_notice_read_backoffice,edu.notice.read backoffice,model_edu_notice_read,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_event_backoffice,edu.event backoffice,model_edu_event,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_lesson_progress_backoffice,edu.lesson.progress backoffice,model_edu_lesson_progress,openeducat_core.group_op_back_office_admin,1,1,0,0
+access_op_classroom_backoffice,op.classroom backoffice,openeducat_classroom.model_op_classroom,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_attend_self_token_admin,edu.attend.self.token admin,model_edu_attend_self_token,base.group_system,1,1,1,1
+access_edu_attend_self_token_backoffice,edu.attend.self.token backoffice,model_edu_attend_self_token,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_course_subject_backoffice,edu.course.subject backoffice,model_edu_course_subject,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_course_subject_system,edu.course.subject system,model_edu_course_subject,base.group_system,1,1,1,1
+
+access_op_parent_backoffice,op.parent backoffice,openeducat_parent.model_op_parent,openeducat_core.group_op_back_office_admin,1,1,1,0
+access_op_parent_relationship_backoffice,op.parent.relationship backoffice,openeducat_parent.model_op_parent_relationship,openeducat_core.group_op_back_office_admin,1,1,1,0
+access_op_student_fees_details_backoffice,op.student.fees.details backoffice,openeducat_fees.model_op_student_fees_details,openeducat_core.group_op_back_office_admin,1,0,0,0
+
+access_edu_leave_transfer_backoffice,edu.leave.transfer 教务组（写）,model_edu_leave_transfer,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_leave_transfer_system,edu.leave.transfer 系统组（写）,model_edu_leave_transfer,base.group_system,1,1,1,1
+access_edu_leave_transfer_faculty,edu.leave.transfer 教师组（只读）,model_edu_leave_transfer,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_portal_login_throttle_system,edu.portal.login.throttle 系统组,model_edu_portal_login_throttle,base.group_system,1,1,1,1
+
+access_edu_grade_entry_extra_backoffice,edu.grade.entry.extra 手工加人（教务组）,model_edu_grade_entry_extra,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_grade_entry_extra_system,edu.grade.entry.extra 手工加人（系统组）,model_edu_grade_entry_extra,base.group_system,1,1,1,1

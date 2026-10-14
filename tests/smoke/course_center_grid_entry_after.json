@@ -1,0 +1,164 @@
+{
+ "base": "http://localhost:8069",
+ "when": "2026-09-29 14:38:30",
+ "items": [
+  {
+   "no": "G1-student",
+   "name": "student 宫格（/my/home）有卡片 data-app-href=\"my/study\"",
+   "pass": true,
+   "detail": "卡片 = {'href': '/my/study', 'title': '课程中心', 'label': '课程中心\\n                                \\n                                每门在修科目：课节、一键入会、课程资料与成绩'} ｜ 左导航有该条 = True"
+  },
+  {
+   "no": "G1-parent",
+   "name": "parent 宫格（/my/home）有卡片 data-app-href=\"my/study\"",
+   "pass": true,
+   "detail": "卡片 = {'href': '/my/study', 'title': '课程中心', 'label': '课程中心\\n                                \\n                                每门在修科目：课节、一键入会、课程资料与成绩'} ｜ 左导航有该条 = True"
+  },
+  {
+   "no": "G1-faculty",
+   "name": "faculty 宫格（/my/apps）有卡片 data-app-href=\"my/study\"",
+   "pass": true,
+   "detail": "卡片 = {'href': '/my/study', 'title': '课程中心', 'label': '课程中心\\n                                \\n                                每门在修科目：课节、一键入会、课程资料与成绩'} ｜ 左导航有该条 = True"
+  },
+  {
+   "no": "G1-backoffice",
+   "name": "backoffice 宫格（/my/apps）有卡片 data-app-href=\"my/study\"",
+   "pass": true,
+   "detail": "卡片 = {'href': '/my/study', 'title': '课程中心', 'label': '课程中心\\n                                \\n                                每门在修科目：课节、一键入会、课程资料与成绩'} ｜ 左导航有该条 = True"
+  },
+  {
+   "no": "G1-admin",
+   "name": "admin 宫格（/my/apps）有卡片 data-app-href=\"my/study\"",
+   "pass": true,
+   "detail": "卡片 = {'href': '/my/study', 'title': '课程中心', 'label': '课程中心\\n                                \\n                                每门在修科目：课节、一键入会、课程资料与成绩'} ｜ 左导航有该条 = True"
+  },
+  {
+   "no": "G2",
+   "name": "宫格卡片角色集合 == 左导航出现角色集合（无角色例外）",
+   "pass": true,
+   "detail": "有卡片角色 ['student', 'parent', 'faculty', 'backoffice', 'admin'] ｜ 左导航有该条的角色 ['student', 'parent', 'faculty', 'backoffice', 'admin']"
+  },
+  {
+   "no": "G3",
+   "name": "左导航该条本就无 t-if 守卫（全角色可见）=> 宫格不得比它更窄",
+   "pass": true,
+   "detail": "各角色 = {'student': True, 'parent': True, 'faculty': True, 'backoffice': True, 'admin': True}"
+  },
+  {
+   "no": "G4a",
+   "name": "控制组：控制卡 my/calendar 在每个角色宫格上都在（改动没打到宫格引擎）",
+   "pass": true,
+   "detail": "各角色 = {'student': True, 'parent': True, 'faculty': True, 'backoffice': True, 'admin': True}"
+  },
+  {
+   "no": "G4b",
+   "name": "控制组：默认隐藏卡 student/timetable 在宫格里**不在**（隐藏开关仍有效）",
+   "pass": true,
+   "detail": "各角色 = {'student': False, 'parent': False, 'faculty': False, 'backoffice': False, 'admin': False}"
+  },
+  {
+   "no": "S1-student",
+   "name": "student 搜「课程中心」应用入口组命中 /my/study",
+   "pass": true,
+   "detail": "命中 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S2-student",
+   "name": "student 建议端点入口组同源命中",
+   "pass": true,
+   "detail": "建议 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S1-parent",
+   "name": "parent 搜「课程中心」应用入口组命中 /my/study",
+   "pass": true,
+   "detail": "命中 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S2-parent",
+   "name": "parent 建议端点入口组同源命中",
+   "pass": true,
+   "detail": "建议 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S1-faculty",
+   "name": "faculty 搜「课程中心」应用入口组命中 /my/study",
+   "pass": true,
+   "detail": "命中 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S2-faculty",
+   "name": "faculty 建议端点入口组同源命中",
+   "pass": true,
+   "detail": "建议 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S1-backoffice",
+   "name": "backoffice 搜「课程中心」应用入口组命中 /my/study",
+   "pass": true,
+   "detail": "命中 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S2-backoffice",
+   "name": "backoffice 建议端点入口组同源命中",
+   "pass": true,
+   "detail": "建议 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S1-admin",
+   "name": "admin 搜「课程中心」应用入口组命中 /my/study",
+   "pass": true,
+   "detail": "命中 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S2-admin",
+   "name": "admin 建议端点入口组同源命中",
+   "pass": true,
+   "detail": "建议 = [('课程中心', '/my/study')]"
+  },
+  {
+   "no": "S3-student",
+   "name": "student GET /my/study -> 200 且页面确为课程中心",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 含标题 = True"
+  },
+  {
+   "no": "S3-parent",
+   "name": "parent GET /my/study -> 200 且页面确为课程中心",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 含标题 = True"
+  },
+  {
+   "no": "S3-faculty",
+   "name": "faculty GET /my/study -> 200 且页面确为课程中心",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 含标题 = True"
+  },
+  {
+   "no": "S3-backoffice",
+   "name": "backoffice GET /my/study -> 200 且页面确为课程中心",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 含标题 = True"
+  },
+  {
+   "no": "S3-admin",
+   "name": "admin GET /my/study -> 200 且页面确为课程中心",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 含标题 = True"
+  },
+  {
+   "no": "S4a",
+   "name": "控制组：无意义串的应用入口组为空（搜索不是恒真）",
+   "pass": true,
+   "detail": "命中 = 无"
+  },
+  {
+   "no": "S4b",
+   "name": "控制组：搜索 = 宫格投影（宫格上被隐藏的「时间表」搜索入口组里也搜不到）",
+   "pass": true,
+   "detail": "命中 = 无"
+  }
+ ],
+ "passed": 26,
+ "failed": 0
+}

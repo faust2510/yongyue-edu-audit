@@ -1,0 +1,376 @@
+{
+ "phone|/my/home": {
+  "help": [
+   {
+    "text": "帮助",
+    "h": 36,
+    "w": 66,
+    "top": 10,
+    "line_boxes": 1,
+    "text_lines": 2
+   },
+   {
+    "text": "帮助中心",
+    "h": 14,
+    "w": 49,
+    "top": 199,
+    "line_boxes": 1,
+    "text_lines": 1
+   }
+  ],
+  "search_inputs": [
+   {
+    "id": "b11-topsearch",
+    "ph": "搜索应用 / 作业 / 课程 / 公告 / 账单",
+    "w": 117,
+    "inner_w": 101,
+    "ph_text_w": 219,
+    "clipped": true
+   }
+  ],
+  "onboard": {
+   "height": 121,
+   "top": 104,
+   "first_heading": "通知 104",
+   "heading_top": 644,
+   "above_heading": true
+  },
+  "number_badges": {
+   "0": 9,
+   "1": 2,
+   "2": 2,
+   "3": 3,
+   "4": 1,
+   "5": 2,
+   "10": 1,
+   "11": 1,
+   "22": 1,
+   "25": 1,
+   "48": 1,
+   "91": 1,
+   "104": 1
+  },
+  "overdue_notice": null,
+  "deadline_texts": [],
+  "overdue_badges": 0,
+  "body_h": 5968,
+  "title": "我的主页"
+ },
+ "phone|/student/timetable": {
+  "help": [
+   {
+    "text": "帮助",
+    "h": 36,
+    "w": 66,
+    "top": 10,
+    "line_boxes": 1,
+    "text_lines": 2
+   }
+  ],
+  "search_inputs": [
+   {
+    "id": "b11-topsearch",
+    "ph": "搜索应用 / 作业 / 课程 / 公告 / 账单",
+    "w": 117,
+    "inner_w": 101,
+    "ph_text_w": 219,
+    "clipped": true
+   }
+  ],
+  "onboard": null,
+  "number_badges": {},
+  "overdue_notice": null,
+  "deadline_texts": [],
+  "overdue_badges": 0,
+  "body_h": 1044,
+  "title": "我的课表"
+ },
+ "phone|/subject/enroll": {
+  "help": [
+   {
+    "text": "帮助",
+    "h": 36,
+    "w": 66,
+    "top": 10,
+    "line_boxes": 1,
+    "text_lines": 2
+   }
+  ],
+  "search_inputs": [
+   {
+    "id": "b11-topsearch",
+    "ph": "搜索应用 / 作业 / 课程 / 公告 / 账单",
+    "w": 117,
+    "inner_w": 101,
+    "ph_text_w": 219,
+    "clipped": true
+   }
+  ],
+  "onboard": null,
+  "number_badges": {},
+  "overdue_notice": "本轮报课已于 2026年10月1日 截止。 下方专业 / 班级 / 科目仅供查看；如需补报，请联系教务处。",
+  "deadline_texts": [
+   "报课选科 选择专业 / 班级与科目，提交选课注册单， 由教务处审批后生效。 我的申请 本轮报课已于 2026年10月1日 截止。 下方专业 / 班级 / 科目仅供查看；如需补报，请",
+   "班级目录 选择报读班级（未结业班级） 本轮报课截止：2026年10月1日 已截止 （下方班级的「至 …」是班级结束日，不是报课截止） 预备科 · 2026级【演示】 PRP-202",
+   "本轮报课截止：2026年10月1日 已截止 （下方班级的「至 …」是班级结束日，不是报课截止）"
+  ],
+  "overdue_badges": 1,
+  "body_h": 2391,
+  "title": "报课选科"
+ },
+ "phone|/student/attendance": {
+  "help": [
+   {
+    "text": "帮助",
+    "h": 36,
+    "w": 66,
+    "top": 10,
+    "line_boxes": 1,
+    "text_lines": 2
+   }
+  ],
+  "search_inputs": [
+   {
+    "id": "b11-topsearch",
+    "ph": "搜索应用 / 作业 / 课程 / 公告 / 账单",
+    "w": 117,
+    "inner_w": 101,
+    "ph_text_w": 219,
+    "clipped": true
+   },
+   {
+    "id": "",
+    "ph": "搜索",
+    "w": 281,
+    "inner_w": 257,
+    "ph_text_w": 32,
+    "clipped": false
+   }
+  ],
+  "onboard": null,
+  "number_badges": {
+   "23": 1,
+   "25": 1,
+   "48": 1
+  },
+  "overdue_notice": null,
+  "deadline_texts": [],
+  "overdue_badges": 0,
+  "body_h": 2979,
+  "title": "出席率"
+ },
+ "desk|/my/home": {
+  "help": [
+   {
+    "text": "帮助",
+    "h": 36,
+    "w": 66,
+    "top": 14,
+    "line_boxes": 1,
+    "text_lines": 2
+   },
+   {
+    "text": "帮助中心",
+    "h": 44,
+    "w": 207,
+    "top": 1306,
+    "line_boxes": 1,
+    "text_lines": 2
+   },
+   {
+    "text": "帮助中心",
+    "h": 14,
+    "w": 49,
+    "top": 207,
+    "line_boxes": 1,
+    "text_lines": 1
+   }
+  ],
+  "search_inputs": [
+   {
+    "id": "b11-topsearch",
+    "ph": "搜索应用 / 作业 / 课程 / 公告 / 账单",
+    "w": 166,
+    "inner_w": 150,
+    "ph_text_w": 219,
+    "clipped": true
+   }
+  ],
+  "onboard": {
+   "height": 121,
+   "top": 112,
+   "first_heading": "通知 104",
+   "heading_top": 430,
+   "above_heading": true
+  },
+  "number_badges": {
+   "0": 9,
+   "1": 3,
+   "2": 3,
+   "3": 3,
+   "4": 2,
+   "5": 3,
+   "6": 1,
+   "7": 1,
+   "8": 1,
+   "9": 1,
+   "10": 2,
+   "11": 2,
+   "12": 1,
+   "13": 1,
+   "14": 1,
+   "15": 1,
+   "16": 1,
+   "17": 1,
+   "18": 1,
+   "19": 1,
+   "20": 1,
+   "21": 1,
+   "22": 2,
+   "23": 1,
+   "24": 1,
+   "25": 2,
+   "26": 1,
+   "27": 2,
+   "28": 2,
+   "29": 2,
+   "30": 2,
+   "31": 1,
+   "48": 1,
+   "91": 1,
+   "104": 1
+  },
+  "overdue_notice": null,
+  "deadline_texts": [],
+  "overdue_badges": 0,
+  "body_h": 3838,
+  "title": "我的主页"
+ },
+ "desk|/student/timetable": {
+  "help": [
+   {
+    "text": "帮助",
+    "h": 36,
+    "w": 66,
+    "top": 14,
+    "line_boxes": 1,
+    "text_lines": 2
+   },
+   {
+    "text": "帮助中心",
+    "h": 44,
+    "w": 207,
+    "top": 1306,
+    "line_boxes": 1,
+    "text_lines": 2
+   }
+  ],
+  "search_inputs": [
+   {
+    "id": "b11-topsearch",
+    "ph": "搜索应用 / 作业 / 课程 / 公告 / 账单",
+    "w": 166,
+    "inner_w": 150,
+    "ph_text_w": 219,
+    "clipped": true
+   }
+  ],
+  "onboard": null,
+  "number_badges": {},
+  "overdue_notice": null,
+  "deadline_texts": [],
+  "overdue_badges": 0,
+  "body_h": 1081,
+  "title": "我的课表"
+ },
+ "desk|/subject/enroll": {
+  "help": [
+   {
+    "text": "帮助",
+    "h": 36,
+    "w": 66,
+    "top": 14,
+    "line_boxes": 1,
+    "text_lines": 2
+   },
+   {
+    "text": "帮助中心",
+    "h": 44,
+    "w": 207,
+    "top": 1306,
+    "line_boxes": 1,
+    "text_lines": 2
+   }
+  ],
+  "search_inputs": [
+   {
+    "id": "b11-topsearch",
+    "ph": "搜索应用 / 作业 / 课程 / 公告 / 账单",
+    "w": 166,
+    "inner_w": 150,
+    "ph_text_w": 219,
+    "clipped": true
+   }
+  ],
+  "onboard": null,
+  "number_badges": {},
+  "overdue_notice": "本轮报课已于 2026年10月1日 截止。 下方专业 / 班级 / 科目仅供查看；如需补报，请联系教务处。",
+  "deadline_texts": [
+   "首页 我的主页 学习 课表 作业 考试 成绩册 课程 报课选科 我的申请 校园生活 课程中心 校历 图书馆 每日打卡 我的周记 沟通 通讯录 消息 布告栏 个人 个人资料 费用账单",
+   "班级目录 选择报读班级（未结业班级） 本轮报课截止：2026年10月1日 已截止 （下方班级的「至 …」是班级结束日，不是报课截止） 预备科 · 2026级【演示】 PRP-202",
+   "本轮报课截止：2026年10月1日 已截止 （下方班级的「至 …」是班级结束日，不是报课截止）"
+  ],
+  "overdue_badges": 1,
+  "body_h": 1675,
+  "title": "报课选科"
+ },
+ "desk|/student/attendance": {
+  "help": [
+   {
+    "text": "帮助",
+    "h": 36,
+    "w": 66,
+    "top": 14,
+    "line_boxes": 1,
+    "text_lines": 2
+   },
+   {
+    "text": "帮助中心",
+    "h": 44,
+    "w": 207,
+    "top": 1306,
+    "line_boxes": 1,
+    "text_lines": 2
+   }
+  ],
+  "search_inputs": [
+   {
+    "id": "b11-topsearch",
+    "ph": "搜索应用 / 作业 / 课程 / 公告 / 账单",
+    "w": 166,
+    "inner_w": 150,
+    "ph_text_w": 219,
+    "clipped": true
+   },
+   {
+    "id": "",
+    "ph": "搜索",
+    "w": 344,
+    "inner_w": 320,
+    "ph_text_w": 32,
+    "clipped": false
+   }
+  ],
+  "onboard": null,
+  "number_badges": {
+   "23": 1,
+   "25": 1,
+   "48": 1
+  },
+  "overdue_notice": null,
+  "deadline_texts": [],
+  "overdue_badges": 0,
+  "body_h": 1425,
+  "title": "出席率"
+ }
+}

@@ -1,0 +1,243 @@
+{
+ "when": "2026-09-29T21:27:28.228084",
+ "db": "edu19",
+ "items": [
+  {
+   "no": "A1",
+   "name": "op.session 总数（复核「288」这条读数）",
+   "pass": true,
+   "detail": "sessions_total=288"
+  },
+  {
+   "no": "A2",
+   "name": "班级数与「本周零课节」的班数（复核「17 个班 11 个本周零课节」）",
+   "pass": true,
+   "detail": "batches_total=17 ｜ 本周零课节=11 ｜ 有课节的班=14"
+  },
+  {
+   "no": "A3",
+   "name": "合班/全体批：批数 9 ｜ 课节 139 ｜ 挂在其上的学生 0",
+   "pass": true,
+   "detail": "批数=9 ｜ 课节=139 ｜ 学生=0"
+  },
+  {
+   "no": "A4",
+   "name": "全库在读（running）学籍档案 = 1 条（复核「只有 1 条 running 档案」）",
+   "pass": true,
+   "detail": "sc_running=1 ｜ sc_rows_total=4"
+  },
+  {
+   "no": "A5",
+   "name": "op.session.student_ids 直连学生表 = 0 行（288 节课没有一节点名到学生）",
+   "pass": true,
+   "detail": "op_session_op_student_rel=0"
+  },
+  {
+   "no": "B1",
+   "name": "审批动作真的跑了：报课单 state submitted → approved",
+   "pass": true,
+   "detail": "submitted → approved"
+  },
+  {
+   "no": "B2",
+   "name": "审批真的改写了学生档案科目（subject_ids 变了）",
+   "pass": true,
+   "detail": "[46] → [36, 38, 39]"
+  },
+  {
+   "no": "B3",
+   "name": "★ 但 op.session 总数 Δ = 0（审批不产生任何课节 ⇒ 课表不可能变）",
+   "pass": true,
+   "detail": "before=288 after=288 Δ=0"
+  },
+  {
+   "no": "B4",
+   "name": "审批后「该档案班本周课节」仍与该生课表口径一致（没变就是 0）",
+   "pass": true,
+   "detail": "B_WEEK_SESS_AFTER=0"
+  },
+  {
+   "no": "B5",
+   "name": "残留自证：回滚后 op.session 行数 / 学籍行数 / 报课单 全部回到基线",
+   "pass": true,
+   "detail": "sess=288/288 sc=4/4 reg=0"
+  },
+  {
+   "no": "B6",
+   "name": "残留自证：回滚后档案科目逐字回到基线",
+   "pass": true,
+   "detail": "[46] vs [46]"
+  }
+ ],
+ "readings": {
+  "week": {
+   "monday_local": "2026-09-28",
+   "window_utc": [
+    "2026-09-27 16:00:00",
+    "2026-10-04 16:00:00"
+   ]
+  },
+  "A": {
+   "batches_total": "17",
+   "sessions_total": "288",
+   "sc_rows_total": "4",
+   "sc_running": "1",
+   "students_total": "6",
+   "registrations_total": "12",
+   "session_student_rel": "0",
+   "combined_batches": "9",
+   "combined_sessions": "139",
+   "combined_students": "0",
+   "batches_zero_this_week": "11",
+   "batches_any_session": "14"
+  },
+  "A_batches": [
+   [
+    "id",
+    "code",
+    "name",
+    "count",
+    "count"
+   ],
+   [
+    "8",
+    "PRP-2026",
+    "预备科 · 2026级【演示】",
+    "72",
+    "1"
+   ],
+   [
+    "10",
+    "B1234",
+    "B1-B4全体",
+    "18",
+    "0"
+   ],
+   [
+    "11",
+    "A1",
+    "神学一年级",
+    "4",
+    "0"
+   ],
+   [
+    "12",
+    "B34",
+    "B3+B4合班",
+    "27",
+    "0"
+   ],
+   [
+    "13",
+    "B234",
+    "B2+B3+B4合班",
+    "15",
+    "0"
+   ],
+   [
+    "14",
+    "B1",
+    "人文一年级",
+    "18",
+    "0"
+   ],
+   [
+    "15",
+    "A123",
+    "A1+A2+A3合班",
+    "23",
+    "0"
+   ],
+   [
+    "16",
+    "B3",
+    "人文三年级",
+    "40",
+    "0"
+   ],
+   [
+    "17",
+    "A123B34",
+    "A123+B34合班",
+    "11",
+    "0"
+   ],
+   [
+    "18",
+    "A123B234",
+    "A123+B234合班",
+    "12",
+    "0"
+   ],
+   [
+    "19",
+    "A123B1",
+    "A123+B1合班",
+    "15",
+    "0"
+   ],
+   [
+    "20",
+    "A23B34",
+    "A23+B34合班",
+    "12",
+    "0"
+   ],
+   [
+    "21",
+    "B4",
+    "人文四年级",
+    "15",
+    "0"
+   ],
+   [
+    "22",
+    "A23",
+    "A2+A3合班",
+    "6",
+    "0"
+   ],
+   [
+    "23",
+    "A2",
+    "神学二年级",
+    "0",
+    "0"
+   ],
+   [
+    "24",
+    "A3",
+    "神学三年级",
+    "0",
+    "0"
+   ],
+   [
+    "25",
+    "B2",
+    "人文二年级",
+    "0",
+    "0"
+   ]
+  ],
+  "B": {
+   "B_SC": "9",
+   "B_SC_BATCH": "8",
+   "B_SUBJ_BEFORE": "[46]",
+   "B_SESS_BEFORE": "288",
+   "B_SCROWS_BEFORE": "4",
+   "B_REG": "661",
+   "B_PAYLOAD": "[36, 38, 39]",
+   "B_REG_STATE_BEFORE": "submitted",
+   "B_REG_STATE_AFTER": "approved",
+   "B_SUBJ_AFTER": "[36, 38, 39]",
+   "B_SESS_AFTER": "288",
+   "B_WEEK_SESS_AFTER": "0",
+   "B_RESID_SESS": "288",
+   "B_RESID_SCROWS": "4",
+   "B_RESID_SUBJ": "[46]",
+   "B_RESID_REG": "0"
+  }
+ },
+ "pass": 11,
+ "fail": 0
+}

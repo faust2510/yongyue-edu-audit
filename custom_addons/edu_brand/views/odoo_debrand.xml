@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 去_odoo 化视图层：
+         1) web.brand_promotion_message 是 "Powered by [Odoo logo]" 的唯一
+            渲染源（登录页页脚 / 问卷等 web.layout 系页面共用），整体替换为
+            永约学坊落款，消灭全部指向 odoo.com 的徽标链接。
+         2) 用户菜单的 Help(odoo.com/buy) 与 My Odoo.com 账户两项
+            由 static/src/js/user_menu_debrand.js 从注册表移除。 -->
+    <template id="yy_brand_promotion_message" name="YY Brand Promotion"
+              inherit_id="web.brand_promotion_message">
+        <xpath expr="//t[@t-set='odoo_logo']" position="replace">
+            <t t-set="odoo_logo">
+                <span class="badge text-bg-light">
+                    <img alt="永约学坊"
+                         src="/edu_brand/static/src/img/logo-medallion.png"
+                         style="width: auto; height: 1em; vertical-align: baseline;"/>
+                    <span class="ms-1">永约学坊</span>
+                </span>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-set='final_message']" position="replace">
+            <t t-set="final_message">由 %s 提供支持%s</t>
+        </xpath>
+    </template>
+
+    <!-- ============ 2026-08-29 品牌残留终扫补齐（见扫描报告 1/2/3/4 条） ============ -->
+
+    <!-- 1a. 标准通知邮件页脚：Powered by Odoo → 永约学坊落款（保留退订） -->
+    <template id="yy_mail_notification_layout" name="YY Mail Notification Layout"
+              inherit_id="mail.mail_notification_layout">
+        <xpath expr="//div[a[contains(@href, 'utm_medium=email')]]" position="replace">
+            <div t-if="show_footer" style="color: #555555; font-size:11px;">
+                由 永约学坊 · Covenant Reformed Seminary 提供支持
+                <span t-if="show_unfollow" id="mail_unfollow">
+                    | <a href="/mail/unfollow" style="text-decoration:none; color:#555555;">取消关注</a>
+                </span>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- 1b. portal 分享等轻量邮件页脚 -->
+    <template id="yy_mail_notification_light" name="YY Mail Notification Light"
+              inherit_id="mail.mail_notification_light">
+        <xpath expr="//tr[td[a[contains(@href, 'utm_medium=email')]]]" position="replace">
+            <tr><td align="center" style="min-width: 590px; color:#555555; font-size:11px;">
+                由 永约学坊 · Covenant Reformed Seminary 提供支持
+                <span t-if="show_unfollow" id="mail_unfollow">
+                    | <a href="/mail/unfollow" style="text-decoration:none; color:#555555;">取消关注</a>
+                </span>
+            </td></tr>
+        </xpath>
+    </template>
+
+    <!-- 2. 门户详情页侧栏底部 Odoo 徽标 → 校名落款 -->
+    <template id="yy_portal_sidebar_brand" name="YY Portal Sidebar Brand"
+              inherit_id="portal.portal_record_sidebar">
+        <xpath expr="//div[a[contains(@href, 'utm_medium=portal')]]" position="replace">
+            <div class="d-none d-lg-block mt-5 small text-center text-muted">
+                永约学坊 · Covenant Reformed Seminary
+            </div>
+        </xpath>
+    </template>
+
+    <!-- 3. 2FA 两处 odoo.com/documentation 帮助链接移除 -->
+    <template id="yy_totp_portal_doc" name="YY TOTP Portal Doc"
+              inherit_id="auth_totp_portal.totp_portal_hook">
+        <xpath expr="//a[contains(@href, 'odoo.com/documentation')]" position="replace">
+            <span/>
+        </xpath>
+    </template>
+    <template id="yy_totp_login_doc" name="YY TOTP Login Doc"
+              inherit_id="auth_totp.auth_totp_form">
+        <xpath expr="//a[contains(@href, 'odoo.com/documentation')]" position="replace">
+            <span/>
+        </xpath>
+    </template>
+
+    <!-- 4a. web.layout head：标题与 favicon（webclient/登录/错误页全走此布局） -->
+    <template id="yy_web_layout_head" name="YY Web Layout Head"
+              inherit_id="web.layout">
+        <xpath expr="//head/title" position="replace">
+            <title t-esc="title or '永约学坊'"/>
+        </xpath>
+        <xpath expr="//link[@rel='shortcut icon']" position="replace">
+            <link type="image/x-icon" rel="shortcut icon"
+                  t-att-href="x_icon or '/web/image/website/1/favicon'"/>
+        </xpath>
+    </template>
+
+    <!-- ============ v3 批次1（2026-09-12）：19.0 去 Odoo 化真缺口补齐 ============ -->
+
+    <!-- 5. 网站 layout head：<meta name="generator" content="Odoo"/>（上游
+         website/views/website_templates.xml:123；每个公开页 head 都有，是
+         SEO/分享卡片里最显眼的 Odoo 字样） -->
+    <template id="yy_website_generator_meta" name="YY Website Generator Meta"
+              inherit_id="website.layout">
+        <xpath expr="//meta[@name='generator']" position="replace">
+            <meta name="generator" content="永约学坊"/>
+        </xpath>
+    </template>
+
+    <!-- 6. 网站页头「登录」入口：portal.user_sign_in 硬编码 /web/login
+         （本机实测 portal/views/portal_templates.xml:193）→ 友好别名 /login -->
+    <template id="yy_portal_user_sign_in" name="YY Portal User Sign In"
+              inherit_id="portal.user_sign_in">
+        <xpath expr="//a" position="attributes">
+            <attribute name="t-attf-href">/login</attribute>
+        </xpath>
+    </template>
+
+    <!-- 7. 电商残留（A2）：2026-09-24 电商族已整族卸载，
+         原先隐藏购物车 / 心愿单图标的两处继承随之移除（图标不再被注入）。 -->
+
+    <!-- 8. 登录表单本体（web.login）：action/onsubmit 都写死 /web/login
+         （上游 web/views/webclient_templates.xml:140），改指 /login，
+         否则表单 POST 仍打在旧路径上（并让 HTML 里留下 /web 链接）。 -->
+    <template id="yy_web_login_form" name="YY Web Login Form"
+              inherit_id="web.login">
+        <xpath expr="//form[@role='form']" position="attributes">
+            <attribute name="t-attf-action">/login</attribute>
+            <attribute name="onsubmit">this.action = '/login' + location.hash</attribute>
+        </xpath>
+        <xpath expr="//a[contains(@t-attf-href, '/web/reset_password')]" position="attributes">
+            <attribute name="t-attf-href">/reset_password?{{ keep_query() }}</attribute>
+        </xpath>
+        <!-- 2026-10-03（无障碍门禁）：登录页那个「显示/隐藏密码」的眼睛按钮是**纯图标**，
+             既无文字也无 aria-label ⇒ axe 报 critical `button-name`（实测 guest /login）。
+             这是 core `web.login` 的写法；本模板既然已经在改这张表单，顺手补上可访问名称。
+             ⚠ 判据来自 **axe**（权威工具），不是自写启发式 —— 这一点很要紧，
+               背景见 scripts/check_accessibility.py 里那段「反面教训」。 -->
+        <xpath expr="//button[contains(@class, 'o_show_password')]" position="attributes">
+            <attribute name="aria-label">显示或隐藏密码</attribute>
+        </xpath>
+    </template>
+
+    <!-- 9. portal 的「登录」链接在门户页面上走 primary 视图
+         portal.user_sign_in_redirect（arch 里写死 /web/login?redirect=…），
+         需要单独覆盖一次，否则门户页顶栏仍有 /web/login。 -->
+    <template id="yy_portal_sign_in_redirect" name="YY Portal Sign In Redirect"
+              inherit_id="portal.user_sign_in_redirect">
+        <xpath expr="//a" position="attributes">
+            <attribute name="t-attf-href">/login?redirect={{request.httprequest.path}}</attribute>
+        </xpath>
+    </template>
+
+    <!-- 10. portal 用户下拉（门户/网站公共顶栏用）：登出写死 /web/session/logout，
+         且给内部用户塞了一个 /odoo 后台入口——都换成门户路径。 -->
+    <template id="yy_portal_user_dropdown" name="YY Portal User Dropdown"
+              inherit_id="portal.user_dropdown">
+        <xpath expr="//a[@id='o_backend_user_dropdown_link']" position="attributes">
+            <attribute name="href">/apps</attribute>
+        </xpath>
+        <xpath expr="//a[@id='o_logout']" position="attributes">
+            <attribute name="t-attf-href">/logout</attribute>
+        </xpath>
+    </template>
+
+    <!-- 4b. webclient head：theme-color 换中性色，PWA manifest 与 Odoo ios 图标移除 -->
+    <template id="yy_webclient_head" name="YY Webclient Head"
+              inherit_id="web.webclient_bootstrap">
+        <xpath expr="//meta[@name='theme-color']" position="replace">
+            <meta name="theme-color" content="#1f2937"/>
+        </xpath>
+        <xpath expr="//link[@rel='manifest']" position="replace">
+            <span class="d-none"/>
+        </xpath>
+        <xpath expr="//link[@rel='apple-touch-icon']" position="replace">
+            <link rel="apple-touch-icon" href="/web/image/website/1/favicon"/>
+        </xpath>
+        <!-- 7b. 后台 viewport：去掉 user-scalable=no（WCAG 1.4.4 缩放，2026-09-29）
+             来源是**核心**模板 web.webclient_bootstrap 自己写的 meta viewport
+             （content = width=device-width, initial-scale=1, user-scalable=no；
+             取证：odoo:19 容器镜像 odoo/addons/web/views/webclient_templates.xml，
+             全仓 grep user-scalable 只命中两处，另一处属 web.unit_tests_suite 测试页，
+             不在本模板内。本模板 inherit 的就是 web.webclient_bootstrap ⇒ 恰好一条）。
+             处置 = 同一个继承模板里再 replace 一条，与上面三条同型（theme-color /
+             manifest / apple-touch-icon 都在这条模板里换过）：不动核心、不新增资产。
+             只改**后台** webclient —— 前台 website.layout 走的是另一条 viewport，
+             一字不碰（前台是访客面，影响面不同）。核心那条本来就没有 maximum-scale，
+             所以这里只需去掉 user-scalable=no。
+             读数口径 = scripts/check_accessibility.py 后台页「核心清单」里
+             meta-viewport 由 2 条变 0 条（axe 的 meta-viewport 规则判的正是禁缩放）。 -->
+        <xpath expr="//meta[@name='viewport']" position="replace">
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        </xpath>
+        <!-- 7c. 后台 html 补 lang（axe html-has-lang，2026-09-29）：核心 web.layout 的 html 标签是
+             t-att="html_data or {}"，而 web.webclient_bootstrap 没给 html_data 塞 lang ⇒
+             后台页的 html **一个属性都没有**（raw HTML 实测）。这里给同一条继承补一个 html_data，
+             只作用于 webclient（后台）：登录页、报错页与前台 website.layout 都不受影响。
+             ⚠ 值必须是合法 BCP47：Odoo 语境是 zh_CN，**下划线必须换成连字符**（zh-CN）。
+             写 zh_CN 会引出 html-lang-valid 这条**新规则**，而门禁对「未登记新规则」是判红的。
+             核心同口径先例：web/views/report_templates.xml 的 lang.replace(下划线, 连字符)。 -->
+        <xpath expr="//t[@t-call='web.layout']" position="inside">
+            <t t-set="html_data" t-value="{&#39;lang&#39;: (lang or &#39;zh_CN&#39;).replace(&#39;_&#39;, &#39;-&#39;)}"/>
+        </xpath>
+    </template>
+    <!-- ============ 前台「转后台」浮动按钮的可见范围（t29） ============
+         core 在 website.layout 里给所有内部用户（groups="base.group_user"，含教师）渲染一个
+         浮动切换器：<div class="o_frontend_to_backend_nav"> 内含
+         「转到您的Odoo应用程序」(o_frontend_to_backend_apps_btn) 与网站编辑按钮。
+         问题（三层策略的完整收口）：门户侧栏的「管理后台」链接已于 2026-10-13 撤下
+         （`edu_portal_templates.xml`，元素留作扩展点壳、不再渲染；规则见 code-map §6 第 19 条），
+         但这个 core 按钮**仍然给教师开着后台入口** —— 与「教师不进后台」不一致。
+         处置：把容器 groups 收窄到教务处/管理员（openeducat_core.group_op_back_office_admin
+         或 base.group_system）。教师/学生/家长不再看到该入口；教务处与管理员保留（可用性证据见
+         验收记录：/my/home 仍渲染出该按钮及其下拉里的 /odoo/action-… 菜单）。
+         注：文案侧（Go to your Odoo Apps → 「转到您的应用」）由 i18n-eng 的 edu_zh PO 覆盖（t36），
+         与本处职责分离：**文案去掉、入口按角色收口**。 -->
+
+    <template id="yy_backend_switcher_groups" name="YY Backend Switcher Groups"
+              inherit_id="website.layout">
+        <xpath expr="//div[hasclass('o_frontend_to_backend_nav')]" position="attributes">
+            <attribute name="groups">openeducat_core.group_op_back_office_admin,base.group_system</attribute>
+        </xpath>
+    </template>
+
+    <!-- ============ 浮动「转到您的应用」下拉：act_url 入口直达门户（2026-09-28） ============
+         core website/views/website_templates.xml:293-298（template website.layout）给下拉里
+         每个根菜单拼**后台深链**：
+
+             t-attf-href="/odoo/action-#{menu['action'] and menu['action'].split(',')[1] or ''}"
+
+         ——只看动作 **id**、不看**动作类型**。于是根菜单 608「资料下载」（动作是
+         ir.actions.act_url -> /downloads，一个门户页）在下拉里成了 /odoo/action-755：
+         点下去先整屏起 Odoo 后台 webclient（蓝顶栏 + 空白 + 「正在加载」），再由 webclient
+         的 JS 执行 window.location 才跳到 /downloads —— 正是用户报告「先闪一遍 odoo 老版本
+         的 UI，然后才变成新门户页」。act_url 的机制就决定了「先起后台、再跳转」，所以这不是
+         偶发、也不是加载慢。
+         （同类入口另有 /apps 应用面板卡片与全站搜索「邀请码」；同一规则见
+          models/menu_href.py 的 edu_action_href，三处共用一条口径。）
+
+         处置：href 交给 ir.ui.menu.edu_action_href() 判定 —— act_url 且 url 非空直接返回它的
+         url；其余动作类型照旧 /odoo/action-<id>。**core 的其余属性一字不动**，只换这一个值。
+         注意：必须继续用 t-attf- 前缀 —— 往同一个 <a> 上再挂一个 t-att-href 会与 core 已有的
+         t-attf-href 并存，渲染期谁胜出不在我们手里（同文件下方 digest 段的踩坑记录）。 -->
+    <template id="yy_backend_switcher_act_url" name="YY Backend Switcher Action URL"
+              inherit_id="website.layout">
+        <!-- 用 hasclass() 而不是 contains(@class, ...) —— 后者会被 Odoo 判为 error-prone，
+             装载时打 WARNING（实测：Error-prone use of @class in view YY Backend
+             Switcher Action URL）。 -->
+        <xpath expr="//div[hasclass('o_frontend_to_backend_apps_menu')]/a"
+               position="attributes">
+            <attribute name="t-attf-href">#{env['ir.ui.menu'].edu_action_href(menu['action'])}</attribute>
+        </xpath>
+    </template>
+
+    <!-- ============ 邮件去品牌化（t31 / t10 评审 F1+F2） ============
+         邮件是学生/教师/家长的**必达通道**，页面级扫描看不到它：基线实测
+         - auth_signup.reset_password_email 渲染 4657 字节，页脚含 odoo.com 外链 + Odoo 字样；
+         - digest.digest_mail_main 渲染 4161 字节，含 9 处 odoo（两组 odoo.com 外链）。
+         xpath 一律选**与语言无关**的锚点（class / href）：中文 arch 里 "Powered by" 已译为
+         「技术支持」，按英文文本匹配会漏（队长 2026-09-12 提醒过这个坑）。
+         验证口径：用 ir.qweb._render 渲染断言，不只看 arch_db —— 见
+         scripts/check_odoo_trace.py 的邮件模式（4 支模板 4/4 覆盖、0 命中）。 -->
+
+    <!-- F1. 密码重置邮件：页脚品牌块（含 odoo.com 外链的那一格）→ 学坊落款 -->
+    <template id="yy_reset_password_email" name="YY Reset Password Email"
+              inherit_id="auth_signup.reset_password_email">
+        <xpath expr="//td[a[contains(@href, 'odoo.com')]]" position="replace">
+            <td style="text-align: center; font-size: 13px;">
+                由 永约学坊 提供支持
+            </td>
+        </xpath>
+    </template>
+
+    <!-- F2. 每周摘要邮件（digest）：
+            ① 顶部 div.by_odoo（Sent by Odoo + odoo.com）→ 中文落款，**保留取消订阅两个分支**
+               （整块替换时若漏抄 t-if / t-elif，会静默毁掉退订功能）；
+            ② 底部 p.by_odoo#powered（Powered by Odoo + odoo.com）→ 中文落款。 -->
+    <template id="yy_digest_mail_main" name="YY Digest Mail Main"
+              inherit_id="digest.digest_mail_main">
+        <xpath expr="//div[hasclass('by_odoo')]" position="replace">
+            <div style="margin-bottom: 15px;">
+                由 永约学坊 发送
+                <t t-if="unsubscribe_token">
+                    –
+                    <a t-attf-href="/digest/#{object.id}/unsubscribe?token=#{unsubscribe_token}&amp;user_id=#{user.id}"
+                       target="_blank" style="text-decoration: none;">
+                        <span style="color: #878d97;">取消订阅</span>
+                    </a>
+                </t>
+                <t t-elif="object and object._name == 'digest.digest'">
+                    –
+                    <a t-att-href="'/odoo/digest.digest/%s' % object.id" target="_blank"
+                       style="text-decoration: none;">
+                        <span style="color: #878d97;">取消订阅</span>
+                    </a>
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//p[hasclass('by_odoo')]" position="replace">
+            <p style="font-weight: bold;">由 永约学坊 提供支持</p>
+        </xpath>
+
+        <!-- F1（t44，忠实上下文复验后才暴露的三处）：
+             探针用「通用 values」渲染时这些都是空的，所以先前报绿是**假绿**——
+             按 digest/models/digest.py:_action_send_to_user 的真实字段（kpi_data /
+             tips / display_mobile_banner）渲染，这三块才会出现：
+
+             ① tips 区块：tip 正文是 Odoo 官方营销文案（「提示：Odoo中的一个计算器」、
+                「@OdooBot」…）+ 7 张 download.odoocdn.com 图片 → **整块不渲染**；
+             ② 移动端推广横幅：www.odoo.com 的 odoo-mobile.png（alt="Odoo Mobile"）
+                + Google Play 外链 + odoocdn 图片 → **整块不渲染**
+                （同时把 digest.digest_section_mobile 本体也中性化，见下方模板）；
+             ③ KPI 区块的按钮：core 拼 '/odoo/action-<action_id>'，会把**原始 action/模型名
+                连同 menu_id 一起发给收件人**（如 /odoo/action-account.action_move_out_invoice_type?menu_id=142）
+                → 改为站内门户路由（不外链、不泄内部标识）。 -->
+        <xpath expr="//tr[@t-foreach='tips']" position="replace">
+            <t/>
+        </xpath>
+        <xpath expr="//tr[@t-if='display_mobile_banner']" position="replace">
+            <t/>
+        </xpath>
+        <!-- ③ 用 replace 而不是 attributes：实测 <attribute ... remove="True"/> 在 19.0 里
+             并没有把 t-att-href 摘掉，结果是 arch 里同时存在 t-att-href 与 href，
+             渲染期 t-att-href 胜出 → 依旧指向 /odoo/action-…（踩过一次，记在这里）。 -->
+        <!-- ④ preferences 区块（t44 补漏）：这些文案由 digest.py:_compute_preferences 在
+             Python 侧拼成 Markup 字符串（模板只是 <t t-out="preference"/>），所以**没法用
+             xpath 改内部链接**；而其中一条对 ERP 管理员（base.group_erp_manager，即我们的管理员）
+             会渲染 `要定制这个邮件？<a href="/odoo/digest.digest/<id>">选择您关注的指标</a>` ——
+             连原始模型名一起露出（探针保真后才看见的最后一处）。
+             处置：整个 preferences 循环替换为一句中性中文提示（不再外链、不泄内部标识）。
+             代价：失去「切换为每周摘要」这个后台便捷入口（属管理员便利，非业务功能）。 -->
+        <xpath expr="//div[hasclass('preference')]" position="replace">
+            <div class="preference">如需调整本摘要的内容或频率，请联系学务处。</div>
+        </xpath>
+
+        <xpath expr="//a[contains(@t-att-href, '/odoo/action-')]" position="replace">
+            <a href="/my/home">
+                <span class="button" id="button_open_report">➔ 打开门户</span>
+            </a>
+        </xpath>
+    </template>
+
+    <!-- F1② 续：digest.digest_section_mobile 本体（即使将来有别的调用点）也中性化 ——
+         原内容是 www.odoo.com 促销图 + 「Run your business from anywhere with Odoo Mobile.」
+         + Google Play 外链，对学坊无意义。 -->
+    <template id="yy_digest_section_mobile" name="YY Digest Section Mobile"
+              inherit_id="digest.digest_section_mobile">
+        <xpath expr="." position="replace">
+            <t/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ============ F7 材料归档（老师私聊转发 → 抽取 → 可选 Notion） ============ -->
+        <record id="view_assist_material_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.material.list</field>
+            <field name="model">edu.tg.assist.material</field>
+            <field name="arch" type="xml">
+                <list default_order="create_date desc">
+                    <field name="create_date"/>
+                    <field name="name"/>
+                    <field name="source_person_id"/>
+                    <field name="kind"/>
+                    <field name="category"/>
+                    <field name="urgency" widget="badge"
+                           decoration-danger="urgency in ('high', 'urgent')"
+                           decoration-success="urgency == 'low'"/>
+                    <field name="deadline"/>
+                    <field name="ai_state" widget="badge"
+                           decoration-danger="ai_state == 'llm_failed'"
+                           decoration-success="ai_state == 'llm'"/>
+                    <field name="notion_state" widget="badge"
+                           decoration-success="notion_state == 'ok'"
+                           decoration-danger="notion_state == 'failed'"/>
+                    <field name="state" widget="badge"
+                           decoration-warning="state == 'new'"
+                           decoration-success="state == 'analyzed'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_material_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.material.form</field>
+            <field name="model">edu.tg.assist.material</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_analyze_now" type="object" string="重新分析"
+                                class="btn-primary"/>
+                        <button name="action_fetch_file" type="object" string="⬇️ 取回文件"/>
+                        <button name="action_open_forward" type="object" string="📤 转发给…"/>
+                        <button name="action_push_notion" type="object" string="推送到 Notion"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="材料标题"/></h1>
+                        </div>
+                        <group>
+                            <group string="来源">
+                                <field name="source_person_id"/>
+                                <field name="source_chat_id"/>
+                                <field name="message_id"/>
+                                <field name="kind"/>
+                            </group>
+                            <group string="抽取结果">
+                                <field name="category"/>
+                                <field name="urgency"/>
+                                <field name="deadline"/>
+                                <field name="tags"/>
+                                <field name="todo"/>
+                                <field name="analyzed_at"/>
+                            </group>
+                        </group>
+                        <group string="摘要">
+                            <field name="summary" nolabel="1"/>
+                        </group>
+                        <group string="关键信息">
+                            <field name="key_points" nolabel="1"/>
+                        </group>
+                        <group string="文件（点「⬇️ 取回文件」就能下载）">
+                            <field name="file_name"/>
+                            <field name="file_mime"/>
+                            <field name="file_size"/>
+                            <field name="file_fetched_at"/>
+                            <field name="file_error"/>
+                            <field name="file_data" filename="file_name"/>
+                            <field name="file_id"/>
+                        </group>
+                        <notebook>
+                            <page string="原文（只存本库）">
+                                <field name="raw_text" nolabel="1"/>
+                            </page>
+                            <page string="抽取情况">
+                                <group>
+                                    <field name="ai_state"/>
+                                    <field name="llm_model"/>
+                                    <field name="llm_error"/>
+                                </group>
+                                <field name="llm_raw" nolabel="1"/>
+                            </page>
+                            <page string="Notion">
+                                <group>
+                                    <field name="notion_state"/>
+                                    <field name="notion_fallback"/>
+                                    <field name="notion_page_id"/>
+                                    <field name="notion_url" widget="url"/>
+                                    <field name="notion_error"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- 一键转发（选项 c）：把这份材料发给某人/某个群 —— 文件走 file_id，不重传 -->
+        <record id="view_assist_forward_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.forward.form</field>
+            <field name="model">edu.tg.assist.forward</field>
+            <field name="arch" type="xml">
+                <form string="转发这份材料">
+                    <group>
+                        <field name="material_id" readonly="1"/>
+                        <field name="target_kind" widget="radio"/>
+                        <field name="chat_id" invisible="target_kind != 'group'"
+                               required="target_kind == 'group'"/>
+                        <field name="person_id" invisible="target_kind != 'person'"
+                               required="target_kind == 'person'"/>
+                        <field name="note"
+                               placeholder="（可选）写一句附言，例如：文熙姐，这份材料请查收"/>
+                    </group>
+                    <footer>
+                        <button name="action_send" string="📤 发送" type="object"
+                                class="btn-primary"/>
+                        <button string="取消" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Odoo 19 的 <search> 不许放 string/expand 的 <group>，分组一律用 filter+context -->
+        <record id="view_assist_material_search" model="ir.ui.view">
+            <field name="name">edu.tg.assist.material.search</field>
+            <field name="model">edu.tg.assist.material</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="source_person_id"/>
+                    <field name="tags"/>
+                    <filter name="f_new" string="待分析" domain="[('state', '=', 'new')]"/>
+                    <filter name="f_llm_failed" string="大模型失败"
+                            domain="[('ai_state', '=', 'llm_failed')]"/>
+                    <filter name="f_notion_failed" string="Notion 推送失败"
+                            domain="[('notion_state', '=', 'failed')]"/>
+                    <filter name="f_urgent" string="紧急"
+                            domain="[('urgency', 'in', ('high', 'urgent'))]"/>
+                    <separator/>
+                    <filter name="g_category" string="按分类" context="{'group_by': 'category'}"/>
+                    <filter name="g_urgency" string="按紧急度" context="{'group_by': 'urgency'}"/>
+                    <filter name="g_ai_state" string="按抽取方式" context="{'group_by': 'ai_state'}"/>
+                    <filter name="g_kind" string="按类型" context="{'group_by': 'kind'}"/>
+                    <filter name="g_person" string="按来源" context="{'group_by': 'source_person_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============ 动作与菜单（挂在骨架的 menu_assist_root 下） ============ -->
+        <record id="action_assist_material" model="ir.actions.act_window">
+            <field name="name">材料归档</field>
+            <field name="res_model">edu.tg.assist.material</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_assist_material_urgent" model="ir.actions.act_window">
+            <field name="name">紧急材料</field>
+            <field name="res_model">edu.tg.assist.material</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('urgency', 'in', ('high', 'urgent'))]</field>
+        </record>
+
+        <menuitem id="menu_assist_material" name="材料归档" parent="menu_assist_root"
+                  action="action_assist_material" sequence="60"/>
+    </data>
+</odoo>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+<meta charset="UTF-8">
+<title>教务管理系统（新架构版）功能全景图</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#f4f2ee; padding:28px; }
+  .wrap { max-width:1280px; margin:0 auto; }
+  header { text-align:center; margin-bottom:22px; }
+  header h1 { font-size:26px; color:#3d3a45; letter-spacing:1px; }
+  header p { color:#8a8577; font-size:13px; margin-top:6px; }
+  .cols { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
+  .card { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.08); display:flex; flex-direction:column; }
+  .card h2 { font-size:16px; color:#fff; padding:10px 14px; display:flex; align-items:center; gap:8px; }
+  .card ul { list-style:none; padding:10px 14px 14px; flex:1; }
+  .card li { font-size:13px; color:#444; padding:4px 0 4px 16px; position:relative; line-height:1.45; border-bottom:1px dashed #eee; }
+  .card li:last-child { border-bottom:none; }
+  .card li::before { content:""; position:absolute; left:2px; top:11px; width:6px; height:6px; border-radius:50%; background:#c9b8a5; }
+  .card .tag { display:inline-block; margin-left:auto; background:rgba(255,255,255,.25); font-size:11px; padding:2px 8px; border-radius:10px; }
+  /* 角色配色 */
+  .visitor h2 { background:#8a8577; } .student h2 { background:#714B67; }
+  .faculty  h2 { background:#2e6e63; } .parent   h2 { background:#a8632e; }
+  .office   h2 { background:#44598a; }
+  .strip { margin-top:16px; background:#fff; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,.08); padding:14px 20px; }
+  .strip h3 { font-size:15px; color:#714B67; margin-bottom:8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { font-size:13px; color:#55503f; background:#f1ede4; border:1px solid #e2dccd; border-radius:16px; padding:5px 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>教务管理系统（新架构版）· 功能全景</h1>
+    <p>Odoo 19 + OpenEduCat 开源基座 ＋ 5 个自研模块 · 一套系统，五类入口，按角色自动分流</p>
+  </header>
+
+  <div class="cols">
+    <div class="card visitor">
+      <h2>🌐 访客 / 官网</h2>
+      <ul>
+        <li>课程展示</li><li>在线考试</li><li>数字图书馆</li>
+        <li>校友专区</li><li>校园招聘</li><li>场地预约</li>
+        <li>邀请码注册（一次性邀请码 · 自动登录）</li>
+      </ul>
+    </div>
+
+    <div class="card student">
+      <h2>🎓 学生端 <span class="tag">29+ 页面</span></h2>
+      <ul>
+        <li>个人首页 · 学业进展</li><li>课表查询</li><li>考勤记录</li>
+        <li>考试 · 成绩册 · 成绩单导出</li><li>在线测验（自动判分）</li>
+        <li>作业查看 / 提交 / 附件下载</li><li>图书馆馆藏与借阅</li>
+        <li>请假申请 · 申诉</li><li>布告栏 · 通知中心</li>
+      </ul>
+    </div>
+
+    <div class="card faculty">
+      <h2>👨‍🏫 教师端 <span class="tag">17 个应用</span></h2>
+      <ul>
+        <li>教学课表</li><li>考勤录入</li><li>成绩录入</li>
+        <li>出题 · 发布作业 · 批阅</li><li>请假 / 申诉审批</li>
+        <li>公告发布</li><li>后台学生管理</li>
+      </ul>
+    </div>
+
+    <div class="card parent">
+      <h2>👪 家长端</h2>
+      <ul>
+        <li>「我的孩子」仪表盘</li><li>孩子课表 / 考勤 / 成绩总览</li>
+        <li>代孩子请假</li><li>费用账单查询</li>
+      </ul>
+    </div>
+
+    <div class="card office">
+      <h2>🗂️ 教务 / 管理</h2>
+      <ul>
+        <li>校友工作管理列表</li><li>邀请码生成与管理</li>
+        <li>全站内容后台（商店 / 活动 / 论坛 / 博客 / 招聘）</li>
+        <li>系统设置与权限</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="strip">
+    <h3>⚙️ 平台级能力（贯穿各端）</h3>
+    <div class="chips">
+      <span class="chip">登录自动分流：角色直达各自工作台</span>
+      <span class="chip">Telegram 消息集成</span>
+      <span class="chip">站内通知：未读徽标 + 分类已读</span>
+      <span class="chip">品牌化 · 全站中文</span>
+      <span class="chip">Docker 一键部署</span>
+      <span class="chip">质量：71 项测试 0 失败 · 导航 0 死链</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

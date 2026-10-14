@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 排课中心：op.session 中文后台视图（自研，复用 LGPL 基座模型） ============ -->
+
+    <record id="view_op_session_list_cn" model="ir.ui.view">
+        <field name="name">op.session.list.cn</field>
+        <field name="model">op.session</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="课时">
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="subject_id"/>
+                <field name="faculty_id"/>
+                <field name="batch_id"/>
+                <field name="classroom_id"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state in ('confirm', 'done')"
+                       decoration-danger="state == 'cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_op_session_form_cn" model="ir.ui.view">
+        <field name="name">op.session.form.cn</field>
+        <field name="model">op.session</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="课时">
+                <sheet>
+                    <group>
+                        <group string="课程信息">
+                            <field name="course_id"/>
+                            <field name="batch_id"/>
+                            <field name="subject_id" required="1"/>
+                            <field name="faculty_id"/>
+                        </group>
+                        <group string="时间与地点">
+                            <field name="timing_id"/>
+                            <field name="start_datetime" required="1"/>
+                            <field name="end_datetime" required="1"/>
+                            <field name="classroom_id"/>
+                            <field name="type"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_op_session_calendar_cn" model="ir.ui.view">
+        <field name="name">op.session.calendar.cn</field>
+        <field name="model">op.session</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <calendar date_start="start_datetime" date_stop="end_datetime"
+                      color="subject_id" mode="week" event_open_popup="1">
+                <field name="subject_id"/>
+                <field name="faculty_id"/>
+                <field name="classroom_id"/>
+                <field name="batch_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_edu_scheduling_week" model="ir.actions.act_window">
+        <field name="name">周课表</field>
+        <field name="res_model">op.session</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">这一周还没有排课</p>
+            <p>点击日历空白格即可新建一节课时；同一教师 / 教室 / 班级的时间重叠会被自动拦截。</p>
+        </field>
+    </record>
+
+    <record id="action_edu_scheduling_all" model="ir.actions.act_window">
+        <field name="name">全部课时</field>
+        <field name="res_model">op.session</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_edu_scheduling_room" model="ir.actions.act_window">
+        <field name="name">教室管理</field>
+        <field name="res_model">op.classroom</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_edu_scheduling_timing" model="ir.actions.act_window">
+        <field name="name">时段设置</field>
+        <field name="res_model">op.timing</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 系统管理员可见全部课时（组规则之间是 OR 关系，用于放宽上游按角色的可见域） -->
+    <record id="rule_op_session_system_see_all" model="ir.rule">
+        <field name="name">排课管理：系统管理员可见全部课时</field>
+        <field name="model_id" ref="openeducat_timetable.model_op_session"/>
+        <field name="groups" eval="[(4, ref('base.group_system')), (4, ref('openeducat_core.group_op_back_office_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- 2026-08 拷问确认：删除门户「排课管理」应用壳（根菜单+周课表+重复子项）。
+         查看排课统一走校历 /my/calendar；后台维护与创建工具由官方「时间表」应用
+         （openeducat_timetable）承载——周期排课/整周复制/停课管理本就挂在
+         openeducat_timetable.menu_op_timetable_root 下，无需迁移。
+         本文件的中文视图与权限规则继续生效（官方相关菜单复用）。 -->
+
+</odoo>

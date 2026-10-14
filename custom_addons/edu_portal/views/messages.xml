@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ 纵深防御：edu.message 全局 ir.rule（评审 F1） ============
+         对外直读/直写/直删限域到收发双方本人（sender=我 OR 收件人=我）。
+         控制器全程 sudo() 旁路规则（env.su），功能路径不受影响；
+         门户/内部用户的直接 RPC 已被 ACL 收紧拦截（AccessError），
+         本规则为「未来误授 ACL」时的最后一道防线。 -->
+    <record id="rule_edu_message_self_scope" model="ir.rule">
+        <field name="name">edu.message: 仅收发双方本人可见（纵深防御）</field>
+        <field name="model_id" ref="model_edu_message"/>
+        <field name="domain_force">['|',('sender_id','=',user.id),('recipient_id','=',user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============ /my/messages 私信会话列表（v2.1-B9） ============ -->
+    <template id="edu_messages" name="Edu Messages List">
+        <t t-call="edu_portal.edu_page">
+            <!-- 窄屏会话卡片：消息摘要块原先写死 max-width:520px（桌面口径），窄屏下
+                 nowrap + 该上限把整张卡片撑出视口 —— 2026-09-28 实测 375 视口
+                 溢出 241px（backoffice）/181px（faculty），摘要块 left 96 -> right 616。
+                 做法：只在窄屏把上限交还容器，并给 flex 链开 min-width:0（允许收缩 +
+                 text-truncate 正常出省略号）；**媒体查询外一字未动**，桌面端观感不变。 -->
+            <style>
+                .msg-conv-last { max-width: 520px; }
+                @media (max-width: 767.98px) {
+                    /* min-width:0 必须覆盖整条 flex 链：其中任一层留 min-width:auto，
+                       它的最小宽度就等于 nowrap 摘要的 min-content（实测 616px），
+                       整张卡会被撑到内容宽 —— 只放开外层是无效的。 */
+                    .msg-conv, .msg-conv a, .msg-conv .d-flex, .msg-conv-body { min-width: 0; }
+                    .msg-conv-last { max-width: 100%; }
+                }
+            </style>
+            <section class="mb-3">
+                <h2 class="mb-1"><i class="fa fa-comments-o me-2" aria-hidden="true"></i>私信</h2>
+                <p class="text-muted mb-0">轻量双向私信：与老师、学生、家长一对一沟通（仅熟人圈可见，教师与教师互发暂不开放）。</p>
+            </section>
+
+            <div class="alert alert-danger py-2" t-if="denied">
+                <i class="fa fa-ban me-1"/>无法与该用户通信：对方不在您的熟人圈内（或该账号不可参与私信）。
+            </div>
+            <div class="alert alert-success py-2" t-if="sent">
+                <i class="fa fa-check-circle me-1"/>消息已发送。
+            </div>
+
+            <!-- 发起新对话：选择器只列出熟人圈可见对象（同 B8 通讯录口径） -->
+            <div class="card shadow-sm border-0 mb-3" t-if="picker">
+                <div class="card-body d-flex flex-wrap align-items-center gap-2 py-2">
+                    <span class="fw-medium"><i class="fa fa-pencil-square-o me-1"/>发起新对话：</span>
+                    <select id="msg-new-pick" aria-label="选择联系人" class="form-select form-select-sm w-auto flex-grow-1"
+                            style="min-width:260px"
+                            onchange="if(this.value){location.href='/my/messages/'+this.value}">
+                        <option value="">— 选择联系人 —</option>
+                        <t t-foreach="picker" t-as="p">
+                            <option t-att-value="p['id']" t-out="(p['name'] or '') + '（' + p['role'] + '）'"/>
+                        </t>
+                    </select>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            onclick="var s=document.getElementById('msg-new-pick');if(s&amp;&amp;s.value){location.href='/my/messages/'+s.value}">
+                        <i class="fa fa-comments-o me-1"/>开始对话
+                    </button>
+                </div>
+            </div>
+
+            <t t-if="not has_records">
+                <div class="oe-norec"><i class="fa fa-comments-o oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">暂无私信会话。
+                        <t t-if="picker">从上方选择一位联系人即可开始对话。</t>
+                        <t t-else="">当前账号未挂接身份，暂无可通信的联系人。请联系管理员补挂身份。</t>
+                    </p>
+                </div>
+            </t>
+            <t t-else="">
+                <div id="msg-app" class="o_portal_docs row g-2">
+                    <t t-foreach="rows" t-as="r">
+                        <div class="o_portal_index_card col-12 msg-conv"
+                             t-att-data-conv-uid="r['info']['id']"
+                             t-att-data-system="1 if r['info'].get('is_system') else None">
+                            <a t-att-href="r['href']"
+                               class="d-flex justify-content-between gap-3 align-items-center py-2 px-3 h-100 rounded text-decoration-none text-reset text-bg-light">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <!-- 系统通知：技术账号无头像，用喇叭图标标识 -->
+                                    <span t-if="r['info'].get('is_system')"
+                                          class="rounded-circle d-inline-flex align-items-center justify-content-center text-bg-secondary flex-shrink-0"
+                                          style="width:48px;height:48px" aria-hidden="true">
+                                        <i class="fa fa-bullhorn fa-lg"/>
+                                    </span>
+                                    <img t-else="" class="rounded-circle" width="48" height="48" loading="lazy"
+                                         t-att-src="'/web/image/res.partner/%s/avatar_256' % (r['info']['avatar'] or 0)"
+                                         alt=""/>
+                                    <div class="msg-conv-body">
+                                        <div class="fs-6 fw-bold">
+                                            <t t-out="r['info']['name']"/>
+                                            <span t-att-class="'badge ms-1 ' + r['info']['badge_cls']" t-out="r['info']['role']"/>
+                                            <span class="small text-muted ms-2" t-out="r['last_at']"/>
+                                        </div>
+                                        <div class="small opacity-75 text-truncate msg-conv-last">
+                                            <t t-if="r['from_me']"><span class="text-secondary">我：</span></t>
+                                            <t t-out="r['last'] or '（空消息）'"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span t-if="r['unread']" class="msg-conv-unread badge rounded-pill text-bg-danger"
+                                      t-out="r['unread']"/>
+                            </a>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ /my/messages/<uid> 对话视图（打开即已读） ============ -->
+    <template id="edu_messages_chat" name="Edu Messages Chat">
+        <t t-call="edu_portal.edu_page">
+            <a href="/my/messages" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回私信列表
+            </a>
+
+            <div class="card shadow-sm border-0 mt-2">
+                <div class="card-header bg-light d-flex align-items-center gap-3">
+                    <span t-if="other.get('is_system')"
+                          class="rounded-circle d-inline-flex align-items-center justify-content-center text-bg-secondary flex-shrink-0"
+                          style="width:44px;height:44px" aria-hidden="true">
+                        <i class="fa fa-bullhorn"/>
+                    </span>
+                    <img t-else="" class="rounded-circle" width="44" height="44" loading="lazy"
+                         t-att-src="'/web/image/res.partner/%s/avatar_256' % (other['avatar'] or 0)"
+                         alt=""/>
+                    <div>
+                        <div class="fw-bold">
+                            <t t-out="other['name']"/>
+                            <span t-att-class="'badge ms-1 ' + other['badge_cls']" t-out="other['role']"/>
+                        </div>
+                        <div class="small text-muted" t-out="other['subtitle'] or ' '"/>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="alert alert-success py-2" t-if="sent">
+                        <i class="fa fa-check-circle me-1"/>消息已发送。
+                    </div>
+
+                    <div id="msg-app" class="d-flex flex-column gap-2 mb-3"
+                         style="max-height:52vh;overflow-y:auto"
+                         t-att-data-msg-chat="other['id']"
+                         t-att-data-msg-last="last_id">
+                        <t t-if="not msgs">
+                            <div class="text-center text-muted small py-4">
+                                这是您与 <b t-out="other['name']"/> 的对话开始。发送第一条消息吧。
+                            </div>
+                        </t>
+                        <t t-foreach="msgs" t-as="m">
+                            <div t-att-class="'msg-item d-flex ' + (m['from_me'] and 'justify-content-end' or 'justify-content-start')">
+                                <div t-att-class="'msg-bubble rounded px-3 py-2 ' + (m['from_me'] and 'text-bg-primary' or 'text-bg-light')"
+                                     style="max-width:74%;white-space:pre-line">
+                                    <div t-out="m['body']"/>
+                                    <div t-att-class="'small mt-1 ' + (m['from_me'] and 'opacity-75' or 'text-muted')" t-out="m['at']"/>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- 系统通知只读：技术账号不接收回复（服务端发送路径同样拒绝） -->
+                    <div class="alert alert-secondary py-2 mb-0 d-flex align-items-center" t-if="readonly">
+                        <i class="fa fa-info-circle me-2" aria-hidden="true"/>
+                        这是系统自动发送的通知，仅可查看，无法回复。
+                    </div>
+                    <form t-else="" method="post" action="/my/messages/send">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="uid" t-att-value="other['id']"/>
+                        <div class="input-group">
+                            <textarea name="body" class="form-control" rows="2" required="required"
+                                      placeholder="输入消息内容…（纯文本，按回车换行）"></textarea>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-paper-plane me-1"/>发送
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

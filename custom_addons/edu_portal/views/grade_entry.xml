@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ /grade-entry 门户成绩录入（教务 / 任课教师） ============
+         行 = 整班名单，列 = 科目（矩阵录入）。渐进增强**复用** edu_assess 的
+         static/src/js/assess_grid.js + css/assess_grid.css（键盘整列录入 / 整块粘贴 /
+         粘性表头 —— 本页只挂 .yy-assess-scroll + .yy-assess-matrix 两个类，不自带 JS）。
+         数据落在基座既有 op.marksheet.* 链上：写侧 op.exam.attendees、
+         读侧 op.result.line/op.marksheet.line —— 与后台「时间表 / 考试」是同一份数据。
+         无障碍：每个下拉都有 <label for>；每个分数格有 aria-label（学生 + 科目 + 分数）；
+         表头 th 带 scope。 -->
+    <template id="edu_grade_entry" name="Edu Grade Entry (Registrar and Teacher)">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">成绩录入</h2>
+                <p class="text-muted mb-0">
+                    选好班级与学期，下面对应的就是整班学生的成绩网格：按科目填写，保存后学生即时可见，
+                    教务后台的「考试参加者 / 结果行」里看到的是同一份数字。
+                </p>
+            </section>
+
+            <div class="alert alert-success" t-if="saved">已保存 <b t-out="saved"/> 条成绩，学生端立即可见。</div>
+            <!-- 2026-10-03 第三轮：被权限丢弃的格子必须**说明原因**。原先教师填了非任教的科目 →
+                 保存 → 页面只说「本次没有新的改动」，那是**错误的归因**（用户明明改了），
+                 用户视角是「我填了，没反应」。静默失败在本仓按缺陷处理。 -->
+            <div class="alert alert-warning" t-if="skip_scope or skip_roster">
+                有 <b t-out="skip_scope + skip_roster"/> 格未保存，已按权限忽略：
+                <t t-if="skip_scope"><b t-out="skip_scope"/> 格不是您任教的科目</t>
+                <t t-if="skip_scope and skip_roster">；</t>
+                <t t-if="skip_roster"><b t-out="skip_roster"/> 格的学生不在本班名单里</t>。
+                可录范围：教务为全校；任课教师只限本人任教的班级与科目。
+            </div>
+            <div class="alert alert-success" t-if="request.params.get('saved') == '0' and not err and not skip_scope and not skip_roster">
+                本次没有新的改动（空白格 = 不录入，已录入且未修改的格子不会重复写入）。
+            </div>
+            <div class="alert alert-danger" t-if="err == 'scope'">
+                没有权限给这个班级录入成绩。可录范围：教务为全校；任课教师只限本人任教的班级与科目。
+            </div>
+            <div class="alert alert-danger" t-if="err == 'invalid'">
+                有分数超出范围（0 至 <t t-out="max_marks"/>）或不是数字，本次**整批未写入**，请修正后重试。
+            </div>
+            <div class="alert alert-warning" t-if="err == 'nobatch'">请先选择班级。</div>
+            <!-- 手工加人（名单第 ③ 条来源，2026-10-13）：成功要说清「下次还在」，
+                 失败要说清「为什么没加上」—— 与上面「被丢弃的格子必须说明原因」同一口径。 -->
+            <div class="alert alert-success" t-if="added">
+                已把这名学生手工加进本班名单，现在可以给他录分；下次重开本页他仍在名单里。
+            </div>
+            <div class="alert alert-success" t-if="removed">
+                已从本班名单里移除这名学生（只删这条加人记录，他的学生档案与已有成绩不受影响）。
+            </div>
+            <div class="alert alert-warning" t-if="err == 'dupe'">
+                这名学生已经在本班名单里了（班级名单 / 报课名单 / 手工加人任一来源都算），无需重复添加。
+            </div>
+            <div class="alert alert-danger" t-if="err == 'noterm'">
+                请先选择学期：手工加人按「班级 × 学期 × 科目」记录，没有学期这条记录下次就找不回来。
+            </div>
+            <div class="alert alert-danger" t-if="err == 'nofound'">
+                没有找到这名学生或这条加人记录（可能已被移除或不在您的范围里），请刷新后重试。
+            </div>
+
+            <form method="get" action="/grade-entry" class="row g-2 align-items-end mb-3">
+                <div class="col-auto">
+                    <label class="form-label small mb-0" for="ge-batch">班级</label>
+                    <select name="batch_id" class="form-select" id="ge-batch">
+                        <option value="">请选择班级</option>
+                        <t t-foreach="batches" t-as="b">
+                            <option t-att-value="b.id"
+                                    t-att-selected="(batch and batch.id == b.id) and 'selected' or None"
+                                    t-out="b.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label small mb-0" for="ge-term">学期</label>
+                    <select name="term_id" class="form-select" id="ge-term">
+                        <t t-foreach="terms" t-as="tm">
+                            <option t-att-value="tm.id"
+                                    t-att-selected="(term and term.id == tm.id) and 'selected' or None"
+                                    t-out="tm.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label small mb-0" for="ge-subject">科目筛选</label>
+                    <select name="subject_id" class="form-select" id="ge-subject">
+                        <option value="">全部科目</option>
+                        <t t-foreach="all_subjects" t-as="s">
+                            <option t-att-value="s.id"
+                                    t-att-selected="(subject_filter and subject_filter.id == s.id) and 'selected' or None"
+                                    t-out="s.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">打开成绩网格</button>
+                </div>
+            </form>
+
+            <div class="alert alert-light border" t-if="not batch">
+                <i class="fa fa-info-circle me-1" aria-hidden="true"/>
+                <t t-if="is_registrar">你是教务身份，可选全校任意班级。</t>
+                <t t-else="">你的可录范围 = 你任教过的班级（课节里挂在你名下的班级）。</t>
+            </div>
+
+            <t t-if="batch">
+                <div class="d-flex flex-wrap gap-3 align-items-center mb-2">
+                    <span class="badge text-bg-primary" t-out="batch.name"/>
+                    <span class="badge text-bg-light" t-out="term.name if term else ''"/>
+                    <span class="text-muted small">
+                        名单 <b t-out="roster_n"/> 人 ｜ 科目列 <b t-out="len(columns)"/>
+                    </span>
+                    <a class="btn btn-sm btn-outline-secondary ms-auto"
+                       t-attf-href="/grade-book" t-if="not is_registrar">学生视角成绩簿</a>
+                </div>
+
+                <div class="alert alert-warning small" t-if="truncated">
+                    本科目数超过 <t t-out="len(columns)"/> 列，只显示了前若干列；
+                    请用上面的「科目筛选」逐个科目录入。
+                </div>
+
+                <div class="oe-empty" t-if="not rows">
+                    <i class="fa fa-users" aria-hidden="true"/>
+                    <p>这个班目前没有名单。原因可能是：该班还没有学生（学生信息 / 班级管理里分班），
+                       或者学生的学籍档案里没有挂上本课程。
+                       <t t-if="is_registrar">也可以用下面的「手工加人」把在册学生直接加进本班成绩名单。</t>
+                       <t t-if="not is_registrar">请联系教务把学生手工加进本班成绩名单 —— 名单不由教师改。</t></p>
+                </div>
+
+                <form method="post" action="/grade-entry/save" t-if="rows">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="batch_id" t-att-value="batch.id"/>
+                    <input type="hidden" name="term_id" t-att-value="term.id if term else 0"/>
+                    <!-- 矩阵的滚动容器与「评测矩阵」同一套（edu_assess 的
+                         static/src/css/assess_grid.css + js/assess_grid.js，都在
+                         web.assets_frontend，本页直接复用而不是再写第二套）：
+                         外层 .table-responsive 只负责外观，滚动由 .yy-assess-scroll 自己负责，
+                         这样粘性表头/首列的参考系才是这个盒子（因果见
+                         docs/research/table-sticky-and-paste.md §7.6.5）。
+                         yy-grade-matrix 是本页自己的钩子（探针/样式定位用），保留。 -->
+                    <div class="table-responsive">
+                      <div class="yy-assess-scroll">
+                        <table class="table table-light align-middle mb-0 yy-assess-matrix yy-grade-matrix">
+                            <thead>
+                                <tr>
+                                    <th scope="col">学生</th>
+                                    <th scope="col">学号</th>
+                                    <th scope="col">名单来源</th>
+                                    <t t-foreach="columns" t-as="col">
+                                        <th scope="col" class="text-center">
+                                            <div t-out="col['name']"/>
+                                            <div class="small text-muted fw-normal">
+                                                已录 <t t-out="col['count']"/>
+                                            </div>
+                                        </th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="rows" t-as="row">
+                                    <tr>
+                                        <td t-out="row['name']"/>
+                                        <td class="text-muted small" t-out="row['gr_no']"/>
+                                        <td class="text-muted small" t-out="row['source']"/>
+                                        <t t-foreach="row['cells']" t-as="cell">
+                                            <td class="text-center" style="min-width:110px">
+                                                <input type="number" class="form-control form-control-sm text-center"
+                                                       inputmode="numeric" min="0" t-att-max="max_marks"
+                                                       t-attf-name="m_#{row['student_id']}_#{cell['col_id']}"
+                                                       t-att-value="cell['text']"
+                                                       t-attf-aria-label="#{row['name']} #{columns[cell_index]['name']} 分数"/>
+                                                <span class="badge text-bg-warning mt-1"
+                                                      t-if="cell['mismatch']"
+                                                      title="后台「考试参加者」与成绩单的分数不一致（基座的手动生成成绩链不会自动同步）">
+                                                    两处不一致</span>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <button class="btn btn-primary" type="submit">保存成绩</button>
+                        <span class="text-muted small">
+                            空白格 = 不录入；已填写但未改动的格子不会被重复写入。
+                            支持从表格软件复制整块后，在任意分数格里粘贴（按行列自动填入，
+                            空单元格跳过、非数字会标红并在下方提示）。
+                        </span>
+                    </div>
+                </form>
+
+                <!-- ===== 手工加人：名单第 ③ 条来源（2026-10-13，设计稿 §4.2） =====
+                     为什么必须放在**矩阵表单之外**：上面的录入网格整体就是一个 <form>，
+                     而 HTML 禁止表单嵌套；放进去会让「加人」按钮变成「保存成绩」的提交键。
+                     为什么需要这个功能：名单只有 ①班级 ②报课 两条来源，而生产有 6 名学生
+                     一行 op.student.course 都没有（永远进不了网格），总览班则 0 学生 ⇒ 空网格。
+                     加人 = 在 (班级, 学期, 科目) 落一条**名单快照**，不改学生档案。
+                     为什么整张卡片只对教务/超管渲染（t-if="is_registrar and term"）：加人是
+                     **教务侧权限**（设计稿 §1 决策 #6 拍板原文「报课为主 + 教务可手工加人」）；
+                     教师能录分但名单不由他改 —— 给他看见这张卡片只会造成「看得见、点了被拒」
+                     的错配（本仓按缺陷处理）。教师仍能在网格「名单来源」列看到 ③ 来源标记。 -->
+                <div class="card mt-4" t-if="is_registrar and term">
+                    <div class="card-header">手工加人（名单来源 ③）</div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-2">
+                            学生既不在班级名单里、也没报这门课时（例如还没分班的【待分配】学生），
+                            可以在这里把他手工加进本「班级 × 学期 × 科目」的成绩名单。
+                            加人<b>只影响这张成绩名单</b>，不会改动学生档案（班级归属、报课记录都不动）；
+                            加过之后重开本页他仍在名单里。
+                            <b>加人是教务 / 超管专属</b>：教师能录分，但名单不由教师改
+                            —— 名单是学籍侧的事实，教师加人等于给学生页制造一条幻影课程成绩。
+                            可加范围为全校任意在册学生。
+                        </p>
+                        <form method="post" action="/grade-entry/add-student"
+                              class="row g-2 align-items-end" t-if="addable_subjects and addable_students">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="batch_id" t-att-value="batch.id"/>
+                            <input type="hidden" name="term_id" t-att-value="term.id"/>
+                            <div class="col-auto">
+                                <label class="form-label small mb-0" for="ge-add-subject">科目</label>
+                                <select name="subject_id" class="form-select" id="ge-add-subject"
+                                        required="required" aria-label="选择要加进的科目">
+                                    <t t-foreach="addable_subjects" t-as="s">
+                                        <option t-att-value="s.id"
+                                                t-att-selected="(subject_filter and subject_filter.id == s.id) and 'selected' or None"
+                                                t-out="s.name"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <label class="form-label small mb-0" for="ge-add-student">学生</label>
+                                <select name="student_id" class="form-select" id="ge-add-student"
+                                        required="required" aria-label="选择要加进名单的学生"
+                                        style="min-width:16rem">
+                                    <t t-foreach="addable_students" t-as="st">
+                                        <option t-att-value="st.id"
+                                                t-out="(st.gr_no or '') + ' ' + (st.name or '')"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <label class="form-label small mb-0" for="ge-add-note">备注（可选）</label>
+                                <input type="text" class="form-control" id="ge-add-note" name="note"
+                                       maxlength="128" placeholder="例如：转班待定 / 补录"
+                                       aria-label="加人备注，可留空"/>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary" type="submit">加进成绩名单</button>
+                            </div>
+                        </form>
+                        <div class="alert alert-warning small mb-0" t-if="not addable_subjects">
+                            这个班还没有可录入的科目，先在课程/课节里给本班挂上科目再回来加人。
+                        </div>
+                        <div class="alert alert-warning small mb-0" t-if="addable_subjects and not addable_students">
+                            没有可加的在册学生（学生档案里没有启用状态的学生）。
+                        </div>
+
+                        <div t-if="manual_rows" class="mt-3">
+                            <div class="small fw-bold mb-1">本格已手工加人</div>
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">学生</th>
+                                            <th scope="col">学号</th>
+                                            <th scope="col">科目</th>
+                                            <th scope="col">加人时间</th>
+                                            <th scope="col">操作人</th>
+                                            <th scope="col">备注</th>
+                                            <th scope="col">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="manual_rows" t-as="ex">
+                                            <tr>
+                                                <td t-out="ex.student_id.name"/>
+                                                <td class="text-muted small" t-out="ex.student_id.gr_no"/>
+                                                <td t-out="ex.subject_id.name"/>
+                                                <td class="small" t-out="ex.added_at"/>
+                                                <td class="small" t-out="ex.added_by.name"/>
+                                                <td class="small" t-out="ex.note"/>
+                                                <td>
+                                                    <form method="post" action="/grade-entry/remove-student">
+                                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                        <input type="hidden" name="batch_id" t-att-value="batch.id"/>
+                                                        <input type="hidden" name="term_id" t-att-value="term.id"/>
+                                                        <input type="hidden" name="row_id" t-att-value="ex.id"/>
+                                                        <button class="btn btn-sm btn-outline-danger" type="submit"
+                                                                t-attf-aria-label="把 #{ex.student_id.name} 从本格成绩名单移除">移除</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-muted small mb-0 mt-1">
+                                移除只删这条加人记录：学生档案、他的历史成绩、留痕都不受影响。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4" t-if="history">
+                    <div class="card-header">最近成绩变更（留痕）</div>
+                    <div class="table-responsive">
+                        <table class="table table-sm mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">时间</th>
+                                    <th scope="col">学生</th>
+                                    <th scope="col">科目</th>
+                                    <th scope="col">原分数</th>
+                                    <th scope="col">新分数</th>
+                                    <th scope="col">操作人</th>
+                                    <th scope="col">来源</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="history" t-as="h">
+                                    <tr>
+                                        <td class="small" t-out="h['when']"/>
+                                        <td t-out="h['student']"/>
+                                        <td t-out="h['subject']"/>
+                                        <td t-out="h['old']"/>
+                                        <td t-out="h['new']"/>
+                                        <td t-out="h['user']"/>
+                                        <td class="small" t-out="h['source']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="alert alert-light border small mt-4">
+                    <div><b>数据落点（与后台同一份数据）：</b>
+                        本页写入基座既有的成绩链 —— 后台
+                        「时间表 / 考试 / 考试参加者」与「时间表 / 考试 / 结果行」里能直接看到这些分数；
+                        学生端「成绩簿」读的是同一批记录。</div>
+                    <div class="mt-1"><b>关于「考试容器」：</b>
+                        为了让一门科目的总评能落在既有成绩链上，系统按 (班级 × 学期 × 科目) 自动建一条
+                        「科目总评」记录（满分 <t t-out="max_marks"/>、及格线 60、等级按既有七档映射）。
+                        它的时间是占位值，不代表真实考试时间。</div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

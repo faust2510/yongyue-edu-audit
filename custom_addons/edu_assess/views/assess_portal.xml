@@ -1,0 +1,992 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 评估引擎：门户页面（三侧共用一份定义） ============ -->
+
+    <!-- ============ 矩阵表头（区名分组；三张矩阵共用一份定义） ============
+         为什么要它（2026-09-29 补的门户缺口）：三层模板里跨区同名项是常态
+         （《卫生检测表》5 个区里「窗户有灰尘/污渍」×3、「墙面有污渍」×2、「垃圾未倒」×2），
+         表头此前只写裸项名 ⇒ 三列长得一模一样，人眼分不出哪一列属于哪个区。
+         xlsx 侧早已用「区名 / 项名」列头解决（controllers/portal.py 的 _item_label），
+         页面侧此前没接；本模板把同一棵祖先树做成一级分组表头。
+
+         口径（每一条都有既有断言指着，别随手改）：
+           · 项名格是 th、文本仍是**裸项名** —— eval_rebuild 的 V1-④/V2b-② 与
+             assess_task_portal 的 H1.1 都按 <th>项名</th> 匹配表头；
+           · 分组格是 th scope="colgroup" colspan —— 读屏用户靠它拿到分组语义（跨区
+             同名项正是这个功能的理由）；它**不是评分列**，口径见 tests/smoke/
+             assess_task_portal.py 的 H1.1（队长 2026-09-29 裁定：只数评分列，别改成
+             「表头里不许出现 th」）；
+           · 扁平模板（全是深度 1 的项）时表头模型只有一行 ⇒ 渲染与改动前逐字节一致
+             （控制组见 tests/smoke/assess_portal_gaps.py 的 M-③）。
+
+         传参（都由控制器/matrix 调用点给全，不用缺省值 —— 少一个键就是一次 500）：
+           mhead_rows       = controllers/portal.py 的 _matrix_header(items) 返回值
+           mhead_lead       = 行标签列文案（被评对象 / 学生）
+           mhead_lead_style = 行标签列的内联宽度
+           mhead_tail       = 右侧固定列 [{"label","cls"}]（无则空表） -->
+    <template id="edu_assess_matrix_thead" name="评估·矩阵表头（区名分组）">
+        <thead class="table-light">
+            <t t-foreach="mhead_rows" t-as="hrow">
+                <tr>
+                    <th t-if="hrow_first" t-att-style="mhead_lead_style"
+                        t-att-rowspan="len(mhead_rows) if len(mhead_rows) > 1 else None"
+                        t-out="mhead_lead"/>
+                    <t t-foreach="hrow" t-as="cell">
+                        <th t-if="cell['is_item']"
+                            t-att-title="cell['title'] or ''"
+                            t-att-rowspan="cell['rowspan'] if cell['rowspan'] > 1 else None"
+                            t-out="cell['label']"/>
+                        <th t-else="" scope="colgroup"
+                            t-att-colspan="cell['colspan'] if cell['colspan'] > 1 else None"
+                            class="text-center small text-muted" t-out="cell['label']"/>
+                    </t>
+                    <t t-foreach="mhead_tail" t-as="tc">
+                        <th t-if="len(mhead_rows) == 1" t-att-class="tc['cls'] or None"
+                            t-out="tc['label']"/>
+                        <td t-else="" t-att-rowspan="len(mhead_rows)"
+                            t-att-class="tc['cls'] or None" t-out="tc['label']"/>
+                    </t>
+                </tr>
+            </t>
+        </thead>
+    </template>
+
+    <template id="edu_assess_home" name="评估·总入口">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1"><i class="fa fa-clipboard me-2"/>评估</h4>
+            <p class="text-muted mb-3">评估相关的待办与入口都会出现在这里。</p>
+
+            <div class="row row-cols-1 row-cols-md-3 g-3 mb-3">
+                <div class="col" t-if="student">
+                    <div class="card shadow-sm border-0 rounded-3 h-100">
+                        <div class="card-body">
+                            <b><i class="fa fa-star-half-o me-1 text-warning"/>我的评估</b>
+                            <p class="small text-muted mb-2 mt-1">查看自己收到的评估结果。</p>
+                            <a href="/assess/my" class="btn btn-primary btn-sm">进入</a>
+                            <a href="/assess/my/history" class="btn btn-outline-primary btn-sm ms-1">历次评估</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 整班打分 = **常驻入口**（2026-09-29；用户原话：「综合评估里这个整版打分给我放进去」）。
+                     它此前只在「有任务」时才出现（审阅队列每一行的「打分」按钮、以及
+                     本页「我任教的班级评估」列表），卡片本身又挂在 faculty（有 op.faculty
+                     档案）上 ⇒ **教务账号在 /assess 上一个「整班打分」都看不到**
+                     （实测 backoffice@local：/assess 200，全页无此入口），用户因此找不到它。
+                     现在三条口径：
+                       ① 判据 can_grade 与目标路由 /assess/review 的门禁**同一句**
+                          （教务组/系统组 ∪ 教师组）—— 卡片上出现的入口一定点得开；
+                       ② 有进行中的任务：写清有几个 + 进入审阅队列（每行可打分），
+                          条数与 /assess/review 同一份实现（controllers/portal.py 的
+                          _review_rows），卡片与列表不会互相打脸；
+                       ③ 没有：**不给死按钮**，直说空态 —— 教务给「去新建任务」
+                          （/assess/tasks，门禁 = 教务组/系统组），教师给一句说明。
+                     空态是**两句不同的话**：「还没有进行中的评估任务」（全库一个都没有）
+                     vs「没有你可以打分的任务」（有任务但名单里没有你任教班级的学生）。
+                     两种情形在教师侧的可打分计数上都是 0，混成一句就是在编造
+                     （判据见 controllers/portal.py 的 _open_grade_task_count）。 -->
+                <div class="col" t-if="can_grade">
+                    <div class="card shadow-sm border-0 rounded-3 h-100">
+                        <div class="card-body">
+                            <b><i class="fa fa-edit me-1 text-primary" aria-hidden="true"/>整班打分</b>
+                            <t t-if="grade_open_count">
+                                <p class="small text-muted mb-2 mt-1">
+                                    有 <t t-out="grade_open_count"/> 个进行中的评估可以整班打分（按班给整班学生打分）。
+                                </p>
+                                <a href="/assess/review" class="btn btn-primary btn-sm">进入整班打分</a>
+                            </t>
+                            <t t-else="">
+                                <p class="small text-muted mb-2 mt-1">
+                                    <t t-if="grade_any_open">
+                                        当前没有你可以打分的评估任务：进行中的任务名单里没有你任教班级的学生。
+                                    </t>
+                                    <t t-else="">还没有进行中的评估任务。</t>
+                                </p>
+                                <t t-if="is_admin">
+                                    <a href="/assess/tasks" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-plus me-1" aria-hidden="true"/>去新建任务
+                                    </a>
+                                    <p class="small text-muted mt-2 mb-0">
+                                        新建并发布（开始）后，这里会出现可以打分的名单。
+                                    </p>
+                                </t>
+                                <p t-if="not is_admin" class="small text-muted mb-0">
+                                    评估任务由教务处创建；发布（开始）后这里会出现可以打分的名单。
+                                </p>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" t-if="parent">
+                    <div class="card shadow-sm border-0 rounded-3 h-100">
+                        <div class="card-body">
+                            <b><i class="fa fa-child me-1 text-success"/>孩子的评估</b>
+                            <p class="small text-muted mb-2 mt-1">
+                                孩子在评估里收到的结果与历次变化 —— 入口在既有的「我的孩子」页。
+                            </p>
+                            <a href="/my/child" class="btn btn-primary btn-sm">我的孩子</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" t-if="is_admin">
+                    <div class="card shadow-sm border-0 rounded-3 h-100">
+                        <div class="card-body">
+                            <b><i class="fa fa-list-alt me-1 text-primary"/>模板与评分项</b>
+                            <p class="small text-muted mb-2 mt-1">
+                                新建/编辑评估模板，增删改评分项 —— 都在门户里完成。
+                            </p>
+                            <a href="/assess/templates" class="btn btn-primary btn-sm">进入管理</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <t t-if="fill_tasks">
+                <h6 class="mt-4">进行中的评教</h6>
+                <ul class="list-group mb-3">
+                    <t t-foreach="fill_tasks" t-as="task">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><b t-out="task.name"/>（<t t-out="task.period"/>）</span>
+                            <a t-attf-href="/assess/fill/#{task.id}" class="btn btn-sm btn-primary">填写</a>
+                        </li>
+                    </t>
+                </ul>
+            </t>
+            <t t-if="grade_tasks">
+                <h6 class="mt-4">我任教的班级评估</h6>
+                <ul class="list-group mb-3">
+                    <t t-foreach="grade_tasks" t-as="task">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><b t-out="task.name"/>（<t t-out="task.period"/>）</span>
+                            <a t-attf-href="/assess/grade/#{task.id}" class="btn btn-sm btn-primary">打分</a>
+                        </li>
+                    </t>
+                </ul>
+            </t>
+            <!-- 追加（另一 agent 的任务：评估任务生命周期搬进门户）——
+                 「评估任务」此前只能在 Odoo 后台新建/发布/排名单/结束，而没人去后台
+                 把它结束 ⇒ /assess/my 一直是空的。入口挂在这里，实现见
+                 controllers/task_admin.py + views/assess_task_admin.xml。 -->
+            <t t-if="is_admin">
+                <h6 class="mt-4">评估任务</h6>
+                <p class="text-muted small mb-2">
+                    新建、发布、排名单、结束 —— 一次评估的全过程都在门户里走完。
+                    只有走到「已结束」，学生那边才会出现评估结果。
+                </p>
+                <a href="/assess/tasks" class="btn btn-primary btn-sm">
+                    <i class="fa fa-tasks me-1"/>管理评估任务
+                </a>
+            </t>
+            <t t-if="admin_tasks">
+                <h6 class="mt-4">全部进行中的评估</h6>
+                <ul class="list-group">
+                    <t t-foreach="admin_tasks" t-as="task">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><b t-out="task.name"/>（<t t-out="task.period"/>）</span>
+                            <a t-attf-href="/assess/task/#{task.id}/results"
+                               class="btn btn-sm btn-outline-primary">结果与导出</a>
+                        </li>
+                    </t>
+                </ul>
+            </t>
+        </t>
+    </template>
+
+    <template id="edu_assess_my" name="评估·我的">
+        <t t-call="edu_portal.edu_page">
+            <a href="/my/home" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回门户首页
+            </a>
+            <h4 class="mt-2 mb-1"><i class="fa fa-star-half-o me-2"/>我的评估</h4>
+            <p class="text-muted small mb-3">这里只显示与你本人有关的内容。</p>
+
+            <t t-if="fill_tasks">
+                <h6>待填写</h6>
+                <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
+                    <t t-foreach="fill_tasks" t-as="ft">
+                        <div class="col">
+                            <div class="card shadow-sm border-0 rounded-3 h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <b t-out="ft['task'].name"/>
+                                    <p class="small text-muted mb-2 mt-1">
+                                        周期：<t t-out="ft['task'].period"/>｜已填 <t t-out="ft['done']"/> 格
+                                    </p>
+                                    <div class="progress mb-2" style="height:8px">
+                                        <!-- role=progressbar 必须带可访问名与数值（2026-09-29 队长指派）：
+                                             缺名字时 axe 报 aria-progressbar-name（serious）。
+                                             名字给人读（含单位）、valuenow 给数值（不带 %）——
+                                             ft['pct'] 由控制器算成 0~100 的整数，见 controllers/portal.py 的 pct。 -->
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                             t-att-aria-label="'填写进度：' + str(ft['pct']) + '%'"
+                                             t-att-aria-valuenow="ft['pct']"
+                                             aria-valuemin="0" aria-valuemax="100"
+                                             t-att-style="'width:' + str(ft['pct']) + '%'"/>
+                                    </div>
+                                    <a t-attf-href="/assess/fill/#{ft['task'].id}"
+                                       class="btn btn-primary btn-sm mt-auto">
+                                        <i class="fa fa-pencil me-1"/>去填写
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="alert alert-info py-2">当前没有需要你填写的评估。</div>
+            </t>
+
+            <h6 class="mt-3 d-flex justify-content-between align-items-center">
+                <span>我收到的评估结果</span>
+                <!-- 学生 → /assess/my/history；被评教师 → /assess/faculty/history
+                     （后者是 2026-09-29 补的：那条 /assess/my/history 是**学生**路由，
+                     教师点它会弹回门户 —— 见 controllers/portal.py 的教师历程段）。 -->
+                <a t-attf-href="{{ '/assess/my/history' if student else '/assess/faculty/history' }}"
+                   class="small">查看我的评估历程 →</a>
+            </h6>
+            <t t-if="not rows">
+                <div class="alert alert-light border py-2 small">
+                    暂无已结束的评估结果。评估结束（打分完成）后会在这里出现；进行中的评估不在本页显示。
+                </div>
+            </t>
+            <t t-else="">
+                <t t-foreach="rows" t-as="row">
+                    <div class="card shadow-sm border-0 rounded-3 mb-3">
+                        <div class="card-header bg-white">
+                            <b t-out="row['roster'].task_id.name"/>
+                        </div>
+                        <div class="card-body">
+                            <t t-if="row['hidden']">
+                                <div class="alert alert-warning py-2 mb-0 small">
+                                    <i class="fa fa-lock me-1"/><t t-out="row['reason']"/>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <!-- 行 = 评分项。矩阵表头的分组在这张表上是**行组**：
+                                     分组格 = <th scope="rowgroup" rowspan>（列轴用
+                                     scope="colgroup" + colspan，见 edu_assess_matrix_thead
+                                     ——同一棵树 _item_chain 的两个面，见 controllers/portal.py
+                                     的 _item_row_groups）。跨区同名项（卫生检测表里
+                                     窗户有灰尘/污渍 ×3）靠它才分得出是哪一区一行。
+                                     扁平模板不成组：has_group_col 为假 ⇒ 不加列，与改动前同形。 -->
+                                <table class="table table-sm align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th t-if="row['has_group_col']" scope="col"
+                                                class="small text-muted">分组</th>
+                                            <th>评分项</th><th class="text-end">得分</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="row['item_groups']" t-as="rg">
+                                            <tr>
+                                                <th t-if="rg['rowspan']" scope="rowgroup"
+                                                    t-att-rowspan="rg['rowspan'] if rg['rowspan'] > 1 else None"
+                                                    class="small text-muted fw-normal"
+                                                    t-out="rg['chain']"/>
+                                                <td t-out="rg['item'].name"/>
+                                                <td class="text-end">
+                                                    <t t-if="row['cells'].get(rg['item'].id) is not None"
+                                                       t-out="'%g' % row['cells'][rg['item'].id]"/>
+                                                    <t t-else="">
+                                                        <span class="text-muted">未评</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <!-- 2026-09-28 新增：算分提示（双轨缺一路 / 未评项 / 可评满分）。
+                                     引擎口径：缺一路的项**不计入**总分（不按一路折算、也不按 0 算），
+                                     所以这里既不显示"偏低的总分"，也不显示等级。 -->
+                                <t t-if="row['roster'].missing_tracks">
+                                    <div class="alert alert-warning py-2 mt-3 mb-0 small" role="alert">
+                                        <i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/>
+                                        <b>缺一路（<t t-out="row['roster'].missing_tracks"/>路没有分数）</b>
+                                        —— 这一项<b>不计入</b>总分（不按一路折算、也不按 0 算），
+                                        补上另一路之后总分才会算出来。
+                                    </div>
+                                </t>
+                                <t t-if="row['roster'].complete">
+                                    <div class="small mt-2">
+                                        加权总分 <b t-out="'%.2f' % row['roster'].weighted_total"/> 分
+                                        <t t-if="row['roster'].grade">｜等级 <b t-out="row['roster'].grade"/></t>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="small text-muted mt-2">
+                                        算分不完整，<b>不显示总分</b>（避免把"有项没评"读成一个偏低的分）。
+                                    </div>
+                                </t>
+                                <t t-if="row['roster'].missing_items">
+                                    <div class="small text-muted">
+                                        未评项：<t t-out="row['roster'].missing_items"/>；
+                                        本模板当前可评满分
+                                        <b t-out="'%g' % row['roster'].reachable_max"/> 分
+                                        （未评项不参与归一）。
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="edu_assess_fill" name="评估·填写（匿名矩阵）">
+        <t t-call="edu_portal.edu_page">
+            <a href="/assess/my" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回我的评估
+            </a>
+            <h4 class="mt-2 mb-1"><i class="fa fa-comments-o me-2"/><t t-out="task.name"/></h4>
+            <p class="text-muted small mb-2">
+                周期：<t t-out="task.period"/>｜截止：<t t-out="task.date_due or '未设置'"/>
+            </p>
+            <div class="alert alert-light border d-flex align-items-start gap-2 py-3 mb-3">
+                <i class="fa fa-shield text-muted mt-1"/>
+                <div class="small">
+                    <t t-if="anonymous">
+                        <b>匿名保证：</b>系统不保存你的身份，只保存一串无法反推的校验码
+                        （用于防止同一人重复提交）。结果页只有在有效样本达到
+                        <t t-out="summary_min"/> 份时才展示，且只展示汇总分数。
+                    </t>
+                    <t t-else="">
+                        <b>本次评估为实名填写</b>，打分记录会保留填写人，请如实填写。
+                    </t>
+                </div>
+            </div>
+            <t t-if="saved">
+                <div class="alert alert-success py-3 d-flex gap-2 align-items-start" role="status">
+                    <i class="fa fa-check-circle fa-2x" style="color:#198754;"/>
+                    <div>
+                        <b>已保存。</b>
+                        <div class="small">截止前可以回来修改，重复提交不会重复计数。</div>
+                    </div>
+                </div>
+            </t>
+
+            <form method="post" t-attf-action="/assess/fill/#{task.id}/save">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="table-responsive card shadow-sm border-0 rounded-3">
+                    <!-- 矩阵自己的滚动容器（E6 冻结的地基）：sticky 的参考系是「最近的滚动盒子」，
+                         而外层 .table-responsive.card 的 overflow 被 .card 抢成 hidden
+                         （因果实验见 docs/research/table-sticky-and-paste.md §7.6.5 ①）
+                         ⇒ 滚动由这一层自己负责，不覆盖 .card 的 overflow。
+                         样式在 static/src/css/assess_grid.css。 -->
+                    <div class="yy-assess-scroll">
+                    <table class="table table-sm align-middle mb-0 yy-assess-matrix"
+                           id="yy-assess-fill-table">
+                        <!-- 表头 = 共用子模板（分组行 + 裸项名列）；模型口径见 controllers/portal.py 的 _matrix_header -->
+                        <t t-call="edu_assess.edu_assess_matrix_thead">
+                            <t t-set="mhead_rows" t-value="header_rows"/>
+                            <t t-set="mhead_lead" t-value="'被评对象'"/>
+                            <t t-set="mhead_lead_style" t-value="'min-width:120px'"/>
+                            <t t-set="mhead_tail" t-value="[]"/>
+                        </t>
+                        <tbody>
+                            <t t-foreach="rosters" t-as="roster">
+                                <tr>
+                                    <td><b t-out="roster.faculty_id.name or roster.student_id.name"/></td>
+                                    <t t-foreach="items" t-as="it">
+                                        <td style="min-width:90px">
+                                            <input type="number" step="0.5" min="0"
+                                                   class="form-control form-control-sm"
+                                                   t-att-max="it.max_score"
+                                                   t-att-name="'v_%d_%d' % (roster.id, it.id)"
+                                                   t-att-value="('%g' % pre_value[roster.id][it.id]) if (roster.id in pre_value and it.id in pre_value[roster.id]) else ''"
+                                                   t-att-placeholder="'0~%s' % ('%g' % it.max_score)"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">
+                    <i class="fa fa-paper-plane me-1"/>保存
+                </button>
+                <span class="small text-muted ms-2">留空表示该项不评。</span>
+            </form>
+        </t>
+    </template>
+
+    <template id="edu_assess_grade" name="评估·整班打分矩阵">
+        <t t-call="edu_portal.edu_page">
+            <a href="/assess/review" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回审阅队列
+            </a>
+            <h4 class="mt-2 mb-1"><i class="fa fa-edit me-2"/>整班打分：<t t-out="task.template_id.name"/></h4>
+            <p class="text-muted small mb-2">
+                周期：<t t-out="task.period"/>｜截止：<t t-out="task.date_due or '未设置'"/>
+                <span class="badge text-bg-light ms-2">仅本人任教班级</span>
+            </p>
+            <t t-if="error == 'closed'">
+                <div class="alert alert-warning py-2">该评估已结束，不能再修改打分。</div>
+            </t>
+            <t t-if="saved">
+                <div class="alert alert-success py-2" role="status">整班打分已保存。</div>
+            </t>
+            <t t-if="not rosters">
+                <div class="alert alert-warning py-2">
+                    本次评估没有你任教班级的学生（或名单尚未生成），请与教务处确认。
+                </div>
+            </t>
+            <t t-else="">
+                <form method="post" t-attf-action="/assess/grade/#{task.id}/save">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="table-responsive card shadow-sm border-0 rounded-3">
+                        <!-- 矩阵自己的滚动容器（E6 冻结的地基）：sticky 的参考系是「最近的滚动盒子」，
+                         而外层 .table-responsive.card 的 overflow 被 .card 抢成 hidden
+                         （因果实验见 docs/research/table-sticky-and-paste.md §7.6.5 ①）
+                         ⇒ 滚动由这一层自己负责，不覆盖 .card 的 overflow。
+                         样式在 static/src/css/assess_grid.css。 -->
+                        <div class="yy-assess-scroll">
+                        <table class="table table-sm align-middle mb-0 yy-assess-matrix"
+                               id="yy-assess-grade-table">
+                            <!-- 表头 = 共用子模板（分组行 + 裸项名列）；模型口径见 controllers/portal.py 的 _matrix_header -->
+                            <t t-call="edu_assess.edu_assess_matrix_thead">
+                                <t t-set="mhead_rows" t-value="header_rows"/>
+                                <t t-set="mhead_lead" t-value="'学生'"/>
+                                <t t-set="mhead_lead_style" t-value="'min-width:120px'"/>
+                                <t t-set="mhead_tail" t-value="[]"/>
+                            </t>
+                            <tbody>
+                                <t t-foreach="rosters" t-as="roster">
+                                    <tr>
+                                        <td>
+                                            <a t-attf-href="/assess/student/#{roster.student_id.id}/history"
+                                               class="fw-semibold text-decoration-underline"
+                                               t-att-title="'查看 %s 的历次评估' % (roster.student_id.name or '')"
+                                               t-out="roster.student_id.name"/>
+                                            <div class="small text-muted" t-out="roster.batch_id.name or ''"/>
+                                        </td>
+                                        <t t-foreach="items" t-as="it">
+                                            <td style="min-width:90px">
+                                                <input type="number" step="0.5" min="0"
+                                                       class="form-control form-control-sm"
+                                                       t-att-max="it.max_score"
+                                                       t-att-name="'v_%d_%d' % (roster.id, it.id)"
+                                                       t-att-value="('%g' % pre_value[roster.id][it.id]) if (roster.id in pre_value and it.id in pre_value[roster.id]) else ''"
+                                                       t-att-placeholder="'0~%s' % ('%g' % it.max_score)"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">
+                        <i class="fa fa-save me-1"/>保存整班打分
+                    </button>
+                </form>
+            </t>
+        </t>
+    </template>
+
+    <template id="edu_assess_review" name="评估·审阅队列">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1"><i class="fa fa-check-square-o me-2" aria-hidden="true"/>评估审阅</h4>
+            <p class="text-muted small mb-3">只列出你任教班级参与、或你有权查看的评估。</p>
+            <t t-if="not rows">
+                <!-- 空态（2026-09-29）：这里是「整班打分」的落点，所以空态必须给出
+                     下一步而不是一句"没有" —— 教务直接去新建任务（/assess/tasks），
+                     教师得到一句说明（新建任务是教务的活，给教师那个按钮 = 点了被弹回）。
+                     两种"空"分开写：any_open 为真 = 有进行中的任务、只是名单里没有你
+                     （或没有你任教班级的学生）；否则 = 全库一个进行中的评估都没有。 -->
+                <div class="alert alert-info py-2" id="yy-assess-review-empty">
+                    <t t-if="any_open">当前没有你可以打分的评估任务。</t>
+                    <t t-else="">还没有进行中的评估任务。</t>
+                </div>
+                <t t-if="is_admin">
+                    <a href="/assess/tasks" class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus me-1" aria-hidden="true"/>去新建任务
+                    </a>
+                    <p class="small text-muted mt-2 mb-0">
+                        新建并发布（开始）后，这里会出现可以打分的名单。
+                    </p>
+                </t>
+                <p t-if="not is_admin" class="small text-muted mb-0">
+                    评估任务由教务处创建；发布（开始）后这里会出现可以打分的名单。
+                </p>
+            </t>
+            <t t-else="">
+                <t t-if="not open_count">
+                    <div class="alert alert-light border py-2 small" id="yy-assess-review-noopen">
+                        当前没有进行中的评估任务（下列为已结束的）。
+                    </div>
+                </t>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead class="table-light">
+                            <tr><th>评估</th><th>周期</th><th>状态</th>
+                                <th class="text-end">已评 / 应评</th><th>操作</th></tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="rows" t-as="row">
+                                <tr>
+                                    <td><b t-out="row['task'].template_id.name"/></td>
+                                    <td t-out="row['task'].period"/>
+                                    <td><span class="badge text-bg-info"
+                                              t-out="state_labels.get(row['task'].state, '')"/></td>
+                                    <td class="text-end" t-out="'%d / %d' % (row['done'], row['rosters'])"/>
+                                    <td>
+                                        <!-- 已结束的任务**没有写入通道**（/assess/grade/<id>/save
+                                             会拒绝并回 ?error=closed）⇒ 这一行不给「打分」按钮，
+                                             免得点进去是个打不了分、也存不了的死按钮。 -->
+                                        <a t-if="row['open']"
+                                           t-attf-href="/assess/grade/#{row['task'].id}"
+                                           class="btn btn-sm btn-primary">打分</a>
+                                        <span t-if="not row['open']" class="small text-muted">已结束，不能打分</span>
+                                        <a t-attf-href="/assess/task/#{row['task'].id}/results"
+                                           class="btn btn-sm btn-outline-primary ms-1">结果</a>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="edu_assess_results" name="评估·结果与导出">
+        <t t-call="edu_portal.edu_page">
+            <a href="/assess" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回评估首页
+            </a>
+            <h4 class="mt-2 mb-1"><i class="fa fa-table me-2"/>评估结果：<t t-out="task.template_id.name"/></h4>
+            <p class="text-muted small mb-2">
+                周期：<t t-out="task.period"/>｜名单 <t t-out="len(rows)"/> 人｜
+                答卷 <t t-out="refs"/> 份
+                <span t-if="anonymous" class="badge text-bg-warning ms-2">
+                    匿名评估（门槛 <t t-out="summary_min"/> 份）
+                </span>
+            </p>
+            <t t-if="imported is not None">
+                <div class="alert alert-success py-2" role="status">
+                    导入完成：写入 <t t-out="imported"/> 条，跳过 <t t-out="skipped"/> 条。
+                </div>
+            </t>
+
+            <t t-if="not task_gate">
+                <div class="alert alert-warning py-3" id="yy-assess-sample-gate">
+                    <b><i class="fa fa-lock me-1"/>暂不展示结果。</b>
+                    <div class="small mt-1" t-out="hidden_reason"/>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="table-responsive card shadow-sm border-0 rounded-3">
+                    <!-- 矩阵自己的滚动容器（E6 冻结的地基）：sticky 的参考系是「最近的滚动盒子」，
+                         而外层 .table-responsive.card 的 overflow 被 .card 抢成 hidden
+                         （因果实验见 docs/research/table-sticky-and-paste.md §7.6.5 ①）
+                         ⇒ 滚动由这一层自己负责，不覆盖 .card 的 overflow。
+                         样式在 static/src/css/assess_grid.css。 -->
+                    <div class="yy-assess-scroll">
+                    <table class="table table-sm align-middle mb-0 yy-assess-matrix"
+                           id="yy-assess-result-table">
+                        <!-- 表头 = 共用子模板（分组行 + 裸项名列）；模型口径见 controllers/portal.py 的 _matrix_header -->
+                        <t t-call="edu_assess.edu_assess_matrix_thead">
+                            <t t-set="mhead_rows" t-value="header_rows"/>
+                            <t t-set="mhead_lead" t-value="'被评对象'"/>
+                            <t t-set="mhead_lead_style" t-value="'min-width:130px'"/>
+                            <t t-set="mhead_tail" t-value="[{'label': '加权总分', 'cls': 'text-end'}, {'label': '平均分', 'cls': 'text-end'}, {'label': '算分提示', 'cls': ''}]"/>
+                        </t>
+                        <tbody>
+                            <t t-foreach="rows" t-as="row">
+                                <tr>
+                                    <td>
+                                        <a t-if="row['roster'].student_id"
+                                           t-attf-href="/assess/student/#{row['roster'].student_id.id}/history"
+                                           class="fw-semibold text-decoration-underline"
+                                           t-att-title="'查看 %s 的历次评估' % row['label']"
+                                           t-out="row['label']"/>
+                                        <b t-else="" t-out="row['label']"/>
+                                        <div class="small text-muted" t-out="row['batch']"/>
+                                    </td>
+                                    <t t-foreach="items" t-as="it">
+                                        <td>
+                                            <t t-if="not row['gate']">
+                                                <span class="text-muted small">样本不足</span>
+                                            </t>
+                                            <t t-elif="row['cells'].get(it.id) is None">
+                                                <span class="text-muted">未评</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-out="'%.2f' % row['cells'][it.id]"/>
+                                                <span class="small text-muted ms-1"
+                                                      t-out="'（%d 份）' % row['count']"/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                    <td class="text-end" t-out="'%.2f' % row['weighted']"/>
+                                    <td class="text-end" t-out="'%.2f' % row['average']"/>
+                                    <!-- 2026-09-28 新增：算分提示列（只读模型派生字段，不自己求和）。
+                                         引擎口径：缺一路的项不计入总分；未评项不参与归一。
+                                         只在样本门槛通过的行上显示（未过门槛的行连格子都写"样本不足"）。 -->
+                                    <td class="small">
+                                        <t t-if="row['gate']">
+                                            <t t-if="row['roster'].missing_tracks">
+                                                <span class="badge text-bg-warning">
+                                                    缺一路：<t t-out="row['roster'].missing_tracks"/>
+                                                </span>
+                                            </t>
+                                            <t t-if="row['roster'].missing_items">
+                                                <div class="text-muted">
+                                                    未评项：<t t-out="row['roster'].missing_items"/>
+                                                </div>
+                                            </t>
+                                            <div class="text-muted">
+                                                可评满分 <t t-out="'%g' % row['roster'].reachable_max"/> 分
+                                                <t t-if="not row['roster'].complete">（算分不完整：上面总分只含已评项）</t>
+                                            </div>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </t>
+
+            <t t-if="can_export">
+                <h6 class="mt-4">Excel 导出与导入</h6>
+                <div class="d-flex flex-wrap gap-2 mb-2">
+                    <a t-attf-href="/assess/template/#{task.template_id.id}/blank.xlsx?task_id=#{task.id}"
+                       class="btn btn-outline-secondary btn-sm">
+                        <i class="fa fa-download me-1"/>导出空表（带名单）
+                    </a>
+                    <a t-attf-href="/assess/task/#{task.id}/export.xlsx"
+                       class="btn btn-outline-secondary btn-sm">
+                        <i class="fa fa-download me-1"/>导出结果
+                    </a>
+                </div>
+                <form method="post" t-attf-action="/assess/task/#{task.id}/import"
+                      enctype="multipart/form-data" class="card border-0 shadow-sm rounded-3 p-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-5">
+                            <label class="form-label small mb-1" for="yy-assess-file">
+                                把填好的表格导回来（先预览，再确认）
+                            </label>
+                            <input type="file" class="form-control form-control-sm"
+                                   id="yy-assess-file" name="file" accept=".xlsx,.csv"
+                                   required="required"/>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check small">
+                                <input class="form-check-input" type="checkbox"
+                                       value="1" id="yy-assess-newcols" name="create_items"/>
+                                <label class="form-check-label" for="yy-assess-newcols">
+                                    遇到没见过的列头时，按新列创建评分项
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary btn-sm w-100">
+                                <i class="fa fa-upload me-1"/>上传并预览
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </t>
+        </t>
+    </template>
+
+    <template id="edu_assess_import" name="评估·导入预览">
+        <t t-call="edu_portal.edu_page">
+            <a t-attf-href="/assess/task/#{task.id}/results"
+               class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回结果页
+            </a>
+            <h4 class="mt-2 mb-1"><i class="fa fa-upload me-2"/>导入预览</h4>
+            <p class="text-muted small mb-2">
+                评估：<b t-out="task.template_id.name"/>（<t t-out="task.period"/>）｜
+                文件：<t t-out="filename or '未选择'"/>｜
+                可写入 <b t-out="len(preview['valid'])"/> 行，待修正 <b t-out="len(preview['invalid'])"/> 行。
+            </p>
+            <t t-if="created_item_names">
+                <div class="alert alert-info py-2 small">
+                    已按新列创建评分项：<t t-out="created_item_names"/>
+                </div>
+            </t>
+            <t t-if="file_error">
+                <div class="alert alert-danger py-2" id="yy-assess-file-error">
+                    <b>整份文件未导入：</b><t t-out="file_error"/>
+                </div>
+            </t>
+
+            <t t-if="preview['valid']">
+                <h6 class="mt-3">将写入以下数据（旧值 → 新值）</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle">
+                        <thead class="table-light">
+                            <tr><th>行号</th><th>被评对象</th><th>评分项</th>
+                                <th class="text-end">原值</th><th class="text-end">新值</th></tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="preview['valid']" t-as="v">
+                                <t t-foreach="v['cells']" t-as="cell">
+                                    <tr>
+                                        <td t-out="v['row']"/>
+                                        <td t-out="v['label']"/>
+                                        <td t-out="cell['name']"/>
+                                        <td class="text-end text-muted">
+                                            <t t-if="cell['old'] is None">—</t>
+                                            <t t-else="" t-out="'%g' % cell['old']"/>
+                                        </td>
+                                        <td class="text-end fw-semibold" t-out="'%g' % cell['value']"/>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+            <t t-if="preview['invalid']">
+                <h6 class="text-danger mt-3">以下行不会写入</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle" id="yy-assess-invalid-table">
+                        <thead class="table-light">
+                            <tr><th>行号</th><th>学号</th><th>姓名</th><th>原因</th></tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="preview['invalid']" t-as="iv">
+                                <tr class="table-danger">
+                                    <td t-out="iv['row']"/>
+                                    <td t-out="iv['no'] or '—'"/>
+                                    <td t-out="iv['name'] or '—'"/>
+                                    <td t-out="iv['errors']"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+            <form method="post" t-attf-action="/assess/task/#{task.id}/import/commit"
+                  t-if="preview['valid']">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="payload" t-att-value="confirm_json"/>
+                <input type="hidden" name="filename" t-att-value="filename"/>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-check me-1"/>确认写入
+                </button>
+            </form>
+        </t>
+    </template>
+
+    <!-- ============ 学生的评估历程（跨任务聚合；零新模型） ============
+         同一个学生的历次评估连成一条时间线 —— 入口有两个，共用这一份模板：
+           · /assess/my/history                       学生本人（被评者本人视角）
+           · /assess/student/<id>/history             教师/教务看某个学生
+         口径与可见性规则见 controllers/portal.py 的 §6 段注释；两道闸门
+         （score_visible / summary_min）与 /assess/my、结果页同源。
+         ⚠ 本模板的百分号一律写成**字面文本**（<b>..</b>% ），不写进 QWeb 表达式：
+            视图装载器会把 XML 里的 '%%' 折成 '%'（odoo/tools/convert.py:121
+            "s = s.replace('%%','%')"，向后兼容使然）⇒ 表达式里的 '%.1f%%'
+            落到库里变成 '%.1f%'，渲染即 QWebError: incomplete format（实测踩过）。 -->
+    <template id="edu_assess_history" name="评估·历程（跨任务）">
+        <t t-call="edu_portal.edu_page">
+            <a t-att-href="back or ('/assess/my' if own else '/assess')"
+               class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1" aria-hidden="true"/>
+                <t t-if="back_label" t-out="back_label"/>
+                <t t-elif="own">返回我的评估</t>
+                <t t-else="">返回评估首页</t>
+            </a>
+            <h4 class="mt-2 mb-1">
+                <i class="fa fa-history me-2" aria-hidden="true"/>
+                <t t-if="heading" t-out="heading"/>
+                <t t-elif="own">我的评估历程</t>
+                <t t-else="">学生评估历程</t>
+            </h4>
+            <p class="text-muted small mb-3" t-if="own">
+                同一个人的历次评估连在这一页里（不再是散在各任务里的一张张卡）。
+                只显示<strong>已结束</strong>的评估，按时间由早到晚排列。
+            </p>
+            <p class="text-muted small mb-3" t-if="not own and student">
+                <t t-out="subject_word"/>：<b t-out="student.name"/>
+                <t t-if="student.gr_no">（学号 <t t-out="student.gr_no"/>）</t>
+                ｜只显示<strong>已结束</strong>的评估，按时间由早到晚排列。
+            </p>
+
+            <t t-if="out_of_scope">
+                <div class="alert alert-warning py-3" id="yy-assess-history-scope">
+                    <b>不在你的可见范围。</b>
+                    <div class="small mt-1">
+                        该学生不在你任教的班级里，无法查看其评估记录
+                        （分数范围按任教班级收敛，与整班打分同一条规则）。
+                    </div>
+                </div>
+            </t>
+            <t t-elif="not entries">
+                <div class="alert alert-light border py-3 small" id="yy-assess-history-empty">
+                    <b>暂无已结束的评估记录。</b>
+                    <div class="mt-1">
+                        本页只显示「已结束」的评估：正在进行中的评估（含尚未打完分的）不在此页显示，
+                        以免展示未完成的结果；评估结束后会出现在这里。
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="alert alert-light border py-2 small" t-if="trend"
+                     id="yy-assess-history-trend">
+                    已有 <b t-out="trend['n']"/> 次可比的评估结果：得分率从
+                    <b><t t-out="'%.1f' % trend['first']"/>%</b> 到
+                    <b><t t-out="'%.1f' % trend['last']"/>%</b>
+                    （<t t-out="'%+.1f' % trend['delta']"/> 个百分点）。
+                </div>
+                <div class="table-responsive card shadow-sm border-0 rounded-3">
+                    <table class="table table-sm align-middle mb-0" id="yy-assess-history-table">
+                        <caption class="small text-muted px-3 pt-2">
+                            已结束的评估，按时间由早到晚。「与上次相比」= 相对上一条可公开结果的
+                            得分率差（百分点）；不同量表之间按得分率比较。
+                        </caption>
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col" style="min-width:110px">时间</th>
+                                <th scope="col">评估</th>
+                                <th scope="col" class="text-end">总分</th>
+                                <th scope="col" class="text-end">满分</th>
+                                <th scope="col" class="text-end">得分率</th>
+                                <th scope="col" class="text-end">与上次相比</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="entries" t-as="e">
+                                <tr>
+                                    <td>
+                                        <div t-out="e['when'] or '—'"/>
+                                        <div class="small text-muted" t-out="e['period']"/>
+                                    </td>
+                                    <td>
+                                        <b t-out="e['name']"/>
+                                        <div class="small text-muted">
+                                            <t t-out="e['kind']"/>
+                                            <t t-if="e['batch']"> ｜ <t t-out="e['batch']"/></t>
+                                        </div>
+                                    </td>
+                                    <t t-if="e['visible']">
+                                        <td class="text-end" t-out="'%g' % e['total']"/>
+                                        <td class="text-end" t-out="'%g' % e['full']"/>
+                                        <td class="text-end">
+                                            <span><t t-out="'%.1f' % e['rate']"/>%</span>
+                                            <div class="small text-muted"
+                                                 t-if="not own and e['count']"
+                                                 t-out="'%d 份答卷' % e['count']"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <t t-if="e['delta'] is None">
+                                                <span class="text-muted">首次</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-out="'%+.1f 个百分点' % e['delta']"/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td colspan="4" class="small text-muted">
+                                            <i class="fa fa-lock me-1" aria-hidden="true"/>
+                                            <t t-out="e['reason']"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="small text-muted mt-2 mb-0">
+                    「不公开」= 该次模板设置为结果不向<t t-out="subject_word"/>公开；「样本不足」= 有效答卷份数未达
+                    该任务的匿名门槛。两种情况都不会显示任何分数。
+                </p>
+            </t>
+
+            <div class="mt-3 d-flex flex-wrap gap-2">
+                <a t-att-href="back or ('/assess/my' if own else '/assess')"
+                   class="btn btn-sm btn-outline-secondary">
+                    <t t-if="back_label" t-out="back_label"/>
+                    <t t-elif="own">去「我的评估」填评教</t>
+                    <t t-else="">返回评估首页</t>
+                </a>
+            </div>
+        </t>
+    </template>
+    <!-- ============ 家长：孩子的评估（挂进既有两页，不另开一套家长门户） ============
+         为什么用**模板继承**而不是复制页面：既有布局与入口（仪表盘 / 为孩子请假）
+         一字不动，只挂一块「评估」。两页共用同一份块体（下面的 _child_assess_body），
+         避免第三套样式/口径。
+         数据来自 controllers/portal.py 的 EduAssessParentPortal._child_summary —— 它
+         super() 取父类摘要再补 kid['assess'] = {entries, recent, n, visible_n}；两条家长
+         路由都由本模块的薄壳委托父类渲染，所以两页都拿得到这个键。键**缺席时整块不渲染**
+         （不是渲染成"暂无"—— 那会把"没接上"说成"没数据"）。
+         越权与闸门口径见该控制器的 §7 段注释：孩子集合 = op.parent.student_ids（权威
+         M2M），可见性与**孩子本人**同一套（score_visible + 匿名门槛），隐藏时不下发数字。 -->
+    <template id="edu_assess_child_assess_body" name="家长·孩子的评估（块体，两页共用）">
+        <!-- 传参：ka = kid['assess']；kid = 家长页的孩子摘要（取 kid['student'].id 做链接） -->
+        <div t-if="ka.get('n')">
+            <div class="small text-muted">
+                已结束 <t t-out="ka['n']"/> 次
+                <t t-if="ka['visible_n'] != ka['n']">
+                    ｜其中 <t t-out="ka['visible_n']"/> 次可查看（其余为「不公开」或「样本不足」，不显示分数）
+                </t>
+            </div>
+            <ul class="list-unstyled small mb-1">
+                <t t-foreach="ka['recent']" t-as="e">
+                    <li>
+                        <span t-out="e['when'] or '—'"/>｜<span t-out="e['name']"/>
+                        <t t-if="e['visible']">
+                            ：<b t-out="'%g' % e['total']"/>/<t t-out="'%g' % e['full']"/> 分
+                            （得分率 <t t-out="'%.1f' % e['rate']"/>%）
+                        </t>
+                        <t t-else="">
+                            ：<span class="text-muted" t-out="e['reason']"/>
+                        </t>
+                    </li>
+                </t>
+            </ul>
+            <a t-attf-href="/assess/child/#{ kid['student'].id }/history" class="small">
+                查看完整历程 →
+            </a>
+        </div>
+        <div class="small text-muted" t-else="">
+            暂无已结束的评估记录（进行中的评估不在此处显示）。评估结束后会出现在这里。
+        </div>
+    </template>
+
+    <template id="edu_assess_child_assess_block" name="家长·孩子的评估（/my/child 内嵌块）"
+              inherit_id="edu_portal.edu_my_child">
+        <!-- 卡片外层是 d-flex 且没有 flex-wrap：加 flex-wrap 后，w-100 的评估块
+             才会落到第二行（不动既有两列的相对位置）。 -->
+        <xpath expr="//div[hasclass('text-bg-light') and hasclass('position-relative')]"
+               position="attributes">
+            <attribute name="class" add="flex-wrap" separator=" "/>
+        </xpath>
+        <xpath expr="//div[hasclass('text-bg-light') and hasclass('position-relative')]"
+               position="inside">
+            <div class="w-100 mt-2 pt-2 border-top" t-if="kid.get('assess')">
+                <div class="small"><b>评估历程</b></div>
+                <t t-set="ka" t-value="kid['assess']"/>
+                <t t-call="edu_assess.edu_assess_child_assess_body"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="edu_assess_child_dashboard_assess" name="家长·孩子的评估（仪表盘内嵌块）"
+              inherit_id="edu_portal.edu_child_dashboard">
+        <!-- 锚点 = 「考试成绩」那个 <t t-if="marks"> 块**之后**：评估块落在考试成绩
+             与快捷入口之间 —— 不碰仪表盘主体任何一行。
+             为什么不用 //div[hasclass('o_portal_docs')] + position=before：那是绝对路径，
+             check_view_xpath 的 QWEB-ADJ 会在**同一个文件**里匹配到别的模板中带 t-else
+             的同名 div 而判红（实测），换成这条全文件唯一命中的锚点。 -->
+        <xpath expr="//t[@t-if='marks']" position="after">
+            <div class="mb-4" t-if="kid.get('assess')">
+                <h5 class="mb-2">评估历程</h5>
+                <t t-set="ka" t-value="kid['assess']"/>
+                <t t-call="edu_assess.edu_assess_child_assess_body"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>
+

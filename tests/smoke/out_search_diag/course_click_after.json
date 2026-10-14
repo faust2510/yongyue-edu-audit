@@ -1,0 +1,106 @@
+[
+ {
+  "login": "stu@local",
+  "kw": "课程",
+  "name": "选修课程",
+  "href": "/my/courses/46",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "stu@local",
+  "kw": "选修",
+  "name": "选修课程",
+  "href": "/my/courses/46",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "parent@local",
+  "kw": "课程",
+  "name": "选修课程",
+  "href": "/my/courses/46",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "parent@local",
+  "kw": "选修",
+  "name": "选修课程",
+  "href": "/my/courses/46",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "课程",
+  "name": "阅读课程",
+  "href": "/my/courses/39",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "课程",
+  "name": "古汉语课程",
+  "href": "/my/courses/40",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "课程",
+  "name": "写作课程",
+  "href": "/my/courses/41",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "课程",
+  "name": "英语课程",
+  "href": "/my/courses/42",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "课程",
+  "name": "原文基础课程",
+  "href": "/my/courses/43",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "课程",
+  "name": "灵命塑造课程",
+  "href": "/my/courses/44",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "课程",
+  "name": "选修课程",
+  "href": "/my/courses/46",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "课程",
+  "name": "意志和技能课程",
+  "href": "/my/courses/47",
+  "status": 200,
+  "location": null
+ },
+ {
+  "login": "faculty@local",
+  "kw": "选修",
+  "name": "选修课程",
+  "href": "/my/courses/46",
+  "status": 200,
+  "location": null
+ }
+]

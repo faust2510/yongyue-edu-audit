@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==========================================================================
+         课代表（docs/plans/course-representative-design.md）
+         - §5.2 后台侧：列表（筛在任/空缺/已到期/已撤销）+ 表单按钮（任命/撤销）
+           + 列「期限」与「期限来源」（可解释性）
+         - §4.3 保险二：每日 cron 把「实时判定已过期」的槽位收口为 expired
+         ========================================================================== -->
+
+    <record id="view_edu_course_rep_list" model="ir.ui.view">
+        <field name="name">edu.course.rep.list</field>
+        <field name="model">edu.course.rep</field>
+        <field name="arch" type="xml">
+            <list string="课代表" create="false" delete="false">
+                <field name="subject_id"/>
+                <field name="student_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-muted="state == 'vacant'"
+                       decoration-warning="state == 'expired'"
+                       decoration-danger="state == 'revoked'"/>
+                <field name="expires_at"/>
+                <field name="deadline_source"/>
+                <field name="appointed_at" optional="show"/>
+                <field name="appointed_by_id" optional="hide"/>
+                <field name="vacate_reason" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_course_rep_form" model="ir.ui.view">
+        <field name="name">edu.course.rep.form</field>
+        <field name="model">edu.course.rep</field>
+        <field name="arch" type="xml">
+            <form string="课代表">
+                <header>
+                    <button name="action_appoint" string="任命 / 变更" type="object"
+                            class="oe_highlight"
+                            groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+                    <button name="action_revoke" string="撤销" type="object"
+                            groups="openeducat_core.group_op_back_office_admin,base.group_system"
+                            confirm="撤销后该生立即失去本课程的全部课代表权限。确定吗？"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="subject_id"/>
+                            <field name="student_id"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="expires_at"/>
+                            <field name="deadline_now"/>
+                            <field name="deadline_source"/>
+                        </group>
+                    </group>
+                    <group string="任命记录">
+                        <field name="appointed_by_id"/>
+                        <field name="appointed_at"/>
+                    </group>
+                    <group string="离任记录">
+                        <field name="vacated_at"/>
+                        <field name="vacated_by_id"/>
+                        <field name="vacate_reason"
+                               placeholder="撤销时必填（如：学生转班 / 违规）；归还时自动写「本人归还」"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                    <div class="text-muted" colspan="2">
+                        说明：一门课只能有一位课代表（数据库唯一约束）。归还 / 到期 / 撤销
+                        <b>不删行、不新建行</b>，只改状态；下一次任命覆盖同一槽位。
+                        「期限」= min（①班级结课日 + 宽限期、②学期结束日、③任命日 + 硬上限），
+                        权限判定按<b>实时重算</b>的期限（「实时期限」列），不读快照。
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_course_rep_search" model="ir.ui.view">
+        <field name="name">edu.course.rep.search</field>
+        <field name="model">edu.course.rep</field>
+        <field name="arch" type="xml">
+            <search string="课代表">
+                <field name="subject_id"/>
+                <field name="student_id"/>
+                <filter name="f_all" string="全部" domain="[]"/>
+                <filter name="f_active" string="在任" domain="[('state', '=', 'active')]"/>
+                <filter name="f_vacant" string="空缺" domain="[('state', '=', 'vacant')]"/>
+                <filter name="f_expired" string="已到期" domain="[('state', '=', 'expired')]"/>
+                <filter name="f_revoked" string="已撤销" domain="[('state', '=', 'revoked')]"/>
+                <group>
+                    <filter name="g_state" string="状态" context="{'group_by': 'state'}"/>
+                    <filter name="g_subject" string="科目" context="{'group_by': 'subject_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_course_rep" model="ir.actions.act_window">
+        <field name="name">课代表</field>
+        <field name="res_model">edu.course.rep</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_course_rep_search"/>
+        <field name="context">{'search_default_f_all': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">还没有课代表槽位</p>
+            <p>在「课程科目」上新建槽位并选择学生后点「任命」，即可任命课代表。
+               一门课只能有一位课代表。</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_edu_course_rep" name="课代表"
+              parent="menu_edu_approval_root" action="action_edu_course_rep"
+              sequence="27"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+
+    <!-- ============ §4.3 保险二：课代表到期收口（每日一次） ============
+         ⚠ cron **不是权限依据**：即使它三天没跑，权限也已在
+         edu.course.rep.is_active_now()（实时判定）处失效；本 cron 只负责
+         把「已经失效」的事实写进 state 并留痕（edu.audit.log）。 -->
+    <record id="ir_cron_edu_course_rep_expire" model="ir.cron">
+        <field name="name">edu_portal: 课代表到期收口（实时判定结果落库）</field>
+        <field name="model_id" ref="model_edu_course_rep"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_expire()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

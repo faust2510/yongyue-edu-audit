@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- B 方案权限：门户用户仅可读本人数据；写路径走控制器 sudo()+归属校验 -->
+    <record id="rule_edu_checkin_record_portal" model="ir.rule">
+        <field name="name">打卡记录仅本人可见（门户）</field>
+        <field name="model_id" ref="model_edu_checkin_record"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('student_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edu_journal_entry_portal" model="ir.rule">
+        <field name="name">周记仅本人可见（门户）</field>
+        <field name="model_id" ref="model_edu_journal_entry"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('student_id.user_id', '=', user.id)]</field>
+    </record>
+</odoo>

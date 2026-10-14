@@ -1,0 +1,10 @@
+[options]
+addons_path = /usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons,/mnt/custom-addons
+data_dir = /var/lib/odoo
+admin_passwd = <CHANGE-ME-STRONG-SECRET>
+# list_db = False 与生产一致：隐藏数据库列表/管理器/选择器（去 Odoo 化的一部分）。
+# 本地若为多库开发环境，必须同时给默认库名，否则请求会落进 nodb 路由表导致全站 404：
+list_db = False
+# db_name = edu19
+proxy_mode = False
+log_level = info

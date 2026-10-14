@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ /help 帮助首页：四张角色卡（卡片样式对齐首页 o_portal_index_card） ============ -->
+    <template id="edu_help_index" name="帮助中心 · 首页">
+        <t t-set="title" t-value="'使用指南 · 永约学坊教务系统'"/>
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container" style="max-width: 960px; padding: 40px 16px;">
+                    <div class="text-center mb-4">
+                        <h1 class="fw-bold">使用指南</h1>
+                        <p class="text-muted mb-0">
+                            永约学坊教务系统各角色操作说明与常见流程。第一次使用？先找到自己的角色，按步骤操作即可。
+                        </p>
+                    </div>
+                    <div class="row g-2 mt-2">
+                        <t t-foreach="help_cards" t-as="card">
+                            <div class="o_portal_index_card col-md-6">
+                                <a t-att-href="card['href']" t-att-title="card['title']"
+                                   class="d-flex justify-content-start gap-2 gap-md-3 align-items-center py-3 pe-2 px-md-3 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                                    <div class="o_portal_icon d-block align-self-start">
+                                        <i t-attf-class="fa fa-lg {{ card['icon'] }}"
+                                           t-att-style="'color:' + card['color']"
+                                           aria-hidden="true"/>
+                                    </div>
+                                    <div>
+                                        <div class="mt-0 mb-1 fs-5 fw-normal lh-1">
+                                            <span t-out="card['title']"/>
+                                        </div>
+                                        <div class="opacity-75" t-out="card['desc']"/>
+                                    </div>
+                                    <i class="fa fa-angle-right ms-auto opacity-50 me-2" aria-hidden="true"/>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="text-center mt-4 small text-muted">
+                        还没有账号？
+                        <a href="/apply">在线报名</a> 或
+                        <a href="/register">使用邀请码注册</a>。
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 学生版 ============ -->
+    <template id="edu_help_student" name="使用指南 · 学生版">
+        <t t-set="title" t-value="'学生版使用指南 · 永约学坊教务系统'"/>
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container yylc-article" style="max-width: 880px; padding: 40px 16px;">
+                    <nav aria-label="面包屑导航">
+                        <a href="/help">« 返回使用指南</a>
+                    </nav>
+                    <h1 class="fw-bold mt-3">学生版使用指南</h1>
+                    <p class="text-muted">面向零基础学生：从登录到日常学习事务的完整操作说明。</p>
+
+                    <h4 class="mt-4">一、如何登录</h4>
+                    <ol>
+                        <li>打开学校网站，点击右上角「登录」，或直接访问 <a href="/login">登录页</a>。</li>
+                        <li>输入您的邮箱（登录名）和密码，点击「登录」。</li>
+                        <li>登录成功后自动进入个人门户首页 <a href="/my/home">我的主页</a>，所有功能以卡片形式排列。</li>
+                        <li>还没有账号？请向管理员索取邀请码，在 <a href="/register">注册页</a> 完成注册。</li>
+                        <li>忘记密码请联系管理员重置。</li>
+                    </ol>
+
+                    <h4 class="mt-4">二、查看课表</h4>
+                    <ol>
+                        <li>进入 <a href="/my/calendar">校历</a>（也可从首页「校园生活」分组的「校历」卡进入），按月查看课程课时、考试、活动与停课日。</li>
+                        <li>页面按周展示每节课的科目、教师、教室与上下课时间。</li>
+                        <li>遇到空白表示当周暂无排课；开学初若尚未生成课表，请等待教务处发布。</li>
+                    </ol>
+
+                    <h4 class="mt-4">三、提交作业</h4>
+                    <ol>
+                        <li>进入 <a href="/student/assignment/details">作业</a> 列表查看教师发布的作业。</li>
+                        <li>点击作业标题查看要求与截止日期。</li>
+                        <li>按页面提示上传附件或填写内容后提交。</li>
+                        <li>提交后可回到列表关注状态：待批改 → 已提交/已接受；教师批改后可见结果。</li>
+                    </ol>
+
+                    <h4 class="mt-4">四、每日打卡</h4>
+                    <ol>
+                        <li>进入 <a href="/my/checkins">每日打卡</a>（首页「成长」分组）。</li>
+                        <li>选择打卡项目（如读经、灵修），按当天实际情况填写内容。</li>
+                        <li>点击保存即完成当日打卡；列表中可回看历史记录与连续情况。</li>
+                    </ol>
+
+                    <h4 class="mt-4">五、写周记</h4>
+                    <ol>
+                        <li>进入 <a href="/my/journals">我的周记</a>。</li>
+                        <li>点击新建，选择所属周期，写下本周的学习与生活记录。</li>
+                        <li>保存并提交后等待教师批阅；被批阅后可在同一页面看到教师评语。</li>
+                    </ol>
+
+                    <h4 class="mt-4">六、评教填答</h4>
+                    <ol>
+                        <li>进入 <a href="/assess/my">我的评估</a>，在「待填写」里选择评估任务。</li>
+                        <li>在一张表里逐位评价教师：每位教师一列一列打分，留空表示不评。</li>
+                        <li>系统<b>不记录你的身份</b>：只保存一串无法反推的校验码（用于防止同一人重复提交），
+                            后台看不到是谁填的；并且只有当有效样本达到学校设定的份数门槛时，
+                            结果页才会展示汇总分数，样本不足时任何明细都不显示。</li>
+                    </ol>
+
+                    <h4 class="mt-4">七、查成绩与费用</h4>
+                    <ol>
+                        <li>成绩：<a href="/grade-book">成绩簿</a> 展示历次考试分数、百分比、等级与是否及格，顶部有综合统计。</li>
+                        <li>费用：<a href="/my/fees">费用账单</a> 查看应缴、已缴状态与账单明细，按时缴费即可。</li>
+                    </ol>
+
+                    <h4 class="mt-4">八、新学期报名</h4>
+                    <ol>
+                        <li>新学期续读或报读新课程时，打开 <a href="/apply">在线报名表</a>。</li>
+                        <li>按分区逐项填写带 <span class="text-danger">*</span> 的必填项，页面顶部有完成进度条。</li>
+                        <li>提交成功后出现确认页；如提示缺失项，按红色标注补齐后重新提交。</li>
+                    </ol>
+
+                    <h4 class="mt-4">九、资料下载</h4>
+                    <ol>
+                        <li>教务发布的行政通用表格（请假表、阅读报告格式等）统一放在 <a href="/downloads">资料下载</a> 页，也可从个人门户首页的「资料下载」卡进入。</li>
+                        <li>页面按分类陈列：点击文件右侧的「下载」按钮即可保存到本地。</li>
+                        <li>文件旁的数字为该资料的累计下载次数；如暂无可下载资料，页面会提示「暂无资料」。</li>
+                        <li>页面支持搜索与按文件夹筛选，下载历史可在 <a href="/downloads/mine">我的下载记录</a>（/downloads/mine）页查看。</li>
+                    </ol>
+
+                    <div class="mt-4"><a href="/help">« 返回使用指南</a></div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 教师版 ============ -->
+    <template id="edu_help_faculty" name="使用指南 · 教师版">
+        <t t-set="title" t-value="'教师版使用指南 · 永约学坊教务系统'"/>
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container yylc-article" style="max-width: 880px; padding: 40px 16px;">
+                    <nav aria-label="面包屑导航">
+                        <a href="/help">« 返回使用指南</a>
+                    </nav>
+                    <h1 class="fw-bold mt-3">教师版使用指南</h1>
+                    <p class="text-muted">面向零基础教师：工作台、排课、批阅与统计的完整操作说明。</p>
+
+                    <h4 class="mt-4">一、教师工作台</h4>
+                    <ol>
+                        <li>用教师账号在 <a href="/login">登录页</a> 登录，系统自动进入工作台 <a href="/my/home">我的主页</a>。</li>
+                        <li>工作台展示本周我教的课节、待办事项计数与快捷入口，日常操作从这里出发。</li>
+                    </ol>
+
+                    <h4 class="mt-4">二、周期排课（批量生成整学期）</h4>
+                    <ol>
+                        <li>进入 <a href="/timetable/bulk">周期排课</a>（后台路径：Time Table 应用 → 周期排课（批量））。</li>
+                        <li>依次选择：课程、科目、班级、授课教师。</li>
+                        <li>自定义本节的上课与下课时间（即节次时间）。</li>
+                        <li>勾选每周要上课的星期几（可多选），并设定起止日期范围。</li>
+                        <li>点击「预览」核对将要生成的课节清单（日期 × 节次列表）。</li>
+                        <li>确认无误后点击「生成」；完成后页面会显示成功与失败数量。生成结果可在时间表中查看调整。</li>
+                    </ol>
+
+                    <h4 class="mt-4">三、周记批阅</h4>
+                    <ol>
+                        <li>进入 <a href="/journals/review">周记批阅</a>。</li>
+                        <li>列表按学生/周期展示待批阅的周记，点击打开全文。</li>
+                        <li>阅读后填写评语（可给评分），提交批阅；学生端随即可以看到评语。</li>
+                    </ol>
+
+                    <h4 class="mt-4">四、打卡统计</h4>
+                    <ol>
+                        <li>进入 <a href="/checkins/stats">打卡统计</a>。</li>
+                        <li>查看整体及每位学生的打卡完成率、连续天数等汇总数据，用于灵命生活跟进。</li>
+                    </ol>
+
+                    <h4 class="mt-4">五、资料下载</h4>
+                    <ol>
+                        <li>教师可在 <a href="/downloads">资料下载</a> 页查看并下载教务发布的行政通用表格（请假表、阅读报告格式等）。</li>
+                        <li>教务管理员可在后台「资料下载」菜单中上传、分类与停用这些表格，上传后学生即可在门户下载。</li>
+                        <li>如你兼有教务职责，可进入 <a href="/downloads/manage">/downloads/manage</a> 管理台新建文件夹、批量上传与维护资料，并在 <a href="/downloads/stats">/downloads/stats</a> 查看下载统计。</li>
+                    </ol>
+
+                    <div class="mt-4"><a href="/help">« 返回使用指南</a></div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 家长版 ============ -->
+    <template id="edu_help_parent" name="使用指南 · 家长版">
+        <t t-set="title" t-value="'家长版使用指南 · 永约学坊教务系统'"/>
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container yylc-article" style="max-width: 880px; padding: 40px 16px;">
+                    <nav aria-label="面包屑导航">
+                        <a href="/help">« 返回使用指南</a>
+                    </nav>
+                    <h1 class="fw-bold mt-3">家长版使用指南</h1>
+                    <p class="text-muted">面向零基础家长：如何用家长账号了解孩子的在校情况。</p>
+
+                    <h4 class="mt-4">一、家长账号如何看孩子</h4>
+                    <ol>
+                        <li>学校为家长开通专用账号后，在 <a href="/login">登录页</a> 用家长邮箱和密码登录。</li>
+                        <li>登录后自动进入 <a href="/my/home">我的主页</a>，「学业」分组第一位就是「<b>我的孩子</b>」卡。</li>
+                        <li>点开「我的孩子」进入孩子列表（<a href="/my/child">我的孩子</a>），每个孩子一张卡片。</li>
+                        <li>点击孩子卡片上的「查看仪表盘」，进入该孩子的专属主页。</li>
+                    </ol>
+
+                    <h4 class="mt-4">二、能看什么</h4>
+                    <ol>
+                        <li><b>孩子仪表盘</b>：汇总展示孩子的课表、考勤、作业与成绩概况。</li>
+                        <li><b>档案与成绩</b>：孩子的学籍档案、历次考试成绩与等级。</li>
+                        <li><b>请假代办</b>：在孩子仪表盘中可代孩子提交请假申请，并跟踪审批状态。</li>
+                        <li><b>布告通知</b>:学校发布的公告与通知同样可以在家长账号内查看。</li>
+                    </ol>
+                    <p class="small text-muted">注：家长账号只能看到与自己绑定的孩子的数据，无法查看其他学生的信息。</p>
+
+                    <div class="mt-4"><a href="/help">« 返回使用指南</a></div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 教务管理版 ============ -->
+    <template id="edu_help_registrar" name="使用指南 · 教务管理版">
+        <t t-set="title" t-value="'教务管理版使用指南 · 永约学坊教务系统'"/>
+        <t t-call="website.layout">
+            <div id="wrap" class="o_portal_wrap">
+                <div class="container yylc-article" style="max-width: 880px; padding: 40px 16px;">
+                    <nav aria-label="面包屑导航">
+                        <a href="/help">« 返回使用指南</a>
+                    </nav>
+                    <h1 class="fw-bold mt-3">教务管理版使用指南</h1>
+                    <p class="text-muted">面向教务管理人员：开学排课全流程、综合评估与报名表维护。</p>
+
+                    <h4 class="mt-4">一、开学排课全流程</h4>
+                    <p>前提：使用教务管理账号（后台管理员）在 <a href="/login">登录页</a> 登录，登录后进入应用菜单。</p>
+                    <ol>
+                        <li><b>建课程</b>：打开教务后台 →「配置」→「课程管理」→「课程」，新建课程并填写课程名称与课程代码。</li>
+                        <li><b>建科目</b>：SIS → Configuration → Subject Management → Subjects，新建各门科目并关联所属课程。</li>
+                        <li><b>建班级</b>：教务后台 →「配置」→「课程管理」→「批次」，为课程创建班级（选好学年/学期）。</li>
+                        <li><b>批量生成课表</b>：打开 Time Table 应用 → 「周期排课（批量）」（即门户页 <a href="/timetable/bulk">/timetable/bulk</a>）：选课程、科目、班级、教师，自定义上下课时间，勾选星期几，先「预览」再「生成」。</li>
+                        <li><b>登记停课日</b>：Time Table 应用 → 「停课管理」，录入节假日与停课日期；此后整周复制等操作会自动跳过这些日子。</li>
+                        <li><b>验证</b>：让学生账号登录查看 <a href="/my/calendar">校历</a> 确认课程/考试/停课日正确显示。</li>
+                    </ol>
+
+                    <h4 class="mt-4">二、评估任务发布</h4>
+                    <ol>
+                        <li>打开后台「综合评估」应用 → 「模板与评分项」：新建模板并填好评分项、满分与权重。
+                            <b>增加一个评分项只需在评分项列表里添加一行</b>，保存后学生的填写页与导出表格立刻多出一列，不需要升级系统。</li>
+                        <li>在「评估任务」里基于模板发布任务：选择打分人（教师评学生 / 学生评教师）、
+                            参与班级或专业范围、起止日期；匿名评教还要设置「匿名汇总门槛」。</li>
+                        <li>点「发布（生成名单）」生成名单快照后即可开始打分；
+                            结束后在「结果与导出」查看加权总分、平均分，并导出 Excel
+                            （导出结果 / 导出空表 → 填好后导回，导入前会先给预览）。</li>
+                    </ol>
+
+                    <h4 class="mt-4">三、报名表字段调整</h4>
+                    <ol>
+                        <li>打开后台「招生报名」应用 → 报名表设置。</li>
+                        <li>报名表由「分区」组成：可新增、改名、排序或停用分区。</li>
+                        <li>在每个分区下维护字段：设置显示名称、类型（单行文本 / 下拉 / 单选 / 日期 / 多行文本 / 勾选框）以及是否必填。</li>
+                        <li>保存后前台 <a href="/apply">在线报名表</a> 即按新结构渲染，无需开发介入。</li>
+                    </ol>
+
+                    <h4 class="mt-4">四、资料管理</h4>
+                    <ol>
+                        <li>资料管理：打开 <a href="/downloads/manage">/downloads/manage</a> 管理台可自建两级文件夹、批量上传（支持拖拽多文件）、批量删除/停用/移动、替换文件；在 <a href="/downloads/stats">/downloads/stats</a> 查看每份资料的下载次数与独立下载人数。</li>
+                    </ol>
+
+                    <!-- 2026-09-28 新增（方案 A 试点 · 「功能被折叠、不点不知道」的显性告知）。
+                         写作口径：**只写本机实测过的既有能力**，不发明机制。
+                         · 命令面板：addons/web/.../core/commands/command_service.js:67
+                           （hotkeyService.add("control+k", openMainPalette)）；
+                           面板内输入 / 走 menu_providers.js:29-79 的 fuzzyLookup 遍历
+                           **全部应用与菜单**。本机实测（backoffice@local，2026-09-28）：
+                           ⌘K 可开面板；输入 /报销 → 「教务审批 / 报销审批」。
+                         ⚠ 键位必须双写：hotkey_service.js:70-73 在 macOS 上把
+                           **physical Ctrl 当作 logical alt、把 Cmd 当作 logical control**
+                           ⇒ Mac 上按物理 Ctrl+K **打不开**（本机实测 negative case），
+                           必须写 ⌘K。只写「Ctrl+K」会对 Mac 用户说错。
+                         · 列设置图标：list_renderer.xml:49-85 表头右上角的
+                           o_optional_columns_dropdown（滑块图标 oi-settings-adjust）；
+                           勾选结果写 localStorage（list_renderer.js:141,1972-1979）
+                           ⇒ **只影响自己这台浏览器**，不会改到同事的视图。
+                         · 未写进去的（未验证，宁缺勿错）：Alt 热键徽标 —— 本机按物理
+                           Alt / Control 均未观察到徽标元素，机制未实证。 -->
+                    <h4 class="mt-4">五、后台通用技巧：找不到功能时先看这里</h4>
+                    <ol>
+                        <!-- ⚠ 排版注意（check_english 口径）：键名**不要单独成文本节点** ——
+                             该门禁把「纯英文文本节点」判 must-fix。<b>Ctrl+K</b> 这样单独成节点会命中
+                             （2026-09-28 实测 must-fix 5 = x5 Ctrl+K @本页）。
+                             现写法把两个键名放进**同一个含中文的节点**里（合法保留项，
+                             与 WHITELIST 里的 Telegram / Zoom 同性质）。
+                             若队长希望把 Ctrl+K 单列加粗，正确做法是在
+                             scripts/check_english.py 的 WHITELIST 里登记一条并写明批准人，
+                             而不是让门禁口径松动。 -->
+                        <li><b>用命令面板找功能（不用记菜单藏在哪）</b>：在后台任意页面按
+                            <b>⌘K（Mac）或 Ctrl+K（Windows）</b>打开命令面板；
+                            在面板里先输入一个英文斜杠 <code>/</code>，再输入关键字，
+                            就会模糊搜索<b>全部应用与菜单</b>。
+                            例：输入 <code>/报销</code> 会命中「教务审批 / 报销审批」，回车直达。</li>
+                        <li><b>找回「没显示出来的列」</b>：列表最右侧的表头有一个<b>列设置</b>图标
+                            （滑块样式），点开可以勾选显示 / 隐藏这个列表的列。
+                            有些列是按设计默认隐藏的（例如账单列表的「币种」），都只能从这里打开；
+                            看不到想要的列时先来这里找，别以为功能不存在。
+                            <span class="text-muted small">（这里的勾选只记在你自己这台浏览器上，
+                            不会改动其他同事看到的列。）</span></li>
+                    </ol>
+
+                    <div class="mt-4"><a href="/help">« 返回使用指南</a></div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 入口接线：页脚「使用指南」链接 ============ -->
+    <template id="edu_help_footer_link" name="页脚使用指南链接"
+              inherit_id="edu_brand.footer_yongyue">
+        <xpath expr="//div[hasclass('yylc-footer-head')]" position="inside">
+            <span class="px-1 opacity-50">·</span>
+            <a href="/help">使用指南</a>
+        </xpath>
+    </template>
+
+    <!-- ============ 入口接线：/apply 报名页顶部提示行 ============ -->
+    <template id="edu_help_apply_hint" name="报名页使用指南提示"
+              inherit_id="edu_apply.apply_form">
+        <xpath expr="//div[hasclass('yylc-article')]/div[1]" position="before">
+            <div class="alert alert-info border mb-3" role="note">
+                <i class="fa fa-book me-1"/>第一次使用？先阅读
+                <a href="/help">使用指南</a>（含学生 / 教师 / 家长 / 教务管理四角色操作说明）。
+            </div>
+        </xpath>
+    </template>
+
+    <!-- ============ 入口接线：登录页提示行 ============ -->
+    <template id="edu_help_login_hint" name="登录页使用指南提示"
+              inherit_id="web.login">
+        <xpath expr="//div[hasclass('oe_login_buttons')]" position="after">
+            <div class="text-center mt-2 small">
+                <i class="fa fa-book me-1"/><a href="/help">第一次使用？阅读使用指南</a>
+            </div>
+        </xpath>
+    </template>
+</odoo>

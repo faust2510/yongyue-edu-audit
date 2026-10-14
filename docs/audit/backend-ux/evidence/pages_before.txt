@@ -1,0 +1,99 @@
+== backend_probe fp=9b4748be · check_english REVISION=v3.8 指纹=c9b87745 · 运行时刻 2026-10-02T18:34:06+08:00 ==
+== admin       uid=2 菜单 321 条 / 可见根 14 条 ==
+   可见根：资料下载、教务审批、财务管理、资产管理、招聘管理、灵命生活、综合评估、网站、学生信息、招生、时间表、图书馆、应用、设置
+   dom 源渲染 57 页（depth<=1）
+  资料下载                       /odoo/action-755                         200 | title='资料下载' | EN=2
+  教务审批                       /odoo/action-644                         200 | title='请假审批' | EN=0
+  申诉处理                       /odoo/action-645                         200 | title='申诉处理' | EN=0
+  选课审批                       /odoo/action-757                         200 | title='选课审批' | EN=0
+  课代表                        /odoo/action-816                         200 | title='课代表' | EN=0
+  证书管理                       /odoo/action-646                         200 | title='证书管理' | EN=0
+  报销审批                       /odoo/action-759                         200 | title='报销审批' | EN=2
+  布告栏管理                      /odoo/action-756                         200 | title='布告栏管理' | EN=4
+  公告模板                       /odoo/action-769                         200 | title='公告模板' | EN=1
+  先修科目要求                     /odoo/action-771                         200 | title='先修科目要求' | EN=0
+  财务管理                       /odoo/action-720                         200 | title='账单管理' | EN=0
+  费用分类                       /odoo/action-806                         200 | title='费用分类' | EN=0
+  缴费流水                       /odoo/action-721                         200 | title='缴费流水' | EN=0
+  财务总台账                      /odoo/action-758                         200 | title='财务总台账' | EN=2
+  资产管理                       /odoo/action-722                         200 | title='资产台账' | EN=0
+  借还审批                       /odoo/action-723                         200 | title='借还审批' | EN=0
+  招聘管理                       /odoo/action-724                         200 | title='岗位管理' | EN=0
+  申请处理                       /odoo/action-725                         200 | title='申请处理' | EN=0
+  灵命生活                       /odoo/action-688                         200 | title='全员打卡' | EN=0
+  打卡类型                       /odoo/action-729                         200 | title='打卡类型' | EN=0
+  积分流水                       /odoo/action-689                         200 | title='积分流水' | EN=0
+  打卡记录                       /odoo/action-730                         200 | title='打卡记录' | EN=0
+  教师积分排行                     /odoo/action-690                         200 | title='教师积分排行' | EN=0
+  周记归档                       /odoo/action-731                         200 | title='周记归档' | EN=0
+  综合评估                       /odoo/action-726                         200 | title='模板管理' | EN=0
+  评估任务                       /odoo/action-727                         200 | title='评估任务' | EN=0
+  模板与评分项                     /odoo/action-811                         200 | title='模板与评分项' | EN=0
+  评估任务                       /odoo/action-812                         200 | title='评估任务' | EN=0
+  结果与导出                      /odoo/action-813                         200 | title='结果与导出' | EN=0
+  打分记录                       /odoo/action-814                         200 | title='打分记录' | EN=0
+  网站                         /odoo/discuss                            200 | title='讨论' | EN=3
+  日历                         /odoo/calendar                           200 | title='会议' | EN=2
+  活动                         /odoo/events                             200 | title='活动' | EN=0
+  频道                         /odoo/action-123                         200 | title='频道' | EN=2
+  频道                         /odoo/livechat                           200 | title='Live Chat Channels' | EN=3
+  登记处                        /odoo/registration-desk                  200 | title='条形码界面' | EN=0
+  学生信息                       /odoo/students                           200 | title='学生' | EN=3
+  教职员工                       /odoo/faculty                            200 | title='教职员工' | EN=1
+  家长                         /odoo/parent                             200 | title='家长' | EN=0
+  招生                         /odoo/admission-register                 200 | title='入学登记' | EN=0
+  入学申请                       /odoo/action-728                         200 | title='入学申请' | EN=1
+  报名表设置                      /odoo/action-741                         200 | title='报名表设置' | EN=0
+  时间表                        /odoo/session                            200 | title='会议' | EN=3
+  Quizzes                    /odoo/action-649                         200 | title='Quiz' | EN=11
+  Attempts                   /odoo/action-650                         200 | title='Quiz Attempts' | EN=10
+  课次管理                       /odoo/action-718                         200 | title='课次管理' | EN=2
+  周期排课（批量）                   /odoo/action-742                         200 | title='周期排课' | EN=2
+  停课管理                       /odoo/action-744                         200 | title='停课管理' | EN=2
+  校历活动                       /odoo/action-746                         200 | title='校历活动' | EN=3
+  学习进度                       /odoo/action-719                         200 | title='学习进度' | EN=2
+  图书馆                        /odoo/media                              200 | title='所有媒体' | EN=0
+  应用                         /odoo/apps                               200 | title='应用' | EN=32
+  更新应用程序列表                   /odoo/action-43                          200 | title='永约学坊' | EN=0
+  执行已安排升级                    /odoo/action-46                          200 | title='永约学坊' | EN=1
+  导入模块                       /odoo/action-85                          200 | title='永约学坊' | EN=0
+  设置                         /odoo/settings                           200 | title='设置' | EN=0
+  报名与报课截止                    /odoo/action-773                         200 | title='永约学坊' | EN=0
+== backoffice  uid=12 菜单 143 条 / 可见根 12 条 ==
+   可见根：资料下载、教务审批、财务管理、资产管理、招聘管理、灵命生活、综合评估、网站、学生信息、招生、时间表、图书馆
+   dom 源渲染 47 页（depth<=1）
+  资料下载                       /odoo/action-755                         200 | title='资料下载' | EN=1
+  教务审批                       /odoo/action-644                         200 | title='请假审批' | EN=0
+  申诉处理                       /odoo/action-645                         200 | title='申诉处理' | EN=0
+  选课审批                       /odoo/action-757                         200 | title='选课审批' | EN=0
+  课代表                        /odoo/action-816                         200 | title='课代表' | EN=0
+  证书管理                       /odoo/action-646                         200 | title='证书管理' | EN=0
+  报销审批                       /odoo/action-759                         200 | title='报销审批' | EN=1
+  布告栏管理                      /odoo/action-756                         200 | title='布告栏管理' | EN=4
+  公告模板                       /odoo/action-769                         200 | title='公告模板' | EN=1
+  先修科目要求                     /odoo/action-771                         200 | title='先修科目要求' | EN=0
+  财务管理                       /odoo/action-720                         200 | title='账单管理' | EN=0node:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: write EPIPE
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:1025:11)
+    at Socket._write (node:net:1037:8)
+    at writeOrBuffer (node:internal/streams/writable:570:12)
+    at _write (node:internal/streams/writable:499:10)
+    at Writable.write (node:internal/streams/writable:508:10)
+    at PipeTransport.send (/Users/qwe/miniconda3/lib/python3.13/site-packages/playwright/driver/package/lib/coreBundle.js:33552:25)
+    at dispatcherConnection.onmessage (/Users/qwe/miniconda3/lib/python3.13/site-packages/playwright/driver/package/lib/coreBundle.js:64282:59)
+    at DispatcherConnection.sendEvent (/Users/qwe/miniconda3/lib/python3.13/site-packages/playwright/driver/package/lib/coreBundle.js:24104:14)
+Emitted 'error' event on Socket instance at:
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  errno: -32,
+  code: 'EPIPE',
+  syscall: 'write'
+}
+
+Node.js v24.15.0

@@ -1,0 +1,860 @@
+{
+ "tag": "before",
+ "rows": [
+  {
+   "login": "stu@local",
+   "kw": "ZZ越权探针",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "申诉单",
+     "n": 8,
+     "items": [
+      {
+       "name": "ZZ越权探针-别人的申诉",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "迟到道歉（回归测试）",
+       "href": "/my/grievances"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": [
+    "ZZ越权探针-别人的申诉"
+   ]
+  },
+  {
+   "login": "stu@local",
+   "kw": "zzz_no_such_thing",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "申诉单",
+     "n": 8,
+     "items": [
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "迟到道歉（回归测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "冒烟测试申诉（可删）",
+       "href": "/my/grievances"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "stu@local",
+   "kw": "成绩",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "申诉单",
+     "n": 8,
+     "items": [
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "迟到道歉（回归测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "冒烟测试申诉（可删）",
+       "href": "/my/grievances"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "stu@local",
+   "kw": "账单",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "申诉单",
+     "n": 8,
+     "items": [
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "迟到道歉（回归测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "冒烟测试申诉（可删）",
+       "href": "/my/grievances"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "stu@local",
+   "kw": "公告",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "布告",
+     "n": 4,
+     "items": [
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/8"
+      },
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/7"
+      },
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/6"
+      },
+      {
+       "name": "图书馆延长开放时间公告",
+       "href": "/my/notice/2"
+      }
+     ]
+    },
+    {
+     "group": "申诉单",
+     "n": 8,
+     "items": [
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "迟到道歉（回归测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "冒烟测试申诉（可删）",
+       "href": "/my/grievances"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "stu@local",
+   "kw": "选课",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "布告",
+     "n": 1,
+     "items": [
+      {
+       "name": "关于2026学年第一学期选课的通知",
+       "href": "/my/notice/1"
+      }
+     ]
+    },
+    {
+     "group": "申诉单",
+     "n": 8,
+     "items": [
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "迟到道歉（回归测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "冒烟测试申诉（可删）",
+       "href": "/my/grievances"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "stu@local",
+   "kw": "教材",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "账单",
+     "n": 1,
+     "items": [
+      {
+       "name": "【演示】教材资料费",
+       "href": "/my/fees"
+      }
+     ]
+    },
+    {
+     "group": "申诉单",
+     "n": 8,
+     "items": [
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "迟到道歉（回归测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "冒烟测试申诉（可删）",
+       "href": "/my/grievances"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "stu@local",
+   "kw": "要理",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "作业",
+     "n": 1,
+     "items": [
+      {
+       "name": "小要理问答背诵检查【演示】",
+       "href": "/student/assignment/details"
+      }
+     ]
+    },
+    {
+     "group": "课程",
+     "n": 1,
+     "items": [
+      {
+       "name": "小要理问答",
+       "href": "/my/courses/35"
+      }
+     ]
+    },
+    {
+     "group": "申诉单",
+     "n": 8,
+     "items": [
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "图书馆座位预约异常（验收测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "迟到道歉（回归测试）",
+       "href": "/my/grievances"
+      },
+      {
+       "name": "冒烟测试申诉（可删）",
+       "href": "/my/grievances"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "parent@local",
+   "kw": "ZZ越权探针",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "parent@local",
+   "kw": "zzz_no_such_thing",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "parent@local",
+   "kw": "成绩",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "parent@local",
+   "kw": "账单",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "parent@local",
+   "kw": "公告",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "布告",
+     "n": 4,
+     "items": [
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/8"
+      },
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/7"
+      },
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/6"
+      },
+      {
+       "name": "图书馆延长开放时间公告",
+       "href": "/my/notice/2"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "parent@local",
+   "kw": "选课",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "布告",
+     "n": 1,
+     "items": [
+      {
+       "name": "关于2026学年第一学期选课的通知",
+       "href": "/my/notice/1"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "parent@local",
+   "kw": "教材",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "parent@local",
+   "kw": "要理",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "作业",
+     "n": 1,
+     "items": [
+      {
+       "name": "小要理问答背诵检查【演示】",
+       "href": "/student/assignment/details"
+      }
+     ]
+    },
+    {
+     "group": "课程",
+     "n": 1,
+     "items": [
+      {
+       "name": "小要理问答",
+       "href": "/my/courses/35"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "faculty@local",
+   "kw": "ZZ越权探针",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "faculty@local",
+   "kw": "zzz_no_such_thing",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "faculty@local",
+   "kw": "成绩",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "faculty@local",
+   "kw": "账单",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "faculty@local",
+   "kw": "公告",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "布告",
+     "n": 4,
+     "items": [
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/8"
+      },
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/7"
+      },
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/6"
+      },
+      {
+       "name": "图书馆延长开放时间公告",
+       "href": "/my/notice/2"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "faculty@local",
+   "kw": "选课",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "布告",
+     "n": 1,
+     "items": [
+      {
+       "name": "关于2026学年第一学期选课的通知",
+       "href": "/my/notice/1"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "faculty@local",
+   "kw": "教材",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "账单",
+     "n": 1,
+     "items": [
+      {
+       "name": "【演示】教材资料费",
+       "href": "/my/fees"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "faculty@local",
+   "kw": "要理",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "作业",
+     "n": 1,
+     "items": [
+      {
+       "name": "小要理问答背诵检查【演示】",
+       "href": "/student/assignment/details"
+      }
+     ]
+    },
+    {
+     "group": "课程",
+     "n": 1,
+     "items": [
+      {
+       "name": "小要理问答",
+       "href": "/my/courses/35"
+      }
+     ]
+    },
+    {
+     "group": "网课",
+     "n": 3,
+     "items": [
+      {
+       "name": "【演示】要理问答第一课·导论",
+       "href": "/my/courses/lesson/1"
+      },
+      {
+       "name": "【演示】要理问答第一课·讲义",
+       "href": "/my/courses/lesson/2"
+      },
+      {
+       "name": "【演示】要理问答第二课·问答1-2",
+       "href": "/my/courses/lesson/3"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "backoffice@local",
+   "kw": "ZZ越权探针",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "backoffice@local",
+   "kw": "zzz_no_such_thing",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "backoffice@local",
+   "kw": "成绩",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "backoffice@local",
+   "kw": "账单",
+   "status": 200,
+   "no_result_msg": true,
+   "groups": [],
+   "grievance_leak": []
+  },
+  {
+   "login": "backoffice@local",
+   "kw": "公告",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "布告",
+     "n": 4,
+     "items": [
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/8"
+      },
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/7"
+      },
+      {
+       "name": "冒烟测试公告（可删）",
+       "href": "/my/notice/6"
+      },
+      {
+       "name": "图书馆延长开放时间公告",
+       "href": "/my/notice/2"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "backoffice@local",
+   "kw": "选课",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "布告",
+     "n": 1,
+     "items": [
+      {
+       "name": "关于2026学年第一学期选课的通知",
+       "href": "/my/notice/1"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "backoffice@local",
+   "kw": "教材",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "账单",
+     "n": 1,
+     "items": [
+      {
+       "name": "【演示】教材资料费",
+       "href": "/my/fees"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  },
+  {
+   "login": "backoffice@local",
+   "kw": "要理",
+   "status": 200,
+   "no_result_msg": false,
+   "groups": [
+    {
+     "group": "作业",
+     "n": 1,
+     "items": [
+      {
+       "name": "小要理问答背诵检查【演示】",
+       "href": "/student/assignment/details"
+      }
+     ]
+    },
+    {
+     "group": "课程",
+     "n": 1,
+     "items": [
+      {
+       "name": "小要理问答",
+       "href": "/my/courses/35"
+      }
+     ]
+    },
+    {
+     "group": "网课",
+     "n": 3,
+     "items": [
+      {
+       "name": "【演示】要理问答第一课·导论",
+       "href": "/my/courses/lesson/1"
+      },
+      {
+       "name": "【演示】要理问答第一课·讲义",
+       "href": "/my/courses/lesson/2"
+      },
+      {
+       "name": "【演示】要理问答第二课·问答1-2",
+       "href": "/my/courses/lesson/3"
+      }
+     ]
+    }
+   ],
+   "grievance_leak": []
+  }
+ ]
+}

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 批量生成的动作必须先于列表视图定义：列表视图 header 里的
+         %(action_edu_invite_code_batch)d 是**解析期**解析的，前向引用会报
+         "External ID not found"（2026-09-17 实测）。 -->
+    <record id="action_edu_invite_code_batch" model="ir.actions.act_window">
+        <field name="name">批量生成邀请码</field>
+        <field name="res_model">edu.invite.code.batch</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ============ 邀请码：后台管理（教务 + 系统管理员；ACL 见 security/ir.model.access.csv） ============ -->
+    <record id="view_edu_invite_code_list" model="ir.ui.view">
+        <field name="name">edu.invite.code.list</field>
+        <field name="model">edu.invite.code</field>
+        <field name="arch" type="xml">
+            <list string="注册邀请码" editable="bottom">
+                <header>
+                    <button name="%(action_edu_invite_code_batch)d" type="action"
+                            string="批量生成邀请码" class="btn-primary"/>
+                </header>
+                <field name="code"/>
+                <field name="code_kind"/>
+                <field name="tier"
+                       decoration-danger="tier == 'backoffice'"/>
+                <!-- 2026-09-17：绑身份四列只在绑人码（code_kind == 'person'）行上渲染。
+                     背景（用户现场）：层级码行也能填「注册身份」，填完保存才被
+                     models/invite_code.py 的 _check_kind_exclusive 拒绝
+                     （「层级码只带层级、不绑具体人员」）——列表视图漏了「仅绑人码」这个条件，
+                     表单视图一直是对的。
+                     写法说明（两种错法都论证过，勿改回去）：
+                       · 不能用 column_invisible：它在**根列表**里按 list.evalContext 求值，
+                         该上下文只有 context/uid/allowed_company_ids/parent，**没有行字段**
+                         ⇒ code_kind 取不到值、表达式恒真、整列被无条件隐藏（连绑人码也填不了）。
+                         依据：list_renderer.js evalColumnInvisible() +
+                         relational_model/utils.js getBasicEvalContext()。
+                       · 行内 invisible 才按行求值（list_renderer.xml：
+                         evalInvisible(column.invisible, record)），且不可见时
+                         **整个单元格不渲染 Field 组件**（没有输入框）⇒ 非法组合填不出来。
+                     ⚠ 末尾的「and not 本列自身」是**存量非法行的修复通道**，不是冗余：
+                        已存在 code_kind='tier' 且 identity='student' 的行（如 EDU-SCRTS），
+                        若对它也无条件隐藏，用户「看不见该格 → 清不掉 → 一保存就报错」= 死锁。
+                        带上「本列自身有值即显示」后：层级码 + 空值 → 该格不渲染（填不出）；
+                        层级码 + 已有值 → 该格渲染（可清空）。四列各带各的字段名，
+                        部分填过的非法行（如清了 identity 但 student_id 还有值）依旧逐个可清。 -->
+                <field name="identity" optional="show"
+                       invisible="code_kind != 'person' and not identity"/>
+                <field name="student_id" optional="hide"
+                       invisible="code_kind != 'person' and not student_id"/>
+                <field name="parent_id" optional="hide"
+                       invisible="code_kind != 'person' and not parent_id"/>
+                <field name="faculty_id" optional="hide"
+                       invisible="code_kind != 'person' and not faculty_id"/>
+                <field name="state"
+                       decoration-success="state == 'unused'"
+                       decoration-muted="state == 'used'"/>
+                <!-- 2026-09-17（用户现场：「我怎么不可以调整这个邀请码的可使用次数」）：
+                     可用次数(use_limit) 是新码「可用/剩余/已用」三列里**唯一可编辑**的一列，
+                     但旧版它是 optional="hide" —— 用户默认只看得见只读的「剩余次数」
+                     (uses_left = _compute_uses_left 计算列，点进去改不动)，
+                     于是判定「次数改不了」。此处去掉 optional="hide" 让它默认可见且可编辑，
+                     并紧挨 uses_left 成对读作「可用次数 | 剩余次数」。
+                     ⚠ 回归护栏：不要再给它加 optional="hide" / readonly ——
+                     否则本条症状会原样复发（只放只读列 = 用户必然点错）。 -->
+                <field name="use_limit"/>
+                <field name="uses_left"/>
+                <field name="used_count" optional="hide"/>
+                <field name="note"/>
+                <field name="expire_at"/>
+                <field name="batch_ref" optional="hide"/>
+                <!-- 校长裁定：注册邮箱 / 发放人两列默认隐藏（字段保留，可在列设置里打开） -->
+                <field name="used_login" optional="hide"/>
+                <field name="used_on" optional="hide"/>
+                <field name="created_by" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- v2.1-B8：表单新增「注册身份 + 对应人员」；t16：新增「码类型 + 层级 + 次数」 -->
+    <record id="view_edu_invite_code_form" model="ir.ui.view">
+        <field name="name">edu.invite.code.form</field>
+        <field name="model">edu.invite.code</field>
+        <field name="arch" type="xml">
+            <form string="注册邀请码">
+                <sheet>
+                    <group>
+                        <group string="邀请码">
+                            <field name="code" readonly="1"
+                                   help="层级码/绑人码的文本；后台新建时留空即自动生成 EDU-XXXXXX。"/>
+                            <field name="code_kind"/>
+                            <field name="tier" invisible="code_kind != 'tier'"
+                                   required="code_kind == 'tier'"/>
+                            <field name="note"/>
+                            <field name="state"/>
+                            <field name="expire_at"/>
+                        </group>
+                        <group string="次数（校长裁定②）">
+                            <field name="use_limit"/>
+                            <field name="used_count"/>
+                            <field name="uses_left"/>
+                            <field name="batch_ref" invisible="not batch_ref"/>
+                        </group>
+                    </group>
+                    <!-- 2026-09-17：本组原先只有 invisible="code_kind != 'person'"，
+                         对**存量非法行**（code_kind='tier' 却带 identity='student'，如 EDU-SCRTS）
+                         是一个死锁：字段被藏起来、值却照样随保存提交到 _check_kind_exclusive，
+                         于是「打开表单 → 改任何字段 → 保存」必报「层级码只带层级、不绑具体人员」，
+                         而用户看不见那个字段、也就清不掉（保存不了 / 看不见 / 清不掉 = 死锁）。
+                         修法沿用列表视图同一套「本组任一字段有值即显示」的修复通道：
+                           · 组条件 = 非绑人码 且 四个绑身份字段全空 → 藏（正常层级码不受干扰）；
+                           · 三个「对应人员」字段各自带上 and not 自身 → 清了 identity 之后
+                             仍留有 student_id/parent_id/faculty_id 的行依旧可见、可逐个清空，
+                             不会出现「清了 identity 就把 student_id 一起藏起来」的二段死锁。
+                         与列表视图 use_limit/绑身份 两处改动同属「邀请码视图条件写漏」一类。 -->
+                    <group string="绑身份（v2.1-B8；仅绑人码）"
+                           invisible="code_kind != 'person' and not (identity or student_id or parent_id or faculty_id)">
+                        <field name="identity"
+                               help="发放给对应人员时选择：注册成功后账号自动挂接到该人员的档案。"/>
+                        <field name="student_id" invisible="identity != 'student' and not student_id"/>
+                        <field name="parent_id" invisible="identity != 'parent' and not parent_id"/>
+                        <field name="faculty_id" invisible="identity != 'faculty' and not faculty_id"/>
+                    </group>
+                    <group string="使用记录">
+                        <field name="used_login"/>
+                        <field name="used_on"/>
+                        <field name="created_by" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_invite_code" model="ir.actions.act_window">
+        <field name="name">注册邀请码</field>
+        <field name="res_model">edu.invite.code</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ============ 批量生成向导（校长裁定②：一次 N 个同层级码，结果可全选复制） ============ -->
+    <record id="view_edu_invite_code_batch_form" model="ir.ui.view">
+        <field name="name">edu.invite.code.batch.form</field>
+        <field name="model">edu.invite.code.batch</field>
+        <field name="arch" type="xml">
+            <form string="批量生成邀请码">
+                <group>
+                    <group string="要发什么码">
+                        <field name="code_kind"/>
+                        <field name="tier" invisible="code_kind != 'tier'"
+                               required="code_kind == 'tier'"/>
+                        <field name="count"/>
+                        <field name="prefix"/>
+                    </group>
+                    <group string="限制">
+                        <field name="use_limit"/>
+                        <field name="valid_days"/>
+                        <field name="note"/>
+                    </group>
+                </group>
+                <group string="本批结果（可全选复制）"
+                       invisible="not generated_text">
+                    <field name="batch_ref"/>
+                    <field name="generated_count"/>
+                    <field name="generated_text" nolabel="1"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object"
+                            string="生成" class="btn-primary"/>
+                    <button special="cancel" string="关闭" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- 批量生成向导的 ACL：教务 + 系统管理员。
+         为什么写在 XML 而不是 security/ir.model.access.csv —— t16 契约的 inScope 只有
+         本文件 / models/invite_code.py / controllers/register.py 三个文件，改 CSV 越界。
+         语义与 CSV 里的 access_edu_invite_code_backoffice 完全一致（四开关全开）；
+         若队长希望所有 ACL 集中在 CSV，迁移这一条即可，行为不变。 -->
+    <record id="access_edu_invite_code_batch_backoffice" model="ir.model.access">
+        <field name="name">edu.invite.code.batch backoffice</field>
+        <field name="model_id" ref="model_edu_invite_code_batch"/>
+        <field name="group_id" ref="openeducat_core.group_op_back_office_admin"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="access_edu_invite_code_batch_admin" model="ir.model.access">
+        <field name="name">edu.invite.code.batch admin</field>
+        <field name="model_id" ref="model_edu_invite_code_batch"/>
+        <field name="group_id" ref="base.group_system"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============ 三层拦截之②：记录规则 ============
+         教务（group_op_back_office_admin）不得读/建/改教务层（tier='backoffice'）的码。
+         用**全局条件域**而不是「挂在教务组上」：admin 账号本身也在教务组里
+         （实测 uid=2 属于 group_op_back_office_admin），挂在组上会把超管一起挡住。
+         domain_force 的求值上下文含 user（base/models/ir_rule.py:_eval_context）。
+         注意 sudo() 会绕过本规则 ⇒ 真正的闸是第③层 ORM 守卫（models/invite_code.py）。 -->
+    <record id="rule_edu_invite_code_backoffice_tier" model="ir.rule">
+        <field name="name">邀请码：教务层仅超级管理员可见/可发</field>
+        <field name="model_id" ref="model_edu_invite_code"/>
+        <field name="domain_force">[] if user.has_group('base.group_system') else [('tier', '!=', 'backoffice')]</field>
+        <field name="global" eval="True"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- 旧根（542）：保持停用。这里显式声明 active=False，是为了消除 F1
+         「声明值 ≠ 收口值」——本文件若不声明，-u edu_portal 会把 edu_nav 写的
+         active=False 重放回 True（见 docs/audit/finding-F1-menu-replay-on-upgrade.md §3-§4 方案 2），
+         于是旧根复活并与下方新子菜单重复。groups 与 edu_nav 的收口值一致。 -->
+    <menuitem id="menu_edu_invite_code_root"
+              name="邀请码"
+              action="action_edu_invite_code"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"
+              active="False"
+              sequence="80"/>
+
+    <!-- ============ 老账号补挂身份（v2.1-B8；t13 起守卫放宽为 教务 + 系统管理员，见 controllers/contacts.py） ============ -->
+    <record id="action_edu_relink_identity" model="ir.actions.act_url">
+        <field name="name">老账号补挂身份</field>
+        <field name="url">/edu/backend/relink_identity</field>
+        <field name="target">self</field>
+    </record>
+
+    <!-- 旧根（606）：同上，显式 active=False 钉住停用状态（F1 §4 方案 2）。 -->
+    <menuitem id="menu_edu_relink_identity"
+              name="老账号补挂身份"
+              action="action_edu_relink_identity"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"
+              active="False"
+              sequence="81"/>
+
+    <!-- ============ t13（2026-09-17）：两条入口在已有根下重建 ============
+         背景（perm-eng 在 t1 登记 + 队长裁定）：上一轮菜单收口对「0 个后代」的合并根
+         （542 邀请码 / 606 老账号补挂身份）只写了 active=False、没写 parent_id
+         ⇒ 对三个角色（含 admin）都不可见，而注册流程仍在校验邀请码 ⇒ 学校发不出新账号。
+         这里**新增两条子菜单**：
+           · 不回根菜单，也不复活上面两条停用记录：上面两条旧根显式声明 active=False
+             （= 与 edu_nav 的收口值一致，消除 F1 的「声明值 ≠ 收口值」）；
+             下面两条新入口不声明 active（默认启用），其可见性由 groups 控制；
+           · 挂在 学生信息(257) → 配置(openeducat_core.menu_op_school_config, 261) 下：
+             261 是基座声明、无自身 group 限制的既有配置分组，改动不触碰 edu_nav 的收口记录，
+             也不改变「口径 B」的可见根数（收口计的是根菜单）；
+           · groups 用并列写法 = 教务 + 系统管理员（教师 / 学生 / 家长不可见）。 -->
+    <menuitem id="menu_edu_invite_code_entry"
+              name="邀请码"
+              parent="openeducat_core.menu_op_school_config"
+              action="action_edu_invite_code"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"
+              sequence="90"/>
+    <menuitem id="menu_edu_relink_identity_entry"
+              name="老账号补挂身份"
+              parent="openeducat_core.menu_op_school_config"
+              action="action_edu_relink_identity"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"
+              sequence="91"/>
+</odoo>

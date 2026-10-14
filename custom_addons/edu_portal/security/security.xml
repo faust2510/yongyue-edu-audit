@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==========================================================================
+         纵深防御：edu.* 行级权限（ir.rule）——安全审计 F1，2026-09-18
+         ==========================================================================
+
+         背景：本模块此前只有 ir.model.access.csv、没有 security.xml，于是多个
+         edu.* 模型对 base.group_portal 有整表读（部分甚至 1,1,1,1）却没有任何行过滤：
+         一条 POST /web/dataset/call_kw/<model>/search_read 即可读走全校数据
+         （实测 parent@local uid=10 读到 edu.notify.pref 6 行、全部属 uid=8）。
+
+         ### 口径（与本仓既有 10 条 ir.rule 同构，不发明第二套）
+         - 学生本人： ('student_id.user_id', '=', user.id)
+           —— 与 edu_life/security/security.xml（edu.checkin.record / edu.journal.entry）、
+              edu_portal/views/certificate_report.xml（edu.certificate）完全一致。
+         - 家长看孩子： ('student_id.parent_ids.user_id', '=', user.id)
+           —— op.student.parent_ids 是 op.parent 的 M2M（基座 openeducat_parent），
+              op.parent.user_id 是家长登录账号（门户认家长的唯一口径，
+              见 controllers/roles.py:current_parent() 与 models/parent_link_fix.py）。
+              ⚠ 这里**没有**沿用 views/fees.xml 里的 ('student_id.parent_id.user_ids',...)
+              —— op.student 上并不存在 parent_id 字段，那句是取不到值的死条款；本文件用
+              真实存在的 parent_ids 链路。
+         - 本人自有数据（user_id 键）： ('user_id', '=', user.id)。
+
+         ### 只挂 base.group_portal（不是一刀切）
+         本文件所有规则都只挂门户组，因此：
+         - 教务（group_op_back_office_admin）/ 系统管理员 / 教师等内部账号**完全不受影响**，
+           仍可看全部行（后台列表、/leave/approvals、/grievances/approvals 等审批队列不变）；
+         - 门户控制器全部走 sudo() 取数（env.su 时规则跳过），功能路径不受影响。
+         内部账号 ACL 过宽（审计 F8：base.group_user 对多张表 1,1,1,1）另案处理，
+         不在本文件范围内 —— 收紧它会连带影响教师审批队列，属产品/权限口径决策。
+
+         ### 未加行规则的模型（判定为字典/配置/内容类，全体可读全部行是正确行为）
+         - edu.checkin.type（4 行）：打卡类型字典；门户 ACL 已是 1,0,0,0，写在校内用户。
+         - edu.fee.category（15 行）：费用分类字典；写权限收口在教务处/系统管理员
+           （ir.model.access.csv:42-45），门户只读。
+         - edu.quiz：测验内容（name/category/course/state），不是个人数据；
+           控制器全走 sudo，门户 ACL 本就只读。
+         ========================================================================== -->
+
+    <!-- ===== 课代表（edu.course.rep）：**故意不加 ir.rule** =====
+         设计 §1 的收口条件逐字：「若不新增可被 RPC 直读的模型则不加规则
+         （禁止『看起来安全』的空规则）」。edu.course.rep 在
+         security/ir.model.access.csv 里**只给了教务处与系统管理员**，base.group_portal
+         **没有任何 ACL** ⇒ 门户账号连 model/read 都拿不到（AccessError），
+         行级规则无从谈起。学生侧全部经控制器 sudo() 取数，并逐个过
+         edu.course.rep.is_active_now()（含期限实时重算）。
+         若将来给门户开了读权限，**必须**同时补一条 ir.rule 限制到
+         ('student_id.user_id', '=', user.id) —— 否则这条注释就是漏洞。 -->
+
+    <!-- ===== 学生个人数据：本人 或 本人孩子（家长） ===== -->
+
+    <record id="rule_edu_leave_portal_own" model="ir.rule">
+        <field name="name">edu.leave: 门户仅见本人/孩子的请假（纵深防御）</field>
+        <field name="model_id" ref="model_edu_leave"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">['|', ('student_id.user_id', '=', user.id), ('student_id.parent_ids.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edu_grievance_portal_own" model="ir.rule">
+        <field name="name">edu.grievance: 门户仅见本人/孩子的申诉（纵深防御）</field>
+        <field name="model_id" ref="model_edu_grievance"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">['|', ('student_id.user_id', '=', user.id), ('student_id.parent_ids.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edu_daily_checkin_portal_own" model="ir.rule">
+        <field name="name">edu.daily.checkin: 门户仅见本人/孩子的打卡（纵深防御）</field>
+        <field name="model_id" ref="model_edu_daily_checkin"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">['|', ('student_id.user_id', '=', user.id), ('student_id.parent_ids.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edu_placement_offer_portal_own" model="ir.rule">
+        <field name="name">edu.placement.offer: 门户仅见本人/孩子的 offer（纵深防御）</field>
+        <field name="model_id" ref="model_edu_placement_offer"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">['|', ('student_id.user_id', '=', user.id), ('student_id.parent_ids.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edu_student_skill_portal_own" model="ir.rule">
+        <field name="name">edu.student.skill: 门户仅见本人/孩子的技能标签（纵深防御）</field>
+        <field name="model_id" ref="model_edu_student_skill"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">['|', ('student_id.user_id', '=', user.id), ('student_id.parent_ids.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edu_point_log_portal_own" model="ir.rule">
+        <field name="name">edu.point.log: 门户仅见本人/孩子的积分流水（纵深防御）</field>
+        <field name="model_id" ref="model_edu_point_log"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">['|', ('student_id.user_id', '=', user.id), ('student_id.parent_ids.user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- ===== 本人自有数据（按 user_id 归属；门户 ACL 为 1,1,1,1，
+                  写/建/删必须是本人的行，否则收藏与通知偏好可被越权改删） ===== -->
+
+    <record id="rule_edu_favorite_portal_own" model="ir.rule">
+        <field name="name">edu.favorite: 门户仅见/仅可改本人收藏（纵深防御）</field>
+        <field name="model_id" ref="model_edu_favorite"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_edu_notify_pref_portal_own" model="ir.rule">
+        <field name="name">edu.notify.pref: 门户仅见/仅可改本人通知偏好（纵深防御）</field>
+        <field name="model_id" ref="model_edu_notify_pref"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ===== edu.grade.entry.extra（成绩录入手工加人 / 名单第 ③ 条来源，2026-10-13）
+         本条**故意不加 ir.rule**，判据与上面的 edu.course.rep 同源（见本文件前文那段
+         「故意不加 ir.rule」的说明）：
+           · ACL 只给 openeducat_core.group_op_back_office_admin 与 base.group_system
+             （见 security/ir.model.access.csv 两行 access_edu_grade_entry_extra_*）；
+           · 门户 / 教师组连 model/read 都拿不到 ⇒ 行级规则无从谈起，加了也只是空转；
+           · 教师的手工加人读写走门户控制器 /grade-entry/add-student 与
+             /grade-entry/remove-student，**权限收敛写在控制器里**（_scope_pairs 重算，
+             POST 的班/科/学生 id 一律不信任，见 controllers/grade_entry.py 模块 docstring）。
+         ⚠️ 若将来给门户或教师组开本模型任何 ACL，**必须同时补一条规则**（至少
+         ['|', ('student_id.user_id','=',user.id), ...] 之外还得按班×科目收敛，
+         而 Odoo 19 组规则是**并集**，恒真域会把别人一起放进来 —— 抄
+         custom_addons/edu_assess/security/security.xml:74-94 的写法），否则这条注释
+         就变成漏洞。 -->
+</odoo>

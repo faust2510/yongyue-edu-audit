@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ /my/calendar 一体化校历月视图（v2.1-B10） ============ -->
+    <template id="edu_calendar" name="Edu Integrated Calendar">
+        <t t-call="edu_portal.edu_page">
+            <style>
+                .oe-cal-mv { width:100%; border-collapse:separate; border-spacing:6px; table-layout:fixed; }
+                .oe-cal-mv th { font-size:12px; color:#64748b; font-weight:600; text-align:center; padding:2px 0; }
+                .oe-cal-mv td { height:104px; vertical-align:top; border:1px solid #e5e7eb; border-radius:10px; padding:5px 6px; background:#fff; position:relative; }
+                .oe-cal-mv td.oe-cal-out { background:#f8fafc; }
+                .oe-cal-mv td.oe-cal-today { border:2px solid #0E9F6E; box-shadow:0 0 0 1px #0E9F6E inset; }
+                .oe-cal-dayno { position:absolute; top:4px; right:7px; font-size:13px; font-weight:600; color:#475569; }
+                td.oe-cal-today .oe-cal-dayno { color:#0E9F6E; }
+                .oe-cal-items { margin-top:16px; display:flex; flex-direction:column; gap:3px; }
+                .oe-cal-chip { display:block; font-size:11px; line-height:1.25; color:#1f2937;
+                    border-left:3px solid #ccc; border-radius:4px; padding:1px 4px;
+                    background:#f9fafb; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+                .oe-cal-chip b { font-weight:600; }
+                .oe-cal-chip .oe-cal-tt { color:#6b7280; font-weight:400; }
+                .oe-cal-more { font-size:11px; color:#64748b; padding-left:4px; }
+                .oe-cal-legend { display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:#475569; margin-bottom:10px; }
+                .oe-cal-legend i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:5px; }
+                .oe-cal-nav a { min-width:96px; }
+            </style>
+
+            <div class="grade_book_view_main oe-gb-page">
+                <div class="oe-gb-head d-flex align-items-center gap-3 flex-wrap">
+                    <span class="oe-gb-hic"><i class="fa fa-calendar" aria-hidden="true"/></span>
+                    <div class="oe-gb-htitle">
+                        <span class="oe-gb-t">校历</span>
+                        <span class="oe-gb-s" t-out="role_label"/>
+                    </div>
+                    <a t-if="can_create" class="btn btn-primary btn-sm ms-auto"
+                       href="/my/calendar/new">
+                        <i class="fa fa-plus me-1" aria-hidden="true"/>新建活动
+                    </a>
+                </div>
+
+                <t t-if="saved">
+                    <div class="alert alert-success mt-3">
+                        <i class="fa fa-check-circle me-1"/>活动已创建，已加入校历。
+                    </div>
+                </t>
+
+                <!-- 导航：月/周/列表三视图 + 今天定位（S5；月视图默认，行为不变） -->
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 my-3 oe-cal-nav">
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-light btn-sm" t-att-href="prev_href">
+                            <i class="fa fa-chevron-left me-1"/>
+                            <t t-if="view == 'week'">上周</t><t t-else="">上月</t>
+                        </a>
+                        <a class="btn btn-light btn-sm" t-att-href="next_href">
+                            <t t-if="view == 'week'">下周</t><t t-else="">下月</t>
+                            <i class="fa fa-chevron-right ms-1"/>
+                        </a>
+                    </div>
+                    <h4 class="mb-0 fw-bold">
+                        <t t-if="view == 'month'" t-out="month_title"/>
+                        <t t-else="" t-out="period_title"/>
+                    </h4>
+                    <!-- flex-wrap：窄屏下这一组（月/周/列表 + 今天 + 订阅）合计 494px
+                         > 375 视口，原先整组横向越界 ⇒ 文档溢出 155px、「今天」(rect 330→426)
+                         与「订阅」(434→530) 都跑出屏外（2026-09-28 实测）。
+                         换行后组内自行折成两行；桌面端宽度够，一行不改动。 -->
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        <div class="btn-group" role="group" aria-label="校历视图切换">
+                            <a href="/my/calendar"
+                               t-att-class="'btn btn-sm ' + ('btn-primary' if view == 'month' else 'btn-outline-secondary')">月</a>
+                            <a href="/my/calendar?view=week"
+                               t-att-class="'btn btn-sm ' + ('btn-primary' if view == 'week' else 'btn-outline-secondary')">周</a>
+                            <a href="/my/calendar?view=list"
+                               t-att-class="'btn btn-sm ' + ('btn-primary' if view == 'list' else 'btn-outline-secondary')">列表</a>
+                        </div>
+                        <a class="btn btn-outline-secondary btn-sm" t-att-href="today_href">今天</a>
+                        <a class="btn btn-outline-primary btn-sm"
+                           t-att-href="'/my/calendar?sub=1' + (view != 'month' and ('&amp;view=' + view) or '')">
+                            <i class="fa fa-rss me-1"/>订阅
+                        </a>
+                    </div>
+                </div>
+
+                <!-- iCal 订阅面板：复制链接到手机日历（参考 Moodle/Canvas Calendar Feed） -->
+                <t t-if="ical_feed_url">
+                    <div class="alert alert-info mt-2">
+                        <div class="fw-semibold mb-1">
+                            <i class="fa fa-rss me-1"/>把课表装进手机日历
+                        </div>
+                        <p class="mb-2 small">复制下面的订阅链接，在 iPhone「日历 → 账户 → 添加订阅的日历」、
+                        Android 的 Google 日历（其他日历 → 按网址订阅）或 Outlook 日历中添加。
+                        之后课程、考试、停课、活动会自动同步更新。</p>
+                        <input type="text" class="form-control form-control-sm bg-white font-monospace small"
+                               readonly="readonly" t-att-value="ical_feed_url" onclick="this.select()"/>
+                    </div>
+                </t>
+
+                <!-- 统计条 -->
+                <div class="oe-statrow">
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--primary"><i class="fa fa-graduation-cap" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">课程</span><span class="oe-statbox-val" t-out="stats['session']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--warn"><i class="fa fa-pencil-square-o" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">考试</span><span class="oe-statbox-val" t-out="stats['exam']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--danger"><i class="fa fa-plane" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">停课</span><span class="oe-statbox-val" t-out="stats['holiday']"/></div>
+                    </div>
+                    <div class="oe-statbox">
+                        <span class="oe-statbox-ic oe-statbox-ic--success"><i class="fa fa-star-o" aria-hidden="true"/></span>
+                        <div class="oe-statbox-b"><span class="oe-statbox-lab">活动</span><span class="oe-statbox-val" t-out="stats['event']"/></div>
+                    </div>
+                </div>
+
+                <!-- 图例 -->
+                <div class="oe-cal-legend mt-3">
+                    <t t-foreach="kind_label" t-as="k">
+                        <span><i t-att-style="'background:' + kind_color[k]"/><t t-out="kind_label[k]"/></span>
+                    </t>
+                    <span class="ms-auto text-muted">本页仅显示当前角色可见的排期</span>
+                </div>
+
+                <t t-if="empty">
+                    <!-- 空态审计（2026-10-02）：补「谁发布、什么时候有」+ 一个真出口（课表）。
+                         原句只有「本月暂无校历事项。」，用户不知道是自己筛选错了还是学校还没发。 -->
+                    <div class="oe-empty">
+                        <i class="fa fa-calendar" aria-hidden="true"/>
+                        <t t-if="view == 'week'"><p>本周暂无校历事项。</p></t>
+                        <t t-elif="view == 'list'"><p>本月暂无校历事项。</p></t>
+                        <t t-else=""><p>本月暂无校历事项。</p></t>
+                        <p class="small text-muted mb-2">
+                            校历事项（开学、考试、停课、活动）由教务处发布，发布后才会出现在这里；
+                            上课安排不在校历里，要看每周课节请打开课表。
+                        </p>
+                        <a class="btn btn-sm btn-light border" href="/student/timetable">查看课表</a>
+                    </div>
+                </t>
+                <t t-elif="view == 'month'">
+                    <table class="oe-cal-mv">
+                        <thead>
+                            <tr><t t-foreach="day_head" t-as="d"><th t-out="d"/></t></tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="weeks" t-as="wk">
+                                <tr>
+                                    <t t-foreach="wk" t-as="cell">
+                                        <td t-att-class="(not cell['in_month'] and 'oe-cal-out ' or '') + (cell['today'] and 'oe-cal-today' or '')">
+                                            <span class="oe-cal-dayno" t-out="cell['day']"/>
+                                            <div class="oe-cal-items">
+                                                <t t-foreach="cell['items'][:4]" t-as="it">
+                                                    <span class="oe-cal-chip" t-att-style="'border-left-color:' + it['color']"
+                                                          t-att-title="it['title'] + ' ' + it['time']">
+                                                        <t t-if="it['time']"><b t-out="it['time']"/> </t>
+                                                        <t t-out="it['title']"/>
+                                                        <t t-if="it['sub']"><span class="oe-cal-tt"> · <t t-out="it['sub']"/></span></t>
+                                                    </span>
+                                                </t>
+                                                <span t-if="len(cell['items']) > 4" class="oe-cal-more">+<t t-out="len(cell['items']) - 4"/> 项</span>
+                                            </div>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <!-- S5 周视图：节次×星期网格，三色事件芯片 + 今天列高亮 + 停课灰列 -->
+                <t t-elif="view == 'week'">
+                    <table class="table table-bordered table-light align-middle ux-cal-week mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="text-center" style="width:110px">时段</th>
+                                <t t-foreach="week_days" t-as="wd">
+                                    <th t-att-class="'text-center ux-daycol ' + (wd['today'] and 'ux-today-col ' or '') + (wd['holiday'] and 'ux-holiday-col' or '')">
+                                        <t t-out="wd['name']"/>
+                                        <span class="d-block small ux-cal-date" t-out="wd['label']"/>
+                                        <span t-if="wd['holiday']" class="ux-holiday-badge"><i class="fa fa-flag me-1"/>停课</span>
+                                        <span t-if="wd['today']" class="ux-today-badge">今天</span>
+                                    </th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="week_rows" t-as="wr">
+                                <tr>
+                                    <td class="text-nowrap small">
+                                        <strong t-if="wr['timing']" t-out="wr['timing'].name"/>
+                                        <span t-else="" class="text-muted">考试/活动/未分节</span>
+                                    </td>
+                                    <t t-foreach="wr['cells']" t-as="cell">
+                                        <td t-att-class="'p-1 ' + (week_days[cell_index]['holiday'] and 'ux-holiday-col' or '') + (week_days[cell_index]['today'] and ' ux-today-col' or '')">
+                                            <t t-foreach="cell" t-as="it">
+                                                <span t-att-class="'ux-cal-chip ux-cal-chip-' + it['kind']"
+                                                      t-att-title="it['title'] + ' ' + it['time']">
+                                                    <t t-if="it['time']"><b t-out="it['time']"/> </t>
+                                                    <t t-out="it['title']"/>
+                                                </span>
+                                            </t>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <!-- S5 列表视图：按日分组的紧凑议程 -->
+                <t t-else="">
+                    <div class="ux-cal-list">
+                        <t t-foreach="list_days" t-as="ld">
+                            <div t-att-class="'ux-cal-list-day ' + (ld['today'] and 'ux-today-col' or '')">
+                                <div class="ux-cal-list-head d-flex align-items-center gap-2">
+                                    <span class="fw-bold"><t t-out="ld['name']"/> <t t-out="ld['date'].strftime('%m月%d日')"/></span>
+                                    <span t-if="ld['today']" class="badge text-bg-primary">今天</span>
+                                </div>
+                                <t t-if="ld['items']">
+                                    <div class="d-flex flex-column gap-1 py-1">
+                                        <t t-foreach="ld['items']" t-as="it">
+                                            <div class="ux-cal-list-item" t-att-style="'border-left:3px solid ' + it['color']"
+                                                 t-att-title="it['title'] + ' ' + it['time']">
+                                                <span class="text-nowrap small"><b t-if="it['time']" t-out="it['time']"/></span>
+                                                <span class="flex-grow-1" t-out="it['title']"/>
+                                                <span t-if="it['sub']" class="small text-muted" t-out="it['sub']"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+                                <div t-else="" class="text-muted small py-1">—</div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my/calendar/new 新建活动（冲突红字拦截） ============ -->
+    <template id="edu_event_form" name="Edu Calendar Event Form">
+        <t t-call="edu_portal.edu_page">
+            <div class="grade_book_view_main oe-gb-page" style="max-width:760px">
+                <div class="oe-gb-head">
+                    <span class="oe-gb-hic"><i class="fa fa-calendar-plus-o" aria-hidden="true"/></span>
+                    <div class="oe-gb-htitle">
+                        <span class="oe-gb-t">新建活动</span>
+                        <span class="oe-gb-s">提交时自动检测与已有课程/活动的时段冲突</span>
+                    </div>
+                </div>
+
+                <t t-if="error">
+                    <div class="alert alert-danger mt-3" role="alert">
+                        <i class="fa fa-exclamation-circle me-1"/><b>未保存：</b><span t-out="error"/>
+                        <t t-if="form.get('conflicts')">
+                            <ul class="mb-0 mt-2 ps-3">
+                                <t t-foreach="form['conflicts']" t-as="c">
+                                    <li t-out="c"/>
+                                </t>
+                            </ul>
+                        </t>
+                    </div>
+                </t>
+
+                <form method="post" action="/my/calendar/create"
+                      class="card shadow-sm border-0 rounded-3 mt-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">标题 <span class="text-danger">*</span></label>
+                            <input type="text" name="name" class="form-control" required="required"
+                                   placeholder="如：校运动会 / 家长开放日"
+                                   t-att-value="form.get('name') or ''"/>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">开始时间 <span class="text-danger">*</span></label>
+                                <input type="datetime-local" name="start_datetime" class="form-control"
+                                       required="required" t-att-value="form.get('start') or ''"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">结束时间 <span class="text-danger">*</span></label>
+                                <input type="datetime-local" name="end_datetime" class="form-control"
+                                       required="required" t-att-value="form.get('end') or ''"/>
+                            </div>
+                        </div>
+                        <div class="row g-3 mt-0">
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">类型</label>
+                                <select name="event_type" class="form-select">
+                                    <t t-foreach="types" t-as="t">
+                                        <option t-att-value="t[0]"
+                                                t-att-selected="(form.get('event_type') or 'activity') == t[0] or None"
+                                                t-out="t[1]"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">地点</label>
+                                <input type="text" name="location" class="form-control"
+                                       placeholder="如：体育馆 / 阶梯教室"
+                                       t-att-value="form.get('location') or ''"/>
+                            </div>
+                        </div>
+                        <hr class="my-3"/>
+                        <p class="small text-muted mb-3">
+                            <i class="fa fa-info-circle me-1"/>
+                            以下为<b>冲突检测维度</b>（可留空）：与新活动时段重叠的
+                            同教师 / 同教室 / 同班级课程或活动将被拦截；
+                            班级留空表示全校活动。
+                        </p>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">限定班级（空=全校）</label>
+                                <select name="batch_id" class="form-select">
+                                    <option value="">（全校）</option>
+                                    <t t-foreach="batches" t-as="b">
+                                        <option t-att-value="b.id"
+                                                t-att-selected="str(form.get('batch_id') or '') == str(b.id) or None"
+                                                t-out="b.name"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">负责教师</label>
+                                <select name="faculty_id" class="form-select">
+                                    <option value="">（不指定）</option>
+                                    <t t-foreach="faculties" t-as="f">
+                                        <option t-att-value="f.id"
+                                                t-att-selected="str(form.get('faculty_id') or '') == str(f.id) or None"
+                                                t-out="f.name"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">教室</label>
+                                <select name="classroom_id" class="form-select">
+                                    <option value="">（不指定）</option>
+                                    <t t-foreach="classrooms" t-as="cr">
+                                        <option t-att-value="cr.id"
+                                                t-att-selected="str(form.get('classroom_id') or '') == str(cr.id) or None"
+                                                t-out="cr.name"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light d-flex gap-2 justify-content-end">
+                        <a href="/my/calendar" class="btn btn-light">取消</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-check me-1"/>保存活动
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 后台：校历活动管理（并入时间表应用） ============ -->
+    <record id="view_edu_event_list" model="ir.ui.view">
+        <field name="name">edu.event.list</field>
+        <field name="model">edu.event</field>
+        <field name="arch" type="xml">
+            <list string="校历活动" default_order="start_datetime asc">
+                <field name="name"/>
+                <field name="event_type"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="location" optional="show"/>
+                <field name="batch_id" optional="show"/>
+                <field name="faculty_id" optional="show"/>
+                <field name="classroom_id" optional="show"/>
+                <field name="create_uid" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_event_form" model="ir.ui.view">
+        <field name="name">edu.event.form</field>
+        <field name="model">edu.event</field>
+        <field name="arch" type="xml">
+            <form string="校历活动">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="如：校运动会 / 家长开放日"/>
+                            <field name="event_type"/>
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                            <field name="location"/>
+                        </group>
+                        <group>
+                            <field name="batch_id"/>
+                            <field name="faculty_id"/>
+                            <field name="classroom_id"/>
+                            <field name="active"/>
+                            <field name="create_uid" readonly="1"/>
+                        </group>
+                    </group>
+                    <p class="text-muted small">
+                        <i class="fa fa-info-circle me-1"/>
+                        保存时自动检测：与同教师 / 同教室 / 同班级已有课程或活动时段重叠将被拦截
+                        （规则对齐排课冲突拦截）。班级留空表示全校活动。
+                    </p>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_event" model="ir.actions.act_window">
+        <field name="name">校历活动</field>
+        <field name="res_model">edu.event</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">登记第一个校历活动</p>
+            <p>门户「校历」页会聚合课程、考试、停课日与本表的学校/班级活动；
+                同教师/同教室/同班级时段重叠会被冲突检测拦截。</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_edu_event"
+              name="校历活动"
+              parent="openeducat_timetable.menu_op_timetable_root"
+              action="action_edu_event"
+              groups="openeducat_timetable.group_op_timetable_manager,openeducat_core.group_op_back_office_admin"
+              sequence="18"/>
+
+</odoo>

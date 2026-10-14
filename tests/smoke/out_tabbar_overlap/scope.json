@@ -1,0 +1,113 @@
+{
+  "portal_baseline": {
+    "url": "/my/home",
+    "bodyClass": "",
+    "hasTabbar": true,
+    "ua": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 ",
+    "bubblesClass": "o-mail-ChatHub-bubbles position-fixed d-flex flex-column align-content-start justify-content-end align-items-center o-mobile",
+    "bubblesRect": {
+      "x": 294,
+      "y": 749,
+      "w": 56,
+      "h": 50,
+      "bottom": 799
+    },
+    "btnRect": {
+      "x": 297,
+      "y": 749,
+      "w": 50,
+      "h": 50,
+      "bottom": 799
+    },
+    "tabbarTop": 788,
+    "tabs": [
+      {
+        "tab": "/my/home",
+        "clickable": true
+      },
+      {
+        "tab": "/my/calendar",
+        "clickable": true
+      },
+      {
+        "tab": "/my/messages",
+        "clickable": true
+      },
+      {
+        "tab": "/my/contacts",
+        "clickable": true
+      },
+      {
+        "tab": "/my/password",
+        "clickable": true
+      }
+    ]
+  },
+  "public_baseline": {
+    "url": "/campus/jobs",
+    "bodyClass": "",
+    "hasTabbar": false,
+    "ua": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 ",
+    "bubblesClass": "o-mail-ChatHub-bubbles position-fixed d-flex flex-column align-content-start justify-content-end align-items-center o-mobile",
+    "bubblesRect": {
+      "x": 294,
+      "y": 749,
+      "w": 56,
+      "h": 50,
+      "bottom": 799
+    },
+    "btnRect": {
+      "x": 297,
+      "y": 749,
+      "w": 50,
+      "h": 50,
+      "bottom": 799
+    },
+    "tabbarTop": null,
+    "tabs": []
+  },
+  "portal_after_android_ua": {
+    "url": "/my/home",
+    "bodyClass": "",
+    "hasTabbar": true,
+    "ua": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 ",
+    "bubblesClass": "o-mail-ChatHub-bubbles position-fixed d-flex flex-column align-content-start justify-content-end align-items-center o-mobile",
+    "bubblesRect": {
+      "x": 294,
+      "y": 799,
+      "w": 56,
+      "h": 0,
+      "bottom": 799
+    },
+    "btnRect": {
+      "x": 324,
+      "y": 728,
+      "w": 50,
+      "h": 50,
+      "bottom": 778
+    },
+    "tabbarTop": 788,
+    "tabs": [
+      {
+        "tab": "/my/home",
+        "clickable": true
+      },
+      {
+        "tab": "/my/calendar",
+        "clickable": true
+      },
+      {
+        "tab": "/my/messages",
+        "clickable": true
+      },
+      {
+        "tab": "/my/contacts",
+        "clickable": true
+      },
+      {
+        "tab": "/my/password",
+        "clickable": true
+      }
+    ]
+  }
+}

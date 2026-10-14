@@ -1,0 +1,38 @@
+{
+ "note": "apply 之前的 website.menu 快照（rollback 依此重建被删记录）",
+ "drop": [
+  {
+   "id": 191,
+   "name": "工作",
+   "url": "/jobs",
+   "parent_id": 4,
+   "sequence": 110,
+   "website_id": 1,
+   "page_id": null
+  },
+  {
+   "id": 197,
+   "name": "Jobs",
+   "url": "/jobs",
+   "parent_id": 4,
+   "sequence": 59,
+   "website_id": 1,
+   "page_id": null
+  },
+  {
+   "id": 198,
+   "name": "Jobs",
+   "url": "/jobs",
+   "parent_id": 1,
+   "sequence": 59,
+   "website_id": 1,
+   "page_id": null
+  }
+ ],
+ "keep": {
+  "id": 188,
+  "url_before": "#",
+  "parent_id": 4,
+  "sequence": 100
+ }
+}

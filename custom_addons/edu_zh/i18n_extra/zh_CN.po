@@ -1,0 +1,878 @@
+# Yongyue school portal - Chinese term overrides.
+# Loaded because it lives in edu_zh/i18n_extra/.
+# It REQUIRES "-u edu_zh --i18n-overwrite" (or the post_init hook):
+# these terms belong to other modules and the DB already holds a
+# machine translation that wins whenever overwrite=False.
+msgid ""
+msgstr ""
+"Project-Id-Version: edu_zh 19.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. modules: openeducat_assignment, openeducat_library
+#: model:ir.model.fields.selection,name:openeducat_assignment.selection__op_assignment_sub_line__state__accept
+#: model:ir.model.fields.selection,name:openeducat_library.selection__op_media_purchase__state__accept
+#: model:ir.model.fields.selection,name:openeducat_library.selection__op_media_queue__state__accept
+msgid "Accepted"
+msgstr "已批准"
+
+#. module: openeducat_core
+#: model:ir.model.fields.selection,name:openeducat_core.selection__op_subject_registration__state__approved
+msgid "Approved"
+msgstr "已批准"
+
+#. modules: openeducat_admission, openeducat_assignment,
+#. openeducat_attendance, openeducat_classroom, openeducat_core,
+#. openeducat_exam, openeducat_fees, openeducat_timetable
+#: model:ir.model.fields,field_description:openeducat_admission.field_op_admission__batch_id
+#: model:ir.model.fields,field_description:openeducat_assignment.field_op_assignment__batch_id
+#: model:ir.model.fields,field_description:openeducat_attendance.field_op_attendance_line__batch_id
+#: model:ir.model.fields,field_description:openeducat_attendance.field_op_attendance_register__batch_id
+#: model:ir.model.fields,field_description:openeducat_attendance.field_op_attendance_sheet__batch_id
+#: model:ir.model.fields,field_description:openeducat_classroom.field_op_classroom__batch_id
+#: model:ir.model.fields,field_description:openeducat_core.field_op_student_course__batch_id
+#: model:ir.model.fields,field_description:openeducat_core.field_op_subject_registration__batch_id
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_exam__batch_id
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_exam_attendees__batch_id
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_exam_session__batch_id
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_held_exam__batch_id
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_room_distribution__batch_id
+#: model:ir.model.fields,field_description:openeducat_fees.field_op_student_fees_details__batch_id
+#: model:ir.model.fields,field_description:openeducat_timetable.field_generate_time_table__batch_id
+#: model:ir.model.fields,field_description:openeducat_timetable.field_op_session__batch_id
+#: model:ir.model.fields,field_description:openeducat_timetable.field_time_table_report__batch_id
+#: model_terms:ir.ui.view,arch_db:openeducat_admission.view_op_admission_search
+#: model_terms:ir.ui.view,arch_db:openeducat_assignment.view_op_assignment_search
+#: model_terms:ir.ui.view,arch_db:openeducat_attendance.view_op_attendance_line_search
+#: model_terms:ir.ui.view,arch_db:openeducat_attendance.view_op_attendance_register_search
+#: model_terms:ir.ui.view,arch_db:openeducat_core.view_op_batch_form
+#: model_terms:ir.ui.view,arch_db:openeducat_core.view_op_batch_pivot
+#: model_terms:ir.ui.view,arch_db:openeducat_core.view_op_batch_search
+#: model_terms:ir.ui.view,arch_db:openeducat_core.view_op_batch_tree
+#: model_terms:ir.ui.view,arch_db:openeducat_core.view_op_student_course_search
+#: model_terms:ir.ui.view,arch_db:openeducat_core.view_subject_registration_search
+#: model_terms:ir.ui.view,arch_db:openeducat_exam.view_op_exam_session_pivot
+#: model_terms:ir.ui.view,arch_db:openeducat_timetable.view_op_session_search
+msgid "Batch"
+msgstr "班级"
+
+#. modules: openeducat_core, openeducat_timetable
+#: model:ir.model.fields,field_description:openeducat_core.field_op_faculty__color
+#: model:ir.model.fields,field_description:openeducat_core.field_op_student__color
+#: model:ir.model.fields,field_description:openeducat_timetable.field_op_session__color
+msgid "Color Index"
+msgstr "颜色序号"
+
+#. module: openeducat_exam
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_marksheet_line__grade
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_result_line__grade
+#: model:ir.model.fields.selection,name:openeducat_exam.selection__op_exam_session__evaluation_type__grade
+#: model_terms:ir.ui.view,arch_db:openeducat_exam.report_marksheet_report
+msgid "Grade"
+msgstr "等级"
+
+#. modules: openeducat_assignment, openeducat_exam
+#: model:ir.model.fields,field_description:openeducat_assignment.field_op_assignment__marks
+#: model:ir.model.fields,field_description:openeducat_assignment.field_op_assignment_sub_line__marks
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_exam_attendees__marks
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_result_line__marks
+#: model_terms:ir.ui.view,arch_db:openeducat_assignment.view_op_assignment_search
+#: model_terms:ir.ui.view,arch_db:openeducat_assignment.view_op_assignment_sub_line_search
+#: model_terms:ir.ui.view,arch_db:openeducat_exam.view_op_result_line_search
+msgid "Marks"
+msgstr "分数"
+
+#. module: openeducat_exam
+#: model:ir.model.fields.selection,name:openeducat_exam.selection__op_marksheet_line__status__pass
+#: model:ir.model.fields.selection,name:openeducat_exam.selection__op_result_line__status__pass
+msgid "Pass"
+msgstr "及格"
+
+#. modules: openeducat_admission, openeducat_assignment, openeducat_core,
+#. openeducat_library
+#: model_terms:ir.ui.view,arch_db:openeducat_admission.view_op_admission_form
+#: model_terms:ir.ui.view,arch_db:openeducat_assignment.view_op_assignment_sub_line_form
+#: model_terms:ir.ui.view,arch_db:openeducat_core.view_subject_registration_form
+#: model_terms:ir.ui.view,arch_db:openeducat_library.view_op_media_form
+#: model_terms:ir.ui.view,arch_db:openeducat_library.view_op_media_queue_form
+#: model_terms:ir.ui.view,arch_db:openeducat_library.view_op_purchase_form
+msgid "Reject"
+msgstr "驳回"
+
+#. modules: openeducat_admission, openeducat_assignment, openeducat_core,
+#. openeducat_library
+#: model:ir.model.fields.selection,name:openeducat_admission.selection__op_admission__state__reject
+#: model:ir.model.fields.selection,name:openeducat_assignment.selection__op_assignment_sub_line__state__reject
+#: model:ir.model.fields.selection,name:openeducat_core.selection__op_subject_registration__state__rejected
+#: model:ir.model.fields.selection,name:openeducat_library.selection__op_media_purchase__state__reject
+#: model:ir.model.fields.selection,name:openeducat_library.selection__op_media_queue__state__reject
+msgid "Rejected"
+msgstr "已驳回"
+
+#. module: openeducat_library
+#: model:ir.model.fields.selection,name:openeducat_library.selection__op_media_queue__state__request
+msgid "Request"
+msgstr "已申请"
+
+#. module: openeducat_library
+#: model:ir.model.fields.selection,name:openeducat_library.selection__op_media_purchase__state__request
+msgid "Requested"
+msgstr "已申请"
+
+#. modules: openeducat_admission, openeducat_assignment,
+#. openeducat_attendance, openeducat_core, openeducat_exam, openeducat_fees,
+#. openeducat_library, openeducat_timetable
+#: model:ir.model.fields,field_description:openeducat_admission.field_op_admission_register__state
+#: model:ir.model.fields,field_description:openeducat_assignment.field_op_assignment__state
+#: model:ir.model.fields,field_description:openeducat_assignment.field_op_assignment_sub_line__state
+#: model:ir.model.fields,field_description:openeducat_attendance.field_op_attendance_line__state
+#: model:ir.model.fields,field_description:openeducat_attendance.field_op_attendance_sheet__state
+#: model:ir.model.fields,field_description:openeducat_core.field_op_student_course__state
+#: model:ir.model.fields,field_description:openeducat_core.field_op_subject_registration__state
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_exam__state
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_exam_attendees__status
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_exam_session__state
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_marksheet_line__status
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_marksheet_register__state
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_result_line__status
+#: model:ir.model.fields,field_description:openeducat_exam.field_op_result_template__state
+#: model:ir.model.fields,field_description:openeducat_fees.field_op_student_fees_details__state
+#: model:ir.model.fields,field_description:openeducat_library.field_op_media_movement__state
+#: model:ir.model.fields,field_description:openeducat_library.field_op_media_queue__state
+#: model:ir.model.fields,field_description:openeducat_timetable.field_op_session__state
+#: model_terms:ir.ui.view,arch_db:openeducat_admission.view_op_admission_register_search
+#: model_terms:ir.ui.view,arch_db:openeducat_admission.view_op_admission_search
+#: model_terms:ir.ui.view,arch_db:openeducat_admission.view_op_admission_tree
+#: model_terms:ir.ui.view,arch_db:openeducat_core.view_subject_registration_search
+#: model_terms:ir.ui.view,arch_db:openeducat_exam.view_op_exam_attendees_search
+#: model_terms:ir.ui.view,arch_db:openeducat_exam.view_op_marksheet_register_search
+#: model_terms:ir.ui.view,arch_db:openeducat_exam.view_op_result_line_search
+#: model_terms:ir.ui.view,arch_db:openeducat_library.view_media_unit_tree
+#: model_terms:ir.ui.view,arch_db:openeducat_library.view_op_media_movement_search
+#: model_terms:ir.ui.view,arch_db:openeducat_library.view_op_media_queue_search
+msgid "Status"
+msgstr "状态"
+
+#. modules: openeducat_attendance, openeducat_library
+#: model:ir.model.fields,field_description:openeducat_attendance.field_student_attendance__to_date
+#: model:ir.model.fields,field_description:openeducat_library.field_op_media_queue__date_to
+msgid "To Date"
+msgstr "结束日期"
+
+#. module: edu_portal
+#: model_terms:ir.ui.view,arch_db:edu_portal.edu_notice
+msgid "<i class=\"fa fa-file-text-o\" aria-hidden=\"true\"/> Circular 公告"
+msgstr "<i class=\"fa fa-file-text-o\" aria-hidden=\"true\"/> 通告"
+
+#. module: edu_portal
+#: model_terms:ir.ui.view,arch_db:edu_portal.edu_assignment
+msgid "<span class=\"oe-statbox-lab\">开启</span>"
+msgstr "<span class=\"oe-statbox-lab\">进行中</span>"
+
+#. module: edu_portal
+#: model_terms:ir.ui.view,arch_db:edu_portal.edu_result_overview
+msgid "<span>完全错误</span>"
+msgstr "<span>答错题数</span>"
+
+#. module: edu_portal
+#: model_terms:ir.ui.view,arch_db:edu_portal.edu_result_overview
+msgid "<span>尝试日期</span>"
+msgstr "<span>作答日期</span>"
+
+#. module: edu_portal
+#: model_terms:ir.ui.view,arch_db:edu_portal.edu_result_overview
+msgid "<span>收到的分数</span>"
+msgstr "<span>得分</span>"
+
+#. module: edu_portal
+#: model:ir.model.fields.selection,name:edu_portal.selection__edu_notice__category__circular
+msgid "Circular"
+msgstr "通告"
+
+#. modules: edu_portal, edu_quiz
+#: model:ir.model.fields.selection,name:edu_portal.selection__edu_alumni_job__state__closed
+#: model:ir.model.fields.selection,name:edu_portal.selection__edu_grievance__state__close
+#: model:ir.model.fields.selection,name:edu_quiz.selection__edu_quiz__state__closed
+msgid "Closed"
+msgstr "已关闭"
+
+#. modules: edu_portal, edu_quiz
+#: model:ir.model.fields.selection,name:edu_portal.selection__edu_grievance__state__in_progress
+#: model:ir.model.fields.selection,name:edu_quiz.selection__edu_quiz_attempt__state__in_progress
+msgid "In Progress"
+msgstr "进行中"
+
+#. module: edu_portal
+#: model:ir.model.fields.selection,name:edu_portal.selection__edu_grievance__state__resolve
+msgid "Resolved"
+msgstr "已解决"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/views/view_components/multi_selection_buttons.js:0
+msgid "Are you sure you want to delete the selected record?"
+msgstr "确定要删除所选记录吗？"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/views/view_components/multi_selection_buttons.js:0
+msgid "Are you sure you want to delete the %(nbSelected)s selected records?"
+msgstr "确定要删除所选的 %(nbSelected)s 条记录吗？"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/views/list/list_confirmation_dialog.js:0
+msgid "Are you sure you want to update %(count)s records?"
+msgstr "确定要更新 %(count)s 条记录吗？"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/views/kanban/kanban_record_quick_create.js:0
+msgid "Invalid Display Name"
+msgstr "显示名称无效"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/public/caps_lock_warning.xml:0
+msgid "Caps Lock is on!"
+msgstr "大写锁定已开启！"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/search/search_bar_menu/search_bar_menu.xml:0
+msgid "Disabled due to invalid configuration"
+msgstr "配置无效，已停用"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/float/float_field.js:0
+msgid "Hide trailing zeros"
+msgstr "隐藏末尾的零"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/float/float_field.js:0
+msgid "Minimum Digits"
+msgstr "最少小数位"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/views/kanban/kanban_renderer.xml:0
+msgid "Lack of inspiration?"
+msgstr "暂无内容"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/properties/properties_field.js:0
+msgid "It will be removed for everyone!"
+msgstr "将对所有人移除！"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "(Keep formatting)"
+msgstr "（保留格式）"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "(Remove formatting)"
+msgstr "（清除格式）"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "Continue with Full Composer?"
+msgstr "是否改用完整编辑器？"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "Formatting can only be restored in Full Composer."
+msgstr "格式只能在完整编辑器中恢复。"
+
+#. module: edu_zh
+#. odoo-javascript
+#: code:addons/portal/static/src/interactions/portal_composer.js:0
+msgid "Could not save file %s"
+msgstr "无法保存文件 %s"
+
+
+# ---------------------------------------------------------------------------
+# t36（2026-09-12）：混排品牌串覆盖。
+# Odoo core 官方 zh_CN 把 'Go to your Odoo Apps' 译成「转到您的Odoo应用程序」——
+# 是 CJK+品牌 混排串，属两个门禁的互补盲区：
+#   check_odoo_trace 过去只扫文本节点（这是 title 属性）；
+#   check_english 虽扫 title 属性，但含 CJK 即跳过。
+# 该串渲染在 website.layout 的 o_frontend_to_backend_apps_btn 上，
+# 每张门户页 1 处（/my/home、/my/apps、/my/study、/my/courses… 合计 23 处）。
+# 属「视图 arch_db 既有译文」= DB 词条路径，必须 --i18n-overwrite 才覆盖。
+# ---------------------------------------------------------------------------
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.layout
+msgid "Go to your Odoo Apps"
+msgstr "转到您的应用"
+
+# ··································································································································
+# t47（2026-09-12）：B 类「CJK + Odoo」混排串 —— PO 可覆盖部分。
+# 来源：i18n-eng 的 core zh_CN 混排串全量清单（t36-AC3），本任务处理其中走 DB 词条路径的部分。
+# 覆盖方式：DB 词条路径（arch_db / model:）已存在官方中文译文，必须 --i18n-overwrite 才覆盖。
+#   UPGRADE_EXTRA_ARGS="--i18n-overwrite" bash scripts/safe_upgrade.sh -u edu_zh
+# 未覆盖的部分（code:addons 错译须 JS patch；模块元数据仅管理员可见；digest 归 t44；网站构建器演示片段未使用）
+# 见 t47 任务报告的分派表。
+# ··································································································································
+
+#. module: calendar
+#: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
+msgid "<span class=\"fa fa-plus\"/><span> Odoo meeting</span>"
+msgstr "<span class=\"fa fa-plus\"/><span>会议</span>"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.report_statement
+msgid "Bank of odoo"
+msgstr "银行"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_default_terms_and_conditions
+msgid "Below text serves as a suggestion and doesn’t engage Odoo S.A. responsibility."
+msgstr "以下文本仅作为建议，本学坊不承担责任。"
+
+#. module: web
+#: model_terms:ir.ui.view,arch_db:web.webclient_offline
+msgid "Check your network connection and come back here. Odoo will load as soon as you're back online."
+msgstr "检查您的网络连接，然后返回此处。一旦恢复网络连接，系统将立即加载。"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_mail_server__from_filter
+msgid "Comma-separated list of addresses or domains for which this server can be used.\ne.g.: \"notification@odoo.com\" or \"odoo.com\""
+msgstr "以逗号分隔的地址或域列表，该服务器可用于这些地址或域。例如 \"notification@example.com\" 或 \"example.com\""
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_journal__alias_domain
+msgid "Email domain e.g. 'example.com' in 'odoo@example.com'"
+msgstr "电子邮件域名，例如 'notice@example.com' 中的 'example.com'"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_config_settings__alias_domain_id
+msgid "If you have setup a catch-all email domain redirected to the Odoo server, enter the domain name here."
+msgstr "如果您设置了电子邮件域名重定向到这个本系统服务器，请在这里输入域名。"
+
+#. module: mail
+#: model:ir.model.fields.selection,name:mail.selection__res_users__notification_type__inbox
+msgid "In Odoo"
+msgstr "在系统内"
+
+#. module: auth_totp_mail
+#: model:mail.template,subject:auth_totp_mail.mail_template_totp_invite
+msgid "Invitation to activate two-factor authentication on your Odoo account"
+msgstr "邀请您为账户启用双因素身份验证"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_report_expression__engine__domain
+msgid "Odoo Domain"
+msgstr "域"
+
+#. module: portal
+#: model_terms:ir.ui.view,arch_db:portal.portal_record_sidebar
+msgid "Odoo Logo"
+msgstr "系统徽标"
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website.show_website_info
+msgid "Odoo Version"
+msgstr "系统版本"
+
+#. module: account
+#: model_terms:ir.actions.act_window,help:account.res_partner_action_customer
+msgid "Odoo helps you easily track all activities related to a customer."
+msgstr "在此跟踪与客户相关的所有活动。"
+
+#. module: account
+#: model_terms:ir.actions.act_window,help:account.res_partner_action_supplier
+msgid "Odoo helps you easily track all activities related to a supplier."
+msgstr "在此跟踪与供应商相关的所有活动。"
+
+#. module: base
+#: model_terms:ir.actions.act_window,help:base.action_partner_form
+msgid "Odoo helps you track all activities related to your contacts."
+msgstr "在此跟踪与联系人相关的所有活动。"
+
+#. module: mail
+#: model:ir.model.constraint,message:mail.constraint_res_users_notification_type
+msgid "Only internal user can receive notifications in Odoo"
+msgstr "只有内部用户才能在系统内接收通知"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_users__notification_type
+msgid "Policy on how to handle Chatter notifications:\n- By Emails: notifications are sent to your email address\n- In Odoo: notifications appear in your Odoo Inbox"
+msgstr "消息通知的处理策略： - 通过邮件：通知发送到您的邮箱地址 - 在系统中：通知出现在您的系统收件箱"
+
+#. module: web
+#: model_terms:ir.ui.view,arch_db:web.login_layout
+msgid "Powered by <span>Odoo</span>"
+msgstr "由<span>永约学坊</span>提供支持"
+
+#. module: base
+#: model:res.groups,comment:base.group_public
+msgid "Public users have specific access rights (such as record rules and restricted menus).\n                They usually do not belong to the usual Odoo groups."
+msgstr "公众用户有特定的访问权(如记录规则和限制菜单)。 他们通常不属于通常的系统用户组。"
+
+#. module: mail
+#: model:res.groups,name:mail.group_mail_notification_type_inbox
+msgid "Receive notifications in Odoo"
+msgstr "在系统内接收通知"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.res_company_form_view_onboarding
+msgid "e.g. https://www.odoo.com"
+msgstr "例如：https://example.com"
+
+# ··································································································································
+# t117（2026-09-14）：后台菜单中文机翻错译修正 —— 教务每天要点的入口。
+# 现象：source(en_US) 名字本身没错，错的是**机器译文**（op.program→「节目」、Profile→「轮廓」、
+#       Sheets→「床单」、根菜单 SIS→「安全信息系统」）。
+# 实测：这批菜单 ir_model_data.noupdate = **f** ⇒ PO 可覆盖（不是 noupdate 陷阱）；
+#       但按本仓已证硬限制仍须 `-u edu_zh --i18n-overwrite`，否则 DB 既有值优先。
+# ⚠️ 覆盖按 **msgid 全局**生效：同源串在其他模块/位置也会一并改（General / Profile / Attendance 等）。
+# 一览表见 docs/ops/menu-rename-list.md。
+# ··································································································································
+
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_school_root
+msgid "SIS"
+msgstr "学生信息"
+
+#. module: openeducat_core
+# 2026-10-02 合并：原先同一条 msgid "General" 写了两遍（两个引用各一份），
+#   msgfmt --check 判为 duplicate（fatal）。译文本来就一样，合并引用即可 —— 行为不变。
+#: model:ir.ui.menu,name:openeducat_core.menu_op_general_main
+#: model:ir.ui.menu,name:openeducat_core.menu_op_general_student
+msgid "General"
+msgstr "通用"
+
+# 2026-09-24：菜单 276 与动作 395 的 source 已从 "Programs" 换成新串 "Program Plans"
+# （edu_portal/views/menu_labels.xml，P1：276→op.program 与 263→op.course 同名「专业」撞车）。
+# 按本仓既有做法，**原 msgid 的引用一并撤掉**（留着就是指向已不存在 source 的死词条），
+# 新串词条见本文件末尾「2026-09-24 第二轮」一节。
+
+# 2026-09-19 专业编排：菜单 277「专业层次」→「学制」、动作 396「程序级别」（机翻遗留）→「学制」。
+# 与 263 同一机制：en_US source 换成新串（本仓 edu_portal/views/major_track_views.xml
+# 用基座 xmlid 覆盖），这里只给新串出词条。原 msgid `Program Level` 的引用一并换掉，
+# 避免同一记录出现两条词条（同 xmlid 后出现的会赢，容易埋雷）。
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_program_level_sub
+#: model:ir.actions.act_window,name:openeducat_core.act_open_op_program_level_view
+msgid "Program Levels"
+msgstr "学制"
+
+# 2026-09-19 专业编排：菜单 262「课程管理」→「教学管理」（容器下挂着 专业/批次/部门）。
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_school_config_course
+msgid "Teaching Management"
+msgstr "教学管理"
+
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_student_main_student
+msgid "Profile"
+msgstr "档案"
+
+# 2026-09-19 专业编排（学制 + 必修/选修）：菜单 263「课程」→「专业」。
+# 为什么另造新串 Majors 而不是直接覆盖 Courses：PO 覆盖按 msgid 全局生效，
+# `Courses` 同时挂在生产仍启用的 561（slide.channel 在线课程）与 548/551/553 上
+# （docs/ops/menu-rename-list.md:93-95）。source 由 edu_portal/views/major_track_views.xml
+# 用基座 xmlid 覆盖，这里只负责给新串出词条。见 docs/plans/major-track-elective-design.md §6.6.3。
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_course_sub
+#: model:ir.actions.act_window,name:openeducat_core.act_open_op_course_view
+msgid "Majors"
+msgstr "专业"
+
+#. module: openeducat_activity
+#: model:ir.ui.menu,name:openeducat_activity.menu_student_migrate
+msgid "Student Migration"
+msgstr "学生转班"
+
+#. module: openeducat_assignment
+#: model:ir.ui.menu,name:openeducat_assignment.menu_op_assignment_sub_line_sub
+msgid "Submissions"
+msgstr "作业提交"
+
+# 2026-09-24：补动作 414 的引用 —— 词条按 **xmlid** 落库（Odoo 19
+# odoo/tools/translate.py:1596-1600 把 "#:" 引用解析成 xmlid，再存进
+# model_terms_translations[model][field][xmlid][src][lang]），所以原来只给菜单 297
+# 出词条时，动作 414 的中文停在基座的机翻「父母」——同一记录家族两个名字（面包屑 ≠ 菜单）。
+# 菜单 298「父母」的 source 本批已换成 Parent Settings（它其实是配置容器），故不在此列。
+#. module: openeducat_parent
+#: model:ir.ui.menu,name:openeducat_parent.menu_op_parent_root
+#: model:ir.actions.act_window,name:openeducat_parent.act_open_op_parent_view
+msgid "Parents"
+msgstr "家长"
+
+#. module: openeducat_attendance
+#: model:ir.ui.menu,name:openeducat_attendance.menu_op_attendance_root
+msgid " Class Attendances"
+msgstr "课堂考勤"
+
+#. module: openeducat_attendance
+#: model:ir.ui.menu,name:openeducat_attendance.menu_op_attendance
+msgid "Attendance"
+msgstr "考勤"
+
+#. module: openeducat_attendance
+#: model:ir.ui.menu,name:openeducat_attendance.menu_op_attendance_register_sub
+msgid "Registers"
+msgstr "点名册"
+
+#. module: openeducat_attendance
+#: model:ir.ui.menu,name:openeducat_attendance.menu_op_attendance_sheet_sub
+msgid "Sheets"
+msgstr "点名表"
+
+#. module: openeducat_attendance
+#: model:ir.ui.menu,name:openeducat_attendance.menu_op_attendance_line_sub
+msgid "Attendance Lines"
+msgstr "出勤明细"
+
+# ——— 2026-09-22 教务找「院系」却落进人事表：菜单/动作改名（edu_portal/views/menu_labels.xml）
+# 259「院系」→「教职员工」：该菜单的动作 388 指向 op.faculty（教学人员人事档案，
+# 名/姓/性别/出生日期 required=True），教务建不出「院系」；真正的院系是 265 → op.department。
+# 为什么另造新串 Teaching Staff：`Faculties` 这个 msgid 还挂在 act_open_op_faculty_view_2
+# 与 field_wizard_op_faculty__faculty_ids 上（openeducat_core/i18n/zh_CN.po:2239-2241），
+# PO 覆盖按 msgid 全局生效 ⇒ 直接覆盖会连带改错（机制见
+# docs/plans/major-track-elective-design.md §6.6.3；一览表见 docs/ops/menu-rename-list.md）。
+# 动作 388 一并改：只改菜单 ⇒ 面包屑/页面标题仍写旧名。
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_faculty_main
+#: model:ir.actions.act_window,name:openeducat_core.act_open_op_faculty_view
+msgid "Teaching Staff"
+msgstr "教职员工"
+
+# 265「部门」→「院系部门」：它就是教务要建的「院系」（op.department：名称 + 代码）。
+# 新串 Academic Departments 全库唯一（`Department` 还挂在 op_course / op_program /
+# op_subject 的 department_id 字段标签与三张 op.department 视图 arch 上，同上一节理由）。
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_department_sub
+#: model:ir.actions.act_window,name:openeducat_core.act_open_op_department_view
+msgid "Academic Departments"
+msgstr "院系部门"
+
+# ——— 2026-09-24 第二轮：教务审计出的其余错名（P0/P1/P2）———
+# 读数与前后对照见 tests/smoke/menu_label_audit.py（可重跑；改前落在
+# tests/smoke/menu_label_audit_before.json），一览表见 docs/ops/menu-rename-list.md §2.2。
+#
+# ⚠ 机制精确化（本轮源码取证，写下来供下一次沿用）：词条**不是**按 msgid 全局生效的。
+#   Odoo 19 odoo/tools/translate.py:1596-1600 用 PO 里的 "#: model:<model>,<field>:<xmlid>"
+#   引用把每条译文挂到**具体 xmlid** 上（model_terms_translations[...][xmlid][src][lang]），
+#   落库时按 (module,name) 反查 ir_model_data 那一条记录（同文件 1636-1646）。
+#   ⇒ 写清 xmlid 引用即可定点覆盖，不会连带改到同源串的别处；反过来，**漏写引用就等于没覆盖**。
+#
+# P0）op.department.parent_id 字段标签：「家长部」是基座对 Parent Department 的机翻。
+#   规范所有者 = openeducat_core/i18n/zh_CN.po:4102-4105（msgid "Parent Department" → 家长部），
+#   而基座是只读快照（仓规：openeducat_erp/ 不改）⇒ 唯一合规修法是在这里定点覆盖。
+#   该 msgid 在基座 PO 里**只有这一个引用**（同文件 4103 行），此处再按 xmlid 限定一次。
+#   ⚠ 字段标签是 ir_model_fields.field_description，覆盖需要 --i18n-overwrite（该 xmlid 实测
+#   noupdate=f，可覆盖；noupdate=t 的记录才需要先规范标记，见 §0.1 的 259）。
+#   选词：字段挂在「院系部门」表单上，读作「本院的上级院系」⇒ 上级院系（用户口径，可逆）。
+#. module: openeducat_core
+#: model:ir.model.fields,field_description:openeducat_core.field_op_department__parent_id
+msgid "Parent Department"
+msgstr "上级院系"
+
+# P0b）同一张「新建院系部门」表单**逐字扫过**之后补的第二处（tests/smoke/department_form_sweep.py）：
+#   op.department.name 的标签是基座对通用串 Name 的直译「姓名」——对院系荒谬（姓名 = 人的姓与名）。
+#   该 msgid 在基座里被 **14+ 个字段**共用（学生 / 教师 / 家长 / 课程… 的 name 标签都是它，
+#   那些地方「姓名」是对的）⇒ 只能按 xmlid 钉住 op.department 这一条，绝不可全局覆盖。
+#   选词理由（与 P0 一并判断）：表单右侧就是「代码」，名称 + 代码 是本仓既有的标准配对；
+#   且 op.department 在 op_course / op_program / op_subject 的 department_id 里是以「部门」
+#   身份被引用的，字段自身写死「院系名称」会在那些 m2o 语境下别扭 ⇒ 取通用的「名称」。
+#   该 xmlid 实测 noupdate=f，--i18n-overwrite 直接可覆盖。
+#. module: openeducat_core
+#: model:ir.model.fields,field_description:openeducat_core.field_op_department__name
+msgid "Name"
+msgstr "名称"
+
+# P1）菜单 276 + 动作 395（op.program）→ 培养方案：新串在本仓唯一，
+#   与 263 的「专业」（= op.course）彻底分开；学校口径的「专业」此后全库只有 263 一条。
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_program_sub
+#: model:ir.actions.act_window,name:openeducat_core.act_open_op_program_view
+msgid "Program Plans"
+msgstr "培养方案"
+
+# P2）菜单 264 + 动作 386（op.batch）→ 班级。与 797「已停用班级」同一实体，措辞对齐。
+#. module: openeducat_core
+#: model:ir.ui.menu,name:openeducat_core.menu_op_batch_sub
+#: model:ir.actions.act_window,name:openeducat_core.act_open_op_batch_view
+msgid "Student Batches"
+msgstr "班级"
+
+# P2）菜单 298（配置容器，无动作）→ 家长设置；与 297「家长」（op.parent 名册）区分开。
+#. module: openeducat_parent
+#: model:ir.ui.menu,name:openeducat_parent.menu_op_school_config_parent
+msgid "Parent Settings"
+msgstr "家长设置"
+
+# P2）菜单 299 + 动作 415（op.parent.relationship）→ 亲属关系（father/mother/guardian 字典）。
+#. module: openeducat_parent
+#: model:ir.ui.menu,name:openeducat_parent.menu_op_parent_relationship_sub_parent
+#: model:ir.actions.act_window,name:openeducat_parent.act_open_op_parent_relationship_view
+msgid "Kinship Relations"
+msgstr "亲属关系"
+
+# ··································································································································
+# 2026-10-02 第三轮：**后台（Odoo 管理界面）残留英文**。
+# 起因：本仓三套 UI 门禁（check_english / check_ui_usability / check_accessibility）的名单都从
+#       **门户路由**派生，后台是结构性未覆盖区（tests/ui/surface.json 里 /odoo/* 只登记
+#       gates=["accessibility"]，没有 english）。取证与读数见 docs/audit/backend-ux/report.md。
+# 取证方式：登录态 render + /web/webclient/load_menus，**不是读源码猜的** ——
+#   admin 321 条菜单 8 条纯英文 / 教务 143 条 4 条 / 教师 74 条 2 条；
+#   另有 /odoo/action-649（在线测验）、/odoo/action-650（作答记录）两页**整页英文**（列标签）。
+# 复现：python3 docs/audit/backend-ux/backend_probe.py --menus
+#       改前 docs/audit/backend-ux/evidence/menus_before.json ／ 改后 menus_after.json
+# ⚠⚠ **每条词条必须带 `#. module: <模块>` 行** —— 这不是注释礼节，是运行时硬要求：
+#   Odoo 19 odoo/tools/translate.py 的 CodeTranslations.__iter__ 用
+#     match = re.match(r"(module[s]?): (\w+)", entry.comment);  _, module = match.groups()
+#   读 `#.` 注释；**缺这一行 ⇒ match=None ⇒ AttributeError** ⇒ /web/webclient/translations 返回 500
+#   ⇒ **整个后台 Web 客户端起不来**（实测：本轮第一版只写 `#:` 引用，后台白屏，traceback 定位到此处）。
+#   判据可离线自检：每条词条块的第一个 `#.` 行必须匹配 `#. module(s): \w+`。
+# ⚠ noupdate 自检（本轮实测）：edu_quiz 菜单 505/506 是 noupdate=**t** 但 zh_CN **为空** ⇒ 走 insert
+#   分支，PO 能落进去；mail.menu_mail_mail(91) / iap.iap_root_menu(81) 是 noupdate=t **且已有 zh** ⇒
+#   落在 keep-existing 分支，PO + --i18n-overwrite 都到不了（docs/ops/menu-rename-list.md §0.1）。
+# ⚠ 字段标签（field_description）本次 11 条 xmlid 实测全为 noupdate=f，PO 直接可覆盖。
+# ··································································································································
+
+#. module: edu_quiz
+# edu_quiz 自研模块：被菜单收口保留下来的两个子菜单是英文，而被停用的根菜单(504)反倒是中文「测验」。
+# 选词对齐门户页标题（edu_quiz_portal_views.xml 的「在线测验」）与模型文档串（测验/题目/作答记录）。
+#: model:ir.ui.menu,name:edu_quiz.menu_edu_quiz
+msgid "Quizzes"
+msgstr "在线测验"
+
+#. module: edu_quiz
+#: model:ir.actions.act_window,name:edu_quiz.action_edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_attempt__quiz_id
+msgid "Quiz"
+msgstr "在线测验"
+
+#. module: edu_quiz
+#: model:ir.ui.menu,name:edu_quiz.menu_edu_quiz_attempts
+msgid "Attempts"
+msgstr "作答记录"
+
+#. module: edu_quiz
+#: model:ir.actions.act_window,name:edu_quiz.action_edu_quiz_attempt
+msgid "Quiz Attempts"
+msgstr "作答记录"
+
+# ——— edu_quiz **列表页列标签**：/odoo/action-649 与 /odoo/action-650 渲染出的每一个英文列名。
+# 读数来自真浏览器 innerText（backend_probe --pages），不是源码扫描。
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz__name
+msgid "Quiz Name"
+msgstr "测验名称"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz__category
+msgid "Category"
+msgstr "分类"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz__course_id
+msgid "Course"
+msgstr "课程"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz__duration
+msgid "Duration (min)"
+msgstr "时长（分钟）"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz__state
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_attempt__state
+msgid "State"
+msgstr "状态"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz__total_points
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_attempt__total
+msgid "Total Points"
+msgstr "总分"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz__question_ids
+msgid "Questions"
+msgstr "题目"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_attempt__student_id
+msgid "Student"
+msgstr "学生"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_attempt__score
+msgid "Score"
+msgstr "得分"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_attempt__pct_str
+msgid "Percentage"
+msgstr "百分比"
+
+# ——— edu_quiz **选择值**（state / qtype）：列表页徽章与下拉的可见文本。
+# 实测 /odoo/action-649 渲染出 'Published'（列徽章），故这 8 条一并覆盖。
+# 引用形如 model:ir.model.fields.selection,name:<module>.selection__<model>__<field>__<value>。
+#. module: edu_quiz
+#: model:ir.model.fields.selection,name:edu_quiz.selection__edu_quiz__state__draft
+msgid "Draft"
+msgstr "草稿"
+
+#. module: edu_quiz
+#: model:ir.model.fields.selection,name:edu_quiz.selection__edu_quiz__state__published
+msgid "Published"
+msgstr "已发布"
+
+#. module: edu_quiz
+#: model:ir.model.fields.selection,name:edu_quiz.selection__edu_quiz_attempt__state__submitted
+msgid "Submitted"
+msgstr "已提交"
+
+#. module: edu_quiz
+#: model:ir.model.fields.selection,name:edu_quiz.selection__edu_quiz_question__qtype__single
+msgid "Single Choice"
+msgstr "单选题"
+
+#. module: edu_quiz
+#: model:ir.model.fields.selection,name:edu_quiz.selection__edu_quiz_question__qtype__multi
+msgid "Multiple Choice"
+msgstr "多选题"
+
+#. module: edu_quiz
+#: model:ir.model.fields.selection,name:edu_quiz.selection__edu_quiz_question__qtype__text
+msgid "Short Answer"
+msgstr "简答题"
+# ——— edu_quiz **表单页**（点进列表行）的字段标签：与列表页同一条动线，一并覆盖。
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_question__question
+msgid "Question"
+msgstr "题目"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_question__qtype
+msgid "Qtype"
+msgstr "题型"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_question__option_a
+msgid "Option A"
+msgstr "选项 A"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_question__option_b
+msgid "Option B"
+msgstr "选项 B"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_question__option_c
+msgid "Option C"
+msgstr "选项 C"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_question__option_d
+msgid "Option D"
+msgstr "选项 D"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_question__answer
+msgid "Correct Answer"
+msgstr "正确答案"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_question__points
+msgid "Points"
+msgstr "分值"
+
+#. module: edu_quiz
+#: model:ir.model.fields,field_description:edu_quiz.field_edu_quiz_attempt__answers_json
+msgid "Answers"
+msgstr "答案"
+
+# ——— Odoo 核心菜单（仅超管/教务可见）
+#. module: website
+#: model:ir.ui.menu,name:website.menu_website_technical_pages
+#: model:ir.actions.act_window,name:website.action_website_technical_pages
+msgid "Technical Pages"
+msgstr "技术页面"
+
+#. module: im_livechat
+#: model:ir.ui.menu,name:im_livechat.menu_livechat_all_conversations
+msgid "All Conversations"
+msgstr "全部会话"
+
+#. module: im_livechat
+#: model:ir.ui.menu,name:im_livechat.menu_livechat_looking_for_help
+#: model:ir.actions.act_window,name:im_livechat.discuss_channel_looking_for_help_action
+msgid "Looking for Help"
+msgstr "待接入咨询"
+
+# 网站 → 活动：动作 512 的中文当前是机翻「事务问题」（= transaction problem），与「活动提问」不搭。
+#. module: event
+#: model:ir.ui.menu,name:event.event_question_menu
+msgid "Event Questions"
+msgstr "活动提问"
+
+#. module: event
+#: model:ir.actions.act_window,name:event.event_question_action
+msgid "Event Question"
+msgstr "活动提问"
+
+#. module: mail
+#: model:ir.ui.menu,name:mail.menu_mail_mail
+msgid "EMail"
+msgstr "电子邮件"
+
+#. module: mail
+#: model:ir.actions.act_window,name:mail.action_view_mail_mail
+msgid "Emails"
+msgstr "电子邮件"
+
+#. module: iap
+#: model:ir.ui.menu,name:iap.iap_root_menu
+msgid "IAP"
+msgstr "应用内购买"
+
+# 2026-10-02 追加：404 页两处中文读不通（学生/访客都会看到的一页）。
+# 源串在核心 http_routing/views/http_routing_template.xml 的 404 模板里，
+# 原文按「文本节点」切分，逐段直译后中文就散了：
+#   原文 ：Don't panic. If you think it's our mistake, please send us a message on <a>this page</a>.
+#   改前 ：不要惊慌。如果您认为是我们的失误，请通过以下方式给我们留言 本页。   ← 「本页」是 this page 的直译
+#   改后 ：不要惊慌。如您认为这是我们的失误，请通过 联系页面.
+# 同理「流行的页面」是 popular pages 的直译（英文里指热门页面）。
+# ⇒ 覆盖策略：把引导句的结尾改成「请通过」，让链接文字自己收句，读起来是完整的一句话。
+#
+# ⚠ 实测结果与一个**没修掉的小瑕疵**（留着是因为改它风险更大）：
+#   · 三处都生效了（改前「…请通过以下方式给我们留言 本页. / 你正在查找这些 流行的页面？」）；
+#   · 但句末那个 **半角 `.</` 收不掉** —— 它是 `</a>` 之后**独立的文本节点**，
+#     核心 PO 里**没有它的条目**（太短，导出时被跳过），所以没有 msgid 可供覆盖。
+#   · 试过加一条 `msgid "."` 吗？**不能加**：该视图 arch 里还有 `404.svg?c2=o-color-2` 这种 URL，
+#     把 `.` 全量替换成中文句号会把图片地址打断 —— 这是「小瑕疵换成真故障」。
+#. module: http_routing
+#: model_terms:ir.ui.view,arch_db:http_routing.404
+# ⚠ msgid 必须与**核心 PO 里的一字不差**（含内联标签）：核心按「文本节点」切分，
+#   引导句那条把 <b>…</b> 一起算进了 msgid。第一版我按纯文本写，结果只有 this page 那一条生效。
+#   核对的唯一可靠办法：读容器里 http_routing/i18n/zh_CN.po 的原文（不是读 XML 猜）。
+msgid "<b>Don't panic.</b> If you think it's our mistake, please send us a message on"
+msgstr "<b>不要惊慌。</b>如您认为这是我们的失误，请通过"
+
+#. module: http_routing
+#: model_terms:ir.ui.view,arch_db:http_routing.404
+msgid "this page"
+msgstr "联系页面"
+
+#. module: http_routing
+#: model_terms:ir.ui.view,arch_db:http_routing.404
+msgid "Maybe you were looking for one of these <b>popular pages?</b>"
+msgstr "或许您在找这些 <b>热门页面？</b>"
+

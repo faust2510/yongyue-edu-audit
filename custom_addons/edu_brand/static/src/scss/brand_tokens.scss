@@ -1,0 +1,310 @@
+// =====================================================================
+// 永约学坊 · 唯一颜色令牌源（v4 路线 A「蓝绿工作台」）
+// ---------------------------------------------------------------------
+// 依据：docs/plans/color-system-v4.md（t2 定稿）§1.2 / §2 / §2.7 / §3.4 / §6.4
+//
+// 注册位置：edu_brand/__manifest__.py 的 web._assets_primary_variables，
+//           且必须排在本模块的 backend_variables.scss **之前**。
+// 双端生效机制（[源] addons/web/__manifest__.py）：
+//   web.assets_backend :49 → ('include','web._assets_helpers') :50
+//   web.assets_frontend:164 → ('include','web._assets_helpers') :171
+//   web._assets_helpers:383 → ('include','web._assets_primary_variables') :391
+//   ⇒ 一处注册，前后台（及 PDF 报表）同时进入，且排在任何模块 CSS 之前。
+//
+// 本文件同时产出：
+//   $brand-* 等 SCSS 变量  → 编译期（backend_variables.scss 的 map 快照要用）
+//   --brand-* 等自定义属性 → 运行期（门户/后台/公开页的规则级落点）
+//   ⇒ 同一批字面量、同一个文件 = 全仓唯一的令牌真相。
+//
+// 纪律（违反即门禁 FAIL）：
+//   1. 其它任何文件不得再写色值字面量；引用一律 var(--x) 或 $x。
+//   2. 每个 --*-rgb 必须有同名 --x 基色，且由基色派生（不另立字面值）。
+//   3. 页面/组件级覆盖必须降一级作用域，不得在 :root 重新声明保留名。
+//
+// ⚠ 语法边界（本环境实测，libsass 3.6.5，非 Dart Sass；规范 §2.7 四条硬规则）：
+//   1. 通道令牌**一律逗号分隔**：--brand-500-rgb: 14, 123, 242。
+//      **禁止空格通道** —— 空格通道喂进逗号式消费会**静默失效**（不报错）。
+//   2. 消费**一律** rgba(var(--x-rgb), α)（逗号式）—— **两种上下文都合法**。
+//      下面的 A/B/C 三例是本环境的实测边界（规范 §2.7 与 captain 矩阵同口径）：
+//        A 普通属性写斜杠式：  color: rgb(var(--x-rgb) / .08);
+//            ⇒ **编译直接报错**（"Function rgb is missing argument $green"），libsass 把 rgb( 当内置函数。
+//        B 空格通道 + 逗号引用：--x-rgb: 14 123 242;  →  rgba(var(--x-rgb), .08)
+//            ⇒ 编译过，但浏览器展开成 rgba(14 123 242, .08) ＝ **无效 CSS、静默失效**（不报错）。
+//        C 逗号通道 + 逗号引用：--x-rgb: 14, 123, 242; →  rgba(var(--x-rgb), .08)
+//            ⇒ **合法**，且在 .scss 与纯 .css 两种上下文都成立 —— 本文件采用此路。
+//      注：斜杠式在**自定义属性值内**可编译（opaque token 不进 sass 求值），
+//          所以 §2.9 那三条阴影当初"看着能用"；但那是隐藏条件，已统一弃用。
+//   3. 自定义属性值**一律显式插值** --x: #{$y};。**禁止** --x: $y;
+//      —— libsass 对自定义属性值不解析，裸变量被原样输出成字符串，
+//      浏览器取不到值、**编译却通过、不报错**。
+//   4. 任何 --x-rgb 必须有**同名** --x 基色令牌（门禁据此算对比度）。
+//   另：本环境不支持 @use/@forward/color.*（模块系统），只能用
+//   red()/green()/blue()/mix()/map-merge() 等老式全局函数。
+// =====================================================================
+
+// ---------------------------------------------------------------
+// 1. SCSS 变量（编译期真相；字面值只允许出现在本区块）
+// ---------------------------------------------------------------
+
+// 1.1 品牌蓝阶（6 种蓝收敛到此表，§2.1）
+$brand-50:  #EAF4FF;
+$brand-100: #D6E9FF;
+$brand-200: #A7CFFF;
+$brand-300: #71AFFF;
+$brand-400: #3C8FF7;
+$brand-500: #0E7BF2;   // 品牌色：禁承载文字/链接（白底 4.09、--bg 上 3.80）
+$brand-600: #0A63CC;   // 与 $brand-action-hover 同值
+$brand-700: #084CA0;   // 蓝色调面上的文字唯一档（§3.2）
+$brand-800: #063675;
+$brand-action: #0C6DD7;        // 交互面唯一色（白底 5.02 / 白字压底 5.02）
+$brand-action-hover: #0A63CC;  // hover/active 字色；浅蓝调面上的文字唯一档（5.72）
+
+// 1.2 青绿阶（辅色，§2.2）
+$teal-50:  #E7F7F5;
+$teal-100: #CEEFEC;
+$teal-200: #9CDED8;
+$teal-300: #66C9C1;
+$teal-400: #35B1A8;
+$teal-500: #0F9B91;   // 仅限装饰（白底 3.43 ✗）
+$teal-600: #0C7D75;   // teal 作文字/白字底的唯一档（4.99）
+$teal-700: #0A605B;
+$teal-800: #07464B;
+
+// 1.3 中性 / 文字 / 边框（§2.3）
+$bg:              #F4F7FA;
+$surface-card:    #FFFFFF;
+$surface-topbar:  #FFFFFF;
+$fill-hover:      #F0F4FA;
+$fill-active:     #E8EFF8;
+$border:          #E3E9F2;   // 装饰性分隔线；不得作表单控件边框
+$border-strong:   #CBD6E5;
+$border-control:  #8A94A6;   // 表单控件边框唯一档（3.06，WCAG 1.4.11 需 >=3）
+$text-1:          #1A2233;
+$text-2:          #4E5A70;
+$text-3:          #5E6779;
+$text-disabled:   #B7C0CE;   // 禁用态豁免
+$neutral-soft:    #F0F3F8;
+
+// 1.4 状态色（面 / soft / ink，§2.4）
+$success:       #127A50;
+$success-soft:  #E8F7F0;
+$warning:       #E8930C;     // 禁作文字，必须配深字
+$warning-soft:  #FEF4E0;
+$warning-ink:   #8F5700;     // 警告文字唯一档
+$danger:        #C0272D;
+$danger-soft:   #FDEBEC;
+
+// 1.5 金色点缀（路线 A：降为点缀，禁入门户/后台，§2.5）
+$gold-500: #C8A870;
+$gold-100: #E7D7B8;
+$gold-ink: #836A42;   // 浅底上的金字唯一档（5.12）
+
+// 1.6 阴影基色与豁免色（§2.6 / §6.4）
+$shadow: #14182D;     // 阴影族唯一墨色（非文字用途，不适用 4.5 判据）
+$white:  #FFFFFF;
+$black:  #000000;
+
+// 1.7 SCSS 别名（与下方 :root 的 CSS 别名一一对应；t5 会引用 $info 等）
+// 只做引用、不新增字面值 —— 保证「一个颜色全仓一个字面值」不被破坏。
+$brand:        $brand-500;
+$brand-strong: $brand-600;
+$brand-soft:   $brand-50;
+$brand-ink:    $brand-700;
+$accent:       $teal-600;
+$accent-soft:  $teal-50;
+$info:         $brand-500;
+$info-soft:    $brand-50;
+$neutral:      $text-3;
+
+// ---------------------------------------------------------------
+// 2. 运行期自定义属性
+// ---------------------------------------------------------------
+:root {
+  // 2.1 品牌蓝阶
+  --brand-50:  #{$brand-50};
+  --brand-100: #{$brand-100};
+  --brand-200: #{$brand-200};
+  --brand-300: #{$brand-300};
+  --brand-400: #{$brand-400};
+  --brand-500: #{$brand-500};
+  --brand-600: #{$brand-600};
+  --brand-700: #{$brand-700};
+  --brand-800: #{$brand-800};
+  --brand-action: #{$brand-action};
+  --brand-action-hover: #{$brand-action-hover};
+
+  // 2.2 青绿阶
+  --teal-50:  #{$teal-50};
+  --teal-100: #{$teal-100};
+  --teal-200: #{$teal-200};
+  --teal-300: #{$teal-300};
+  --teal-400: #{$teal-400};
+  --teal-500: #{$teal-500};
+  --teal-600: #{$teal-600};
+  --teal-700: #{$teal-700};
+  --teal-800: #{$teal-800};
+
+  // 2.3 中性 / 文字 / 边框
+  --bg: #{$bg};
+  --surface-card:   #{$surface-card};
+  --surface-topbar: #{$surface-topbar};
+  --fill-hover:     #{$fill-hover};
+  --fill-active:    #{$fill-active};
+  --border:         #{$border};
+  --border-strong:  #{$border-strong};
+  --border-control: #{$border-control};
+  --text-1:         #{$text-1};
+  --text-2:         #{$text-2};
+  --text-3:         #{$text-3};
+  --text-disabled:  #{$text-disabled};
+  --neutral-soft:   #{$neutral-soft};
+
+  // 2.4 状态色
+  --success:      #{$success};
+  --success-soft: #{$success-soft};
+  --warning:      #{$warning};
+  --warning-soft: #{$warning-soft};
+  --warning-ink:  #{$warning-ink};
+  --danger:       #{$danger};
+  --danger-soft:  #{$danger-soft};
+
+  // 2.5 金色点缀
+  --gold-500: #{$gold-500};
+  --gold-100: #{$gold-100};
+  --gold-ink: #{$gold-ink};
+
+  // 2.6 阴影基色与豁免色
+  --shadow: #{$shadow};
+  --white:  #{$white};
+  --black:  #{$black};
+
+  // 2.7 别名（只允许 var() 引用，不得再写字面值，§2.1/§2.3）
+  --brand:        var(--brand-500);
+  --brand-strong: var(--brand-600);
+  --brand-soft:   var(--brand-50);
+  --brand-ink:    var(--brand-700);
+  --accent:       var(--teal-600);
+  --accent-soft:  var(--teal-50);
+  --info:         var(--brand-500);
+  --info-soft:    var(--brand-50);
+  --neutral:      var(--text-3);
+  --covenant-gold: var(--gold-500);   // 旧模板兼容（规范 §2.5 别名）
+
+  // 2.8 焦点环（非文本用途，3:1 判据；用法见 §3.4）
+  --focus-ring: var(--brand-500);
+
+  // 2.9 阴影（消费一律逗号式 rgba(var(--x-rgb), α)，规范 §2.7 规则 2）
+  //     逗号式在「自定义属性值」与「普通属性」两种上下文都合法 ⇒ 无隐藏条件
+  --shadow-sm: 0 1px 2px  rgba(var(--shadow-rgb), .05);
+  --shadow-md: 0 4px 14px rgba(var(--shadow-rgb), .10);
+  --shadow-lg: 0 14px 36px rgba(var(--shadow-rgb), .16);
+
+  // 2.10 通道令牌（11 个，一律由基色派生 ⇒ 假名令牌在语法上写不出来）
+  --brand-500-rgb:    #{red($brand-500)}, #{green($brand-500)}, #{blue($brand-500)};
+  --brand-action-rgb: #{red($brand-action)}, #{green($brand-action)}, #{blue($brand-action)};
+  --text-1-rgb:       #{red($text-1)}, #{green($text-1)}, #{blue($text-1)};
+  --neutral-rgb:      #{red($neutral)}, #{green($neutral)}, #{blue($neutral)};
+  --success-rgb:      #{red($success)}, #{green($success)}, #{blue($success)};
+  --danger-rgb:       #{red($danger)}, #{green($danger)}, #{blue($danger)};
+  --warning-rgb:      #{red($warning)}, #{green($warning)}, #{blue($warning)};
+  --gold-500-rgb:     #{red($gold-500)}, #{green($gold-500)}, #{blue($gold-500)};
+  --shadow-rgb:       #{red($shadow)}, #{green($shadow)}, #{blue($shadow)};
+  // 白/黑是豁免基色，无「派生」可言，直写通道值（§2.7 唯一例外）
+  --white-rgb: 255, 255, 255;
+  --black-rgb: 0, 0, 0;
+
+  // 2.11 字体级（适老化基线：正文 16px）
+  --text-xs: 12px;  --text-sm: 14px;  --text-md: 16px;
+  --text-lg: 18px;  --text-xl: 20px;  --text-2xl: 24px;
+  --text-hero: 32px;
+  --leading-body: 1.5;  --leading-head: 1.25;  --leading-tight: 1.15;
+  --fw-body: 400;  --fw-em: 500;  --fw-head: 600;
+
+  // 2.12 间距（4px 网格）
+  --space-1: 4px;  --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 20px; --space-6: 24px;  --space-7: 32px;  --space-8: 40px;
+  --space-9: 48px; --space-10: 64px;
+
+  // 2.13 圆角
+  --radius-sm: 8px;  --radius-md: 12px;  --radius-lg: 16px;
+  --radius-xl: 24px; --radius-pill: 999px;
+
+  // 2.14 组件尺寸
+  --h-topbar: 64px; --h-topbar-m: 56px; --h-tabbar: 56px;
+  --h-btn: 44px;    --h-btn-sm: 36px;   --h-input: 44px;  --h-search: 40px;
+  --w-sidebar: 232px; --icon-tile: 48px;
+}
+
+// ---------------------------------------------------------------
+// 3. 正文/次要文字桥接（自 custom_home.css:654 迁入）
+// ---------------------------------------------------------------------
+// ⚠ 选择器**必须**保留 [data-bs-theme] body 这半（captain 硬约束），
+//   且**必须**额外带上 :root > body —— 后者是 2026-09-15 真机自证抓到的
+//   静默回归的修法，原因如下：
+//   · 本文件经 web._assets_primary_variables 被 include 到 bundle **最前面**，
+//     所以这里写的 :root 声明**必然早于** Bootstrap/website 的 :root 块；
+//     同特异度 (0,1,0) 时**后出现的胜**，于是 --body-color 被退回主题灰
+//     #6b7385（压 --bg 仅 4.42 ✗）—— 正是 t112 修好的那条无声回退。
+//   · 实测：服务端 <html> **没有 data-bs-theme 属性**（只有 data-website-id），
+//     所以 [data-bs-theme] body 这半在公开页**根本不匹配**；旧写法之所以
+//     在门户看着有效，靠的是它当时排在 bundle **末尾**、:root 半靠顺序取胜。
+//   · body{color:var(--body-color)} 是真正的消费者。把声明**落在 body 自身**
+//     （:root > body）就与源码顺序无关：元素自身声明永远胜过从 html 继承来的值。
+//   回归锚点：body 上 --body-color 恒等于 --text-3（#5E6779）。
+// ---------------------------------------------------------------
+:root, :root > body, [data-bs-theme] body {
+  --body-color:      var(--text-3);
+  --secondary-color: var(--text-3);
+  --o-cc1-text:      var(--text-3);
+}
+
+// ---------------------------------------------------------------
+// 4. 接 Odoo 网站色板（t3 ⑤）
+// ---------------------------------------------------------------------
+// 目的：公开页（官网 / 报名页）的 .btn-primary、链接、色块由**网站色板**决定，
+//       门户令牌规则覆盖不到它们（eng-portal 实测：/apply 上从未出现 --brand-action）。
+//
+// 机制（读源码确认，非推断）：
+//   · 网站色板**不是可写字段**，--color-palettes-name / --has-customized-colors
+//     是编译期派生变量。
+//   · website/static/src/scss/primary_variables.scss:28 有 `$o-user-color-palette: () !default;`
+//     该文件注册在 web._assets_primary_variables，**本文件在其之后**编译
+//     （edu_brand depends website + theme_web_openeducat）⇒ 这里赋值即被采纳。
+//   · website/static/src/scss/secondary_variables.scss:138-140 做
+//     `map-merge(出厂调色板, $o-user-color-palette)` ⇒ 我们的值覆盖到当前色板上。
+//   ⇒ 全程编译期、零 DB 状态、色值仍出自本文件 = 与 §1.2「唯一令牌源」一致；
+//     不需要 make_scss_customization / ir.attachment / ir.asset。
+//
+//   ⚠ **必须用 $o-user-color-palette，不能改用 $o-color-palettes 的 base-1 merge**（2026-09-15 实测）：
+//     secondary_variables.scss:216-217 会做
+//       `$o-we-auto-contrast-exclusions: join($o-we-auto-contrast-exclusions, map-keys($o-user-color-palette));`
+//     即**把「用户色板的键名」自动加入 auto-contrast 的排除表**。于是
+//     bootstrap_overridden.scss:83 的 `$link-color: auto-contrast(o-color('o-cc1-link'), …)`
+//     会**原样返回** o-cc1-link 的值（命中排除表即直接 return）。
+//     ⇒ 用 user-palette：链接色 = 令牌值 **#0C6DD7**（令牌内 ✓）
+//     ⇒ 用 base-1 merge：o-cc1-link 不在排除表 ⇒ 被 increase-contrast 逐格压暗成 **#0955A7**
+//       （7.32 对比度），**成为一个令牌外色** —— 正是审计点名的 #0F34C3 同类残留。
+//     实测：base-1 版渲染出 #0955A7；user-palette 版为 #0C6DD7。故**保留 user-palette**。
+//
+// 取值依据（规范 + 审计，非自创）：
+//   o-color-1 审计 §4「必须消灭的 4 个 alien 色」之首 #026DDE → --brand-action（§2.1 明钉）
+//   o-color-3 #F3F2F2 → --bg（规范已判「F3F2F2 98 处 → --bg」）
+//   o-color-5 #111827 → --text-1（深色块/页脚）
+//   o-cc1-link #0F34C3 → --brand-action（审计：全站链接色，须并入品牌蓝）
+//   o-cc1-text #6B7385 → --text-3（§2.3 桥接，压 --bg 5.29 ✓）
+//   其余为对齐而设：o-color-2 #09417E（同属「出厂残留 12 色」清单）→ --brand-700；
+//   o-color-4 #FFFFFF 为豁免白 → --white（无视觉变化）；o-cc1-headings #192335 → --text-1。
+//   o-cc1-btn-primary / btn-secondary 在主题里是**对 o-color-1/2 的引用**，随之生效。
+//
+// 品牌优先：用普通 map-merge（非 !default）⇒ 本品牌色板优先于此前的用户自定义。
+// ---------------------------------------------------------------
+$o-user-color-palette: map-merge($o-user-color-palette, (
+  'o-color-1': $brand-action,
+  'o-color-2': $brand-700,
+  'o-color-3': $bg,
+  'o-color-4': $white,
+  'o-color-5': $text-1,
+  'o-cc1-text': $text-3,
+  'o-cc1-headings': $text-1,
+  'o-cc1-link': $brand-action,
+));

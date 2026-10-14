@@ -1,0 +1,699 @@
+/* 首页六分组标题头 + 侧栏 Quick actions 布局补充 */
+
+/* 分类标题头：点标 + 标题 + 右侧计数 */
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0 2px;
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-dot{
+    width: 9px; height: 9px; border-radius: 3px;
+    flex: none; background: #0E7BF2;
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-title{
+    margin: 0; font-size: 16px; font-weight: 600;
+    letter-spacing: -.01em; color: #1d2233;
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-count{
+    /* t119：只保留布局；字色/字号/字重由本文件后段同选择器规则统一（--text-3 4.5 档）接管。
+       旧 #868da3 为死声明（同特异性、后者胜），按 t113 交接项顺手清掉。 */
+    margin-left: auto;
+}
+
+/* 侧栏 Quick actions 三列网格 */
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .oe-qa-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-qa-side .col-4{width: auto; padding: 0;}
+
+/* ==== 应用菜单网格（对齐原站原生 home menu：#E3EAF7 底 +
+     白色圆角图标方块 + 方块外下方居中标签，微阴影无边框） ==== */
+.home_menu_page{background:#E3EAF7;min-height:100vh;padding:56px 24px 72px;}
+.home_menu_page .o_apps_container{max-width:1180px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));
+  gap:40px 48px;}
+.home_menu_page .o_app{display:flex;flex-direction:column;align-items:center;
+  gap:14px;text-decoration:none;width:fit-content;justify-self:center;}
+.home_menu_page .o_app_tile{width:72px;height:72px;background:#fff;
+  border-radius:14px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 4px rgba(29,49,86,.12);
+  transition:transform .15s ease, box-shadow .15s ease;}
+.home_menu_page .o_app:hover .o_app_tile{transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(29,49,86,.20);}
+.home_menu_page .o_app_icon{width:44px;height:44px;object-fit:contain;
+  border-radius:6px;}
+.home_menu_page .o_app_icon_fa{font-size:30px;color:#0E7BF2;}
+.home_menu_page .o_app_name{font-size:13px;color:#333;text-align:center;
+  line-height:1.3;max-width:128px;}
+/* 应用菜单页对齐原站：无网站页脚（原站为后台 webclient 页面） */
+body:has(.home_menu_page) footer{display:none !important;}
+
+/* B11：应用面板统一白底瓦片（图案保留原色，背景不再彩色/渐变） */
+.b11-apps{background:transparent !important;min-height:auto !important;padding:4px 0 24px !important;}
+.b11-apps .o_app_tile{background:#fff;border:1px solid #E7E9F2;border-radius:16px;box-shadow:0 2px 8px rgba(15,23,42,.06);}
+.b11-apps .o_app_icon_fa{font-size:26px;width:44px;height:44px;border-radius:14px;
+  background:#fff !important;border:1px solid #E7E9F2;
+  display:inline-flex !important;align-items:center;justify-content:center;}
+.b11-apps .o_app:hover .o_app_tile{transform:translateY(-2px);box-shadow:0 10px 22px rgba(15,23,42,.13);}
+.b11-apps .o_app_name{color:#334155;font-size:13px;}
+
+/* 测验列表「最好 x%」徽章恢复品牌紫（重构后移出 .oe_count 命中范围） */
+a.oe_count.badge.rounded-pill{background-color:var(--brand-action) !important;color:#fff !important;}
+
+/* 首页卡片图标瓦片：白底 + 图案用各卡片原色（模板内联 color），缺省品牌蓝 */
+.o_portal_icon .fa{width:46px;height:46px;border-radius:12px;display:inline-flex;
+  align-items:center;justify-content:center;font-size:22px;
+  color:var(--brand-500);background:transparent;border:0;box-shadow:none;}
+/* 非 B11 上下文（帮助中心等）的图标容器也给白底 */
+#wrapwrap.o_portal .o_portal_icon{width:48px;height:48px;border-radius:12px;
+  background:#fff;border:1px solid #E7E9F2;}
+/* =====================================================================
+   B11 工作台美化（v2.1-P4）——家校工作台设计系统
+   依据 docs/plans/ui-reference.md（t2 产物）。只改视觉层：
+   不改路由、不改模型/控制器行为、不删任何按钮与入口。
+   追加在本文件（assets 列表最后一项），确保对既有样式的覆盖生效。
+   ===================================================================== */
+
+/* ---------------------------------------------------------------
+   v4（2026-09-15）：原 :root 令牌块已整体迁出本文件。
+   唯一令牌源 = edu_brand/static/src/scss/brand_tokens.scss（注册于
+   web._assets_primary_variables ⇒ 前后台与 PDF 报表同享）。
+   ⚠ 本文件是 plain CSS，且 edu_portal 排在 edu_brand 之后 ⇒ 若在此处再声明
+   同名令牌，会**静默覆盖**令牌源（同特异度 0,1,0、源码顺序取胜、不报错）。
+   故本文件只允许消费 var(--*)，不得声明令牌。改令牌请改令牌源。
+   --------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------
+   页面底色（替换暖奶油 → 浅蓝灰工作台惯例）
+   --------------------------------------------------------------- */
+#wrapwrap.o_portal{background-color: var(--bg);}
+#wrapwrap.o_portal:has(.oe-portal-hero){background-color: var(--bg);}
+#wrapwrap.o_portal .o_portal_wrap{background: transparent;}
+
+/* ---------------------------------------------------------------
+   骨架：顶栏（3.1）
+   --------------------------------------------------------------- */
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar{
+  position: sticky; top: 0; z-index: 1030;
+  display: flex; align-items: center; gap: var(--space-4);
+  height: var(--h-topbar);
+  padding: 0 var(--space-5);
+  background: var(--surface-topbar);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-brandmark{
+  display: flex; align-items: center; gap: 10px;
+  flex: none; text-decoration: none; min-height: 44px;
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-brandmark .b11-brandmark-img{
+  width: 38px; height: 38px; border-radius: var(--radius-md); object-fit: contain;
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-brandmark .b11-brandmark-name{
+  font-size: var(--text-lg); font-weight: var(--fw-head);
+  color: var(--text-1); letter-spacing: -.01em; max-width: 180px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+/* 顶栏内的既有导航（面包屑/语言/帮助/搜索）重新排布 */
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar{
+  margin-bottom: 0 !important; border: 0; background: transparent;
+  flex: 1; min-width: 0; gap: var(--space-2);
+  flex-wrap: nowrap !important;
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar .breadcrumb{
+  font-size: var(--text-sm); color: var(--text-3); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar .breadcrumb a{color: var(--text-2);}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar .breadcrumb-item.active{color: var(--text-1); font-weight: var(--fw-em);}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar select{
+  height: 36px; padding: 0 8px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); background: #fff;
+  color: var(--text-2); font-size: 13px; cursor: pointer;
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar a[href="/my/help"]{
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 36px; padding: 0 10px; border-radius: var(--radius-sm);
+  color: var(--text-2) !important; font-size: var(--text-sm);
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar a[href="/my/help"]:hover{
+  background: var(--fill-hover); color: var(--brand-600) !important;
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar form[role="search"]{
+  flex: 0 0 320px; max-width: 38vw; margin-left: auto;
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar form[role="search"] input{
+  height: var(--h-search); border: 1px solid var(--border);
+  border-radius: var(--radius-md); font-size: var(--text-sm);
+  background: var(--bg);
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar form[role="search"] input:focus{
+  background: #fff; border-color: var(--brand-400);
+  box-shadow: 0 0 0 3px rgba(14,123,242,.18);
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar form[role="search"] .btn{
+  height: var(--h-btn-sm); border-radius: var(--radius-sm);
+  border-color: var(--border); color: var(--text-2);
+}
+
+/* ---------------------------------------------------------------
+   骨架：桌面左侧角色导航（3.2）
+   --------------------------------------------------------------- */
+#wrapwrap.o_portal .o_portal_wrap .b11-body{
+  display: flex; align-items: flex-start; min-height: calc(100vh - var(--h-topbar));
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-side{
+  position: sticky; top: var(--h-topbar);
+  width: var(--w-sidebar); flex: none;
+  height: calc(100vh - var(--h-topbar)); overflow-y: auto;
+  padding: var(--space-4) 12px var(--space-8);
+  background: var(--surface-card);
+  border-right: 1px solid var(--border);
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-content{flex: 1; min-width: 0;}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-group-title{
+  margin: var(--space-6) var(--space-2) var(--space-1);
+  font-size: 13px; font-weight: var(--fw-head); letter-spacing: .03em;
+  color: var(--text-3);
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-side .b11-nav-group-title:first-child{margin-top: var(--space-2);}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-item{
+  display: flex; align-items: center; gap: var(--space-3);
+  height: 44px; padding: 0 var(--space-3); margin-bottom: 2px;
+  border-radius: var(--radius-md);
+  color: var(--text-2); font-size: var(--text-md); font-weight: var(--fw-body);
+  text-decoration: none; position: relative; transition: background .15s ease, color .15s ease;
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-item i{width: 20px; text-align: center; font-size: 16px; color: var(--text-3); transition: color .15s ease;}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-item:hover{background: var(--fill-hover); color: var(--text-1);}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-item:hover i{color: var(--brand-500);}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-item:focus-visible{
+  outline: 0; box-shadow: 0 0 0 3px rgba(14,123,242,.18);
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-item.active{
+  background: var(--brand-soft); color: var(--brand-600); font-weight: var(--fw-head);
+}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-item.active i{color: var(--brand-500);}
+#wrapwrap.o_portal .o_portal_wrap .b11-nav-item.active::before{
+  content: ""; position: absolute; left: 6px; top: 12px;
+  width: 4px; height: 20px; border-radius: 4px; background: var(--brand-500);
+}
+
+/* ---------------------------------------------------------------
+   骨架：移动端底部 Tab（3.3，<992px）
+   --------------------------------------------------------------- */
+/* 底栏仅在 <992px 显示（桌面由模板 d-lg-none 隐藏） */
+@media (max-width: 991.98px){
+  #wrapwrap.o_portal .o_portal_wrap .b11-tabbar{
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1040;
+    height: calc(var(--h-tabbar) + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    background: var(--surface-topbar);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -2px 12px rgba(var(--shadow-rgb), .06);
+  }
+  #wrapwrap.o_portal .o_portal_wrap .b11-tab{
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px; min-height: 44px;
+    color: var(--text-3); font-size: var(--text-xs);
+    text-decoration: none; transition: color .15s ease;
+  }
+  #wrapwrap.o_portal .o_portal_wrap .b11-tab i{font-size: 20px; line-height: 1;}
+  #wrapwrap.o_portal .o_portal_wrap .b11-tab:hover{color: var(--text-2);}
+  #wrapwrap.o_portal .o_portal_wrap .b11-tab.active{color: var(--brand-500); font-weight: var(--fw-head);}
+}
+
+/* ---------------------------------------------------------------
+   在线聊天悬浮球不得压住移动端底栏（2026-09-24）
+   现象：手机宽度下 Odoo 在线聊天小球正好盖住**第 5 个** Tab（修改密码），真人点不到。
+   归因（真浏览器实测）：
+     · core 把宿主 div.o-livechat-root 挂到 <body> 下，并**内联** z-index: calc(9e999)
+       （夹到 int32 上限 2147483647）；小球本身在 shadow DOM 里
+       （im_livechat/…/embed/common/boot_helpers.js → makeRoot()）。
+     · 底栏的 z-index: 1040 写在 #wrapwrap 内，而 core 的 base_frontend.scss 给
+       #wrapwrap 定了 z-index:0 —— 它自成一个层叠上下文。两者于是是 <body> 下的
+       **兄弟层叠上下文**：底栏无论怎么抬 z-index 都压不过 2147483647。
+       ⇒「把底栏抬到小球之上」这条路在本仓不成立（已在浏览器里证伪）。
+     · 渠道「校园服务」在跑（38 条会话记录、规则 display_button），**不能藏**小球，
+       故按 Odoo 自己的做法把小球抬到底栏之上。
+   接缝：::part(openChatButton) —— 小球 <button> 上唯一的公开 part，core 自己也这么用
+        （website_livechat_edit_mode.scss 用 ::part() 隐藏编辑器里的同一控件）。
+       不可改用 --mail-ChatHub-bubbles-bottomLift：真机 UA 会命中 .o-mobile，
+        在 shadow 内部把该变量就地改写成 35px、压过继承值（Pixel 7 UA 实测抬高不足）。
+   --------------------------------------------------------------- */
+@media (max-width: 991.98px){
+  body:has(#b11-tabbar) .o-livechat-root::part(openChatButton){
+    position: fixed !important;
+    right: 16px !important;
+    bottom: calc(var(--h-tabbar, 56px) + env(safe-area-inset-bottom, 0px) + 10px) !important;
+  }
+}
+@media (max-width: 991.98px){
+  #wrapwrap.o_portal .o_portal_wrap .b11-topbar{height: var(--h-topbar-m); padding: 0 var(--space-3); gap: var(--space-2);}
+  #wrapwrap.o_portal .o_portal_wrap .b11-brandmark .b11-brandmark-name{display: none;}
+  #wrapwrap.o_portal .o_portal_wrap .b11-topbar .o_portal_navbar form[role="search"]{flex: 1 1 160px; max-width: none;}
+  #wrapwrap.o_portal .o_portal_wrap .b11-content{padding-bottom: calc(var(--space-9) + env(safe-area-inset-bottom));}
+  #wrapwrap.o_portal .o_portal_wrap .o_portal_navbar .breadcrumb .breadcrumb-item:nth-child(n+2){display: none;}
+}
+
+/* ---------------------------------------------------------------
+   首页工作台宫格（4）
+   --------------------------------------------------------------- */
+/* 首页 hero：蓝→青绿渐变 + 白字（视觉层）
+   美化：柔和深渐变 + 右上/左下光斑装饰 + 内边距/阴影/圆角强化 */
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero{
+  background:
+    radial-gradient(circle at 88% -20%, rgba(255,255,255,.28), transparent 42%),
+    radial-gradient(circle at -5% 115%, rgba(15,155,120,.38), transparent 45%),
+    linear-gradient(135deg, var(--brand-600) 0%, var(--brand-500) 45%, var(--teal-500) 100%);
+  border-radius: var(--radius-xl);
+  padding: clamp(22px, 3.5vw, 36px) clamp(20px, 3vw, 40px);
+  box-shadow: 0 18px 40px -12px rgba(14,123,242,.35);
+  position: relative; overflow: hidden;
+}
+/* 装饰：细网格纹理（scrim 效果） */
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero::after{
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: .5;
+}
+/* 文字带层级 + 微动画 */
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-text{ position: relative; z-index: 1; }
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-greeting,
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-subtitle{color: #fff; position: relative; z-index: 1;}
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-subtitle{opacity: .92; letter-spacing: .02em;}
+/* 两栏排布：左文字 / 右搜索+铃铛（桌面） */
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero{
+  display: flex; align-items: center; gap: var(--space-4);
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-text{ flex: 1 1 auto; min-width: 0; }
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-search{
+  flex: 0 1 320px; min-width: 200px; position: relative; z-index: 1;
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-bell{
+  flex: 0 0 auto; position: relative; z-index: 1;
+}
+@media (max-width: 767.98px){
+  #wrapwrap.o_portal .o_portal_wrap .oe-portal-hero{ flex-wrap: wrap; }
+  /* 2026-10-03（视觉复核：学生与家长首页）：窄屏下本横幅的**两个子元素都已被隐藏**
+     （enterprise.css:210 / portal.css:427 的 `.oe-hero-text, .oe-hero-bell{display:none}`），
+     却**没有收掉横幅本体** ⇒ 只剩一条空渐变带（带圆角与投影）。
+     实测 375：hero 345x44、文字 none/0x0、铃铛 none/0x0（整块无可见内容）；
+     1440 同一元素是 876x150 的真横幅（文字可见）⇒ **只有窄屏这一态多余**。
+     移动端重设计已用 .oe-mhead / .oe-mhero 承接这些内容，这里是它的遗留物。
+     ⚠ 必须写在本文件（**assets 里最后加载**）：写进 enterprise.css 会被本文件 :292 的
+     `display:flex`（同特异性、文档序更后）压掉 —— 我先写在那里，实测**完全没生效**。 */
+  #wrapwrap.o_portal .o_portal_wrap .oe-portal-hero{ display: none; }
+  #wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-hero-search{ flex: 1 1 100%; order: 3; }
+}
+/* 问候语升到 32px（移动 26px） */
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-greeting{font-size: var(--text-hero);}
+/* 问候 emoji：衬底圆 + 微动效 */
+#wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-greet-emoji{
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,.22); backdrop-filter: blur(2px);
+  font-size: 24px; vertical-align: -4px; margin-right: 6px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+}
+@media (max-width: 991.98px){
+  #wrapwrap.o_portal .o_portal_wrap .oe-portal-hero .oe-greeting{font-size: 26px;}
+}
+/* 分组标题头：点标渐变 + 标题 20px */
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head{margin: var(--space-5) 0 var(--space-2);}
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-dot{
+  background: linear-gradient(135deg, var(--brand-500), var(--teal-500));
+  width: 12px; height: 12px; border-radius: 4px;
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-title{
+  font-size: var(--text-xl); font-weight: var(--fw-head); color: var(--text-1);
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-head .oe-cat-count{
+  font-size: var(--text-sm); font-weight: var(--fw-em); color: var(--text-3);
+}
+/* 宫格卡片：白底/16 圆角/浅阴影 + 悬停上浮（覆盖既有紫色系） */
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a,
+#wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a,
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a{
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+  min-height: 92px;
+}
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a:hover,
+#wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a:hover,
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+  border-color: rgba(14,123,242,.35) !important;
+}
+/* 图标容器：48px 白底（图案颜色由各卡片内联指定） */
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a .o_portal_icon,
+#wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a .o_portal_icon,
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a .o_portal_icon{
+  width: var(--icon-tile) !important; height: var(--icon-tile) !important;
+  min-width: var(--icon-tile); border-radius: var(--radius-md) !important;
+  background: #fff !important; border: 1px solid #E7E9F2 !important;
+}
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card > a .o_portal_icon i,
+#wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card > a .o_portal_icon i,
+#wrapwrap.o_portal .o_portal_wrap .oe-cat-grid .o_portal_index_card > a .o_portal_icon i{color: var(--brand-500);}
+/* 卡片标题 18px */
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card .fs-5,
+#wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card .fs-5{
+  font-size: var(--text-lg) !important; font-weight: var(--fw-head); color: var(--text-1);
+}
+#wrapwrap.o_portal .o_portal_wrap .o_portal_category .o_portal_index_card .opacity-75,
+#wrapwrap.o_portal .o_portal_wrap .o_portal_docs .o_portal_index_card .opacity-75{
+  font-size: var(--text-sm); color: var(--text-2);
+}
+/* 角标：主色 */
+#wrapwrap.o_portal .o_portal_wrap .oe_count.badge{
+  background: var(--brand-action) !important; font-size: var(--text-sm);
+  min-width: 22px; border-radius: var(--radius-pill);
+}
+
+/* ---------------------------------------------------------------
+   首页数据区：KPI / 环形图 / 卡片 / 侧栏（蓝绿主色替换紫色） 
+   --------------------------------------------------------------- */
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi{background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);}
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi-ic.oe-kpi-primary{background: var(--brand-soft); color: var(--brand-500);}
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi-ic.oe-kpi-success{background: var(--success-soft); color: var(--success);}
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi-ic.oe-kpi-info{background: var(--teal-soft, var(--teal-50)); color: var(--teal-600);}
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi-ic.oe-kpi-danger{background: var(--danger-soft); color: var(--danger);}
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi-val{color: var(--text-1);}
+#wrapwrap.o_portal .o_portal_wrap .oe-kpi-lab{color: var(--text-3);}
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-card{
+  background: var(--surface-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-title{color: var(--text-1); font-weight: var(--fw-head);}
+#wrapwrap.o_portal .o_portal_wrap .oe-chart-sub{color: var(--text-3);}
+#wrapwrap.o_portal .o_portal_wrap .oe-donut-good{stroke: var(--success);}
+#wrapwrap.o_portal .o_portal_wrap .oe-donut-absent{stroke: var(--danger);}
+#wrapwrap.o_portal .o_portal_wrap .oe-donut-leave{stroke: var(--warning);}
+#wrapwrap.o_portal .o_portal_wrap .oe-donut-late{stroke: var(--neutral);}
+#wrapwrap.o_portal .o_portal_wrap .oe-leg-dot.oe-leg-good{background: var(--success);}
+#wrapwrap.o_portal .o_portal_wrap .oe-leg-dot.oe-leg-absent{background: var(--danger);}
+#wrapwrap.o_portal .o_portal_wrap .oe-leg-dot.oe-leg-leave{background: var(--warning);}
+#wrapwrap.o_portal .o_portal_wrap .oe-leg-dot.oe-leg-late{background: var(--neutral);}
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero{background: linear-gradient(135deg, var(--brand-500), var(--teal-500)); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);}
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero-k, #wrapwrap.o_portal .o_portal_wrap .oe-mhero-big{color: #fff;}
+#wrapwrap.o_portal .o_portal_wrap .oe-mhero-chip{background: rgba(255,255,255,.18); color: #fff; border-radius: var(--radius-pill);}
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead-bell{border-color: var(--border);}
+#wrapwrap.o_portal .o_portal_wrap .oe-mhead-badge{background: var(--danger);}
+#wrapwrap.o_portal .o_portal_wrap .oe-hero-bell-badge{background: var(--danger);}
+/* 侧栏（右）卡片 */
+#wrapwrap.o_portal .o_portal_wrap .oe-sidebar .card,
+#wrapwrap.o_portal .o_portal_wrap .oe-sidebar .o_portal_index_card{
+  background: var(--surface-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+}
+/* 趋势线品牌色 */
+#wrapwrap.o_portal .o_portal_wrap .oe-line{stroke: var(--brand-500);}
+#wrapwrap.o_portal .o_portal_wrap .oe-area{fill: rgba(14,123,242,.12);}
+
+/* ---------------------------------------------------------------
+   通用组件：按钮 / 表单 / 卡片 / 表格 / 徽标（状态色体系 5.2）
+   --------------------------------------------------------------- */
+#wrapwrap.o_portal .btn-primary{
+  background: var(--brand-action); border-color: var(--brand-action);
+  min-height: 36px; border-radius: var(--radius-sm);
+}
+#wrapwrap.o_portal .btn-primary:hover{background: var(--brand-action-hover); border-color: var(--brand-action-hover);}
+#wrapwrap.o_portal .btn-outline-primary{
+  color: var(--brand-action); border-color: var(--brand-400); min-height: 36px; border-radius: var(--radius-sm);
+}
+#wrapwrap.o_portal .btn-outline-primary:hover{background: var(--brand-50); color: var(--brand-600); border-color: var(--brand-500);}
+#wrapwrap.o_portal .btn-light{
+  background: #fff; border-color: var(--border); color: var(--text-2);
+  border-radius: var(--radius-sm);
+}
+#wrapwrap.o_portal .form-control, #wrapwrap.o_portal .form-select{
+  border-color: var(--border); border-radius: var(--radius-sm); font-size: var(--text-md);
+}
+#wrapwrap.o_portal .form-control:focus, #wrapwrap.o_portal .form-select:focus{
+  border-color: var(--brand-400); box-shadow: 0 0 0 3px rgba(14,123,242,.18);
+}
+#wrapwrap.o_portal .card{border-radius: var(--radius-lg); border-color: var(--border);}
+#wrapwrap.o_portal .card.shadow-sm{box-shadow: var(--shadow-sm) !important;}
+#wrapwrap.o_portal .table{--bs-table-bg: transparent; color: var(--text-1); font-size: 15px;}
+#wrapwrap.o_portal .table thead th{color: var(--text-2); font-weight: var(--fw-head); font-size: var(--text-sm);}
+#wrapwrap.o_portal .table-light{--bs-table-bg: var(--neutral-soft); --bs-table-color: var(--text-2);}
+/* t112：原来是**半覆盖**（只覆盖底、没覆盖字）：主题给 .badge.text-bg-primary 设了
+   --badge-color:#014892，我们只换底 ⇒ 深蓝压蓝 2.19。补字色。 */
+#wrapwrap.o_portal .text-bg-primary{background: var(--brand-action) !important; color: #fff !important;}
+#wrapwrap.o_portal .badge.text-bg-primary{color: #fff !important;}
+#wrapwrap.o_portal .text-primary{color: var(--brand-action) !important;}
+#wrapwrap.o_portal .text-bg-success{background: var(--success) !important;}
+#wrapwrap.o_portal .text-bg-warning{background: var(--warning) !important;}
+#wrapwrap.o_portal .text-bg-danger{background: var(--danger) !important;}
+#wrapwrap.o_portal .text-bg-info{background: var(--info) !important;}
+/* 状态 chip：浅底 + 600 级文字（覆盖 Bootstrap 实底徽标） */
+#wrapwrap.o_portal .badge.text-bg-success{background: var(--success-soft) !important; color: var(--success) !important;}
+#wrapwrap.o_portal .badge.text-bg-warning{background: var(--warning-soft) !important; color: var(--warning-ink) !important;}
+#wrapwrap.o_portal .badge.text-bg-danger{background: var(--danger-soft) !important; color: var(--danger) !important;}
+#wrapwrap.o_portal .badge.text-bg-info{background: var(--info-soft) !important; color: var(--brand-600) !important;}
+#wrapwrap.o_portal .badge.text-bg-secondary{background: var(--neutral-soft) !important; color: var(--neutral) !important;}
+#wrapwrap.o_portal .badge.text-bg-light, #wrapwrap.o_portal .badge.text-bg-dark{
+  background: var(--neutral-soft) !important; color: var(--text-2) !important;
+}
+/* 告警条圆角 + 主告警品牌化 */
+#wrapwrap.o_portal .alert{border-radius: var(--radius-md); font-size: var(--text-sm);}
+#wrapwrap.o_portal .alert-primary{
+  background: var(--brand-soft); border-color: var(--brand-200); color: var(--brand-800);
+}
+#wrapwrap.o_portal .alert-success{background: var(--success-soft); border-color: #BFE8D4; color: #11693E;}
+#wrapwrap.o_portal .alert-warning{background: var(--warning-soft); border-color: #F8E3B8; color: #8A5B00;}
+#wrapwrap.o_portal .alert-danger{background: var(--danger-soft); border-color: #F6C6C8; color: #A4262B;}
+/* 空态 */
+#wrapwrap.o_portal .oe-norec-ic{color: var(--brand-300);}
+#wrapwrap.o_portal .oe-norec-txt{color: var(--text-3); font-size: var(--text-md);}
+
+/* ---------------------------------------------------------------
+   新页面纳入：校历（t4）/ 通讯录（t1）/ 私信（t5）
+   --------------------------------------------------------------- */
+#wrapwrap.o_portal .o_portal_wrap .oe-gb-page{background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); padding: var(--space-5);}
+#wrapwrap.o_portal .o_portal_wrap .oe-gb-hic{
+  width: var(--icon-tile); height: var(--icon-tile); border-radius: var(--radius-md);
+  background: var(--brand-soft); color: var(--brand-500); display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-gb-t{font-size: var(--text-2xl); font-weight: var(--fw-head); color: var(--text-1);}
+#wrapwrap.o_portal .o_portal_wrap .oe-gb-s{color: var(--text-3);}
+#wrapwrap.o_portal .o_portal_wrap .oe-cal-tt{font-size: var(--text-lg); font-weight: var(--fw-head); color: var(--text-1);}
+#wrapwrap.o_portal .o_portal_wrap .oe-cal-today{background: var(--brand-soft) !important; border-color: var(--brand-300) !important; border-radius: var(--radius-md);}
+#wrapwrap.o_portal .o_portal_wrap .oe-cal-chip{border-radius: var(--radius-pill); font-size: 12px;}
+#wrapwrap.o_portal .o_portal_wrap .oe-statbox{
+  background: var(--surface-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+}
+#wrapwrap.o_portal .o_portal_wrap .oe-statbox-ic{background: var(--brand-soft); color: var(--brand-500); border-radius: var(--radius-md);}
+#wrapwrap.o_portal .o_portal_wrap .oe-statbox-ic--warn{background: var(--warning-soft); color: var(--warning-ink);}
+#wrapwrap.o_portal .o_portal_wrap .oe-statbox-ic--danger{background: var(--danger-soft); color: var(--danger);}
+#wrapwrap.o_portal .o_portal_wrap .oe-statbox-ic--ok{background: var(--success-soft); color: var(--success);}
+#wrapwrap.o_portal .o_portal_wrap .oe-statbox-lab{color: var(--text-3); font-size: var(--text-sm);}
+#wrapwrap.o_portal .o_portal_wrap .oe-statbox-val{color: var(--text-1); font-weight: var(--fw-head); font-size: var(--text-xl);}
+/* 活动冲突红字（B10 拦截） */
+#wrapwrap.o_portal .o_portal_wrap [class*="conflict"], #wrapwrap.o_portal .o_portal_wrap .oe-conflict{
+  color: var(--danger) !important; background: var(--danger-soft);
+  border: 1px solid #F6C6C8; border-radius: var(--radius-sm);
+}
+/* 通讯录/私信带头像卡 */
+#wrapwrap.o_portal .o_portal_wrap .text-bg-light.rounded{background: var(--surface-card) !important;}
+/* 私信会话未读强调 */
+#wrapwrap.o_portal .o_portal_wrap .msg-conv[data-unread="1"]{border-color: var(--brand-300) !important; box-shadow: 0 0 0 1px rgba(14,123,242,.25);}
+
+/* ---------------------------------------------------------------
+   教师工作台（桌面大卡）
+   --------------------------------------------------------------- */
+#wrapwrap.o_portal .edu_dashboard_teacher .card{
+  border-radius: var(--radius-lg); border-color: var(--border); box-shadow: var(--shadow-sm);
+}
+#wrapwrap.o_portal .edu_dashboard_teacher .card-header{background: var(--neutral-soft); color: var(--text-1); border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;}
+#wrapwrap.o_portal .edu_dashboard_teacher h3{color: var(--text-1); font-weight: var(--fw-head);}
+
+/* ---------------------------------------------------------------
+   页脚换肤（对齐白卡片底 + 品牌蓝）
+   --------------------------------------------------------------- */
+/* t112（2026-09-14）页脚一处：
+   品牌页脚 <footer id="bottom" class="... o_cc5 yylc-footer"> 的深底（brand.css .yylc-footer #12100e、
+   主题 --o-cc5-bg #111827）被**我们自己**的 !important 换肤刷成白底（特异性 1,1,2 > 0,1,0），
+   奶油/金系浅字就压在白底上（实测比值 1.16，69 条）。
+   修法：换肤与页脚链接两条规则都排除 .yylc-footer，把深底与金系字色还给 brand.css。 */
+#wrapwrap.o_portal footer:not(.yylc-footer), #wrapwrap.o_portal .o_footer:not(.yylc-footer){
+  background-color: var(--surface-card) !important;
+  color: var(--text-2) !important;
+  border-top: 1px solid var(--border) !important;
+}
+#wrapwrap.o_portal footer:not(.yylc-footer) a{color: var(--brand-action) !important;}
+#wrapwrap.o_portal footer h4, #wrapwrap.o_portal footer h5,
+#wrapwrap.o_portal footer .footer_standard h4{color: var(--text-1) !important;}
+
+/* ---------------------------------------------------------------
+   动效与可及性（6.1/6.2）
+   --------------------------------------------------------------- */
+#wrapwrap.o_portal .b11-nav-item, #wrapwrap.o_portal .b11-tab,
+#wrapwrap.o_portal .o_portal_docs .o_portal_index_card > a,
+#wrapwrap.o_portal .btn{
+  transition: transform .18s cubic-bezier(.2,.6,.3,1), box-shadow .18s cubic-bezier(.2,.6,.3,1),
+              background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+@media (prefers-reduced-motion: reduce){
+  #wrapwrap.o_portal *,
+  #wrapwrap.o_portal *::before, #wrapwrap.o_portal *::after{
+    transition-duration: .01ms !important; animation-duration: .01ms !important;
+  }
+}
+/* 点击区兜底：卡片整卡可点（既有结构），导航项 44px 已满足 */
+
+/* 应用面板图标兜底：无 web_icon 时渲染彩色 FA 瓦片（roles.xml） */
+.o_apps_menu .o_app_icon_fa{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:56px; height:56px; border-radius:16px;
+  color:#fff; font-size:24px; box-shadow:0 2px 6px rgba(20,24,45,.12);
+}
+
+/* ---- B11 顶栏融合：门户页隐藏主题导航栏（品牌/菜单冗余，用户菜单已移入 b11-topbar） ---- */
+#wrapwrap.o_portal .o_header_standard{
+  display: none !important;
+}
+
+/* ---- 顶栏用户菜单（王佐下拉） ---- */
+#wrapwrap.o_portal .b11-topbar .b11-usermenu{
+  flex-shrink: 0;
+}
+#wrapwrap.o_portal .b11-usermenu .b11-user-btn{
+  color: var(--text-1);
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  transition: background-color .15s ease;
+}
+#wrapwrap.o_portal .b11-usermenu .b11-user-btn:hover{
+  background-color: rgba(14,123,242,.08);
+}
+#wrapwrap.o_portal .b11-user-avatar{
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #0E7BF2, #0F9B91);
+  color: #fff; font-size: 15px;
+}
+#wrapwrap.o_portal .b11-user-avatar-img{
+  width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+  border: 2px solid #fff; box-shadow: 0 1px 4px rgba(15,23,42,.18);
+}
+#wrapwrap.o_portal .b11-avatar-preview{
+  width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
+  box-shadow: 0 6px 20px rgba(15,23,42,.18);
+}
+#wrapwrap.o_portal .b11-user-menu{
+  min-width: 210px; border: 1px solid #E7E9F2; border-radius: 12px;
+  padding: 6px;
+}
+#wrapwrap.o_portal .b11-user-menu .dropdown-item{
+  border-radius: 8px; font-size: 14px; padding: 8px 12px;
+}
+#wrapwrap.o_portal .b11-user-menu .dropdown-item:hover{
+  background-color: rgba(14,123,242,.08);
+}
+#wrapwrap.o_portal .b11-user-menu .dropdown-divider{ margin: 6px 0; }
+
+/* 2026-08 拷问确认：主题梅紫清零（门户页统一品牌蓝，含 bootstrap 派生控件） */
+#wrapwrap.o_portal{
+  /* t111（2026-09-14）：bootstrap 桥接令牌走 4.5 档。旧 #0E7BF2 白底 4.09 / 白字压底 4.09，
+     均 <4.5（axe 对 14px 普通按钮文字也按 4.5 判，不是 3.0）→ #0C6DD7（白底 5.02 / 白字压底 5.02）。
+     hover 色 #0A66D0 白底 5.49 已达标，不动。 */
+  /* t112：--secondary-color 是 .text-muted 的真身（Core: rgba(107,115,133,.75) 压白 = #9096A4、
+     压 #F4F7FA = #8D94A2 —— 实测两条族就是这两个值）。只在门户包裹层覆盖，深色档不动。 */
+  --secondary-color: #5E6779;
+  /* t112：门户正文色也是主题的灰（theme_web_openeducat --body-color: #6b7385，压 #F4F7FA 实测 4.42 ✗），
+     一并收到 4.5 档同一灰阶。 */
+  --body-color: #5E6779;
+  --bs-primary: #0C6DD7; --bs-primary-rgb: 12, 109, 215;
+  --bs-link-color: #0C6DD7; --bs-link-hover-color: #0A66D0;
+  --bs-btn-active-bg: #0C6DD7; --bs-btn-active-border-color: #0C6DD7;
+}
+#wrapwrap.o_portal .dropdown-item.active,
+#wrapwrap.o_portal .dropdown-item:active{
+  background-color: rgba(14, 123, 242, .10) !important; color: var(--brand-action) !important;
+}
+#wrapwrap.o_portal .btn-light{
+  background-color: #F1F5F9 !important; border-color: #E2E8F0 !important; color: #334155 !important;
+}
+#wrapwrap.o_portal .btn-light:hover{ background-color: #E2E8F0 !important; color: #0F172A !important; }
+/* =====================================================================
+   t112（2026-09-14）A 组残余清零 —— 每条都来自 axe 节点级实测归因，不是猜
+   ===================================================================== */
+/* 1) 主题正文灰 #6b7385（= rgba(107,115,133,.75) 压白）实测 4.42(压#F4F7FA)/2.96(压白)。
+      它不在 portal 包裹层生效，而是在 body/:root 级被**继承**——所以在同层覆盖变量，
+      并用 [data-bs-theme] body 压过 core 的 [data-bs-theme="light"]（不同元素，就近者胜）。 */
+/* v4：已迁至 edu_brand/static/src/scss/brand_tokens.scss（令牌源）。
+   选择器与特异度说明见该文件 §3 段；此处不得再声明，否则会覆盖令牌源。 */
+/* 2) bootstrap 默认绿：主题 .text-success{color:#28a745 !important} 与 .btn-success{--btn-bg:#28a745}
+      实测白底 3.13（正文）与白字压底 3.13。收进我们已有的 4.5 档 --success。 */
+#wrapwrap.o_portal .text-success{color: var(--success) !important;}
+#wrapwrap.o_portal .btn-success, #wrapwrap.o_portal .btn-success:focus{
+  background: var(--success) !important; border-color: var(--success) !important; color:#fff !important;
+}
+#wrapwrap.o_portal .btn-success:hover{background:#0E6844 !important; border-color:#0E6844 !important; color:#fff !important;}
+/* 3) 行内 code 走主题 --code-color:#e83e8c（白底 3.82）→ 4.5 档深粉。 */
+#wrapwrap code{color:#B02A6B !important;}
+/* 4) 深色块 .o_cc5（主题 --o-cc5-bg:#111827）里的表头：我们全局表头字色是深灰 --text-2，
+      深底压深字实测 2.55（/student/timetable ×7）。深底内的表头一律反白。 */
+#wrapwrap .o_cc5 table thead th, #wrapwrap .o_cc5 table th, #wrapwrap .o_cc5 th{color:#fff !important;}/* 5) 主题 .text-warning{color:#ffc107} 压白 1.63（/ledger 一处 20px 普通字重仍需 4.5）。 */
+#wrapwrap.o_portal .text-warning{color: var(--warning-ink) !important;}
+/* 6) 排课/会议/校历三张表：表头单元格的底色来自主题 --table-bg:#111827（
+      .table > :not(caption) > * > * { background: var(--table-bg) }），其 <tr> 本来就配白字；
+      我们的全局表头字色 --text-2 压上去变成深底深字（2.55）。这三处表头一律反白。 */
+#wrapwrap.o_portal .timetable_schedule_portal table thead th:not(.ux-today-col),
+#wrapwrap.o_portal .meeting_schedule_portal table thead th:not(.ux-today-col),
+#wrapwrap.o_portal .academic_calendar_portal table thead th:not(.ux-today-col),
+#wrapwrap.o_portal .online_meeting_schedule_portal table thead th:not(.ux-today-col){color:#fff !important;}
+/* ⚠ 例外：「今天」那一列的表头底色是浅薄荷 #d1fae5，本来就该配深字（--text-2 压它 6.05 ✓）。
+   一刀切反白会把这条从 6.05 打成 1.13 —— 正是本轮实测抓到的那 1 条，故用 :not(.ux-today-col) 排除。 */
+/* =====================================================================
+   t120（2026-09-14）C 组收尾
+   ===================================================================== */
+/* axe 规则 link-in-text-block：正文段落内的行内链接不能**只靠颜色**与周围文字区分
+   （实测 /register「已有账号？去登录」= .small > a）。对辅助文案区的行内链接补下划线；
+   按钮类链接（.btn）不受影响，避免改动视觉体系。 */
+#wrapwrap.o_portal .small a:not(.btn), #wrapwrap.o_portal .form-text a:not(.btn),
+#wrapwrap.o_portal p a:not(.btn):not(.oe-quick-btn){ text-decoration: underline; }
+/* 2026-09-28 追加（/help 四子页纳入无障碍门禁后实测）：帮助页正文在 `container yylc-article` 内，
+   而这些页的 #wrapwrap **没有 o_portal 类**（实测 className 为空）⇒ 上面那条规则对它们不生效，
+   4 页正文共 27 条行内链接全部命中 link-in-text-block serious（周围文字 #5e6779 vs 链接 #0c6dd7
+   = 1.13:1，且 computed text-decoration-line = none；26 条在 <li>、1 条在 <p>）。
+   **沿用同一条规则的口径**（正文行内链接补下划线、仍排除 .btn），只把锚点换成正文容器 yylc-article；
+   实测该选择器在 /help 之外的页面（/about、/apply、/admissions、/programs）命中 **0** 个元素，
+   不动门户顶栏 / 菜单 / 卡片链接 —— 与 t120 同一条规则的延伸，不是第二套。 */
+#wrapwrap .yylc-article li a:not(.btn), #wrapwrap .yylc-article p a:not(.btn){ text-decoration: underline; }
+
+/* =====================================================================
+   表头不在**词中间折行**（2026-10-02 视觉复核第三轮，实测驱动）
+   现象：/registrar/subject/approvals 的表头「单号」「状态」被拆成上下两行
+         （「单」/「号」）—— 3 倍放大截图看得最清楚。
+   根因：这两列实测只有 50px 宽，而它们是 2 字标签；列宽由自动布局分配，
+         最宽的「申请时间」独占 494px。窄列 + 允许折行 ⇒ 中文字被逐字切开。
+   为什么**只**给 thead th 加 nowrap：表头都是短标签（2–4 字），加 nowrap 后浏览器
+         会从最宽的列里让空间，不会撑破表格；若给 td 也加，长内容（如
+         「→ 预备科·B2+B3+B4合班」）会被撑成横向滚动 —— 那是把一种毛病换成另一种。
+   ⚠ 作用域限定门户内容区（.b11-content），不动公开站与后台的表。
+   ===================================================================== */
+/* ⛔ 2026-10-02 **已撤回**：这里曾加过 `table thead th{ white-space: nowrap; }` 去治
+   /registrar/subject/approvals 表头「单号」「状态」被逐字折行（列只有 50px）。
+   **撤回原因（门禁抓到的真回归，不是猜的）**：那条规则是**全局**的（门户内容区所有表），
+   于是 /course/change/request 的表（自然宽 478px）不再能把文字折行来适应窄屏，
+   375 视口下文档横向溢出 **118px** —— 四轴门禁 A 轴从 0 变 1 并点名了它。
+   归因实验（不靠推理）：在该页注入反向规则 `thead th{white-space:normal}` ⇒ 溢出 118px → **0px**。
+   ⇒ 结论：**为一个 2 字表头折行的观感问题，换来一个真实的手机横向溢出，不划算**，故撤回。
+   **将来要修请走正路**：那张表所在的 enroll.xml 本来就有响应式策略 ——
+   `t-call="edu_portal.edu_narrow_table_cards"` + `class="edu-card-table"`（<768px 折成卡片、
+   用 td 的 data-label 顶出列名）。要做就把表头也纳入那套，而不是全局改 th 的换行行为。
+   取证与两次读数见 docs/audit/ui-visual-review/report.md §6.1。 */

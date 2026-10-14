@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==========================================================================
+         评估引擎：模板与评分项 —— **门户原生**管理页（教务自助，不必进后台）
+         ==========================================================================
+
+         体例来源（照抄门户既有页，不新造风格）：
+           · 外壳     = edu_portal.edu_page（顶栏 + 侧栏 + 移动端底部 Tab）
+           · 面包屑   = <a href="/assess"> 返回评估首页（照 assess_portal.xml:337）
+           · 卡片     = card shadow-sm border-0 rounded-3（照 assess_portal.xml:12）
+           · 表格     = table table-sm align-middle + thead.table-light + .table-responsive
+           · 按钮     = btn btn-sm btn-primary / btn-outline-*（照 assess_portal.xml:16）
+           · 回执     = ?saved=1 的 alert-success、错误 = alert-danger（照 assess_fill 的 saved）
+
+         **区块划分**（为下一步 12 个字段留位）—— 每个区块 = eval-unified-design.md §4
+         的一段；新维度只往对应区块加一行，不动结构：
+           区块 A 模板基本信息   §4 #1–#3
+           区块 B 分值与等级线   §4 #4–#6、#10（「启用等级线」开关将来落这里）
+           区块 C 可见性与自评   §4 #22–#23
+           区块 D 评分项         §4 #9–#13、#15–#18（weight_mode / track / score_mode /
+                                 层级 parent_id 都将落在这张项表里 —— 表头留了「状态」尾列，
+                                 新列往中间插即可，不需要重排版式）
+
+         无障碍（codebase 硬约定 §6.10；BASELINE 0 ⇒ 任何一条新违规立即报警）：
+           每个 input/select/textarea 都有 <label for=…> 且 for/id 由同一个表达式生成，
+           行内控件的 id 带记录 id 保证唯一；无图标按钮（全部有文字）；
+           状态一律「文字 + 徽标」，不靠颜色单独传达；表格全部 <th scope="col">。
+         ========================================================================== -->
+
+    <!-- ============ 可复用：评分项表格（列表页与编辑页共用一份） ============
+         窄屏（<768px）折成卡片：表本身挂 edu-card-table（每个 td 带 data-label）。
+         ⚠ 样式（edu_portal.edu_narrow_table_cards）由**调用方**出一次 —— 本模板在
+         列表页按模板数被 t-call 多次，样式写在这里会重复输出 N 份 <style>。
+         当前唯一调用点是 edu_assess_templates（在那里的 t-foreach 之前 t-call 一次）。 -->
+    <template id="edu_assess_items_table" name="评估·评分项只读表">
+        <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0 edu-card-table">
+                <thead class="table-light">
+                    <tr class="text-nowrap">
+                        <th scope="col">排序</th>
+                        <th scope="col">评分项</th>
+                        <th scope="col" class="text-end">满分</th>
+                        <th scope="col" class="text-end">权重</th>
+                        <th scope="col">必填</th>
+                        <th scope="col">给分方式</th>
+                        <th scope="col" class="text-end">已打分</th>
+                        <th scope="col">状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="items" t-as="it">
+                        <!-- tbody 行不给 text-nowrap（thead 保留）：卡片模式下 td 靠折行
+                             落回卡片，nowrap 会把长评分项名撑出卡片。1440 视口实测
+                             「带/不带」两态几何与整页截图 md5 完全一致 ⇒ 桌面端零变化。 -->
+                        <tr>
+                            <td data-label="排序" t-out="it.sequence"/>
+                            <td data-label="评分项">
+                                <b t-out="it.name"/>
+                                <div class="small text-muted" t-if="it.help" t-out="it.help"/>
+                            </td>
+                            <td class="text-end" data-label="满分" t-out="'%g' % it.max_score"/>
+                            <td class="text-end" data-label="权重" t-out="'%g' % it.weight"/>
+                            <td data-label="必填" t-out="'是' if it.required else '否'"/>
+                            <td data-label="给分方式" t-out="score_kinds.get(it.score_kind, '')"/>
+                            <td class="text-end" data-label="已打分" t-out="it.score_count"/>
+                            <td data-label="状态">
+                                <span t-if="it.active" class="badge text-bg-success">启用</span>
+                                <span t-else="" class="badge text-bg-secondary">已停用</span>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <!-- ============ 页 1：模板与评分项列表 ============ -->
+    <template id="edu_assess_templates" name="评估·模板与评分项（列表）">
+        <t t-call="edu_portal.edu_page">
+            <a href="/assess" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回评估首页
+            </a>
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mt-2 mb-3">
+                <div>
+                    <h4 class="mb-1"><i class="fa fa-list-alt me-2"/>模板与评分项</h4>
+                    <p class="text-muted small mb-0">
+                        新建或编辑模板、增删改评分项 —— 全部门户内完成，不需要打开后台。
+                    </p>
+                </div>
+                <a href="/assess/templates/new" class="btn btn-primary btn-sm">
+                    <i class="fa fa-plus me-1"/>新建模板
+                </a>
+            </div>
+
+            <div t-if="saved" class="alert alert-success py-2" role="status">
+                <i class="fa fa-check-circle me-1"/>已保存。
+            </div>
+            <div t-if="error" class="alert alert-danger py-2" role="alert">
+                <i class="fa fa-exclamation-triangle me-1"/><t t-out="error"/>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <a t-if="not show_inactive" href="/assess/templates?inactive=1"
+                   class="btn btn-sm btn-outline-secondary">显示已停用模板</a>
+                <a t-else="" href="/assess/templates"
+                   class="btn btn-sm btn-outline-secondary">只看启用模板</a>
+                <span class="small text-muted">
+                    <t t-if="show_inactive">当前：启用 + 已停用（与后台「归档」筛选等价）</t>
+                    <t t-else="">当前：只列启用模板（与后台列表默认口径一致）</t>
+                </span>
+            </div>
+
+            <div t-if="not rows" class="alert alert-info py-2">
+                还没有评估模板。<a href="/assess/templates/new" class="alert-link">现在新建一个</a>，
+                再加两三个评分项，就能发起评估了。
+            </div>
+
+            <!-- 窄屏折成卡片（共用模板，全页只出一次 —— 下面的评分项表按模板数渲染多张，
+                 375 视口实测表宽 436px / 386px vs 容器 313px，「已打分/状态」两列被裁在屏外）。
+                 桌面端一字不变：折行规则只在 @media (max-width: 767.98px) 内。 -->
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <t t-foreach="rows" t-as="row">
+                <div class="card shadow-sm border-0 rounded-3 mb-3">
+                    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <div class="d-flex flex-wrap align-items-center gap-1">
+                            <b t-out="row['tpl'].name"/>
+                            <span class="badge text-bg-light" t-out="kinds.get(row['tpl'].kind, '')"/>
+                            <span class="badge text-bg-light"
+                                  t-out="'被评：' + targets.get(row['tpl'].target_kind, '')"/>
+                            <span class="badge text-bg-info"
+                                  t-out="states.get(row['tpl'].state, '')"/>
+                            <span t-if="not row['tpl'].active"
+                                  class="badge text-bg-secondary">已停用</span>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1">
+                            <a t-attf-href="/assess/templates/#{row['tpl'].id}"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-pencil me-1"/>编辑
+                            </a>
+                            <form t-if="row['tpl'].active" method="post"
+                                  t-attf-action="/assess/templates/#{row['tpl'].id}/state"
+                                  class="d-inline">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="action" value="deactivate"/>
+                                <button type="submit" class="btn btn-sm btn-outline-warning">
+                                    <i class="fa fa-pause me-1"/>停用
+                                </button>
+                            </form>
+                            <form t-else="" method="post"
+                                  t-attf-action="/assess/templates/#{row['tpl'].id}/state"
+                                  class="d-inline">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="action" value="restore"/>
+                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                    <i class="fa fa-play me-1"/>恢复
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row row-cols-2 row-cols-md-4 g-2 small mb-3">
+                            <div class="col">
+                                <span class="text-muted">满分</span>
+                                <div><b t-out="'%g' % row['tpl'].total"/></div>
+                            </div>
+                            <div class="col">
+                                <span class="text-muted">及格线</span>
+                                <div><b t-out="'%g' % row['tpl'].pass_line"/></div>
+                            </div>
+                            <div class="col">
+                                <span class="text-muted">优秀线</span>
+                                <div><b t-out="'%g' % row['tpl'].excellent_line"/></div>
+                            </div>
+                            <div class="col">
+                                <span class="text-muted">结果对被评者可见</span>
+                                <div><b t-out="'是' if row['tpl'].score_visible else '否'"/></div>
+                            </div>
+                        </div>
+                        <h5 class="h6 mb-2">
+                            评分项（<t t-out="len(row['items'])"/> 个）
+                        </h5>
+                        <t t-if="row['items']">
+                            <t t-call="edu_assess.edu_assess_items_table">
+                                <t t-set="items" t-value="row['items']"/>
+                            </t>
+                        </t>
+                        <div t-else="" class="alert alert-light border py-2 small mb-0">
+                            这个模板还没有评分项。点「编辑」进去添加 —— 一个评分项就是评分矩阵的一列。
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ 页 2：新建 / 编辑模板（同一份表单，两用） ============ -->
+    <template id="edu_assess_template_form" name="评估·模板表单（新建/编辑）">
+        <t t-call="edu_portal.edu_page">
+            <a href="/assess/templates" class="small text-muted text-decoration-none">
+                <i class="fa fa-chevron-left me-1"/>返回模板列表
+            </a>
+            <h4 class="mt-2 mb-1">
+                <i class="fa fa-sliders me-2"/>
+                <t t-if="tpl">编辑模板：<t t-out="tpl.name"/></t>
+                <t t-else="">新建模板</t>
+            </h4>
+            <p class="text-muted small mb-3">
+                保存后即可在本页继续增删评分项；评分项的改动会立刻反映到门户打分页与导出表格。
+            </p>
+
+            <div t-if="saved" class="alert alert-success py-2" role="status">
+                <i class="fa fa-check-circle me-1"/>已保存。
+            </div>
+            <div t-if="error" class="alert alert-danger py-2" role="alert">
+                <i class="fa fa-exclamation-triangle me-1"/><t t-out="error"/>
+            </div>
+
+            <form method="post" action="/assess/templates/save"
+                  class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-body">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="template_id"
+                           t-att-value="tpl.id if tpl else ''"/>
+
+                    <!-- ── 区块 A：模板基本信息（§4 #1–#3） ── -->
+                    <h5 class="h6 mb-3"><i class="fa fa-info-circle me-1 text-primary"/>模板基本信息</h5>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small mb-1" for="yy-tpl-name">
+                                模板名称 <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control form-control-sm"
+                                   id="yy-tpl-name" name="name" required="required"
+                                   maxlength="200" t-att-value="v['name'] or ''"/>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small mb-1" for="yy-tpl-kind">评估类型</label>
+                            <select class="form-select form-select-sm" id="yy-tpl-kind" name="kind">
+                                <option t-foreach="kinds.items()" t-as="k"
+                                        t-att-value="k[0]"
+                                        t-att-selected="k[0] == v['kind']"
+                                        t-out="k[1]"/>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small mb-1" for="yy-tpl-target">被评对象</label>
+                            <select class="form-select form-select-sm" id="yy-tpl-target"
+                                    name="target_kind">
+                                <option t-foreach="targets.items()" t-as="k"
+                                        t-att-value="k[0]"
+                                        t-att-selected="k[0] == v['target_kind']"
+                                        t-out="k[1]"/>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small mb-1" for="yy-tpl-state">模板状态</label>
+                            <select class="form-select form-select-sm" id="yy-tpl-state" name="state">
+                                <option t-foreach="states.items()" t-as="k"
+                                        t-att-value="k[0]"
+                                        t-att-selected="k[0] == v['state']"
+                                        t-out="k[1]"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small mb-1" for="yy-tpl-notes">说明</label>
+                            <textarea class="form-control form-control-sm" id="yy-tpl-notes"
+                                      name="notes" rows="3"
+                                      placeholder="给教务看的说明（不会展示给学生）"
+                                      t-out="v['notes'] or ''"/>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       id="yy-tpl-active" name="active" value="1"
+                                       t-att-checked="v['active']"/>
+                                <label class="form-check-label small" for="yy-tpl-active">
+                                    启用该模板（取消勾选 = 停用/归档；停用后不出现在评估任务的可选模板里）
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── 区块 B：分值与等级线（§4 #4–#6、#10） ── -->
+                    <h5 class="h6 mt-4 mb-3"><i class="fa fa-balance-scale me-1 text-primary"/>分值与等级线</h5>
+                    <div class="row g-3">
+                        <div class="col-6 col-md-4">
+                            <label class="form-label small mb-1" for="yy-tpl-total">满分</label>
+                            <input type="number" step="any" class="form-control form-control-sm"
+                                   id="yy-tpl-total" name="total" required="required"
+                                   t-att-value="v['total']"/>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <label class="form-label small mb-1" for="yy-tpl-pass">及格线</label>
+                            <input type="number" step="any" class="form-control form-control-sm"
+                                   id="yy-tpl-pass" name="pass_line" required="required"
+                                   t-att-value="v['pass_line']"/>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <label class="form-label small mb-1" for="yy-tpl-excellent">优秀线</label>
+                            <input type="number" step="any" class="form-control form-control-sm"
+                                   id="yy-tpl-excellent" name="excellent_line" required="required"
+                                   t-att-value="v['excellent_line']"/>
+                        </div>
+                        <div class="col-12">
+                            <div class="alert alert-light border py-2 small mb-0">
+                                等级线需要满足 <b>0 &lt; 及格线 ≤ 优秀线 ≤ 满分</b>，否则保存时会被拒绝。
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── 区块 C：可见性与自评（§4 #22–#23） ── -->
+                    <h5 class="h6 mt-4 mb-3"><i class="fa fa-eye me-1 text-primary"/>可见性与自评</h5>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       id="yy-tpl-visible" name="score_visible" value="1"
+                                       t-att-checked="v['score_visible']"/>
+                                <label class="form-check-label small" for="yy-tpl-visible">
+                                    结果对被评者可见
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       id="yy-tpl-self" name="allow_self" value="1"
+                                       t-att-checked="v['allow_self']"/>
+                                <label class="form-check-label small" for="yy-tpl-self">
+                                    允许自评
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa fa-save me-1"/>保存模板
+                    </button>
+                    <a href="/assess/templates" class="btn btn-outline-secondary btn-sm">
+                        返回列表
+                    </a>
+                </div>
+            </form>
+
+            <!-- ── 区块 D：评分项（§4 #9–#13、#15–#18） ── -->
+            <h5 class="h6 mb-2">
+                <i class="fa fa-th-list me-1 text-primary"/>评分项
+                <span class="text-muted small">（一个评分项 = 评分矩阵的一列）</span>
+            </h5>
+
+            <t t-if="not tpl">
+                <div class="alert alert-light border py-2 small">
+                    先把模板保存一次，本页就会出现「新增评分项」表单。
+                </div>
+            </t>
+            <t t-else="">
+                <div class="alert alert-light border py-2 small">
+                    已有打分的评分项<b>不能删除</b>（系统会拒绝）—— 请改用「启用」取消勾选来停用：
+                    停用后新打分不再出现该列，历史得分仍保留可查。
+                </div>
+
+                <t t-if="not items">
+                    <div class="alert alert-info py-2">
+                        这个模板还没有评分项，用下面的表单加第一个。
+                    </div>
+                </t>
+
+                <t t-foreach="items" t-as="it">
+                    <div class="card shadow-sm border-0 rounded-3 mb-2">
+                        <div class="card-body py-2">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                                <span class="d-flex flex-wrap align-items-center gap-1">
+                                    <b t-out="it.name"/>
+                                    <span class="badge text-bg-light">排序 <t t-out="it.sequence"/></span>
+                                    <span class="badge text-bg-light">满分 <t t-out="'%g' % it.max_score"/></span>
+                                    <span class="badge text-bg-light">权重 <t t-out="'%g' % it.weight"/></span>
+                                    <span class="badge text-bg-light" t-out="score_kinds.get(it.score_kind, '')"/>
+                                    <span class="badge text-bg-light">
+                                        已打分 <t t-out="it.score_count"/>
+                                    </span>
+                                    <span t-if="it.required" class="badge text-bg-light">必填</span>
+                                    <span t-if="it.active" class="badge text-bg-success">启用</span>
+                                    <span t-else="" class="badge text-bg-secondary">已停用</span>
+                                </span>
+                                <span class="d-flex flex-wrap gap-1">
+                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                            data-bs-toggle="collapse"
+                                            t-att-data-bs-target="'#yy-item-edit-' + str(it.id)"
+                                            t-attf-aria-controls="yy-item-edit-#{it.id}"
+                                            t-att-aria-expanded="'false'">
+                                        <i class="fa fa-pencil me-1"/>编辑
+                                    </button>
+                                    <form method="post"
+                                          t-attf-action="/assess/templates/#{tpl.id}/items/#{it.id}/delete"
+                                          class="d-inline">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fa fa-trash me-1"/>删除
+                                        </button>
+                                    </form>
+                                </span>
+                            </div>
+
+                            <div class="collapse mt-3" t-attf-id="yy-item-edit-#{it.id}">
+                                <form method="post"
+                                      t-attf-action="/assess/templates/#{tpl.id}/items/save"
+                                      class="row g-2 align-items-end">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="item_id" t-att-value="it.id"/>
+                                    <div class="col-12 col-md-5">
+                                        <label class="form-label small mb-1"
+                                               t-attf-for="yy-item-name-#{it.id}">评分项名称</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                               t-attf-id="yy-item-name-#{it.id}" name="name"
+                                               required="required" maxlength="200"
+                                               t-att-value="it.name"/>
+                                    </div>
+                                    <div class="col-6 col-md-2">
+                                        <label class="form-label small mb-1"
+                                               t-attf-for="yy-item-seq-#{it.id}">排序</label>
+                                        <input type="number" step="1" class="form-control form-control-sm"
+                                               t-attf-id="yy-item-seq-#{it.id}" name="sequence"
+                                               t-att-value="it.sequence"/>
+                                    </div>
+                                    <div class="col-6 col-md-2">
+                                        <label class="form-label small mb-1"
+                                               t-attf-for="yy-item-max-#{it.id}">满分</label>
+                                        <input type="number" step="any" class="form-control form-control-sm"
+                                               t-attf-id="yy-item-max-#{it.id}" name="max_score"
+                                               required="required" t-att-value="it.max_score"/>
+                                    </div>
+                                    <div class="col-6 col-md-2">
+                                        <label class="form-label small mb-1"
+                                               t-attf-for="yy-item-weight-#{it.id}">权重</label>
+                                        <input type="number" step="any" class="form-control form-control-sm"
+                                               t-attf-id="yy-item-weight-#{it.id}" name="weight"
+                                               required="required" t-att-value="it.weight"/>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <label class="form-label small mb-1"
+                                               t-attf-for="yy-item-kind-#{it.id}">给分方式</label>
+                                        <select class="form-select form-select-sm"
+                                                t-attf-id="yy-item-kind-#{it.id}" name="score_kind">
+                                            <option t-foreach="score_kinds.items()" t-as="k"
+                                                    t-att-value="k[0]"
+                                                    t-att-selected="k[0] == it.score_kind"
+                                                    t-out="k[1]"/>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-5">
+                                        <label class="form-label small mb-1"
+                                               t-attf-for="yy-item-help-#{it.id}">填写提示</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                               t-attf-id="yy-item-help-#{it.id}" name="help"
+                                               maxlength="200" t-att-value="it.help or ''"/>
+                                    </div>
+                                    <div class="col-6 col-md-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   t-attf-id="yy-item-req-#{it.id}" name="required"
+                                                   value="1" t-att-checked="it.required"/>
+                                            <label class="form-check-label small"
+                                                   t-attf-for="yy-item-req-#{it.id}">必填</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   t-attf-id="yy-item-active-#{it.id}" name="active"
+                                                   value="1" t-att-checked="it.active"/>
+                                            <label class="form-check-label small"
+                                                   t-attf-for="yy-item-active-#{it.id}">启用</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <button type="submit" class="btn btn-primary btn-sm w-100">
+                                            <i class="fa fa-save me-1"/>保存评分项
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <h5 class="h6 mt-4 mb-2">
+                    <i class="fa fa-plus-circle me-1 text-primary"/>新增评分项
+                </h5>
+                <form method="post" t-attf-action="/assess/templates/#{tpl.id}/items/save"
+                      class="card shadow-sm border-0 rounded-3">
+                    <div class="card-body">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="row g-2 align-items-end">
+                            <div class="col-12 col-md-5">
+                                <label class="form-label small mb-1" for="yy-item-new-name">
+                                    评分项名称 <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control form-control-sm"
+                                       id="yy-item-new-name" name="name" required="required"
+                                       maxlength="200" placeholder="例如：课堂参与"/>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <label class="form-label small mb-1" for="yy-item-new-seq">排序</label>
+                                <input type="number" step="1" class="form-control form-control-sm"
+                                       id="yy-item-new-seq" name="sequence" value="10"/>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <label class="form-label small mb-1" for="yy-item-new-max">满分</label>
+                                <input type="number" step="any" class="form-control form-control-sm"
+                                       id="yy-item-new-max" name="max_score" required="required"
+                                       value="10"/>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <label class="form-label small mb-1" for="yy-item-new-weight">权重</label>
+                                <input type="number" step="any" class="form-control form-control-sm"
+                                       id="yy-item-new-weight" name="weight" required="required"
+                                       value="1"/>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <label class="form-label small mb-1" for="yy-item-new-kind">给分方式</label>
+                                <select class="form-select form-select-sm" id="yy-item-new-kind"
+                                        name="score_kind">
+                                    <option t-foreach="score_kinds.items()" t-as="k"
+                                            t-att-value="k[0]" t-out="k[1]"/>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <label class="form-label small mb-1" for="yy-item-new-help">填写提示</label>
+                                <input type="text" class="form-control form-control-sm"
+                                       id="yy-item-new-help" name="help" maxlength="200"
+                                       placeholder="打分时显示在列头上（可留空）"/>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="yy-item-new-req" name="required" value="1"/>
+                                    <label class="form-check-label small" for="yy-item-new-req">必填</label>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="yy-item-new-active" name="active" value="1"
+                                           checked="checked"/>
+                                    <label class="form-check-label small" for="yy-item-new-active">启用</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <button type="submit" class="btn btn-primary btn-sm w-100">
+                                    <i class="fa fa-plus me-1"/>添加评分项
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </t>
+        </t>
+    </template>
+</odoo>

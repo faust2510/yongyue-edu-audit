@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+          @提醒超时扫描（F5 的驱动）。每 5 分钟扫一次 edu.tg.assist.mention：
+          已 @ 但 15 分钟没回、且还没私聊提醒过的，发一条私聊提醒。
+          F5 未实现时该方法不存在 ⇒ 用 model 的 _scan_mention_timeouts 兜底空实现。
+        -->
+        <record id="cron_scan_mention_timeouts" model="ir.cron">
+            <field name="name">edu_tg_assist: @提醒超时扫描</field>
+            <field name="model_id" ref="model_edu_tg_assist_mention"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_scan_timeouts()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <!--
+          发送记录自动清理（D2）。每天 03:30 删掉「保留天数」之前的发送记录 ——
+          发送记录只用于排障与追查，没必要永久留着（一天几条、广播一次一群一条）。
+          保留天数 = 系统参数 edu_tg_assist.send_log_keep_days（默认 90；配 0 = 一条也不清）。
+          **默认开**：不清就会一直涨；嫌碍事可在「设置 → 技术 → 定时动作」里停掉它
+          （不会影响任何发送功能，只是记录会一直留着）。
+        -->
+        <record id="cron_prune_send_log" model="ir.cron">
+            <field name="name">edu_tg_assist: 发送记录清理</field>
+            <field name="model_id" ref="model_edu_tg_assist_send_log"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_prune()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall"
+                   eval="(datetime.now() + timedelta(days=1)).replace(hour=3, minute=30, second=0, microsecond=0)"/>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!--
+          材料分类归档（F7）。每分钟扫一次 state=new 的材料：
+          · 规则抽取**永远**跑一次（零依赖兜底）；
+          · 配了 llm_base_url/llm_model/llm_api_key 才再跑大模型，且**出网前先脱敏**；
+          · 配了 notion_enabled=1 且 token/库 id 齐全才导出（失败只落库，不回滚本地归档）。
+          关掉自动跑 = 系统参数 edu_tg_assist.material_auto_analyze 配 0（后台按钮仍可用）。
+          ⚠ 没配任何外部服务时，ingest 已经当场本地分析完，这条 cron 只会扫到空集。
+        -->
+        <record id="cron_analyze_materials" model="ir.cron">
+            <field name="name">edu_tg_assist: 材料分类归档</field>
+            <field name="model_id" ref="model_edu_tg_assist_material"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_analyze()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!--
+          材料归档清理（F7）。每天 03:40 删掉 material_keep_days（默认 365）之前的归档；
+          配 0 = 永久保留（材料含原文，删不删由学校定，故默认一年且可关）。
+        -->
+        <record id="cron_prune_materials" model="ir.cron">
+            <field name="name">edu_tg_assist: 材料归档清理</field>
+            <field name="model_id" ref="model_edu_tg_assist_material"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_prune()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall"
+                   eval="(datetime.now() + timedelta(days=1)).replace(hour=3, minute=40, second=0, microsecond=0)"/>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!--
+          站内通知桥（对接选项 b，2026-10-14）。每 2 分钟扫一次新站内信
+          （edu_portal 的 edu.message，只读；运行时探模型，不写进 depends），
+          按后台「班务机器人 → 站内通知桥」里启用的规则转到 Telegram。
+          没有规则 = 空转一条 SELECT，不需要时把规则停用即可（不必停这条 cron）。
+        -->
+        <record id="cron_bridge_edu_message" model="ir.cron">
+            <field name="name">edu_tg_assist: 站内通知桥（网站消息 → Telegram）</field>
+            <field name="model_id" ref="model_edu_tg_assist_bridge"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_bridge()</field>
+            <field name="interval_number">2</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

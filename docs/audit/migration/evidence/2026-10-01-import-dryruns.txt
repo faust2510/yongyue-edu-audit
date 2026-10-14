@@ -1,0 +1,112 @@
+# 两次 DRY_RUN 的原始输出（2026-10-01）
+
+##### A) 排课导入离线 dry-run（本机，不连库） #####
+# 命令：python3 timetable_import/import_sessions.py --dry-run
+========================================================================
+[dry-run] 契约源 226 行 → 剔除师生互动 14 → 展开后 216 行
+[dry-run] 展开明细: {'救恩论/A123': ['2026-12-28', '2026-12-29', '2026-12-30', '2026-12-31', '2027-01-04']}
+[dry-run] 最终 session 计划（去重后）= 216
+[dry-run] 同 batch 冲突 0（须为 0） · 跨 batch 同教师并行 44 对（占位待定，真实教师替换后消解） · 同教室 0（未指定）
+------------------------------------------------------------------------
+[dry-run] 科目 18：
+   BTH-GEN01 英语             theory/compulsory
+   BTH-FOU01 基础信仰           theory/compulsory
+   BLA-PRA01 课程设计实务         practical/compulsory
+   BLA-LIT02 基督教与文学经典选读（二）  theory/compulsory
+   BTH-THE01 神论             theory/compulsory
+   BLA-CLA01 课堂管理           theory/compulsory
+   BLA-COV01 圣约神学           theory/compulsory
+   GEN-ACT01 使徒行传           theory/compulsory
+   BTH-LAW01 基督教与法律导论       theory/compulsory
+   GEN-LOG01 逻辑一            theory/compulsory
+   GEN-APO01 护教学基础          theory/compulsory
+   BLA-HEB02 希伯来语二          theory/compulsory
+   BLA-HEB04 希伯来语四          theory/compulsory
+   BTH-SPI01 圣灵论            theory/compulsory
+   BTH-HOM01 讲道法            theory/compulsory
+   BTH-PEN01 摩西五经           theory/compulsory
+   BTH-SAL01 救恩论            theory/compulsory
+   BTH-REF01 改革宗初始讲座        other/elective
+[dry-run] 批次 16（→course）：
+   B1234     B1-B4全体          → CRS-BED
+   A1        神学一年级            → CRS-BTH
+   B34       B3+B4合班          → CRS-BED
+   B234      B2+B3+B4合班       → CRS-BED
+   B1        人文一年级            → CRS-BED
+   A123      A1+A2+A3合班       → CRS-BTH
+   B3        人文三年级            → CRS-BED
+   A123B34   A123+B34合班       → CRS-BTH
+   A123B234  A123+B234合班      → CRS-BTH
+   A123B1    A123+B1合班        → CRS-BTH
+   A23B34    A23+B34合班        → CRS-BTH
+   B4        人文四年级            → CRS-BED
+   A23       A2+A3合班          → CRS-BTH
+   A2        神学二年级            → CRS-BTH
+   A3        神学三年级            → CRS-BTH
+   B2        人文二年级            → CRS-BED
+[dry-run] 教师：TBD-TEACHER 「待定教师」(CRS-BED 占位)
+[export] 计划 CSV → /Users/qwe/Documents/文件大总管/10-项目/教务系统网站新架构/timetable_import/session_import_plan.csv（216 行）
+
+##### B) 课程清单导入 DRY_RUN（在新服务器 web 容器里跑，零写入） #####
+# 命令（本机 → ssh → 容器，脚本经 stdin 送入）：
+#   scp docs/curriculum/yongyue-curriculum.csv prod-host:/tmp/
+#   ssh prod-host "docker cp /tmp/yongyue-curriculum.csv edu19-prod-web-1:/tmp/"
+#   ssh prod-host "docker exec -i -e CSV=/tmp/yongyue-curriculum.csv -e DRY_RUN=1 edu19-prod-web-1 \\
+#     odoo shell -c /etc/odoo/odoo.conf -d edu19 --db_host=db -r odoo -w odoo --no-http" < scripts/import_curriculum.py
+Warning: Permanently added '203.0.113.11' (ED25519) to the list of known hosts.
+2026-10-01 13:51:07,385 74 INFO ? odoo: Odoo version 19.0-20260926 
+2026-10-01 13:51:07,386 74 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-10-01 13:51:07,386 74 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/mnt/custom-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-10-01 13:51:07,386 74 INFO ? odoo: database: odoo@db:default 
+2026-10-01 13:51:07,650 74 INFO ? odoo.service.server: Stopping workers gracefully 
+2026-10-01 13:51:07,672 74 INFO edu19 odoo.modules.loading: loading 1 modules... 
+2026-10-01 13:51:07,675 74 INFO edu19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-10-01 13:51:07,682 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_quiz', defaulting to '' 
+2026-10-01 13:51:07,683 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_life', defaulting to '' 
+2026-10-01 13:51:07,683 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_schedule', defaulting to '' 
+2026-10-01 13:51:07,684 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_portal', defaulting to '' 
+2026-10-01 13:51:07,686 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_public', defaulting to '' 
+2026-10-01 13:51:07,686 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_telegram', defaulting to '' 
+2026-10-01 13:51:07,686 74 WARNING edu19 odoo.modules.module: Missing `license` key in manifest for 'edu_telegram', defaulting to LGPL-3 
+2026-10-01 13:51:07,687 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_apply', defaulting to '' 
+2026-10-01 13:51:07,700 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_assess', defaulting to '' 
+2026-10-01 13:51:07,700 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_tg_bind', defaulting to '' 
+2026-10-01 13:51:07,701 74 WARNING edu19 odoo.modules.module: Missing `author` key in manifest for 'edu_brand', defaulting to '' 
+2026-10-01 13:51:07,704 74 INFO edu19 odoo.modules.loading: loading 139 modules... 
+2026-10-01 13:51:08,474 74 WARNING edu19 odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-10-01 13:51:08,474 74 WARNING edu19 odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-10-01 13:51:08,474 74 WARNING edu19 odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-10-01 13:51:08,499 74 INFO edu19 odoo.modules.loading: 139 modules loaded in 0.80s, 0 queries (+0 extra) 
+2026-10-01 13:51:08,618 74 WARNING edu19 odoo.fields: edu.leave.leave_type: selection=[('sick', 'Sick Leave'), ('casual', 'Casual Leave'), ('marriage_funeral', '婚丧假'), ('winter_summer', '寒暑假'), ('practice_week', '实践周'), ('legal', 'Legal Leave'), ('other', 'Other')] overrides existing selection; use selection_add instead 
+2026-10-01 13:51:08,619 74 WARNING edu19 odoo.fields: edu.leave.state: selection=[('request', 'Requested'), ('pending_second', '待二级审批'), ('approved', 'Approved'), ('refused', 'Refused')] overrides existing selection; use selection_add instead 
+2026-10-01 13:51:08,666 74 WARNING edu19 odoo.fields: Field edu.job.posting.salary_range: unknown parameter 'placeholder', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-10-01 13:51:08,712 74 INFO edu19 odoo.modules.loading: Modules loaded. 
+2026-10-01 13:51:08,716 74 INFO edu19 odoo.addons.edu_nav.models.menu_consolidation: [edu_nav] 菜单收口守卫：声明改写 357 条（参数表记为 0）；根菜单 39 条（停用 25）；全库 610 条（停用 201） 
+2026-10-01 13:51:08,716 74 ERROR edu19 odoo.addons.edu_nav.models.menu_consolidation: [edu_nav] 模块常量期望 357 条收口记录，但参数声明为 0 —— 数据文件可能仍是惰性的（记录被注释） 
+2026-10-01 13:51:08,812 74 INFO edu19 odoo.registry: Registry loaded in 1.162s 
+[import] CSV = /tmp/yongyue-curriculum.csv
+[import] 行数 = 124 | DRY_RUN = True | 既有科目 = 14 | 课程 = 6
+[import] 新建 = 122 | 已存在 = 2 | 跳过 = 0
+[import] 合计 = 124 断言 == CSV 行数: True
+[import] 新增挂接 = 0
+[import] 目标课程全部命中 ✓
+[import] 对拍表已写 /tmp/import_report.csv
+[import] 收尾计数：op_subject = 14 | 挂接 = n/a
+
+##### C) DRY_RUN 后的对照读数（Q5，与 Q1 同值 = 零写入） #####
+Warning: Permanently added '203.0.113.11' (ED25519) to the list of known hosts.
+MARKPOST
+t|n
+op_subject|14
+edu_course_subject|14
+op_session|0
+res_users|8
+ir_attachment|971
+ir_ui_menu|610
+(6 rows)
+MARKPARAM
+key|left
+edu.apply.deadline|2026-10-01
+edu.enroll.deadline|2026-10-01
+(2 rows)
+MARKEND5

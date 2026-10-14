@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==========================================================================
+         评估引擎第 2 期：新增字段的维护入口（eval-unified-design.md §3.3 的 12 个字段）
+         ==========================================================================
+
+         **为什么全部写成"继承视图"**：本文件与 views/assess_views.xml 是同一模块的
+         两份数据，但后者是第 1 期已落库的记录；继承视图（inherit_id + xpath）
+         **一行都不改原记录**，新增维度集中在这里，可单独 diff、可单独回滚。
+
+         覆盖的设计条目：
+           · §4 #5–#7 分值与等级线：F5 weight_mode / F6 excellent_enabled / F7 刻度
+           · §4 #8 / #10 / #13 派生只读：占比合计、节点满分、节点占比合计
+           · §4 #17–#18 计分机制：F3 score_mode（扣分制）/ F2 track（双轨）
+           · §5.1 H1 层级：F1 parent_id / F12 item_kind（后台层级如何维护）
+           · §5.3 H3 双轨：F9 两路打分人（任务级）
+           · §5.5 H5 评语：F8 roster.summary（行级）
+           · §5.7 W1 名单行手工增删：名单列表改为可编辑（加一行 / 删一行）
+           · §5.9 G17 等级线：优秀线默认关闭的界面提示
+           · §3.5 派生显示：小计 / 合计 / 占比合计 / 等级（只读，不落库）
+
+         无障碍口径（codebase §6.10）：只加普通表单字段与文字提示，不新增图标按钮；
+         所有新增控件由 Odoo 表单框架生成 label；状态一律「文字 + 徽标」。
+         ========================================================================== -->
+
+    <!-- ============ ① 模板表单：权重模式 / 优秀线开关 / 刻度 / 占比合计 ============ -->
+    <record id="view_edu_assess_template_form_ext" model="ir.ui.view">
+        <field name="name">edu.assess.template.form.cn.ext</field>
+        <field name="model">edu.assess.template</field>
+        <field name="inherit_id" ref="edu_assess.view_edu_assess_template_form"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <!-- 优秀线：只在「启用优秀线」时才显示与必填（裁定 A4 的落地） -->
+            <xpath expr="//field[@name='excellent_line']" position="attributes">
+                <attribute name="invisible">not excellent_enabled</attribute>
+                <attribute name="required">excellent_enabled</attribute>
+            </xpath>
+            <xpath expr="//field[@name='excellent_line']/.." position="inside">
+                <field name="weight_mode"/>
+                <field name="excellent_enabled"/>
+                <field name="scale_anchors"
+                       placeholder="10,40,60,80,100"/>
+                <field name="scale_rule"/>
+                <field name="leaf_count" readonly="1"/>
+                <field name="weight_sum" readonly="1"/>
+                <field name="weight_sum_ok" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='excellent_line']/.." position="after">
+                <div class="text-danger small fw-bold"
+                     invisible="weight_sum_ok or weight_mode != 'percent'">
+                    占比模式下，所有**启用中**的叶子评分项权重合计必须 = 100%（复刻素材
+                    xlsx 的 E27 = SUM(E5:E26) 自校验）。当前合计不等于 100%：
+                    请补齐或调整各项占比，否则无法启用模板、也无法建评估任务。
+                </div>
+                <div class="text-muted small"
+                     invisible="not excellent_enabled">
+                    提示：6 份素材里只有「低于 60 分不及格」有据（卫生检测表）；
+                    「90 分优秀」查无出处（裁定 A4）。系统不自动改写存量模板的 90，
+                    是否启用由教务决定。
+                </div>
+                <div class="text-muted small" invisible="weight_mode != 'percent'">
+                    占比模式下，每个叶子评分项的「权重」= 它占总分的百分比
+                    （3 表示 3%）；项得分按 (得分 ÷ 满分) × 占比% × 满分 折算。
+                </div>
+                <div class="text-muted small" invisible="weight_mode == 'percent'">
+                    倍率模式（存量口径）：加权总分 = Σ(得分 × 权重)。
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='item_ids']/list" position="replace">
+                <list editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="depth" string="层级" optional="show"/>
+                    <field name="item_kind" string="类型" required="1"/>
+                    <field name="parent_id"
+                           domain="[('template_id', '=', template_id), ('item_kind', '=', 'group')]"
+                           optional="show"/>
+                    <field name="name" required="1"/>
+                    <field name="track" optional="show"/>
+                    <field name="score_mode" optional="show"/>
+                    <field name="max_score" optional="show"/>
+                    <field name="weight" optional="show"/>
+                    <field name="rollup_weight" string="派生占比"
+                           readonly="1" optional="hide"/>
+                    <field name="rollup_max_score" string="派生满分"
+                           readonly="1" optional="hide"/>
+                    <field name="score_kind" optional="hide"/>
+                    <field name="required" optional="hide"/>
+                    <field name="score_count" readonly="1" optional="show"/>
+                    <field name="active" optional="show"/>
+                </list>
+            </xpath>
+            <xpath expr="//field[@name='item_ids']/../div" position="replace">
+                <div class="text-muted small mt-1">
+                    层级最多三级：类型选「分组节点」= 分类/区（不打分，满分与占比由下级
+                    汇总，派生只读）；选「叶子评分项」= 矩阵里可打分的一列。
+                    父节点只能挂到「分组节点」下，且必须属于同一模板。<br/>
+                    新增评分项只需在列表里加一行并保存：门户矩阵、结果页与导出表格
+                    会立刻多出一列，不需要升级模块。<strong>已有打分的评分项请用「启用」
+                    勾选停用，不要删除</strong>（历史得分要保留）。
+                </div>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <div class="mt-2">
+                    <button name="action_check_weight_sum" type="object"
+                            string="校验占比合计" class="btn btn-sm btn-outline-secondary"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ ② 模板列表：加"叶子评分项数 / 权重模式"两列 ============ -->
+    <record id="view_edu_assess_template_list_ext" model="ir.ui.view">
+        <field name="name">edu.assess.template.list.cn.ext</field>
+        <field name="model">edu.assess.template</field>
+        <field name="inherit_id" ref="edu_assess.view_edu_assess_template_list"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='item_count']" position="attributes">
+                <attribute name="string">叶子评分项数</attribute>
+            </xpath>
+            <xpath expr="//field[@name='item_count']" position="replace">
+                <field name="leaf_count" string="叶子评分项数"/>
+                <field name="item_count" string="节点数" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='total']" position="after">
+                <field name="weight_mode"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ ③ 评分项列表（后台独立入口）：层级/轨/计分方式 ============ -->
+    <record id="view_edu_assess_item_list_ext" model="ir.ui.view">
+        <field name="name">edu.assess.item.list.cn.ext</field>
+        <field name="model">edu.assess.item</field>
+        <field name="inherit_id" ref="edu_assess.view_edu_assess_item_list"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="item_kind" string="类型"/>
+                <field name="parent_id"
+                       domain="[('template_id', '=', template_id), ('item_kind', '=', 'group')]"/>
+            </xpath>
+            <xpath expr="//field[@name='weight']" position="after">
+                <field name="track"/>
+                <field name="score_mode"/>
+                <field name="rollup_max_score" string="派生满分" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ ④ 任务表单：双轨两路打分人 + 可编辑名单（W1） ============ -->
+    <record id="view_edu_assess_task_form_ext" model="ir.ui.view">
+        <field name="name">edu.assess.task.form.cn.ext</field>
+        <field name="model">edu.assess.task</field>
+        <field name="inherit_id" ref="edu_assess.view_edu_assess_task_form"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='template_id']/.." position="after">
+                <group string="双轨两路（模板含双轨项时生效）"
+                       invisible="not has_dual">
+                    <field name="has_dual" invisible="1"/>
+                    <field name="objective_scorer_kind"/>
+                    <field name="subjective_scorer_kind"/>
+                </group>
+                <div class="text-muted small"
+                     invisible="not has_dual">
+                    双轨项 = 客观路 + 主观路各打一次，取平均（素材：客观 = 导师评分，
+                    主观 = 学生自评）。缺一路时该项**不计入总分**，结果标注「缺一路」——
+                    不复刻素材 xlsx 里 SUM(F5:G5)/2 那种"没填就当 0"的静默低估。
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='roster_ids']/list" position="replace">
+                <list editable="bottom">
+                    <field name="subject_name" readonly="1"/>
+                    <field name="student_id" optional="show"/>
+                    <field name="batch_id" optional="show"/>
+                    <field name="scorer_count" readonly="1" optional="hide"/>
+                    <field name="scored_item_count" readonly="1" optional="hide"/>
+                    <field name="total" readonly="1" optional="show"/>
+                    <field name="weighted_total" readonly="1" optional="show"/>
+                    <field name="average" readonly="1" optional="hide"/>
+                    <field name="complete" readonly="1" optional="show"/>
+                    <field name="missing_tracks" readonly="1" optional="show"/>
+                    <field name="grade" readonly="1" optional="show"/>
+                    <field name="summary" optional="hide"/>
+                    <field name="state"/>
+                </list>
+            </xpath>
+            <xpath expr="//field[@name='roster_ids']/.." position="inside">
+                <div class="text-muted small mt-1">
+                    名单行可以手工增删：点「添加一行」选学生 = 加一行；勾选后点垃圾桶
+                    = 删一行（**已有打分的行会被拒绝删除**，历史要保留）。
+                    批量建名单仍可用表头的「重新生成名单」，两者并存。
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ ⑤ 打分记录：轨（客观 / 主观） ============ -->
+    <record id="view_edu_assess_score_list_ext" model="ir.ui.view">
+        <field name="name">edu.assess.score.list.cn.ext</field>
+        <field name="model">edu.assess.score</field>
+        <field name="inherit_id" ref="edu_assess.view_edu_assess_score_list"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='item_id']" position="after">
+                <field name="track"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_edu_assess_score_form_ext" model="ir.ui.view">
+        <field name="name">edu.assess.score.form.cn.ext</field>
+        <field name="model">edu.assess.score</field>
+        <field name="inherit_id" ref="edu_assess.view_edu_assess_score_form"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='item_id']" position="after">
+                <field name="track"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_edu_assess_task_form_score_ext" model="ir.ui.view">
+        <field name="name">edu.assess.task.form.score.cn.ext</field>
+        <field name="model">edu.assess.task</field>
+        <field name="inherit_id" ref="edu_assess.view_edu_assess_task_form"/>
+        <field name="priority">98</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='score_ids']/list/field[@name='item_id']"
+                   position="after">
+                <field name="track" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ ⑥ 名单行表单：派生小计 / 合计 / 评语（一次看完一行） ============ -->
+    <record id="view_edu_assess_roster_form" model="ir.ui.view">
+        <field name="name">edu.assess.roster.form.cn</field>
+        <field name="model">edu.assess.roster</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <form string="被评对象">
+                <sheet>
+                    <group>
+                        <group string="被评对象">
+                            <field name="task_id" readonly="1"/>
+                            <field name="student_id"/>
+                            <field name="faculty_id" invisible="not faculty_id"/>
+                            <field name="batch_id"/>
+                            <field name="state"/>
+                        </group>
+                        <group string="派生结果（只读、不落库）">
+                            <field name="scorer_count"/>
+                            <field name="scored_item_count"/>
+                            <field name="total"/>
+                            <field name="weighted_total"/>
+                            <field name="average"/>
+                            <field name="grade"/>
+                            <field name="complete"/>
+                            <field name="missing_tracks"/>
+                            <field name="missing_items"/>
+                            <field name="reachable_max"/>
+                        </group>
+                    </group>
+                    <group string="导师评语与建议（整表级评语）">
+                        <field name="summary" nolabel="1"
+                               placeholder="评估完成后可写总结评语，作为学期末反馈报告使用。"/>
+                    </group>
+                    <group string="分组小计与合计（派生，不落库）">
+                        <field name="breakdown_text" nolabel="1" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

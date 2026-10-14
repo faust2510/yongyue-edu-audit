@@ -1,0 +1,100 @@
+{
+  "tag": "after",
+  "base": "http://localhost:8069",
+  "db": "edu19",
+  "stamp": "2026-09-28T12:48:30+08:00",
+  "script": "ui_col_discoverability.py",
+  "script_md5": "69dffd5e",
+  "viewport": {
+    "w": 1440,
+    "h": 1000
+  },
+  "results": [
+    {
+      "no": 0,
+      "name": "教务账号登录成功（落到后台 /apps）",
+      "pass": true,
+      "detail": "http://localhost:8069/apps"
+    },
+    {
+      "no": 1,
+      "name": "读到的确是「默认值」而不是上次偏好（localStorage 无 optional_fields 记录）",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "no": 2,
+      "name": "列设置齿轮按钮存在（有 optional 列才渲染）",
+      "pass": true,
+      "detail": ".o_optional_columns_dropdown_toggle"
+    },
+    {
+      "no": 3,
+      "name": "金额列自带币种符号（⇒ 单独「币种」列在默认视图里冗余）",
+      "pass": true,
+      "detail": "[\"¥ 12,000.00\", \"¥ 300.00\"]"
+    },
+    {
+      "no": 12,
+      "name": "列设置勾选真的能开关列（左侧：关→列数减少）",
+      "pass": true,
+      "detail": "默认 11 列 → 关两列 9 列"
+    },
+    {
+      "no": 13,
+      "name": "两列默认可见不会把表格挤出容器（1440px 下 renderer 无横向溢出）",
+      "pass": true,
+      "detail": "scroll=1440 client=1440"
+    },
+    {
+      "no": 4,
+      "name": "改后：教师(faculty_id) 默认可发现",
+      "pass": true,
+      "detail": "[\"direction\", \"name\", \"student_id\", \"faculty_id\", \"category_id\", \"amount\", \"paid_amount\", \"reimburse_ref\", \"reimburse_state\", \"due_date\", \"state\"]"
+    },
+    {
+      "no": 5,
+      "name": "改后：报销单号(reimburse_ref) 默认可发现",
+      "pass": true,
+      "detail": "[\"direction\", \"name\", \"student_id\", \"faculty_id\", \"category_id\", \"amount\", \"paid_amount\", \"reimburse_ref\", \"reimburse_state\", \"due_date\", \"state\"]"
+    },
+    {
+      "no": 6,
+      "name": "改后：币种(currency_id) 默认仍不显示（保留设计），但已进列设置菜单（找回路径恢复）",
+      "pass": true,
+      "detail": "th 命中=False / menu 命中=True"
+    },
+    {
+      "no": 7,
+      "name": "改后：列设置菜单含全部 6 个可选列（学生/教师/分类/报销单号/报销状态/币种）",
+      "pass": true,
+      "detail": "[\"student_id\", \"faculty_id\", \"category_id\", \"reimburse_ref\", \"reimburse_state\", \"currency_id\"]"
+    },
+    {
+      "no": 8,
+      "name": "对照：布告栏 active 列既不进默认列、也不进菜单（本次有意保留，理由见视图注释）",
+      "pass": true,
+      "detail": "th=False menu=False"
+    },
+    {
+      "no": 9,
+      "name": "命令面板可开（macOS = ⌘K）",
+      "pass": true,
+      "detail": "palette=True"
+    },
+    {
+      "no": 10,
+      "name": "面板内 / + 关键字 模糊搜全部菜单（实测 /报销 → 直达报销审批）",
+      "pass": true,
+      "detail": "[\"教务审批 / 报销审批 CMD+⏎新选项卡\"]"
+    },
+    {
+      "no": 11,
+      "name": "反面对照：macOS 上物理 Ctrl+K 不打开面板（⇒ 文案必须写 ⌘K/Ctrl+K 双写）",
+      "pass": true,
+      "detail": "ctrl+k 打开=False"
+    }
+  ],
+  "passed": 14,
+  "total": 14
+}

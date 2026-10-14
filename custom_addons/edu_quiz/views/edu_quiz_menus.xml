@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 菜单定义已合并至 edu_quiz_views.xml（见 menu_edu_quiz_root 等） -->
+</odoo>

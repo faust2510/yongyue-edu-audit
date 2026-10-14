@@ -1,0 +1,10 @@
+S5 = env['op.student'].browse(5)
+S7 = env['op.student'].browse(7)
+g = env['edu.grievance'].create({'name': 'ZZPROBE1', 'student_id': 7, 'subject': 'ZZ越权探针-别人的申诉', 'state': 'draft', 'date': '2026-01-01'})
+env.cr.commit()
+print('PROBE_ID=%d PROBE_STUDENT=%s' % (g.id, g.student_id.id))
+Q = 'ZZ越权探针'
+bad = env['edu.grievance'].search(['|','|',('name','ilike',Q),('subject','ilike',Q),('student_id','=',5)])
+good = env['edu.grievance'].search([('student_id','=',5),'|',('name','ilike',Q),('subject','ilike',Q)])
+print('BAD_COUNT=%d BAD_OWNERS=%s' % (len(bad), sorted(set(bad.mapped('student_id').ids))))
+print('GOOD_COUNT=%d' % len(good))

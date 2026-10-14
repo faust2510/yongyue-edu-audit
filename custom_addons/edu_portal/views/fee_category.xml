@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================
+         费用分类档案（校方自助维护）
+         校长 2026-09-16：「可以自己创建」（并可删除）
+         - 从这里增删改，前台所有下拉框（记账 / 台账筛选 / 报销申请）
+           与 CSV 导出立刻跟着变；
+         - 被账单引用的分类删不掉（模型的 unlink 守卫会给出「停用」出路）。
+         调研依据：docs/research/fee-categories.md
+         设计：docs/plans/fee-categories-design.md
+         ============================================================ -->
+    <record id="view_edu_fee_category_list" model="ir.ui.view">
+        <field name="name">edu.fee.category.list</field>
+        <field name="model">edu.fee.category</field>
+        <field name="arch" type="xml">
+            <list string="费用分类" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="direction_hint" optional="show"/>
+                <field name="bill_count"/>
+                <field name="active" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_fee_category_form" model="ir.ui.view">
+        <field name="name">edu.fee.category.form</field>
+        <field name="model">edu.fee.category</field>
+        <field name="arch" type="xml">
+            <form string="费用分类">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="例如：接待"/>
+                            <field name="code" placeholder="例如：jiedai（英文/拼音短码）"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="direction_hint"/>
+                            <field name="active"/>
+                            <field name="bill_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" placeholder="说明（可空）"/>
+                    </group>
+                    <div class="text-muted small" colspan="2">
+                        方向倾向留空表示应收/应付都能用；填了就只在该方向的记账表单里出现。
+                        已被账单使用的分类不能删除，请改为取消勾选「启用」。
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_fee_category" model="ir.actions.act_window">
+        <field name="name">费用分类</field>
+        <field name="res_model">edu.fee.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">还没有分类，先建一个</p>
+            <p>这里维护的分类会立刻出现在记账表单、台账筛选与报销申请里。</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_edu_fee_category" name="费用分类"
+              parent="menu_edu_fees_root" action="action_edu_fee_category"
+              sequence="15" groups="openeducat_core.group_op_back_office_admin"/>
+</odoo>

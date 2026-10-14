@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 资产借还：后台管理 ============ -->
+
+    <record id="view_edu_asset_list" model="ir.ui.view">
+        <field name="name">edu.asset.list.cn</field>
+        <field name="model">edu.asset</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="资产台账">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'available'"
+                       decoration-warning="state == 'loaned'"
+                       decoration-danger="state in ('maintenance','retired')"/>
+                <field name="current_loan_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_asset_form" model="ir.ui.view">
+        <field name="name">edu.asset.form.cn</field>
+        <field name="model">edu.asset</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="资产">
+                <header>
+                    <button name="action_mark_maintenance" type="object"
+                            string="转维护" invisible="state != 'available'"/>
+                    <button name="action_back_available" type="object"
+                            string="恢复可借" invisible="state != 'maintenance'"
+                            class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="code"/>
+                            <field name="category"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="current_loan_id"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="借还记录">
+                            <field name="loan_ids">
+                                <list>
+                                    <field name="student_id"/>
+                                    <field name="requested_date"/>
+                                    <field name="due_date"/>
+                                    <field name="returned_date"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_asset_loan_list" model="ir.ui.view">
+        <field name="name">edu.asset.loan.list.cn</field>
+        <field name="model">edu.asset.loan</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="借还单">
+                <field name="asset_id"/>
+                <field name="student_id"/>
+                <field name="requested_date"/>
+                <field name="due_date"/>
+                <field name="returned_date" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'requested'"
+                       decoration-warning="state == 'borrowed'"
+                       decoration-success="state == 'returned'"
+                       decoration-danger="state in ('rejected','cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_asset_loan_form" model="ir.ui.view">
+        <field name="name">edu.asset.loan.form.cn</field>
+        <field name="model">edu.asset.loan</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="借还单">
+                <header>
+                    <button name="action_approve" type="object" string="批准发放"
+                            invisible="state != 'requested'" class="btn-primary"/>
+                    <button name="action_reject" type="object" string="驳回"
+                            invisible="state != 'requested'"/>
+                    <button name="action_return" type="object" string="登记归还"
+                            invisible="state != 'borrowed'" class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="借出信息">
+                            <field name="asset_id" required="1"/>
+                            <field name="student_id" required="1"/>
+                            <field name="requested_date" readonly="1"/>
+                            <field name="due_date"/>
+                        </group>
+                        <group string="说明与归还">
+                            <field name="requested_note"/>
+                            <field name="staff_note"/>
+                            <field name="returned_date" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_asset" model="ir.actions.act_window">
+        <field name="name">资产台账</field>
+        <field name="res_model">edu.asset</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_edu_asset_loan" model="ir.actions.act_window">
+        <field name="name">借还审批</field>
+        <field name="res_model">edu.asset.loan</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_todo': 1}</field>
+    </record>
+
+    <record id="filter_edu_asset_loan_todo" model="ir.ui.view">
+        <field name="name">edu.asset.loan.filter.todo.cn</field>
+        <field name="model">edu.asset.loan</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="todo" string="待处理"
+                        domain="[('state', 'in', ('requested', 'borrowed'))]"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_edu_assets_root" name="资产管理"
+              sequence="69" groups="base.group_user"/>
+    <menuitem id="menu_edu_asset_ledger" name="资产台账"
+              parent="menu_edu_assets_root"
+              action="action_edu_asset" sequence="10"/>
+    <menuitem id="menu_edu_asset_loan" name="借还审批"
+              parent="menu_edu_assets_root"
+              action="action_edu_asset_loan" sequence="20"/>
+
+    <!-- ============ 门户：/my/assets ============ -->
+    <template id="edu_assets_page" name="Edu Assets Portal">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1"><i class="fa fa-cubes me-2"/>资产借还</h4>
+
+            <t t-if="applied">
+                <div class="alert alert-success py-2">
+                    申请已提交，等待学坊老师审批。
+                </div>
+            </t>
+
+            <!-- 我的借还单 -->
+            <h5 class="mt-3 mb-2"><i class="fa fa-list-ul me-2"/>
+                <t t-if="role == 'parent'">孩子的借还单</t><t t-else="">我的借还单</t>
+            </h5>
+            <t t-if="not loans">
+                <div class="alert alert-light border py-2">暂无借还记录。</div>
+            </t>
+            <t t-else="">
+                <table class="table table-hover align-middle bg-white rounded-3 shadow-sm">
+                    <thead class="table-light">
+                        <tr><th>资产</th><th>申请日期</th><th>应还日期</th><th>状态</th></tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="loans" t-as="l">
+                            <tr>
+                                <td t-out="l.asset_id.name"/>
+                                <td><span t-out="l.requested_date" t-options='{"widget": "date"}'/></td>
+                                <td><span t-out="l.due_date" t-options='{"widget": "date"}'/></td>
+                                <td>
+                                    <span t-if="l.state == 'requested'" class="badge text-bg-info">待审批</span>
+                                    <span t-elif="l.state == 'borrowed'" class="badge text-bg-warning">已借出</span>
+                                    <span t-elif="l.state == 'returned'" class="badge text-bg-success">已归还</span>
+                                    <span t-elif="l.state == 'rejected'" class="badge text-bg-danger">已驳回</span>
+                                    <span t-else="" class="badge text-bg-secondary">已取消</span>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+
+            <!-- 申请借用（仅学生本人） -->
+            <t t-if="role == 'student'">
+                <h5 class="mt-4 mb-2"><i class="fa fa-hand-paper-o me-2">申请借用</i></h5>
+                <form action="/my/assets/apply" method="post"
+                      class="card shadow-sm border-0 rounded-3 p-3">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-6">
+                            <label class="form-label small mb-1">选择可用资产</label>
+                            <select name="asset_id" class="form-select" required="">
+                                <t t-foreach="available" t-as="a">
+                                    <option t-att-value="a.id">
+                                        <t t-out="a.name"/><t t-if="a.code">（<t t-out="a.code"/>）</t>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small mb-1">申请说明（选填）</label>
+                            <input type="text" name="note" class="form-control"
+                                   maxlength="200" placeholder="用途/预计归还时间"/>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fa fa-send-o me-1"/>提交申请
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </t>
+        </t>
+    </template>
+
+</odoo>

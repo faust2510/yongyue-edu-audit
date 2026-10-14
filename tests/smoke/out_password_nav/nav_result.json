@@ -1,0 +1,55 @@
+{
+  "login": "cpw-nav-0924152532@cpwd.local",
+  "typed": "NavPass456 ",
+  "shots": [
+    {
+      "file": "01_user_menu_open.png",
+      "url": "http://localhost:8069/my/home"
+    },
+    {
+      "file": "02_our_password_page.png",
+      "url": "http://localhost:8069/my/password"
+    },
+    {
+      "file": "03_saved_relogin.png",
+      "url": "http://localhost:8069/login?redirect=%2Fmy%2Fpassword%3Fok%3D1"
+    },
+    {
+      "file": "04_login_typed_ok.png",
+      "url": "http://localhost:8069/my/home"
+    },
+    {
+      "file": "05_login_stripped_fail.png",
+      "url": "http://localhost:8069/login"
+    },
+    {
+      "file": "06_mobile_tab_landed.png",
+      "url": "http://localhost:8069/my/password"
+    }
+  ],
+  "nav_item": {
+    "href": "/my/password",
+    "label": "修改密码"
+  },
+  "landed_url": "http://localhost:8069/my/password",
+  "after_save_url": "http://localhost:8069/login?redirect=%2Fmy%2Fpassword%3Fok%3D1",
+  "login_typed_url": "http://localhost:8069/my/home",
+  "login_stripped_url": "http://localhost:8069/login",
+  "login_stripped_error": true,
+  "mobile_tab": {
+    "count": 1,
+    "label": "修改密码",
+    "href": "/my/password"
+  },
+  "mobile_tab_landed": "http://localhost:8069/my/password",
+  "cleanup": {
+    "users": 1,
+    "partners": 1,
+    "mail_ids_for_shell": [
+      815,
+      811,
+      809
+    ]
+  },
+  "failed": []
+}

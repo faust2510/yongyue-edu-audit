@@ -1,0 +1,2315 @@
+{
+ "phase": "after",
+ "generated_at": "2026-09-18 09:47:57",
+ "A_root_menus_db": 40,
+ "A_total_menus_db": 608,
+ "A_active_root_menus_db": 14,
+ "role_menus": {
+  "admin": {
+   "uid": 2,
+   "B_frontend_root_count": 14,
+   "B_frontend_nodes": 361,
+   "frontend_roots": [
+    {
+     "id": 1,
+     "name": "设置",
+     "members": [
+      "EMail",
+      "EMail模板",
+      "EMail黑名单",
+      "GIF 收藏夹",
+      "IAP",
+      "IAP 账户",
+      "ICE 服务器",
+      "OAuth服务商",
+      "RTC 会话",
+      "一般设置",
+      "休息时间",
+      "会议类型",
+      "允许的邮件网关",
+      "入职",
+      "入职步骤",
+      "公司",
+      "关注者",
+      "别名",
+      "别名域",
+      "参数",
+      "发送服务器",
+      "外部标识符",
+      "多对多关系",
+      "子类型",
+      "字段",
+      "字段选择",
+      "安全",
+      "安排的消息",
+      "客户端动作",
+      "导入/导出",
+      "导入翻译",
+      "导出翻译",
+      "小数精度",
+      "嵌入操作",
+      "工作时间表",
+      "序列",
+      "序号与标识",
+      "徽标",
+      "打印纸设置",
+      "技术",
+      "报名与报课截止",
+      "报表",
+      "挑战",
+      "摘要提示",
+      "摘要邮件",
+      "操作",
+      "收件服务器",
+      "数据库结构",
+      "日历",
+      "日历警报",
+      "日志",
+      "服务器操作",
+      "权利",
+      "概要分析",
+      "模型",
+      "模型约束",
+      "活动",
+      "活动概览",
+      "活动类型",
+      "活动计划",
+      "消息",
+      "消息反应",
+      "游戏化工具",
+      "游览",
+      "点评",
+      "用户",
+      "用户和公司",
+      "用户定义的默认值",
+      "用户界面",
+      "用户设备",
+      "用户设置",
+      "电话/短信息",
+      "电话黑名单",
+      "目标",
+      "目标定义",
+      "短信息",
+      "短信息模板",
+      "窗口动作",
+      "等级",
+      "筛选条件",
+      "系统参数",
+      "群组",
+      "翻译",
+      "自动化",
+      "自动化规则",
+      "自定义视图",
+      "菜单项",
+      "蜗牛邮件",
+      "视图",
+      "计划的操作",
+      "计划行动触发器",
+      "讨论",
+      "记录规则",
+      "设置",
+      "访问权限",
+      "语言",
+      "贡献值跟踪",
+      "资源",
+      "资源文件包",
+      "追踪值",
+      "通知",
+      "邮箱",
+      "配置向导",
+      "链接预览",
+      "附件",
+      "隐私",
+      "隐私日志",
+      "顾客",
+      "频道",
+      "频道/成员"
+     ]
+    },
+    {
+     "id": 15,
+     "name": "应用",
+     "members": [
+      "主要应用",
+      "主题商店",
+      "导入模块",
+      "应用",
+      "执行已安排升级",
+      "更新应用程序列表",
+      "第三方应用程序"
+     ]
+    },
+    {
+     "id": 218,
+     "name": "网站",
+     "members": [
+      "All Conversations",
+      "Event Questions",
+      "HTML / CSS 编辑器",
+      "Looking for Help",
+      "Product Feeds",
+      "Technical Pages",
+      "专业知识",
+      "主页",
+      "交货方式",
+      "产品",
+      "产品标签",
+      "产品特别提示",
+      "付款交易",
+      "付款方式",
+      "代理",
+      "价格表",
+      "优化SEO",
+      "会话",
+      "关闭原因",
+      "内容",
+      "分析",
+      "博客",
+      "博文",
+      "参会者",
+      "客户",
+      "属性",
+      "属性类别",
+      "工作",
+      "应用",
+      "徽标",
+      "成员历史",
+      "技术",
+      "报表",
+      "提醒",
+      "支付令牌",
+      "支付提供商",
+      "日历",
+      "未支付的订单",
+      "权益",
+      "标签",
+      "标签分类",
+      "此网页",
+      "活动",
+      "活动标签类别",
+      "活动模板",
+      "活动阶段",
+      "由客服处理的会话",
+      "由机器人处理的会话",
+      "电商品类",
+      "电子商务",
+      "登记处",
+      "等级",
+      "线上销售",
+      "组合选择",
+      "编辑菜单",
+      "网站",
+      "网站菜单",
+      "网页浏览",
+      "聊天机器人",
+      "菜单",
+      "菜单编辑器",
+      "角色",
+      "订单",
+      "讨论",
+      "论坛",
+      "论坛帖文",
+      "设置",
+      "访问者",
+      "语音和视频",
+      "课程",
+      "进行中的会话",
+      "进行中的通话会话",
+      "通知",
+      "通话记录",
+      "遗弃的购物车",
+      "邮件调度",
+      "邮编前缀",
+      "配置",
+      "重定向",
+      "需要升级的对话时段",
+      "页面",
+      "预设回复",
+      "频道"
+     ]
+    },
+    {
+     "id": 257,
+     "name": "学生信息",
+     "members": [
+      "Telegram 领码记录",
+      "专业",
+      "专业层次",
+      "人际关系",
+      "学年",
+      "学期",
+      "学生",
+      "学生信息",
+      "学生转班",
+      "学科管理",
+      "家长",
+      "批次",
+      "教室",
+      "教室管理",
+      "父母",
+      "科目",
+      "类别",
+      "综合管理",
+      "老账号补挂身份",
+      "设施",
+      "设置",
+      "课程",
+      "课程管理",
+      "费用条款",
+      "通用",
+      "邀请码",
+      "部门",
+      "配置",
+      "院系",
+      "项目管理"
+     ]
+    },
+    {
+     "id": 300,
+     "name": "招生",
+     "members": [
+      "入场",
+      "入学申请",
+      "应用领域",
+      "录取报告",
+      "报名表设置",
+      "报告",
+      "招生",
+      "设置",
+      "配置"
+     ]
+    },
+    {
+     "id": 310,
+     "name": "图书馆",
+     "members": [
+      "作者",
+      "出版商",
+      "图书卡",
+      "图书卡类型",
+      "图书馆",
+      "媒体",
+      "媒体动态",
+      "媒体单位",
+      "媒体类型",
+      "媒体购买请求",
+      "媒体队列请求",
+      "所有媒体",
+      "标签",
+      "设置",
+      "配置"
+     ]
+    },
+    {
+     "id": 341,
+     "name": "时间表",
+     "members": [
+      "Attempts",
+      "Quizzes",
+      "会议",
+      "作业",
+      "作业提交",
+      "作业类型",
+      "停课管理",
+      "出勤明细",
+      "周期排课（批量）",
+      "学习进度",
+      "报告",
+      "时间表",
+      "标记表寄存器",
+      "标记表线",
+      "校历活动",
+      "点名册",
+      "点名表",
+      "生成时间表",
+      "生成时间表报告",
+      "等级配置",
+      "结果分析",
+      "结果模板",
+      "结果行",
+      "考勤",
+      "考勤类型",
+      "考场",
+      "考试",
+      "考试参加者",
+      "考试类型",
+      "考试课程",
+      "设置",
+      "课次管理",
+      "配置"
+     ]
+    },
+    {
+     "id": 497,
+     "name": "教务审批",
+     "members": [
+      "先修科目要求",
+      "公告模板",
+      "布告栏管理",
+      "报销审批",
+      "教务审批",
+      "申诉处理",
+      "证书管理",
+      "请假审批",
+      "选课审批"
+     ]
+    },
+    {
+     "id": 579,
+     "name": "财务管理",
+     "members": [
+      "缴费流水",
+      "财务总台账",
+      "财务管理",
+      "账单管理",
+      "费用分类"
+     ]
+    },
+    {
+     "id": 582,
+     "name": "资产管理",
+     "members": [
+      "借还审批",
+      "资产台账",
+      "资产管理"
+     ]
+    },
+    {
+     "id": 585,
+     "name": "招聘管理",
+     "members": [
+      "岗位管理",
+      "招聘管理",
+      "申请处理"
+     ]
+    },
+    {
+     "id": 588,
+     "name": "综合评估",
+     "members": [
+      "打分记录",
+      "模板管理",
+      "结果分析",
+      "综合评估",
+      "评估任务",
+      "评估模板"
+     ]
+    },
+    {
+     "id": 593,
+     "name": "灵命生活",
+     "members": [
+      "全员打卡",
+      "周记归档",
+      "打卡类型",
+      "打卡记录",
+      "教师积分排行",
+      "灵命生活",
+      "积分流水"
+     ]
+    },
+    {
+     "id": 608,
+     "name": "资料下载",
+     "members": [
+      "资料下载"
+     ]
+    }
+   ],
+   "B_orm_acl_ok": true,
+   "B_orm_root_count": 14
+  },
+  "backoffice": {
+   "uid": 12,
+   "B_frontend_root_count": 12,
+   "B_frontend_nodes": 181,
+   "frontend_roots": [
+    {
+     "id": 218,
+     "name": "网站",
+     "members": [
+      "All Conversations",
+      "Event Questions",
+      "HTML / CSS 编辑器",
+      "Looking for Help",
+      "专业知识",
+      "主页",
+      "交货方式",
+      "产品",
+      "产品标签",
+      "产品特别提示",
+      "付款交易",
+      "价格表",
+      "优化SEO",
+      "会话",
+      "关闭原因",
+      "内容",
+      "分析",
+      "博客",
+      "博文",
+      "客户",
+      "属性",
+      "属性类别",
+      "工作",
+      "徽标",
+      "技术",
+      "报表",
+      "提醒",
+      "支付令牌",
+      "日历",
+      "未支付的订单",
+      "权益",
+      "标签",
+      "标签分类",
+      "此网页",
+      "活动",
+      "活动标签类别",
+      "电商品类",
+      "电子商务",
+      "登记处",
+      "等级",
+      "组合选择",
+      "编辑菜单",
+      "网站",
+      "网站菜单",
+      "菜单",
+      "菜单编辑器",
+      "角色",
+      "订单",
+      "讨论",
+      "论坛",
+      "论坛帖文",
+      "语音和视频",
+      "课程",
+      "进行中的会话",
+      "通知",
+      "通话记录",
+      "遗弃的购物车",
+      "邮编前缀",
+      "配置",
+      "需要升级的对话时段",
+      "预设回复",
+      "频道"
+     ]
+    },
+    {
+     "id": 257,
+     "name": "学生信息",
+     "members": [
+      "Telegram 领码记录",
+      "专业",
+      "专业层次",
+      "学年",
+      "学期",
+      "学生",
+      "学生信息",
+      "学科管理",
+      "批次",
+      "科目",
+      "类别",
+      "综合管理",
+      "老账号补挂身份",
+      "课程",
+      "课程管理",
+      "邀请码",
+      "部门",
+      "配置",
+      "院系",
+      "项目管理"
+     ]
+    },
+    {
+     "id": 300,
+     "name": "招生",
+     "members": [
+      "入学申请",
+      "报名表设置",
+      "招生"
+     ]
+    },
+    {
+     "id": 310,
+     "name": "图书馆",
+     "members": [
+      "作者",
+      "出版商",
+      "图书卡",
+      "图书卡类型",
+      "图书馆",
+      "媒体",
+      "媒体动态",
+      "媒体单位",
+      "媒体类型",
+      "媒体购买请求",
+      "媒体队列请求",
+      "所有媒体",
+      "标签",
+      "配置"
+     ]
+    },
+    {
+     "id": 341,
+     "name": "时间表",
+     "members": [
+      "Attempts",
+      "Quizzes",
+      "会议",
+      "停课管理",
+      "出勤明细",
+      "周期排课（批量）",
+      "学习进度",
+      "报告",
+      "时间表",
+      "标记表寄存器",
+      "标记表线",
+      "校历活动",
+      "点名册",
+      "点名表",
+      "生成时间表",
+      "生成时间表报告",
+      "等级配置",
+      "结果分析",
+      "结果模板",
+      "结果行",
+      "考勤",
+      "考勤类型",
+      "考场",
+      "考试",
+      "考试参加者",
+      "考试类型",
+      "考试课程",
+      "课次管理",
+      "配置"
+     ]
+    },
+    {
+     "id": 497,
+     "name": "教务审批",
+     "members": [
+      "先修科目要求",
+      "公告模板",
+      "布告栏管理",
+      "报销审批",
+      "教务审批",
+      "申诉处理",
+      "证书管理",
+      "请假审批",
+      "选课审批"
+     ]
+    },
+    {
+     "id": 579,
+     "name": "财务管理",
+     "members": [
+      "缴费流水",
+      "财务总台账",
+      "财务管理",
+      "账单管理",
+      "费用分类"
+     ]
+    },
+    {
+     "id": 582,
+     "name": "资产管理",
+     "members": [
+      "借还审批",
+      "资产台账",
+      "资产管理"
+     ]
+    },
+    {
+     "id": 585,
+     "name": "招聘管理",
+     "members": [
+      "岗位管理",
+      "招聘管理",
+      "申请处理"
+     ]
+    },
+    {
+     "id": 588,
+     "name": "综合评估",
+     "members": [
+      "打分记录",
+      "模板管理",
+      "结果分析",
+      "综合评估",
+      "评估任务",
+      "评估模板"
+     ]
+    },
+    {
+     "id": 593,
+     "name": "灵命生活",
+     "members": [
+      "全员打卡",
+      "周记归档",
+      "打卡类型",
+      "打卡记录",
+      "教师积分排行",
+      "灵命生活",
+      "积分流水"
+     ]
+    },
+    {
+     "id": 608,
+     "name": "资料下载",
+     "members": [
+      "资料下载"
+     ]
+    }
+   ],
+   "B_orm_acl_ok": true,
+   "B_orm_root_count": 14
+  },
+  "faculty": {
+   "uid": 11,
+   "B_frontend_root_count": 9,
+   "B_frontend_nodes": 75,
+   "frontend_roots": [
+    {
+     "id": 257,
+     "name": "学生信息",
+     "members": [
+      "学生",
+      "学生信息",
+      "学生转班",
+      "学科管理",
+      "科目",
+      "费用条款",
+      "通用",
+      "配置",
+      "院系"
+     ]
+    },
+    {
+     "id": 300,
+     "name": "招生",
+     "members": [
+      "入场",
+      "入学申请",
+      "应用领域",
+      "录取报告",
+      "报名表设置",
+      "报告",
+      "招生"
+     ]
+    },
+    {
+     "id": 310,
+     "name": "图书馆",
+     "members": [
+      "作者",
+      "出版商",
+      "图书馆",
+      "媒体",
+      "媒体购买请求",
+      "媒体队列请求",
+      "所有媒体",
+      "配置"
+     ]
+    },
+    {
+     "id": 341,
+     "name": "时间表",
+     "members": [
+      "Attempts",
+      "Quizzes",
+      "会议",
+      "作业",
+      "作业提交",
+      "出勤明细",
+      "学习进度",
+      "报告",
+      "时间表",
+      "标记表寄存器",
+      "标记表线",
+      "点名册",
+      "点名表",
+      "等级配置",
+      "结果分析",
+      "结果模板",
+      "结果行",
+      "考勤",
+      "考场",
+      "考试",
+      "考试参加者",
+      "考试类型",
+      "考试课程",
+      "课次管理",
+      "配置"
+     ]
+    },
+    {
+     "id": 497,
+     "name": "教务审批",
+     "members": [
+      "教务审批",
+      "申诉处理",
+      "证书管理",
+      "请假审批",
+      "选课审批"
+     ]
+    },
+    {
+     "id": 582,
+     "name": "资产管理",
+     "members": [
+      "借还审批",
+      "资产台账",
+      "资产管理"
+     ]
+    },
+    {
+     "id": 585,
+     "name": "招聘管理",
+     "members": [
+      "岗位管理",
+      "招聘管理",
+      "申请处理"
+     ]
+    },
+    {
+     "id": 588,
+     "name": "综合评估",
+     "members": [
+      "打分记录",
+      "模板管理",
+      "结果分析",
+      "综合评估",
+      "评估任务",
+      "评估模板"
+     ]
+    },
+    {
+     "id": 593,
+     "name": "灵命生活",
+     "members": [
+      "全员打卡",
+      "周记归档",
+      "打卡类型",
+      "打卡记录",
+      "灵命生活"
+     ]
+    }
+   ],
+   "B_orm_acl_ok": true,
+   "B_orm_root_count": 14
+  },
+  "student": {
+   "uid": 8,
+   "B_frontend_root_count": 0,
+   "B_frontend_nodes": 0,
+   "frontend_roots": [],
+   "B_orm_acl_ok": false,
+   "B_orm_root_count": null
+  },
+  "parent": {
+   "uid": 10,
+   "B_frontend_root_count": 0,
+   "B_frontend_nodes": 0,
+   "frontend_roots": [],
+   "B_orm_acl_ok": false,
+   "B_orm_root_count": null
+  }
+ },
+ "dup_entries": {
+  "admin": {
+   "visible_root_count": 14,
+   "groups": {
+    "op.student 双根": {
+     "ids": [
+      257,
+      278
+     ],
+     "visible": [
+      257
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "打卡双入口(根)": {
+     "ids": [
+      543,
+      593
+     ],
+     "visible": [
+      593
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "评估双根": {
+     "ids": [
+      588,
+      597
+     ],
+     "visible": [
+      588
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "考勤多根": {
+     "ids": [
+      349,
+      529
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "招生双根": {
+     "ids": [
+      300,
+      591
+     ],
+     "visible": [
+      300
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "原生噪音组(档2对超管=预期)": {
+     "ids": [
+      121,
+      142,
+      214,
+      75,
+      566,
+      15,
+      196,
+      388,
+      547,
+      529,
+      16,
+      434
+     ],
+     "visible": [
+      15
+     ],
+     "visible_count": 1,
+     "ok": true,
+     "expected_visible": [
+      15
+     ],
+     "unexpected": [],
+     "rule": "admin 可见集 ⊆ 档2集合 即 PASS"
+    },
+    "合并候选组": {
+     "ids": [
+      504,
+      288,
+      325,
+      357,
+      83,
+      507,
+      372,
+      542,
+      606
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    }
+   },
+   "dup_group_total": 7,
+   "dup_groups_ok": 7
+  },
+  "backoffice": {
+   "visible_root_count": 12,
+   "groups": {
+    "op.student 双根": {
+     "ids": [
+      257,
+      278
+     ],
+     "visible": [
+      257
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "打卡双入口(根)": {
+     "ids": [
+      543,
+      593
+     ],
+     "visible": [
+      593
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "评估双根": {
+     "ids": [
+      588,
+      597
+     ],
+     "visible": [
+      588
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "考勤多根": {
+     "ids": [
+      349,
+      529
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "招生双根": {
+     "ids": [
+      300,
+      591
+     ],
+     "visible": [
+      300
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "原生噪音组(档2对超管=预期)": {
+     "ids": [
+      121,
+      142,
+      214,
+      75,
+      566,
+      15,
+      196,
+      388,
+      547,
+      529,
+      16,
+      434
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "合并候选组": {
+     "ids": [
+      504,
+      288,
+      325,
+      357,
+      83,
+      507,
+      372,
+      542,
+      606
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    }
+   },
+   "dup_group_total": 7,
+   "dup_groups_ok": 7
+  },
+  "faculty": {
+   "visible_root_count": 9,
+   "groups": {
+    "op.student 双根": {
+     "ids": [
+      257,
+      278
+     ],
+     "visible": [
+      257
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "打卡双入口(根)": {
+     "ids": [
+      543,
+      593
+     ],
+     "visible": [
+      593
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "评估双根": {
+     "ids": [
+      588,
+      597
+     ],
+     "visible": [
+      588
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "考勤多根": {
+     "ids": [
+      349,
+      529
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "招生双根": {
+     "ids": [
+      300,
+      591
+     ],
+     "visible": [
+      300
+     ],
+     "visible_count": 1,
+     "ok": true
+    },
+    "原生噪音组(档2对超管=预期)": {
+     "ids": [
+      121,
+      142,
+      214,
+      75,
+      566,
+      15,
+      196,
+      388,
+      547,
+      529,
+      16,
+      434
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "合并候选组": {
+     "ids": [
+      504,
+      288,
+      325,
+      357,
+      83,
+      507,
+      372,
+      542,
+      606
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    }
+   },
+   "dup_group_total": 7,
+   "dup_groups_ok": 7
+  },
+  "student": {
+   "visible_root_count": 0,
+   "groups": {
+    "op.student 双根": {
+     "ids": [
+      257,
+      278
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "打卡双入口(根)": {
+     "ids": [
+      543,
+      593
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "评估双根": {
+     "ids": [
+      588,
+      597
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "考勤多根": {
+     "ids": [
+      349,
+      529
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "招生双根": {
+     "ids": [
+      300,
+      591
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "原生噪音组(档2对超管=预期)": {
+     "ids": [
+      121,
+      142,
+      214,
+      75,
+      566,
+      15,
+      196,
+      388,
+      547,
+      529,
+      16,
+      434
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "合并候选组": {
+     "ids": [
+      504,
+      288,
+      325,
+      357,
+      83,
+      507,
+      372,
+      542,
+      606
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    }
+   },
+   "dup_group_total": 7,
+   "dup_groups_ok": 7
+  },
+  "parent": {
+   "visible_root_count": 0,
+   "groups": {
+    "op.student 双根": {
+     "ids": [
+      257,
+      278
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "打卡双入口(根)": {
+     "ids": [
+      543,
+      593
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "评估双根": {
+     "ids": [
+      588,
+      597
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "考勤多根": {
+     "ids": [
+      349,
+      529
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "招生双根": {
+     "ids": [
+      300,
+      591
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "原生噪音组(档2对超管=预期)": {
+     "ids": [
+      121,
+      142,
+      214,
+      75,
+      566,
+      15,
+      196,
+      388,
+      547,
+      529,
+      16,
+      434
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    },
+    "合并候选组": {
+     "ids": [
+      504,
+      288,
+      325,
+      357,
+      83,
+      507,
+      372,
+      542,
+      606
+     ],
+     "visible": [],
+     "visible_count": 0,
+     "ok": true
+    }
+   },
+   "dup_group_total": 7,
+   "dup_groups_ok": 7
+  }
+ },
+ "limits": {
+  "backoffice": {
+   "limit": 12,
+   "actual": 12,
+   "ok": true
+  },
+  "admin": {
+   "limit": 20,
+   "actual": 14,
+   "ok": true
+  }
+ },
+ "routes": [
+  {
+   "role": "anon",
+   "method": "GET",
+   "path": "/",
+   "desc": "首页品牌",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "anon",
+   "method": "GET",
+   "path": "/campus/jobs",
+   "desc": "公开岗位列表",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "anon",
+   "method": "GET",
+   "path": "/campus/jobs/1",
+   "desc": "岗位详情+投递表单",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "anon",
+   "method": "GET",
+   "path": "/help",
+   "desc": "帮助中心入口",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "anon",
+   "method": "GET",
+   "path": "/web/login",
+   "desc": "登录页(302->/login)",
+   "status": 302,
+   "location": "/login",
+   "expected": null
+  },
+  {
+   "role": "anon",
+   "method": "GET",
+   "path": "/my/home",
+   "desc": "未登录受保护->303",
+   "status": 303,
+   "location": "/web/login?redirect=%2Fmy%2Fhome%3F",
+   "expected": null
+  },
+  {
+   "role": "anon",
+   "method": "GET",
+   "path": "/downloads/manage",
+   "desc": "未登录受保护->303",
+   "status": 303,
+   "location": "/web/login?redirect=%2Fdownloads%2Fmanage%3F",
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/home",
+   "desc": "学生门户首页(合并后=宫格)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/apps",
+   "desc": "合并后兼容层(303->/my/home)",
+   "status": 303,
+   "location": "/my/home",
+   "expected": null
+  },
+  {
+   "role": "parent",
+   "method": "GET",
+   "path": "/my/apps",
+   "desc": "合并后兼容层(303->/my/home)",
+   "status": 303,
+   "location": "/my/home",
+   "expected": null
+  },
+  {
+   "role": "faculty",
+   "method": "GET",
+   "path": "/my/apps",
+   "desc": "内部用户宫格入口(须200)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "backoffice",
+   "method": "GET",
+   "path": "/my/apps",
+   "desc": "教务宫格入口(须200)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/checkins",
+   "desc": "打卡(edu_life 留)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/checkin",
+   "desc": "打卡旧入口(收口后应303->/my/checkins)",
+   "status": 303,
+   "location": "/my/checkins",
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/checkin/export",
+   "desc": "旧打卡导出(收口后应303)",
+   "status": 303,
+   "location": "/my/checkins/export",
+   "expected": null
+  },
+  {
+   "role": "faculty",
+   "method": "GET",
+   "path": "/my/checkin/board",
+   "desc": "全员到堂看板(教师须200)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/courses",
+   "desc": "我的课程",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/study",
+   "desc": "在线学习",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/marks",
+   "desc": "我的成绩",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/fees",
+   "desc": "缴费",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/documents",
+   "desc": "我的文档",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/evaluation",
+   "desc": "综合评估(门户)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/eval/my",
+   "desc": "评估待办",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/journals",
+   "desc": "周记",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/points",
+   "desc": "积分(学生303->/my/home)",
+   "status": 303,
+   "location": "/my/home",
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/assets",
+   "desc": "我的资产",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/time_off",
+   "desc": "请假/调课",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/student/timetable",
+   "desc": "学生周课表",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/student/attendance",
+   "desc": "学生出勤",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/student/subjects",
+   "desc": "学生科目",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/student/exam",
+   "desc": "学生考试",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/downloads",
+   "desc": "资料下载列表",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/downloads/mine",
+   "desc": "我的下载",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/my/help",
+   "desc": "帮助中心(学生)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "student",
+   "method": "GET",
+   "path": "/help/student",
+   "desc": "帮助中心(学生页)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "faculty",
+   "method": "GET",
+   "path": "/checkins/stats",
+   "desc": "教师打卡统计",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "faculty",
+   "method": "GET",
+   "path": "/eval/review",
+   "desc": "评估评审",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "faculty",
+   "method": "GET",
+   "path": "/help/faculty",
+   "desc": "帮助中心(教师)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "faculty",
+   "method": "GET",
+   "path": "/my/rollcall",
+   "desc": "点名",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "parent",
+   "method": "GET",
+   "path": "/my/child",
+   "desc": "家长查看子女",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "parent",
+   "method": "GET",
+   "path": "/help/parent",
+   "desc": "帮助中心(家长)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  },
+  {
+   "role": "backoffice",
+   "method": "GET",
+   "path": "/help/registrar",
+   "desc": "帮助中心(教务)",
+   "status": 200,
+   "location": null,
+   "expected": null
+  }
+ ],
+ "data": {
+  "phase": "after",
+  "checked_at": "2026-09-18 09:48:01",
+  "counts": {
+   "edu_checkin_record": 53,
+   "edu_daily_checkin": 7,
+   "edu_checkin_type": 4
+  },
+  "types": [
+   [
+    "1",
+    "读经打卡",
+    "10",
+    "t"
+   ],
+   [
+    "2",
+    "灵修打卡",
+    "20",
+    "t"
+   ],
+   [
+    "3",
+    "周记",
+    "30",
+    "t"
+   ],
+   [
+    "5",
+    "到堂打卡",
+    "5",
+    "t"
+   ]
+  ],
+  "daily_rows": [
+   [
+    "1",
+    "5",
+    "2026-08-23",
+    "t",
+    "t",
+    "约1章",
+    "晨更祷告",
+    ""
+   ],
+   [
+    "2",
+    "5",
+    "2026-08-24",
+    "t",
+    "f",
+    "创1-3章",
+    "",
+    ""
+   ],
+   [
+    "4",
+    "5",
+    "2026-08-29",
+    "t",
+    "f",
+    "",
+    "",
+    ""
+   ],
+   [
+    "5",
+    "5",
+    "2026-09-12",
+    "t",
+    "f",
+    "创1-3章",
+    "",
+    ""
+   ],
+   [
+    "6",
+    "5",
+    "2026-09-13",
+    "t",
+    "f",
+    "",
+    "",
+    ""
+   ],
+   [
+    "7",
+    "5",
+    "2026-09-14",
+    "t",
+    "f",
+    "",
+    "",
+    ""
+   ],
+   [
+    "8",
+    "5",
+    "2026-09-17",
+    "t",
+    "f",
+    "创1-3章",
+    "",
+    ""
+   ]
+  ],
+  "record_rows": [
+   [
+    "1",
+    "5",
+    "1",
+    "2026-08-24",
+    "【读经范围】创1-3章"
+   ],
+   [
+    "2",
+    "5",
+    "1",
+    "2026-08-23",
+    "【读经范围】约1章"
+   ],
+   [
+    "3",
+    "5",
+    "1",
+    "2026-08-22",
+    "-"
+   ],
+   [
+    "4",
+    "5",
+    "1",
+    "2026-08-21",
+    "-"
+   ],
+   [
+    "5",
+    "5",
+    "1",
+    "2026-08-20",
+    "-"
+   ],
+   [
+    "6",
+    "5",
+    "1",
+    "2026-08-19",
+    "-"
+   ],
+   [
+    "7",
+    "5",
+    "1",
+    "2026-08-18",
+    "-"
+   ],
+   [
+    "8",
+    "5",
+    "2",
+    "2026-08-23",
+    "【灵修笔记】晨更祷告"
+   ],
+   [
+    "9",
+    "5",
+    "2",
+    "2026-08-22",
+    "-"
+   ],
+   [
+    "10",
+    "5",
+    "2",
+    "2026-08-21",
+    "-"
+   ],
+   [
+    "11",
+    "5",
+    "2",
+    "2026-08-20",
+    "-"
+   ],
+   [
+    "12",
+    "5",
+    "2",
+    "2026-08-19",
+    "-"
+   ],
+   [
+    "13",
+    "5",
+    "2",
+    "2026-08-18",
+    "-"
+   ],
+   [
+    "14",
+    "5",
+    "2",
+    "2026-08-24",
+    "-"
+   ],
+   [
+    "15",
+    "5",
+    "1",
+    "2026-08-25",
+    "-"
+   ],
+   [
+    "16",
+    "5",
+    "2",
+    "2026-08-25",
+    "-"
+   ],
+   [
+    "17",
+    "5",
+    "1",
+    "2026-08-29",
+    "-"
+   ],
+   [
+    "18",
+    "5",
+    "1",
+    "2026-08-28",
+    "-"
+   ],
+   [
+    "19",
+    "5",
+    "1",
+    "2026-08-27",
+    "-"
+   ],
+   [
+    "20",
+    "5",
+    "1",
+    "2026-08-26",
+    "-"
+   ],
+   [
+    "21",
+    "5",
+    "2",
+    "2026-08-28",
+    "-"
+   ],
+   [
+    "22",
+    "5",
+    "2",
+    "2026-08-27",
+    "-"
+   ],
+   [
+    "23",
+    "5",
+    "2",
+    "2026-08-26",
+    "-"
+   ],
+   [
+    "24",
+    "5",
+    "1",
+    "2026-09-12",
+    "【读经范围】创1-3章"
+   ],
+   [
+    "25",
+    "5",
+    "1",
+    "2026-09-11",
+    "-"
+   ],
+   [
+    "26",
+    "5",
+    "1",
+    "2026-09-10",
+    "-"
+   ],
+   [
+    "27",
+    "5",
+    "1",
+    "2026-09-09",
+    "-"
+   ],
+   [
+    "28",
+    "5",
+    "1",
+    "2026-09-08",
+    "-"
+   ],
+   [
+    "29",
+    "5",
+    "1",
+    "2026-09-07",
+    "-"
+   ],
+   [
+    "30",
+    "5",
+    "1",
+    "2026-09-06",
+    "-"
+   ],
+   [
+    "31",
+    "5",
+    "2",
+    "2026-09-11",
+    "-"
+   ],
+   [
+    "32",
+    "5",
+    "2",
+    "2026-09-10",
+    "-"
+   ],
+   [
+    "33",
+    "5",
+    "2",
+    "2026-09-09",
+    "-"
+   ],
+   [
+    "34",
+    "5",
+    "2",
+    "2026-09-08",
+    "-"
+   ],
+   [
+    "35",
+    "5",
+    "2",
+    "2026-09-07",
+    "-"
+   ],
+   [
+    "36",
+    "5",
+    "2",
+    "2026-09-06",
+    "-"
+   ],
+   [
+    "53",
+    "5",
+    "1",
+    "2026-09-16",
+    "-"
+   ],
+   [
+    "54",
+    "5",
+    "1",
+    "2026-09-15",
+    "-"
+   ],
+   [
+    "55",
+    "5",
+    "1",
+    "2026-09-14",
+    "-"
+   ],
+   [
+    "56",
+    "5",
+    "1",
+    "2026-09-13",
+    "-"
+   ],
+   [
+    "57",
+    "5",
+    "2",
+    "2026-09-16",
+    "-"
+   ],
+   [
+    "58",
+    "5",
+    "2",
+    "2026-09-15",
+    "-"
+   ],
+   [
+    "59",
+    "5",
+    "2",
+    "2026-09-14",
+    "-"
+   ],
+   [
+    "60",
+    "5",
+    "2",
+    "2026-09-13",
+    "-"
+   ],
+   [
+    "61",
+    "5",
+    "2",
+    "2026-09-12",
+    "-"
+   ],
+   [
+    "62",
+    "5",
+    "5",
+    "2026-08-23",
+    "-"
+   ],
+   [
+    "63",
+    "5",
+    "5",
+    "2026-08-24",
+    "-"
+   ],
+   [
+    "64",
+    "5",
+    "5",
+    "2026-08-29",
+    "-"
+   ],
+   [
+    "65",
+    "5",
+    "5",
+    "2026-09-12",
+    "-"
+   ],
+   [
+    "66",
+    "5",
+    "5",
+    "2026-09-13",
+    "-"
+   ],
+   [
+    "67",
+    "5",
+    "5",
+    "2026-09-14",
+    "-"
+   ],
+   [
+    "68",
+    "5",
+    "5",
+    "2026-09-17",
+    "-"
+   ],
+   [
+    "69",
+    "5",
+    "1",
+    "2026-09-17",
+    "【读经范围】创1-3章"
+   ]
+  ],
+  "before_counts": {
+   "edu_checkin_record": 36,
+   "edu_daily_checkin": 7,
+   "edu_checkin_type": 3
+  },
+  "delta_edu_checkin_record": 17,
+  "delta_edu_daily_checkin": 0
+ },
+ "smoke_log": "/Users/qwe/Documents/文件大总管/10-项目/教务系统网站新架构/tests/audit/out/smoke.log",
+ "rulings": {
+  "apps_merged_303": {
+   "cases": {
+    "student": {
+     "expect": 303,
+     "actual": 303,
+     "location": "/my/home",
+     "ok": true
+    },
+    "parent": {
+     "expect": 303,
+     "actual": 303,
+     "location": "/my/home",
+     "ok": true
+    },
+    "faculty": {
+     "expect": 200,
+     "actual": 200,
+     "location": null,
+     "ok": true
+    },
+    "backoffice": {
+     "expect": 200,
+     "actual": 200,
+     "location": null,
+     "ok": true
+    }
+   },
+   "ok": true,
+   "note": "学生/家长 /my/apps = 兼容层 303→/my/home；内部用户 200 不变"
+  },
+  "home_merged_content": {
+   "student": {
+    "status": 200,
+    "location": null,
+    "cards": 45,
+    "old_timeline_hero": 0,
+    "avatar_modal_targets": 2,
+    "avatar_srcs": [
+     "/web/image/res.partner/38/avatar_128",
+     "/web/image/res.partner/38/avatar_256"
+    ],
+    "avatar_partner_ids": [
+     "38"
+    ],
+    "todo_strip": 1,
+    "ok": true
+   },
+   "parent": {
+    "status": 200,
+    "location": null,
+    "cards": 36,
+    "old_timeline_hero": 0,
+    "avatar_modal_targets": 2,
+    "avatar_srcs": [
+     "/web/image/res.partner/47/avatar_128",
+     "/web/image/res.partner/47/avatar_256"
+    ],
+    "avatar_partner_ids": [
+     "47"
+    ],
+    "todo_strip": 0,
+    "ok": true
+   }
+  },
+  "checkin_redirect_303": {
+   "cases": {
+    "/my/checkin": {
+     "expect": 303,
+     "actual": 303,
+     "ok": true
+    },
+    "/my/checkin/export": {
+     "expect": 303,
+     "actual": 303,
+     "ok": true
+    }
+   },
+   "ok": true,
+   "note": "旧打卡入口 -> 303 /my/checkins*，属预期，不是缺陷"
+  },
+  "checkin_board_200": {
+   "cases": {
+    "/my/checkin/board": {
+     "expect": 200,
+     "by_role": {
+      "faculty": 200
+     },
+     "faculty": 200,
+     "student": null,
+     "ok": true
+    }
+   },
+   "ok": true,
+   "note": "看板保留，数据源改读新表「到堂」类型；仍须 200"
+  },
+  "tier2_superadmin_visible": {
+   "admin_only_set": [
+    1,
+    15,
+    121,
+    142,
+    196,
+    566
+   ],
+   "non_admin": {
+    "backoffice": {
+     "visible": [],
+     "count": 0,
+     "ok": true
+    },
+    "faculty": {
+     "visible": [],
+     "count": 0,
+     "ok": true
+    },
+    "student": {
+     "visible": [],
+     "count": 0,
+     "ok": true
+    },
+    "parent": {
+     "visible": [],
+     "count": 0,
+     "ok": true
+    }
+   },
+   "admin": {
+    "visible": [
+     1,
+     15
+    ],
+    "subset_ok": true,
+    "unexpected": []
+   },
+   "ok": true,
+   "note": "档2 对超管可见属预期（restrict_tree 实现）；非超管必须 0 可见"
+  },
+  "new_type_daotang": {
+   "found": [
+    [
+     "5",
+     "到堂打卡",
+     "5",
+     "t"
+    ]
+   ],
+   "ok": true,
+   "note": "新增到堂打卡类型属预期；教师统计多一列、avg_rate 改口径属已声明变化"
+  }
+ }
+}

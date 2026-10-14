@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ====================================================================
+         Telegram 领码记录（edu_tg_bind）
+
+         挂层（本仓四层口径，见 docs/plans/perm-model.md 与 code-map §6.12）：
+           菜单 = 教务 + 系统管理员并列写法；ACL 见 security/ir.model.access.csv。
+           教师 / 学生 / 家长 看不到（ACL 里根本不出现本模型）。
+
+         位置：学生信息(257) -> 配置(openeducat_core.menu_op_school_config, 261)，
+         与「邀请码」「老账号补挂身份」同一处 —— 教务在那里发码，也在这里看谁领走了。
+
+         ⚠ 本页**只**显示 edu.tg.claim。不要把生产「匿名意见箱」的数据并进来
+         （那会让两个 bot 的 chat_id 并排出现，作废学校的匿名承诺，见设计 §1.1）。
+         ==================================================================== -->
+
+    <record id="edu_tg_claim_view_list" model="ir.ui.view">
+        <field name="name">edu.tg.claim.list</field>
+        <field name="model">edu.tg.claim</field>
+        <field name="arch" type="xml">
+            <list string="Telegram 领码记录" create="false" edit="false" delete="false">
+                <field name="claimed_on"/>
+                <field name="telegram_name"/>
+                <field name="username"/>
+                <field name="chat_id"/>
+                <field name="invite_code"/>
+                <field name="notify_state" widget="badge"
+                       decoration-success="notify_state == 'sent'"
+                       decoration-danger="notify_state == 'failed'"
+                       decoration-muted="notify_state == 'skipped_dry_run'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="edu_tg_claim_view_form" model="ir.ui.view">
+        <field name="name">edu.tg.claim.form</field>
+        <field name="model">edu.tg.claim</field>
+        <field name="arch" type="xml">
+            <form string="Telegram 领码记录" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group string="谁">
+                            <field name="telegram_name"/>
+                            <field name="username"/>
+                            <field name="chat_id"/>
+                        </group>
+                        <group string="领了什么">
+                            <field name="invite_code"/>
+                            <field name="claimed_on"/>
+                        </group>
+                    </group>
+                    <group string="回复投递">
+                        <field name="notify_state"/>
+                        <field name="notify_attempts"/>
+                        <field name="notify_error"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="edu_tg_claim_view_search" model="ir.ui.view">
+        <field name="name">edu.tg.claim.search</field>
+        <field name="model">edu.tg.claim</field>
+        <field name="arch" type="xml">
+            <search string="Telegram 领码记录">
+                <field name="chat_id"/>
+                <field name="telegram_name"/>
+                <field name="username"/>
+                <field name="invite_code"/>
+                <filter name="filter_notify_failed" string="回复失败"
+                        domain="[('notify_state', '=', 'failed')]"/>
+                <separator/>
+                <filter name="filter_claimed_today" string="今天领的"
+                        domain="[('claimed_on', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_tg_claim" model="ir.actions.act_window">
+        <field name="name">Telegram 领码记录</field>
+        <field name="res_model">edu.tg.claim</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">还没有人领过邀请码</p>
+            <p>学生在 Telegram 里私聊机器人，领走的邀请码会记在这里。</p>
+            <p>码池见「学生信息 → 配置 → 邀请码」：只有批次标签以指定前缀开头、未使用、
+               未过期、且属于学生层级的码才会被发出去。</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_edu_tg_claim"
+              name="Telegram 领码记录"
+              parent="openeducat_core.menu_op_school_config"
+              action="action_edu_tg_claim"
+              groups="openeducat_core.group_op_back_office_admin,base.group_system"
+              sequence="92"/>
+</odoo>

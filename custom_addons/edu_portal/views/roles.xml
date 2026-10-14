@@ -1,0 +1,2145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ /my/child 我的孩子（家长选择） ============ -->
+    <template id="edu_my_child" name="Edu My Children">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">我的孩子</h2>
+                <p class="text-muted mb-0">选择一个孩子查看其仪表盘、成绩与档案。</p>
+            </section>
+            <div class="o_portal_docs row g-2 mt-2">
+                <t t-foreach="kids" t-as="kid">
+                    <div class="o_portal_index_card col-md-6">
+                        <div class="d-flex justify-content-between gap-3 py-3 px-3 h-100 rounded text-bg-light position-relative">
+                            <div class="d-flex gap-3 align-items-center">
+                                <img class="rounded-circle" width="56" height="56"
+                                     t-att-src="'/web/image/res.partner/%s/image_256' % (kid['student'].partner_id.id or 0)"
+                                     t-att-alt="kid['name']" loading="lazy"/>
+                                <div>
+                                    <div class="fs-5 fw-bold" t-out="kid['name']"/>
+                                    <div class="opacity-75 small">
+                                        <t t-if="kid['course']" t-out="kid['course']"/>
+                                        <t t-if="kid['batch']"> · <t t-out="kid['batch']"/></t>
+                                    </div>
+                                    <div class="small mt-1">
+                                        <span class="me-2">学号 <b t-out="kid['roll'] or '—'"/></span>
+                                        <span>生日 <b t-out="kid['birth'] or '—'"/></span>
+                                    </div>
+                                    <div class="small opacity-75" t-if="kid['phone'] or kid['email']">
+                                        <t t-out="kid['phone']"/> <t t-out="kid['email']"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column gap-2 align-self-center">
+                                <a t-att-href="'/my/child/' + str(kid['student'].id)"
+                                   class="btn btn-primary text-nowrap">查看仪表盘</a>
+                                <a t-attf-href="/my/child/#{ kid['student'].id }/leave"
+                                   class="btn btn-outline-primary text-nowrap">
+                                    <i class="fa fa-calendar-minus-o me-1" aria-hidden="true"></i>为孩子请假
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /my/child/&lt;id&gt; 孩子仪表盘 ============ -->
+    <template id="edu_child_dashboard" name="Edu Child Dashboard">
+        <t t-call="edu_portal.edu_page">
+            <section class="o_portal_hero mb-4 d-flex flex-wrap justify-content-between align-items-start gap-3">
+                <div>
+                    <h2 class="mb-1"><t t-out="kid['name']"/> 的学习概览</h2>
+                    <p class="text-muted mb-0">
+                        <t t-if="kid['course']" t-out="kid['course']"/>
+                        <t t-if="kid['batch']"> · <t t-out="kid['batch']"/></t>
+                        <t t-if="kid['roll']"> · 学号 <t t-out="kid['roll']"/></t>
+                    </p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a t-attf-href="/my/child/#{ kid['student'].id }/leave"
+                       class="btn btn-primary text-nowrap">
+                        <i class="fa fa-calendar-minus-o me-1" aria-hidden="true"></i>为孩子请假
+                    </a>
+                    <a href="/my/child" class="btn btn-light text-nowrap">返回我的孩子</a>
+                </div>
+            </section>
+
+            <div class="oe-stat-row mb-4 d-flex gap-3 flex-wrap">
+                <div class="oe-kpi oe-kpi--courses flex-fill">
+                    <div class="oe-kpi-body">
+                        <!-- 2026-10-03：改输出文本态 —— 无考勤记录时显示「—」而不是「0%」。 -->
+                        <span class="oe-kpi-val" t-out="kid['att_pct_txt']"/>
+                        <span class="oe-kpi-lab">出勤率</span>
+                    </div>
+                    <span class="oe-kpi-ic oe-kpi-primary"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
+                </div>
+                <div class="oe-kpi oe-kpi--assign flex-fill">
+                    <div class="oe-kpi-body">
+                        <span class="oe-kpi-val" t-out="len(marks)"/>
+                        <span class="oe-kpi-lab">已出成绩考试</span>
+                    </div>
+                    <span class="oe-kpi-ic oe-kpi-success"><i class="fa fa-file-text-o" aria-hidden="true"></i></span>
+                </div>
+            </div>
+
+            <!-- 3d：学习生活摘要（作业/打卡/周记/请假） -->
+            <t t-if="summary">
+                <h5 class="mb-2">学习生活摘要</h5>
+                <div class="row g-2 mb-4">
+                    <t t-foreach="summary" t-as="s">
+                        <div class="col-6 col-md-3">
+                            <div class="card shadow-sm border-0 rounded-3 h-100">
+                                <div class="card-body py-3 d-flex align-items-center gap-2">
+                                    <span t-att-class="'fa ' + s['icon'] + ' fa-lg text-' + s['color']"/>
+                                    <div>
+                                        <div class="fs-4 fw-bold lh-1" t-out="s['count']"/>
+                                        <small class="text-muted" t-out="s['label']"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+
+            <t t-if="marks">
+                <h5 class="mb-2">考试成绩</h5>
+                <table class="table table-sm table-light align-middle mb-4">
+                    <thead><tr><th>考试</th><th class="text-end">得分</th><th class="text-end">百分比</th></tr></thead>
+                    <tbody>
+                        <t t-foreach="marks" t-as="m">
+                            <tr>
+                                <td t-out="m['exam']"/>
+                                <td class="text-end"><t t-out="m['marks']"/> / <t t-out="m['total']"/></td>
+                                <td class="text-end" t-out="m['pct_str']"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+
+            <h5 class="mb-2">快捷入口</h5>
+            <div class="o_portal_docs row g-2">
+                <t t-foreach="links" t-as="lk">
+                    <div class="o_portal_index_card col-md-6">
+                        <a t-att-href="lk[0]" class="d-flex justify-content-start gap-3 align-items-center py-3 px-3 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                            <div class="o_portal_icon d-block align-self-start">
+                                <i t-attf-class="fa fa-lg {{ lk[2] }}" aria-hidden="true"></i>
+                            </div>
+                            <div class="fs-5"><t t-out="lk[1]"/></div>
+                        </a>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /attendance/take 教师考勤录入 ============ -->
+    <template id="edu_attendance_take" name="Edu Attendance Take">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">考勤录入</h2>
+                <p class="text-muted mb-0">选择班级与日期，为每位学生勾选出勤状态后提交。</p>
+            </section>
+
+            <div class="alert alert-success" t-if="saved">考勤已保存。</div>
+
+            <!-- 2c 重复提交防护：同班同日已有点名表 -->
+            <div class="alert alert-warning" t-if="dup">
+                <i class="fa fa-exclamation-triangle me-1"/>
+                该班级在该日期已有点名记录，为避免重复考勤未再新建。
+                <a t-if="dup_sheet" t-attf-href="/attendance/take?batch_id=#{sel_batch}&amp;date=#{date}" class="alert-link ms-1">返回重选日期</a>
+            </div>
+
+            <!-- 课代表提交的待确认点名（队长裁定补做项：否则课代表提交了老师永远看不见） -->
+            <div class="alert alert-info" t-if="pending_sheet">
+                <h6 class="mb-2"><i class="fa fa-star me-1"/>课代表已提交待确认点名</h6>
+                <p class="small mb-2">
+                    课代表 <b t-out="pending_sheet['rep'] or '—'"/>（科目：<t t-out="pending_sheet['subject'] or '—'"/>）
+                    已于 <t t-out="pending_sheet['at'] or '—'"/> 提交 <b t-out="pending_sheet['n']"/> 人的点名
+                    （考勤表 <t t-out="pending_sheet['name'] or '—'"/>）。
+                    考勤统计在确认后才变化；不确认则该班学生考勤统计保持原样。
+                </p>
+                <form method="post" action="/attendance/confirm_rep_sheet">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="sheet_id" t-att-value="pending_sheet['id']"/>
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        <i class="fa fa-check me-1"/>确认课代表点名</button>
+                </form>
+            </div>
+
+            <!-- 第 5 批 B：学生扫码自助签到（限时令牌防代签） -->
+            <t t-if="sel_batch and selfcheck">
+                <div class="card shadow-sm border-0 rounded-3 mb-3" id="selfcheck-card"
+                     t-att-data-expire="selfcheck['expire_str']">
+                    <div class="card-body d-flex flex-wrap gap-3 align-items-center">
+                        <img class="border rounded-3 p-1"
+                             t-att-src="'/report/barcode?barcode_type=QR&amp;width=180&amp;height=180&amp;value=' + selfcheck['scan_url']"
+                             width="180" height="180" alt="自助签到二维码"/>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1"><i class="fa fa-qrcode me-1"/>学生扫码自助签到</h6>
+                            <p class="small text-muted mb-1">
+                                学生用手机扫码，把自己的考勤置为到堂。二维码
+                                <b class="text-danger">每 60 秒自动轮换</b>（防截图代签），
+                                当前有效期至 <span class="fw-bold" id="selfcheck-expire" t-out="selfcheck['expire_str']"/>。
+                            </p>
+                            <form method="post" action="/attendance/selfcheck/stop" class="d-inline"
+                                  onsubmit="return confirm('关闭后学生将无法继续扫码签到。')">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="batch_id" t-att-value="sel_batch"/>
+                                <input type="hidden" name="date" t-att-value="date"/>
+                                <button class="btn btn-sm btn-outline-danger" type="submit">关闭自助签到</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 60 秒自动轮换：到点静默重提交本页，签发新令牌防截图代签 -->
+                    <form id="selfcheck-rotate" method="post" action="/attendance/selfcheck/start" style="display:none">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="batch_id" t-att-value="sel_batch"/>
+                        <input type="hidden" name="date" t-att-value="date"/>
+                    </form>
+                    <script>
+                        (function () {
+                            var left = 50;
+                            var el = document.getElementById('selfcheck-expire');
+                            var form = document.getElementById('selfcheck-rotate');
+                            if (!form) { return; }
+                            setInterval(function () {
+                                left -= 1;
+                                if (left &lt;= 0) {
+                                    form.submit();
+                                    return;
+                                }
+                                if (el) {
+                                    el.textContent = left + ' 秒后自动换码';
+                                }
+                            }, 1000);
+                        })();
+                    </script>
+                </div>
+            </t>
+            <t t-if="sel_batch and not selfcheck">
+                <form method="post" action="/attendance/selfcheck/start" class="mb-3"
+                      onsubmit="return confirm('开启后学生可在 60 秒内扫码签到，需刷新二维码维持有效。')">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="batch_id" t-att-value="sel_batch"/>
+                    <input type="hidden" name="date" t-att-value="date"/>
+                    <button class="btn btn-sm btn-outline-primary" type="submit">
+                        <i class="fa fa-qrcode me-1"/>开启学生扫码签到（60 秒限时码）</button>
+                </form>
+            </t>
+
+            <!-- 第一步：选班级和日期 -->
+            <form method="get" action="/attendance/take" class="row g-2 align-items-end mb-3">
+                <div class="col-auto">
+                    <label class="form-label small mb-0" for="att-batch">班级</label>
+                    <select name="batch_id" class="form-select" id="att-batch">
+                        <t t-foreach="batches" t-as="b">
+                            <option t-att-value="b.id"
+                                    t-att-selected="sel_batch == b.id and 'selected' or None"
+                                    t-out="b.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label small mb-0" for="att-date">日期</label>
+                    <input type="date" name="date" class="form-control" id="att-date" t-att-value="date"/>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">加载学生</button>
+                </div>
+            </form>
+
+            <!-- F2：缺勤比例告警（阈值系统参数 edu_portal.absence_warn_ratio） -->
+            <div class="alert alert-warning" t-if="absent_warn">
+                <h6 class="mb-2"><i class="fa fa-exclamation-triangle me-1"/>缺勤比例告警（≥ <t t-out="warn_ratio"/>%）</h6>
+                <ul class="mb-0 small">
+                    <t t-foreach="absent_warn" t-as="w">
+                        <li><b t-out="w['name']"/>：缺勤 <t t-out="w['absent']"/> / 共 <t t-out="w['total']"/> 次（<t t-out="w['pct']"/>%），建议联系学生与家长。</li>
+                    </t>
+                </ul>
+            </div>
+
+            <!-- 第二步：学生勾选表单 -->
+            <t t-if="sel_batch and students">
+                <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                    <a t-attf-href="/attendance/take?batch_id=#{sel_batch}&amp;date=#{date}&amp;copy=1"
+                       class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-copy me-1"/>复制上次记录</a>
+                    <a t-attf-href="/attendance/import?batch_id=#{sel_batch}&amp;date=#{date}"
+                       class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-file-excel-o me-1"/>Excel/CSV 补录导入</a>
+                    <span class="small text-muted" t-if="copy and copy_from">
+                        已载入 <t t-out="copy_from"/> 的点名结果，可直接改名后保存。</span>
+                    <span class="small text-muted" t-elif="copy_from">
+                        上次点名日期：<t t-out="copy_from"/>（点「复制上次记录」可套用其状态）。</span>
+                </div>
+                <form method="post" action="/attendance/save">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="batch_id" t-att-value="sel_batch"/>
+                    <input type="hidden" name="course_id" t-att-value="course and course.id or ''"/>
+                    <input type="hidden" name="date" t-att-value="date"/>
+                    <table class="table table-light align-middle">
+                        <thead><tr>
+                            <th>学生</th>
+                            <th class="text-center">出勤</th>
+                            <th class="text-center">迟到</th>
+                            <th class="text-center">缺勤</th>
+                        </tr></thead>
+                        <tbody>
+                            <t t-foreach="students" t-as="s">
+                                <tr>
+                                    <td t-out="s.name"/>
+                                    <td class="text-center">
+                                        <input type="radio" t-att-name="'status_' + str(s.id)" value="present"
+                                               t-att-checked="prefill.get(s.id, 'present') == 'present' and 'checked' or None"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="radio" t-att-name="'status_' + str(s.id)" value="late"
+                                               t-att-checked="prefill.get(s.id) == 'late' and 'checked' or None"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="radio" t-att-name="'status_' + str(s.id)" value="absent"
+                                               t-att-checked="prefill.get(s.id) == 'absent' and 'checked' or None"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary" type="submit">保存考勤</button>
+                </form>
+            </t>
+            <t t-elif="sel_batch">
+                <!-- 空态审计（2026-10-02）：教师视角的死胡同 —— 只说「暂无学生」，
+                     不说名单从哪来、也不说该找谁（教师无权自行分班，所以给的是路径说明而不是链接）。 -->
+                <div class="oe-norec mt-2"><i class="fa fa-users oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">
+                        该班级暂无学生。名单来自教务的分班（后台：学生信息 → 学生 → 班级）；
+                        刚开学还没分班时这里就是空的，请联系教务处确认。
+                    </p></div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ /grading/entry 教师成绩录入 ============ -->
+    <template id="edu_grading_entry" name="Edu Grading Entry">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">成绩录入</h2>
+                <p class="text-muted mb-0">选择考试，为学生录入得分后提交。</p>
+            </section>
+
+            <div class="alert alert-success" t-if="saved">已保存 <t t-out="request.params.get('scount','')"/> 条成绩。</div>
+            <div class="alert alert-success" t-if="imported">
+                导入完成：写入 <b t-out="imported"/> 条、跳过 <b t-out="skipped"/> 条。
+            </div>
+            <div class="alert alert-success" t-if="copied">
+                复制完成：填入 <b t-out="copied"/> 条、跳过 <b t-out="skipped"/> 条（已有分数不覆盖）。
+            </div>
+
+            <form method="get" action="/grading/entry" class="row g-2 align-items-end mb-3">
+                <div class="col-auto">
+                    <label class="form-label small mb-0" for="gr-exam">考试</label>
+                    <select name="exam_id" class="form-select" id="gr-exam">
+                        <t t-foreach="exams" t-as="e">
+                            <option t-att-value="e.id"
+                                    t-att-selected="(exam and exam.id == e.id) and 'selected' or None"
+                                    t-out="e.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">加载考生</button>
+                </div>
+            </form>
+
+            <!-- F3：批量工具条（导出 / 导入 / 上期复制 / 变更留痕） -->
+            <t t-if="exam">
+                <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                    <a t-attf-href="/grading/export?exam_id=#{exam.id}"
+                       class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-download me-1"/>导出成绩 CSV</a>
+                    <a t-attf-href="/grading/history?exam_id=#{exam.id}"
+                       class="btn btn-sm btn-outline-secondary">
+                        <i class="fa fa-history me-1"/>成绩变更留痕
+                        <span class="badge text-bg-light ms-1" t-out="history_n"/></a>
+                    <form t-if="prev_exam" method="post" action="/grading/copy_prev" class="d-inline"
+                          onsubmit="return confirm('把上一场同科目考试的分数填入本场空缺（已有分数不覆盖）？')">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="exam_id" t-att-value="exam.id"/>
+                        <button class="btn btn-sm btn-outline-secondary" type="submit">
+                            <i class="fa fa-copy me-1"/>复制上期成绩（<t t-out="prev_exam.name"/>）</button>
+                    </form>
+                    <form method="post" action="/grading/import" enctype="multipart/form-data"
+                          class="d-flex gap-1 ms-auto" style="max-width:430px">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="exam_id" t-att-value="exam.id"/>
+                        <input type="file" name="file" class="form-control form-control-sm"
+                               accept=".csv,.xlsx" required="required"/>
+                        <button class="btn btn-sm btn-outline-secondary" type="submit">导入成绩</button>
+                    </form>
+                </div>
+                <p class="small text-muted">
+                    导入模板列名：<b>学号</b>（或 <b>姓名</b>）与 <b>得分</b>；CSV 用 UTF-8 或 GBK，
+                    也支持 .xlsx。导入前先预览校验，不会直接落库。
+                </p>
+            </t>
+
+            <t t-if="exam and attendees">
+                <form method="post" action="/grading/save">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="exam_id" t-att-value="exam.id"/>
+                    <table class="table table-light align-middle">
+                        <thead><tr>
+                            <th>学生</th>
+                            <th class="text-center" style="width:140px">得分</th>
+                            <th class="text-center">状态</th>
+                        </tr></thead>
+                        <tbody>
+                            <t t-foreach="attendees" t-as="a">
+                                <tr>
+                                    <td t-out="a['name']"/>
+                                    <td class="text-center">
+                                        <input type="number" class="form-control form-control-sm"
+                                               t-att-name="'marks_' + str(a['att'].id)"
+                                               t-att-value="a['att'].marks if a['att'].marks is not False else 0"
+                                               min="0" t-att-max="exam.total_marks or 100"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <select class="form-select form-select-sm" t-att-name="'st_' + str(a['att'].id)">
+                                            <option value="present" t-att-selected="a['att'].status == 'present' and 'selected' or None">出席</option>
+                                            <option value="absent" t-att-selected="a['att'].status == 'absent' and 'selected' or None">缺考</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary" type="submit">保存成绩</button>
+                </form>
+            </t>
+            <t t-elif="exam">
+                <div class="oe-norec mt-2"><i class="fa fa-users oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">
+                        该考试暂无考生记录。考生名单由教务处安排考试时按班级生成；
+                        如果名单里应该有人却没有，请联系教务处核对分班与考试设置。
+                    </p></div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ /assignment/publish 发布作业 ============ -->
+    <template id="edu_assignment_publish" name="Edu Assignment Publish">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">发布作业</h2>
+                <p class="text-muted mb-0">发布后学生端「作业」列表立即可见。</p>
+            </section>
+            <t t-if="error == 'save'">
+                <div class="alert alert-danger py-2">
+                    发布失败：请检查各字段（尤其是日期时间格式）后重试。
+                </div>
+            </t>
+            <!-- 2026-10-03：课程与班级是两个互不约束的下拉，可以选出矛盾组合；
+                 落库后那条作业会因 batch+course 取数而**永远不显示给学生**（库里已有 2 条）。
+                 故明确告知，而不是静默改写用户的选择。 -->
+            <t t-if="error == 'course_batch'">
+                <div class="alert alert-danger py-2">
+                    发布失败：所选「班级」不属于所选「课程」。请让两者对应（如班级名后括号里标的就是它所属的课程）。
+                </div>
+            </t>
+            <form method="post" action="/assignment/publish_save" class="row g-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="col-md-6">
+                    <label class="form-label small" for="ap-name">作业名称 *</label>
+                    <input type="text" name="name" id="ap-name" class="form-control" required="required"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small" for="ap-subject">科目</label>
+                    <select name="subject_id" id="ap-subject" class="form-select">
+                        <t t-foreach="subjects" t-as="s">
+                            <option t-att-value="s.id" t-out="s.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small" for="ap-type">作业类型 *</label>
+                    <select name="type_id" id="ap-type" class="form-select" required="required">
+                        <t t-foreach="types" t-as="t2">
+                            <option t-att-value="t2.id" t-out="t2.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small" for="ap-course">课程 *</label>
+                    <select name="course_id" id="ap-course" class="form-select" required="required">
+                        <t t-foreach="courses" t-as="c">
+                            <option t-att-value="c.id" t-out="c.name"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small" for="ap-batch">班级 *</label>
+                    <!-- 2026-10-03：班级后面补出**它所属的课程**，让「课程 ↔ 班级」这一对当场可见 ——
+                         否则两个下拉各自独立，选错组合要到提交后才被发现（库里已有 2 条这样的作业）。 -->
+                    <select name="batch_id" id="ap-batch" class="form-select" required="required">
+                        <t t-foreach="batches" t-as="b">
+                            <option t-att-value="b.id"><t t-out="b.name"/><t t-if="b.course_id">（<t t-out="b.course_id.name"/>）</t></option>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small" for="ap-marks">分值</label>
+                    <input type="number" step="0.5" name="marks" id="ap-marks" class="form-control" value="100"/>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small" for="ap-issued">签发日期 *</label>
+                    <input type="datetime-local" name="issued_date" id="ap-issued" class="form-control" required="required"/>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small" for="ap-due">提交截止 *</label>
+                    <input type="datetime-local" name="submission_date" id="ap-due" class="form-control" required="required"/>
+                </div>
+                <div class="col-12">
+                    <!-- 2026-10-03：本页原先 **8 个控件 + 这个 textarea 全部没有 for/id 关联** ——
+                         无障碍门禁（本章节页面此前不在 tests/ui/surface.json 里 ⇒ 从未被扫过）
+                         一登记就报 **9 条 critical**（label ×5 + select-name ×4）。
+                         修法是标准做法：label 加 for、控件加同名 id。 -->
+                    <label class="form-label small" for="ap-desc">作业说明 *</label>
+                    <textarea name="description" id="ap-desc" class="form-control" rows="3" required="required"></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">发布</button>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <!-- ============ 为孩子请假表单 ============ -->
+    <template id="edu_child_leave" name="Edu Child Leave Form">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">为 <t t-out="kid.name"/> 请假</h2>
+                <p class="text-muted mb-0">提交后将由教师审批。</p>
+            </section>
+            <div class="alert alert-success" t-if="saved">请假申请已提交，等待教师审批。</div>
+            <form t-attf-action="/my/child/#{ kid.id }/leave/save" method="post" class="row g-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="col-md-4">
+                    <label class="form-label small">假期类型</label>
+                    <select name="leave_type" class="form-select">
+                        <option value="sick">病假</option>
+                        <option value="legal">法定假</option>
+                        <option value="casual">事假</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small">开始日期 *</label>
+                    <input type="date" name="date_from" class="form-control" required="required"/>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small">结束日期</label>
+                    <input type="date" name="date_to" class="form-control"/>
+                </div>
+                <div class="col-12">
+                    <label class="form-label small">请假事由 *</label>
+                    <textarea name="reason" class="form-control" rows="3" required="required"></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">提交申请</button>
+                    <a class="btn btn-light ms-2" href="/my/child">返回</a>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <!-- 2026-10-03：本模板的**定义**已下沉到 `edu_brand`（见 edu_brand/views/shared_ui.xml）——
+         因为它被 edu_schedule 引用，而 edu_schedule 不能依赖 edu_portal（会成环），
+         于是那边只能引用一个自己声明不到的模板（manifest 说谎，靠渲染期 xmlid 解析侥幸能用）。
+         这里保留**同名薄别名** ⇒ 本模块及 edu_life/edu_assess 的既有调用点**一个都不用改**。
+         方案与验收见 docs/plans/2026-10-02-shared-ui-primitives.md -->
+    <template id="edu_narrow_table_cards" name="Edu 窄屏卡片式表格（共用样式·别名→edu_brand）">
+        <t t-call="edu_brand.edu_narrow_table_cards"/>
+    </template>
+
+    <!-- ============ 教师请假审批列表 ============ -->
+    <template id="edu_leave_approvals" name="Edu Leave Approvals">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">请假审批</h2>
+                <p class="text-muted mb-0">处理学生与家长提交的请假申请。</p>
+            </section>
+
+            <!-- 状态 chips + 搜索（对齐资料下载中心体验） -->
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+                <div class="btn-group btn-group-sm" role="group">
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'all' else 'btn-outline-secondary')"
+                       t-att-href="'/leave/approvals?filterby=all' + (search and ('&amp;search=' + search) or '')">
+                        全部 <span class="badge text-bg-light ms-1" t-out="counts['all']"/>
+                    </a>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'request' else 'btn-outline-secondary')"
+                       t-att-href="'/leave/approvals?filterby=request' + (search and ('&amp;search=' + search) or '')">
+                        待审批 <span class="badge text-bg-warning ms-1" t-out="counts['request']"/>
+                    </a>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'approved' else 'btn-outline-secondary')"
+                       t-att-href="'/leave/approvals?filterby=approved' + (search and ('&amp;search=' + search) or '')">
+                        已通过 <span class="badge text-bg-light ms-1" t-out="counts['approved']"/>
+                    </a>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'refused' else 'btn-outline-secondary')"
+                       t-att-href="'/leave/approvals?filterby=refused' + (search and ('&amp;search=' + search) or '')">
+                        已拒绝 <span class="badge text-bg-light ms-1" t-out="counts['refused']"/>
+                    </a>
+                </div>
+                <form class="d-flex gap-1 ms-auto" method="get" action="/leave/approvals">
+                    <input type="hidden" name="filterby" t-att-value="filterby"/>
+                    <input type="search" class="form-control form-control-sm" name="search"
+                           placeholder="搜编号 / 学生 / 事由" t-att-value="search"/>
+                    <button class="btn btn-sm btn-light" type="submit" aria-label="搜索"><span class="oi oi-search"/></button>
+                </form>
+            </div>
+
+            <!-- F1：批量审批结果回执（成功 n / 失败 m + 首条原因） -->
+            <div class="alert alert-success" t-if="(int(request.params.get('bulk_ok') or 0) + int(request.params.get('bulk_fail') or 0) + int(request.params.get('bulk_skip') or 0)) &gt; 0">
+                批量完成：成功 <b t-out="request.params.get('bulk_ok')"/> 条、
+                失败 <b t-out="request.params.get('bulk_fail')"/> 条、
+                跳过 <b t-out="request.params.get('bulk_skip')"/> 条（非待审批的单会被跳过）。
+            </div>
+            <div class="alert alert-warning" t-if="request.params.get('bulk_msg')">
+                批量提示：<span t-out="request.params.get('bulk_msg')"/>
+            </div>
+
+            <t t-if="not leaves">
+                <div class="oe-norec"><i class="fa fa-check-circle oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">没有符合条件的申请。</p></div>
+            </t>
+            <form t-else="" method="post" action="/leave/set_state_bulk">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <t t-call="edu_portal.edu_narrow_table_cards"/>
+                <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="checkbox" id="leave-all"
+                               onclick="eduBulkAll(this)"/>
+                        <label class="form-check-label small" for="leave-all">全选本页</label>
+                    </div>
+                    <input type="text" name="reject_reason" class="form-control form-control-sm"
+                           style="max-width:280px" placeholder="批量驳回原因（批量驳回时必填）"/>
+                    <button class="btn btn-sm btn-success" type="submit" name="state" value="approved"
+                            onclick="return confirm('确认批量通过所勾选的请假申请？')">
+                        <i class="fa fa-check me-1"/>批量通过
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="submit" name="state" value="refused"
+                            onclick="return confirm('确认批量驳回所勾选的请假申请？')">
+                        <i class="fa fa-times me-1"/>批量驳回
+                    </button>
+                    <a href="/approvals/delegate" class="btn btn-sm btn-light ms-auto">
+                        <i class="fa fa-user-secret me-1"/>代理审批设置</a>
+                </div>
+                <table class="table table-light align-middle edu-card-table">
+                    <thead><tr>
+                        <th style="width:36px"></th>
+                        <th>编号</th><th>学生</th><th>类型</th><th>起止</th><th>状态</th><th>审批人</th><th class="text-end">操作</th>
+                    </tr></thead>
+                    <tbody>
+                        <t t-foreach="leaves" t-as="lv">
+                            <tr>
+                                <td>
+                                    <input class="form-check-input" type="checkbox" name="ids"
+                                           t-att-aria-label="'选择 ' + (lv.name or ('#' + str(lv.id)))"
+                                           t-att-value="lv.id"
+                                           t-att-disabled="lv.state != 'request' and 'disabled' or None"/>
+                                </td>
+                                <td data-label="编号"><a t-attf-href="/leave/approvals/#{lv.id}" class="text-decoration-none" t-out="lv.name or ('#' + str(lv.id))"/></td>
+                                <td data-label="学生" t-out="lv.student_id.name"/>
+                                <td data-label="类型" t-out="{'sick': '病假', 'legal': '法定假期', 'casual': '事假', 'other': '其他', 'marriage_funeral': '婚丧假', 'winter_summer': '寒暑假', 'practice_week': '实践周'}.get(lv.leave_type, lv.leave_type)"/>
+                                <td data-label="起止"><t t-out="lv.date_from"/> ~ <t t-out="lv.date_to"/></td>
+                                <td data-label="状态"><span t-att-class="'badge ' + {'request': 'text-bg-warning', 'approved': 'text-bg-success', 'refused': 'text-bg-danger', 'pending_second': 'text-bg-info'}.get(lv.state, 'text-bg-secondary')"
+                                          t-out="{'request': '待审批', 'approved': '已通过', 'refused': '已拒绝', 'pending_second': '待二级审批'}.get(lv.state, lv.state)"/></td>
+                                <!-- 需求⑥：记录上必须显示「由课代表 X 审批」/「由任课老师 X 审批」 -->
+                                <td class="small text-muted" data-label="审批人" t-out="lv.approver_label()"/>
+                                <td class="text-end" data-label="操作">
+                                    <form t-if="lv.state == 'request'" method="post" action="/leave/set_state" class="d-inline">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <input type="hidden" name="leave_id" t-att-value="lv.id"/>
+                                        <button name="state" value="approved" class="btn btn-sm btn-success me-1">批准</button>
+                                        <button name="state" value="refused" class="btn btn-sm btn-danger">驳回</button>
+                                    </form>
+                                    <!-- A1：详情页入口（主行动 + 进度条） -->
+                                    <a t-attf-href="/leave/approvals/#{lv.id}" class="btn btn-sm btn-light ms-1">详情</a>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </form>
+            <t t-call="portal.pager"/>
+            <script>
+                function eduBulkAll(box) {
+                    var form = box.closest('form');
+                    if (!form) { return; }
+                    var items = form.querySelectorAll('input[name="ids"]');
+                    for (var i = 0; i &lt; items.length; i++) {
+                        if (!items[i].disabled) { items[i].checked = box.checked; }
+                    }
+                }
+            </script>
+        </t>
+    </template>
+
+    <!-- ============ A1：请假审批详情页（常驻主行动 + 状态进度条） ============ -->
+    <template id="edu_leave_detail" name="Edu Leave Detail (Approval)">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex align-items-center flex-wrap gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">请假审批详情</h2>
+                    <p class="text-muted mb-0"><t t-out="leave.name or '—'"/> · <t t-out="vals['student_name']"/></p>
+                </div>
+                <a href="/leave/approvals" class="btn btn-light btn-sm">返回列表</a>
+            </section>
+
+            <!-- A1：状态进度条（已提交 → 审批中 → 已通过/已驳回） -->
+            <div class="ux-steps card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-3 px-4 d-flex align-items-center">
+                    <t t-foreach="steps" t-as="st">
+                        <div t-att-class="'ux-step ' + st['cls']">
+                            <span class="ux-step-dot"/>
+                            <span class="ux-step-label" t-out="st['label']"/>
+                        </div>
+                        <div class="ux-step-line" t-if="not st_last"/>
+                    </t>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-3">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3 text-muted small fw-normal">申请编号</dt>
+                        <dd class="col-sm-9" t-out="leave.name or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">学生</dt>
+                        <dd class="col-sm-9" t-out="vals['student_name']"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">休假类型</dt>
+                        <dd class="col-sm-9" t-out="vals['type_label']"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">起止日期</dt>
+                        <dd class="col-sm-9"><t t-out="vals['date_from']"/> ~ <t t-out="vals['date_to']"/>（<t t-out="vals['days']"/> 天）</dd>
+                        <dt class="col-sm-3 text-muted small fw-normal">请假事由</dt>
+                        <dd class="col-sm-9" t-out="leave.reason or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">涉及课程</dt>
+                        <dd class="col-sm-9" t-out="leave.subject_id.name or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">当前状态</dt>
+                        <dd class="col-sm-9"><span class="badge text-bg-light border" t-out="state_label"/></dd>
+                        <!-- 需求⑥：审批人必须可区分（课代表 / 任课老师 / 教务） -->
+                        <dt class="col-sm-3 text-muted small fw-normal">审批人</dt>
+                        <dd class="col-sm-9" t-out="leave.approver_label()"/>
+                        <dt class="col-sm-3 text-muted small fw-normal" t-if="leave.reject_reason">驳回原因</dt>
+                        <dd class="col-sm-9" t-if="leave.reject_reason" t-out="leave.reject_reason"/>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- A1：常驻主行动——pending 时显示同意/驳回，已批准/已拒绝时隐藏 -->
+            <t t-if="leave.state == 'request'">
+                <div class="card shadow-sm border-0 rounded-3 mb-3 ux-primary-actions">
+                    <div class="card-body py-3 d-flex flex-wrap gap-2 align-items-center">
+                        <form method="post" action="/leave/set_state" class="d-inline">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="leave_id" t-att-value="leave.id"/>
+                            <input type="hidden" name="next" t-att-value="'/leave/approvals/%d' % leave.id"/>
+                            <button name="state" value="approved" class="btn btn-success px-4">
+                                <i class="fa fa-check me-1"/>同意
+                            </button>
+                        </form>
+                        <form method="post" action="/leave/set_state" class="d-flex flex-wrap gap-2 align-items-center flex-grow-1">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="leave_id" t-att-value="leave.id"/>
+                            <input type="hidden" name="next" t-att-value="'/leave/approvals/%d' % leave.id"/>
+                            <input type="text" name="reject_reason" class="form-control flex-grow-1" style="max-width:22rem"
+                                   placeholder="驳回原因（必填，将通知申请人）" required="required"/>
+                            <button name="state" value="refused" class="btn btn-danger px-4">
+                                <i class="fa fa-times me-1"/>驳回
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ A1：申诉处理列表（教师门户侧，待处理队列） ============ -->
+    <template id="edu_grievance_approvals" name="Edu Grievance Approvals">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">申诉处理</h2>
+                <p class="text-muted mb-0">处理学生提交的申诉（默认待处理队列）。</p>
+            </section>
+
+            <!-- 状态 chips + 搜索 -->
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+                <div class="btn-group btn-group-sm" role="group">
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'pending' else 'btn-outline-secondary')"
+                       t-att-href="'/grievances/approvals?filterby=pending' + (search and ('&amp;search=' + search) or '')">
+                        待处理 <span class="badge text-bg-warning ms-1" t-out="counts['pending']"/>
+                    </a>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'resolve' else 'btn-outline-secondary')"
+                       t-att-href="'/grievances/approvals?filterby=resolve' + (search and ('&amp;search=' + search) or '')">
+                        已解决 <span class="badge text-bg-light ms-1" t-out="counts['resolve']"/>
+                    </a>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'reject' else 'btn-outline-secondary')"
+                       t-att-href="'/grievances/approvals?filterby=reject' + (search and ('&amp;search=' + search) or '')">
+                        已驳回 <span class="badge text-bg-light ms-1" t-out="counts['reject']"/>
+                    </a>
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'all' else 'btn-outline-secondary')"
+                       t-att-href="'/grievances/approvals?filterby=all' + (search and ('&amp;search=' + search) or '')">
+                        全部 <span class="badge text-bg-light ms-1" t-out="counts['all']"/>
+                    </a>
+                </div>
+                <form class="d-flex gap-1 ms-auto" method="get" action="/grievances/approvals">
+                    <input type="hidden" name="filterby" t-att-value="filterby"/>
+                    <input type="search" class="form-control form-control-sm" name="search"
+                           placeholder="搜编号 / 学生 / 主题" t-att-value="search"/>
+                    <button class="btn btn-sm btn-light" type="submit" aria-label="搜索"><span class="oi oi-search"/></button>
+                </form>
+            </div>
+
+            <!-- F1：批量处理结果回执 -->
+            <div class="alert alert-success" t-if="(int(request.params.get('bulk_ok') or 0) + int(request.params.get('bulk_fail') or 0) + int(request.params.get('bulk_skip') or 0)) &gt; 0">
+                批量完成：成功 <b t-out="request.params.get('bulk_ok')"/> 条、
+                失败 <b t-out="request.params.get('bulk_fail')"/> 条、
+                跳过 <b t-out="request.params.get('bulk_skip')"/> 条（非待处理单会被跳过）。
+            </div>
+            <div class="alert alert-warning" t-if="request.params.get('bulk_msg')">
+                批量提示：<span t-out="request.params.get('bulk_msg')"/>
+            </div>
+
+            <t t-if="not grievances">
+                <div class="oe-norec"><i class="fa fa-check-circle oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">没有符合条件的申诉。</p></div>
+            </t>
+            <form t-else="" method="post" action="/grievances/set_state_bulk">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="checkbox" id="grev-all"
+                               onclick="eduBulkAll(this)"/>
+                        <label class="form-check-label small" for="grev-all">全选本页</label>
+                    </div>
+                    <input type="text" name="reject_reason" class="form-control form-control-sm"
+                           style="max-width:280px" placeholder="批量驳回原因（批量驳回时必填）"/>
+                    <button class="btn btn-sm btn-success" type="submit" name="state" value="resolve"
+                            onclick="return confirm('确认批量解决所勾选的申诉？')">
+                        <i class="fa fa-check me-1"/>批量解决
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="submit" name="state" value="reject"
+                            onclick="return confirm('确认批量驳回所勾选的申诉？')">
+                        <i class="fa fa-times me-1"/>批量驳回
+                    </button>
+                    <a href="/approvals/delegate" class="btn btn-sm btn-light ms-auto">
+                        <i class="fa fa-user-secret me-1"/>代理审批设置</a>
+                </div>
+                <!-- 2026-10-03：同 /assignment/manage —— 该页 8 列，375px 下逐字换行（门禁实测 439/345），补卡片化共用部分。
+                     ⚠ 这一页原先**根本不在 tests/ui/surface.json 的页面清单里**（教师端作业/申诉页都缺），
+                       所以挤压表门禁此前扫不到它；本轮补登记后才暴露。 -->
+                <t t-call="edu_portal.edu_narrow_table_cards"/>
+                <table class="table table-light align-middle edu-card-table">
+                    <thead><tr>
+                        <th style="width:36px"></th>
+                        <th>编号</th><th>学生</th><th>主题</th><th>类别</th><th>日期</th><th>状态</th><th class="text-end">操作</th>
+                    </tr></thead>
+                    <tbody>
+                        <t t-foreach="grievances" t-as="g">
+                            <tr>
+                                <td>
+                                    <input class="form-check-input" type="checkbox" name="ids"
+                                           t-att-aria-label="'选择 ' + (g.name or ('#' + str(g.id)))"
+                                           t-att-value="g.id"
+                                           t-att-disabled="g.state not in ('submitted', 'in_progress') and 'disabled' or None"/>
+                                </td>
+                                <td data-label="编号"><a t-attf-href="/grievances/approvals/#{g.id}" class="text-decoration-none" t-out="g.name or ('#' + str(g.id))"/></td>
+                                <td data-label="学生" t-out="g.student_id.name"/>
+                                <td data-label="主题" t-out="g.subject"/>
+                                <td data-label="类别" t-out="g.category or '—'"/>
+                                <td data-label="日期" t-out="g.date"/>
+                                <td data-label="状态"><span class="badge text-bg-info" t-out="state_labels.get(g.state, g.state)"/></td>
+                                <td class="text-end" data-label="操作">
+                                    <a t-attf-href="/grievances/approvals/#{g.id}" class="btn btn-sm btn-light">详情</a>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </form>
+            <t t-call="portal.pager"/>
+            <script>
+                function eduBulkAll(box) {
+                    var form = box.closest('form');
+                    if (!form) { return; }
+                    var items = form.querySelectorAll('input[name="ids"]');
+                    for (var i = 0; i &lt; items.length; i++) {
+                        if (!items[i].disabled) { items[i].checked = box.checked; }
+                    }
+                }
+            </script>
+        </t>
+    </template>
+
+    <!-- ============ A1：申诉处理详情页（常驻主行动 + 状态进度条） ============ -->
+    <template id="edu_grievance_detail" name="Edu Grievance Detail (Approval)">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex align-items-center flex-wrap gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">申诉处理详情</h2>
+                    <p class="text-muted mb-0"><t t-out="rec.name or '—'"/> · <t t-out="rec.subject or '—'"/></p>
+                </div>
+                <a href="/grievances/approvals" class="btn btn-light btn-sm">返回列表</a>
+            </section>
+
+            <!-- A1：状态进度条（已提交 → 处理中 → 已解决/已驳回） -->
+            <div class="ux-steps card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-3 px-4 d-flex align-items-center">
+                    <t t-foreach="steps" t-as="st">
+                        <div t-att-class="'ux-step ' + st['cls']">
+                            <span class="ux-step-dot"/>
+                            <span class="ux-step-label" t-out="st['label']"/>
+                        </div>
+                        <div class="ux-step-line" t-if="not st_last"/>
+                    </t>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-3">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3 text-muted small fw-normal">申诉编号</dt>
+                        <dd class="col-sm-9" t-out="rec.name or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">学生</dt>
+                        <dd class="col-sm-9" t-out="rec.student_id.name or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">问题类别</dt>
+                        <dd class="col-sm-9" t-out="rec.category or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">提交日期</dt>
+                        <dd class="col-sm-9" t-out="date_str"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">详细说明</dt>
+                        <dd class="col-sm-9" t-out="rec.description or '—'"/>
+                        <dt class="col-sm-3 text-muted small fw-normal">当前状态</dt>
+                        <dd class="col-sm-9"><span class="badge text-bg-light border" t-out="state_label"/></dd>
+                        <dt class="col-sm-3 text-muted small fw-normal" t-if="rec.reject_reason">驳回原因</dt>
+                        <dd class="col-sm-9" t-if="rec.reject_reason" t-out="rec.reject_reason"/>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- A1：常驻主行动——pending（已提交/处理中）时显示同意/驳回，终态隐藏 -->
+            <t t-if="rec.state in ('submitted', 'in_progress')">
+                <div class="card shadow-sm border-0 rounded-3 mb-3 ux-primary-actions">
+                    <div class="card-body py-3 d-flex flex-wrap gap-2 align-items-center">
+                        <form method="post" action="/grievances/set_state" class="d-inline">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="grievance_id" t-att-value="rec.id"/>
+                            <input type="hidden" name="next" t-att-value="'/grievances/approvals/%d' % rec.id"/>
+                            <button name="state" value="resolve" class="btn btn-success px-4">
+                                <i class="fa fa-check me-1"/>同意（解决）
+                            </button>
+                        </form>
+                        <form method="post" action="/grievances/set_state" class="d-flex flex-wrap gap-2 align-items-center flex-grow-1">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="grievance_id" t-att-value="rec.id"/>
+                            <input type="hidden" name="next" t-att-value="'/grievances/approvals/%d' % rec.id"/>
+                            <input type="text" name="reject_reason" class="form-control flex-grow-1" style="max-width:22rem"
+                                   placeholder="驳回原因（必填，将通知申请人）" required="required"/>
+                            <button name="state" value="reject" class="btn btn-danger px-4">
+                                <i class="fa fa-times me-1"/>驳回
+                            </button>
+                        </form>
+                        <form t-if="rec.state == 'submitted'" method="post" action="/grievances/set_state" class="d-inline">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="grievance_id" t-att-value="rec.id"/>
+                            <input type="hidden" name="next" t-att-value="'/grievances/approvals/%d' % rec.id"/>
+                            <button name="state" value="in_progress" class="btn btn-outline-secondary">
+                                开始处理
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ /notice/publish 发布公告 ============ -->
+    <template id="edu_notice_publish" name="Edu Notice Publish">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">发布公告</h2>
+                <p class="text-muted mb-0">发布后全体学生布告栏立即可见。</p>
+            </section>
+            <div class="alert alert-success py-2" t-if="saved_tpl">公告模板已保存，下次可在本页直接套用。</div>
+            <div class="alert alert-danger py-2" t-if="err">请填写模板名称后再保存。</div>
+
+            <form method="post" action="/notice/publish_save" enctype="multipart/form-data" class="row g-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="col-md-6">
+                    <label class="form-label small" for="npc-template">套用模板（可选）</label>
+                    <select name="template_id" class="form-select" id="npc-template">
+                        <option value="">不套用模板</option>
+                        <t t-foreach="templates" t-as="tp">
+                            <option t-att-value="tp.id" t-out="tp.name"/>
+                        </t>
+                    </select>
+                    <div class="form-text">套用后自动带出标题前缀与正文模板；已填内容优先。</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small" for="npc-audience">定向人群</label>
+                    <select name="audience" class="form-select" id="npc-audience">
+                        <t t-foreach="audiences" t-as="a">
+                            <option t-att-value="a[0]" t-out="a[1]"/>
+                        </t>
+                    </select>
+                    <div class="form-text">决定站内信 / 邮件 / Telegram 的收件人范围。</div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label small" for="npc-name">公告标题 *</label>
+                    <input type="text" name="name" id="npc-name" class="form-control" required="required"/>
+                </div>
+                <div class="col-12">
+                    <label class="form-label small" for="npc-content">公告内容 *</label>
+                    <textarea name="content" id="npc-content" class="form-control" rows="4" required="required"></textarea>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small" for="npc-publish-at">定时发布时间（留空=立即发布）</label>
+                    <input type="datetime-local" name="publish_at" id="npc-publish-at" class="form-control"/>
+                    <div class="form-text">到点前不会出现在布告栏；到点由定时任务自动发布并推送。</div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small" for="npc-date-until">有效期至（留空长期有效）</label>
+                    <input type="date" name="date_until" id="npc-date-until" class="form-control"/>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small">推送通道（可多选）</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="ch_site"
+                               name="channel_site" value="on" checked="checked"/>
+                        <label class="form-check-label small" for="ch_site">站内信</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="ch_mail"
+                               name="channel_email" value="on"/>
+                        <label class="form-check-label small" for="ch_mail">邮件</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="ch_tg"
+                               name="channel_telegram" value="on"/>
+                        <label class="form-check-label small" for="ch_tg">Telegram</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small" for="npc-attachments">附件（可多选）</label>
+                    <input type="file" name="attachments" id="npc-attachments" class="form-control" multiple="multiple"/>
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="pub_banner"
+                               name="banner_enabled" value="on"/>
+                        <label class="form-check-label small" for="pub_banner">
+                            同时作为门户顶部横幅展示（蓝底轮播，可随时在「教务审批 → 布告栏管理」关闭）
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small">横幅徽标（可选）</label>
+                    <input type="text" name="banner_badge" class="form-control"
+                           maxlength="64" placeholder="如：截止 8 月 31 日"/>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small">横幅按钮文字（可选）</label>
+                    <input type="text" name="banner_cta" class="form-control"
+                           maxlength="32" placeholder="查看详情"/>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">发布</button>
+                    <a class="btn btn-light ms-2" href="/my/notice_board/notice">返回</a>
+                </div>
+            </form>
+
+            <!-- F4：把当前内容另存为模板（下次一键套用） -->
+            <div class="card shadow-sm border-0 rounded-3 mt-4">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-clone me-2 text-primary"/>另存为公告模板</div>
+                <div class="card-body">
+                    <form method="post" action="/notice/template/save" class="row g-2 align-items-end">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="col-md-4">
+                            <label class="form-label small mb-0">模板名称 *</label>
+                            <input type="text" name="tpl_name" class="form-control" maxlength="128"
+                                   placeholder="如：期末考试安排通知" required="required"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small mb-0">标题前缀（可选）</label>
+                            <input type="text" name="tpl_prefix" class="form-control" maxlength="64"
+                                   placeholder="如：教务通知："/>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small mb-0" for="npc-category">类别</label>
+                            <input type="text" name="category" id="npc-category" class="form-control" maxlength="64"
+                                   value="notice"/>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-primary w-100" type="submit">保存为模板</button>
+                        </div>
+                        <div class="col-12">
+                            <p class="small text-muted mb-0">
+                                模板保存的是「标题前缀 + 正文 + 默认人群/通道」，
+                                正文里可用占位符 <code>{日期}</code>、<code>{学生}</code>、<code>{班级}</code>。
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /alumni/job/list 校友工作管理（Backoffice） ============ -->
+    <template id="edu_alumni_job_list" name="Edu Alumni Job List">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">校友工作</h2>
+            </section>
+            <div class="oe-stat-row mb-3 d-flex gap-3 flex-wrap">
+                <div class="oe-kpi oe-kpi--courses flex-fill"><div class="oe-kpi-body">
+                    <span class="oe-kpi-val" t-out="stats['total']"/>
+                    <span class="oe-kpi-lab">我的岗位</span></div>
+                    <span class="oe-kpi-ic oe-kpi-primary"><i class="fa fa-briefcase"/></span></div>
+                <div class="oe-kpi oe-kpi--assign flex-fill"><div class="oe-kpi-body">
+                    <span class="oe-kpi-val" t-out="stats['recruiting']"/>
+                    <span class="oe-kpi-lab">招聘中</span></div>
+                    <span class="oe-kpi-ic oe-kpi-success"><i class="fa fa-bullhorn"/></span></div>
+                <div class="oe-kpi oe-kpi--exam flex-fill"><div class="oe-kpi-body">
+                    <span class="oe-kpi-val" t-out="stats['pending']"/>
+                    <span class="oe-kpi-lab">待发布</span></div>
+                    <span class="oe-kpi-ic oe-kpi-info"><i class="fa fa-clock-o"/></span></div>
+                <div class="oe-kpi oe-kpi--exam flex-fill"><div class="oe-kpi-body">
+                    <span class="oe-kpi-val" t-out="stats['closed']"/>
+                    <span class="oe-kpi-lab">已结束</span></div>
+                    <span class="oe-kpi-ic oe-kpi-danger"><i class="fa fa-lock"/></span></div>
+            </div>
+            <t t-if="not jobs">
+                <div class="oe-norec"><i class="fa fa-briefcase oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">暂无校友工作岗位。</p></div>
+            </t>
+            <div t-else="" class="o_portal_docs row g-2 mt-2">
+                <t t-foreach="jobs" t-as="j">
+                    <div class="o_portal_index_card col-md-6">
+                        <a href="/alumni/job/list"
+                           class="d-flex justify-content-start gap-2 gap-md-3 align-items-center py-3 pe-2 px-md-3 h-100 rounded text-decoration-none text-reset text-bg-light position-relative">
+                            <div class="o_portal_icon d-block align-self-start">
+                                <i class="fa fa-briefcase fa-lg text-primary" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <div class="mt-0 mb-1 fs-5 fw-normal lh-1"><span t-out="j.code"/> <t t-out="j.name"/></div>
+                                <div class="opacity-75">校友薪资 <t t-out="j.salary or ''"/> · 结算方式 <t t-out="dict([('monthly','按月'),('weekly','按周'),('yearly','按年')]).get(j.pay_period, j.pay_period or '')"/></div>
+                            </div>
+                            <span t-att-class="'oe_count badge rounded-pill ' + ('text-bg-success' if j.state=='recruiting' else 'text-bg-secondary')"
+                                  t-out="dict([('recruiting','招聘中'),('pending','待发布'),('closed','已结束')]).get(j.state, j.state)"/>
+                        </a>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ /openeducat/apps_menu 应用面板网格 ============
+         B11：套用门户骨架（顶栏/左导航/底部 Tab）。
+         图案保留原图标（web_icon 图 / FA 兜底），瓦片背景统一纯白。 -->
+    <template id="edu_apps_menu" name="Edu Apps Menu">
+        <t t-call="edu_portal.edu_page">
+            <div class="oe_apps_menu home_menu_page b11-apps">
+                <div class="o_apps_container">
+                    <t t-foreach="apps" t-as="app">
+                        <a t-att-href="app['href']" class="o_app"
+                           t-att-data-menu-id="app['id']">
+                            <span class="o_app_tile">
+                                <img t-if="app['icon']"
+                                     class="img img-fluid o_app_icon"
+                                     t-att-src="app['icon']" alt=""
+                                     loading="lazy"/>
+                                <i t-if="not app['icon']"
+                                   t-attf-class="fa fa-2x {{ app['fa'] }} o_app_icon_fa"
+                                   t-att-style="'color:' + app['color']"
+                                   aria-hidden="true"></i>
+                            </span>
+                            <div class="o_app_name" t-out="app['name']"/>
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 4a：操作审计查询页（教务处/管理员） ============ -->
+    <template id="edu_audit" name="Edu Audit Log">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">操作审计</h2>
+                <p class="text-muted mb-0">成绩录入、审批、排课与资料管理的关键操作留痕（最多展示最近记录，按时间倒序）。</p>
+            </section>
+
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+                <div class="btn-group btn-group-sm flex-wrap" role="group">
+                    <a t-att-class="'btn ' + ('btn-primary' if filterby == 'all' else 'btn-outline-secondary')"
+                       t-att-href="'/edu/audit?filterby=all' + (search and ('&amp;search=' + search) or '')">
+                        全部 <span class="badge text-bg-light ms-1" t-out="total_all"/>
+                    </a>
+                    <t t-foreach="chips" t-as="c">
+                        <a t-att-class="'btn ' + ('btn-primary' if filterby == c[0] else 'btn-outline-secondary')"
+                           t-att-href="'/edu/audit?filterby=' + c[0] + (search and ('&amp;search=' + search) or '')">
+                            <t t-out="c[0]"/>
+                            <span class="badge text-bg-light ms-1" t-out="c[1]"/>
+                        </a>
+                    </t>
+                </div>
+                <form class="d-flex gap-1 ms-auto" method="get" action="/edu/audit">
+                    <input type="hidden" name="filterby" t-att-value="filterby"/>
+                    <input type="search" class="form-control form-control-sm" name="search"
+                           placeholder="搜记录 / 明细 / 操作人" t-att-value="search"/>
+                    <button class="btn btn-sm btn-light" type="submit" aria-label="搜索"><span class="oi oi-search"/></button>
+                </form>
+            </div>
+
+            <t t-if="not items">
+                <div class="oe-norec"><i class="fa fa-history oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">暂无审计记录。</p></div>
+            </t>
+            <div t-else="" class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-0 table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>时间</th>
+                                <th>操作人</th>
+                                <th>操作</th>
+                                <th>记录</th>
+                                <th class="d-none d-md-table-cell">明细</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="items" t-as="it">
+                                <tr>
+                                    <td class="text-nowrap small text-muted" t-out="it['when']"/>
+                                    <td t-out="it['user']"/>
+                                    <td><span class="badge text-bg-secondary" t-out="it['log'].action"/></td>
+                                    <td class="small">
+                                        <t t-out="it['log'].res_name or it['model_label'] or '—'"/>
+                                        <span t-if="it['log'].res_id" class="text-muted ms-1"
+                                              t-out="'#' + str(it['log'].res_id)"/>
+                                    </td>
+                                    <td class="small text-muted d-none d-md-table-cell" t-out="it['log'].detail"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <t t-call="portal.pager"/>
+        </t>
+    </template>
+
+    <!-- ============ 4c：作业管理（教师：列表/编辑/名单） ============ -->
+    <template id="edu_assignment_manage" name="Edu Assignment Manage">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex flex-wrap align-items-center gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">作业管理</h2>
+                    <p class="text-muted mb-0">管理我发布的作业：编辑说明与截止时间、撤销或查看提交名单。</p>
+                </div>
+                <a href="/assignment/publish" class="btn btn-primary text-nowrap">
+                    <i class="fa fa-plus me-1"/>发布新作业</a>
+            </section>
+
+            <div class="btn-group btn-group-sm mb-3" role="group">
+                <a t-att-class="'btn ' + ('btn-primary' if filterby == 'publish' else 'btn-outline-secondary')"
+                   t-att-href="'/assignment/manage?filterby=publish'">已发布 <span class="badge text-bg-light ms-1" t-out="counts['publish']"/></a>
+                <a t-att-class="'btn ' + ('btn-primary' if filterby == 'finish' else 'btn-outline-secondary')"
+                   t-att-href="'/assignment/manage?filterby=finish'">已结束 <span class="badge text-bg-light ms-1" t-out="counts['finish']"/></a>
+                <a t-att-class="'btn ' + ('btn-primary' if filterby == 'cancel' else 'btn-outline-secondary')"
+                   t-att-href="'/assignment/manage?filterby=cancel'">已撤销 <span class="badge text-bg-light ms-1" t-out="counts['cancel']"/></a>
+                <a t-att-class="'btn ' + ('btn-primary' if filterby == 'all' else 'btn-outline-secondary')"
+                   t-att-href="'/assignment/manage?filterby=all'">全部 <span class="badge text-bg-light ms-1" t-out="counts['all']"/></a>
+            </div>
+
+            <div class="alert alert-success py-2" t-if="request.params.get('saved') == '1'">作业已更新。</div>
+
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <t t-if="not items">
+                <div class="oe-norec"><i class="fa fa-file-text-o oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">还没有相关作业。点右上角「发布新作业」开始。</p></div>
+            </t>
+            <!-- 2026-10-03：原先缺 `edu-card-table`（本仓既有的窄屏卡片化共用 partial，见 roles.xml:637/:1670/:1837），
+                 ⚠ 光加类名**不够** —— 那条 CSS 是**部分模板自带的 `<style>`**（`edu_narrow_table_cards`，
+                   已下沉到 edu_brand，本文件 561 起是同名薄别名），页面还必须 `t-call` 它才会注入样式。
+                   （我第一次只加了类名，复跑门禁读数**一字未变** 526/375 —— 这就是当时的原因。）
+                 375px 下 7 列被压成**逐字换行**（门禁实测：表宽 526 / 容器 375）。
+                 该页正是「发布作业」成功后的落地页，教师手机上一眼就要能看 ⇒ 补上类名与 data-label。
+                 ⚠ t-call **必须放在 t-if/t-else 之前**：我第一版夹在两者中间，被 check_view_xpath 当场拦下
+                   （「t-else 的前一个兄弟元素 <t> 没有 t-if/t-elif → 渲染期 SyntaxError」）—— 门禁先于页面挡住了它。 -->
+            <table t-else="" class="table table-light align-middle edu-card-table">
+                <thead><tr><th>作业</th><th>班级</th><th>科目</th><th>截止</th><th>已交</th><th>状态</th><th class="text-end">操作</th></tr></thead>
+                <tbody>
+                    <t t-foreach="items" t-as="it">
+                        <tr>
+                            <td class="fw-semibold" data-label="作业" t-out="it['name']"/>
+                            <td data-label="班级" t-out="it['batch']"/>
+                            <td data-label="科目" t-out="it['subject'] or '—'"/>
+                            <td class="text-nowrap" data-label="截止" t-out="it['due']"/>
+                            <td data-label="已交" t-out="it['sub_n']"/>
+                            <td data-label="状态"><span class="badge text-bg-light border" t-out="it['state_label']"/></td>
+                            <td class="text-end text-nowrap" data-label="操作">
+                                <a t-attf-href="/assignment/submissions/#{it['a'].id}" class="btn btn-sm btn-light me-1">名单</a>
+                                <a t-if="it['a'].state in ('draft', 'publish')"
+                                   t-attf-href="/assignment/edit/#{it['a'].id}" class="btn btn-sm btn-outline-secondary me-1">编辑</a>
+                                <form t-if="it['a'].state == 'publish'" method="post" action="/assignment/set_state" class="d-inline"
+                                      onsubmit="return confirm('确定撤销该作业？撤销后学生不可见。')">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="aid" t-att-value="it['a'].id"/>
+                                    <button name="state" value="cancel" class="btn btn-sm btn-outline-danger">撤销</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </t>
+    </template>
+
+    <template id="edu_assignment_edit" name="Edu Assignment Edit">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex flex-wrap align-items-center gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">编辑作业</h2>
+                    <p class="text-muted mb-0"><t t-out="rec.batch_id.name"/> · <t t-out="name"/></p>
+                </div>
+                <a href="/assignment/manage" class="btn btn-light btn-sm">返回管理列表</a>
+            </section>
+            <t t-if="error">
+                <div class="alert alert-danger py-2">请填写作业名称。</div>
+            </t>
+            <form method="post" t-attf-action="/assignment/edit/#{rec.id}/save"
+                  class="card shadow-sm border-0 rounded-3">
+                <div class="card-body row g-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="col-md-6">
+                        <label class="form-label">作业名称</label>
+                        <input class="form-control" name="name" t-att-value="name" required="required"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">满分</label>
+                        <input class="form-control" name="marks" type="number" step="0.5" min="0" t-att-value="marks"/>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">提交截止</label>
+                        <input class="form-control" name="submission_date" type="datetime-local" t-att-value="due"/>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">作业说明</label>
+                        <textarea class="form-control" name="description" rows="5" t-out="description"/>
+                    </div>
+                </div>
+                <div class="card-footer bg-white d-flex gap-2 justify-content-end">
+                    <a href="/assignment/manage" class="btn btn-light">取消</a>
+                    <button class="btn btn-primary px-4" type="submit">保存修改</button>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <template id="edu_assignment_submissions" name="Edu Assignment Submissions">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex flex-wrap align-items-center gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">提交名单</h2>
+                    <p class="text-muted mb-0"><t t-out="name"/> · 已交 <t t-out="done_n"/> / <t t-out="total_n"/> 人</p>
+                </div>
+                <a href="/assignment/manage" class="btn btn-light btn-sm">返回管理列表</a>
+            </section>
+            <div class="progress mb-3" style="height:6px">
+                <div class="progress-bar bg-success" t-att-style="'width:' + str(done_pct) + '%'"/>
+            </div>
+            <t t-if="not rows">
+                <div class="oe-norec"><i class="fa fa-users oe-norec-ic" aria-hidden="true"></i>
+                    <p class="oe-norec-txt">该作业没有分配学生。</p></div>
+            </t>
+            <table t-else="" class="table table-light align-middle">
+                <thead><tr><th>学生</th><th>学号</th><th>状态</th><th>提交时间</th><th>得分</th><th>提交内容</th></tr></thead>
+                <tbody>
+                    <t t-foreach="rows" t-as="r">
+                        <tr t-att-class="'' if r['sub'] else 'table-light'">
+                            <td class="fw-semibold" t-out="r['name']"/>
+                            <td t-out="r['roll'] or '—'"/>
+                            <td><span t-att-class="'badge ' + (r['sub'] and 'text-bg-success' or 'text-bg-warning')"
+                                      t-out="r['state_label']"/></td>
+                            <td class="text-nowrap" t-out="r['when'] or '—'"/>
+                            <!-- 2026-10-04（第 70 轮）：这一格原先只是**只读**地显示得分，
+                                 而全仓没有任何地方写 sub_line.marks ⇒ 永远显示 0.0。
+                                 改成行内打分表单：输入 + 保存（越权由控制器按 _teacher_assignment 判）。
+                                 ⚠ 输入框给 aria-label：第 56/57 轮立下的规矩 —— 表单控件必须可访问命名。 -->
+                            <td class="text-nowrap">
+                                <t t-if="r['sub']">
+                                    <form method="post" class="d-flex gap-1 align-items-center"
+                                          t-attf-action="/assignment/submission/#{r['sub'].id}/grade">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <input type="number" step="0.5" min="0"
+                                               t-att-max="rec.marks or 100" name="marks"
+                                               class="form-control form-control-sm" style="width:5.5rem"
+                                               t-att-value="r['sub'].marks if r['sub'].marks is not False else 0"
+                                               t-att-aria-label="'给 ' + (r['name'] or '') + ' 打分'"/>
+                                        <!-- 2026-10-04（第 72 轮）：原先只有「保存」= 通过并打分，
+                                             而状态机里的 reject/change 两档**没有任何入口** ⇒
+                                             教师只能通过，退不回。补上两个按钮（同一个表单，靠 name=action 区分）。 -->
+                                        <button class="btn btn-sm btn-primary" type="submit"
+                                                name="action" value="accept">通过</button>
+                                        <button class="btn btn-sm btn-outline-warning" type="submit"
+                                                name="action" value="change"
+                                                t-att-title="'要求学生修改 ' + (r['name'] or '') + ' 的提交'">要求修改</button>
+                                        <button class="btn btn-sm btn-outline-danger" type="submit"
+                                                name="action" value="reject"
+                                                t-att-title="'退回 ' + (r['name'] or '') + ' 的提交'">退回</button>
+                                    </form>
+                                </t>
+                                <span t-else="" class="text-muted">—</span>
+                            </td>
+                            <!-- 2026-10-04（第 69 轮）：原先这一页只有五列，**没有任何内容入口** ——
+                                 教师看得到「谁交了」，看不到「交了什么」（附件更没有下载处）。
+                                 补一列：显示学生填的说明（截断）+ 附件下载/预览链接。 -->
+                            <td class="small">
+                                <t t-if="r['sub'] and r['sub'].description">
+                                    <div class="text-muted" t-out="r['sub'].description[:80]"/>
+                                </t>
+                                <t t-if="r['sub'] and r['sub'].file">
+                                    <a t-attf-href="/assignment/submission/#{r['sub'].id}/file?inline=1"
+                                       target="_blank" class="text-decoration-none">
+                                        <i class="fa fa-paperclip me-1"/><t t-out="r['sub'].filename or '附件'"/>
+                                    </a>
+                                </t>
+                                <t t-if="not r['sub'] or (not r['sub'].description and not r['sub'].file)">
+                                    <span class="text-muted">—</span>
+                                </t>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </t>
+    </template>
+
+    <!-- ============ 第 5 批 A：站内通知偏好 ============ -->
+    <template id="edu_notify_prefs" name="Edu Notify Prefs">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">通知偏好</h2>
+                <p class="text-muted mb-0">选择要接收哪些站内提醒（关闭后对应事件不再发到「消息」，历史消息不受影响）。</p>
+            </section>
+            <div class="alert alert-success py-2" t-if="request.params.get('saved') == '1'">偏好已保存。</div>
+            <form method="post" action="/my/notify/save" class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <t t-foreach="events" t-as="ev">
+                        <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                            <span t-out="ev['label']"/>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox"
+                                       t-att-name="'evt_' + ev['key']"
+                                       t-att-checked="not ev['muted']"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <div class="card-footer bg-white text-end">
+                    <button class="btn btn-primary px-4" type="submit">保存</button>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <!-- ============ 第 5 批 B：扫码签到结果页 ============ -->
+    <template id="edu_selfcheck_result" name="Edu Selfcheck Result">
+        <t t-call="edu_portal.edu_page">
+            <div class="text-center py-5">
+                <i t-att-class="'fa fa-4x mb-3 ' + {'ok': 'fa-check-circle text-success',
+                    'already': 'fa-info-circle text-info'}.get(state,
+                    'fa-exclamation-triangle text-warning')"
+                   aria-hidden="true"/>
+                <h3 t-out="msg"/>
+                <a href="/my/home" class="btn btn-primary mt-3">回到我的主页</a>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 第 5 批 F：学生名单导入（两段式） ============ -->
+    <template id="edu_import_students" name="Edu Import Students">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex flex-wrap align-items-center gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">导入学生名单</h2>
+                    <p class="text-muted mb-0">上传 CSV 预览校验后确认导入——只创建学生档案与联系人，不开登录账号（账号仍走邀请码注册）。</p>
+                </div>
+                <a href="/edu/audit" class="btn btn-light btn-sm">操作审计</a>
+            </section>
+
+            <div class="alert alert-success py-2" t-if="done">
+                导入完成：新建 <t t-out="done"/> 人，跳过 <t t-out="skip or 0"/> 人。
+            </div>
+
+            <!-- 第一段：上传 → 预览校验 -->
+            <t t-if="not preview_rows">
+                <form method="post" action="/edu/import/students/preview"
+                      enctype="multipart/form-data" class="card shadow-sm border-0 rounded-3 p-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <p class="small text-muted">
+                        CSV 首行为列名（顺序无关）：<b>姓名*、学号*</b>、性别（男/女）、出生日期（YYYY-MM-DD）、邮箱、手机。
+                        学号在系统内唯一，重复行会被标记跳过。
+                    </p>
+                    <div class="col-md-6 px-0">
+                        <input type="file" name="file" class="form-control" accept=".csv,text/csv" required="required"/>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-primary px-4" type="submit">上传并预览</button>
+                    </div>
+                </form>
+            </t>
+
+            <!-- 第二段：预览 → 确认 -->
+            <t t-if="preview_rows">
+                <h5 class="mb-2">可导入 <span class="text-success" t-out="len(preview_rows['valid'])"/> 行 / 校验失败 <span class="text-danger" t-out="len(preview_rows['invalid'])"/> 行</h5>
+                <t t-if="preview_rows['valid']">
+                    <table class="table table-sm table-light align-middle">
+                        <thead><tr><th>行号</th><th>姓名</th><th>学号</th><th>性别</th><th>出生日期</th><th>邮箱</th><th>手机</th></tr></thead>
+                        <tbody>
+                            <t t-foreach="preview_rows['valid']" t-as="v">
+                                <tr class="table-success">
+                                    <td t-out="v['row']"/>
+                                    <td t-out="v['rec']['name']"/>
+                                    <td t-out="v['rec']['gr_no']"/>
+                                    <td t-out="v['rec']['gender'] or '—'"/>
+                                    <td t-out="v['rec']['birth'] or '—'"/>
+                                    <td t-out="v['rec']['email'] or '—'"/>
+                                    <td t-out="v['rec']['phone'] or '—'"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <t t-if="preview_rows['invalid']">
+                    <h6 class="text-danger mt-3">以下行不会导入：</h6>
+                    <table class="table table-sm align-middle">
+                        <thead><tr><th>行号</th><th>姓名</th><th>学号</th><th>原因</th></tr></thead>
+                        <tbody>
+                            <t t-foreach="preview_rows['invalid']" t-as="iv">
+                                <tr class="table-danger">
+                                    <td t-out="iv['row']"/>
+                                    <td t-out="iv['rec']['name'] or '—'"/>
+                                    <td t-out="iv['rec']['gr_no'] or '—'"/>
+                                    <td t-out="iv['errors']"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <form method="post" action="/edu/import/students/commit" class="mt-2" t-if="preview_rows['valid']">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="payload" t-att-value="confirm_json"/>
+                    <button class="btn btn-primary px-4" type="submit">
+                        确认导入 <t t-out="len(preview_rows['valid'])"/> 行</button>
+                    <a href="/edu/import/students" class="btn btn-light ms-2">重新上传</a>
+                </form>
+                <a href="/edu/import/students" class="btn btn-light mt-2" t-if="not preview_rows['valid']">返回重新上传</a>
+            </t>
+        </t>
+    </template>
+
+    <!-- ==================================================================
+         t7 重复劳动自动化新增视图
+         设计依据：docs/research/onestop-learning-and-repetitive-work.md
+         ================================================================== -->
+
+    <!-- ============ F2：考勤补录导入（两段式：预览 → 确认） ============ -->
+    <template id="edu_attendance_import" name="Edu Attendance Import">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">考勤补录导入</h2>
+                <p class="text-muted mb-0">上传 CSV / Excel 补录历史点名（先预览校验，再确认写入）。
+                    列名需含 <b>学号</b>（或 <b>姓名</b>）与 <b>状态</b>（出勤 / 迟到 / 缺勤）。</p>
+            </section>
+
+            <t t-if="not preview">
+                <form method="post" action="/attendance/import" enctype="multipart/form-data" class="row g-2 align-items-end mb-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="col-auto">
+                        <label class="form-label small mb-0">班级</label>
+                        <select name="batch_id" class="form-select">
+                            <t t-foreach="batches" t-as="b">
+                                <option t-att-value="b.id" t-att-selected="sel_batch == b.id and 'selected' or None" t-out="b.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label small mb-0">补录日期</label>
+                        <input type="date" name="date" class="form-control" t-att-value="date"/>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label small mb-0">文件</label>
+                        <input type="file" name="file" class="form-control" accept=".csv,.xlsx" required="required"/>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary" type="submit">解析并预览</button>
+                    </div>
+                </form>
+                <a href="/attendance/take" class="btn btn-light btn-sm">返回考勤录入</a>
+            </t>
+
+            <t t-if="preview">
+                <div class="alert alert-info py-2">
+                    文件：<b t-out="filename"/> · 班级 <b t-out="batch.name or '—'"/> · 日期 <b t-out="date"/>
+                    ；合法 <b t-out="len(preview['valid'])"/> 行，待修正 <b t-out="len(preview['invalid'])"/> 行。
+                </div>
+                <t t-if="preview['valid']">
+                    <h6 class="mt-2">将写入以下记录：</h6>
+                    <table class="table table-sm table-light align-middle">
+                        <thead><tr><th>行号</th><th>学号</th><th>姓名</th><th>状态</th></tr></thead>
+                        <tbody>
+                            <t t-foreach="preview['valid']" t-as="v">
+                                <tr>
+                                    <td t-out="v['row']"/>
+                                    <td t-out="v['no'] or '—'"/>
+                                    <td t-out="v['name'] or '—'"/>
+                                    <td t-out="{'present': '出勤', 'late': '迟到', 'absent': '缺勤'}.get(v['status'], v['status'])"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <t t-if="preview['invalid']">
+                    <h6 class="text-danger mt-3">以下行不会导入：</h6>
+                    <table class="table table-sm align-middle">
+                        <thead><tr><th>行号</th><th>学号</th><th>姓名</th><th>原因</th></tr></thead>
+                        <tbody>
+                            <t t-foreach="preview['invalid']" t-as="iv">
+                                <tr class="table-danger">
+                                    <td t-out="iv['row']"/>
+                                    <td t-out="iv['no'] or '—'"/>
+                                    <td t-out="iv['name'] or '—'"/>
+                                    <td t-out="iv['errors']"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <form method="post" action="/attendance/import/commit" class="mt-2" t-if="preview['valid']">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="payload" t-att-value="confirm_json"/>
+                    <input type="hidden" name="batch_id" t-att-value="sel_batch"/>
+                    <input type="hidden" name="date" t-att-value="date"/>
+                    <button class="btn btn-primary px-4" type="submit">
+                        确认补录 <t t-out="len(preview['valid'])"/> 行</button>
+                    <a t-attf-href="/attendance/import?batch_id=#{sel_batch}&amp;date=#{date}"
+                       class="btn btn-light ms-2">重新上传</a>
+                </form>
+                <a href="/attendance/take" class="btn btn-light mt-2" t-if="not preview['valid']">返回考勤录入</a>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ F3：成绩导入（两段式） ============ -->
+    <template id="edu_grading_import" name="Edu Grading Import">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3">
+                <h2 class="mb-1">成绩导入</h2>
+                <p class="text-muted mb-0">考试：<b t-out="exam.name or '—'"/>（文件 <t t-out="filename or '—'"/>）。
+                    合法 <b t-out="len(preview['valid'])"/> 行，待修正 <b t-out="len(preview['invalid'])"/> 行。</p>
+            </section>
+
+            <t t-if="preview['valid']">
+                <h6 class="mt-2">将写入以下成绩：</h6>
+                <table class="table table-sm table-light align-middle">
+                    <thead><tr><th>行号</th><th>学号</th><th>姓名</th><th>原分数</th><th>新分数</th></tr></thead>
+                    <tbody>
+                        <t t-foreach="preview['valid']" t-as="v">
+                            <tr>
+                                <td t-out="v['row']"/>
+                                <td t-out="v['no'] or '—'"/>
+                                <td t-out="v['name'] or '—'"/>
+                                <td t-out="v['old']"/>
+                                <td class="fw-semibold" t-out="v['marks']"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+            <t t-if="preview['invalid']">
+                <h6 class="text-danger mt-3">以下行不会导入：</h6>
+                <table class="table table-sm align-middle">
+                    <thead><tr><th>行号</th><th>学号</th><th>姓名</th><th>原因</th></tr></thead>
+                    <tbody>
+                        <t t-foreach="preview['invalid']" t-as="iv">
+                            <tr class="table-danger">
+                                <td t-out="iv['row']"/>
+                                <td t-out="iv['no'] or '—'"/>
+                                <td t-out="iv['name'] or '—'"/>
+                                <td t-out="iv['errors']"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+            <form method="post" action="/grading/import/commit" class="mt-2" t-if="preview['valid']">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="payload" t-att-value="confirm_json"/>
+                <input type="hidden" name="exam_id" t-att-value="exam.id"/>
+                <button class="btn btn-primary px-4" type="submit">
+                    确认导入 <t t-out="len(preview['valid'])"/> 行</button>
+                <a t-attf-href="/grading/entry?exam_id=#{exam.id}" class="btn btn-light ms-2">返回成绩录入</a>
+            </form>
+            <a t-attf-href="/grading/entry?exam_id=#{exam.id}" class="btn btn-light mt-2"
+               t-if="not preview['valid']">返回成绩录入</a>
+        </t>
+    </template>
+
+    <!-- ============ F3：成绩变更留痕 ============ -->
+    <template id="edu_grading_history" name="Edu Grading History">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex align-items-center flex-wrap gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">成绩变更留痕</h2>
+                    <p class="text-muted mb-0">谁、何时、把哪个学生的分数从多少改到多少，全部留痕可查。</p>
+                </div>
+                <a t-if="exam" t-attf-href="/grading/entry?exam_id=#{exam.id}" class="btn btn-light btn-sm">返回成绩录入</a>
+            </section>
+
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+                <span class="badge text-bg-light border" t-if="exam">考试：<t t-out="exam.name"/></span>
+                <span class="badge text-bg-light border" t-if="student">学生：<t t-out="student.name"/></span>
+                <span class="small text-muted ms-auto">共 <t t-out="total"/> 条变更记录</span>
+            </div>
+
+            <t t-if="not rows">
+                <div class="oe-norec"><i class="fa fa-history oe-norec-ic" aria-hidden="true"></i>
+                    <!-- 空态（2026-10-02）：补「什么时候会有」+「里面有什么」。
+     后一句可核实：edu.grade.history 有 old_marks/new_marks（原分数/新分数），
+     由唯一受管写入口 edu_apply_marks() 写入。 -->
+<p class="oe-norec-txt">
+                    暂无成绩变更记录。成绩被录入或修改后会自动在此留痕（含原分数与新分数）。
+                </p></div>
+            </t>
+            <t t-else=""/>
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <table class="table table-light align-middle edu-card-table">
+                <thead><tr>
+                    <th>时间</th><th>考试</th><th>科目</th><th>学生</th>
+                    <th>原分数</th><th>新分数</th><th>动作</th><th>来源</th><th>操作人</th>
+                </tr></thead>
+                <tbody>
+                    <t t-foreach="rows" t-as="h">
+                        <tr>
+                            <td class="small text-muted" data-label="时间" t-out="h.timemodified"/>
+                            <td data-label="考试" t-out="h.exam_id.name or '—'"/>
+                            <td data-label="科目" t-out="h.subject_id.name or '—'"/>
+                            <td data-label="学生" t-out="h.student_id.name or '—'"/>
+                            <td data-label="原分数" t-out="h.old_marks"/>
+                            <td class="fw-semibold" data-label="新分数" t-out="h.new_marks"/>
+                            <td data-label="动作"><span class="badge text-bg-light border" t-out="action_label.get(h.action, h.action)"/></td>
+                            <td class="small text-muted" data-label="来源" t-out="source_label.get(h.source, h.source)"/>
+                            <td class="small text-muted" data-label="操作人" t-out="h.logged_user_id.name or ''"/>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+            <t t-call="portal.pager"/>
+        </t>
+    </template>
+
+    <!-- ============ F1：代理审批设置 ============ -->
+    <template id="edu_approval_delegate" name="Edu Approval Delegate">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex align-items-center flex-wrap gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">代理审批设置</h2>
+                    <p class="text-muted mb-0">出差/休假时把请假、申诉、选课的审批权临时交给代理人（代理期内生效，可随时撤销）。</p>
+                </div>
+                <a href="/leave/approvals" class="btn btn-light btn-sm">返回请假审批</a>
+            </section>
+
+            <div class="alert alert-success py-2" t-if="saved">代理设置已保存。</div>
+            <div class="alert alert-danger py-2" t-if="err">
+                <t t-if="err == 'who'">请选择一位代理人（不能是自己）。</t>
+                <t t-if="err == 'date'">请填写有效的代理起止日期（结束日期不能早于开始日期）。</t>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-header bg-white fw-semibold"><i class="fa fa-user-plus me-2 text-primary"/>新增代理</div>
+                <div class="card-body">
+                    <form method="post" action="/approvals/delegate/save" class="row g-2 align-items-end">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="col-12 col-md-3">
+                            <label class="form-label small mb-0">代理人</label>
+                            <select name="delegate_id" class="form-select" required="required">
+                                <t t-foreach="users" t-as="u">
+                                    <option t-att-value="u.id" t-out="u.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label small mb-0">开始日期</label>
+                            <input type="date" name="date_from" class="form-control" t-att-value="today"/>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label small mb-0">结束日期</label>
+                            <input type="date" name="date_to" class="form-control" required="required"/>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label class="form-label small mb-0">说明（可选）</label>
+                            <input type="text" name="note" class="form-control" maxlength="128" placeholder="如：出差期间"/>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <button class="btn btn-primary w-100" type="submit">保存代理</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <h6 class="mt-4">我授权的代理（我 = 被代理人）</h6>
+            <t t-if="not mine">
+                <div class="text-muted small mb-3">尚未设置代理。</div>
+            </t>
+            <table t-else="" class="table table-light align-middle mb-4">
+                <thead><tr><th>代理人</th><th>开始</th><th>结束</th><th>说明</th><th>状态</th><th class="text-end">操作</th></tr></thead>
+                <tbody>
+                    <t t-foreach="mine" t-as="d">
+                        <tr t-att-class="not d.active and 'text-muted' or None">
+                            <td t-out="d.delegate_id.name or '—'"/>
+                            <td t-out="d.date_from"/>
+                            <td t-out="d.date_to"/>
+                            <td t-out="d.note or '—'"/>
+                            <td>
+                                <span t-if="d.active and d.date_to >= d.date_from" class="badge text-bg-success">生效中</span>
+                                <span t-else="" class="badge text-bg-secondary">已撤销/已过期</span>
+                            </td>
+                            <td class="text-end">
+                                <form t-if="d.active" method="post" action="/approvals/delegate/cancel" class="d-inline">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="delegate_id" t-att-value="d.id"/>
+                                    <button class="btn btn-sm btn-outline-danger">撤销</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+
+            <h6 class="mt-4">他人授权给我（我 = 代理人）</h6>
+            <t t-if="not granted">
+                <div class="text-muted small">当前没有可代他人处理的审批。</div>
+            </t>
+            <table t-else="" class="table table-light align-middle">
+                <thead><tr><th>被代理人</th><th>开始</th><th>结束</th><th>说明</th><th>状态</th></tr></thead>
+                <tbody>
+                    <t t-foreach="granted" t-as="g">
+                        <tr t-att-class="not g.active and 'text-muted' or None">
+                            <td t-out="g.delegator_id.name or '—'"/>
+                            <td t-out="g.date_from"/>
+                            <td t-out="g.date_to"/>
+                            <td t-out="g.note or '—'"/>
+                            <td>
+                                <span t-if="g.active" class="badge text-bg-success">生效中</span>
+                                <span t-else="" class="badge text-bg-secondary">已撤销/已过期</span>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </t>
+    </template>
+
+    <!-- ============ F6：我的证明与成绩单（自助下载） ============ -->
+    <template id="edu_my_documents" name="Edu My Documents">
+        <t t-call="edu_portal.edu_page">
+            <section class="mb-3 d-flex align-items-center flex-wrap gap-2">
+                <div class="flex-grow-1">
+                    <h2 class="mb-1">我的证明与成绩单</h2>
+                    <p class="text-muted mb-0">自助下载，无需到教务处开具（今日 <t t-out="issued"/>）。</p>
+                </div>
+            </section>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body d-flex flex-wrap gap-2 align-items-center">
+                    <a href="/my/documents/enrollment-certificate" class="btn btn-primary">
+                        <i class="fa fa-file-pdf-o me-1"/>下载在读证明（PDF）</a>
+                    <a href="/my/documents/transcript" class="btn btn-primary">
+                        <i class="fa fa-file-text-o me-1"/>下载成绩单（PDF）</a>
+                    <span class="small text-muted">下载会记入操作审计。</span>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-list-ul me-2 text-primary"/>成绩单预览（按科目汇总）</div>
+                <div class="card-body">
+                    <t t-if="not rows">
+                        <!-- 空态（2026-10-02 视觉复核）：原文只有一句「暂无可展示的成绩记录。」，
+     与本页其它空态的既有标准（说清「为什么没有」+「接下来会怎样」）不一致。
+     补的一句是可核实的：本卡片就是「成绩单预览（按科目汇总）」，数据随成绩发布而出现。 -->
+<div class="oe-empty"><i class="fa fa-file-text-o"/>
+    <p>暂无可展示的成绩记录。成绩发布后，这里会按科目汇总展示你的分数与及格情况。</p></div>
+                    </t>
+                    <!-- 窄屏折成卡片：这张表每科一张（t-foreach 渲染 N 次），
+                         所以 style 的 t-call 必须放在**循环之外**，否则会有 N 份 <style>。
+                         实测（375 视口）：6 列在 313px 里装得下，于是**靠折行硬挤** ——
+                         「得分/满分/及格线/状态」4 个表头全被拆成两行。
+                         注意「挤扁表」门禁（find_squeezed_tables）**看不见这一页**：
+                         它的判据要求「表宽 > 容器宽」，而这里表宽 313 < 容器 345。 -->
+                    <t t-call="edu_portal.edu_narrow_table_cards"/>
+                    <t t-foreach="rows" t-as="r">
+                        <h6 class="mt-3" t-out="r['subject']"/>
+                        <table class="table table-sm table-light align-middle edu-card-table">
+                            <thead><tr><th>考试</th><th>得分</th><th>满分</th><th>及格线</th><th>状态</th><th>结果</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="r['items']" t-as="it">
+                                    <tr>
+                                        <td data-label="考试" t-out="it['exam']"/>
+                                        <td data-label="得分" class="fw-semibold" t-out="it['marks']"/>
+                                        <td data-label="满分" t-out="it['total']"/>
+                                        <td data-label="及格线" t-out="it['min']"/>
+                                        <td data-label="状态" t-out="it['status']"/>
+                                        <td data-label="结果">
+                                            <span t-if="it['passed']" class="badge text-bg-success">通过</span>
+                                            <span t-else="" class="badge text-bg-light border">—</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ F6：在读证明 PDF 版式 ============ -->
+    <record id="action_report_edu_enrollment_certificate" model="ir.actions.report">
+        <field name="name">在读证明</field>
+        <field name="model">op.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_portal.report_edu_enrollment_certificate</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+    <template id="report_edu_enrollment_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <h1 style="text-align:center;font-size:30px;letter-spacing:10px;margin-top:40px;">在读证明</h1>
+                    <div style="border-top:1px solid #ccc;margin:20px 0 36px 0;"></div>
+                    <p style="font-size:17px;line-height:2.4;">
+                        兹证明 <strong t-out="doc.name or ''"/> 同学（学号
+                        <span t-out="doc.gr_no or '—'"/>）系我校在读学生，
+                    </p>
+                    <p style="font-size:17px;line-height:2.4;" t-if="course or batch">
+                        现就读于 <strong t-out="course or '—'"/><t t-if="batch">（班级 <span t-out="batch"/>）</t>，
+                        在读科目 <strong t-out="subject_n"/> 门。
+                    </p>
+                    <p style="font-size:17px;line-height:2.4;">特此证明。</p>
+                    <div style="margin-top:120px;font-size:15px;line-height:2.2;text-align:right;">
+                        <div t-out="doc.env.company.name"/>
+                        <div>开具日期：<span t-out="issued"/></div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ F6：成绩单 PDF 版式 ============ -->
+    <record id="action_report_edu_transcript" model="ir.actions.report">
+        <field name="name">成绩单</field>
+        <field name="model">op.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_portal.report_edu_transcript</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+    <template id="report_edu_transcript">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <h1 style="text-align:center;font-size:26px;letter-spacing:8px;margin-top:24px;">成绩单</h1>
+                    <p style="font-size:14px;line-height:2;">
+                        学生：<strong t-out="doc.name or ''"/>　学号：<span t-out="doc.gr_no or '—'"/>
+                        <t t-if="course">　课程：<span t-out="course"/></t>
+                        <t t-if="batch">　班级：<span t-out="batch"/></t>
+                    </p>
+                    <t t-if="not rows">
+                        <p style="font-size:14px;color:#888;">暂无可展示的成绩记录。</p>
+                    </t>
+                    <t t-foreach="rows" t-as="r">
+                        <h3 style="font-size:16px;margin:18px 0 6px 0;" t-out="r['subject']"/>
+                        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                            <thead>
+                                <tr style="background:#f5f5f5;">
+                                    <th style="border:1px solid #ddd;padding:6px;text-align:left;">考试</th>
+                                    <th style="border:1px solid #ddd;padding:6px;">得分</th>
+                                    <th style="border:1px solid #ddd;padding:6px;">满分</th>
+                                    <th style="border:1px solid #ddd;padding:6px;">及格线</th>
+                                    <th style="border:1px solid #ddd;padding:6px;">状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="r['items']" t-as="it">
+                                    <tr>
+                                        <td style="border:1px solid #ddd;padding:6px;" t-out="it['exam']"/>
+                                        <td style="border:1px solid #ddd;padding:6px;text-align:center;" t-out="it['marks']"/>
+                                        <td style="border:1px solid #ddd;padding:6px;text-align:center;" t-out="it['total']"/>
+                                        <td style="border:1px solid #ddd;padding:6px;text-align:center;" t-out="it['min']"/>
+                                        <td style="border:1px solid #ddd;padding:6px;text-align:center;" t-out="it['status']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                    <div style="margin-top:40px;font-size:13px;text-align:right;">
+                        <div t-out="doc.env.company.name"/>
+                        <div>开具日期：<span t-out="issued"/></div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ F1：选课审批列表批量操作（继承 enroll.xml，不改该文件） ============ -->
+    <template id="edu_registrar_subject_approvals_bulk"
+              inherit_id="edu_portal.edu_registrar_subject_approvals"
+              name="Edu Registrar Subject Approvals Bulk">
+        <xpath expr="//t[@t-if='not items']" position="before">
+            <div class="alert alert-success" t-if="(int(request.params.get('bulk_ok') or 0) + int(request.params.get('bulk_fail') or 0) + int(request.params.get('bulk_skip') or 0)) &gt; 0">
+                批量完成：成功 <b t-out="request.params.get('bulk_ok')"/> 条、
+                失败 <b t-out="request.params.get('bulk_fail')"/> 条、
+                跳过 <b t-out="request.params.get('bulk_skip')"/> 条（非待审批单会被跳过）。
+            </div>
+            <div class="alert alert-warning" t-if="request.params.get('bulk_msg')">
+                批量提示：<span t-out="request.params.get('bulk_msg')"/>
+            </div>
+            <form id="subj-bulk-form" method="post" action="/registrar/subject/set_state_bulk" class="mb-2">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="checkbox" id="subj-all"
+                               onclick="eduBulkAllForm(this, 'subj-bulk-form')"/>
+                        <label class="form-check-label small" for="subj-all">全选本页</label>
+                    </div>
+                    <input type="text" name="reject_reason" class="form-control form-control-sm"
+                           style="max-width:280px" placeholder="批量驳回原因（批量驳回时必填）"/>
+                    <button class="btn btn-sm btn-success" type="submit" name="state" value="approved"
+                            onclick="return confirm('确认批量通过所勾选的选课申请？')">
+                        <i class="fa fa-check me-1"/>批量通过
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="submit" name="state" value="rejected"
+                            onclick="return confirm('确认批量驳回所勾选的选课申请？')">
+                        <i class="fa fa-times me-1"/>批量驳回
+                    </button>
+                </div>
+            </form>
+        </xpath>
+        <xpath expr="//table/thead/tr" position="inside">
+            <th style="width:36px"/>
+        </xpath>
+        <xpath expr="//table//tr/td[1]" position="before">
+            <td>
+                <input class="form-check-input" type="checkbox" name="ids"
+                       t-att-aria-label="'选择 ' + (it['reg'].name or ('#' + str(it['reg'].id)))"
+                       form="subj-bulk-form" t-att-value="it['reg'].id"
+                       t-att-disabled="it['reg'].state != 'submitted' and 'disabled' or None"/>
+            </td>
+        </xpath>
+        <xpath expr="//t[@t-call='portal.pager']" position="after">
+            <script>
+                function eduBulkAllForm(box, formId) {
+                    var items = document.querySelectorAll(
+                        'input[name="ids"][form="' + formId + '"]');
+                    for (var i = 0; i &lt; items.length; i++) {
+                        if (!items[i].disabled) { items[i].checked = box.checked; }
+                    }
+                }
+            </script>
+        </xpath>
+    </template>
+
+    <!-- ============ F6：报课目录前置校验提示（继承 enroll.xml） ============ -->
+    <template id="edu_enroll_catalog_precheck"
+              inherit_id="edu_portal.edu_enroll_catalog"
+              name="Edu Enroll Catalog Precheck">
+        <xpath expr="//t[@t-if=&quot;box == 'unit_over'&quot;]" position="after">
+            <t t-if="box == 'precheck'">
+                <div class="alert alert-danger py-2">
+                    <i class="fa fa-ban me-1"/>报课前置校验未通过：<span t-out="precheck_msg"/>
+                </div>
+            </t>
+            <t t-if="blocked_n">
+                <div class="alert alert-warning py-2">
+                    <i class="fa fa-exclamation-triangle me-1"/>
+                    本课程有 <b t-out="blocked_n"/> 门科目暂不可报（先修 / 学分 / 容量限制<t t-if="no_session_n"> / 本学期未排课</t>），
+                    详见科目卡片上的红字说明<span t-if="max_credits">；本学期学分上限 <b t-out="max_credits"/></span>。
+                </div>
+            </t>
+            <!-- G1（§7.2-②）：排课口径新增的一类原因 —— 单独一条横幅把「先排课后报课」讲清楚，
+                 与上面的 blocked_n 计数同源（未排课的科目也计入 blocked_n）。 -->
+            <t t-if="no_session_n">
+                <div class="alert alert-warning py-2">
+                    <i class="fa fa-calendar-times-o me-1"/>
+                    本课程有 <b t-out="no_session_n"/> 门科目<b>本学期尚未排课</b>，已标为不可报（先排课后报课）：
+                    教务处排出这些科目的课节之后即可勾选；也可联系教务处确认本学期开课安排。
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-foreach='subjects']//span[@class='d-block border rounded-3 p-2 enroll-opt-box']" position="inside">
+            <span class="small text-danger d-block" t-if="s['blockers']">
+                <i class="fa fa-ban me-1"/>不可报：<t t-out="s['blockers'][0]"/>
+            </span>
+            <span class="small text-muted d-block" t-elif="s['capacity'] or s['credit']">
+                学分 <t t-out="s['credit']"/> · 容量 <t t-out="s['enrolled']"/> / <t t-out="s['capacity'] or '不限'"/>
+            </span>
+        </xpath>
+        <xpath expr="//input[@name='elective_subject_ids']" position="attributes">
+            <attribute name="t-att-disabled">s['blocked'] and 'disabled' or None</attribute>
+        </xpath>
+    </template>
+
+    <!-- ============ G4：教师课表页头的「我的不可用时间」入口（§10.2） ============
+         edu_timetable 定义在 catalog 更早加载的 views/edu_portal_templates.xml；
+         按钮只对教师视角（role == 'faculty'）显示，学生 / 家长 / 教务不显示。 -->
+    <template id="edu_timetable_availability_btn"
+              inherit_id="edu_portal.edu_timetable"
+              name="Edu Timetable Availability Entry">
+        <xpath expr="//h4[hasclass('mb-0')]" position="after">
+            <a t-if="role == 'faculty'" href="/my/availability"
+               class="btn btn-outline-primary btn-sm ms-2">
+                <i class="fa fa-calendar-times-o me-1"/>我的不可用时间
+            </a>
+        </xpath>
+    </template>
+
+    <!-- ============ F1：审批超时升级 cron（阈值见系统参数 approval_escalate_hours） ============ -->
+    <record id="ir_cron_edu_leave_escalate" model="ir.cron">
+        <field name="name">edu_portal: 请假审批超时升级提醒</field>
+        <field name="model_id" ref="model_edu_leave"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_escalate_pending()</field>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="ir_cron_edu_grievance_escalate" model="ir.cron">
+        <field name="name">edu_portal: 申诉处理超时升级提醒</field>
+        <field name="model_id" ref="model_edu_grievance"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_escalate_pending()</field>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>

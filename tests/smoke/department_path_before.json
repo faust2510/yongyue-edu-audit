@@ -1,0 +1,139 @@
+{
+  "rows": [
+    {
+      "kind": "PASS",
+      "area": "ENV·登录",
+      "detail": "backoffice@local uid=12 lang=zh_CN"
+    },
+    {
+      "kind": "PASS",
+      "area": "L1 菜单可见",
+      "detail": "265 路径=学生信息 / 配置 / 教学管理 / 部门 actionID=380 actionModel=ir.actions.act_window"
+    },
+    {
+      "kind": "PASS",
+      "area": "L1 归属",
+      "detail": "265 挂在「教学管理」下"
+    },
+    {
+      "kind": "INFO",
+      "area": "L1 对照",
+      "detail": "259「院系」→ action 388（op.faculty 误名项）"
+    },
+    {
+      "kind": "PASS",
+      "area": "L2 动作",
+      "detail": "380 name='部门' res_model=op.department view_mode=list,form"
+    },
+    {
+      "kind": "PASS",
+      "area": "L3 视图",
+      "detail": "get_views ok：form,list"
+    },
+    {
+      "kind": "PASS",
+      "area": "L3 列表",
+      "detail": "search_read ok：现有 0 条 []"
+    },
+    {
+      "kind": "PASS",
+      "area": "S 副作用(实测)",
+      "detail": "create() 把新院系 4 挂到创建者 res.users.department_ids（0→1，新增 [4]）—— 见 department.py:33-38"
+    },
+    {
+      "kind": "PASS",
+      "area": "L4 浏览器·落地",
+      "detail": "url=http://localhost:8069/odoo/department title='部门' 面包屑='部门'"
+    },
+    {
+      "kind": "PASS",
+      "area": "L4 浏览器·新建保存",
+      "detail": "表单打开→填 名称+代码→保存；页面含新记录名=True"
+    },
+    {
+      "kind": "INFO",
+      "area": "对照·259 页面",
+      "detail": "title='院系' 面包屑/必填=None"
+    },
+    {
+      "kind": "PASS",
+      "area": "复验·列表",
+      "detail": "RPC + UI 两条探针都在列表：[('【冒烟】院系部门探针RPC', 'SMOKE-DEPT-RPC'), ('【冒烟】院系部门探针UI', 'SMOKE-DEPT-UI')]"
+    },
+    {
+      "kind": "PASS",
+      "area": "C 清场",
+      "detail": "unlink [4, 5] → ok"
+    },
+    {
+      "kind": "PASS",
+      "area": "C 清场·SQL反查",
+      "detail": "leftover=0（期望 0）"
+    }
+  ],
+  "notes": [],
+  "menu_path_dept": "学生信息 / 配置 / 教学管理 / 部门",
+  "menu_path_faculty": "学生信息 / 院系",
+  "action": {
+    "name": "部门",
+    "res_model": "op.department",
+    "view_mode": "list,form",
+    "type": "ir.actions.act_window"
+  },
+  "views": {
+    "list": "<list string=\"Department\">\n                    <field name=\"name\"/>\n                    <field name=\"code\"/>\n           ",
+    "form": "<form string=\"Department\">\n                    <header/>\n                    <sheet>\n                        <group>\n   "
+  },
+  "before_count": 0,
+  "user_departments_before": [],
+  "user_departments_after": [
+    4
+  ],
+  "side_effect_probe_id": 4,
+  "browser": {
+    "url": "http://localhost:8069/odoo/department",
+    "title": "部门",
+    "breadcrumb": "部门",
+    "header": "部门",
+    "form_open": true,
+    "sel_name": ".o_field_widget[name='name'] input",
+    "sel_code": ".o_field_widget[name='code'] input",
+    "form_labels": [
+      "姓名",
+      "家长部",
+      "代码"
+    ],
+    "form_inputs": [
+      "name",
+      "parent_id",
+      "code"
+    ],
+    "save_clicked": true,
+    "url_after_save": "http://localhost:8069/odoo/department/5",
+    "err_dialog": "",
+    "body_has_name": true,
+    "console_errors": []
+  },
+  "faculty_page": {
+    "url": "http://localhost:8069/odoo/faculty",
+    "title": "院系",
+    "menu_bar": "学生信息 学生 院系 配置 2 永约学坊 应用面板"
+  },
+  "created_rows": [
+    {
+      "id": 4,
+      "name": "【冒烟】院系部门探针RPC",
+      "code": "SMOKE-DEPT-RPC"
+    },
+    {
+      "id": 5,
+      "name": "【冒烟】院系部门探针UI",
+      "code": "SMOKE-DEPT-UI"
+    }
+  ],
+  "leftover_sql": "0",
+  "summary": {
+    "fail": 0,
+    "warn": 0
+  }
+}

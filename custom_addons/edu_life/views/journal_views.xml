@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 学生周记：后台 search+list+form（中文，带消息留痕） -->
+    <record id="view_edu_life_journal_search" model="ir.ui.view">
+        <field name="name">edu.journal.entry.search.life</field>
+        <field name="model">edu.journal.entry</field>
+        <field name="arch" type="xml">
+            <search string="筛选周记">
+                <field name="student_id" string="学生"/>
+                <field name="week" string="周次"/>
+                <field name="title" string="标题"/>
+                <filter name="filter_draft" string="草稿"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_submitted" string="已提交"
+                        domain="[('state', '=', 'submitted')]"/>
+                <filter name="filter_reviewed" string="已批阅"
+                        domain="[('state', '=', 'reviewed')]"/>
+                <group>
+                    <filter name="group_student" string="按学生"
+                            context="{'group_by': 'student_id'}"/>
+                    <filter name="group_week" string="按周次"
+                            context="{'group_by': 'week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_edu_life_journal_list" model="ir.ui.view">
+        <field name="name">edu.journal.entry.list.life</field>
+        <field name="model">edu.journal.entry</field>
+        <field name="arch" type="xml">
+            <list string="周记归档">
+                <field name="week" string="周次"/>
+                <field name="student_id" string="学生"/>
+                <field name="title" string="标题"/>
+                <field name="state" string="状态"
+                       decoration-warning="state == 'submitted'"
+                       decoration-success="state == 'reviewed'"/>
+                <field name="reviewer_id" string="批阅教师" optional="show"/>
+                <field name="write_date" string="最近更新" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_life_journal_form" model="ir.ui.view">
+        <field name="name">edu.journal.entry.form.life</field>
+        <field name="model">edu.journal.entry</field>
+        <field name="arch" type="xml">
+            <form string="周记归档">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="student_id" string="学生"/>
+                            <field name="week" string="周次"
+                                   placeholder="2026-W34"/>
+                            <field name="title" string="标题"/>
+                        </group>
+                        <group>
+                            <field name="state" string="状态"/>
+                            <field name="reviewer_id" string="批阅教师"/>
+                            <field name="feedback" string="教师评语"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="content" string="正文" colspan="2" nolabel="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_life_journal" model="ir.actions.act_window">
+        <field name="name">周记归档</field>
+        <field name="res_model">edu.journal.entry</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                <i class="fa fa-archive me-1"/>还没有周记归档
+            </p>
+            <p>学生每周通过门户「我的周记」提交，教师在「周记批阅」页填写评语。</p>
+        </field>
+    </record>
+</odoo>

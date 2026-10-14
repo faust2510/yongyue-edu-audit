@@ -1,0 +1,444 @@
+{
+  "revision": "cb1",
+  "when": "2026-09-24T11:06:09+08:00",
+  "base": "http://localhost:8069",
+  "db": "edu19",
+  "design": "docs/plans/class-batch-management-design.md",
+  "fixture": {
+    "students_before": 4,
+    "users_before": 10,
+    "batch_a": 501,
+    "batch_b": 502,
+    "batch_c": 503,
+    "batch_empty": 504,
+    "stu_a": 393,
+    "stu_b": 394,
+    "stu_c": 395,
+    "user_a": 566,
+    "user_b": 567,
+    "faculty": 17,
+    "subject": 37,
+    "subject_name": "圣经概论（新旧约概论）",
+    "faculty_name": "T14 教师乙",
+    "session_ids": [
+      983,
+      984
+    ],
+    "name_a": "【待分配】班级分配冒烟甲【演示】",
+    "name_b": "【待分配】班级分配冒烟乙【演示】",
+    "name_c": "班级分配冒烟丙【演示】",
+    "pending_a": true,
+    "a_sc_count": 0,
+    "phone_b": "",
+    "email_b": "",
+    "sc_a": 237,
+    "teacher_batch": 505
+  },
+  "snapshot": {
+    "sessions": 2,
+    "sc": 1,
+    "reg": 0,
+    "tok": 0
+  },
+  "checks": [
+    {
+      "no": "CB0.1",
+      "name": "无升级锁（避免跨升级半程读数）",
+      "pass": true,
+      "detail": "锁路径 /var/folders/p8/ss303xqd5j97kx5cpqd6x_lc0000gn/T/edu19_upgrade.lock"
+    },
+    {
+      "no": "CB0.2",
+      "name": "站点可达 /web/login",
+      "pass": true,
+      "detail": "HTTP 302"
+    },
+    {
+      "no": "CB1.1",
+      "name": "教务登录成功",
+      "pass": true,
+      "detail": "uid=12"
+    },
+    {
+      "no": "CB1.2",
+      "name": "教师登录成功",
+      "pass": true,
+      "detail": "uid=11"
+    },
+    {
+      "no": "CB1.3",
+      "name": "家长登录成功",
+      "pass": true,
+      "detail": "uid=10"
+    },
+    {
+      "no": "CB1.4",
+      "name": "教务账号确在教务处组",
+      "pass": true,
+      "detail": "has_group=True err=None"
+    },
+    {
+      "no": "CB1.5",
+      "name": "教师账号能解析出 op.faculty 档案（否则「被拒」与「没身份」同形）",
+      "pass": true,
+      "detail": "faculty=[{'id': 17, 'name': 'T14 教师乙'}]"
+    },
+    {
+      "no": "CB1.6",
+      "name": "教务对 op.batch 有 unlink 权（校长拍板：删除归教务）",
+      "pass": true,
+      "detail": "unlink=True err=None"
+    },
+    {
+      "no": "CB1.7",
+      "name": "教师对 op.batch 无 unlink 权（基座原样）",
+      "pass": true,
+      "detail": "unlink=False err=None"
+    },
+    {
+      "no": "CB2.0",
+      "name": "负对照载体合法：异班学生丙的名字确实是标记名（不是基座默认 New）",
+      "pass": true,
+      "detail": "name_c=班级分配冒烟丙【演示】"
+    },
+    {
+      "no": "CB2.1",
+      "name": "【待分配】学生甲由**真实注册路径**产出（名字带前缀）",
+      "pass": true,
+      "detail": "name=【待分配】班级分配冒烟甲【演示】"
+    },
+    {
+      "no": "CB2.2",
+      "name": "学生甲 edu_pending_setup=True（机器标记同源）",
+      "pass": true,
+      "detail": "flag=True"
+    },
+    {
+      "no": "CB2.3",
+      "name": "学生甲分班前**没有任何班级档案**（断链现场）",
+      "pass": true,
+      "detail": "op_student_course 行数=0"
+    },
+    {
+      "no": "CB2.4",
+      "name": "演示班有课节（载体：课表可见性靠它）",
+      "pass": true,
+      "detail": "sessions=[983, 984]"
+    },
+    {
+      "no": "CB3.1",
+      "name": "分班前：库里 0 行班级档案",
+      "pass": true,
+      "detail": "count=0"
+    },
+    {
+      "no": "CB3.2",
+      "name": "学生甲（门户账号）登录成功",
+      "pass": true,
+      "detail": "uid=566"
+    },
+    {
+      "no": "CB3.3",
+      "name": "分班前课表页 200 且处于「暂无排课」空态（负对照）",
+      "pass": true,
+      "detail": "HTTP 200 · 含暂无排课=True"
+    },
+    {
+      "no": "CB3.4",
+      "name": "教务给学生甲分班（op.student.course + batch_id）",
+      "pass": true,
+      "detail": "新建档案 id=237 err=None"
+    },
+    {
+      "no": "CB3.5",
+      "name": "库里档案指向演示甲班且 state=running",
+      "pass": true,
+      "detail": "row=501|running"
+    },
+    {
+      "no": "CB3.6",
+      "name": "名字里的「【待分配】」前缀已消失（收口生效）",
+      "pass": true,
+      "detail": "name=班级分配冒烟甲【演示】"
+    },
+    {
+      "no": "CB3.7",
+      "name": "edu_pending_setup 已清（机器标记同源收口）",
+      "pass": true,
+      "detail": "flag=f"
+    },
+    {
+      "no": "CB3.8",
+      "name": "分班后同一学生课表出现该班课时（科目名 + 非空态）",
+      "pass": true,
+      "detail": "HTTP 200 · 含科目「圣经概论（新旧约概论）」=True"
+    },
+    {
+      "no": "CB3.9",
+      "name": "课表里能看到该班课节的任课教师",
+      "pass": true,
+      "detail": "faculty=T14 教师乙"
+    },
+    {
+      "no": "CB4.1",
+      "name": "教务点「分配班级」→ 打开该生的班级档案对话框",
+      "pass": true,
+      "detail": "action={\"type\": \"ir.actions.act_window\", \"name\": \"分班：班级分配冒烟甲【演示】\", \"res_model\": \"op.student.course\", \"target\": \"new\", \"context\": {\"default_student_id\": 393, \"default_state\": \"running\", \"search_default_student_id\": 393}, \"view_mode\": \"list,form\", \"domain\": [[\"student_id\", \"=\", 393]], \"views\": [[false, \"list"
+    },
+    {
+      "no": "CB4.1b",
+      "name": "无档案的学生 → 入口直接开「分班」新建表单（res_id=False）",
+      "pass": true,
+      "detail": "action={\"type\": \"ir.actions.act_window\", \"name\": \"分班：【待分配】班级分配冒烟乙【演示】\", \"res_model\": \"op.student.course\", \"target\": \"new\", \"context\": {\"default_student_id\": 394, \"default_state\": \"running\", \"search_default_student_id\": 394}, \"view_mode\": \"form\", \"res_id\": false, \"views\": [[3664, \"form\"]]}"
+    },
+    {
+      "no": "CB4.2",
+      "name": "教师调用分班入口被拒（分班改学籍归属）",
+      "pass": true,
+      "detail": "err=分班（学生班级归属）由教务处办理。"
+    },
+    {
+      "no": "CB5.1",
+      "name": "教师 load_menus（口径 B）含「班级」且 actionPath=batches",
+      "pass": true,
+      "detail": "命中=[{\"id\": 264, \"name\": \"班级\", \"actionPath\": \"batches\", \"actionID\": 386, \"xmlid\": \"openeducat_core.menu_op_batch_sub\"}]（节点数 78）"
+    },
+    {
+      "no": "CB5.2",
+      "name": "教师**能**新建班级（基座 ACL 本来就有 create）",
+      "pass": true,
+      "detail": "id=505 err=None"
+    },
+    {
+      "no": "CB5.3",
+      "name": "教师**能**编辑班级（改班名）",
+      "pass": true,
+      "detail": "write=True err=None"
+    },
+    {
+      "no": "CB5.4",
+      "name": "教师**不能**删除班级（无 unlink 权）",
+      "pass": true,
+      "detail": "err=不允许删除\"OpenEduCat Batch\"（op.batch）记录。\n\n允许对以下组进行此操作：\n\t- OpenEduCat/Manager\n\n如有必要，请联系您的管理员申请访问权限。"
+    },
+    {
+      "no": "CB6.1",
+      "name": "教务「停用」班级（action_edu_stop）",
+      "pass": true,
+      "detail": "res=True err=None"
+    },
+    {
+      "no": "CB6.2",
+      "name": "库里 active=false（回收站本体=基座 active，零新字段）",
+      "pass": true,
+      "detail": "active=f"
+    },
+    {
+      "no": "CB6.3",
+      "name": "默认列表（active_test 生效）已看不见它",
+      "pass": true,
+      "detail": "默认列表行数=21"
+    },
+    {
+      "no": "CB6.4",
+      "name": "回收站（已停用班级动作域）能看见它",
+      "pass": true,
+      "detail": "回收站命中=【演示】班级分配冒烟·甲班"
+    },
+    {
+      "no": "CB6.5",
+      "name": "停用后学生侧不变：课表仍有该班课时（归档≠真删）",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "no": "CB6.6",
+      "name": "停用零副作用：课节/学生归属/注册单/签到令牌四个计数全不变",
+      "pass": true,
+      "detail": "前 {'sessions': 2, 'sc': 1, 'reg': 0, 'tok': 0} → 后 {'sessions': 2, 'sc': 1, 'reg': 0, 'tok': 0}"
+    },
+    {
+      "no": "CB6.7",
+      "name": "「恢复」后回到默认列表",
+      "pass": true,
+      "detail": "restore=True err=None · 默认列表含=True"
+    },
+    {
+      "no": "CB7.1",
+      "name": "教师改 active=false（停用）被拒",
+      "pass": true,
+      "detail": "err=「停用 / 恢复」班级是教务处的业务动作，教师不能办理。\n\n您可以照常新建与编辑班级（班名、起止日期、所属课程）；若某个班需要停用或恢复，请联系教务处。"
+    },
+    {
+      "no": "CB7.2",
+      "name": "被拒后 active 未被改动（拒绝≠静默成功）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "CB7.3",
+      "name": "（夹具）教务先把乙班停用",
+      "pass": true,
+      "detail": "res=True"
+    },
+    {
+      "no": "CB7.4",
+      "name": "教师改 active=true（恢复）同样被拒",
+      "pass": true,
+      "detail": "err=「停用 / 恢复」班级是教务处的业务动作，教师不能办理。\n\n您可以照常新建与编辑班级（班名、起止日期、所属课程）；若某个班需要停用或恢复，请联系教务处。"
+    },
+    {
+      "no": "CB7.5",
+      "name": "幂等写（值没变）不误伤教师：active=true 的班再写 true 通过",
+      "pass": true,
+      "detail": "res=True err=None"
+    },
+    {
+      "no": "CB7.6",
+      "name": "教务恢复乙班（把现场还原）",
+      "pass": true,
+      "detail": "res=True"
+    },
+    {
+      "no": "CB8.1",
+      "name": "有课节的班删不掉（拒绝）",
+      "pass": true,
+      "detail": "err=班级「【演示】班级分配冒烟·甲班」不能删除：还有 2 节课节。还有 1 名学生（真删会让他们静默失去班级）；真删会让这些记录**静默失去班级归属**（不再有任何提示）。\n\n请改用「停用」：课表、成绩与学生归属全部保留，该班只是不再出现在新的分班/选课下拉里，随时可以「恢复」。"
+    },
+    {
+      "no": "CB8.2",
+      "name": "拒绝文案是人话且含「课节」+ 引导「停用」",
+      "pass": true,
+      "detail": "err=班级「【演示】班级分配冒烟·甲班」不能删除：还有 2 节课节。还有 1 名学生（真删会让他们静默失去班级）；真删会让这些记录**静默失去班级归属**（不再有任何提示）。\n\n请改用「停用」：课表、成绩与学生归属全部保留，该班只是不再出现在新的分班/选课下拉里，随时可以「恢复」。"
+    },
+    {
+      "no": "CB8.3",
+      "name": "被拒后班级行仍在（「能走完」≠「没动数据」）",
+      "pass": true,
+      "detail": "op_batch 行数 22 → 22"
+    },
+    {
+      "no": "CB8.4",
+      "name": "（夹具）学生丙进丙班",
+      "pass": true,
+      "detail": "sc=238 err=None"
+    },
+    {
+      "no": "CB8.5",
+      "name": "「只有学生」的班也删不掉（防静默解绑）",
+      "pass": true,
+      "detail": "err=班级「【演示】班级分配冒烟·丙班」不能删除：还有 1 名学生（真删会让他们静默失去班级）；真删会让这些记录**静默失去班级归属**（不再有任何提示）。\n\n请改用「停用」：课表、成绩与学生归属全部保留，该班只是不再出现在新的分班/选课下拉里，随时可以「恢复」。"
+    },
+    {
+      "no": "CB8.6",
+      "name": "被拒后学生丙的班级归属未被清空（未发生 SET NULL）",
+      "pass": true,
+      "detail": "batch_id=503"
+    },
+    {
+      "no": "CB8.7",
+      "name": "零引用空班可真删（给「建错的班」留出口）",
+      "pass": true,
+      "detail": "unlink=True err=None"
+    },
+    {
+      "no": "CB8.8",
+      "name": "归档/恢复/删班都有审计留痕（op.batch 无 tracking 字段）",
+      "pass": true,
+      "detail": "审计行数=107"
+    },
+    {
+      "no": "CB9.1",
+      "name": "（夹具）学生乙分到甲班（成为同班同学）",
+      "pass": true,
+      "detail": "sc=239 err=None"
+    },
+    {
+      "no": "CB9.1b",
+      "name": "乙分班后「【待分配】」前缀同样被收口（同一条写路径）",
+      "pass": true,
+      "detail": "name=班级分配冒烟乙【演示】"
+    },
+    {
+      "no": "CB9.2",
+      "name": "学生甲 /my/contacts 200 且有「同班同学」段",
+      "pass": true,
+      "detail": "HTTP 200 · 段长度=1001"
+    },
+    {
+      "no": "CB9.3",
+      "name": "段内能看到同班同学乙的**姓名**",
+      "pass": true,
+      "detail": "期望=班级分配冒烟乙【演示】"
+    },
+    {
+      "no": "CB9.4",
+      "name": "段内能看到**班名**",
+      "pass": true,
+      "detail": "含甲班=True"
+    },
+    {
+      "no": "CB9.5",
+      "name": "段内**没有**头像（无 img/avatar/web_image）",
+      "pass": true,
+      "detail": "img=False avatar=False webimage=False"
+    },
+    {
+      "no": "CB9.6",
+      "name": "段内**没有**邮箱 / 手机 / 学号",
+      "pass": true,
+      "detail": "含@=False fa-phone=False gr_no=False"
+    },
+    {
+      "no": "CB9.7",
+      "name": "段内显示「我的班级」",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "CB9.8",
+      "name": "越权反向断言：异班学生丙的姓名**不出现**在甲的页面里",
+      "pass": true,
+      "detail": "含丙=False"
+    },
+    {
+      "no": "CB9.9",
+      "name": "正对照：同班同学乙的姓名在整页出现（否则「丙不在」没意义）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "CB9.10",
+      "name": "学生看得到任课老师（老师组）",
+      "pass": true,
+      "detail": "faculty=T14 教师乙"
+    },
+    {
+      "no": "CB9.11",
+      "name": "家长端**没有**「同班同学」段（家长看不到别人家孩子）",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "no": "CB9.12",
+      "name": "家长页面不含学生乙/丙的姓名",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "no": "CB10.1",
+      "name": "清理后 leftover = 0（班/学生/账号/邀请码/教师班）",
+      "pass": true,
+      "detail": "{\"leftover_batch\": 0, \"leftover_student\": 0, \"leftover_user\": 0, \"leftover_code\": 0, \"leftover_teacher_batch\": 0}"
+    },
+    {
+      "no": "CB10.2",
+      "name": "总人数回到基线（按名字查会漏掉\"名字非标记名\"的残留）",
+      "pass": true,
+      "detail": "学生 4→4（差 0）· 账号 10→10（差 0）"
+    }
+  ],
+  "pass": 66,
+  "fail": 0,
+  "rc": 0
+}

@@ -1,0 +1,189 @@
+{
+ "modules": "edu_life,edu_portal",
+ "results": {
+  "edu_life": {
+   "db": {
+    "A_root_menus_db": {
+     "before": 40,
+     "after": 40,
+     "same": true
+    },
+    "A_total_menus_db": {
+     "before": 605,
+     "after": 605,
+     "same": true
+    },
+    "A_active_menus_db": {
+     "before": 405,
+     "after": 405,
+     "same": true
+    }
+   },
+   "roles": {
+    "admin": {
+     "before": 14,
+     "after": 14,
+     "same": true,
+     "added": [],
+     "removed": []
+    },
+    "backoffice": {
+     "before": 12,
+     "after": 12,
+     "same": true,
+     "added": [],
+     "removed": []
+    },
+    "faculty": {
+     "before": 9,
+     "after": 9,
+     "same": true,
+     "added": [],
+     "removed": []
+    },
+    "student": {
+     "before": 0,
+     "after": 0,
+     "same": true,
+     "added": [],
+     "removed": []
+    },
+    "parent": {
+     "before": 0,
+     "after": 0,
+     "same": true,
+     "added": [],
+     "removed": []
+    }
+   },
+   "exit_code": 0,
+   "traceback": false,
+   "verdict": "PASS"
+  },
+  "edu_portal": {
+   "db": {
+    "A_root_menus_db": {
+     "before": 40,
+     "after": 40,
+     "same": true
+    },
+    "A_total_menus_db": {
+     "before": 605,
+     "after": 605,
+     "same": true
+    },
+    "A_active_menus_db": {
+     "before": 405,
+     "after": 410,
+     "same": false
+    }
+   },
+   "roles": {
+    "admin": {
+     "before": 14,
+     "after": 19,
+     "same": false,
+     "added": [
+      [
+       542,
+       "邀请码"
+      ],
+      [
+       543,
+       "日常管理"
+      ],
+      [
+       576,
+       "在线课程"
+      ],
+      [
+       597,
+       "行政评估"
+      ],
+      [
+       606,
+       "老账号补挂身份"
+      ]
+     ],
+     "removed": []
+    },
+    "backoffice": {
+     "before": 12,
+     "after": 17,
+     "same": false,
+     "added": [
+      [
+       542,
+       "邀请码"
+      ],
+      [
+       543,
+       "日常管理"
+      ],
+      [
+       576,
+       "在线课程"
+      ],
+      [
+       597,
+       "行政评估"
+      ],
+      [
+       606,
+       "老账号补挂身份"
+      ]
+     ],
+     "removed": []
+    },
+    "faculty": {
+     "before": 9,
+     "after": 12,
+     "same": false,
+     "added": [
+      [
+       543,
+       "日常管理"
+      ],
+      [
+       576,
+       "在线课程"
+      ],
+      [
+       597,
+       "行政评估"
+      ]
+     ],
+     "removed": []
+    },
+    "student": {
+     "before": 0,
+     "after": 0,
+     "same": true,
+     "added": [],
+     "removed": []
+    },
+    "parent": {
+     "before": 0,
+     "after": 0,
+     "same": true,
+     "added": [],
+     "removed": []
+    }
+   },
+   "exit_code": 0,
+   "traceback": false,
+   "verdict": "REPLAY"
+  },
+  "_restore_edu_nav": {
+   "exit_code": 0,
+   "traceback": false,
+   "B": {
+    "admin": 14,
+    "backoffice": 12,
+    "faculty": 9,
+    "student": 0,
+    "parent": 0
+   }
+  }
+ }
+}

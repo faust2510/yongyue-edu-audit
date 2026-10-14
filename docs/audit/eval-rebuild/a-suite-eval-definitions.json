@@ -1,0 +1,206 @@
+{
+ "collected_at": "2026-09-29T12:20:55+08:00",
+ "note": "旧两套评估的只读留档（第 1 期只冻结、不删除）。A 套 = edu_portal 内的 edu.eval.*；B 套 = edu_eval 模块的 edu.admin.eval.*。删除是第 3 期动作，前置条件见设计稿 §7.3。",
+ "a_suite": {
+  "edu_eval_template": [
+   {
+    "id": 1,
+    "name": "学生综合评估记分表【演示】",
+    "type_code": "student",
+    "total": 100,
+    "pass_line": 60,
+    "excellent_line": 90,
+    "visible_to_student": true
+   },
+   {
+    "id": 2,
+    "name": "实习同工评估表【演示】",
+    "type_code": "intern",
+    "total": 100,
+    "pass_line": 60,
+    "excellent_line": 80,
+    "visible_to_student": false
+   },
+   {
+    "id": 3,
+    "name": "新生综合测评表【演示】",
+    "type_code": "freshman",
+    "total": 100,
+    "pass_line": 60,
+    "excellent_line": 90,
+    "visible_to_student": true
+   }
+  ],
+  "edu_eval_template_line": [
+   {
+    "id": 1,
+    "name": "出勤与纪律",
+    "max_score": 20,
+    "sequence": 10,
+    "template_id": 1
+   },
+   {
+    "id": 2,
+    "name": "课堂参与",
+    "max_score": 20,
+    "sequence": 20,
+    "template_id": 1
+   },
+   {
+    "id": 3,
+    "name": "灵修生活",
+    "max_score": 20,
+    "sequence": 30,
+    "template_id": 1
+   },
+   {
+    "id": 4,
+    "name": "学业表现",
+    "max_score": 20,
+    "sequence": 40,
+    "template_id": 1
+   },
+   {
+    "id": 5,
+    "name": "服事态度",
+    "max_score": 20,
+    "sequence": 50,
+    "template_id": 1
+   },
+   {
+    "id": 6,
+    "name": "事奉忠心",
+    "max_score": 25,
+    "sequence": 10,
+    "template_id": 2
+   },
+   {
+    "id": 7,
+    "name": "团队配搭",
+    "max_score": 25,
+    "sequence": 20,
+    "template_id": 2
+   },
+   {
+    "id": 8,
+    "name": "属灵榜样",
+    "max_score": 25,
+    "sequence": 30,
+    "template_id": 2
+   },
+   {
+    "id": 9,
+    "name": "专业能力",
+    "max_score": 25,
+    "sequence": 40,
+    "template_id": 2
+   },
+   {
+    "id": 10,
+    "name": "基础信仰笔试",
+    "max_score": 40,
+    "sequence": 10,
+    "template_id": 3
+   },
+   {
+    "id": 11,
+    "name": "面试表现",
+    "max_score": 30,
+    "sequence": 20,
+    "template_id": 3
+   },
+   {
+    "id": 12,
+    "name": "写作测试",
+    "max_score": 30,
+    "sequence": 30,
+    "template_id": 3
+   }
+  ],
+  "edu_eval_task": [
+   {
+    "id": 1,
+    "template_id": 1,
+    "student_id": 5,
+    "evaluator_type": "teacher",
+    "period": "2026秋",
+    "state": "done",
+    "total_score": 90
+   }
+  ],
+  "edu_eval_score": [
+   {
+    "id": 1,
+    "task_id": 1,
+    "template_line_id": 1,
+    "score": 18
+   },
+   {
+    "id": 2,
+    "task_id": 1,
+    "template_line_id": 2,
+    "score": 18
+   },
+   {
+    "id": 3,
+    "task_id": 1,
+    "template_line_id": 3,
+    "score": 18
+   },
+   {
+    "id": 4,
+    "task_id": 1,
+    "template_line_id": 4,
+    "score": 18
+   },
+   {
+    "id": 5,
+    "task_id": 1,
+    "template_line_id": 5,
+    "score": 18
+   }
+  ]
+ },
+ "b_suite": {
+  "edu_admin_eval_template": [],
+  "edu_admin_eval_item": [],
+  "edu_admin_eval_score": []
+ },
+ "counts": {
+  "edu_eval_template": 3,
+  "edu_eval_template_line": 12,
+  "edu_eval_task": 1,
+  "edu_eval_score": 5,
+  "edu_admin_eval_template": 0,
+  "edu_admin_eval_item": 0,
+  "edu_admin_eval_score": 0
+ },
+ "assess": {
+  "edu_assess_template": [
+   {
+    "id": 1,
+    "name": "教师评学生（验收）",
+    "kind": "student",
+    "target_kind": "student"
+   },
+   {
+    "id": 2,
+    "name": "学生评教（验收·匿名）",
+    "kind": "teaching",
+    "target_kind": "faculty"
+   },
+   {
+    "id": 3,
+    "name": "教务录入（验收·Excel）",
+    "kind": "student",
+    "target_kind": "student"
+   },
+   {
+    "id": 157,
+    "name": "【矩阵表头探针】卫生检测表（三层）",
+    "kind": "other",
+    "target_kind": "student"
+   }
+  ]
+ }
+}

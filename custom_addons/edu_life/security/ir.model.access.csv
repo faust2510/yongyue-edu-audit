@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_checkin_type_user,edu.checkin.type user,model_edu_checkin_type,base.group_user,1,1,1,0
+access_edu_checkin_type_portal,edu.checkin.type portal,model_edu_checkin_type,base.group_portal,1,0,0,0
+access_edu_checkin_record_user,edu.checkin.record user,model_edu_checkin_record,base.group_user,1,1,1,1
+access_edu_checkin_record_portal,edu.checkin.record portal,model_edu_checkin_record,base.group_portal,1,0,0,0
+access_edu_journal_entry_user,edu.journal.entry user,model_edu_journal_entry,base.group_user,1,1,1,1
+access_edu_journal_entry_portal,edu.journal.entry portal,model_edu_journal_entry,base.group_portal,1,0,0,0

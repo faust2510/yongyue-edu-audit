@@ -1,0 +1,3078 @@
+[
+ {
+  "rule": "/account/download_invoice_attachments/<models(\"ir.attachment\"):attachments>",
+  "endpoint": "odoo.addons.account.controllers.download_docs.download_invoice_attachments"
+ },
+ {
+  "rule": "/account/download_invoice_documents/<models(\"account.move\"):invoices>/<string:filetype>",
+  "endpoint": "odoo.addons.account.controllers.download_docs.download_invoice_documents_filetype"
+ },
+ {
+  "rule": "/account/download_move_attachments/<models(\"account.move\"):moves>",
+  "endpoint": "odoo.addons.account.controllers.download_docs.download_move_attachments"
+ },
+ {
+  "rule": "/terms",
+  "endpoint": "odoo.addons.account.controllers.terms.terms_conditions"
+ },
+ {
+  "rule": "/account/init_tests_shared_js_python",
+  "endpoint": "odoo.addons.account.controllers.tests_shared_js_python.route_init_tests_shared_js_python"
+ },
+ {
+  "rule": "/account/post_tests_shared_js_python",
+  "endpoint": "odoo.addons.account.controllers.tests_shared_js_python.route_post_tests_shared_js_python"
+ },
+ {
+  "rule": "/doc-bearer/index.json",
+  "endpoint": "odoo.addons.api_doc.controllers.api_doc.doc_bearer_index"
+ },
+ {
+  "rule": "/doc-bearer/<model_name>.json",
+  "endpoint": "odoo.addons.api_doc.controllers.api_doc.doc_bearer_modec"
+ },
+ {
+  "rule": "/doc",
+  "endpoint": "odoo.addons.api_doc.controllers.api_doc.doc_client"
+ },
+ {
+  "rule": "/doc/<model_name>",
+  "endpoint": "odoo.addons.api_doc.controllers.api_doc.doc_client"
+ },
+ {
+  "rule": "/doc/index.html",
+  "endpoint": "odoo.addons.api_doc.controllers.api_doc.doc_client"
+ },
+ {
+  "rule": "/doc/index.json",
+  "endpoint": "odoo.addons.api_doc.controllers.api_doc.doc_index"
+ },
+ {
+  "rule": "/doc/<model_name>.json",
+  "endpoint": "odoo.addons.api_doc.controllers.api_doc.doc_model"
+ },
+ {
+  "rule": "/auth_oauth/oea",
+  "endpoint": "odoo.addons.auth_oauth.controllers.main.oea"
+ },
+ {
+  "rule": "/auth_oauth/signin",
+  "endpoint": "odoo.addons.auth_oauth.controllers.main.signin"
+ },
+ {
+  "rule": "/web/hook/<string:rule_uuid>",
+  "endpoint": "odoo.addons.base_automation.controllers.main.call_webhook_http"
+ },
+ {
+  "rule": "/base_import/set_file",
+  "endpoint": "odoo.addons.base_import.controllers.main.set_file"
+ },
+ {
+  "rule": "/base_import_module/login_upload",
+  "endpoint": "odoo.addons.base_import_module.controllers.main.login_upload"
+ },
+ {
+  "rule": "/kpi/summary",
+  "endpoint": "odoo.addons.base_setup.controllers.kpi.kpi_summary"
+ },
+ {
+  "rule": "/base_setup/data",
+  "endpoint": "odoo.addons.auth_signup.controllers.main.base_setup_data"
+ },
+ {
+  "rule": "/base_setup/demo_active",
+  "endpoint": "odoo.addons.base_setup.controllers.main.base_setup_is_demo"
+ },
+ {
+  "rule": "/board/add_to_dashboard",
+  "endpoint": "odoo.addons.board.controllers.main.add_to_dashboard"
+ },
+ {
+  "rule": "/bus/get_model_definitions",
+  "endpoint": "odoo.addons.bus.controllers.main.get_model_definitions"
+ },
+ {
+  "rule": "/bus/has_missed_notifications",
+  "endpoint": "odoo.addons.bus.controllers.main.has_missed_notifications"
+ },
+ {
+  "rule": "/bus/websocket_worker_bundle",
+  "endpoint": "odoo.addons.bus.controllers.websocket.get_websocket_worker_bundle"
+ },
+ {
+  "rule": "/websocket/health",
+  "endpoint": "odoo.addons.bus.controllers.websocket.health"
+ },
+ {
+  "rule": "/websocket/on_closed",
+  "endpoint": "odoo.addons.bus.controllers.websocket.on_websocket_closed"
+ },
+ {
+  "rule": "/websocket/peek_notifications",
+  "endpoint": "odoo.addons.mail.controllers.websocket.peek_notifications"
+ },
+ {
+  "rule": "/websocket/update_bus_presence",
+  "endpoint": "odoo.addons.mail.controllers.websocket.update_bus_presence"
+ },
+ {
+  "rule": "/websocket",
+  "endpoint": "odoo.addons.bus.controllers.websocket.websocket"
+ },
+ {
+  "rule": "/calendar/meeting/accept",
+  "endpoint": "odoo.addons.calendar.controllers.main.accept_meeting"
+ },
+ {
+  "rule": "/calendar/recurrence/accept",
+  "endpoint": "odoo.addons.calendar.controllers.main.accept_recurrence"
+ },
+ {
+  "rule": "/calendar/meeting/join",
+  "endpoint": "odoo.addons.calendar.controllers.main.calendar_join_meeting"
+ },
+ {
+  "rule": "/calendar/join_videocall/<string:access_token>",
+  "endpoint": "odoo.addons.calendar.controllers.main.calendar_join_videocall"
+ },
+ {
+  "rule": "/calendar/check_credentials",
+  "endpoint": "odoo.addons.calendar.controllers.main.check_calendar_credentials"
+ },
+ {
+  "rule": "/calendar/meeting/decline",
+  "endpoint": "odoo.addons.calendar.controllers.main.decline_meeting"
+ },
+ {
+  "rule": "/calendar/recurrence/decline",
+  "endpoint": "odoo.addons.calendar.controllers.main.decline_recurrence"
+ },
+ {
+  "rule": "/calendar/notify",
+  "endpoint": "odoo.addons.calendar.controllers.main.notify"
+ },
+ {
+  "rule": "/calendar/notify_ack",
+  "endpoint": "odoo.addons.calendar.controllers.main.notify_ack"
+ },
+ {
+  "rule": "/calendar/meeting/view",
+  "endpoint": "odoo.addons.calendar.controllers.main.view_meeting"
+ },
+ {
+  "rule": "/digest/<int:digest_id>/set_periodicity",
+  "endpoint": "odoo.addons.digest.controllers.portal.digest_set_periodicity"
+ },
+ {
+  "rule": "/digest/<int:digest_id>/unsubscribe",
+  "endpoint": "odoo.addons.digest.controllers.portal.digest_unsubscribe"
+ },
+ {
+  "rule": "/digest/<int:digest_id>/unsubscribe_oneclik",
+  "endpoint": "odoo.addons.digest.controllers.portal.digest_unsubscribe_oneclick"
+ },
+ {
+  "rule": "/apply",
+  "endpoint": "odoo.addons.edu_apply.controllers.main.apply_form"
+ },
+ {
+  "rule": "/apply/submit",
+  "endpoint": "odoo.addons.edu_apply.controllers.main.apply_submit"
+ },
+ {
+  "rule": "/assess/template/<int:template_id>/blank.xlsx",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_blank_xlsx"
+ },
+ {
+  "rule": "/assess/task/<int:task_id>/export.xlsx",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_export_xlsx"
+ },
+ {
+  "rule": "/assess/fill/<int:task_id>",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_fill"
+ },
+ {
+  "rule": "/assess/fill/<int:task_id>/save",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_fill_save"
+ },
+ {
+  "rule": "/assess/grade/<int:task_id>",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_grade"
+ },
+ {
+  "rule": "/assess/grade/<int:task_id>/save",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_grade_save"
+ },
+ {
+  "rule": "/assess",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_home"
+ },
+ {
+  "rule": "/assess/task/<int:task_id>/import",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_import"
+ },
+ {
+  "rule": "/assess/task/<int:task_id>/import/commit",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_import_commit"
+ },
+ {
+  "rule": "/assess/my",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_my"
+ },
+ {
+  "rule": "/assess/faculty/history",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_my_faculty_history"
+ },
+ {
+  "rule": "/assess/my/history",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_my_history"
+ },
+ {
+  "rule": "/assess/task/<int:task_id>/results",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_results"
+ },
+ {
+  "rule": "/assess/review",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_review"
+ },
+ {
+  "rule": "/assess/student/<int:student_id>/history",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_student_history"
+ },
+ {
+  "rule": "/assess/templates/<int:template_id>/items/<int:item_id>/delete",
+  "endpoint": "odoo.addons.edu_assess.controllers.template_admin.assess_item_delete"
+ },
+ {
+  "rule": "/assess/templates/<int:template_id>/items/save",
+  "endpoint": "odoo.addons.edu_assess.controllers.template_admin.assess_item_save"
+ },
+ {
+  "rule": "/assess/templates/<int:template_id>",
+  "endpoint": "odoo.addons.edu_assess.controllers.template_admin.assess_template_edit"
+ },
+ {
+  "rule": "/assess/templates/new",
+  "endpoint": "odoo.addons.edu_assess.controllers.template_admin.assess_template_new"
+ },
+ {
+  "rule": "/assess/templates/save",
+  "endpoint": "odoo.addons.edu_assess.controllers.template_admin.assess_template_save"
+ },
+ {
+  "rule": "/assess/templates/<int:template_id>/state",
+  "endpoint": "odoo.addons.edu_assess.controllers.template_admin.assess_template_state"
+ },
+ {
+  "rule": "/assess/templates",
+  "endpoint": "odoo.addons.edu_assess.controllers.template_admin.assess_templates"
+ },
+ {
+  "rule": "/assess/tasks/<int:task_id>",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_task_edit"
+ },
+ {
+  "rule": "/assess/tasks/new",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_task_new"
+ },
+ {
+  "rule": "/assess/tasks/<int:task_id>/roster",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_task_roster"
+ },
+ {
+  "rule": "/assess/tasks/<int:task_id>/roster/add",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_task_roster_add"
+ },
+ {
+  "rule": "/assess/tasks/<int:task_id>/roster/build",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_task_roster_build"
+ },
+ {
+  "rule": "/assess/tasks/<int:task_id>/roster/<int:roster_id>/delete",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_task_roster_delete"
+ },
+ {
+  "rule": "/assess/tasks/save",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_task_save"
+ },
+ {
+  "rule": "/assess/tasks/<int:task_id>/state",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_task_state"
+ },
+ {
+  "rule": "/assess/tasks",
+  "endpoint": "odoo.addons.edu_assess.controllers.task_admin.assess_tasks"
+ },
+ {
+  "rule": "/about",
+  "endpoint": "odoo.addons.edu_brand.controllers.main.about"
+ },
+ {
+  "rule": "/admissions",
+  "endpoint": "odoo.addons.edu_brand.controllers.main.admissions"
+ },
+ {
+  "rule": "/journal",
+  "endpoint": "odoo.addons.edu_brand.controllers.main.journal"
+ },
+ {
+  "rule": "/journal/page/<int:page_no>",
+  "endpoint": "odoo.addons.edu_brand.controllers.main.journal_page"
+ },
+ {
+  "rule": "/programs",
+  "endpoint": "odoo.addons.edu_brand.controllers.main.programs"
+ },
+ {
+  "rule": "/checkins/stats",
+  "endpoint": "odoo.addons.edu_life.controllers.life.checkin_stats"
+ },
+ {
+  "rule": "/checkins/stats/export",
+  "endpoint": "odoo.addons.edu_life.controllers.life.checkin_stats_export"
+ },
+ {
+  "rule": "/journals/review",
+  "endpoint": "odoo.addons.edu_life.controllers.life.journals_review"
+ },
+ {
+  "rule": "/journals/review/<int:entry_id>",
+  "endpoint": "odoo.addons.edu_life.controllers.life.journals_review_detail"
+ },
+ {
+  "rule": "/journals/review/<int:entry_id>/grade",
+  "endpoint": "odoo.addons.edu_life.controllers.life.journals_review_grade"
+ },
+ {
+  "rule": "/my/checkins",
+  "endpoint": "odoo.addons.edu_life.controllers.life.my_checkins"
+ },
+ {
+  "rule": "/my/checkins/check",
+  "endpoint": "odoo.addons.edu_life.controllers.life.my_checkins_check"
+ },
+ {
+  "rule": "/my/checkins/export",
+  "endpoint": "odoo.addons.edu_life.controllers.life.my_checkins_export"
+ },
+ {
+  "rule": "/my/journals",
+  "endpoint": "odoo.addons.edu_life.controllers.life.my_journals"
+ },
+ {
+  "rule": "/my/journals/save",
+  "endpoint": "odoo.addons.edu_life.controllers.life.my_journals_save"
+ },
+ {
+  "rule": "/alerts/mark_read",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.alerts_mark_read"
+ },
+ {
+  "rule": "/alumni/job/list",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.alumni_job_list"
+ },
+ {
+  "rule": "/approvals/delegate",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.approval_delegate"
+ },
+ {
+  "rule": "/approvals/delegate/cancel",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.approval_delegate_cancel"
+ },
+ {
+  "rule": "/approvals/delegate/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.approval_delegate_save"
+ },
+ {
+  "rule": "/apps",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.apps_menu"
+ },
+ {
+  "rule": "/openeducat/apps_menu",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.apps_menu_legacy"
+ },
+ {
+  "rule": "/assess/child/<int:student_id>/history",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.assess_child_history"
+ },
+ {
+  "rule": "/assignment/edit/<int:aid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.assignment_edit"
+ },
+ {
+  "rule": "/assignment/edit/<int:aid>/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.assignment_edit_save"
+ },
+ {
+  "rule": "/assignment/manage",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.assignment_manage"
+ },
+ {
+  "rule": "/assignment/publish",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.assignment_publish"
+ },
+ {
+  "rule": "/assignment/publish_save",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.assignment_publish_save"
+ },
+ {
+  "rule": "/assignment/set_state",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.assignment_set_state"
+ },
+ {
+  "rule": "/assignment/submissions/<int:aid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.assignment_submissions"
+ },
+ {
+  "rule": "/attendance/confirm_rep_sheet",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.attendance_confirm_rep_sheet"
+ },
+ {
+  "rule": "/attendance/import",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.attendance_import"
+ },
+ {
+  "rule": "/attendance/import/commit",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.attendance_import_commit"
+ },
+ {
+  "rule": "/attendance/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.attendance_save"
+ },
+ {
+  "rule": "/attendance/selfcheck/<token>",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.attendance_selfcheck_scan"
+ },
+ {
+  "rule": "/attendance/selfcheck/start",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.attendance_selfcheck_start"
+ },
+ {
+  "rule": "/attendance/selfcheck/stop",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.attendance_selfcheck_stop"
+ },
+ {
+  "rule": "/attendance/take",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.attendance_take"
+ },
+ {
+  "rule": "/my/child/<int:child_id>/leave",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.child_leave_form"
+ },
+ {
+  "rule": "/my/child/<int:child_id>/leave/saved",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.child_leave_form"
+ },
+ {
+  "rule": "/my/child/<int:child_id>/leave/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.child_leave_save"
+ },
+ {
+  "rule": "/edu/audit",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.edu_audit"
+ },
+ {
+  "rule": "/edu/import/students",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.edu_import_students"
+ },
+ {
+  "rule": "/edu/import/students/commit",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.edu_import_students_commit"
+ },
+ {
+  "rule": "/edu/import/students/preview",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.edu_import_students_preview"
+ },
+ {
+  "rule": "/grading/copy_prev",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grading_copy_prev"
+ },
+ {
+  "rule": "/grading/entry",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grading_entry"
+ },
+ {
+  "rule": "/grading/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grading_export"
+ },
+ {
+  "rule": "/grading/history",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grading_history"
+ },
+ {
+  "rule": "/grading/import",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grading_import"
+ },
+ {
+  "rule": "/grading/import/commit",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grading_import_commit"
+ },
+ {
+  "rule": "/grading/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grading_save"
+ },
+ {
+  "rule": "/grievances/approvals",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grievance_approvals"
+ },
+ {
+  "rule": "/grievances/approvals/<int:gid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grievance_detail"
+ },
+ {
+  "rule": "/grievances/set_state",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grievance_set_state"
+ },
+ {
+  "rule": "/grievances/set_state_bulk",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.grievance_set_state_bulk"
+ },
+ {
+  "rule": "/leave/approvals",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.leave_approvals"
+ },
+ {
+  "rule": "/leave/approvals/<int:leave_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.leave_detail"
+ },
+ {
+  "rule": "/leave/set_state",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.leave_set_state"
+ },
+ {
+  "rule": "/leave/set_state_bulk",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.leave_set_state_bulk"
+ },
+ {
+  "rule": "/my/child",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.my_child"
+ },
+ {
+  "rule": "/my/child/<int:child_id>",
+  "endpoint": "odoo.addons.edu_assess.controllers.portal.my_child_dashboard"
+ },
+ {
+  "rule": "/my/documents",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.my_documents"
+ },
+ {
+  "rule": "/my/documents/enrollment-certificate",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.my_enrollment_certificate"
+ },
+ {
+  "rule": "/my/documents/transcript",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.my_transcript"
+ },
+ {
+  "rule": "/notice/publish",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.notice_publish"
+ },
+ {
+  "rule": "/notice/publish_save",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.notice_publish_save"
+ },
+ {
+  "rule": "/notice/template/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.notice_template_save"
+ },
+ {
+  "rule": "/leave/<int:leave_id>/return_confirm",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.leave_return_confirm"
+ },
+ {
+  "rule": "/leave/transfer",
+  "endpoint": "odoo.addons.edu_portal.controllers.roles.leave_transfer"
+ },
+ {
+  "rule": "/register",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.register_form"
+ },
+ {
+  "rule": "/web/register",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.register_form_legacy"
+ },
+ {
+  "rule": "/register/submit",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.register_submit"
+ },
+ {
+  "rule": "/web/register/submit",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.register_submit_legacy"
+ },
+ {
+  "rule": "/my/contacts",
+  "endpoint": "odoo.addons.edu_portal.controllers.contacts.my_contacts"
+ },
+ {
+  "rule": "/edu/backend/relink_identity",
+  "endpoint": "odoo.addons.edu_portal.controllers.contacts.relink_form"
+ },
+ {
+  "rule": "/edu/backend/relink_identity/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.contacts.relink_save"
+ },
+ {
+  "rule": "/my/assignment/sub/<int:sid>/file",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.assignment_sub_file"
+ },
+ {
+  "rule": "/submited/assignment/list/<int:aid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.assignment_submit_page"
+ },
+ {
+  "rule": "/submited/assignment/list/<int:aid>/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.assignment_submit_save"
+ },
+ {
+  "rule": "/my/apology/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.my_apology_save"
+ },
+ {
+  "rule": "/my/invoice/pdf/<int:move_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.my_invoice_pdf"
+ },
+ {
+  "rule": "/my/leave/withdraw",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.my_leave_withdraw"
+ },
+ {
+  "rule": "/my/offer/set_state",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.my_offer_set_state"
+ },
+ {
+  "rule": "/my/skill/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.my_skill_save"
+ },
+ {
+  "rule": "/student/assignment/details",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.student_assignment_details"
+ },
+ {
+  "rule": "/student/attendance",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.student_attendance"
+ },
+ {
+  "rule": "/student/attendance/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.student_attendance_export"
+ },
+ {
+  "rule": "/student/exam",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.student_exam"
+ },
+ {
+  "rule": "/student/exam/data/<int:eid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.student_exam_data"
+ },
+ {
+  "rule": "/student/profile",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch1.student_profile"
+ },
+ {
+  "rule": "/my/calendar/create",
+  "endpoint": "odoo.addons.edu_portal.controllers.calendar.calendar_create"
+ },
+ {
+  "rule": "/my/calendar/new",
+  "endpoint": "odoo.addons.edu_portal.controllers.calendar.calendar_new"
+ },
+ {
+  "rule": "/my/calendar",
+  "endpoint": "odoo.addons.edu_portal.controllers.calendar.my_calendar"
+ },
+ {
+  "rule": "/my/messages/<int:uid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.messages.messages_chat"
+ },
+ {
+  "rule": "/my/messages",
+  "endpoint": "odoo.addons.edu_portal.controllers.messages.messages_list"
+ },
+ {
+  "rule": "/my/messages/poll",
+  "endpoint": "odoo.addons.edu_portal.controllers.messages.messages_poll"
+ },
+ {
+  "rule": "/my/messages/send",
+  "endpoint": "odoo.addons.edu_portal.controllers.messages.messages_send"
+ },
+ {
+  "rule": "/downloads/ack/<int:fid>/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_ack_save"
+ },
+ {
+  "rule": "/downloads/file/<int:fid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_file"
+ },
+ {
+  "rule": "/downloads/folder/delete",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_folder_delete"
+ },
+ {
+  "rule": "/downloads/folder/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_folder_save"
+ },
+ {
+  "rule": "/downloads",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_index"
+ },
+ {
+  "rule": "/downloads/manage",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_manage"
+ },
+ {
+  "rule": "/downloads/manage/bulk",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_manage_bulk"
+ },
+ {
+  "rule": "/downloads/manage/file/update",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_manage_file_update"
+ },
+ {
+  "rule": "/downloads/mine",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_mine"
+ },
+ {
+  "rule": "/downloads/mine/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_mine_export"
+ },
+ {
+  "rule": "/downloads/need-ack/<int:fid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_need_ack"
+ },
+ {
+  "rule": "/downloads/remind/<int:fid>/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_remind"
+ },
+ {
+  "rule": "/downloads/stats",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_stats"
+ },
+ {
+  "rule": "/downloads/stats/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_stats_export"
+ },
+ {
+  "rule": "/downloads/unacked/<int:fid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_unacked"
+ },
+ {
+  "rule": "/downloads/unacked/<int:fid>/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_unacked_export"
+ },
+ {
+  "rule": "/downloads/upload",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_upload"
+ },
+ {
+  "rule": "/downloads/upload/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.downloads.downloads_upload_save"
+ },
+ {
+  "rule": "/my/courses/<int:subject_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.course_lessons"
+ },
+ {
+  "rule": "/my/courses/<int:subject_id>/rep/attendance",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.course_rep_attendance"
+ },
+ {
+  "rule": "/my/courses/<int:subject_id>/rep/leave/set_state",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.course_rep_leave_set_state"
+ },
+ {
+  "rule": "/my/courses/<int:subject_id>/rep/notify",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.course_rep_notify"
+ },
+ {
+  "rule": "/my/courses/<int:subject_id>/rep",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.course_rep_panel"
+ },
+ {
+  "rule": "/my/courses/<int:subject_id>/rep/release",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.course_rep_release"
+ },
+ {
+  "rule": "/my/courses/lesson/<int:lesson_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.lesson_detail"
+ },
+ {
+  "rule": "/my/courses/lesson/<int:lesson_id>/done",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.lesson_done"
+ },
+ {
+  "rule": "/my/courses",
+  "endpoint": "odoo.addons.edu_portal.controllers.lms.my_courses"
+ },
+ {
+  "rule": "/my/study",
+  "endpoint": "odoo.addons.edu_portal.controllers.study.my_study"
+ },
+ {
+  "rule": "/my/study/session/<int:session_id>/join",
+  "endpoint": "odoo.addons.edu_portal.controllers.study.session_join"
+ },
+ {
+  "rule": "/my/study/session/<int:session_id>/link/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.study.session_link_save"
+ },
+ {
+  "rule": "/my/study/<int:subject_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.study.study_subject"
+ },
+ {
+  "rule": "/grade-book",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.grade_book"
+ },
+ {
+  "rule": "/grade-book/report/download",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.grade_book_download"
+ },
+ {
+  "rule": "/library/media",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.library_media"
+ },
+ {
+  "rule": "/library/media/info/<int:mid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.library_media_info"
+ },
+ {
+  "rule": "/my/notice_board/all_read",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.notice_all_read"
+ },
+ {
+  "rule": "/my/notice_banner",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.notice_banner"
+ },
+ {
+  "rule": "/my/notice_board/notice",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.notice_board"
+ },
+ {
+  "rule": "/my/notice/<int:notice_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.notice_detail"
+ },
+ {
+  "rule": "/student/progression",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.student_progression"
+ },
+ {
+  "rule": "/subject/details",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.subject_details"
+ },
+ {
+  "rule": "/subject/material/detail/<int:sid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.subject_material_detail"
+ },
+ {
+  "rule": "/certificate",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.certificate"
+ },
+ {
+  "rule": "/my/certificate/download/<int:cert_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.certificate_download"
+ },
+ {
+  "rule": "/course/change/request",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.course_change_request"
+ },
+ {
+  "rule": "/course/change/request/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.course_change_request_save"
+ },
+ {
+  "rule": "/meeting/information",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.meeting_information"
+ },
+ {
+  "rule": "/my/academic-calendar",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_academic_calendar"
+ },
+ {
+  "rule": "/my/grievances",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_grievances"
+ },
+ {
+  "rule": "/my/grievances/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_grievances_export"
+ },
+ {
+  "rule": "/my/grievances/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_grievances_save"
+ },
+ {
+  "rule": "/my-library",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_library"
+ },
+ {
+  "rule": "/my/time_off",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_time_off"
+ },
+ {
+  "rule": "/my/time_off/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_time_off_save"
+ },
+ {
+  "rule": "/online/meeting",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.online_meeting"
+ },
+ {
+  "rule": "/requested/queue/list",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.requested_queue_list"
+ },
+ {
+  "rule": "/subject/registration",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.subject_registration"
+ },
+ {
+  "rule": "/subject/registration/data/<int:rid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.subject_registration_data"
+ },
+ {
+  "rule": "/users/result-overview",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.users_result_overview"
+ },
+ {
+  "rule": "/my/asset-request",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_asset_request"
+ },
+ {
+  "rule": "/my/dms",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_dms"
+ },
+ {
+  "rule": "/my/thesis",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch3.my_thesis"
+ },
+ {
+  "rule": "/my/checkin/board",
+  "endpoint": "odoo.addons.edu_portal.controllers.welfare.checkin_board"
+ },
+ {
+  "rule": "/my/checkin",
+  "endpoint": "odoo.addons.edu_portal.controllers.welfare.my_checkin"
+ },
+ {
+  "rule": "/my/checkin/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.welfare.my_checkin_export"
+ },
+ {
+  "rule": "/my/checkin/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.welfare.my_checkin_save"
+ },
+ {
+  "rule": "/my/points/give",
+  "endpoint": "odoo.addons.edu_portal.controllers.welfare.my_points_give"
+ },
+ {
+  "rule": "/my/points",
+  "endpoint": "odoo.addons.edu_portal.controllers.welfare.my_points_give_page"
+ },
+ {
+  "rule": "/my/points/me",
+  "endpoint": "odoo.addons.edu_portal.controllers.welfare.my_points_me"
+ },
+ {
+  "rule": "/my/fees",
+  "endpoint": "odoo.addons.edu_portal.controllers.fees.my_fees"
+ },
+ {
+  "rule": "/my/fees/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.fees.my_fees_export"
+ },
+ {
+  "rule": "/my/reimburse/apply",
+  "endpoint": "odoo.addons.edu_portal.controllers.fees.reimburse_apply"
+ },
+ {
+  "rule": "/my/reimburse/apply/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.fees.reimburse_apply_save"
+ },
+ {
+  "rule": "/my/reimburse/receipt/<int:bill_id>/<int:att_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.fees.reimburse_receipt"
+ },
+ {
+  "rule": "/my/assets/apply",
+  "endpoint": "odoo.addons.edu_portal.controllers.assets.asset_apply"
+ },
+ {
+  "rule": "/my/assets",
+  "endpoint": "odoo.addons.edu_portal.controllers.assets.my_assets"
+ },
+ {
+  "rule": "/my/help",
+  "endpoint": "odoo.addons.edu_portal.controllers.search.help_center"
+ },
+ {
+  "rule": "/my/search",
+  "endpoint": "odoo.addons.edu_portal.controllers.search.my_search"
+ },
+ {
+  "rule": "/my/search/suggest",
+  "endpoint": "odoo.addons.edu_portal.controllers.search.my_search_suggest"
+ },
+ {
+  "rule": "/my/lang/<string:code>",
+  "endpoint": "odoo.addons.edu_portal.controllers.search.set_lang"
+ },
+ {
+  "rule": "/my/evaluation",
+  "endpoint": "odoo.addons.edu_portal.controllers.eval_compat.eval_center"
+ },
+ {
+  "rule": "/my/evaluation/create",
+  "endpoint": "odoo.addons.edu_portal.controllers.eval_compat.eval_create"
+ },
+ {
+  "rule": "/my/evaluation/new",
+  "endpoint": "odoo.addons.edu_portal.controllers.eval_compat.eval_new"
+ },
+ {
+  "rule": "/my/evaluation/results",
+  "endpoint": "odoo.addons.edu_portal.controllers.eval_compat.eval_results"
+ },
+ {
+  "rule": "/my/evaluation/results.csv",
+  "endpoint": "odoo.addons.edu_portal.controllers.eval_compat.eval_results_csv"
+ },
+ {
+  "rule": "/my/evaluation/task/<int:task_id>",
+  "endpoint": "odoo.addons.edu_portal.controllers.eval_compat.eval_task"
+ },
+ {
+  "rule": "/my/evaluation/task/<int:task_id>/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.eval_compat.eval_task_save"
+ },
+ {
+  "rule": "/my/password",
+  "endpoint": "odoo.addons.edu_portal.controllers.my_password.password_form"
+ },
+ {
+  "rule": "/my/password/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.my_password.password_save"
+ },
+ {
+  "rule": "/help/faculty",
+  "endpoint": "odoo.addons.edu_portal.controllers.help_center.help_faculty"
+ },
+ {
+  "rule": "/help",
+  "endpoint": "odoo.addons.edu_portal.controllers.help_center.help_index"
+ },
+ {
+  "rule": "/help/parent",
+  "endpoint": "odoo.addons.edu_portal.controllers.help_center.help_parent"
+ },
+ {
+  "rule": "/help/registrar",
+  "endpoint": "odoo.addons.edu_portal.controllers.help_center.help_registrar"
+ },
+ {
+  "rule": "/help/student",
+  "endpoint": "odoo.addons.edu_portal.controllers.help_center.help_student"
+ },
+ {
+  "rule": "/my/avatar/upload",
+  "endpoint": "odoo.addons.edu_portal.controllers.avatar.avatar_upload"
+ },
+ {
+  "rule": "/my/calendar/ics/<token>",
+  "endpoint": "odoo.addons.edu_portal.controllers.ical.ical_feed"
+ },
+ {
+  "rule": "/my/favorites/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.favorite.favorites_save"
+ },
+ {
+  "rule": "/my/notify",
+  "endpoint": "odoo.addons.edu_portal.controllers.favorite.notify_prefs"
+ },
+ {
+  "rule": "/my/notify/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.favorite.notify_prefs_save"
+ },
+ {
+  "rule": "/registrar/subject/approvals/<int:rid>",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.approval_detail"
+ },
+ {
+  "rule": "/registrar/subject/approvals",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.approvals"
+ },
+ {
+  "rule": "/subject/enroll",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.enroll_catalog"
+ },
+ {
+  "rule": "/subject/enroll/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.enroll_save"
+ },
+ {
+  "rule": "/student/subjects",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.my_subjects"
+ },
+ {
+  "rule": "/registrar/subject/approvals/<int:rid>/set_state",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.set_state"
+ },
+ {
+  "rule": "/registrar/subject/set_state_bulk",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.set_state_bulk"
+ },
+ {
+  "rule": "/registrar/curriculum",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.curriculum"
+ },
+ {
+  "rule": "/registrar/curriculum/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.enroll.curriculum_save"
+ },
+ {
+  "rule": "/ledger",
+  "endpoint": "odoo.addons.edu_portal.controllers.ledger.ledger"
+ },
+ {
+  "rule": "/ledger/export",
+  "endpoint": "odoo.addons.edu_portal.controllers.ledger.ledger_export"
+ },
+ {
+  "rule": "/ledger/new",
+  "endpoint": "odoo.addons.edu_portal.controllers.ledger.ledger_new"
+ },
+ {
+  "rule": "/ledger/new/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.ledger.ledger_new_save"
+ },
+ {
+  "rule": "/ledger/reimburse",
+  "endpoint": "odoo.addons.edu_portal.controllers.ledger.ledger_reimburse"
+ },
+ {
+  "rule": "/ledger/reimburse/set",
+  "endpoint": "odoo.addons.edu_portal.controllers.ledger.ledger_reimburse_set"
+ },
+ {
+  "rule": "/grade-entry",
+  "endpoint": "odoo.addons.edu_portal.controllers.grade_entry.grade_entry"
+ },
+ {
+  "rule": "/grade-entry/save",
+  "endpoint": "odoo.addons.edu_portal.controllers.grade_entry.grade_entry_save"
+ },
+ {
+  "rule": "/alumni",
+  "endpoint": "odoo.addons.edu_public.controllers.main.alumni"
+ },
+ {
+  "rule": "/alumni/job/card",
+  "endpoint": "odoo.addons.edu_public.controllers.main.alumni_job_card"
+ },
+ {
+  "rule": "/alumni/jobs",
+  "endpoint": "odoo.addons.edu_public.controllers.main.alumni_jobs_page"
+ },
+ {
+  "rule": "/booking",
+  "endpoint": "odoo.addons.edu_public.controllers.main.booking"
+ },
+ {
+  "rule": "/campus/jobs/<int:posting_id>/apply",
+  "endpoint": "odoo.addons.edu_public.controllers.main.campus_job_apply"
+ },
+ {
+  "rule": "/campus/jobs/<int:posting_id>",
+  "endpoint": "odoo.addons.edu_public.controllers.main.campus_job_detail"
+ },
+ {
+  "rule": "/campus/jobs/<int:posting_id>/sent",
+  "endpoint": "odoo.addons.edu_public.controllers.main.campus_job_detail"
+ },
+ {
+  "rule": "/campus/jobs",
+  "endpoint": "odoo.addons.edu_public.controllers.main.campus_jobs"
+ },
+ {
+  "rule": "/courses-offered",
+  "endpoint": "odoo.addons.edu_public.controllers.main.courses_offered"
+ },
+ {
+  "rule": "/digital-library",
+  "endpoint": "odoo.addons.edu_public.controllers.main.digital_library"
+ },
+ {
+  "rule": "/digital-library/material/<int:mid>",
+  "endpoint": "odoo.addons.edu_public.controllers.main.digital_library_material"
+ },
+ {
+  "rule": "/my-courses",
+  "endpoint": "odoo.addons.edu_public.controllers.main.my_courses"
+ },
+ {
+  "rule": "/program-offered",
+  "endpoint": "odoo.addons.edu_public.controllers.main.program_offered"
+ },
+ {
+  "rule": "/courses",
+  "endpoint": "odoo.addons.edu_public.controllers.main.public_courses"
+ },
+ {
+  "rule": "/online-exams",
+  "endpoint": "odoo.addons.edu_public.controllers.main.public_exams"
+ },
+ {
+  "rule": "/quiz",
+  "endpoint": "odoo.addons.edu_quiz.controllers.portal.quiz_list"
+ },
+ {
+  "rule": "/quiz/my",
+  "endpoint": "odoo.addons.edu_quiz.controllers.portal.quiz_my"
+ },
+ {
+  "rule": "/quiz/<int:qid>/result/<int:aid>",
+  "endpoint": "odoo.addons.edu_quiz.controllers.portal.quiz_result"
+ },
+ {
+  "rule": "/quiz/<int:qid>/submit",
+  "endpoint": "odoo.addons.edu_quiz.controllers.portal.quiz_submit"
+ },
+ {
+  "rule": "/quiz/<int:qid>/take",
+  "endpoint": "odoo.addons.edu_quiz.controllers.portal.quiz_take"
+ },
+ {
+  "rule": "/timetable/batch/<int:bid>/deactivate",
+  "endpoint": "odoo.addons.edu_schedule.controllers.main.batch_deactivate"
+ },
+ {
+  "rule": "/timetable/batch/<int:bid>/deactivate/confirm",
+  "endpoint": "odoo.addons.edu_schedule.controllers.main.batch_deactivate_confirm"
+ },
+ {
+  "rule": "/timetable/session/<int:sid>/impact",
+  "endpoint": "odoo.addons.edu_schedule.controllers.main.session_impact"
+ },
+ {
+  "rule": "/timetable/session/<int:sid>/notify",
+  "endpoint": "odoo.addons.edu_schedule.controllers.main.session_notify"
+ },
+ {
+  "rule": "/timetable/bulk",
+  "endpoint": "odoo.addons.edu_schedule.controllers.main.timetable_bulk"
+ },
+ {
+  "rule": "/timetable/bulk/create",
+  "endpoint": "odoo.addons.edu_schedule.controllers.main.timetable_bulk_create"
+ },
+ {
+  "rule": "/timetable/bulk/preview",
+  "endpoint": "odoo.addons.edu_schedule.controllers.main.timetable_bulk_preview"
+ },
+ {
+  "rule": "/telegram/report/<string:token>",
+  "endpoint": "odoo.addons.edu_telegram.controllers.main.telegram_report"
+ },
+ {
+  "rule": "/telegram/webhook",
+  "endpoint": "odoo.addons.edu_telegram.controllers.main.telegram_webhook"
+ },
+ {
+  "rule": "/my/telegram",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal.telegram_binding"
+ },
+ {
+  "rule": "/my/telegram/new_code",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal.telegram_new_code"
+ },
+ {
+  "rule": "/my/subject-reg",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal_ops.subject_reg"
+ },
+ {
+  "rule": "/my/subject-reg/save",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal_ops.subject_reg_save"
+ },
+ {
+  "rule": "/my/rollcall/<int:session_id>",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal_ops.rollcall_form"
+ },
+ {
+  "rule": "/my/rollcall",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal_ops.rollcall_index"
+ },
+ {
+  "rule": "/my/rollcall/<int:session_id>/save",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal_ops.rollcall_save"
+ },
+ {
+  "rule": "/my/marks/<int:exam_id>",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal_ops.marks_form"
+ },
+ {
+  "rule": "/my/marks",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal_ops.marks_index"
+ },
+ {
+  "rule": "/my/marks/<int:exam_id>/save",
+  "endpoint": "odoo.addons.edu_telegram.controllers.portal_ops.marks_save"
+ },
+ {
+  "rule": "/telegram/tgb/webhook",
+  "endpoint": "odoo.addons.edu_tg_bind.controllers.webhook.telegram_tgb_webhook"
+ },
+ {
+  "rule": "/event/<model(\"event.event\"):event>/ics",
+  "endpoint": "odoo.addons.event.controllers.main.event_ics_file"
+ },
+ {
+  "rule": "/event/<int:event_id>/my_tickets",
+  "endpoint": "odoo.addons.event.controllers.main.event_my_tickets"
+ },
+ {
+  "rule": "/event/init_barcode_interface",
+  "endpoint": "odoo.addons.event.controllers.main.init_barcode_interface"
+ },
+ {
+  "rule": "/google_gmail/confirm",
+  "endpoint": "odoo.addons.google_gmail.controllers.main.google_gmail_callback"
+ },
+ {
+  "rule": "/google_gmail/iap_confirm",
+  "endpoint": "odoo.addons.google_gmail.controllers.main.google_gmail_iap_callback"
+ },
+ {
+  "rule": "/hr_attendance/create_employee",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.create_employee"
+ },
+ {
+  "rule": "/hr_attendance/attendance_employee_data",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.employee_attendance_data"
+ },
+ {
+  "rule": "/hr_attendance/employees_infos",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.employees_infos"
+ },
+ {
+  "rule": "/hr_attendance/get_employees_without_badge",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.get_employees_without_badge"
+ },
+ {
+  "rule": "/hr_attendance/kiosk_keepalive",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.kiosk_keepalive"
+ },
+ {
+  "rule": "/hr_attendance/kiosk_mode_menu/<int:company_id>",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.kiosk_menu_item_action"
+ },
+ {
+  "rule": "/hr_attendance/manual_selection",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.manual_selection"
+ },
+ {
+  "rule": "/hr_attendance/<token>",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.open_kiosk_mode"
+ },
+ {
+  "rule": "/hr_attendance/attendance_barcode_scanned",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.scan_barcode_with_geolocation"
+ },
+ {
+  "rule": "/hr_attendance/set_settings",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.set_attendance_settings"
+ },
+ {
+  "rule": "/hr_attendance/set_badge",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.set_badge"
+ },
+ {
+  "rule": "/hr_attendance/systray_check_in_out",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.systray_attendance"
+ },
+ {
+  "rule": "/hr_attendance/attendance_user_data",
+  "endpoint": "odoo.addons.hr_attendance.controllers.main.user_attendance_data"
+ },
+ {
+  "rule": "/hr/get_org_chart",
+  "endpoint": "odoo.addons.hr_org_chart.controllers.hr_org_chart.get_org_chart"
+ },
+ {
+  "rule": "/hr/get_redirect_model",
+  "endpoint": "odoo.addons.hr_org_chart.controllers.hr_org_chart.get_redirect_model"
+ },
+ {
+  "rule": "/hr/get_subordinates",
+  "endpoint": "odoo.addons.hr_org_chart.controllers.hr_org_chart.get_subordinates"
+ },
+ {
+  "rule": "/print/cv",
+  "endpoint": "odoo.addons.hr_skills.controllers.main.print_employee_cv"
+ },
+ {
+  "rule": "/web_editor/attachment/add_data",
+  "endpoint": "odoo.addons.html_editor.controllers.main.add_data"
+ },
+ {
+  "rule": "/html_editor/attachment/add_data",
+  "endpoint": "odoo.addons.html_editor.controllers.main.add_data"
+ },
+ {
+  "rule": "/web_editor/attachment/add_url",
+  "endpoint": "odoo.addons.html_editor.controllers.main.add_url"
+ },
+ {
+  "rule": "/html_editor/attachment/add_url",
+  "endpoint": "odoo.addons.html_editor.controllers.main.add_url"
+ },
+ {
+  "rule": "/web_editor/bus_broadcast",
+  "endpoint": "odoo.addons.html_editor.controllers.main.bus_broadcast"
+ },
+ {
+  "rule": "/html_editor/bus_broadcast",
+  "endpoint": "odoo.addons.html_editor.controllers.main.bus_broadcast"
+ },
+ {
+  "rule": "/web_editor/generate_text",
+  "endpoint": "odoo.addons.html_editor.controllers.main.generate_text"
+ },
+ {
+  "rule": "/html_editor/generate_text",
+  "endpoint": "odoo.addons.html_editor.controllers.main.generate_text"
+ },
+ {
+  "rule": "/web_editor/get_ice_servers",
+  "endpoint": "odoo.addons.html_editor.controllers.main.get_ice_servers"
+ },
+ {
+  "rule": "/html_editor/get_ice_servers",
+  "endpoint": "odoo.addons.html_editor.controllers.main.get_ice_servers"
+ },
+ {
+  "rule": "/web_editor/get_image_info",
+  "endpoint": "odoo.addons.html_editor.controllers.main.get_image_info"
+ },
+ {
+  "rule": "/html_editor/get_image_info",
+  "endpoint": "odoo.addons.html_editor.controllers.main.get_image_info"
+ },
+ {
+  "rule": "/web_editor/image_shape/<string:img_key>/<module>/<path:filename>",
+  "endpoint": "odoo.addons.html_editor.controllers.main.image_shape"
+ },
+ {
+  "rule": "/html_editor/image_shape/<string:img_key>/<module>/<path:filename>",
+  "endpoint": "odoo.addons.html_editor.controllers.main.image_shape"
+ },
+ {
+  "rule": "/html_editor/link_preview_external",
+  "endpoint": "odoo.addons.html_editor.controllers.main.link_preview_metadata"
+ },
+ {
+  "rule": "/html_editor/link_preview_internal",
+  "endpoint": "odoo.addons.html_editor.controllers.main.link_preview_metadata_internal"
+ },
+ {
+  "rule": "/html_editor/media_library_search",
+  "endpoint": "odoo.addons.html_editor.controllers.main.media_library_search"
+ },
+ {
+  "rule": "/web_editor/modify_image/<model(\"ir.attachment\"):attachment>",
+  "endpoint": "odoo.addons.html_editor.controllers.main.modify_image"
+ },
+ {
+  "rule": "/html_editor/modify_image/<model(\"ir.attachment\"):attachment>",
+  "endpoint": "odoo.addons.html_editor.controllers.main.modify_image"
+ },
+ {
+  "rule": "/html_editor/attachment/remove",
+  "endpoint": "odoo.addons.html_editor.controllers.main.remove"
+ },
+ {
+  "rule": "/web_editor/save_library_media",
+  "endpoint": "odoo.addons.html_editor.controllers.main.save_library_media"
+ },
+ {
+  "rule": "/html_editor/save_library_media",
+  "endpoint": "odoo.addons.html_editor.controllers.main.save_library_media"
+ },
+ {
+  "rule": "/web_editor/shape/<module>/<path:filename>",
+  "endpoint": "odoo.addons.html_editor.controllers.main.shape"
+ },
+ {
+  "rule": "/html_editor/shape/<module>/<path:filename>",
+  "endpoint": "odoo.addons.html_editor.controllers.main.shape"
+ },
+ {
+  "rule": "/web_editor/video_url/data",
+  "endpoint": "odoo.addons.html_editor.controllers.main.video_url_data"
+ },
+ {
+  "rule": "/html_editor/video_url/data",
+  "endpoint": "odoo.addons.html_editor.controllers.main.video_url_data"
+ },
+ {
+  "rule": "/chatbot/restart",
+  "endpoint": "odoo.addons.im_livechat.controllers.chatbot.chatbot_restart"
+ },
+ {
+  "rule": "/chatbot/answer/save",
+  "endpoint": "odoo.addons.im_livechat.controllers.chatbot.chatbot_save_answer"
+ },
+ {
+  "rule": "/chatbot/step/trigger",
+  "endpoint": "odoo.addons.im_livechat.controllers.chatbot.chatbot_trigger_step"
+ },
+ {
+  "rule": "/chatbot/step/validate_email",
+  "endpoint": "odoo.addons.im_livechat.controllers.chatbot.chatbot_validate_email"
+ },
+ {
+  "rule": "/chatbot/cors/restart",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.chatbot.cors_chatbot_restart"
+ },
+ {
+  "rule": "/chatbot/cors/answer/save",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.chatbot.cors_chatbot_save_answer"
+ },
+ {
+  "rule": "/chatbot/cors/step/trigger",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.chatbot.cors_chatbot_trigger_step"
+ },
+ {
+  "rule": "/chatbot/cors/step/validate_email",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.chatbot.cors_chatbot_validate_email"
+ },
+ {
+  "rule": "/im_livechat/assets_embed.<any(css, js):ext>",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.assets_embed"
+ },
+ {
+  "rule": "/im_livechat/cors/download_transcript/<int:channel_id>",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.main.cors_download_livechat_transcript"
+ },
+ {
+  "rule": "/im_livechat/cors/feedback",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.main.cors_feedback"
+ },
+ {
+  "rule": "/im_livechat/cors/get_session",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.main.cors_get_session"
+ },
+ {
+  "rule": "/im_livechat/cors/history",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.main.cors_history_pages"
+ },
+ {
+  "rule": "/im_livechat/cors/init",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.main.cors_livechat_init"
+ },
+ {
+  "rule": "/im_livechat/cors/visitor_leave_session",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.main.cors_visitor_leave_session"
+ },
+ {
+  "rule": "/im_livechat/download_transcript/<int:channel_id>",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.download_livechat_transcript"
+ },
+ {
+  "rule": "/im_livechat/email_livechat_transcript",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.email_livechat_transcript"
+ },
+ {
+  "rule": "/im_livechat/external_lib.<any(css,js):ext>",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.external_lib"
+ },
+ {
+  "rule": "/im_livechat/feedback",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.feedback"
+ },
+ {
+  "rule": "/im_livechat/font-awesome",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.fontawesome"
+ },
+ {
+  "rule": "/im_livechat/emoji_bundle",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.get_emoji_bundle"
+ },
+ {
+  "rule": "/im_livechat/get_session",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.get_session"
+ },
+ {
+  "rule": "/im_livechat/history",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.history_pages"
+ },
+ {
+  "rule": "/im_livechat/loader/<int:channel_id>",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.loader"
+ },
+ {
+  "rule": "/im_livechat/odoo_ui_icons",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.odoo_ui_icons"
+ },
+ {
+  "rule": "/im_livechat/support/<int:channel_id>",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.support_page"
+ },
+ {
+  "rule": "/im_livechat/visitor_leave_session",
+  "endpoint": "odoo.addons.im_livechat.controllers.main.visitor_leave_session"
+ },
+ {
+  "rule": "/im_livechat/cors/attachment/delete",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.attachment.im_livechat_attachment_delete"
+ },
+ {
+  "rule": "/im_livechat/cors/attachment/upload",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.attachment.im_livechat_attachment_upload"
+ },
+ {
+  "rule": "/im_livechat/cors/action",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.webclient.livechat_action"
+ },
+ {
+  "rule": "/im_livechat/cors/data",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.webclient.livechat_data"
+ },
+ {
+  "rule": "/im_livechat/cors/message/post",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.thread.livechat_message_post"
+ },
+ {
+  "rule": "/im_livechat/cors/message/reaction",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.message_reaction.livechat_message_reaction"
+ },
+ {
+  "rule": "/im_livechat/cors/message/update_content",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.thread.livechat_message_update_content"
+ },
+ {
+  "rule": "/mail/action",
+  "endpoint": "odoo.addons.mail.controllers.webclient.mail_action"
+ },
+ {
+  "rule": "/mail/attachment/update_thumbnail",
+  "endpoint": "odoo.addons.mail.controllers.attachment.mail_attachement_update_thumbnail"
+ },
+ {
+  "rule": "/mail/attachment/delete",
+  "endpoint": "odoo.addons.mail.controllers.attachment.mail_attachment_delete"
+ },
+ {
+  "rule": "/mail/attachment/zip",
+  "endpoint": "odoo.addons.mail.controllers.attachment.mail_attachment_get_zip"
+ },
+ {
+  "rule": "/mail/attachment/pdf_first_page/<int:attachment_id>",
+  "endpoint": "odoo.addons.mail.controllers.attachment.mail_attachment_pdf_first_page"
+ },
+ {
+  "rule": "/mail/attachment/upload",
+  "endpoint": "odoo.addons.im_livechat.controllers.attachment.mail_attachment_upload"
+ },
+ {
+  "rule": "/mail/data",
+  "endpoint": "odoo.addons.mail.controllers.webclient.mail_data"
+ },
+ {
+  "rule": "/mail/message/post",
+  "endpoint": "odoo.addons.im_livechat.controllers.thread.mail_message_post"
+ },
+ {
+  "rule": "/mail/message/reaction",
+  "endpoint": "odoo.addons.mail.controllers.message_reaction.mail_message_reaction"
+ },
+ {
+  "rule": "/mail/message/update_content",
+  "endpoint": "odoo.addons.mail.controllers.thread.mail_message_update_content"
+ },
+ {
+  "rule": "/mail/thread/messages",
+  "endpoint": "odoo.addons.mail.controllers.thread.mail_thread_messages"
+ },
+ {
+  "rule": "/mail/partner/from_email",
+  "endpoint": "odoo.addons.mail.controllers.thread.mail_thread_partner_from_email"
+ },
+ {
+  "rule": "/mail/thread/recipients",
+  "endpoint": "odoo.addons.mail.controllers.thread.mail_thread_recipients"
+ },
+ {
+  "rule": "/mail/thread/recipients/fields",
+  "endpoint": "odoo.addons.mail.controllers.thread.mail_thread_recipients_fields"
+ },
+ {
+  "rule": "/mail/thread/recipients/get_suggested_recipients",
+  "endpoint": "odoo.addons.mail.controllers.thread.mail_thread_recipients_get_suggested_recipients"
+ },
+ {
+  "rule": "/mail/thread/subscribe",
+  "endpoint": "odoo.addons.mail.controllers.thread.mail_thread_subscribe"
+ },
+ {
+  "rule": "/mail/thread/unsubscribe",
+  "endpoint": "odoo.addons.mail.controllers.thread.mail_thread_unsubscribe"
+ },
+ {
+  "rule": "/mail/avatar/mail.message/<int:res_id>/author_avatar/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.portal.controllers.portal_thread.portal_avatar"
+ },
+ {
+  "rule": "/portal/chatter_init",
+  "endpoint": "odoo.addons.portal.controllers.portal_thread.portal_chatter_init"
+ },
+ {
+  "rule": "/mail/chatter_fetch",
+  "endpoint": "odoo.addons.portal.controllers.portal_thread.portal_message_fetch"
+ },
+ {
+  "rule": "/mail/update_is_internal",
+  "endpoint": "odoo.addons.portal.controllers.portal_thread.portal_message_update_is_internal"
+ },
+ {
+  "rule": "/mail/read_subscription_data",
+  "endpoint": "odoo.addons.mail.controllers.thread.read_subscription_data"
+ },
+ {
+  "rule": "/web/tests/livechat",
+  "endpoint": "odoo.addons.im_livechat.controllers.webclient.test_external_livechat"
+ },
+ {
+  "rule": "/mail/message/translate",
+  "endpoint": "odoo.addons.mail.controllers.google_translate.translate"
+ },
+ {
+  "rule": "/mail/guest/update_name",
+  "endpoint": "odoo.addons.mail.controllers.guest.mail_guest_update_name"
+ },
+ {
+  "rule": "/mail/set_manual_im_status",
+  "endpoint": "odoo.addons.mail.controllers.im_status.set_manual_im_status"
+ },
+ {
+  "rule": "/im_livechat/cors/link_preview",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.link_preview.livechat_link_preview"
+ },
+ {
+  "rule": "/im_livechat/cors/link_preview/hide",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.link_preview.livechat_link_preview_hide"
+ },
+ {
+  "rule": "/mail/link_preview",
+  "endpoint": "odoo.addons.mail.controllers.link_preview.mail_link_preview"
+ },
+ {
+  "rule": "/mail/link_preview/hide",
+  "endpoint": "odoo.addons.mail.controllers.link_preview.mail_link_preview_hide"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>/<int:size>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>/<int:size>/<int:alpha>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>/<int:width>x<int:height>/<int:alpha>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>/<bg>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>/<bg>/<int:size>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>/<bg>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/web_editor/font_to_img/<icon>/<color>/<bg>/<int:width>x<int:height>/<int:alpha>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>/<int:size>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>/<int:size>/<int:alpha>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>/<int:width>x<int:height>/<int:alpha>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>/<bg>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>/<bg>/<int:size>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>/<bg>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/font_to_img/<icon>/<color>/<bg>/<int:width>x<int:height>/<int:alpha>",
+  "endpoint": "odoo.addons.mail.controllers.mail.export_icon_to_png"
+ },
+ {
+  "rule": "/mail/unfollow",
+  "endpoint": "odoo.addons.portal.controllers.mail.mail_action_unfollow"
+ },
+ {
+  "rule": "/mail/view",
+  "endpoint": "odoo.addons.mail.controllers.mail.mail_action_view"
+ },
+ {
+  "rule": "/mail/message/<int:message_id>",
+  "endpoint": "odoo.addons.mail.controllers.mail.mail_thread_message_redirect"
+ },
+ {
+  "rule": "/mail/history/messages",
+  "endpoint": "odoo.addons.mail.controllers.mailbox.discuss_history_messages"
+ },
+ {
+  "rule": "/mail/inbox/messages",
+  "endpoint": "odoo.addons.mail.controllers.mailbox.discuss_inbox_messages"
+ },
+ {
+  "rule": "/mail/starred/messages",
+  "endpoint": "odoo.addons.mail.controllers.mailbox.discuss_starred_messages"
+ },
+ {
+  "rule": "/discuss/channel/update_avatar",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_avatar_update"
+ },
+ {
+  "rule": "/discuss/channel/join",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_join"
+ },
+ {
+  "rule": "/discuss/channel/mark_as_read",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_mark_as_read"
+ },
+ {
+  "rule": "/discuss/channel/members",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_members"
+ },
+ {
+  "rule": "/discuss/channel/messages",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_messages"
+ },
+ {
+  "rule": "/discuss/channel/notify_typing",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_notify_typing"
+ },
+ {
+  "rule": "/discuss/channel/pinned_messages",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_pins"
+ },
+ {
+  "rule": "/discuss/channel/set_new_message_separator",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_set_new_message_separator"
+ },
+ {
+  "rule": "/discuss/channel/sub_channel/create",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_sub_channel_create"
+ },
+ {
+  "rule": "/discuss/channel/sub_channel/fetch",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_channel_sub_channel_fetch"
+ },
+ {
+  "rule": "/discuss/channel/sub_channel/delete",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.discuss_delete_sub_channel"
+ },
+ {
+  "rule": "/im_livechat/cors/channel/mark_as_read",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.channel.livechat_channel_mark_as_read"
+ },
+ {
+  "rule": "/im_livechat/cors/channel/messages",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.channel.livechat_channel_messages"
+ },
+ {
+  "rule": "/im_livechat/cors/channel/notify_typing",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.channel.livechat_channel_notify_typing"
+ },
+ {
+  "rule": "/im_livechat/conversation/create_and_link_expertise",
+  "endpoint": "odoo.addons.im_livechat.controllers.channel.livechat_conversation_create_and_link_expertise"
+ },
+ {
+  "rule": "/im_livechat/conversation/update_tags",
+  "endpoint": "odoo.addons.im_livechat.controllers.channel.livechat_conversation_update_tags"
+ },
+ {
+  "rule": "/im_livechat/conversation/write_expertises",
+  "endpoint": "odoo.addons.im_livechat.controllers.channel.livechat_conversation_write_expertises"
+ },
+ {
+  "rule": "/im_livechat/session/update_note",
+  "endpoint": "odoo.addons.im_livechat.controllers.channel.livechat_session_update_note"
+ },
+ {
+  "rule": "/im_livechat/session/update_status",
+  "endpoint": "odoo.addons.im_livechat.controllers.channel.livechat_session_update_status"
+ },
+ {
+  "rule": "/discuss/channel/attachments",
+  "endpoint": "odoo.addons.mail.controllers.discuss.channel.load_attachments"
+ },
+ {
+  "rule": "/discuss/gif/add_favorite",
+  "endpoint": "odoo.addons.mail.controllers.discuss.gif.add_favorite"
+ },
+ {
+  "rule": "/discuss/gif/categories",
+  "endpoint": "odoo.addons.mail.controllers.discuss.gif.categories"
+ },
+ {
+  "rule": "/discuss/gif/favorites",
+  "endpoint": "odoo.addons.mail.controllers.discuss.gif.get_favorites"
+ },
+ {
+  "rule": "/discuss/gif/remove_favorite",
+  "endpoint": "odoo.addons.mail.controllers.discuss.gif.remove_favorite"
+ },
+ {
+  "rule": "/discuss/gif/search",
+  "endpoint": "odoo.addons.mail.controllers.discuss.gif.search"
+ },
+ {
+  "rule": "/discuss/channel/<int:channel_id>",
+  "endpoint": "odoo.addons.mail.controllers.discuss.public_page.discuss_channel"
+ },
+ {
+  "rule": "/chat/<string:create_token>",
+  "endpoint": "odoo.addons.mail.controllers.discuss.public_page.discuss_channel_chat_from_token"
+ },
+ {
+  "rule": "/chat/<string:create_token>/<string:channel_name>",
+  "endpoint": "odoo.addons.mail.controllers.discuss.public_page.discuss_channel_chat_from_token"
+ },
+ {
+  "rule": "/chat/<int:channel_id>/<string:invitation_token>",
+  "endpoint": "odoo.addons.mail.controllers.discuss.public_page.discuss_channel_invitation"
+ },
+ {
+  "rule": "/meet/<string:create_token>",
+  "endpoint": "odoo.addons.mail.controllers.discuss.public_page.discuss_channel_meet_from_token"
+ },
+ {
+  "rule": "/meet/<string:create_token>/<string:channel_name>",
+  "endpoint": "odoo.addons.mail.controllers.discuss.public_page.discuss_channel_meet_from_token"
+ },
+ {
+  "rule": "/mail/rtc/audio_worklet_processor_v2",
+  "endpoint": "odoo.addons.mail.controllers.discuss.rtc.audio_worklet_processor"
+ },
+ {
+  "rule": "/mail/rtc/channel/cancel_call_invitation",
+  "endpoint": "odoo.addons.mail.controllers.discuss.rtc.channel_call_cancel_invitation"
+ },
+ {
+  "rule": "/mail/rtc/channel/join_call",
+  "endpoint": "odoo.addons.im_livechat.controllers.rtc.channel_call_join"
+ },
+ {
+  "rule": "/mail/rtc/channel/leave_call",
+  "endpoint": "odoo.addons.mail.controllers.discuss.rtc.channel_call_leave"
+ },
+ {
+  "rule": "/discuss/channel/ping",
+  "endpoint": "odoo.addons.mail.controllers.discuss.rtc.channel_ping"
+ },
+ {
+  "rule": "/mail/rtc/channel/upgrade_connection",
+  "endpoint": "odoo.addons.mail.controllers.discuss.rtc.channel_upgrade"
+ },
+ {
+  "rule": "/im_livechat/cors/rtc/channel/join_call",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.rtc.livechat_channel_call_join"
+ },
+ {
+  "rule": "/im_livechat/cors/rtc/channel/leave_call",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.rtc.livechat_channel_call_leave"
+ },
+ {
+  "rule": "/im_livechat/cors/channel/ping",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.rtc.livechat_channel_ping"
+ },
+ {
+  "rule": "/im_livechat/cors/rtc/session/notify_call_members",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.rtc.livechat_session_call_notify"
+ },
+ {
+  "rule": "/im_livechat/cors/rtc/session/update_and_broadcast",
+  "endpoint": "odoo.addons.im_livechat.controllers.cors.rtc.livechat_session_update_and_broadcast"
+ },
+ {
+  "rule": "/mail/rtc/session/notify_call_members",
+  "endpoint": "odoo.addons.mail.controllers.discuss.rtc.session_call_notify"
+ },
+ {
+  "rule": "/mail/rtc/session/update_and_broadcast",
+  "endpoint": "odoo.addons.mail.controllers.discuss.rtc.session_update_and_broadcast"
+ },
+ {
+  "rule": "/discuss/search",
+  "endpoint": "odoo.addons.mail.controllers.discuss.search.search"
+ },
+ {
+  "rule": "/discuss/settings/custom_notifications",
+  "endpoint": "odoo.addons.mail.controllers.discuss.settings.discuss_custom_notifications"
+ },
+ {
+  "rule": "/discuss/settings/mute",
+  "endpoint": "odoo.addons.mail.controllers.discuss.settings.discuss_mute"
+ },
+ {
+  "rule": "/discuss/voice/worklet_processor",
+  "endpoint": "odoo.addons.mail.controllers.discuss.voice.voice_worklet_processor"
+ },
+ {
+  "rule": "/microsoft_outlook/confirm",
+  "endpoint": "odoo.addons.microsoft_outlook.controllers.main.microsoft_outlook_callback"
+ },
+ {
+  "rule": "/microsoft_outlook/iap_confirm",
+  "endpoint": "odoo.addons.microsoft_outlook.controllers.main.microsoft_outlook_iap_callback"
+ },
+ {
+  "rule": "/openeducat-attendance/take-attendance",
+  "endpoint": "odoo.addons.openeducat_attendance.controllers.app_main.create_attendance_lines"
+ },
+ {
+  "rule": "/my/account",
+  "endpoint": "odoo.addons.portal.controllers.portal.account"
+ },
+ {
+  "rule": "/my/address/archive",
+  "endpoint": "odoo.addons.portal.controllers.portal.address_archive"
+ },
+ {
+  "rule": "/portal/attachment/remove",
+  "endpoint": "odoo.addons.portal.controllers.portal.attachment_remove"
+ },
+ {
+  "rule": "/my/counters",
+  "endpoint": "odoo.addons.portal.controllers.portal.counters"
+ },
+ {
+  "rule": "/my/deactivate_account",
+  "endpoint": "odoo.addons.portal.controllers.portal.deactivate_account"
+ },
+ {
+  "rule": "/my/account/gr-no",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.edu_account_gr_no_submit"
+ },
+ {
+  "rule": "/my/apps",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.edu_apps"
+ },
+ {
+  "rule": "/my/home",
+  "endpoint": "odoo.addons.edu_portal.controllers.batch2.edu_home"
+ },
+ {
+  "rule": "/my",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.edu_my_redirect"
+ },
+ {
+  "rule": "/my",
+  "endpoint": "odoo.addons.portal.controllers.portal.home"
+ },
+ {
+  "rule": "/my/home",
+  "endpoint": "odoo.addons.portal.controllers.portal.home"
+ },
+ {
+  "rule": "/my/addresses",
+  "endpoint": "odoo.addons.portal.controllers.portal.my_addresses"
+ },
+ {
+  "rule": "/my/address",
+  "endpoint": "odoo.addons.portal.controllers.portal.portal_address"
+ },
+ {
+  "rule": "/my/address/country_info/<model(\"res.country\"):country>",
+  "endpoint": "odoo.addons.portal.controllers.portal.portal_address_country_info"
+ },
+ {
+  "rule": "/my/address/submit",
+  "endpoint": "odoo.addons.portal.controllers.portal.portal_address_submit"
+ },
+ {
+  "rule": "/my/invoices/<int:invoice_id>",
+  "endpoint": "odoo.addons.account.controllers.portal.portal_my_invoice_detail"
+ },
+ {
+  "rule": "/my/invoices",
+  "endpoint": "odoo.addons.account.controllers.portal.portal_my_invoices"
+ },
+ {
+  "rule": "/my/invoices/page/<int:page>",
+  "endpoint": "odoo.addons.account.controllers.portal.portal_my_invoices"
+ },
+ {
+  "rule": "/my/journal/<int:journal_id>/unsubscribe",
+  "endpoint": "odoo.addons.account.controllers.portal.portal_my_journal_unsubscribe"
+ },
+ {
+  "rule": "/my/security",
+  "endpoint": "odoo.addons.portal.controllers.portal.security"
+ },
+ {
+  "rule": "/student/timetable",
+  "endpoint": "odoo.addons.edu_portal.controllers.scheduling.student_timetable"
+ },
+ {
+  "rule": "/website/rating/comment",
+  "endpoint": "odoo.addons.portal_rating.controllers.portal_rating.publish_rating_comment"
+ },
+ {
+  "rule": "/product/catalog/create_section",
+  "endpoint": "odoo.addons.account.controllers.catalog.product_catalog_create_section"
+ },
+ {
+  "rule": "/product/catalog/order_lines_info",
+  "endpoint": "odoo.addons.product.controllers.catalog.product_catalog_get_order_lines_info"
+ },
+ {
+  "rule": "/product/catalog/get_sections",
+  "endpoint": "odoo.addons.account.controllers.catalog.product_catalog_get_sections"
+ },
+ {
+  "rule": "/product/catalog/resequence_sections",
+  "endpoint": "odoo.addons.account.controllers.catalog.product_catalog_resequence_sections"
+ },
+ {
+  "rule": "/product/catalog/update_order_line_info",
+  "endpoint": "odoo.addons.product.controllers.catalog.product_catalog_update_order_line_info"
+ },
+ {
+  "rule": "/product/document/upload",
+  "endpoint": "odoo.addons.product.controllers.product_document.upload_document"
+ },
+ {
+  "rule": "/product/export/pricelist/",
+  "endpoint": "odoo.addons.product.controllers.pricelist_report.export_pricelist"
+ },
+ {
+  "rule": "/rate/<string:token>/<int:rate>",
+  "endpoint": "odoo.addons.rating.controllers.main.action_open_rating"
+ },
+ {
+  "rule": "/rate/<string:token>/submit_feedback",
+  "endpoint": "odoo.addons.rating.controllers.main.action_submit_rating"
+ },
+ {
+  "rule": "/json/2",
+  "endpoint": "odoo.addons.rpc.controllers.json2.web_json_2_404"
+ },
+ {
+  "rule": "/json/2/<path:subpath>",
+  "endpoint": "odoo.addons.rpc.controllers.json2.web_json_2_404"
+ },
+ {
+  "rule": "/json/2/<__model__>/<__method__>",
+  "endpoint": "odoo.addons.rpc.controllers.json2.web_json_2_rpc"
+ },
+ {
+  "rule": "/jsonrpc",
+  "endpoint": "odoo.addons.rpc.controllers.jsonrpc.jsonrpc"
+ },
+ {
+  "rule": "/web/version",
+  "endpoint": "odoo.addons.rpc.controllers.version"
+ },
+ {
+  "rule": "/json/version",
+  "endpoint": "odoo.addons.rpc.controllers.version"
+ },
+ {
+  "rule": "/xmlrpc/<service>",
+  "endpoint": "odoo.addons.rpc.controllers.xmlrpc.xmlrpc_1"
+ },
+ {
+  "rule": "/xmlrpc/2/<service>",
+  "endpoint": "odoo.addons.rpc.controllers.xmlrpc.xmlrpc_2"
+ },
+ {
+  "rule": "/jsonrpc",
+  "endpoint": "odoo.addons.rpc.controllers.jsonrpc.jsonrpc"
+ },
+ {
+  "rule": "/web/version",
+  "endpoint": "odoo.addons.rpc.controllers.version"
+ },
+ {
+  "rule": "/json/version",
+  "endpoint": "odoo.addons.rpc.controllers.version"
+ },
+ {
+  "rule": "/xmlrpc/<service>",
+  "endpoint": "odoo.addons.rpc.controllers.xmlrpc.xmlrpc_1"
+ },
+ {
+  "rule": "/xmlrpc/2/<service>",
+  "endpoint": "odoo.addons.rpc.controllers.xmlrpc.xmlrpc_2"
+ },
+ {
+  "rule": "/sms/status",
+  "endpoint": "odoo.addons.sms.controllers.main.update_sms_status"
+ },
+ {
+  "rule": "/spreadsheet/log",
+  "endpoint": "odoo.addons.spreadsheet.controllers.main.log_action"
+ },
+ {
+  "rule": "/dashboard/download/<int:share_id>/<token>",
+  "endpoint": "odoo.addons.spreadsheet_dashboard.controllers.share.download"
+ },
+ {
+  "rule": "/dashboard/data/<int:share_id>/<token>",
+  "endpoint": "odoo.addons.spreadsheet_dashboard.controllers.share.get_shared_dashboard_data"
+ },
+ {
+  "rule": "/dashboard/share/<int:share_id>/<token>",
+  "endpoint": "odoo.addons.spreadsheet_dashboard.controllers.share.share_portal"
+ },
+ {
+  "rule": "/spreadsheet/dashboard/data/<model(\"spreadsheet.dashboard\"):dashboard>",
+  "endpoint": "odoo.addons.spreadsheet_dashboard.controllers.dashboards_controllers.get_dashboard_data"
+ },
+ {
+  "rule": "/web/action/load",
+  "endpoint": "odoo.addons.web.controllers.action.load"
+ },
+ {
+  "rule": "/web/action/load_breadcrumbs",
+  "endpoint": "odoo.addons.web.controllers.action.load_breadcrumbs"
+ },
+ {
+  "rule": "/web/action/run",
+  "endpoint": "odoo.addons.web.controllers.action.run"
+ },
+ {
+  "rule": "/web/binary/company_logo",
+  "endpoint": "odoo.addons.web.controllers.binary.company_logo"
+ },
+ {
+  "rule": "/logo",
+  "endpoint": "odoo.addons.web.controllers.binary.company_logo"
+ },
+ {
+  "rule": "/logo.png",
+  "endpoint": "odoo.addons.web.controllers.binary.company_logo"
+ },
+ {
+  "rule": "/web/assets/<string:unique>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_assets"
+ },
+ {
+  "rule": "/web/assets/<int:website_id>/<unique>/<string:filename>",
+  "endpoint": "odoo.addons.website.controllers.binary.content_assets_website"
+ },
+ {
+  "rule": "/web/content",
+  "endpoint": "odoo.addons.web.controllers.binary.content_common"
+ },
+ {
+  "rule": "/web/content/<string:xmlid>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_common"
+ },
+ {
+  "rule": "/web/content/<string:xmlid>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_common"
+ },
+ {
+  "rule": "/web/content/<int:id>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_common"
+ },
+ {
+  "rule": "/web/content/<int:id>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_common"
+ },
+ {
+  "rule": "/web/content/<string:model>/<int:id>/<string:field>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_common"
+ },
+ {
+  "rule": "/web/content/<string:model>/<int:id>/<string:field>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_common"
+ },
+ {
+  "rule": "/web/filestore/<path:_path>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_filestore"
+ },
+ {
+  "rule": "/web/image",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<string:xmlid>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<string:xmlid>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<string:xmlid>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<string:xmlid>/<int:width>x<int:height>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<string:model>/<int:id>/<string:field>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<string:model>/<int:id>/<string:field>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<string:model>/<int:id>/<string:field>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<string:model>/<int:id>/<string:field>/<int:width>x<int:height>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<int:id>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<int:id>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<int:id>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<int:id>/<int:width>x<int:height>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<int:id>-<string:unique>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<int:id>-<string:unique>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<int:id>-<string:unique>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/image/<int:id>-<string:unique>/<int:width>x<int:height>/<string:filename>",
+  "endpoint": "odoo.addons.web.controllers.binary.content_image"
+ },
+ {
+  "rule": "/web/sign/get_fonts",
+  "endpoint": "odoo.addons.web.controllers.binary.get_fonts"
+ },
+ {
+  "rule": "/web/sign/get_fonts/<string:fontname>",
+  "endpoint": "odoo.addons.web.controllers.binary.get_fonts"
+ },
+ {
+  "rule": "/web/binary/upload_attachment",
+  "endpoint": "odoo.addons.web.controllers.binary.upload_attachment"
+ },
+ {
+  "rule": "/website/image",
+  "endpoint": "odoo.addons.website.controllers.main.website_content_image"
+ },
+ {
+  "rule": "/website/image/<xmlid>",
+  "endpoint": "odoo.addons.website.controllers.main.website_content_image"
+ },
+ {
+  "rule": "/website/image/<xmlid>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.website.controllers.main.website_content_image"
+ },
+ {
+  "rule": "/website/image/<xmlid>/<field>",
+  "endpoint": "odoo.addons.website.controllers.main.website_content_image"
+ },
+ {
+  "rule": "/website/image/<xmlid>/<field>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.website.controllers.main.website_content_image"
+ },
+ {
+  "rule": "/website/image/<model>/<id>/<field>",
+  "endpoint": "odoo.addons.website.controllers.main.website_content_image"
+ },
+ {
+  "rule": "/website/image/<model>/<id>/<field>/<int:width>x<int:height>",
+  "endpoint": "odoo.addons.website.controllers.main.website_content_image"
+ },
+ {
+  "rule": "/web/database/backup",
+  "endpoint": "odoo.addons.web.controllers.database.backup"
+ },
+ {
+  "rule": "/web/database/change_password",
+  "endpoint": "odoo.addons.web.controllers.database.change_password"
+ },
+ {
+  "rule": "/web/database/create",
+  "endpoint": "odoo.addons.web.controllers.database.create"
+ },
+ {
+  "rule": "/web/database/drop",
+  "endpoint": "odoo.addons.web.controllers.database.drop"
+ },
+ {
+  "rule": "/web/database/duplicate",
+  "endpoint": "odoo.addons.web.controllers.database.duplicate"
+ },
+ {
+  "rule": "/web/database/list",
+  "endpoint": "odoo.addons.web.controllers.database.list"
+ },
+ {
+  "rule": "/web/database/manager",
+  "endpoint": "odoo.addons.web.controllers.database.manager"
+ },
+ {
+  "rule": "/web/database/restore",
+  "endpoint": "odoo.addons.web.controllers.database.restore"
+ },
+ {
+  "rule": "/web/database/selector",
+  "endpoint": "odoo.addons.web.controllers.database.selector"
+ },
+ {
+  "rule": "/web/dataset/call_button",
+  "endpoint": "odoo.addons.web.controllers.dataset.call_button"
+ },
+ {
+  "rule": "/web/dataset/call_button/<path:path>",
+  "endpoint": "odoo.addons.web.controllers.dataset.call_button"
+ },
+ {
+  "rule": "/web/dataset/call_kw",
+  "endpoint": "odoo.addons.web.controllers.dataset.call_kw"
+ },
+ {
+  "rule": "/web/dataset/call_kw/<path:path>",
+  "endpoint": "odoo.addons.web.controllers.dataset.call_kw"
+ },
+ {
+  "rule": "/web/domain/validate",
+  "endpoint": "odoo.addons.web.controllers.domain.validate"
+ },
+ {
+  "rule": "/web/export/formats",
+  "endpoint": "odoo.addons.web.controllers.export.formats"
+ },
+ {
+  "rule": "/web/export/get_fields",
+  "endpoint": "odoo.addons.web.controllers.export.get_fields"
+ },
+ {
+  "rule": "/web/export/namelist",
+  "endpoint": "odoo.addons.web.controllers.export.namelist"
+ },
+ {
+  "rule": "/web/export/csv",
+  "endpoint": "odoo.addons.web.controllers.export.web_export_csv"
+ },
+ {
+  "rule": "/web/export/xlsx",
+  "endpoint": "odoo.addons.web.controllers.export.web_export_xlsx"
+ },
+ {
+  "rule": "/json/<path:subpath>",
+  "endpoint": "odoo.addons.web.controllers.json.web_json"
+ },
+ {
+  "rule": "/json/1/<path:subpath>",
+  "endpoint": "odoo.addons.web.controllers.json.web_json_1"
+ },
+ {
+  "rule": "/website/action/<path_or_xml_id_or_id>",
+  "endpoint": "odoo.addons.website.controllers.main.actions_server"
+ },
+ {
+  "rule": "/website/action/<path_or_xml_id_or_id>/<path:path>",
+  "endpoint": "odoo.addons.website.controllers.main.actions_server"
+ },
+ {
+  "rule": "/website/snippet/autocomplete",
+  "endpoint": "odoo.addons.website.controllers.main.autocomplete"
+ },
+ {
+  "rule": "/website/lang/<lang>",
+  "endpoint": "odoo.addons.website.controllers.main.change_lang"
+ },
+ {
+  "rule": "/website/check_can_modify_any",
+  "endpoint": "odoo.addons.website.controllers.main.check_can_modify_any"
+ },
+ {
+  "rule": "/website/check_existing_link",
+  "endpoint": "odoo.addons.website.controllers.main.check_existing_link"
+ },
+ {
+  "rule": "/@/",
+  "endpoint": "odoo.addons.website.controllers.main.client_action_redirect"
+ },
+ {
+  "rule": "/@/<path:path>",
+  "endpoint": "odoo.addons.website.controllers.main.client_action_redirect"
+ },
+ {
+  "rule": "/website/country_infos/<model(\"res.country\"):country>",
+  "endpoint": "odoo.addons.website.controllers.main.country_infos"
+ },
+ {
+  "rule": "/login",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.edu_login"
+ },
+ {
+  "rule": "/logout",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.edu_logout"
+ },
+ {
+  "rule": "/reset_password",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.edu_reset_password"
+ },
+ {
+  "rule": "/favicon.ico",
+  "endpoint": "odoo.addons.website.controllers.main.favicon"
+ },
+ {
+  "rule": "/website/get_alt_images",
+  "endpoint": "odoo.addons.website.controllers.main.get_alt_images"
+ },
+ {
+  "rule": "/website/get_assets_editor_resources",
+  "endpoint": "odoo.addons.website.controllers.main.get_assets_editor_resources"
+ },
+ {
+  "rule": "/website/get_current_currency",
+  "endpoint": "odoo.addons.website.controllers.main.get_current_currency"
+ },
+ {
+  "rule": "/website/snippet/filters",
+  "endpoint": "odoo.addons.website.controllers.main.get_dynamic_filter"
+ },
+ {
+  "rule": "/website/snippet/options_filters",
+  "endpoint": "odoo.addons.website.controllers.main.get_dynamic_snippet_filters"
+ },
+ {
+  "rule": "/website/snippet/filter_templates",
+  "endpoint": "odoo.addons.website.controllers.main.get_dynamic_snippet_templates"
+ },
+ {
+  "rule": "/website/get_new_page_templates",
+  "endpoint": "odoo.addons.website.controllers.main.get_new_page_templates"
+ },
+ {
+  "rule": "/website/get_seo_data",
+  "endpoint": "odoo.addons.website.controllers.main.get_seo_data"
+ },
+ {
+  "rule": "/website/get_suggested_links",
+  "endpoint": "odoo.addons.website.controllers.main.get_suggested_link"
+ },
+ {
+  "rule": "/website/get_switchable_related_views",
+  "endpoint": "odoo.addons.website.controllers.main.get_switchable_related_views"
+ },
+ {
+  "rule": "/website/translations",
+  "endpoint": "odoo.addons.http_routing.controllers.main.get_website_translations"
+ },
+ {
+  "rule": "/google<string(length=16):key>.html",
+  "endpoint": "odoo.addons.website.controllers.main.google_console_search"
+ },
+ {
+  "rule": "/website/google_font_metadata",
+  "endpoint": "odoo.addons.website.controllers.main.google_font_metadata"
+ },
+ {
+  "rule": "/website/google_maps_api_key",
+  "endpoint": "odoo.addons.website.controllers.main.google_maps_api_key"
+ },
+ {
+  "rule": "/web/health",
+  "endpoint": "odoo.addons.web.controllers.home.health"
+ },
+ {
+  "rule": "/website/search",
+  "endpoint": "odoo.addons.website.controllers.main.hybrid_list"
+ },
+ {
+  "rule": "/website/search/page/<int:page>",
+  "endpoint": "odoo.addons.website.controllers.main.hybrid_list"
+ },
+ {
+  "rule": "/website/search/<string:search_type>",
+  "endpoint": "odoo.addons.website.controllers.main.hybrid_list"
+ },
+ {
+  "rule": "/website/search/<string:search_type>/page/<int:page>",
+  "endpoint": "odoo.addons.website.controllers.main.hybrid_list"
+ },
+ {
+  "rule": "/",
+  "endpoint": "odoo.addons.website.controllers.main.index"
+ },
+ {
+  "rule": "/web/login_successful",
+  "endpoint": "odoo.addons.web.controllers.home.login_successful_external_user"
+ },
+ {
+  "rule": "/website/add",
+  "endpoint": "odoo.addons.website.controllers.main.pagenew"
+ },
+ {
+  "rule": "/website/add/<path:path>",
+  "endpoint": "odoo.addons.website.controllers.main.pagenew"
+ },
+ {
+  "rule": "/pages",
+  "endpoint": "odoo.addons.website.controllers.main.pages_list"
+ },
+ {
+  "rule": "/pages/page/<int:page>",
+  "endpoint": "odoo.addons.website.controllers.main.pages_list"
+ },
+ {
+  "rule": "/website/reset_template",
+  "endpoint": "odoo.addons.website.controllers.main.reset_template"
+ },
+ {
+  "rule": "/robots.txt",
+  "endpoint": "odoo.addons.website.controllers.main.robots"
+ },
+ {
+  "rule": "/website/save_session_layout_mode",
+  "endpoint": "odoo.addons.website.controllers.main.save_session_layout_mode"
+ },
+ {
+  "rule": "/website/save_xml",
+  "endpoint": "odoo.addons.website.controllers.main.save_xml"
+ },
+ {
+  "rule": "/website/seo_suggest",
+  "endpoint": "odoo.addons.website.controllers.main.seo_suggest"
+ },
+ {
+  "rule": "/sitemap.xml",
+  "endpoint": "odoo.addons.website.controllers.main.sitemap_xml_index"
+ },
+ {
+  "rule": "/website/social/<string:social>",
+  "endpoint": "odoo.addons.website.controllers.main.social"
+ },
+ {
+  "rule": "/web/become",
+  "endpoint": "odoo.addons.web.controllers.home.switch_to_admin"
+ },
+ {
+  "rule": "/website/theme_customize_bundle_reload",
+  "endpoint": "odoo.addons.website.controllers.main.theme_customize_bundle_reload"
+ },
+ {
+  "rule": "/website/theme_customize_data",
+  "endpoint": "odoo.addons.website.controllers.main.theme_customize_data"
+ },
+ {
+  "rule": "/website/theme_customize_data_get",
+  "endpoint": "odoo.addons.website.controllers.main.theme_customize_data_get"
+ },
+ {
+  "rule": "/website/theme_upload_font",
+  "endpoint": "odoo.addons.website.controllers.main.theme_upload_font"
+ },
+ {
+  "rule": "/website/get_translated_elements",
+  "endpoint": "odoo.addons.website.controllers.main.translated_elements"
+ },
+ {
+  "rule": "/website/update_alt_images",
+  "endpoint": "odoo.addons.website.controllers.main.update_alt_images"
+ },
+ {
+  "rule": "/website/update_broken_links",
+  "endpoint": "odoo.addons.website.controllers.main.update_broken_links"
+ },
+ {
+  "rule": "/website/field/translation/update",
+  "endpoint": "odoo.addons.website.controllers.main.update_field_translation"
+ },
+ {
+  "rule": "/website/update_footer_template",
+  "endpoint": "odoo.addons.website.controllers.main.update_footer_template"
+ },
+ {
+  "rule": "/web/reset_password",
+  "endpoint": "odoo.addons.auth_signup.controllers.main.web_auth_reset_password"
+ },
+ {
+  "rule": "/web/signup",
+  "endpoint": "odoo.addons.auth_signup.controllers.main.web_auth_signup"
+ },
+ {
+  "rule": "/web",
+  "endpoint": "odoo.addons.portal.controllers.web.web_client"
+ },
+ {
+  "rule": "/odoo",
+  "endpoint": "odoo.addons.portal.controllers.web.web_client"
+ },
+ {
+  "rule": "/odoo/<path:subpath>",
+  "endpoint": "odoo.addons.portal.controllers.web.web_client"
+ },
+ {
+  "rule": "/scoped_app/<path:subpath>",
+  "endpoint": "odoo.addons.portal.controllers.web.web_client"
+ },
+ {
+  "rule": "/web/webclient/load_menus",
+  "endpoint": "odoo.addons.web.controllers.home.web_load_menus"
+ },
+ {
+  "rule": "/web/login",
+  "endpoint": "odoo.addons.edu_portal.controllers.main.web_login"
+ },
+ {
+  "rule": "/web/login/totp",
+  "endpoint": "odoo.addons.auth_totp_mail.controllers.home.web_totp"
+ },
+ {
+  "rule": "/website/configurator",
+  "endpoint": "odoo.addons.website.controllers.main.website_configurator"
+ },
+ {
+  "rule": "/website/configurator/<int:step>",
+  "endpoint": "odoo.addons.website.controllers.main.website_configurator"
+ },
+ {
+  "rule": "/website/force/<int:website_id>",
+  "endpoint": "odoo.addons.website.controllers.main.website_force"
+ },
+ {
+  "rule": "/website/info",
+  "endpoint": "odoo.addons.website.controllers.main.website_info"
+ },
+ {
+  "rule": "/website/get_languages",
+  "endpoint": "odoo.addons.website.controllers.main.website_languages"
+ },
+ {
+  "rule": "/.well-known/change-password",
+  "endpoint": "odoo.addons.auth_signup.controllers.main.well_known_change_password"
+ },
+ {
+  "rule": "/web/model/get_definitions",
+  "endpoint": "odoo.addons.web.controllers.model.get_model_definitions"
+ },
+ {
+  "rule": "/web/pivot/export_xlsx",
+  "endpoint": "odoo.addons.web.controllers.pivot.export_xlsx"
+ },
+ {
+  "rule": "/web/set_profiling",
+  "endpoint": "odoo.addons.web.controllers.profiling.profile"
+ },
+ {
+  "rule": "/web/profile_config/<profile>",
+  "endpoint": "odoo.addons.web.controllers.profiling.profile_config"
+ },
+ {
+  "rule": "/web/speedscope/<profile>",
+  "endpoint": "odoo.addons.web.controllers.profiling.speedscope"
+ },
+ {
+  "rule": "/report/check_wkhtmltopdf",
+  "endpoint": "odoo.addons.web.controllers.report.check_wkhtmltopdf"
+ },
+ {
+  "rule": "/report/barcode",
+  "endpoint": "odoo.addons.web.controllers.report.report_barcode"
+ },
+ {
+  "rule": "/report/barcode/<barcode_type>/<path:value>",
+  "endpoint": "odoo.addons.web.controllers.report.report_barcode"
+ },
+ {
+  "rule": "/report/download",
+  "endpoint": "odoo.addons.web.controllers.report.report_download"
+ },
+ {
+  "rule": "/report/<converter>/<reportname>",
+  "endpoint": "odoo.addons.web.controllers.report.report_routes"
+ },
+ {
+  "rule": "/report/<converter>/<reportname>/<docids>",
+  "endpoint": "odoo.addons.web.controllers.report.report_routes"
+ },
+ {
+  "rule": "/web/session/account",
+  "endpoint": "odoo.addons.web.controllers.session.account"
+ },
+ {
+  "rule": "/web/session/authenticate",
+  "endpoint": "odoo.addons.web.controllers.session.authenticate"
+ },
+ {
+  "rule": "/web/session/check",
+  "endpoint": "odoo.addons.web.controllers.session.check"
+ },
+ {
+  "rule": "/web/session/destroy",
+  "endpoint": "odoo.addons.web.controllers.session.destroy"
+ },
+ {
+  "rule": "/web/session/get_lang_list",
+  "endpoint": "odoo.addons.web.controllers.session.get_lang_list"
+ },
+ {
+  "rule": "/web/session/get_session_info",
+  "endpoint": "odoo.addons.web.controllers.session.get_session_info"
+ },
+ {
+  "rule": "/web/session/logout",
+  "endpoint": "odoo.addons.website.controllers.main.logout"
+ },
+ {
+  "rule": "/web/session/modules",
+  "endpoint": "odoo.addons.web.controllers.session.modules"
+ },
+ {
+  "rule": "/web_enterprise/partner/<model(\"res.partner\"):partner>/vcard",
+  "endpoint": "odoo.addons.web.controllers.vcard.download_vcard"
+ },
+ {
+  "rule": "/web/partner/vcard",
+  "endpoint": "odoo.addons.web.controllers.vcard.download_vcard"
+ },
+ {
+  "rule": "/web/view/edit_custom",
+  "endpoint": "odoo.addons.web.controllers.view.edit_custom"
+ },
+ {
+  "rule": "/web/webclient/bootstrap_translations",
+  "endpoint": "odoo.addons.web.controllers.webclient.bootstrap_translations"
+ },
+ {
+  "rule": "/web/bundle/<string:bundle_name>",
+  "endpoint": "odoo.addons.website.controllers.webclient.bundle"
+ },
+ {
+  "rule": "/web/tests/legacy",
+  "endpoint": "odoo.addons.web.controllers.webclient.test_suite"
+ },
+ {
+  "rule": "/web/webclient/translations",
+  "endpoint": "odoo.addons.web.controllers.webclient.translations"
+ },
+ {
+  "rule": "/web/tests",
+  "endpoint": "odoo.addons.web.controllers.webclient.unit_tests_suite"
+ },
+ {
+  "rule": "/web/webclient/version_info",
+  "endpoint": "odoo.addons.web.controllers.webclient.version_info"
+ },
+ {
+  "rule": "/odoo/offline",
+  "endpoint": "odoo.addons.web.controllers.webmanifest.offline"
+ },
+ {
+  "rule": "/scoped_app",
+  "endpoint": "odoo.addons.web.controllers.webmanifest.scoped_app"
+ },
+ {
+  "rule": "/scoped_app_icon_png",
+  "endpoint": "odoo.addons.web.controllers.webmanifest.scoped_app_icon_png"
+ },
+ {
+  "rule": "/web/manifest.scoped_app_manifest",
+  "endpoint": "odoo.addons.web.controllers.webmanifest.scoped_app_manifest"
+ },
+ {
+  "rule": "/web/service-worker.js",
+  "endpoint": "odoo.addons.web.controllers.webmanifest.service_worker"
+ },
+ {
+  "rule": "/web/manifest.webmanifest",
+  "endpoint": "odoo.addons.web.controllers.webmanifest.webmanifest"
+ },
+ {
+  "rule": "/web_unsplash/fetch_images",
+  "endpoint": "odoo.addons.web_unsplash.controllers.main.fetch_unsplash_images"
+ },
+ {
+  "rule": "/web_unsplash/get_app_id",
+  "endpoint": "odoo.addons.web_unsplash.controllers.main.get_unsplash_app_id"
+ },
+ {
+  "rule": "/web_unsplash/save_unsplash",
+  "endpoint": "odoo.addons.web_unsplash.controllers.main.save_unsplash"
+ },
+ {
+  "rule": "/web_unsplash/attachment/add",
+  "endpoint": "odoo.addons.web_unsplash.controllers.main.save_unsplash_url"
+ },
+ {
+  "rule": "/website/check_new_content_access_rights",
+  "endpoint": "odoo.addons.website.controllers.backend.check_create_access_rights"
+ },
+ {
+  "rule": "/website/fetch_dashboard_data",
+  "endpoint": "odoo.addons.website.controllers.backend.fetch_dashboard_data"
+ },
+ {
+  "rule": "/website/iframefallback",
+  "endpoint": "odoo.addons.website.controllers.backend.get_iframe_fallback"
+ },
+ {
+  "rule": "/website/track_installing_modules",
+  "endpoint": "odoo.addons.website.controllers.backend.website_track_installing_modules"
+ },
+ {
+  "rule": "/website_hr_recruitment/check_recent_application",
+  "endpoint": "odoo.addons.website_hr_recruitment.controllers.main.check_recent_application"
+ },
+ {
+  "rule": "/jobs/<model(\"hr.job\"):job>",
+  "endpoint": "odoo.addons.website_hr_recruitment.controllers.main.job"
+ },
+ {
+  "rule": "/jobs",
+  "endpoint": "odoo.addons.website_hr_recruitment.controllers.main.jobs"
+ },
+ {
+  "rule": "/jobs/page/<int:page>",
+  "endpoint": "odoo.addons.website_hr_recruitment.controllers.main.jobs"
+ },
+ {
+  "rule": "/jobs/add",
+  "endpoint": "odoo.addons.website_hr_recruitment.controllers.main.jobs_add"
+ },
+ {
+  "rule": "/jobs/apply/<model(\"hr.job\"):job>",
+  "endpoint": "odoo.addons.website_hr_recruitment.controllers.main.jobs_apply"
+ },
+ {
+  "rule": "/jobs/detail/<model(\"hr.job\"):job>",
+  "endpoint": "odoo.addons.website_hr_recruitment.controllers.main.jobs_detail"
+ },
+ {
+  "rule": "/website/form/<string:model_name>",
+  "endpoint": "odoo.addons.website.controllers.form.website_form"
+ },
+ {
+  "rule": "/website/form",
+  "endpoint": "odoo.addons.website.controllers.form.website_form_empty"
+ },
+ {
+  "rule": "/model/<string:page_name_slugified>",
+  "endpoint": "odoo.addons.website.controllers.model_page.generic_model"
+ },
+ {
+  "rule": "/model/<string:page_name_slugified>/page/<int:page_number>",
+  "endpoint": "odoo.addons.website.controllers.model_page.generic_model"
+ },
+ {
+  "rule": "/model/<string:page_name_slugified>/<string:record_slug>",
+  "endpoint": "odoo.addons.website.controllers.model_page.generic_model"
+ },
+ {
+  "rule": "/website_mail/is_follower",
+  "endpoint": "odoo.addons.website_mail.controllers.main.is_follower"
+ },
+ {
+  "rule": "/website_mail/follow",
+  "endpoint": "odoo.addons.website_mail.controllers.main.website_message_subscribe"
+ },
+ {
+  "rule": "/partners/<partner_id>",
+  "endpoint": "odoo.addons.website_partner.controllers.main.partners_detail"
+ },
+ {
+  "rule": "/profile/avatar/<int:user_id>",
+  "endpoint": "odoo.addons.website_profile.controllers.main.get_user_profile_avatar"
+ },
+ {
+  "rule": "/profile/user/save",
+  "endpoint": "odoo.addons.website_profile.controllers.main.save_edited_profile"
+ },
+ {
+  "rule": "/profile/send_validation_email",
+  "endpoint": "odoo.addons.website_profile.controllers.main.send_validation_email"
+ },
+ {
+  "rule": "/profile/validate_email",
+  "endpoint": "odoo.addons.website_profile.controllers.main.validate_email"
+ },
+ {
+  "rule": "/profile/validate_email/close",
+  "endpoint": "odoo.addons.website_profile.controllers.main.validate_email_done"
+ },
+ {
+  "rule": "/profile/users",
+  "endpoint": "odoo.addons.website_profile.controllers.main.view_all_users_page"
+ },
+ {
+  "rule": "/profile/users/page/<int:page>",
+  "endpoint": "odoo.addons.website_profile.controllers.main.view_all_users_page"
+ },
+ {
+  "rule": "/profile/ranks_badges",
+  "endpoint": "odoo.addons.website_profile.controllers.main.view_ranks_badges"
+ },
+ {
+  "rule": "/profile/user/<int:user_id>",
+  "endpoint": "odoo.addons.website_profile.controllers.main.view_user_profile"
+ }
+]

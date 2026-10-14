@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================================================================
+         教务端「课程编排」（专业 × 科目 → 必修 / 选修 / 留空继承）
+         设计：docs/plans/major-track-elective-design.md §6.2.1 / §6.5
+
+         为什么有这一页：后台「教学管理 ▸ 专业 ▸ 科目与必修/选修」这条链本来
+         就是好的（教务组 ACL 1,1,1,1），但门户里**没有任何编辑入口** ——
+         本文件只补门户这一条动线：数据面仍是 edu.course.subject（单一事实源），
+         不新增模型、不新增字段、不动后台那条链、也不改学生的报课页。
+
+         两块内容：
+           ① 页面模板 edu_registrar_curriculum（控制器 = enroll.py 的
+              EduCurriculumPortal：GET /registrar/curriculum ·
+              POST /registrar/curriculum/save）
+           ② 门户左侧导航入口（继承 edu_portal.edu_page，**只给教务/系统组**）
+         ================================================================== -->
+
+    <template id="edu_registrar_curriculum" name="教务课程编排">
+        <t t-call="edu_portal.edu_page">
+            <section class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <h4 class="mb-0"><i class="fa fa-sitemap me-2 text-primary"/>课程编排</h4>
+                <span class="small text-muted">专业 × 科目：标出必修 / 选修；留空 = 继承科目默认值</span>
+                <a href="/my/home" class="btn btn-sm btn-light ms-auto">
+                    <i class="fa fa-home me-1"/>返回首页</a>
+            </section>
+
+            <div t-if="box_msg" role="status"
+                 t-attf-class="alert #{box_ok and 'alert-success' or 'alert-danger'} py-2">
+                <i t-attf-class="fa #{box_ok and 'fa-check-circle' or 'fa-exclamation-triangle'} me-1"/>
+                <t t-out="box_msg"/>
+                <!-- 批量回执：勾选 / 实际改动 / 被跳过 三个计数（口径与后端 303
+                     参数一一对应；「已跳过」只报总数，不逐个回显 id）。 -->
+                <span t-if="bulk['picked']" class="d-block small mt-1">
+                    本次批量：勾选 <t t-out="bulk['picked']"/> 行 · 实际改动 <t t-out="bulk['changed']"/> 行
+                    <t t-if="bulk['ignored']"> · 另有 <t t-out="bulk['ignored']"/> 行不在你的处理范围内或已不存在，已跳过</t>
+                </span>
+            </div>
+
+            <!-- ① 选专业（GET：切专业即换清单） -->
+            <form method="get" action="/registrar/curriculum"
+                  class="card shadow-sm border-0 rounded-3 mb-3">
+                <div class="card-body py-2 row g-2 align-items-end">
+                    <div class="col-12 col-md-5">
+                        <label class="form-label small mb-1" for="cur-course">专业</label>
+                        <select name="course_id" id="cur-course"
+                                class="form-select form-select-sm"
+                                onchange="this.form.submit()">
+                            <option value=""
+                                    t-att-selected="(not course_id) and 'selected' or None">请选择专业…</option>
+                            <t t-foreach="courses" t-as="c">
+                                <option t-att-value="c['id']"
+                                        t-att-selected="(c['id'] == course_id) and 'selected' or None"><t t-out="c['name']"/>（<t t-out="c['code']"/> · <t t-out="c['n']"/> 门科目）</option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4 small text-muted">
+                        <t t-if="course">学制：<t t-out="course.edu_level_id.name or '未标注'"/></t>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <button type="submit" class="btn btn-sm btn-primary w-100">
+                            <i class="fa fa-search me-1"/>查看科目</button>
+                    </div>
+                </div>
+            </form>
+
+            <t t-if="not course">
+                <div class="alert alert-light border">请先在上方选择一个专业。</div>
+            </t>
+            <t t-elif="not rows">
+                <div class="alert alert-light border">
+                    该专业还没有科目清单。请先在后台「教学管理 ▸ 专业 ▸ 科目与必修/选修」把科目加进这个专业，再回本页标必修 / 选修。
+                </div>
+            </t>
+            <t t-else="">
+                <!-- 统计：显式配置（教务填的）与「实际生效」（学生看到的）分开列 -->
+                <div class="d-flex flex-wrap gap-2 mb-2">
+                    <span class="badge text-bg-warning">实际生效：必修 <t t-out="effective_compulsory_n"/></span>
+                    <span class="badge text-bg-info">实际生效：选修 <t t-out="effective_elective_n"/></span>
+                    <span class="badge text-bg-light border">显式必修 <t t-out="explicit_compulsory_n"/></span>
+                    <span class="badge text-bg-light border">显式选修 <t t-out="explicit_elective_n"/></span>
+                    <span class="badge text-bg-light border">留空（继承）<t t-out="inherit_n"/></span>
+                </div>
+                <p class="alert alert-light border py-2 small mb-3">
+                    「留空」不等于「没配」：留空表示这一行<b>继承「科目」自身的默认值</b>（见「科目默认值」列）；
+                    选了「选修」才是<b>本专业显式规定为选修</b>，此后不再随科目默认值变化。
+                    学生报课页看到的「必修 / 选修」分组 = 最后一列「实际生效」。
+                </p>
+                <p class="alert alert-light border py-2 small mb-3">
+                    <b>这一栏管什么：</b>「必修」= 学生报课页上锁定、提交时由服务端自动带上；
+                    「选修」= 学生自己在报课页勾。两者都只决定<b>报课页的分组与是否自动带上</b>，
+                    不决定学生能不能看到这门科目（能看到哪些 = 本专业的科目清单）。
+                </p>
+                <!-- 「这一栏不管什么」这行是 2026-09-29 端到端实测后补的（见
+                     tests/smoke/enroll_timetable_chain.py）：教务最常问的正是
+                     「勾了必修，学生课表里就有了吗」—— 答案是**没有**，
+                     课表读的是已排课时、按档案班匹配，与报课/审批不是同一条链。 -->
+                <p class="alert alert-light border py-2 small mb-3">
+                    <b>这一栏不管什么：</b>学生课表（校历 / 我的课表）显示的是教务<b>已排的课时</b>，
+                    按学生的<b>档案班</b>精确匹配；它与报课、审批不是同一条链。
+                    本页把某门课设成必修，只会改变报课页；要让某门课出现在课表里，
+                    得在排课里为那个班建课时。
+                </p>
+
+                <form method="post" action="/registrar/curriculum/save">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="course_id" t-att-value="course_id"/>
+                    <!-- 批量动作条：三个按钮都提交到**同一个**路由与同一份写入实现，
+                         只靠 bulk_action 的值区分动作（不另开路由、不长第二份写逻辑）。
+                         按钮都是原生 submit / button ⇒ 键盘可达（Tab 到、回车触发），
+                         无 JS 时仍可用：勾选靠行首复选框，动作照常提交。
+                         没勾任何行就点 ⇒ 服务端回「请先勾选…」，不写库、不留审计。 -->
+                    <div class="card shadow-sm border-0 rounded-3 mb-3">
+                        <div class="card-body py-2 d-flex flex-wrap align-items-center gap-2">
+                            <span class="small text-muted"><i class="fa fa-check-square-o me-1"/>批量操作（先勾选左侧「选择」列）</span>
+                            <button type="submit" name="bulk_action" value="compulsory"
+                                    class="btn btn-sm btn-warning">
+                                <i class="fa fa-lock me-1" aria-hidden="true"/>批量设为必修</button>
+                            <!-- ⚠ 这个按钮原来用 btn-info：本主题的 info 底色 #0e7bf2 + 白字
+                                 = **4.09:1**，低于 4.5:1 ⇒ axe 的 color-contrast 当场判红
+                                 （实测 2026-09-29，target=.btn-info）。改用 btn-primary
+                                 （走交互面主色 brand-action，实测 ≥4.5:1）保持零违规。
+                                 ⚠ 注释里禁止出现连续两个减号（XML 规范），故此处不写变量名全称。 -->
+                            <button type="submit" name="bulk_action" value="elective"
+                                    class="btn btn-sm btn-primary">
+                                <i class="fa fa-hand-pointer-o me-1" aria-hidden="true"/>批量设为选修</button>
+                            <button type="submit" name="bulk_action" value="clear"
+                                    class="btn btn-sm btn-outline-secondary">
+                                <i class="fa fa-eraser me-1" aria-hidden="true"/>批量清空（回到「留空 = 继承」）</button>
+                            <span class="small text-muted ms-auto">批量与逐行走同一份写入、同一本审计台账；整批一条事务，失败则整批回滚。</span>
+                        </div>
+                    </div>
+                    <!-- 窄屏卡片化（task-12，2026-10-02）：本表 6 列，375 视口实测
+                         表宽 362px > 容器 345px（必修/选修那一列被压到逐字换行）。
+                         复用共用模板 edu_portal.edu_narrow_table_cards：<768px 隐藏 thead、
+                         每行折成卡片、由每个 td 的 data-label 顶出列名；桌面一字不变。
+                         工具判据：scripts/find_squeezed_tables.py（path=/registrar/curriculum、role=backoffice）。 -->
+                    <div class="table-responsive">
+                        <t t-call="edu_portal.edu_narrow_table_cards"/>
+                        <table class="table table-hover align-middle bg-white rounded-3 shadow-sm edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <!-- 选择列：表头带「全选 / 全不选」开关 + 「反选」按钮。
+                                         两者都是原生控件（复选框 + type=button），带可访问名 ⇒
+                                         键盘可达；JS 只负责勾选状态同步，无 JS 时逐行勾选照常。
+                                         反选写成 type=button ⇒ 不会误提交表单。 -->
+                                    <th scope="col" style="width:9rem">选择
+                                        <div class="form-check m-0 fw-normal">
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="cur-pick-all" name="cur_pick_all" value="1"
+                                                   onchange="document.querySelectorAll('input[name=pick]').forEach(c =&gt; c.checked = this.checked)"/>
+                                            <label class="form-check-label small" for="cur-pick-all">全选 / 全不选</label>
+                                        </div>
+                                        <button type="button" class="btn btn-link btn-sm p-0 mt-1"
+                                                onclick="document.querySelectorAll('input[name=pick]').forEach(c =&gt; c.checked = !c.checked)">反选</button>
+                                    </th>
+                                    <th scope="col">科目</th>
+                                    <th scope="col">代码</th>
+                                    <th scope="col">必修 / 选修（本专业）</th>
+                                    <th scope="col">科目默认值</th>
+                                    <th scope="col">实际生效</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="rows" t-as="r">
+                                    <td data-label="选择">
+                                        <input class="form-check-input m-0" type="checkbox"
+                                               name="pick"
+                                               t-att-value="r['id']"
+                                               t-att-aria-label="'勾选科目 %s' % r['subject']"/>
+                                    </td>
+                                    <td data-label="科目">
+                                        <t t-out="r['subject']"/>
+                                        <span t-if="not r['active']"
+                                              class="badge text-bg-secondary ms-1">已停用</span>
+                                    </td>
+                                    <td data-label="代码" class="text-muted small" t-out="r['code']"/>
+                                    <td data-label="必修 / 选修（本专业）">
+                                        <select class="form-select form-select-sm"
+                                                t-att-name="'line_%d' % r['id']"
+                                                t-att-aria-label="'科目 %s 的必修或选修' % r['subject']">
+                                            <option value=""
+                                                    t-att-selected="(not r['value']) and 'selected' or None">留空（继承科目默认值）</option>
+                                            <option value="compulsory"
+                                                    t-att-selected="(r['value'] == 'compulsory') and 'selected' or None">必修</option>
+                                            <option value="elective"
+                                                    t-att-selected="(r['value'] == 'elective') and 'selected' or None">选修</option>
+                                        </select>
+                                    </td>
+                                    <td data-label="科目默认值" class="text-muted small" t-out="r['global_label']"/>
+                                    <td data-label="实际生效">
+                                        <span t-attf-class="badge #{r['effective_key'] == 'compulsory' and 'text-bg-warning' or 'text-bg-info'}"><t t-out="r['effective_label']"/></span>
+                                        <span t-if="not r['value']" class="small text-muted ms-1">（继承）</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save me-1"/>保存课程编排</button>
+                        <span class="small text-muted">
+                            只对改动过的行留痕（谁把哪门课改成必修 / 选修，见该行后台的消息记录）。</span>
+                    </div>
+                </form>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ 门户左侧导航：教务专属入口 ============
+         判据与控制器 privileged_staff() **逐字同源**（教务组 or 系统组）——
+         一旦放宽就会出现「看得见点不开」的死角（本仓硬约定，见 code-map §6）。
+         插在「导入学生」之后：该处已挂「操作审计 / 导入学生」等教务·管理员专用项，
+         学生/家长/教师的导航里不会出现它。
+         ⚠ 锚点 2026-10-13 换过：原先锚「管理后台」的 href="/web"，那个入口已随
+         「裸 /web 收口」删除（见 edu_portal_templates.xml 同位置注释）。改用左侧栏里
+         仍在的 href="/edu/import/students"。锚点若再被删，升级前静态门禁 B
+         （check_view_xpath）会报红，不会静默失效。
+         ⚠ 不直接改 edu_portal_templates.xml 本体（本批并发约定），只做继承注入。 -->
+    <template id="edu_nav_curriculum" name="门户导航：课程编排入口"
+              inherit_id="edu_portal.edu_page">
+        <xpath expr="//aside[@id='b11-side']//a[@href='/edu/import/students']" position="after">
+            <a class="b11-nav-item" href="/registrar/curriculum"
+               t-if="request.env.user.has_group('openeducat_core.group_op_back_office_admin') or request.env.user.has_group('base.group_system')">
+                <i class="fa fa-sitemap" aria-hidden="true"></i>课程编排</a>
+        </xpath>
+    </template>
+
+    <!-- ============ 门户移动端底栏：教务专属入口（<992px 才显示） ============
+         底栏本体 = edu_portal.edu_page 的 #b11-tabbar —— 全仓**唯一**的移动端
+         底栏（d-lg-none；样式 static/src/css/custom_home.css:210-228）。
+         ⚠ 不直接改 edu_portal_templates.xml（本批并发约定：该文件正被请假批次改，
+           处于 MM 状态），只用继承注入新 Tab —— 与上面那条桌面侧栏入口同一手法。
+         ⚠ 底栏是 grid-template-columns: repeat(5, 1fr)：直接塞第 6 个 Tab 会换行，
+           而底栏高度固定 ⇒ 会被裁掉/压住。故配一条 :has() 覆盖：**只有本 Tab 真的
+           渲染出来时**（= 教务/系统组）才变 6 列；学生/家长/教师仍是原样 5 列。
+           :has() 在本仓已有先例（同 CSS 文件 :249 用它把在线聊天悬浮球抬到底栏之上）。
+         ⚠ 可见性判据与控制器 privileged_staff() 逐字同源（教务组 or 系统组）；
+           新 Tab 用「图标 aria-hidden + 文字」⇒ 有可访问名（axe link-name 口径）。 -->
+    <template id="edu_nav_curriculum_tab" name="门户移动端底栏：课程编排入口"
+              inherit_id="edu_portal.edu_page">
+        <xpath expr="//nav[@id='b11-tabbar']//a[@href='/my/password']"
+               position="before">
+            <a class="b11-tab" href="/registrar/curriculum"
+               data-b11-tab="/registrar/curriculum"
+               t-if="request.env.user.has_group('openeducat_core.group_op_back_office_admin') or request.env.user.has_group('base.group_system')">
+                <i class="fa fa-sitemap" aria-hidden="true"></i><span>课程编排</span></a>
+        </xpath>
+        <xpath expr="//nav[@id='b11-tabbar']" position="inside">
+            <style>
+                @media (max-width: 991.98px){
+                    #wrapwrap.o_portal .o_portal_wrap
+                    .b11-tabbar:has(a[href="/registrar/curriculum"]){
+                        grid-template-columns: repeat(6, 1fr);
+                    }
+                }
+            </style>
+        </xpath>
+    </template>
+</odoo>

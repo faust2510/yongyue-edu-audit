@@ -1,0 +1,36 @@
+{
+ "session_id_len": 84,
+ "url_after_login": "http://localhost:8069/my/home",
+ "url_home": "http://localhost:8069/my/home",
+ "home_title": "我的主页",
+ "form_count": 5,
+ "form_actions": [
+  "/website/search",
+  "/my/search",
+  "/my/avatar/upload",
+  "/alerts/mark_read",
+  "/website/search"
+ ],
+ "inputs_named_q": [
+  "<input type=\"search\" name=\"q\" class=\"form-control form-control-sm me-1\" placeholder=\"搜索作业 / 课程 / 公告 / 账单\" value=\"\">"
+ ],
+ "topbar_count": 1,
+ "topbar_visible": true,
+ "body_head": "跳至内容 | 永约学坊 | 我的主页 | 帮助 | 王小明 | 首页 | 我的主页 | 学习 | 课表 | 作业 | 考试 | 成绩册 | 课程 | 报课选科 | 我的申请 | 校园生活 | 课程中心 | 校历 | 图书馆 | 每日打卡 | 我的周记 | 沟通 | 通讯录 | 消息 | 布告栏 | 个人 | 个人资料 | 费用账单 | 请假 | 申诉 | 证书 | 通知偏好 | 帮助中心 | 新手上手清单 | 我知道了 | 点击右上角「应用面板」或首页卡片进入各功能 | 顶部搜索框可查作业 / 课程 / 公告 / 账单 | 布告栏公告点开即已",
+ "box_visible": true,
+ "box_editable": true,
+ "box_bbox": {
+  "x": 813.921875,
+  "y": 11.5,
+  "width": 290,
+  "height": 40
+ },
+ "enter_url": "http://localhost:8069/my/home",
+ "enter_has_result": true,
+ "enter_has_bill": true,
+ "enter_snippet": "跳至内容 | 永约学坊 | 搜索：教材 | 帮助 | 王小明 | 首页 | 我的主页 | 学习 | 课表 | 作业 | 考试 | 成绩册 | 课程 | 报课选科 | 我的申请 | 校园生活 | 课程中心 | 校历 | 图书馆 | 每日打卡 | 我的周记 | 沟通 | 通讯录 | 消息 | 布告栏 | 个人 | 个人资料 | 费用账单 | 请假 | 申诉 | 证书 | 通知偏好 | 帮助中心 | 新手上手清单 | 我知道了 | 点击右上角「应用面板」或首页卡片进入各功能 | 顶部搜索框可查作业 / 课程 / 公告 / 账单 | 布告栏公告点开即已读，未读角标自动减少 | 遇到问题见帮助中心， 或邮件联系 学坊办公室 | 搜索结果 | 账单 1 | 【演示】教材资料费 | 永约学坊 ",
+ "btn_visible": true,
+ "btn_aria": "搜索",
+ "btn_url": "http://localhost:8069/my/search?q=%E9%80%89%E8%AF%BE",
+ "btn_has_result": true
+}

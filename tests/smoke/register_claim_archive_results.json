@@ -1,0 +1,730 @@
+{
+ "phase": "run",
+ "stamp": "0924215053",
+ "cases": {
+  "0_基线": {
+   "counts": {
+    "op_student": 6,
+    "res_users": 7,
+    "res_partner": 137,
+    "edu_invite_code": 7
+   },
+   "form": {
+    "page_status": 200,
+    "gr_no_input": true,
+    "gr_no_label_for": true,
+    "gr_no_id": true,
+    "has_register_form": true
+   }
+  },
+  "1_夹具": {
+   "A": {
+    "id": 521,
+    "partner_id": 1134,
+    "name": "甲化名0924215053",
+    "gr_no": "QA0924215053A"
+   },
+   "B": {
+    "id": 522,
+    "partner_id": 1135,
+    "name": "【待分配】乙化名0924215053",
+    "gr_no": "QA0924215053B"
+   },
+   "C1": {
+    "id": 523,
+    "partner_id": 1136,
+    "name": "丙化名0924215053",
+    "gr_no": "QA0924215053C1"
+   },
+   "C2": {
+    "id": 524,
+    "partner_id": 1137,
+    "name": "丙化名0924215053",
+    "gr_no": "QA0924215053C2"
+   },
+   "D": {
+    "id": 525,
+    "partner_id": 1139,
+    "name": "丁化名0924215053",
+    "gr_no": "QA0924215053D"
+   },
+   "F": {
+    "id": 526,
+    "partner_id": 1140,
+    "name": "己化名0924215053",
+    "gr_no": "QA0924215053F"
+   },
+   "owner_login": "claim-owner-0924215053@claim.local",
+   "owner_uid": 784,
+   "counts": {
+    "op_student": 12,
+    "res_users": 8,
+    "res_partner": 144,
+    "edu_invite_code": 7
+   }
+  },
+  "A_学号命中": {
+   "email": "claim-a-0924215053@claim.local",
+   "register": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": true,
+    "session_id": "rR8r-VqO2eEgJr3qIyPkl_eXikxE_F8xSnwXETX-w8NSPyHg33KoZallcCz4Yj2R7dwEpJjBbxUVZlgi7QCq"
+   },
+   "my_home": {
+    "status": 200,
+    "location": ""
+   },
+   "students_before": 12,
+   "students_after": 12,
+   "delta": 0,
+   "archive": {
+    "id": 521,
+    "name": "甲化名0924215053",
+    "gr_no": "QA0924215053A",
+    "user_id": [
+     785,
+     "注册名与化名不同0924215053"
+    ],
+    "partner_id": [
+     1134,
+     "甲化名0924215053"
+    ],
+    "edu_pending_setup": false,
+    "edu_dup_suspect": false,
+    "edu_claim_note": false
+   },
+   "new_account_uid": 785,
+   "account_partner": {
+    "id": 1141,
+    "name": "注册名与化名不同0924215053"
+   },
+   "archive_partner": {
+    "id": 1134,
+    "name": "甲化名0924215053",
+    "user_id": [
+     785,
+     "注册名与化名不同0924215053"
+    ]
+   }
+  },
+  "B_姓名命中": {
+   "email": "claim-b-0924215053@claim.local",
+   "register": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": false,
+    "session_id": "IuB_OsJruZdfwKXWyS5mxufp_rChQHvN98Mf9L3R6J60e3sX571-BKS73Wj6msN47dfntla4YkhZmi60M-fX"
+   },
+   "my_home": {
+    "status": 200,
+    "location": ""
+   },
+   "students_before": 12,
+   "students_after": 12,
+   "delta": 0,
+   "archive": {
+    "id": 522,
+    "name": "乙化名0924215053",
+    "gr_no": "QA0924215053B",
+    "user_id": [
+     786,
+     "乙化名0924215053"
+    ],
+    "partner_id": [
+     1135,
+     "乙化名0924215053"
+    ],
+    "edu_pending_setup": false,
+    "edu_dup_suspect": false,
+    "edu_claim_note": false
+   },
+   "partner": {
+    "id": 1135,
+    "name": "乙化名0924215053",
+    "user_id": [
+     786,
+     "乙化名0924215053"
+    ]
+   }
+  },
+  "C_同名两条": {
+   "email": "claim-c-0924215053@claim.local",
+   "register": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": false,
+    "session_id": "cYHsBcaFfOd8-b3nhpHyhigmZQMaSQqJAGDuYk4nFahxi6A0a9ex7vjau85NgIXjnzxW3QJS-KqzUP3wTIRK"
+   },
+   "students_before": 12,
+   "students_after": 13,
+   "delta": 1,
+   "c1": {
+    "id": 523,
+    "name": "丙化名0924215053",
+    "gr_no": "QA0924215053C1",
+    "user_id": false,
+    "partner_id": [
+     1136,
+     "丙化名0924215053"
+    ],
+    "edu_pending_setup": false,
+    "edu_dup_suspect": false,
+    "edu_claim_note": false
+   },
+   "c2": {
+    "id": 524,
+    "name": "丙化名0924215053",
+    "gr_no": "QA0924215053C2",
+    "user_id": false,
+    "partner_id": [
+     1137,
+     "丙化名0924215053"
+    ],
+    "edu_pending_setup": false,
+    "edu_dup_suspect": false,
+    "edu_claim_note": false
+   },
+   "new_archive": {
+    "id": 527,
+    "name": "【待分配】丙化名0924215053",
+    "gr_no": false,
+    "user_id": [
+     787,
+     "【待分配】丙化名0924215053"
+    ],
+    "partner_id": [
+     1143,
+     "【待分配】丙化名0924215053"
+    ],
+    "edu_pending_setup": true,
+    "edu_dup_suspect": true,
+    "edu_claim_note": "疑似重复，请教务核对：按姓名「丙化名0924215053」匹配到 2 条同名档案（#523、#524），无法判断哪一条是本人；系统未自动认领，已另建本「待分配」档案。"
+   },
+   "dup_filter_count": 1,
+   "audit": [
+    {
+     "id": 3032,
+     "res_id": 527,
+     "detail": "疑似重复，请教务核对：按姓名「丙化名0924215053」匹配到 2 条同名档案（#523、#524），无法判断哪一条是本人；系统未自动认领，已另建本「待分配」档案。"
+    }
+   ]
+  },
+  "D_已被认领": {
+   "email": "claim-d-0924215053@claim.local",
+   "register": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": false,
+    "session_id": "-a5PoWCwnyQgooa8Vvu-WS8vccvNfbp9wA0dvMkfpiifwXmQF8KlHR6Yek-K1NrbKXV7ODHXj9jffap40htw"
+   },
+   "students_before": 13,
+   "students_after": 14,
+   "delta": 1,
+   "archive_after": {
+    "id": 525,
+    "name": "丁化名0924215053",
+    "gr_no": "QA0924215053D",
+    "user_id": [
+     784,
+     "冒烟占位账号"
+    ],
+    "partner_id": [
+     1139,
+     "丁化名0924215053"
+    ],
+    "edu_pending_setup": false,
+    "edu_dup_suspect": false,
+    "edu_claim_note": false
+   },
+   "new_archive": {
+    "id": 528,
+    "name": "【待分配】丁化名0924215053",
+    "gr_no": false,
+    "user_id": [
+     788,
+     "【待分配】丁化名0924215053"
+    ],
+    "partner_id": [
+     1144,
+     "【待分配】丁化名0924215053"
+    ],
+    "edu_pending_setup": true,
+    "edu_dup_suspect": true,
+    "edu_claim_note": "疑似重复，请教务核对：按姓名「丁化名0924215053」匹配到的档案（#525）已绑定其他账号，系统未抢占，已另建本「待分配」档案。"
+   }
+  },
+  "E_未命中": {
+   "email": "claim-e-0924215053@claim.local",
+   "register": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": false,
+    "session_id": "O-zgSjrOnZLD_g9ol4HI2nz3FBvWBxz4lbfEYI0MSBLzMNNi0Lc6KuUsF2RLIZPqSohH2i6XFUjegnY5mwC3"
+   },
+   "students_before": 14,
+   "students_after": 15,
+   "delta": 1,
+   "new_archive": {
+    "id": 529,
+    "name": "【待分配】戊未命中0924215053",
+    "gr_no": false,
+    "user_id": [
+     789,
+     "【待分配】戊未命中0924215053"
+    ],
+    "partner_id": [
+     1145,
+     "【待分配】戊未命中0924215053"
+    ],
+    "edu_pending_setup": true,
+    "edu_dup_suspect": false,
+    "edu_claim_note": false
+   }
+  },
+  "F_学号大小写兜底": {
+   "email": "claim-f-0924215053@claim.local",
+   "register": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": true,
+    "session_id": "ENzNyJV6UwoGTzbxUyBzPqNJddI9H35HzV6FM94WzhgxgBBbgmaTdjMWL4JBhdH9h47IbNFl4m6qCKGVOoPd"
+   },
+   "students_before": 15,
+   "students_after": 15,
+   "delta": 0,
+   "archive": {
+    "id": 526,
+    "name": "己化名0924215053",
+    "gr_no": "QA0924215053F",
+    "user_id": [
+     790,
+     "随便的注册名0924215053"
+    ],
+    "partner_id": [
+     1140,
+     "己化名0924215053"
+    ],
+    "edu_pending_setup": false,
+    "edu_dup_suspect": false,
+    "edu_claim_note": false
+   }
+  },
+  "G_故障注入": {
+   "ran": true,
+   "exit": 0,
+   "json": {
+    "outcome": "no-exception",
+    "students_before": 16,
+    "students_after": 17,
+    "students_delta": 1,
+    "fixture_claimed": false,
+    "fixture_id": 530,
+    "new_archive_id": 531,
+    "new_archive_name": "【待分配】庚化名0924215053FZ",
+    "new_archive_pending": true,
+    "new_archive_dup_suspect": false,
+    "new_archive_note": false,
+    "new_archive_user_id_is_new_account": true
+   },
+   "clean": {
+    "students_left": 0,
+    "codes_left": 0,
+    "users_left": 0
+   },
+   "logged_warning": true,
+   "log_lines": [
+    "2026-09-24 13:51:16,615 40 WARNING edu19 odoo.addons.edu_portal.models.invite_code: [edu_portal] 邀请码 CLAIM-FAULT-0924215053FZ 注册：认领既有学生档案失败，已退回新建「待分配」档案（注册不受影响） "
+   ]
+  },
+  "H_清场": {
+   "before": {
+    "op_student": 15,
+    "res_users": 14,
+    "res_partner": 151,
+    "edu_invite_code": 13
+   },
+   "after": {
+    "op_student": 6,
+    "res_users": 7,
+    "res_partner": 137,
+    "edu_invite_code": 7
+   },
+   "removed": {
+    "op_student": 9,
+    "res_partner": 14,
+    "res_users": 7,
+    "edu_invite_code": 6
+   },
+   "partners_left": 0,
+   "namespace_leftover": {
+    "students_gr_no_like": 0,
+    "students_name_like": 0,
+    "partners_name_like": 0,
+    "users_claim_login": 0,
+    "codes_claim_prefix": 0,
+    "audit_rows_like_stamp": 0,
+    "partners_created_left": 0
+   }
+  }
+ },
+ "checks": [
+  {
+   "case": "0",
+   "label": "注册页 200 且表单在",
+   "ok": true,
+   "detail": {
+    "page_status": 200,
+    "gr_no_input": true,
+    "gr_no_label_for": true,
+    "gr_no_id": true,
+    "has_register_form": true
+   }
+  },
+  {
+   "case": "0",
+   "label": "注册页新增「学号（选填）」控件且有可访问名（label for + id）",
+   "ok": true,
+   "detail": {
+    "page_status": 200,
+    "gr_no_input": true,
+    "gr_no_label_for": true,
+    "gr_no_id": true,
+    "has_register_form": true
+   }
+  },
+  {
+   "case": "A",
+   "label": "注册成功（303 → /my/home）",
+   "ok": true,
+   "detail": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": true,
+    "session_id": "rR8r-VqO2eEgJr3qIyPkl_eXikxE_F8xSnwXETX-w8NSPyHg33KoZallcCz4Yj2R7dwEpJjBbxUVZlgi7QCq"
+   }
+  },
+  {
+   "case": "A",
+   "label": "op.student 总数只 +0（未新建档案）",
+   "ok": true,
+   "detail": {
+    "before": 12,
+    "after": 12
+   }
+  },
+  {
+   "case": "A",
+   "label": "命中档案 user_id = 新账号",
+   "ok": true,
+   "detail": [
+    785,
+    "注册名与化名不同0924215053"
+   ]
+  },
+  {
+   "case": "A",
+   "label": "命中档案 edu_pending_setup=False",
+   "ok": true,
+   "detail": false
+  },
+  {
+   "case": "A",
+   "label": "档案 partner 名字未被注册输入覆盖（化名保留）",
+   "ok": true,
+   "detail": "甲化名0924215053"
+  },
+  {
+   "case": "A",
+   "label": "伙伴 user_id 也挂上了（把 partner 关联上）",
+   "ok": true,
+   "detail": {
+    "id": 1134,
+    "user_id": [
+     785,
+     "注册名与化名不同0924215053"
+    ]
+   }
+  },
+  {
+   "case": "A",
+   "label": "认领留痕：edu.audit.log 有「层级码注册认领」",
+   "ok": true,
+   "detail": null
+  },
+  {
+   "case": "B",
+   "label": "注册成功（303 → /my/home）",
+   "ok": true,
+   "detail": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": false,
+    "session_id": "IuB_OsJruZdfwKXWyS5mxufp_rChQHvN98Mf9L3R6J60e3sX571-BKS73Wj6msN47dfntla4YkhZmi60M-fX"
+   }
+  },
+  {
+   "case": "B",
+   "label": "不填学号也能注册，且总数只 +0",
+   "ok": true,
+   "detail": {
+    "before": 12,
+    "after": 12
+   }
+  },
+  {
+   "case": "B",
+   "label": "命中档案 user_id = 新账号",
+   "ok": true,
+   "detail": [
+    786,
+    "乙化名0924215053"
+   ]
+  },
+  {
+   "case": "B",
+   "label": "edu_pending_setup 已清 False",
+   "ok": true,
+   "detail": false
+  },
+  {
+   "case": "B",
+   "label": "伙伴名字的「【待分配】」前缀已清",
+   "ok": true,
+   "detail": {
+    "student_name": "乙化名0924215053",
+    "partner_name": "乙化名0924215053"
+   }
+  },
+  {
+   "case": "C",
+   "label": "注册仍成功",
+   "ok": true,
+   "detail": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": false,
+    "session_id": "cYHsBcaFfOd8-b3nhpHyhigmZQMaSQqJAGDuYk4nFahxi6A0a9ex7vjau85NgIXjnzxW3QJS-KqzUP3wTIRK"
+   }
+  },
+  {
+   "case": "C",
+   "label": "同名两条都不认领（两条 user_id 仍为空）",
+   "ok": true,
+   "detail": {
+    "c1": false,
+    "c2": false
+   }
+  },
+  {
+   "case": "C",
+   "label": "退回老路新建（总数 +1）",
+   "ok": true,
+   "detail": {
+    "before": 12,
+    "after": 13
+   }
+  },
+  {
+   "case": "C",
+   "label": "新档案带可筛信号 edu_dup_suspect=True",
+   "ok": true,
+   "detail": true
+  },
+  {
+   "case": "C",
+   "label": "说明含「疑似重复」与两条候选编号",
+   "ok": true,
+   "detail": "疑似重复，请教务核对：按姓名「丙化名0924215053」匹配到 2 条同名档案（#523、#524），无法判断哪一条是本人；系统未自动认领，已另建本「待分配」档案。"
+  },
+  {
+   "case": "D",
+   "label": "注册仍成功",
+   "ok": true,
+   "detail": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": false,
+    "session_id": "-a5PoWCwnyQgooa8Vvu-WS8vccvNfbp9wA0dvMkfpiifwXmQF8KlHR6Yek-K1NrbKXV7ODHXj9jffap40htw"
+   }
+  },
+  {
+   "case": "D",
+   "label": "原档案未被抢（user_id 仍是原账号）",
+   "ok": true,
+   "detail": {
+    "archive_user_id": [
+     784,
+     "冒烟占位账号"
+    ],
+    "owner_uid": 784
+   }
+  },
+  {
+   "case": "D",
+   "label": "退回老路新建（总数 +1）",
+   "ok": true,
+   "detail": {
+    "before": 13,
+    "after": 14
+   }
+  },
+  {
+   "case": "D",
+   "label": "新档案带疑似重复信号",
+   "ok": true,
+   "detail": "疑似重复，请教务核对：按姓名「丁化名0924215053」匹配到的档案（#525）已绑定其他账号，系统未抢占，已另建本「待分配」档案。"
+  },
+  {
+   "case": "E",
+   "label": "注册成功",
+   "ok": true,
+   "detail": {
+    "status": 303,
+    "location": "/my/home",
+    "sent_gr_no": false,
+    "session_id": "O-zgSjrOnZLD_g9ol4HI2nz3FBvWBxz4lbfEYI0MSBLzMNNi0Lc6KuUsF2RLIZPqSohH2i6XFUjegnY5mwC3"
+   }
+  },
+  {
+   "case": "E",
+   "label": "老路不回归：新建「待分配」档案（+1、edu_pending_setup=True）",
+   "ok": true,
+   "detail": {
+    "delta": 1,
+    "pending": true
+   }
+  },
+  {
+   "case": "E",
+   "label": "未命中不误报疑似重复",
+   "ok": true,
+   "detail": false
+  },
+  {
+   "case": "E",
+   "label": "名字带「【待分配】」前缀",
+   "ok": true,
+   "detail": "【待分配】戊未命中0924215053"
+  },
+  {
+   "case": "F",
+   "label": "小写学号仍命中既定档案（总数 +0）",
+   "ok": true,
+   "detail": {
+    "delta": 0,
+    "user_id": [
+     790,
+     "随便的注册名0924215053"
+    ]
+   }
+  },
+  {
+   "case": "F",
+   "label": "命中档案 user_id = 新账号",
+   "ok": true,
+   "detail": [
+    790,
+    "随便的注册名0924215053"
+   ]
+  },
+  {
+   "case": "G",
+   "label": "故障注入跑起来了",
+   "ok": true,
+   "detail": 0
+  },
+  {
+   "case": "G",
+   "label": "匹配器抛异常时注册路径不崩（无异常抛出）",
+   "ok": true,
+   "detail": "no-exception"
+  },
+  {
+   "case": "G",
+   "label": "退回老路新建待分配档案（+1）",
+   "ok": true,
+   "detail": 1
+  },
+  {
+   "case": "G",
+   "label": "savepoint 生效：夹具档案未被挂上账号",
+   "ok": true,
+   "detail": false
+  },
+  {
+   "case": "G",
+   "label": "新建档案是待分配且有新账号",
+   "ok": true,
+   "detail": {
+    "outcome": "no-exception",
+    "students_before": 16,
+    "students_after": 17,
+    "students_delta": 1,
+    "fixture_claimed": false,
+    "fixture_id": 530,
+    "new_archive_id": 531,
+    "new_archive_name": "【待分配】庚化名0924215053FZ",
+    "new_archive_pending": true,
+    "new_archive_dup_suspect": false,
+    "new_archive_note": false,
+    "new_archive_user_id_is_new_account": true
+   }
+  },
+  {
+   "case": "G",
+   "label": "失败被记日志",
+   "ok": true,
+   "detail": [
+    "2026-09-24 13:51:16,615 40 WARNING edu19 odoo.addons.edu_portal.models.invite_code: [edu_portal] 邀请码 CLAIM-FAULT-0924215053FZ 注册：认领既有学生档案失败，已退回新建「待分配」档案（注册不受影响） "
+   ]
+  },
+  {
+   "case": "G",
+   "label": "自清干净（students/codes/users 残留均为 0）",
+   "ok": true,
+   "detail": {
+    "students_left": 0,
+    "codes_left": 0,
+    "users_left": 0
+   }
+  },
+  {
+   "case": "H",
+   "label": "清场后本脚本命名空间残留全为 0（造的数据一处不留）",
+   "ok": true,
+   "detail": {
+    "students_gr_no_like": 0,
+    "students_name_like": 0,
+    "partners_name_like": 0,
+    "users_claim_login": 0,
+    "codes_claim_prefix": 0,
+    "audit_rows_like_stamp": 0,
+    "partners_created_left": 0
+   }
+  },
+  {
+   "case": "H",
+   "label": "清场后 op.student 不高于基线（未净增）",
+   "ok": true,
+   "detail": {
+    "base": 6,
+    "after": 6
+   }
+  },
+  {
+   "case": "H",
+   "label": "清场后 res.users 不高于基线（未净增）",
+   "ok": true,
+   "detail": {
+    "base": 7,
+    "after": 7
+   }
+  }
+ ],
+ "summary": {
+  "checks": 39,
+  "passed": 39,
+  "failed": []
+ }
+}

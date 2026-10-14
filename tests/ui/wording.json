@@ -1,0 +1,37 @@
+[
+ {
+  "bad": "解决",
+  "good": "已解决",
+  "note": "Solved 直译：/my/grievances 状态列/筛选项写「解决」，与同页统计卡「已解决」（custom_addons/edu_portal/views/roles.xml:754）自相矛盾；docs/ux-audit.md:77 登记。**本轮实测仍命中**（student /my/grievances 的 dropdown-item > span）"
+ },
+ {
+  "bad": "拒绝",
+  "good": "已驳回",
+  "note": "Rejected 直译：/my/grievances 筛选项写「拒绝」；同栈的 /requested/queue/list 已统一为「已拒绝」，本页漏改（docs/ux-audit.md:77）。**本轮实测仍命中**"
+ },
+ {
+  "bad": "CMP 日期",
+  "good": "结业日期",
+  "note": "CMP Date 未译/直译：/certificate 排序项写「CMP 日期」，来源 custom_addons/edu_portal/views/batch3.xml:21（sortby=completion_date）。**本轮实测仍命中**"
+ },
+ {
+  "bad": "没有任何",
+  "good": "不分组",
+  "note": "No group by 直译：分组依据默认项（docs/ux-audit.md:56）。已修为「不分组」（batch1/2/3.xml 全量），本行为**回归护栏**；仓内「还没有任何下载记录。」「本次没有任何改动。」是合法中文，靠逐字相等口径排除"
+ },
+ {
+  "bad": "经过",
+  "good": "及格",
+  "note": "Passed 机翻硬伤：/student/exam 结果列（docs/ux-audit.md:64 / custom_addons/edu_zh/__manifest__.py:15）。实测已为「及格」，本行为**回归护栏**；About 页「经过二十余年的发展」是正常中文，靠逐字相等口径排除"
+ },
+ {
+  "bad": "被拒绝",
+  "good": "已拒绝",
+  "note": "Rejected 机翻硬伤：edu_zh 记为「被拒绝→已驳回」，门户统一为「已拒绝」（custom_addons/edu_portal/views/batch3.xml:332 的筛选映射表）。本行为**回归护栏**"
+ },
+ {
+  "bad": "地位",
+  "good": "状态",
+  "note": "Status 机翻硬伤（custom_addons/edu_zh/__manifest__.py:15）；/student/exam 表头实测已为「状态」，本行为**回归护栏**"
+ }
+]

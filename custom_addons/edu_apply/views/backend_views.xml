@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ 入学申请（列表/详情） ============ -->
+    <record id="view_edu_application_list" model="ir.ui.view">
+        <field name="name">edu.application.list</field>
+        <field name="model">edu.application</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="track"/>
+                <field name="gender"/>
+                <field name="church"/>
+                <field name="phone"/>
+                <field name="email" optional="show"/>
+                <field name="state" widget="badge"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_application_form" model="ir.ui.view">
+        <field name="name">edu.application.form</field>
+        <field name="model">edu.application</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="new,review,exam,admitted"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="检索信息（实体列）">
+                            <field name="track"/>
+                            <field name="name"/>
+                            <field name="gender"/>
+                            <field name="id_no"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="church"/>
+                        </group>
+                        <group string="处理">
+                            <field name="state"/>
+                            <field name="mat_form"/>
+                            <field name="mat_recommend"/>
+                            <field name="mat_testimony"/>
+                            <field name="mat_calling"/>
+                            <field name="mat_diploma"/>
+                            <field name="mat_physical"/>
+                            <field name="mat_idcard"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="答卷内容">
+                            <field name="answers_html" readonly="1"/>
+                        </page>
+                        <!-- 旧版行模型明细：仅历史申请有数据，新提交不再写入 -->
+                        <page string="旧版明细（历史数据）">
+                            <group col="1">
+                                <field name="education_ids" readonly="1">
+                                    <list>
+                                        <field name="school"/><field name="years"/>
+                                        <field name="major"/><field name="degree"/>
+                                    </list>
+                                </field>
+                                <field name="work_ids" readonly="1">
+                                    <list>
+                                        <field name="company"/><field name="title"/>
+                                        <field name="period"/><field name="role"/>
+                                    </list>
+                                </field>
+                                <field name="ministry_ids" readonly="1">
+                                    <list>
+                                        <field name="church"/><field name="role"/><field name="period"/>
+                                    </list>
+                                </field>
+                                <field name="family_ids" readonly="1">
+                                    <list>
+                                        <field name="relation"/><field name="name"/>
+                                        <field name="age"/><field name="education"/><field name="faith"/>
+                                    </list>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="其他信息（历史列）">
+                            <group>
+                                <group>
+                                    <field name="birth"/>
+                                    <field name="native_place"/>
+                                    <field name="marital"/>
+                                    <field name="baptism_date"/>
+                                    <field name="baptism_church"/>
+                                </group>
+                                <group>
+                                    <field name="address"/>
+                                    <field name="emergency_name"/>
+                                    <field name="emergency_phone"/>
+                                    <field name="remark"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_application" model="ir.actions.act_window">
+        <field name="name">入学申请</field>
+        <field name="res_model">edu.application</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ============ 报名表设置：分区 + 字段（元数据） ============ -->
+    <record id="view_edu_apply_section_list" model="ir.ui.view">
+        <field name="name">edu.apply.section.list</field>
+        <field name="model">edu.apply.section</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_apply_section_form" model="ir.ui.view">
+        <field name="name">edu.apply.section.form</field>
+        <field name="model">edu.apply.section</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    <div class="text-muted mb-2">拖动左侧手柄调整字段顺序；「下拉选择 / 单选」类型需在选项中每行填写一个选项。</div>
+                    <field name="field_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="label"/>
+                            <field name="type"/>
+                            <field name="required"/>
+                            <field name="active"/>
+                            <field name="options" optional="show"/>
+                            <field name="locked" optional="hide"/>
+                        </list>
+                        <form string="报名表字段">
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="label"/>
+                                        <field name="type"/>
+                                        <field name="section_id"/>
+                                        <field name="sequence"/>
+                                    </group>
+                                    <group>
+                                        <field name="required"/>
+                                        <field name="active"/>
+                                        <field name="locked" readonly="1"/>
+                                    </group>
+                                </group>
+                                <field name="options"
+                                       placeholder="下拉选择 / 单选类型的选项，每行写一个"/>
+                            </sheet>
+                        </form>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_apply_section" model="ir.actions.act_window">
+        <field name="name">报名表设置</field>
+        <field name="res_model">edu.apply.section</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- web_icon 换为彩色扁平插画（原 static/description/icon.png 不存在，图标空缺） -->
+    <menuitem id="menu_edu_apply_root" name="招生报名" web_icon="edu_apply,static/src/img/menu/apply.svg" sequence="18"/>
+    <menuitem id="menu_edu_application" name="入学申请" parent="menu_edu_apply_root" action="action_edu_application"/>
+    <menuitem id="menu_edu_apply_settings" name="报名表设置" parent="menu_edu_apply_root" action="action_edu_apply_section" sequence="99"/>
+
+    <!-- 基座那棵「招生」菜单（openeducat_admission）对本学坊是**遗留空壳**：
+         它的「入学登记」表 0 条数据，模型 ACL 只给基座自己的两个组
+         （入场/经理、入场/用户）—— 教务点进去只会撞「访问错误」弹窗
+         （2026-09-17 校长实际遇到）。这里把该菜单限定回它原设计的两个组，
+         教务在后台就只看到真在用的「招生报名」。
+         注：这不改基座任何模型权限；管理员仍可见（superuser 不受菜单组限制）。 -->
+    <record id="openeducat_admission.menu_op_admission_root" model="ir.ui.menu">
+        <field name="group_ids" eval="[(6, 0, [ref('openeducat_admission.group_op_admission_admin'), ref('openeducat_admission.group_op_admission_user')])]"/>
+    </record>
+</odoo>

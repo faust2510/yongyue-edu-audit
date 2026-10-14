@@ -1,0 +1,108 @@
+{
+ "at": "2026-09-29T15:08:12.983101",
+ "path": "/registrar/curriculum?course_id=18",
+ "axe_version": "4.10.2",
+ "results": [
+  {
+   "name": "① AX 树：全部 15 个复选框都有可访问名（无名 0）",
+   "pass": true,
+   "detail": "样例 ['勾选科目 圣经概论（新旧约概论）', '勾选科目 圣经救赎历史', '勾选科目 意志和技能课程']"
+  },
+  {
+   "name": "① AX 树：表头「全选 / 全不选」有名字",
+   "pass": true,
+   "detail": "全选框名=['全选 / 全不选']"
+  },
+  {
+   "name": "① AX 树：三个批量按钮都有可访问名",
+   "pass": true,
+   "detail": "按钮=['我知道了', '\\uf0c7 保存课程编排', '\\uf002 查看科目', '批量设为必修', '批量设为选修', '批量清空（回到「留空 = 继承」）', '搜索', '头像 教务专员', '反选']"
+  },
+  {
+   "name": "① AX 树：逐行下拉（combobox）都在（15 个）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "① AX 树：每个行复选框的名字都带科目名（勾选科目 …）",
+   "pass": true,
+   "detail": "命中 14"
+  },
+  {
+   "name": "② 键盘：Tab 能走到表头「全选 / 全不选」复选框（步数 32）",
+   "pass": true,
+   "detail": "焦点=cur-pick-all"
+  },
+  {
+   "name": "② 键盘：Space 触发全选（勾选 0 → 14 行）",
+   "pass": true,
+   "detail": "checked=14"
+  },
+  {
+   "name": "② 键盘：Tab 能走到「批量清空」按钮（无需鼠标）",
+   "pass": true,
+   "detail": "焦点=批量清空（回到「留空 ="
+  },
+  {
+   "name": "② 键盘：Enter 真的提交了批量动作（14 行本来就是「留空」⇒ 零改动）",
+   "pass": true,
+   "detail": "落地 box=bulk_none&course_id=18&bulk_action=clear&bulk_changed=0&bulk_ignored=0&bulk_picked=14"
+  },
+  {
+   "name": "③ axe：改后没有新增违规规则（改前 1 条 → 改后 1 条）",
+   "pass": true,
+   "detail": "改后=['page-has-heading-one']"
+  }
+ ],
+ "raw": {
+  "ax": {
+   "checkbox": [
+    "勾选科目 圣经概论（新旧约概论）",
+    "勾选科目 圣经救赎历史",
+    "勾选科目 意志和技能课程",
+    "勾选科目 古汉语课程",
+    "勾选科目 选修课程",
+    "勾选科目 阅读课程",
+    "勾选科目 原文基础课程",
+    "勾选科目 小要理问答",
+    "勾选科目 灵命塑造课程",
+    "勾选科目 基础信仰",
+    "勾选科目 文史哲综合备考课",
+    "勾选科目 英语课程",
+    "勾选科目 写作课程",
+    "勾选科目 游历课程",
+    "全选 / 全不选"
+   ],
+   "combobox_n": 15,
+   "unnamed": [],
+   "buttons": [
+    "我知道了",
+    " 保存课程编排",
+    " 查看科目",
+    "批量设为必修",
+    "批量设为选修",
+    "批量清空（回到「留空 = 继承」）",
+    "搜索",
+    "头像 教务专员",
+    "反选"
+   ]
+  },
+  "keyboard_url": "http://127.0.0.1:8069/registrar/curriculum?box=bulk_none&course_id=18&bulk_action=clear&bulk_changed=0&bulk_ignored=0&bulk_picked=14",
+  "axe_after": [
+   {
+    "id": "page-has-heading-one",
+    "impact": "moderate",
+    "nodes": 1
+   }
+  ],
+  "axe_before": [
+   {
+    "id": "page-has-heading-one",
+    "impact": "moderate",
+    "nodes": 1
+   }
+  ]
+ },
+ "pass": 10,
+ "fail": 0
+}

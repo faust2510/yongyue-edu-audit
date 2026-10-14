@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ============ F5 @提醒待办 ============ -->
+        <record id="view_assist_mention_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.mention.list</field>
+            <field name="model">edu.tg.assist.mention</field>
+            <field name="arch" type="xml">
+                <list create="false" edit="false" default_order="mentioned_at desc">
+                    <field name="mentioned_at"/>
+                    <field name="chat_title"/>
+                    <field name="mentioner_name"/>
+                    <field name="state" widget="badge"
+                           decoration-danger="state == 'waiting'"
+                           decoration-warning="state == 'reminded'"
+                           decoration-success="state == 'replied'"/>
+                    <field name="dm_sent_at"/>
+                    <field name="replied_at"/>
+                    <field name="message_text" optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_mention_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.mention.form</field>
+            <field name="model">edu.tg.assist.mention</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <sheet>
+                        <group>
+                            <group string="来龙去脉">
+                                <field name="chat_title"/>
+                                <field name="chat_id"/>
+                                <field name="message_id"/>
+                                <field name="mentioner_name"/>
+                                <field name="mentioner_user_id"/>
+                                <field name="mentioned_at"/>
+                            </group>
+                            <group string="处理情况">
+                                <field name="state"/>
+                                <field name="owner_user_id"/>
+                                <field name="replied_at"/>
+                                <field name="dm_sent_at"/>
+                            </group>
+                        </group>
+                        <group string="原消息">
+                            <field name="message_text" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_assist_mention_search" model="ir.ui.view">
+            <field name="name">edu.tg.assist.mention.search</field>
+            <field name="model">edu.tg.assist.mention</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="chat_title"/>
+                    <field name="mentioner_name"/>
+                    <filter name="f_waiting" string="等待回复（且还没私聊提醒）"
+                            domain="[('replied_at', '=', False), ('dm_sent_at', '=', False)]"/>
+                    <filter name="f_reminded" string="已私聊提醒、还没回"
+                            domain="[('replied_at', '=', False), ('dm_sent_at', '!=', False)]"/>
+                    <filter name="f_replied" string="校长已回复"
+                            domain="[('replied_at', '!=', False)]"/>
+                    <separator/>
+                    <filter name="f_today" string="今天"
+                            domain="[('mentioned_at', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="g_chat" string="按群" context="{'group_by': 'chat_title'}"/>
+                    <filter name="g_state" string="按状态" context="{'group_by': 'state'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============ F4 按钮回填 ============ -->
+        <record id="view_assist_reply_list" model="ir.ui.view">
+            <field name="name">edu.tg.assist.reply.list</field>
+            <field name="model">edu.tg.assist.reply</field>
+            <field name="arch" type="xml">
+                <list create="false" edit="false" default_order="replied_at desc">
+                    <field name="replied_at"/>
+                    <field name="person_id"/>
+                    <field name="choice" widget="badge"
+                           decoration-success="choice == 'done'"
+                           decoration-danger="choice == 'abnormal'"/>
+                    <field name="mention_id"/>
+                    <field name="chat_id" optional="hide"/>
+                    <field name="tg_name" optional="hide"/>
+                    <field name="raw_data" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assist_reply_form" model="ir.ui.view">
+            <field name="name">edu.tg.assist.reply.form</field>
+            <field name="model">edu.tg.assist.reply</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <sheet>
+                        <group>
+                            <group string="谁点的">
+                                <field name="person_id"/>
+                                <field name="tg_user_id"/>
+                                <field name="tg_name"/>
+                            </group>
+                            <group string="点了什么">
+                                <field name="choice"/>
+                                <field name="replied_at"/>
+                                <field name="mention_id"/>
+                                <field name="chat_id"/>
+                                <field name="raw_data"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_assist_reply_search" model="ir.ui.view">
+            <field name="name">edu.tg.assist.reply.search</field>
+            <field name="model">edu.tg.assist.reply</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="person_id"/>
+                    <field name="mention_id"/>
+                    <filter name="f_done" string="已完成并达标" domain="[('choice', '=', 'done')]"/>
+                    <filter name="f_abnormal" string="有异常需上报" domain="[('choice', '=', 'abnormal')]"/>
+                    <separator/>
+                    <filter name="g_person" string="按上报人" context="{'group_by': 'person_id'}"/>
+                    <filter name="g_choice" string="按选择" context="{'group_by': 'choice'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============ 菜单（挂在骨架的 menu_assist_root 下） ============ -->
+        <record id="action_assist_mention" model="ir.actions.act_window">
+            <field name="name">@提醒待办</field>
+            <field name="res_model">edu.tg.assist.mention</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'search_default_f_waiting': 1}</field>
+        </record>
+        <record id="action_assist_reply" model="ir.actions.act_window">
+            <field name="name">按钮回填</field>
+            <field name="res_model">edu.tg.assist.reply</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_assist_mention" name="@提醒待办" parent="menu_assist_root"
+                  action="action_assist_mention" sequence="30"/>
+        <menuitem id="menu_assist_reply" name="按钮回填" parent="menu_assist_root"
+                  action="action_assist_reply" sequence="40"/>
+    </data>
+</odoo>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ 请假审批（edu.leave） ============ -->
+    <record id="view_edu_leave_list" model="ir.ui.view">
+        <field name="name">edu.leave.list.approval</field>
+        <field name="model">edu.leave</field>
+        <field name="arch" type="xml">
+            <list string="请假申请">
+                <field name="name" string="申请编号"/>
+                <field name="student_id" string="学生"/>
+                <field name="leave_type" string="休假类型"/>
+                <field name="date_from" string="开始日期"/>
+                <field name="date_to" string="结束日期"/>
+                <field name="reject_reason" optional="hide"/>
+                <field name="state" string="状态"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'refused'"
+                       decoration-info="state == 'request'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_leave_form" model="ir.ui.view">
+        <field name="name">edu.leave.form.approval</field>
+        <field name="model">edu.leave</field>
+        <field name="arch" type="xml">
+            <form string="请假申请">
+                <header>
+                    <button name="action_approve" type="object" string="通过"
+                            class="btn-primary" invisible="state != 'request'"/>
+                    <button name="action_reject" type="object" string="驳回"
+                            confirm="确认驳回该请假申请？驳回前请填写驳回原因。"
+                            invisible="state != 'request'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="request,approved"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="申请编号"/>
+                            <field name="student_id" string="学生"/>
+                            <field name="leave_type" string="休假类型"/>
+                        </group>
+                        <group>
+                            <field name="date_from" string="开始日期"/>
+                            <field name="date_to" string="结束日期"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason" string="请假事由"/>
+                        <field name="reject_reason" string="驳回原因"
+                               placeholder="驳回时必填，向学生说明原因"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_leave_backend" model="ir.actions.act_window">
+        <field name="name">请假审批</field>
+        <field name="res_model">edu.leave</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ============ 申诉处理（edu.grievance） ============ -->
+    <record id="view_edu_grievance_list" model="ir.ui.view">
+        <field name="name">edu.grievance.list.approval</field>
+        <field name="model">edu.grievance</field>
+        <field name="arch" type="xml">
+            <list string="学生申诉">
+                <field name="name" string="申诉编号"/>
+                <field name="student_id" string="学生"/>
+                <field name="subject" string="主题"/>
+                <field name="category" string="类别" optional="show"/>
+                <field name="date" string="创建日期"/>
+                <field name="state" string="状态"
+                       decoration-success="state in ('resolve', 'close')"
+                       decoration-danger="state == 'reject'"
+                       decoration-info="state in ('submitted', 'in_progress')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_grievance_form" model="ir.ui.view">
+        <field name="name">edu.grievance.form.approval</field>
+        <field name="model">edu.grievance</field>
+        <field name="arch" type="xml">
+            <form string="学生申诉">
+                <header>
+                    <button name="action_start" type="object" string="开始处理"
+                            class="btn-primary" invisible="state != 'submitted'"/>
+                    <button name="action_resolve" type="object" string="解决"
+                            class="btn-primary" invisible="state not in ('submitted', 'in_progress')"/>
+                    <button name="action_reject" type="object" string="驳回"
+                            confirm="确认驳回该申诉？驳回前请填写驳回原因。"
+                            invisible="state not in ('submitted', 'in_progress')"/>
+                    <button name="action_close" type="object" string="关闭"
+                            invisible="state not in ('resolve', 'reject')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="submitted,in_progress,resolve,close"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="申诉编号"/>
+                            <field name="student_id" string="学生"/>
+                            <field name="category" string="类别"/>
+                        </group>
+                        <group>
+                            <field name="date" string="创建日期"/>
+                            <field name="subject" string="主题"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" string="申诉内容"/>
+                        <field name="reject_reason" string="驳回原因"
+                               placeholder="驳回时必填，向学生说明原因"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_grievance_backend" model="ir.actions.act_window">
+        <field name="name">申诉处理</field>
+        <field name="res_model">edu.grievance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ============ 证书管理（edu.certificate） ============ -->
+    <record id="view_edu_certificate_list" model="ir.ui.view">
+        <field name="name">edu.certificate.list.approval</field>
+        <field name="model">edu.certificate</field>
+        <field name="arch" type="xml">
+            <list string="结业证书">
+                <field name="certificate_no" string="证书编号"/>
+                <field name="student_id" string="学生"/>
+                <field name="course_id" string="课程"/>
+                <field name="issue_date" string="发放日期"/>
+                <field name="grade" string="成绩" optional="show"/>
+                <field name="state" string="状态"
+                       decoration-success="state == 'issued'"
+                       decoration-info="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_certificate_form" model="ir.ui.view">
+        <field name="name">edu.certificate.form.approval</field>
+        <field name="model">edu.certificate</field>
+        <field name="arch" type="xml">
+            <form string="结业证书">
+                <header>
+                    <button name="action_issue" type="object" string="确认签发"
+                            class="btn-primary" invisible="state == 'issued'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="certificate_no" string="证书编号"/>
+                            <field name="student_id" string="学生"/>
+                        </group>
+                        <group>
+                            <field name="course_id" string="课程"/>
+                            <field name="issue_date" string="发放日期"/>
+                            <field name="grade" string="成绩"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="remark" string="备注"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_certificate_backend" model="ir.actions.act_window">
+        <field name="name">证书管理</field>
+        <field name="res_model">edu.certificate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ============ 选课审批（op.subject.registration） ============
+         按钮换绑：基座 action_approve 有缺陷（无档案抛错、不更新班级/学期、
+         不通知不审计），后台表单按钮改调自研 action_enroll_approve /
+         action_enroll_reject（基座方法保留不动，行为不回归）。 -->
+    <record id="view_edu_subject_reg_list" model="ir.ui.view">
+        <field name="name">op.subject.registration.list.approval</field>
+        <field name="model">op.subject.registration</field>
+        <field name="inherit_id" ref="openeducat_core.view_subject_registration_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="doc_type" string="单据类型"/>
+                <field name="submitted_at" optional="hide"/>
+                <field name="approved_at" optional="hide"/>
+                <field name="reject_reason" string="驳回原因" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_edu_subject_reg_form" model="ir.ui.view">
+        <field name="name">op.subject.registration.form.approval</field>
+        <field name="model">op.subject.registration</field>
+        <field name="inherit_id" ref="openeducat_core.view_subject_registration_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_approve']" position="attributes">
+                <attribute name="name">action_enroll_approve</attribute>
+                <attribute name="string">通过（建档并挂科目）</attribute>
+                <!-- 换班/换课单（doc_type=course_change）绝不走这条动作：
+                     它不碰科目、只原地改写档案归属，见下面那个按钮 -->
+                <attribute name="invisible">state != 'submitted' or doc_type == 'course_change'</attribute>
+            </xpath>
+            <!-- 换班/换课审批按钮：只有教务 + 超管可见（设计 §9：归属变更不带教师；
+                 与上面选课按钮的 group_op_faculty 口径**故意不同**，勿「对齐」） -->
+            <xpath expr="//header/button[@name='action_reject']" position="after">
+                <button name="action_course_change_approve" string="通过（换班/换课）"
+                        groups="openeducat_core.group_op_back_office_admin,base.group_system"
+                        type="object" class="oe_highlight"
+                        invisible="state != 'submitted' or doc_type != 'course_change'"/>
+            </xpath>
+            <xpath expr="//header/button[@name='action_reject']" position="attributes">
+                <attribute name="name">action_enroll_reject</attribute>
+                <attribute name="string">驳回</attribute>
+            </xpath>
+            <xpath expr="//field[@name='min_unit_load']" position="after">
+                <field name="doc_type" string="单据类型" readonly="1"/>
+                <field name="applicant_note" string="申请理由" readonly="1"/>
+                <field name="reject_reason" string="驳回原因"
+                       placeholder="驳回时必填，将通知学生"/>
+                <field name="approved_at" string="审批时间" readonly="1"/>
+                <field name="approved_by" string="审批人" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_edu_subject_registration_approval" model="ir.actions.act_window">
+        <field name="name">选课审批</field>
+        <field name="res_model">op.subject.registration</field>
+        <field name="view_mode">list,form</field>
+        <!-- 2026-09-18 解禁：报课单 + 换班/换课单（doc_type=course_change）
+             都进队列。旧注释「课程变更单不进审批队列」与
+             controllers/enroll.py 的硬排除互为因果，导致该类单从未被批过
+             （设计 §19.1 载体裁定 v2）。教师侧仍只见报课单：门户聚合页
+             按身份分可见集，后台按钮本身已按 groups 限教务 + 超管。 -->
+        <field name="domain">[('state', '=', 'submitted'), ('doc_type', 'in', ('subject_registration', 'course_change'))]</field>
+        <field name="context">{'search_default_group_by_status': 1}</field>
+    </record>
+
+    <!-- ============ 菜单：教务审批 ============ -->
+    <menuitem id="menu_edu_approval_root" name="教务审批"
+              sequence="65" groups="base.group_user"/>
+    <menuitem id="menu_edu_leave_approval" name="请假审批"
+              parent="menu_edu_approval_root" action="action_edu_leave_backend"
+              sequence="10"/>
+    <menuitem id="menu_edu_grievance_approval" name="申诉处理"
+              parent="menu_edu_approval_root" action="action_edu_grievance_backend"
+              sequence="20"/>
+    <menuitem id="menu_edu_subject_registration_approval" name="选课审批"
+              parent="menu_edu_approval_root"
+              action="action_edu_subject_registration_approval"
+              sequence="25"/>
+    <menuitem id="menu_edu_certificate_mgmt" name="证书管理"
+              parent="menu_edu_approval_root" action="action_edu_certificate_backend"
+              sequence="30"/>
+
+</odoo>

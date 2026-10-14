@@ -1,0 +1,33 @@
+name,email,role,gr_no,course_code,batch_code,来源与备注
+# 说明：email 是唯一还缺的列，填上就能批量建号。gr_no = 学号（op.student.gr_no，唯一约束，不可重复）。
+# 来源=成绩名单：调研时从生产 op.student.course 实测抄下，确定是在读学生（可复核 docs/research/gradebook-entry.md:883-891）。
+# 来源=/alumni：匿名访问 /alumni 页面泄露的真名，**只有姓名、没有学号**，且该页是校友页 ⇒ 是在读还是已毕业**需校方核实**（docs/audit/security-audit-app.md:501）。
+# 王佐一行：库里已有（uid 19），**不需要重建**，只需补学号。
+王佐,qnj2510798178@gmail.com,student,,,C·B硕,来源=已有账号（uid 19）；学号空缺，请补
+万橙,,student,24A0025,,B3,来源=成绩名单
+康有为,,student,24A0026,,B3,来源=成绩名单
+于新,,student,24A0028,,B3,来源=成绩名单
+郑美,,student,24A0029,,B3,来源=成绩名单
+马柠,,student,24A0038,,B3,来源=成绩名单
+苏苏,,student,24A0076,,B3,来源=成绩名单
+陈雨生,,student,26A0034,,A1,来源=成绩名单
+青青,,student,26A0035,,A1,来源=成绩名单
+李宣雨,,student,26A0036,,A1,来源=成绩名单（/alumni 亦有同名）
+星湉,,student,26A0037,,A1,来源=成绩名单
+艾志恒,,student,26A0038,,A1,来源=成绩名单（/alumni 亦有同名）
+祁琪,,student,23A0133,,B4,来源=成绩名单
+韩晗,,student,23A0135,,B4,来源=成绩名单
+豆豆,,student,23A0139,,B4,来源=成绩名单
+罗中政,,student,26A0019,,B1,来源=成绩名单（/alumni 亦有同名）
+,,student,24B0045,,,来源=未分班名单（**只有学号、没有姓名**，请补）
+花木,,student,,,待分配,来源=/alumni（待核实是否在读）
+余晖,,student,,,待分配,来源=/alumni（待核实是否在读）
+泫,,student,,,待分配,来源=/alumni + 未分班名单（待核实）
+赵军,,student,,,待分配,来源=/alumni（待核实是否在读）
+王院宇,,student,,,待分配,来源=/alumni + 未分班名单（待核实）
+李直,,student,,,待分配,来源=/alumni（待核实是否在读）
+陈雨声,,student,,,待分配,来源=/alumni（待核实是否在读）
+汤沅沅,,student,,,待分配,来源=/alumni（待核实是否在读）
+张恩雨,,student,,,待分配,来源=未分班名单
+裴枝,,student,,,待分配,来源=未分班名单
+文文,,student,,,待分配,来源=未分班名单

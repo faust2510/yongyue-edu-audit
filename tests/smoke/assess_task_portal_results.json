@@ -1,0 +1,340 @@
+{
+  "generated": "2026-09-28 17:53:56",
+  "mark": "【冒烟】",
+  "rows": [
+    {
+      "no": "A1",
+      "name": "结束前的任务状态分布（SQL）",
+      "pass": true,
+      "info": true,
+      "detail": "任务总数=3 ｜ closed=0"
+    },
+    {
+      "no": "A2",
+      "name": "学生端 /assess/my 的\"我收到的评估结果\"读数",
+      "pass": true,
+      "info": true,
+      "detail": "HTTP 200 ｜ 空态文案在页面上=True ｜ 页面长度=36040"
+    },
+    {
+      "no": "A3",
+      "name": "门户 /assess 上出现「评估任务」入口（不必再进后台）",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 含 /assess/tasks=True"
+    },
+    {
+      "no": "B0.1",
+      "name": "夹具模板",
+      "pass": true,
+      "info": true,
+      "detail": "id=1 name=教师评学生（验收）"
+    },
+    {
+      "no": "B0.2",
+      "name": "学生身份（被评者）",
+      "pass": true,
+      "info": true,
+      "detail": "op.student id=5 batch=8"
+    },
+    {
+      "no": "B1.0",
+      "name": "新建页拿到 csrf_token",
+      "pass": true,
+      "detail": "token 存在=True"
+    },
+    {
+      "no": "B1.1",
+      "name": "门户建任务 → 303 回任务页且库里出现 draft 行",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251?saved=1 ｜ 库内行数 0→1 ｜ state=draft"
+    },
+    {
+      "no": "B1.2",
+      "name": "多选的\"参与班级\"真的写进了 m2m 关系表（**不是只取第一个**）",
+      "pass": true,
+      "detail": "关系行数=1（期望 1）—— 路由 **post 拿不到多选，必须走 form.getlist"
+    },
+    {
+      "no": "B2.1",
+      "name": "门户发布 → 303 且 state 落库为 open、名单快照从 0 到 N",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251?saved=1 ｜ state=open ｜ 名单行数 0→1"
+    },
+    {
+      "no": "B2.2",
+      "name": "被评者（stu@local 的学生档案）在名单里",
+      "pass": true,
+      "detail": "roster_id=325"
+    },
+    {
+      "no": "B3.1",
+      "name": "名单手工添加一行 → 303 且库内 +1",
+      "pass": true,
+      "detail": "HTTP 303 ｜ 行数 1→2 ｜ roster_id=326"
+    },
+    {
+      "no": "B3.2",
+      "name": "名单逐条移除 → 303 且库内回到原值",
+      "pass": true,
+      "detail": "HTTP 303 ｜ 行数 2→1"
+    },
+    {
+      "no": "B3.3",
+      "name": "构造出一个\"一行未评\"的行（结束守卫的确定性前置）",
+      "pass": true,
+      "detail": "keep_row=327 ｜ 未评行数=2"
+    },
+    {
+      "no": "B4.1",
+      "name": "教师走既有门户路由打分 → 303 且打分落库、名单行转\"已评\"",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/grade/251?saved=1 ｜ 打分条数=3 ｜ 该行 state=done ｜ csrf 来源 /assess/grade/251（HTTP 200）"
+    },
+    {
+      "no": "C1.1",
+      "name": "结束**前**：学生端 /assess/my 不含本次任务（此刻链接还未闭合）",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 页面出现本次任务=False"
+    },
+    {
+      "no": "B5.1",
+      "name": "门户结束 → 303 且 state 落库为 closed",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251?saved=1 ｜ state=closed"
+    },
+    {
+      "no": "B6.1",
+      "name": "发布与结束都留下审计（含未评行数）",
+      "pass": true,
+      "detail": "审计条数=2 ｜ 结束详情=结束任务「教师评学生（验收） · 【冒烟】门户生命周期验收」：进行中 → 已结束；名单 2 行（未评 1 行）、答卷 1 份；结束前已确认 1 条风险提示。"
+    },
+    {
+      "no": "C0",
+      "name": "结束前的页面读数",
+      "pass": true,
+      "info": true,
+      "detail": "含本次任务=True ｜ 含「暂无已结束」=False"
+    },
+    {
+      "no": "C1.2",
+      "name": "结束**后**：学生端 /assess/my 出现本次任务的结果卡（本任务要修的症状）",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 含本次任务=True ｜ 读数：→ 教师评学生（验收） · 【冒烟】门户生命周期验收 评分项 得分 课堂参与 20 作业完成"
+    },
+    {
+      "no": "C2.1",
+      "name": "页面上的分数 == SQL 里该行的打分值（不是\"有了点什么\"就算过）",
+      "pass": true,
+      "detail": "SQL=['20.00', '30.00', '10.00'] ｜ 页面读出=['20', '30', '10']"
+    },
+    {
+      "no": "C3.1",
+      "name": "因果对照：重开后学生端又变空、再次结束后又出现（\"结束\"就是那一步）",
+      "pass": true,
+      "detail": "重开 HTTP 303 → 含任务=False ｜ 再结束 HTTP 303 → 含任务=True ｜ state=closed"
+    },
+    {
+      "no": "D0",
+      "name": "D 段起点",
+      "pass": true,
+      "info": true,
+      "detail": "任务 251 state=open ｜ 名单 2 行 ｜ 未评行 1"
+    },
+    {
+      "no": "D1.1",
+      "name": "有未评行时不带确认结束 → **被拒**（303 带 error）且 state 不变",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251?error=%E7%BB%93%E6%9D%9F%E5%89%8D%E8%AF%B7%E5%85%88%E7%A1%AE%E8%AE%A4%E4%BB%A5%E4%B8%8B+1+%E6%9D%A1%EF%BC%88%E5%8B%BE%E9%80%89%E9%A1%B5%E9%9D% ｜ state=open"
+    },
+    {
+      "no": "D3.1",
+      "name": "进行中的任务不能再\"重新打开\"（状态机不跳级）",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251?error=%E5%8F%AA%E6%9C%89%E3%80%8C%E5%B7%B2%E7%BB%93%E6%9D%9F%E3%80%8D%E7%9A%84%E4%BB%BB%E5%8A%A1%E5%8F%AF%E4%BB%A5%E9%87%8D%E6%96%B0%E6%89%93% ｜ state=open"
+    },
+    {
+      "no": "D3.2",
+      "name": "已发布的任务不能再\"发布\"一次",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251?error=%E5%8F%AA%E6%9C%89%E3%80%8C%E8%8D%89%E7%A8%BF%E3%80%8D%E7%8A%B6%E6%80%81%E7%9A%84%E4%BB%BB%E5%8A%A1%E5%8F%AF%E4%BB%A5%E5%8F%91%E5%B8%83%"
+    },
+    {
+      "no": "D4.1",
+      "name": "拿别任务的名单行 id 来删 → **被拒**且那行还在、本任务行数不变",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251/roster?error=%E5%90%8D%E5%8D%95%E8%A1%8C%E4%B8%8D%E5%AD%98%E5%9C%A8%E6%88%96%E4%B8%8D%E5%B1%9E%E4%BA%8E%E8%AF%A5%E4%BB%BB%E5%8A%A1%E ｜ 目标行仍在=1 ｜ 本任务行数 2→2"
+    },
+    {
+      "no": "D5.1",
+      "name": "已生成名单的任务换模板 → **被拒**且库内模板不变",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251?error=%E6%9C%AC%E4%BB%BB%E5%8A%A1%E5%B7%B2%E7%BB%8F%E7%94%9F%E6%88%90%E5%90%8D%E5%8D%95%E6%88%96%E5%B7%B2%E6%9C%89%E6%89%93%E5%88%86 ｜ 库内模板 1（期望 1）"
+    },
+    {
+      "no": "D2.1",
+      "name": "结束后名单冻结：生成/添加/删除三条写路由全部被拒且行数不变",
+      "pass": true,
+      "detail": "build=/assess/tasks/251/roster?error=%E4%BB%BB add=/assess/tasks/251/roster?error=%E4%BB%BB delete=/assess/tasks/251/roster?error=%E4%BB%BB ｜ 行数 2→2"
+    },
+    {
+      "no": "D3.3",
+      "name": "已结束的任务不能再结束一次",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks/251?error=%E5%8F%AA%E6%9C%89%E3%80%8C%E8%BF%9B%E8%A1%8C%E4%B8%AD%E3%80%8D%E7%9A%84%E4%BB%BB%E5%8A%A1%E5%8F%AF%E4%BB%A5%E7%BB%93%E6%9D%9F%EF%BC%88%"
+    },
+    {
+      "no": "E0",
+      "name": "越权探之前的 SQL 快照",
+      "pass": true,
+      "info": true,
+      "detail": "{\"tasks\": 4, \"rosters\": 12, \"scores\": 11, \"state\": \"closed\", \"task_roster\": 2, \"audit\": 1989}"
+    },
+    {
+      "no": "E1.1",
+      "name": "4 条页面路由 × 学生/教师/家长 = 12 探 → 全部 303 /my/home",
+      "pass": true,
+      "detail": "异常：无"
+    },
+    {
+      "no": "E2.1",
+      "name": "5 条写路由 × 学生/教师/家长 = 15 探（带合法 csrf）→ 全部 303 /my/home",
+      "pass": true,
+      "detail": "异常：无"
+    },
+    {
+      "no": "E3.1",
+      "name": "越权写入残留 0：探完逐项快照相等（任务/名单/打分/状态/审计）",
+      "pass": true,
+      "detail": "前后差异：无（逐项相等）"
+    },
+    {
+      "no": "E4.1",
+      "name": "未登录访问 → 走 auth='user' 兜底（303 到登录页）",
+      "pass": true,
+      "detail": "HTTP 303 Location=/web/login?redirect=%2Fassess%2Ftasks%3F"
+    },
+    {
+      "no": "F1.1",
+      "name": "系统组（admin，同为授权层）访问同一批页面 → 200（\"200\"可达）",
+      "pass": true,
+      "detail": "读数={'/assess/tasks': 200, '/assess/tasks/new': 200, '/assess/tasks/251': 200, '/assess/tasks/251/roster': 200}"
+    },
+    {
+      "no": "F2.1",
+      "name": "学生/教师访问**自己该看的**页 → 200（\"303\"不是处处 303）",
+      "pass": true,
+      "detail": "学生 /assess/my=200 ｜ 教师 /assess/grade/251=200"
+    },
+    {
+      "no": "F3.1",
+      "name": "不存在的任务 id → 303 带错误（\"200\"期望在坏路径上会失败 ⇒ 非恒真）",
+      "pass": true,
+      "detail": "HTTP 303 Location=/assess/tasks?error=%E4%BB%BB%E5%8A%A1%E4%B8%8D%E5%AD%98%E5%9C%A8%E6%88%96%E5%B7%B2%E8%A2%AB%E5%88%A0%E9%99%A4%E3%80%82"
+    },
+    {
+      "no": "G0",
+      "name": "夹具",
+      "pass": true,
+      "info": true,
+      "detail": "模板=153 ｜ 任务A=252（教师 17）｜ 任务B=253（教师 43）"
+    },
+    {
+      "no": "G1.1",
+      "name": "被评教师打开 /assess/my → 200 且看到**自己被评**的分数",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 命中任务=True ｜ 读到格子=['15', '25']（期望 15/25）"
+    },
+    {
+      "no": "G2.1",
+      "name": "反向：教师 A 拿不到教师 B 的评教结果（任务 B 名不在页面上，卡片只有 1 张）",
+      "pass": true,
+      "detail": "任务B名出现=False ｜ 结果卡张数=1（若域没收敛会是 2）"
+    },
+    {
+      "no": "G2.2",
+      "name": "控制组：任务 B 的数据确实在库里、教务看得到（A 看不到不是\"数据没有\"）",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 含 B 的分值 7.00/13.00=True"
+    },
+    {
+      "no": "G4.1",
+      "name": "闸门：模板 score_visible=False ⇒ 教师端只看到\"不公开\"的说明、看不到分数",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 解释文字=True ｜ 数字格=[]"
+    },
+    {
+      "no": "G5.1",
+      "name": "控制组：开关打开后同一读数立刻回来（不是页面坏了）",
+      "pass": true,
+      "detail": "读到格子=['15', '25']"
+    },
+    {
+      "no": "H0",
+      "name": "夹具",
+      "pass": true,
+      "info": true,
+      "detail": "模板=154 ｜ 任务=254 ｜ 叶子 8 个 / 分组 3 个 ｜ 名单 2 行"
+    },
+    {
+      "no": "H1.1",
+      "name": "门户矩阵列数 == 叶子项数（8），**不含任何分组名**",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 行标签=['学生'] ｜ 评分列 8 列=['窗户有灰尘/污渍', '窗户有灰尘/污渍', '窗户有灰尘/污渍', '墙面有污渍', '垃圾未倒', '垃圾未倒', '灶台油渍', '床铺不整'] ｜ 分组名混入=无"
+    },
+    {
+      "no": "H1.2",
+      "name": "对照：修前口径（含分组）会是 11 列 —— 本次读数确实变了",
+      "pass": true,
+      "detail": "现在评分列 8 ｜ 含分组会是 11"
+    },
+    {
+      "no": "H2.1",
+      "name": "导出结果：列头 = 学号/姓名 + **区名 / 项名** 标签（8 列），同名项可分",
+      "pass": true,
+      "detail": "表头=['学号', '姓名', '厨房 / 窗户有灰尘/污渍', '卫生间 / 窗户有灰尘/污渍', '卧室 / 窗户有灰尘/污渍', '厨房 / 墙面有污渍', '卫生间 / 垃圾未倒', '卧室 / 垃圾未倒', '厨房 / 灶台油渍', '卧室 / 床铺不整', '加权总分', '平均分']"
+    },
+    {
+      "no": "H2.2",
+      "name": "数据行列数 == 名单行数（导出没丢行）",
+      "pass": true,
+      "detail": "数据行 2 行 / 名单 2 行"
+    },
+    {
+      "no": "H3.1",
+      "name": "同一文件导回：预览可写入 2 行 / 待修正 0 行，且**没有\"未知列头\"**",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 可写入=2 待修正=0 ｜ 未知列头=False"
+    },
+    {
+      "no": "H3.2",
+      "name": "反向：裸项名列头导回 → 被\"同名项\"提示挡住（区名前缀确有必要）",
+      "pass": true,
+      "detail": "HTTP 200 ｜ 未知列头=True ｜ 同名项提示=True"
+    },
+    {
+      "no": "H4.1",
+      "name": "原样导回后**逐格零变更**（幂等：导出→导回 = 不动数据）",
+      "pass": true,
+      "detail": "HTTP 303 ｜ 格子 16 个 ｜ 前后相同=True"
+    },
+    {
+      "no": "H5.1",
+      "name": "导出空表：同一套区名标签列，且没有分组列",
+      "pass": true,
+      "detail": "表头=['学号', '姓名', '厨房 / 窗户有灰尘/污渍', '卫生间 / 窗户有灰尘/污渍', '卧室 / 窗户有灰尘/污渍', '厨房 / 墙面有污渍', '卫生间 / 垃圾未倒', '卧室 / 垃圾未倒', '厨房 / 灶台油渍', '卧室 / 床铺不整']"
+    },
+    {
+      "no": "H6.1",
+      "name": "控制组：扁平模板（列头=项名，无前缀）仍可往返且零变更",
+      "pass": true,
+      "detail": "表头=['学号', '姓名', '平时表现', '期末考评', '加权总分', '平均分'] ｜ 可写入=1 待修正=0 ｜ 前后相同=True"
+    },
+    {
+      "no": "Z1",
+      "name": "夹具清理（默认口径；--keep 才保留）",
+      "pass": true,
+      "info": true,
+      "detail": "任务 [251, 252, 253, 254, 255] / 模板 [154, 155, 153]"
+    }
+  ]
+}

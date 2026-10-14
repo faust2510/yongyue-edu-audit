@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================================================== -->
+    <!-- ============ 福利系统组：打卡 + 积分 ================ -->
+    <!-- ==================================================== -->
+
+    <!-- ============ 门户：/my/checkin 学生每日打卡 ============ -->
+    <template id="edu_welfare_checkin" name="Edu Welfare Daily Checkin">
+        <t t-call="edu_portal.edu_page">
+            <t t-if="missed_today and not today_rec">
+                <div class="alert alert-danger d-flex align-items-center py-2">
+                    <i class="fa fa-warning me-2"/>
+                    今天还没有打卡——坚持每天记录，是属灵操练的一部分！
+                    <a href="#checkin-form" class="alert-link ms-1">立即打卡</a>
+                </div>
+            </t>
+            <t t-elif="today_rec">
+                <div class="alert alert-success py-2">
+                    <i class="fa fa-check-circle me-1"/>今天已打卡，愿神纪念你的忠心。
+                </div>
+            </t>
+            <h4 class="mb-1 d-flex align-items-center gap-2 flex-wrap">
+                <span><i class="fa fa-calendar-check-o me-2"/>每日打卡</span>
+                <a class="btn btn-sm btn-outline-primary ms-auto" href="/my/checkin/export">
+                    <i class="fa fa-download me-1"/>导出 CSV
+                </a>
+            </h4>
+            <p class="text-muted mb-3">
+                每天记录到堂、灵修与读经情况，坚持积累属灵与学习的日常操练。
+            </p>
+
+            <t t-if="saved">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-check-circle me-1"/>今日打卡已保存。
+                </div>
+            </t>
+            <t t-if="error">
+                <div class="alert alert-danger py-2" role="alert">
+                    <i class="fa fa-exclamation-circle me-1"/>
+                    保存失败：请至少勾选「到堂」或「灵修」，或填写读经范围。
+                </div>
+            </t>
+
+            <!-- 今日三开关 + 读经范围 + 两个备注框 -->
+            <form method="post" action="/my/checkin/save"
+                  class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-body">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <div class="d-flex flex-wrap gap-4 mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox"
+                                   id="ck_attend" name="attend"
+                                   t-att-checked="today_rec and today_rec.attend"/>
+                            <label class="form-check-label fw-semibold"
+                                   for="ck_attend">到堂</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox"
+                                   id="ck_devotion" name="devotion"
+                                   t-att-checked="today_rec and today_rec.devotion"/>
+                            <label class="form-check-label fw-semibold"
+                                   for="ck_devotion">灵修</label>
+                        </div>
+                        <span class="text-muted align-self-center small">
+                            打卡日期：<t t-out="today"/>
+                            <t t-if="today_rec">（今天已打卡，提交将更新记录）</t>
+                        </span>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold"
+                                   for="ck_passage">读经范围</label>
+                            <input type="text" class="form-control"
+                                   id="ck_passage" name="bible_passage"
+                                   maxlength="128" placeholder="如：约3章 / 创1-3章"
+                                   t-att-value="(today_rec and today_rec.bible_passage) or ''"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold"
+                                   for="ck_dnote">灵修笔记</label>
+                            <textarea class="form-control" rows="3"
+                                      id="ck_dnote" name="devotion_note"
+                                      placeholder="今天的灵修心得（可选）"><t t-out="(today_rec and today_rec.devotion_note) or ''"/></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold"
+                                   for="ck_bnote">读经笔记</label>
+                            <textarea class="form-control" rows="3"
+                                      id="ck_bnote" name="bible_note"
+                                      placeholder="读经中的亮光与问题（可选）"><t t-out="(today_rec and today_rec.bible_note) or ''"/></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary px-4 mt-3" type="submit">
+                        <i class="fa fa-check me-1"/>
+                        <t t-if="today_rec">更新今日打卡</t>
+                        <t t-else="">提交打卡</t>
+                    </button>
+                </div>
+            </form>
+
+            <!-- 三项累计统计 -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4 col-12">
+                    <div class="card shadow-sm border-0 rounded-3 text-center h-100">
+                        <div class="card-body py-3">
+                            <div class="fs-2 fw-bold text-primary"
+                                 t-out="stats['month_attend']"/>
+                            <div class="text-muted">本月到堂天数</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="card shadow-sm border-0 rounded-3 text-center h-100">
+                        <div class="card-body py-3">
+                            <div class="fs-2 fw-bold text-success"
+                                 t-out="stats['devotion_streak']"/>
+                            <div class="text-muted">连续灵修天数</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="card shadow-sm border-0 rounded-3 text-center h-100">
+                        <div class="card-body py-3">
+                            <div class="fs-2 fw-bold text-warning"
+                                 t-out="stats['bible_streak']"/>
+                            <div class="text-muted">连续读经天数</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2-B6 当月月历 -->
+            <h6 class="mt-4 mb-2 text-muted">本月打卡日历（绿=全勤 黄=部分 红=缺 灰=未到）</h6>
+            <div class="d-flex flex-wrap gap-1 mb-1" style="max-width:540px">
+                <t t-foreach="month_days" t-as="md">
+                    <div t-att-class="'cal-cell rounded ' + md['cls']"
+                         style="width:36px;height:36px;line-height:34px;text-align:center;font-size:12px">
+                        <span t-out="md['day']"/>
+                    </div>
+                </t>
+            </div>
+
+            <!-- 最近 30 天记录 -->
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-list me-1"/>最近 30 天打卡记录
+                </div>
+                <div class="card-body p-0">
+                    <t t-if="not recents">
+                        <div class="oe-empty p-4 text-center text-muted">
+                            <i class="fa fa-calendar-check-o fa-2x mb-2"/>
+                            <p>最近 30 天还没有打卡记录，从今天开始吧。</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>日期</th>
+                                    <th class="text-center">到堂</th>
+                                    <th class="text-center">灵修</th>
+                                    <th>读经范围</th>
+                                    <th>笔记</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="recents" t-as="rec">
+                                    <tr>
+                                        <td t-out="rec.date"/>
+                                        <td class="text-center">
+                                            <t t-if="rec.attend">
+                                                <span class="text-success"><i class="fa fa-check"/></span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-muted"><i class="fa fa-times"/></span>
+                                            </t>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-if="rec.devotion">
+                                                <span class="text-success"><i class="fa fa-check"/></span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-muted"><i class="fa fa-times"/></span>
+                                            </t>
+                                        </td>
+                                        <td t-out="rec.bible_passage or '-'"/>
+                                        <td class="small text-muted">
+                                            <t t-if="rec.devotion_note">灵修：<t t-out="rec.devotion_note"/></t>
+                                            <t t-if="rec.bible_note">读经：<t t-out="rec.bible_note"/></t>
+                                            <t t-if="not rec.devotion_note and not rec.bible_note">-</t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 门户：/my/points 教师给学生加减分 ============ -->
+    <template id="edu_welfare_points_give" name="Edu Welfare Points Give">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1"><i class="fa fa-star-o me-2"/>学生积分</h4>
+            <p class="text-muted mb-3">
+                为学生发放积分：可用快捷原因按钮，也可自定义原因文本覆盖。
+            </p>
+
+            <t t-if="saved">
+                <div class="alert alert-success py-2" role="alert">
+                    <i class="fa fa-check-circle me-1"/>积分已发放。
+                </div>
+            </t>
+            <t t-if="error">
+                <div class="alert alert-danger py-2" role="alert">
+                    <i class="fa fa-exclamation-circle me-1"/>
+                    发放失败：请检查学生、原因与分值是否填写完整（分值不能为 0）。
+                </div>
+            </t>
+
+            <!-- 学生搜索（GET，不写库无需 csrf） -->
+            <form method="get" action="/my/points"
+                  class="d-flex gap-2 mb-3" role="search">
+                <input type="search" name="q" class="form-control"
+                       placeholder="按姓名搜索学生"
+                       t-att-value="q"/>
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="fa fa-search"/> 搜索
+                </button>
+            </form>
+
+            <!-- 发放表单 -->
+            <form method="post" action="/my/points/give"
+                  class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-body">
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold"
+                               for="pt_student">选择学生</label>
+                        <select class="form-select" id="pt_student"
+                                name="student_id" required="required">
+                            <option value="">— 请选择学生 —</option>
+                            <t t-foreach="students" t-as="s">
+                                <option t-att-value="s.id" t-out="s.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold d-block">快捷原因</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <t t-foreach="quick_reasons" t-as="qr">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                           name="preset"
+                                           t-attf-id="preset_{{ qr_index }}"
+                                           t-att-value="qr['value']"/>
+                                    <label class="form-check-label"
+                                           t-attf-for="preset_{{ qr_index }}">
+                                        <t t-out="qr['label']"/>
+                                        （<t t-out="qr['delta_fmt']"/>）
+                                    </label>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <label class="form-label fw-semibold"
+                                   for="pt_reason">自定义原因（填写后覆盖快捷按钮）</label>
+                            <input type="text" class="form-control"
+                                   id="pt_reason" name="reason_custom"
+                                   maxlength="256" placeholder="如：主动帮助同学打扫卫生"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold"
+                                   for="pt_delta">分值</label>
+                            <select class="form-select" id="pt_delta" name="delta">
+                                <option value="">— 仅自定义时必选 —</option>
+                                <t t-foreach="delta_options" t-as="d">
+                                    <option t-att-value="d" t-out="d"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold"
+                                   for="pt_note">备注（可选）</label>
+                            <input type="text" class="form-control"
+                                   id="pt_note" name="note"
+                                   maxlength="512" placeholder="补充说明"/>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary px-4 mt-3" type="submit">
+                        <i class="fa fa-star me-1"/>发放积分
+                    </button>
+                </div>
+            </form>
+
+            <!-- 本人最近发放流水 -->
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-history me-1"/>我最近的发放记录
+                </div>
+                <div class="card-body p-0">
+                    <t t-if="not flows">
+                        <div class="oe-empty p-4 text-center text-muted">
+                            <i class="fa fa-star-o fa-2x mb-2"/>
+                            <p>还没有发放过积分。</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>时间</th>
+                                    <th>对象</th>
+                                    <th class="text-end">分值</th>
+                                    <th>原因</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="flows" t-as="f">
+                                    <tr>
+                                        <td class="text-nowrap" t-out="f['when']"/>
+                                        <td t-out="f['who']"/>
+                                        <td class="text-end fw-semibold">
+                                            <span t-if="f['delta_fmt'].startswith('+')"
+                                                  class="text-success"
+                                                  t-out="f['delta_fmt']"/>
+                                            <span t-else="" class="text-danger"
+                                                  t-out="f['delta_fmt']"/>
+                                        </td>
+                                        <td t-out="f['reason']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 门户：/my/points/me 学生查看个人积分 ============ -->
+    <template id="edu_welfare_points_me" name="Edu Welfare My Points">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1"><i class="fa fa-trophy me-2"/>我的积分</h4>
+            <p class="text-muted mb-3">老师们的鼓励与提醒都会记录在这里。</p>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card shadow-sm border-0 rounded-3 text-center">
+                        <div class="card-body py-4">
+                            <div class="fs-1 fw-bold"
+                                 t-att-class="'text-success' if total >= 0 else 'text-danger'"
+                                 t-out="total_fmt"/>
+                            <div class="text-muted">当前合计积分</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white fw-semibold">
+                    <i class="fa fa-list me-1"/>积分流水
+                    <span class="badge rounded-pill text-bg-secondary ms-1"
+                          t-out="count"/>
+                </div>
+                <div class="card-body p-0">
+                    <t t-if="not flows">
+                        <div class="oe-empty p-4 text-center text-muted">
+                            <i class="fa fa-trophy fa-2x mb-2"/>
+                            <p>还没有积分记录，加油！</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <!-- 窄屏卡片化（task-15，2026-10-02）：本表 5 列在 375 视口「装得下」
+                             （表宽 = 容器宽 345），所以判据 A 看不见 —— 但列被自动布局压窄，
+                             「操作人」等 2~3 字表头被拆成上下两行（工具判据 C：折行表头×3）。
+                             复用共用模板 edu_portal.edu_narrow_table_cards：<768px 隐藏 thead、
+                             每行折成卡片、由每个 td 的 data-label 顶出列名；桌面一字不变。 -->
+                        <t t-call="edu_portal.edu_narrow_table_cards"/>
+                        <table class="table table-hover align-middle mb-0 edu-card-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>时间</th>
+                                    <th class="text-end">分值</th>
+                                    <th>原因</th>
+                                    <th>操作人</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="flows" t-as="f">
+                                    <tr>
+                                        <td data-label="时间" class="text-nowrap" t-out="f['when']"/>
+                                        <td data-label="分值" class="text-end fw-semibold">
+                                            <span t-if="f['delta_fmt'].startswith('+')"
+                                                  class="text-success"
+                                                  t-out="f['delta_fmt']"/>
+                                            <span t-else="" class="text-danger"
+                                                  t-out="f['delta_fmt']"/>
+                                        </td>
+                                        <td data-label="原因" t-out="f['reason']"/>
+                                        <td data-label="操作人" t-out="f['by']"/>
+                                        <td data-label="备注" class="small text-muted" t-out="f['note'] or '-'"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ 后端：全员打卡列表（教师可见） ============ -->
+    <record id="view_edu_checkin_list" model="ir.ui.view">
+        <field name="name">edu.daily.checkin.list.welfare</field>
+        <field name="model">edu.daily.checkin</field>
+        <field name="arch" type="xml">
+            <list string="全员打卡">
+                <field name="date" string="日期"/>
+                <field name="student_id" string="学生"/>
+                <field name="attend" string="到堂"/>
+                <field name="devotion" string="灵修"/>
+                <field name="bible_passage" string="读经范围"/>
+                <field name="devotion_note" string="灵修笔记" optional="hide"/>
+                <field name="bible_note" string="读经笔记" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_checkin_search" model="ir.ui.view">
+        <field name="name">edu.daily.checkin.search.welfare</field>
+        <field name="model">edu.daily.checkin</field>
+        <field name="arch" type="xml">
+            <search string="筛选打卡">
+                <field name="student_id" string="学生"/>
+                <field name="date" string="日期"/>
+                <filter name="filter_today" string="今天"
+                        domain="[('date', '=', context_today())]"/>
+                <filter name="filter_7d" string="近7天"
+                        domain="[('date', '&gt;=', context_today() + datetime.timedelta(days=-6))]"/>
+                <filter name="filter_30d" string="近30天"
+                        domain="[('date', '&gt;=', context_today() + datetime.timedelta(days=-29))]"/>
+                <group>
+                    <filter name="group_student" string="按学生"
+                            context="{'group_by': 'student_id'}"/>
+                    <filter name="group_date" string="按日期"
+                            context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_checkin_backend" model="ir.actions.act_window">
+        <field name="name">全员打卡</field>
+        <field name="res_model">edu.daily.checkin</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ============ 后端：积分流水 list+form（管理员） ============ -->
+    <record id="view_edu_point_log_list" model="ir.ui.view">
+        <field name="name">edu.point.log.list.welfare</field>
+        <field name="model">edu.point.log</field>
+        <field name="arch" type="xml">
+            <list string="积分流水">
+                <field name="date" string="时间"/>
+                <field name="person_kind" string="对象类型"/>
+                <field name="student_id" string="学生" optional="show"/>
+                <field name="teacher_user_id" string="教师用户" optional="show"/>
+                <field name="delta" string="分值"
+                       decoration-success="delta &gt; 0"
+                       decoration-danger="delta &lt; 0"/>
+                <field name="reason" string="原因"/>
+                <field name="granted_by" string="操作人" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_point_log_form" model="ir.ui.view">
+        <field name="name">edu.point.log.form.welfare</field>
+        <field name="model">edu.point.log</field>
+        <field name="arch" type="xml">
+            <form string="积分流水">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="person_kind" string="对象类型"
+                                   widget="radio" options="{'horizontal': true}"/>
+                            <field name="student_id" string="学生"
+                                   invisible="person_kind != 'student'"
+                                   required="person_kind == 'student'"/>
+                            <field name="teacher_user_id" string="教师用户"
+                                   invisible="person_kind != 'teacher'"
+                                   required="person_kind == 'teacher'"/>
+                            <field name="delta" string="分值"/>
+                            <field name="reason" string="原因"/>
+                        </group>
+                        <group>
+                            <field name="date" string="时间" readonly="1"/>
+                            <field name="granted_by" string="操作人" readonly="1"/>
+                            <field name="note" string="备注"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- 教师排行：graph 按 teacher_user_id 分组求和 delta（轻量，免 SQL 视图） -->
+    <record id="view_edu_point_log_graph_rank" model="ir.ui.view">
+        <field name="name">edu.point.log.graph.rank</field>
+        <field name="model">edu.point.log</field>
+        <field name="arch" type="xml">
+            <graph string="教师积分排行" type="bar">
+                <field name="teacher_user_id" type="col"/>
+                <field name="delta" type="measure" operator="sum"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_edu_point_log_pivot_rank" model="ir.ui.view">
+        <field name="name">edu.point.log.pivot.rank</field>
+        <field name="model">edu.point.log</field>
+        <field name="arch" type="xml">
+            <pivot string="教师积分排行">
+                <field name="teacher_user_id" type="row"/>
+                <field name="delta" type="measure" operator="sum"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_edu_point_backend" model="ir.actions.act_window">
+        <field name="name">积分流水</field>
+        <field name="res_model">edu.point.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_edu_point_rank_backend" model="ir.actions.act_window">
+        <field name="name">教师积分排行</field>
+        <field name="res_model">edu.point.log</field>
+        <field name="domain">[('person_kind', '=', 'teacher')]</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">暂无教师积分记录</p>
+            <p>在「积分流水」中给教师加分后，此处自动汇总排行。</p>
+        </field>
+    </record>
+
+    <!-- ============ 菜单：日常管理根菜单 ============ -->
+    <menuitem id="menu_edu_welfare_root" name="日常管理"
+              sequence="66" groups="base.group_user"/>
+    <menuitem id="menu_edu_checkin_mgmt" name="全员打卡"
+              parent="menu_edu_welfare_root"
+              action="action_edu_checkin_backend" sequence="10"/>
+    <menuitem id="menu_edu_point_mgmt" name="积分流水"
+              parent="menu_edu_welfare_root"
+              action="action_edu_point_backend"
+              sequence="20" groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+    <menuitem id="menu_edu_point_rank" name="教师积分排行"
+              parent="menu_edu_welfare_root"
+              action="action_edu_point_rank_backend"
+              sequence="30" groups="openeducat_core.group_op_back_office_admin,base.group_system"/>
+
+    <template id="edu_welfare_board" name="Edu Welfare Checkin Board">
+        <t t-call="edu_portal.edu_page">
+            <h4 class="mb-1 d-flex align-items-center gap-2 flex-wrap">
+                <span><i class="fa fa-table me-2"/>打卡看板</span>
+                <a class="btn btn-sm btn-outline-secondary ms-auto" href="/my/checkins">
+                    <i class="fa fa-arrow-left me-1"/>返回我的打卡</a>
+            </h4>
+            <p class="text-muted mb-3">
+                本周（周一至周日）全体学生的到堂打卡一览。打勾为当日已打卡，
+                「—」为未打卡，「·」为尚未到来的日期。
+            </p>
+
+            <t t-if="missing">
+                <div class="alert alert-warning py-2">
+                    <i class="fa fa-bell me-1"/>今日尚未打卡：
+                    <t t-foreach="missing" t-as="m">
+                        <span t-out="m.name"/><t t-if="not m_last">、</t>
+                    </t>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="alert alert-success py-2">
+                    <i class="fa fa-check-circle me-1"/>今日全员已打卡。</div>
+            </t>
+
+            <!-- 窄屏卡片化（task-15，2026-10-02）：本表 8 列（学生 + 7 天）在 375 视口「装得下」
+                 （345 = 容器宽），判据 A 看不见；但 7 个表头被压成上下两行（周几 + 日期两行是设计，
+                 压窄后更难读，工具判据 C：折行表头×7）。
+                 复用共用模板 edu_portal.edu_narrow_table_cards：<768px 隐藏 thead、每行折成卡片。
+                 动态列（7 天）的列名用 cell 自带的日期算出来：周几用字面量元组按 weekday() 取，
+                 日期用 strftime —— 都不依赖控制器多传参数（控制器不在本卡写作用域）。 -->
+            <t t-call="edu_portal.edu_narrow_table_cards"/>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle edu-card-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>学生</th>
+                            <th t-foreach="days" t-as="day" class="text-center">
+                                <span t-out="day[1]"/><br/>
+                                <small class="text-muted" t-out="day[0]"/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="rows" t-as="row">
+                            <td data-label="学生"><span t-out="row['student'].name"/></td>
+                            <td t-foreach="row['cells']" t-as="cell" class="text-center"
+                                t-att-data-label="['周一','周二','周三','周四','周五','周六','周日'][cell['d'].weekday()] + ' ' + cell['d'].strftime('%m-%d')">
+                                <t t-if="cell['done']"><i class="fa fa-check text-success"/></t>
+                                <t t-elif="cell['future']"><span class="text-muted">·</span></t>
+                                <t t-else=""><span class="text-danger">—</span></t>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

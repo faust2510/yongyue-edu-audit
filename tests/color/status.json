@@ -1,0 +1,35 @@
+{
+ "schema": "color-gauge-status/v1",
+ "generated_at": "2026-09-15T16:53:16+08:00",
+ "how_to_read": "引用任何数字前读本文件，不要凭记忆誊写（本轮已因此出错 6 次）。",
+ "selftest": {
+  "exit": 0,
+  "declared_cases": 50,
+  "summary": "selftest: 50/50 通过（断言条数常量 50）"
+ },
+ "baseline": {
+  "file": "tests/color/baseline-local.json",
+  "status": "CANONICAL — t9 的 before 用这一份",
+  "rev": "3c449ce27e8686bf74142b81df22858444ed0891",
+  "dirty": 2,
+  "captured_at": "2026-09-15T15:50:33+08:00",
+  "frozen": true,
+  "label": "captured after t3 changes；用于度量 t4–t8 的效果",
+  "distinct_frozen6": 79,
+  "superseded": "tests/color/baseline-local-before.json（勿用于 t9）"
+ },
+ "probes": {
+  "file": "tests/color/probes-t5.json",
+  "note": "探针 ≠ 基线：不参与 before/after 色数对照",
+  "combined_sha256": "5084583d1c1b13f0457253c37eb3804f423e9bf7791acef871a2e85f6b86394f",
+  "tracked_counts_by_value": {
+   "#71639e": 2,
+   "#0c6dd7": 422,
+   "#0e7bf2": 156,
+   "#dee2e6": 10,
+   "#212529": 6,
+   "#714b67": 6,
+   "#005fcc": 0
+  }
+ }
+}

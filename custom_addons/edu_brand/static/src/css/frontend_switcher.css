@@ -1,0 +1,34 @@
+/* 核心「转到应用」浮动切换器 —— 位置修正（2026-10-02）
+   ====================================================================
+   问题（实测，桌面 1440 与手机 390 **都**复现）：
+     核心 website.layout 渲染 <div class="o_frontend_to_backend_nav position-fixed">，
+     内含一个 24×24 的白色直角图标（website_templates.xml 里 path fill="#FFF"），
+     蓝底 40×40，被核心 CSS 钉在视口 (0,0)。
+     而我们自己的门户页头 logo（.b11-brandmark）就在左上角 —— 实测 x=12,y=6,w=38,h=44。
+     ⇒ **两者重叠**：logo 左上角被切掉一块，露出蓝底白图标；放大 3 倍截图看得最清楚
+       （证据 docs/audit/ui-visual-review/shots/ 与本轮报告）。
+
+   为什么是角色相关的缺陷：t29 已把它的 groups 收窄到教务处/管理员（base.group_user 之外
+   的教师/学生/家长看不到）⇒ **恰好是天天用后端的教务与管理员**在门户上看到这块蓝方块。
+   对照证据：同一视口同一区域，学生身份截图干净、无该元素。
+
+   处置：**只挪位，不隐藏** —— t29 有意为教务保留该入口（其验收记录要求 /my/home 仍渲染它）。
+   挪到左下角：手机端抬到底栏（#b11-tabbar）之上，桌面端靠下即可。
+
+   ⚠ 限定作用域并加 !important：核心该元素的定位来自其自带样式，我们的包在它之后加载，
+     但仍用 !important 以免将来核心换写法时静默失效（这个缺陷正是「静默」类型）。
+   ⚠ 不碰后台样式：该元素只存在于 website.layout（前台），后台 /odoo 无此元素。 */
+
+.o_frontend_to_backend_nav {
+    top: auto !important;
+    left: 12px !important;
+    bottom: 76px !important;   /* 手机：抬到移动端底栏之上 */
+    z-index: 1030;             /* 高于底栏、低于下拉菜单 */
+}
+
+@media (min-width: 992px) {
+    /* 桌面没有 #b11-tabbar（d-lg-none），无需抬高 */
+    .o_frontend_to_backend_nav {
+        bottom: 20px !important;
+    }
+}

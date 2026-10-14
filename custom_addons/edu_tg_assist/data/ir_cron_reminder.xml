@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+          ============================================================================
+          edu_tg_assist 的**定时动作**（F1 定时提醒）
+
+          ⚠ 这里为什么**没有**「每 N 分钟扫一遍、到点就发」的发送 cron：
+            发送时机由**每条提醒规则自己的 ir.cron** 控制（见 models/reminder.py 的
+            EduTgAssistReminder._sync_cron）—— interval_number=1 + interval_type=weeks +
+            nextcall=下一个「周几 几点」，到点只发一次；服务器当时宕机时，Odoo 会在下次
+            调度补跑逾期任务（ir_cron 取 nextcall <= now 的任务，这是它原生行为）。
+
+            这是在遵守队长给的硬约束：「cron 里不要用 datetime.now() 判断今天该不该发」。
+            扫描型 cron 一旦去重没做严，就会退化成「每 5 分钟发一次」——本项目吃过大亏。
+            实测（2026-10-08，本地 edu19）：Odoo 19 的 ir.cron **没有** cron 表达式字段，
+            interval_type 只有 minutes/hours/days/weeks/months ⇒「周几几点」只能用
+            weeks + nextcall 表达（这正是 Odoo 原生定时动作的做法）。
+
+          本文件这条 cron 是**自愈**用的，默认停用（active=False，管理员要用自己开）：
+            修「规则还在、它的定时动作丢了 / 被手工停了 / 代码对不上」这类漂移
+            （数据库还原、有人手工删过定时动作、规则由 XML/脚本导入过）。
+            **它不发任何消息** —— 开着也不会打扰任何群。
+        -->
+        <record id="cron_reminder_resync" model="ir.cron">
+            <field name="name">edu_tg_assist: 定时提醒规则自愈（补挂/校正定时动作）</field>
+            <field name="model_id" ref="model_edu_tg_assist_reminder"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_resync_rules()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

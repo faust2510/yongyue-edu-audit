@@ -1,0 +1,389 @@
+{
+ "base": "http://localhost:8069",
+ "when": "2026-09-29 15:44:24",
+ "items": [
+  {
+   "no": "S1",
+   "name": "注释里连续两个减号的 XML 被判非良构（本仓踩过两次：升级被拒 exit 6）",
+   "pass": true,
+   "detail": "反例样本 <odoo><!-- a -- b --></odoo> -> ParseError（正确拒绝）"
+  },
+  {
+   "no": "S2",
+   "name": "被改的视图良构，且带着新判据 can_grade、旧判据 faculty 已不在",
+   "pass": true,
+   "detail": "assess_portal.xml ｜ 良构=True ｜ can_grade=True ｜ 旧判据残留=False"
+  },
+  {
+   "no": "S3",
+   "name": "卡片切片器不是恒真：没有这张卡的页面切出空串，有卡的页面切得出",
+   "pass": true,
+   "detail": "负样本='' ｜ 正样本 122 字"
+  },
+  {
+   "no": "A1",
+   "name": "教务 /assess：常驻卡片在 + 「进入整班打分」指向 /assess/review",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 卡片 True ｜ 入口链接 True"
+  },
+  {
+   "no": "A2",
+   "name": "教务卡片计数 == 库读数的进行中任务数（3）",
+   "pass": true,
+   "detail": "页面计数 3 ｜ 库 3"
+  },
+  {
+   "no": "A3",
+   "name": "同一批任务：审阅队列的「打分」链接集合 == 库读数（卡片与列表不会互相打脸）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 页面 [1, 3, 261] ｜ 库 [1, 3, 261]"
+  },
+  {
+   "no": "A4",
+   "name": "教师 /assess：常驻卡片在 + 入口指向 /assess/review + 计数与自己的列表自洽",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 卡片 True ｜ 计数 3 ｜ 自己列表 3 条"
+  },
+  {
+   "no": "A5",
+   "name": "教师侧不给「去新建任务」（/assess/tasks 是教务组页面，给了就是死按钮）",
+   "pass": true,
+   "detail": "卡片里「去新建任务」=False"
+  },
+  {
+   "no": "B1",
+   "name": "审阅队列行数 == 库口径可整班打分的任务数（3）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 页面行 3 ｜ 库 3"
+  },
+  {
+   "no": "B2",
+   "name": "每行「打分」按钮指向 /assess/grade/<id>，集合 == 库读数的进行中任务",
+   "pass": true,
+   "detail": "页面 [1, 3, 261] ｜ 库 [1, 3, 261]"
+  },
+  {
+   "no": "B3",
+   "name": "链接可达：GET /assess/grade/1 200 且真的渲染出打分矩阵",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 矩阵表 True"
+  },
+  {
+   "no": "C1-student",
+   "name": "student /assess：没有「整班打分」入口，也没有 /assess/review 与 /assess/tasks 链接",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 整班打分=False ｜ review 链接=False ｜ tasks 链接=False"
+  },
+  {
+   "no": "C1b-student",
+   "name": "正对照：student 的 /assess 确实渲染了（不是白屏/303 造成的假绿）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 含「我的评估」=True"
+  },
+  {
+   "no": "C2-student",
+   "name": "student GET /assess/review → 303 /my/home",
+   "pass": true,
+   "detail": "303 /my/home"
+  },
+  {
+   "no": "C3-student",
+   "name": "student GET /assess/grade/1 → 303 /my/home",
+   "pass": true,
+   "detail": "303 /my/home"
+  },
+  {
+   "no": "C1-parent",
+   "name": "parent /assess：没有「整班打分」入口，也没有 /assess/review 与 /assess/tasks 链接",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 整班打分=False ｜ review 链接=False ｜ tasks 链接=False"
+  },
+  {
+   "no": "C1b-parent",
+   "name": "正对照：parent 的 /assess 确实渲染了（不是白屏/303 造成的假绿）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 含「孩子的评估」=True"
+  },
+  {
+   "no": "C2-parent",
+   "name": "parent GET /assess/review → 303 /my/home",
+   "pass": true,
+   "detail": "303 /my/home"
+  },
+  {
+   "no": "C3-parent",
+   "name": "parent GET /assess/grade/1 → 303 /my/home",
+   "pass": true,
+   "detail": "303 /my/home"
+  },
+  {
+   "no": "C4-student",
+   "name": "数据层：student 用 JSON-RPC 直读 edu.assess.roster → 被拒（AccessError）",
+   "pass": true,
+   "detail": "result=None ｜ err=odoo.exceptions.AccessError: 不允许访问\"评估名单快照\"（edu.assess.roster）记录。\n\n允许对以下组进行此操作：\n\t- OpenEduCat/Manager\n\t- OpenEduCat/User\n\t- Role / Administrator\n\n如有必要，请联系您的管理员申请访问权限。"
+  },
+  {
+   "no": "C4-parent",
+   "name": "数据层：parent 用 JSON-RPC 直读 edu.assess.roster → 被拒（AccessError）",
+   "pass": true,
+   "detail": "result=None ｜ err=odoo.exceptions.AccessError: 不允许访问\"评估名单快照\"（edu.assess.roster）记录。\n\n允许对以下组进行此操作：\n\t- OpenEduCat/Manager\n\t- OpenEduCat/User\n\t- Role / Administrator\n\n如有必要，请联系您的管理员申请访问权限。"
+  },
+  {
+   "no": "C5",
+   "name": "正对照：教务同一条 RPC 拿得到名单行（证明 C4 不是\"全站都读不到\"）",
+   "pass": true,
+   "detail": "rows=[{'id': 335}, {'id': 4}, {'id': 5}] ｜ err=None"
+  },
+  {
+   "no": "D0",
+   "name": "载体合法：op.faculty.user_id == uid 反查命中（faculty_of_user 同一判据）",
+   "pass": true,
+   "detail": "found=[{'id': 229}] ｜ fid=229 ｜ err=None"
+  },
+  {
+   "no": "D1",
+   "name": "教师侧空态：卡片仍在（常驻）+ 「当前没有你可以打分的评估任务」+ 无「进入整班打分」",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 卡片 True ｜ 空态文案 True ｜ 死按钮 False"
+  },
+  {
+   "no": "D2",
+   "name": "教师侧不给「去新建任务」按钮（那是教务组的页面）",
+   "pass": true,
+   "detail": "卡片里「去新建任务」=False"
+  },
+  {
+   "no": "D3",
+   "name": "该教师 /assess/review：诚实空态（同一句话）+ 无「去新建任务」",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 空态块 True ｜ 去新建任务 False"
+  },
+  {
+   "no": "D4",
+   "name": "正对照：同一时刻教务看到的不是同一句话（空态是按人算的，不是全站没任务）",
+   "pass": true,
+   "detail": "库内进行中可打分任务 3 条 ⇒ 教务应显示计数"
+  },
+  {
+   "no": "E1",
+   "name": "教务空态：卡片仍在（常驻）+ 「还没有进行中的评估任务」+ 「去新建任务」→ /assess/tasks",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 卡片 True ｜ 空态 True ｜ tasks 链接 True"
+  },
+  {
+   "no": "E2",
+   "name": "空态不给死按钮：卡片里没有「进入整班打分」",
+   "pass": true,
+   "detail": "卡片里「进入整班打分」=False"
+  },
+  {
+   "no": "E3",
+   "name": "不编造：卡片片段里没有输入框 / 打分链接 / 表格；页面无任何 /assess/grade/ 链接",
+   "pass": true,
+   "detail": "卡片 input=False grade=False table=False ｜ 页面 grade 链接 []"
+  },
+  {
+   "no": "E4",
+   "name": "审阅队列同样是诚实空态 + 「去新建任务」（不是一句\"没有\"就完了）",
+   "pass": true,
+   "detail": "HTTP 200 ｜ 空态块 True ｜ tasks 链接 True"
+  },
+  {
+   "no": "E5",
+   "name": "还原：任务状态直方图与注入前**逐字一致**",
+   "pass": true,
+   "detail": "注入前 {'open': 4} ｜ 还原后 {'open': 4}"
+  },
+  {
+   "no": "E6",
+   "name": "还原后入口回到「有 N 个」态（变绿）",
+   "pass": true,
+   "detail": "进入链接=True ｜ 计数=True"
+  },
+  {
+   "no": "F1",
+   "name": "已结束任务（id=516）：审阅队列不给 /assess/grade/<id> 链接",
+   "pass": true,
+   "detail": "HTTP 200 ｜ grade 链接=False"
+  },
+  {
+   "no": "F2",
+   "name": "已结束任务：给「已结束，不能打分」+ 「结果」链接（说清而不是静默）",
+   "pass": true,
+   "detail": "文案=True ｜ 结果链接=True"
+  },
+  {
+   "no": "F3",
+   "name": "对照：进行中的行仍有「打分」链接（集合 == 库读数）",
+   "pass": true,
+   "detail": "页面 [1, 3, 261] ｜ 库 [1, 3, 261]"
+  },
+  {
+   "no": "F4",
+   "name": "证明那按钮本来就点不动：POST /assess/grade/<已结束>/save → 303 error=closed、落库 0 条",
+   "pass": true,
+   "detail": "csrf=True ｜ HTTP 303 ｜ Location=/assess/grade/516?error=closed ｜ 落库 0"
+  },
+  {
+   "no": "G1",
+   "name": "backoffice /assess：axe 违规 0 条",
+   "pass": true,
+   "detail": "url=http://localhost:8069/assess ｜ 规则=[] ｜ nodes=0 ｜ passes=30 ｜ incomplete=2"
+  },
+  {
+   "no": "G2",
+   "name": "faculty /assess：axe 违规 0 条",
+   "pass": true,
+   "detail": "url=http://localhost:8069/assess ｜ 规则=[] ｜ nodes=0 ｜ passes=30 ｜ incomplete=2"
+  },
+  {
+   "no": "G3",
+   "name": "student /assess：axe 违规 0 条",
+   "pass": true,
+   "detail": "url=http://localhost:8069/assess ｜ 规则=[] ｜ nodes=0 ｜ passes=30 ｜ incomplete=2"
+  },
+  {
+   "no": "G4",
+   "name": "backoffice /assess/review：axe 违规 0 条",
+   "pass": true,
+   "detail": "url=http://localhost:8069/assess/review ｜ 规则=[] ｜ nodes=0 ｜ passes=32 ｜ incomplete=2"
+  },
+  {
+   "no": "G5",
+   "name": "faculty /assess/review：axe 违规 0 条",
+   "pass": true,
+   "detail": "url=http://localhost:8069/assess/review ｜ 规则=[] ｜ nodes=0 ｜ passes=32 ｜ incomplete=2"
+  },
+  {
+   "no": "I0",
+   "name": "注入前：视图 arch 里有新判据 can_grade、没有旧判据 faculty",
+   "pass": true,
+   "detail": "view_id=3646 ｜ len=7429 ｜ can_grade=True ｜ faculty=False"
+  },
+  {
+   "no": "I1",
+   "name": "注入后（教务）：/assess 上「整班打分」入口消失 —— 复现用户报的现象（红）",
+   "pass": true,
+   "detail": "整班打分=False ｜ review 链接=False ｜ write err=None"
+  },
+  {
+   "no": "I2",
+   "name": "注入后：坏的不是整页（/assess/review 仍 200）—— 红的只是入口本身",
+   "pass": true,
+   "detail": "200 -"
+  },
+  {
+   "no": "I3",
+   "name": "还原：DB 里的 arch 与注入前**逐字节一致**",
+   "pass": true,
+   "detail": "len 7429 → 7429 ｜ 一致=True"
+  },
+  {
+   "no": "I4",
+   "name": "还原后（教务）：入口回来（绿）",
+   "pass": true,
+   "detail": "整班打分=True ｜ 进入整班打分=True"
+  }
+ ],
+ "passed": 47,
+ "failed": 0,
+ "nas": [],
+ "readings": {
+  "db_grade_tasks": {
+   "1": "open",
+   "3": "open",
+   "261": "open"
+  },
+  "A": {
+   "db_open": [
+    1,
+    3,
+    261
+   ],
+   "db_all": {
+    "1": "open",
+    "3": "open",
+    "261": "open"
+   },
+   "backoffice": {
+    "http": 200,
+    "card": true,
+    "count": 3,
+    "entry_link": true,
+    "cta": true
+   },
+   "faculty": {
+    "http": 200,
+    "card": true,
+    "count": 3,
+    "review_links": [
+     1,
+     3,
+     261
+    ]
+   }
+  },
+  "E": {
+   "when": "2026-09-29 15:44:13",
+   "targets": [
+    1,
+    3,
+    261
+   ],
+   "before_hist": {
+    "open": 4
+   },
+   "card_text": "整班打分 还没有进行中的评估任务。 去新建任务 新建并发布（开始）后，这里会出现可以打分的名单。",
+   "after_hist": {
+    "open": 4
+   }
+  },
+  "G": {
+   "backoffice /assess": {
+    "url": "http://localhost:8069/assess",
+    "violations": [],
+    "rules": [],
+    "nodes": 0,
+    "passes": 30,
+    "incomplete": 2
+   },
+   "faculty /assess": {
+    "url": "http://localhost:8069/assess",
+    "violations": [],
+    "rules": [],
+    "nodes": 0,
+    "passes": 30,
+    "incomplete": 2
+   },
+   "student /assess": {
+    "url": "http://localhost:8069/assess",
+    "violations": [],
+    "rules": [],
+    "nodes": 0,
+    "passes": 30,
+    "incomplete": 2
+   },
+   "backoffice /assess/review": {
+    "url": "http://localhost:8069/assess/review",
+    "violations": [],
+    "rules": [],
+    "nodes": 0,
+    "passes": 32,
+    "incomplete": 2
+   },
+   "faculty /assess/review": {
+    "url": "http://localhost:8069/assess/review",
+    "violations": [],
+    "rules": [],
+    "nodes": 0,
+    "passes": 32,
+    "incomplete": 2
+   }
+  },
+  "I": {
+   "view_id": 3646,
+   "arch_len": 7429,
+   "when": "2026-09-29 15:44:20"
+  }
+ }
+}

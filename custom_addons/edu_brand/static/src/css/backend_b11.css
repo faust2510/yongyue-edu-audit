@@ -1,0 +1,248 @@
+/* v4 · 后台 Web 客户端主题（B11 → 全站唯一令牌体系）
+   纪律：只改颜色/圆角/阴影等视觉属性；不改布局结构、不隐藏任何元素、不改交互行为。
+   色值一律引用令牌源（edu_brand/static/src/scss/brand_tokens.scss → :root 的 --brand-* 等），
+   编译期变量覆盖见同目录 scss/backend_variables.scss。
+   α 写法（规范 §2.7，逗号式）：普通属性一律 rgba(var(--x-rgb), α)。
+   禁斜杠式 rgb(var(--x-rgb) / α) —— libsass 在**普通属性**里把 rgb( 当内置函数，直接编译报错。 */
+:root {
+  --b11-primary: var(--brand-action);
+  --b11-accent: var(--teal-600);
+  --b11-bg: var(--bg);
+  --b11-radius: 10px;
+}
+
+/* 表单控件边框：WCAG 1.4.11 需 ≥3:1，而 --border(#E3E9F2) 只有 1.22 ⇒
+   控件边框必须走 --border-control(#8A94A6, 3.06 ✓)。规范 §5.4 必守 / §5.4.2 后台侧归 t5。
+   挂在根级而非控件自身，是为了让 .o_required_modifier 的 --brand-action 仍能就近覆盖。 */
+.o_web_client {
+  --o-input-border-color: var(--border-control);
+  /* Odoo 产物里这两个是 **var() 的后备字面量**（源码：var(--o-navbar-badge-bg, #28a745)、
+     var(--ControlPanel-border-bottom, 1px solid #dee2e6)）—— 改 SCSS 变量到不了它们，
+     只能把自定义属性显式定义出来，后备值就永不生效。实测前者就是那处残留的 #28A745。 */
+  --o-navbar-badge-bg: var(--success);
+  --o-navbar-badge-color: var(--white);
+  --ControlPanel-border-bottom: 1px solid var(--border);
+}
+
+/* ---- 组件打磨：圆角、表格呼吸感、面板底色 ---- */
+.o_web_client .o_control_panel,
+.o_web_client .o_content .o_list_renderer,
+.o_web_client .o_content .o_kanban_renderer,
+.o_web_client .o_content .o_form_view .o_form_sheet {
+  border-radius: var(--b11-radius);
+}
+
+.o_web_client .o_list_renderer .o_list_table tbody tr {
+  transition: background-color .15s ease;
+}
+
+.o_web_client .o_list_renderer .o_list_table tbody tr:hover {
+  background-color: rgba(var(--brand-500-rgb), .06);
+}
+
+.o_web_client .o_kanban_renderer .o_kanban_record {
+  border-radius: calc(var(--b11-radius) + 2px);
+  box-shadow: 0 1px 3px rgba(var(--shadow-rgb), .06);
+  /* !important 必需：Odoo 源码里这条边框是**硬编码 + !important**（不是变量派生），
+     不带同层优先级会被它压回去，实测表现为 #DEE2E6 仍在渲染。 */
+  border: 1px solid var(--border) !important;
+}
+
+.o_web_client .o_form_view .o_form_sheet {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+/* 表单统计按钮：Odoo 源码硬编码 `border: 1px solid #dee2e6 !important`（同样不是变量派生）。 */
+.o_web_client .o_form_view .oe_button_box .oe_stat_button {
+  border: 1px solid var(--border) !important;
+}
+
+/* ---- 状态色统一（令牌值；面与字一起给，避免"底换了、字还是按旧底算的"） ----
+   Odoo 生成 .text-bg-x 时字色由 color-contrast() 在编译期按**原色**算出，
+   只覆盖 background 会留下错配的前景色 —— 故 bg 与 color 一并显式指定。
+   warning 面必须配深字：白字压 #E8930C 仅 2.44 ✗，--text-1 压它 6.52 ✓。 */
+.o_web_client .text-success { color: var(--success) !important; }       /* 4.99→5.35 ✓ */
+.o_web_client .text-warning { color: var(--warning-ink) !important; }   /* 2.44 ✗ → 5.95 ✓ */
+.o_web_client .text-danger  { color: var(--danger) !important; }        /* 3.91 ✗ → 5.88 ✓ */
+.o_web_client .badge.text-bg-success { background-color: var(--success) !important; color: var(--white) !important; }
+.o_web_client .badge.text-bg-warning { background-color: var(--warning) !important; color: var(--text-1) !important; }
+.o_web_client .badge.text-bg-danger  { background-color: var(--danger) !important;  color: var(--white) !important; }
+.o_web_client .badge.text-bg-info    { background-color: var(--brand-action) !important; color: var(--white) !important; }
+
+/* ---- 主色接管：交互面唯一蓝 = --brand-action（白字压底 5.02 ✓）；hover 只此一值 ---- */
+.o_web_client .btn-primary,
+.o_web_client .o_field_widget .btn-primary {
+  background-color: var(--brand-action) !important;
+  border-color: var(--brand-action) !important;
+  color: var(--white) !important;
+}
+.o_web_client .btn-primary:hover,
+.o_web_client .btn-primary:focus {
+  background-color: var(--brand-action-hover) !important;
+  border-color: var(--brand-action-hover) !important;
+  box-shadow: 0 0 0 0.2rem rgba(var(--brand-500-rgb), .35) !important;
+}
+/* 焦点环（规范 §3.4）：--focus-ring 贴按钮时与按钮面（#0C6DD7）只有 1.23 ✗，必须偏移 ——
+   偏移后相邻色是页面底，--bg 上 3.80 ✓（非文本 3:1 判据；白底才是 4.09，此处不写 4.09）。
+   蓝实色面上再加白色内环（白压 #0C6DD7 = 5.02 ✓），否则环贴在蓝面上同样看不见。 */
+.o_web_client .btn-outline-primary:focus-visible,
+.o_web_client .btn-secondary:focus-visible,
+.o_web_client .btn-light:focus-visible,
+.o_web_client a:focus-visible,
+.o_web_client input:focus-visible,
+.o_web_client select:focus-visible,
+.o_web_client textarea:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+/* 蓝实色面：环贴面只有 1.23 ✗，偏移后相邻色才成立，但**取色量具按「环色 vs 元素自身底色」判**，
+   不认 outline-offset ⇒ 规范 §3.4 明确许可的替代形态在这里更有用：白色内环（白压 #0C6DD7 = 5.02 ✓），
+   环色与面色的对比本身达标，不依赖偏移。 */
+.o_web_client .btn-primary:focus-visible,
+.o_web_client .o_statusbar_status .arrow.btn-primary:focus-visible,
+.o_web_client .o_main_navbar :focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: -2px;
+}
+.o_web_client .btn-primary:disabled,
+.o_web_client .btn-primary.disabled {
+  background-color: var(--brand-300) !important;   /* 禁用态：WCAG 1.4.3 明文豁免 */
+  border-color: var(--brand-300) !important;
+}
+.o_web_client .btn-outline-primary {
+  color: var(--brand-action) !important;
+  border-color: var(--brand-action) !important;
+}
+.o_web_client .btn-outline-primary:hover {
+  background-color: var(--brand-action) !important;
+  border-color: var(--brand-action) !important;
+  color: var(--white) !important;
+}
+.o_web_client a.o_external_button,
+.o_web_client .o_field_many2one .o_external_button {
+  color: var(--brand-action) !important;
+}
+.o_web_client .o_statusbar_status .arrow.btn-primary {
+  background-color: var(--brand-action) !important;
+  border-color: var(--brand-action) !important;
+  color: var(--white) !important;
+}
+.o_web_client .breadcrumb .active,
+.o_web_client .o_control_panel .breadcrumb a {
+  color: var(--brand-action);
+}
+.o_web_client .o_switch .o_switch_toggle[style*="background"] {
+  background-color: var(--brand-action) !important;
+}
+/* 青绿辅色：teal 作文字/白字底唯一档 = --teal-600（4.99 ✓）；--teal-500 仅限装饰 */
+.o_web_client .text-cyan { color: var(--teal-600) !important; }
+
+/* ---- 原厂紫残余清零（变量快照未覆盖到的组件，硬覆盖） ---- */
+.o_web_client .o_main_navbar{
+  background-color: var(--brand-action) !important;
+  border-bottom-color: var(--brand-action-hover) !important;
+  /* ---- 导航栏条目字色：原厂 90% 白在我们的品牌蓝上不达标（t? 实算，非估计） ----
+     原厂取值：navbar.variables.scss 的 $o-navbar-entry-color: rgba($o-white, .9)，
+     经 %-main-navbar-entry-base 的 o-hover-text-color 落到**每一个**条目
+     （.o_menu_toggle / .o_nav_entry / .dropdown-toggle / .o_navbar_apps_menu / .o_menu_systray 各项），
+     .o_menu_brand 与 .o_navbar_breadcrumbs 另走 --NavBar-brand-color（原广值 = 同一个 .9 白）。
+     算术（白 α.9 压在 --brand-action #0C6DD7 = rgb(12,109,215) 上先合成再算比值）：
+          rgba(255,255,255,.9) → rgb(231,240,251) 压 #0C6DD7 = **4.372 ✗**（AA 需 4.5）
+          var(--white)         →                      = **5.019 ✓**
+     根因：这一档原厂是按**原厂紫** #71639E 调的（.9 白压紫 = 4.635 ✓），我们换底后它就掉档了
+     —— 与本文件「应用面板」入口（v4-t8）同源，取证见 docs/research/backend-navbar-entry.md §4。
+     为什么覆盖**自定义属性**而不是改 SCSS 变量：$o-navbar-entry-color 编在
+     web._assets_primary_variables（前后台共用），改它会连**网站前台**的 navbar 一起变
+     （前台底色可能是浅色，白字会从合格变不合格）；这里挂在 .o_web_client 上，只动后台 Web 客户端。
+     hover/active 不需要覆盖：原厂 $o-navbar-entry-color--hover 本就是**不透明白**，
+     且 hover/active 是黑叠层（底色变深）⇒ 只会更亮：实测 常驻 5.019 ｜ hover 5.735 ｜ active 6.578。
+     实测覆盖清单（/odoo/contacts、/odoo/students、/odoo/session 三页逐条，见本轮报告）：
+     .oe_topbar_name / .o_menu_brand / .o_nav_entry / .o-dropdown-menu 条目 / span[data-section]
+     —— 全部由 4.372 升到 5.019，无一处变差（无浅底元素落在这两个变量上）。 */
+  --NavBar-entry-color: var(--white);
+  --NavBar-brand-color: var(--white);
+}
+.o_web_client .o_main_navbar .o_nav_entry{ background-color: transparent; }
+.bottom-sheet-open:not(.o_home_menu_background) .o_main_navbar{
+  box-shadow: 20px 0 0 var(--brand-action), -20px 0 0 var(--brand-action);
+}
+.o_web_client.o-mail-discuss-systray-menu-open .o_main_navbar{ background-color: var(--brand-action) !important; }
+
+/* ---- 后台导航栏「应用面板」入口（v4-t8：原厂紫 #714B67 的最后一处阵地） ----
+   形与三态逐条取自 Odoo 19 原厂导航栏条目惯例（取证与源码行号：docs/research/backend-navbar-entry.md）：
+     · navbar.variables.scss 的 %-main-navbar-entry-base / %-main-navbar-entry-spacing
+       ⇒ 高度 = var(--o-navbar-height)、圆角 0、水平内边距 .63em、
+          background-color: inherit、字色走 --NavBar-entry-color；
+     · navbar.scss 的 .o_menu_sections 条目三态
+       ⇒ hover/focus 用 --NavBar-entry-backgroundColor--hover（原厂默认 rgba($o-black,.08)）、
+          active 用 --NavBar-entry-backgroundColor--active。
+       这两个自定义属性就是原厂留给模块的**扩展缝**（website / mail / user_menu 三个核心模块都从这里接），
+       所以「态」是原厂的，不是我们发明的。
+   ⚠ 有一处**不能照抄**：原厂条目字色是 rgba(255,255,255,.9)，它压原厂紫 #71639E 得 4.635 ✓，
+     压我们的 --brand-action #0C6DD7 只有 **4.372 ✗**（低于 AA 4.5）⇒ 这里必须用不透明白 --white（5.019 ✓）。
+     三态白字对比：常驻 5.019 ｜ hover 5.735 ｜ active 6.578，全部 ≥4.5。 */
+.o_web_client .o_main_navbar > #yy-apps-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: auto;
+  height: calc(var(--o-navbar-height) - 0px);
+  margin: 0;
+  padding: 0 .63em;
+  /* 原厂条目预留 1px 边框（.dropdown-toggle 上是 transparent，仅在 active 时上色）；
+     左边界沿用本仓「导航栏分隔线」既有取色口径 —— backend_variables.scss:52 把导航栏下边框
+     设为 --brand-action-hover，与原厂 darken($navbar-bg, 10%) 是同一角色。刻意是弱线（1.140），
+     与导航栏自己的下边框同强度。 */
+  border: 1px solid transparent;
+  border-left-color: var(--brand-action-hover);
+  border-radius: 0;
+  background-color: inherit;
+  color: var(--white);
+  font-size: 1em;
+  line-height: calc(var(--o-navbar-height) - 0px);
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  gap: .4em;
+  transition: background-color .15s ease, color .15s ease;
+}
+.o_web_client .o_main_navbar > #yy-apps-chip:hover,
+.o_web_client .o_main_navbar > #yy-apps-chip:focus {
+  background-color: var(--NavBar-entry-backgroundColor--hover, rgba(var(--black-rgb), .08));
+  color: var(--NavBar-entry-color--hover, var(--white));
+}
+/* active（按下）：原厂把 --active 与 --hover 取同值 —— 因为条目的 active 态主要指「下拉已展开」，
+   那里另有 --NavBar-entry-borderColor-active 一起变化；我们这个入口**没有下拉**，
+   按下时只有这圈底色能反馈，故用原厂同一个变量、取同族叠层的加倍档
+   （机制不变、仍是 rgba(black, α)），白字对比 6.578 ✓。 */
+.o_web_client .o_main_navbar > #yy-apps-chip:active {
+  background-color: var(--NavBar-entry-backgroundColor--active, rgba(var(--black-rgb), .16));
+  color: var(--NavBar-entry-color--active, var(--white));
+}
+/* focus-visible：本文件上方已有 .o_main_navbar :focus-visible 的「白内环」口径（白环压 --brand-action
+   = 5.019 ✓，满足非文本 3:1）；此处显式再写一份，避免通用规则日后被改动时这条入口悄悄失去焦点反馈。 */
+.o_web_client .o_main_navbar > #yy-apps-chip:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: -2px;
+}
+.o_web_client .btn-secondary,
+.o_web_client .btn-light,
+.o_web_client .btn-outline-secondary,
+.o_web_client .btn-fill-secondary,
+.o_web_client .btn-fill-light{
+  --btn-active-border-color: var(--brand-action);
+}
+.o_web_client .o-dropdown.btn-secondary.show,
+.o_web_client .o-dropdown.btn-outline-secondary.show{ border-color: var(--brand-action); }
+.o_web_client .o_required_modifier{
+  --o-input-border-color: var(--brand-action); --o-caret-color: var(--brand-action);
+}
+.o_web_client .o_statusbar_status{ --o-statusbar-border-active: var(--brand-action); }
+.o_web_client .o_list_renderer .o_data_row.o_selected_row > .o_data_cell.o_required_modifier:not(.o_readonly_modifier){
+  border-bottom-color: var(--brand-action);
+}
+.o_web_client .o-we-tablepicker .o-we-cell.active{ background-color: var(--brand-action); }
+.o_web_client .o_sale_product_configurator_uom_choice.active label,
+.o_web_client .o_sale_product_configurator_ptav_pills.active label{ border-color: var(--brand-action); }
